@@ -12,7 +12,7 @@ import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 
 public class ClassMapUtil {
 	private static final FosLogger logger = new FosLogger(ClassMapUtil.class);
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private static Map<String, Class> classMap = new ConcurrentHashMap<String, Class>();
 	static {
 		init();
