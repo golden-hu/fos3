@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="hcmspu" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>haitai.fos.sys.entity.table.PUserSetting</class>
+		<class>haitai.fos.sys.entity.table.PUserRole</class>
+		<class>haitai.fos.sys.entity.table.PUser</class>
+		<class>haitai.fos.sys.entity.table.PRoleFunction</class>
+		<class>haitai.fos.sys.entity.table.PRole</class>
+		<class>haitai.fos.sys.entity.table.PFunction</class>
+		<class>haitai.fos.sys.entity.table.PCompanyConfig</class>
+		<class>haitai.fos.sys.entity.table.PCompany</class>
+		<class>haitai.fos.sys.entity.table.PActionLog</class>
+		<class>haitai.fos.sys.entity.table.PTableInfo</class>
+		<class>haitai.fos.sys.entity.table.Action</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPUserSetting</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPUserRole</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPUser</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPRoleFunction</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPRole</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPFunction</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPCompanyConfig</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPCompany</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPActionLog</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPTableInfo</class>
+		<class>haitai.fos.cms.entity.table.HcmsTemplate</class>
+		<class>haitai.fos.cms.entity.table.HcmsResource</class>
+		<class>haitai.fos.cms.entity.atable.AbstractHcmsTemplate</class>
+		<class>haitai.fos.cms.entity.atable.AbstractHcmsResource</class>
+		<properties>
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.cache.provider_class" value="net.sf.ehcache.hibernate.SingletonEhCacheProvider" />
+			<property name="hibernate.cache.provider_configuration" value="ehcache.xml" />
+			<property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.cache.use_structured_entries" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>
