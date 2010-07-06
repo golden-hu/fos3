@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -939,7 +940,7 @@ public class PTemplateService {
 			return r;
 		}
 		s = s.replaceAll("\\" + ConstUtil.STRING_LEFT_BRACE + v + "\\"
-				+ ConstUtil.STRING_RIGHT_BRACE, r);
+				+ ConstUtil.STRING_RIGHT_BRACE, Matcher.quoteReplacement(r));
 		return s;
 	}
 	
