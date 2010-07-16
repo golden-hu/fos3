@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>fos-parent</artifactId>
 		<groupId>com.hitisoft</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 		<relativePath>../fos-parent</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
