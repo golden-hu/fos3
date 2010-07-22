@@ -319,7 +319,7 @@ public class PUserService {
 		String ip = (String) SessionManager.getAttr(SessionKeyType.HOSTNAME);
 		Integer id = user.getUserId();
 		if (!onlineMap.containsKey(id)) {
-			onlineMap.put(id, new Object[] { user.getUserName(), ip, TimeUtil.getMillis() });
+			onlineMap.put(id, new Object[] { user.getUserName(), ip, TimeUtil.getMillis(),user.getCompCode() });
 		} else if (!((String) onlineMap.get(id)[1]).equalsIgnoreCase(ip)) {
 			throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_REPEAT);
 		} else {
@@ -411,12 +411,16 @@ public class PUserService {
 
 	public List<PUser> listOnlineUsers() {
 		List<PUser> list = new ArrayList<PUser>();
+		String compCode = SessionManager.getStringAttr(SessionKeyType.COMPCODE);
 		for (Integer id : onlineMap.keySet()) {
-			PUser user = new PUser();
-			user.setUserId(id);
-			user.setUserName((String) onlineMap.get(id)[0]);
-			user.setIp((String) onlineMap.get(id)[1]);
-			list.add(user);
+			//只返回本公司在线用户
+			if(compCode.equals(onlineMap.get(id)[3])){
+				PUser user = new PUser();
+				user.setUserId(id);
+				user.setUserName((String) onlineMap.get(id)[0]);
+				user.setIp((String) onlineMap.get(id)[1]);
+				list.add(user);
+			}
 		}
 		return list;
 	}
