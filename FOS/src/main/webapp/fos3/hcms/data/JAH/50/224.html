@@ -1,0 +1,121 @@
+
+
+<html>
+<head>
+    <title>FOS2008 帮助系统</title>
+    <link rel="stylesheet" type="text/css" href="http://www.hitisoft.com:8080/hcms/data/JAH/resource/504.css"></link>
+</head>
+<body>
+
+
+<table width="95%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+   <td>
+       <table border="0" cellpadding="0" cellspacing="0">
+       <tbody><tr><td><h2 class="gsg">2.1.1 整箱进口 - 单票列表</h2></td></tr>
+       <tr><td><p><p>点击“<span style="font-weight: bold;">集装箱</span>”主菜单下面的“<span style="font-weight: bold;">进口整箱</span>”子菜单，系统会在右边的数据区显示进口整箱单票列表界面，系统默认是按单票的委托日期分组，委托日期相同的单票显示在同一组。最近的单票显示在最前面。在此界面可以新增、修改、删除和查询进口整箱单票。</p>
+<p>另外系统也会根据当前用户的数据权限的不同显示的不同的数据集。
+只有用户具有相应的数据访问权限的数据才会显示，比如操作员只能看到操作员是他自己的单票，业务员只能看到业务员是他自己的单票。</p>
+
+<div class="action">
+<ul>
+<li>操作员只能看到操作员是他自己的单票</li>
+<li>业务员只能看到业务员是他自己的单票</li>
+<li>如果在用户的数据权限设置中设置了可以查看所有单票，则该用户可以查询所有单票</li>
+ </ul>
+</div>
+
+
+<p><img style="width: 1080px; height: 390px;" alt="cont-imp-cons-list" src="http://www.hitisoft.com:8080/hcms/data/JAH/resource/507.gif" vspace="0" align="" border="" hspace="0"><br></p>
+
+<ul class="ulnone">
+<li>
+<div class="libold">显示或隐藏列</div>
+<div>
+<p>
+将鼠标移到随便某一列的表头，系统会在表头的右侧显示一个小三角型，点击三角型系统会显示一个下拉菜单，将鼠标移到“<span style="font-weight: bold;">cloumn</span>"菜单项，系统会显示所有列选择项，通过勾选这些选择项，可以设置显示的列。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">调整列的宽度和顺序</div>
+<div>
+<p>将鼠标放在每一列的列头的右边，系统会出现一个可以拖拽的图标，然后按住鼠标的左键，向前或向后拖拽鼠标，可以调整整每一列的显示宽度。</p>
+<p>将鼠标放在每一列的列头，然后按住鼠标的左键，向前或向后拖拽鼠标，可以调整每一列的显示顺序。</p>
+<p></p>
+</div>
+</li>
+
+<li>
+<div class="libold">修改显示分组</div>
+<div>
+<p>系统默认按委托日期分组，将鼠标移到随便某一列的表头，系统会在表头的右侧显示一个小三角型，点击三角型系统会显示一个下拉菜单，将鼠标移到“group by this field"菜单项，系统按所选列进行分组。如果去点“<span style="font-weight: bold;">show in groups</span>"前的勾，系统会不按任何列分组。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">新增单票</div>
+<div>
+<p>点击“<span style="font-weight: bold;">新增</span>”按钮，系统会新增一个新增单票的单票工作台标签页，输入单票的相关信息，可以新增一个单票。详见单票工作台。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">修改单票</div>
+<div>
+<p>选择一条单票，点击“<span style="font-weight: bold;">编辑</span>”按钮，系统会显示选中单票的单票工作台标签页，修改单票的相关信息，可以修改一个单票的信息。详见单票工作台。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">删除单票</div>
+<div>
+<p>选择一条单票，点击“<span style="font-weight: bold;">删除</span>”按钮，可以删除选中的单票。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">查询单票</div>
+<div>
+<p>点击“<span style="font-weight: bold;">查询</span>”按钮，系统会弹出查询复杂查询窗口，如下图：</p>
+<p>
+<img style="width: 802px; height: 352px;" alt="cons-search" src="http://www.hitisoft.com:8080/hcms/data/JAH/resource/268.gif" vspace="0" align="" border="" hspace="0">
+</p>
+<p>
+该查询窗口共分五个标签页，可以分别可按“业务号”、“MB/L号”、“HB/L号”，“船名航次”及“综合查询”；“业务号”、“MB/L号”、“HB/L号”都支持模糊查询，综合查询可以组合不同的条件进行查询。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">快速查询</div>
+<div>
+<p>在“<span style="font-weight: bold;">快速查询</span>”按钮前面的输入框中输入业务号，再按回车或点击“<span style="font-weight: bold;">快速查询</span>”按钮，可以查询您想要的委托。该查询支持模糊查询，你只要输入业务号的其中几个号码或尾号就可以查询出符合条件的单票。如果输入“%123”，就会查询出尾号是123的所有进口集装箱委托。如果输入“JAHCI000010..JAHCE000020”，就会查出业务号在JAHCI000010和JAHCE000020之间的所有进口集装箱委托。如果输入“JAHCI000010，JAHCE000015，JAHCE000018”，就会查出业务号等于JAHCI000010、JAHCE000015、JAHCE000018的委托。
+</p>
+</div>
+</li>
+
+<li>
+<div class="libold">输出单票列表</div>
+<div>
+<p>点击“<span style="font-weight: bold;">输出</span>”按钮，可以将当前查询的结果导出到EXCEL文档。</p>
+</div>
+</li>
+
+</ul>
+
+</p></td></tr>
+       </tbody>
+      </table>
+</td></tr>
+</tbody></table>
+<br>
+<a href=''> 返回 </a>
+</body>
+</html>

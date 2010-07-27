@@ -1,0 +1,80 @@
+Ext.form.FileBrowserField = Ext.extend(Ext.form.TriggerField,  {
+    triggerClass : 'x-form-date-trigger',  
+    defaultAutoCreate : {tag: "input", type: "text", size: "10", autocomplete: "off"},
+    initComponent : function(){
+        Ext.form.DateField.superclass.initComponent.call(this);
+        this.addEvents(
+            'select'
+        );
+    },
+    
+    initEvents: function() {
+        Ext.form.FileBrowserField.superclass.initEvents.call(this);
+        this.keyNav = new Ext.KeyNav(this.el, {
+            "down": function(e) {
+                this.onTriggerClick();
+            },
+            scope: this,
+            forceKeyDown: true
+        });
+    },
+    
+    validateBlur : function(){
+        return !this.browser || !this.browser.isVisible();
+    },
+    getValue : function(){
+        return Ext.form.FileBrowserField.superclass.getValue.call(this) || "";
+    },
+    setValue : function(v){
+        return Ext.form.FileBrowserField.superclass.setValue.call(this, v);
+    },
+
+    // private
+    onDestroy : function(){
+		Ext.destroy(this.browser, this.keyNav);
+        Ext.form.FileBrowserField.superclass.onDestroy.call(this);
+    },
+	
+    onTriggerClick : function(){
+        if(this.disabled){
+            return;
+        }
+        if(this.browser == null){
+            this.browser = new Ext.menu.DateMenu({
+                hideOnClick: false,
+                focusOnSelect: false
+            });
+        }
+        this.onFocus();
+        
+        this.browser.show(this.el, "tl-bl?");
+        this.browserEvents('on');
+    },
+    
+    //private
+    browserEvents: function(method){
+        this.browser[method]('select', this.onSelect, this);
+        this.browser[method]('hide', this.onBrowserHide, this);
+        this.browser[method]('show', this.onFocus, this);
+    },
+    
+    onSelect: function(m, d){
+        this.setValue(d);
+        this.fireEvent('select', this, d);
+        this.browser.hide();
+    },
+    
+    onBrowserHide: function(){
+        this.focus(false, 60);
+        this.browserEvents('un');
+    },
+
+    // private
+    beforeBlur : function(){
+        var v = this.getRawValue();
+        if(v){
+            this.setValue(v);
+        }
+    }
+});
+Ext.reg('filebrowser', Ext.form.FileBrowserField);

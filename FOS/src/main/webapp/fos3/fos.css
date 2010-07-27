@@ -1,0 +1,462 @@
+/*
+ * FOS 2008
+ * Copyright(c) 2006-2008, Hitisoft Technologies. 
+ * http://www.hitisoft.com/
+ */
+html, body {
+        font:normal 14px ����;
+        margin:0;
+        padding:0;
+        border:0 none;
+        overflow:hidden;
+        height:100%;
+    }
+.msg .x-box-mc {
+    font-size:14px;
+}
+#msg-div {
+    position:absolute;
+    left:35%;
+    top:10px;
+    width:250px;
+    z-index:20000;
+}
+.locked {
+    width:98%;
+    height:16px;
+    background: transparent url(images/Lock.png) no-repeat;
+}
+.red-row {background-color:#fcc !important;}
+.green-row {background-color:#eee !important;}
+
+.blue-font-row .x-grid3-cell-inner{color:blue;}  
+.red-font-row .x-grid3-cell-inner{color:red;}  
+.green-font-row .x-grid3-cell-inner{color:green;}
+.purple-font-row .x-grid3-cell-inner{color:purple;}
+
+.pin-bg-row .x-grid3-cell-inner{
+    background-color: #ffcc99!important;;
+  }
+  
+.red-bg-row .x-grid3-cell-inner{
+    background-color: red!important;
+  }
+.blue-bg-row .x-grid3-cell-inner{
+    background-color: blue!important;
+  }
+.yellow-bg-row .x-grid3-cell-inner{
+    background-color: yellow!important;
+  }
+.x-grid3-row-collapsed-red .x-grid3-row-body {
+    background-position:4px 2px;
+    color:red;
+}
+.x-grid3-row-collapsed-green .x-grid3-row-body {
+    background-position:4px 2px;
+    color:green;
+}
+.x-grid3-row-expanded-red .x-grid3-row-body {
+    background-position:-21px 2px;
+    color:red;
+}
+.x-grid3-row-expanded-green .x-grid3-row-body {
+    background-position:-21px 2px;
+    color:green;
+}
+.x-grid3-row-body p {
+    margin:5px 5px 10px 5px !important;
+}
+.x-grid3-header-offset {width: auto;}
+
+.x-grid3-td-topic b {
+    font-family:tahoma, verdana;
+    display:block;
+}
+.x-grid3-td-topic b i {
+    font-weight:normal;
+    font-style: normal;
+    color:#000;
+}
+.x-grid3-td-topic .x-grid3-cell-inner {
+    white-space:normal;
+}
+.x-grid3-td-topic a {
+    color: #385F95;
+    text-decoration:none;
+}
+.x-grid3-td-topic a:hover {
+    text-decoration:underline;
+}
+.details .x-btn-text {
+    background-image: url(details.gif);
+}
+.x-resizable-pinned .x-resizable-handle-south{
+    background:url(./resources/images/default/sizer/s-handle-dark.gif);
+    background-position: top;
+}
+#grid-example.x-grid-mso{
+	border: 1px solid #6593cf;
+}
+#grid-example.x-grid-vista{
+	border: 1px solid #b3bcc0;
+}
+  
+
+.icon-grid {background-image:url(./images/grid.png) !important;}
+#button-grid .x-panel-body {border:1px solid #99bbe8;border-top:0 none;}
+.add {background-image:url(./images/add.gif) !important;}
+.option {background-image:url(./images/plugin.gif) !important;}
+.remove {background-image:url(./images/delete.gif) !important;}
+.save {background-image:url(./images/save.gif) !important;}
+.print {background-image:url(./images/print.gif) !important;}
+.grid {background-image:url(./images/grid.png) !important;}
+.class {background-image:url(./images/class.gif) !important;}
+.gen {background-image:url(./images/cog.png) !important;}
+.exit {background-image:url(./images/exit.png) !important;}
+.search {background-image:url(./images/search.png) !important;}
+.check {background-image:url(./images/check.gif) !important;}
+.up {background-image:url(./images/up2.gif) !important;}
+.down {background-image:url(./images/down2.gif) !important;}
+.cancel {background-image:url(./images/cancel.gif) !important;}
+.copy {background-image:url(./images/copy.png) !important;}
+.redo {background-image:url(./images/redo.png) !important;}
+.renew {background-image:url(./images/renew.png) !important;}
+.release {background-image:url(./images/release.png) !important;}
+.refresh {background-image:url(./images/refresh.png) !important;}
+.star {background-image:url(./images/star.png) !important;}
+.cart {background-image:url(./images/cart.png) !important;}
+.plane {background-image:url(./images/plane.png) !important;}
+.refresh {background-image:url(./images/refresh.png) !important;}
+.pass {background-image:url(./images/pass.png) !important;}
+.docpass {background-image:url(./images/docpass.png) !important;}
+.done {background-image:url(./images/done.png) !important;}
+.dollar {background-image:url(./images/dollar.png) !important;}
+.stats {background-image:url(./images/stats.png) !important;}
+.rotate {background-image:url(./images/rotate.png) !important;}
+.in {background-image:url(./images/in.png) !important;}
+.out {background-image:url(./images/out.png) !important;}
+.unlock {background-image:url(./images/unlock.png) !important;}
+.gears {background-image:url(./images/Gears.png) !important;}
+.consCancel {background-image:url(./images/consCancel.png) !important;}
+.imp {background-image:url(./images/table_refresh.png) !important;}
+.user {background-image:url(./images/Users.png) !important;}
+.merge {background-image:url(./images/table_refresh.png) !important;}
+.broken {background-image:url(./images/broken.png) !important;}
+.task {background-image:url(./images/icon-active.gif) !important;}
+.key {background-image:url(./images/key.gif) !important;}
+.page-next {background-image:url(./images/page-next.gif) !important;}
+.page-next-disabled {background-image:url(./images/page-next-disabled.gif) !important;}
+.page-prev {background-image:url(./images/page-prev.gif) !important;}
+.page-prev-disabled {background-image:url(./images/page-prev-disabled.gif) !important;}
+.page-first {background-image:url(./images/page-first.gif) !important;}
+.page-first-disabled {background-image:url(./images/page-first-disabled.gif) !important;}
+.page-last {background-image:url(./images/page-last.gif) !important;}
+.page-last-disabled {background-image:url(./images/page-last-disabled.gif) !important;}
+
+.x-window-footer {
+    position: relative;
+    top: 0;
+    right: 0;
+}
+.x-tab-strip SPAN.x-tab-strip-text {
+    font-size: 12px;
+}
+.x-panel-header {
+    font-size: 12px;
+}
+.x-tree-node {
+    font-size: 12px;
+}
+
+.vline-on .x-grid3-col {
+    border-left:  1px solid #EEEEEE;
+    border-right: 1px solid #D2D2D2;
+}
+ 
+/* Also remove padding from table data (to compensate for added grid lines) */
+.vline-on .x-grid3-row td, .x-grid3-summary-row td {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.x-grid3-hd-row TD {
+    font-size: 12px;
+}
+.x-grid3-row TD {
+    font-size: 12px;
+    LINE-HEIGHT: 16px;
+}
+.x-tip .x-tip-bd {
+    font-size: 12px;
+}
+.x-tip h3{
+    font-size: 12px;
+}
+.x-tip .x-tip-bd-inner{
+    font-size:12px;
+}
+.x-panel-tl .x-panel-header {
+    FONT: normal 12px tahoma,arial,verdana,sans-serif;
+}
+.x-form-field {
+    FONT: 12px tahoma,arial,helvetica,sans-serif   
+}
+.x-small-editor .x-form-field {
+    FONT: 12px tahoma,arial,helvetica,sans-serif   
+}
+.x-combo-list-item {
+    FONT: 12px tahoma,arial,helvetica,sans-serif;   
+}   
+.x-menu-list-item {
+    FONT: 12px tahoma,arial,sans-serif;
+}
+.x-window-tl .x-window-header {
+    FONT: bold 12px tahoma,arial,verdana,sans-serif;   
+}
+.x-layout-split-west .x-layout-mini {   
+    BACKGROUND-IMAGE: url(../images/mini-left.jpg);   
+}
+.ext-ie .x-form-text {
+    margin-top:1px;
+} /* the textField missing bottom line */
+.x-form-item {   
+    FONT: 12px tahoma,arial,helvetica,sans-serif
+}
+.x-grid-group-hd DIV {   
+    FONT: bold 12px tahoma,arial,helvetica,sans-serif;
+}
+
+.x-btn-text-icon .x-btn-center .x-btn-text {ext-all.css (line 227)
+background-position:0pt 2px;
+background-repeat:no-repeat;
+padding:3px 0pt 2px 18px;
+}
+.ext-gecko .x-btn button {ext-all.css (line 222)
+padding-left:0pt;
+padding-right:0pt;
+}
+.x-btn button{font-size:12px;}
+.x-btn text{font-size:12px;}
+.x-nav{font-size:12px;line-height:16px;text-decoration:none;}
+.x-toolbar td, .x-toolbar span, .x-toolbar input, .x-toolbar div, .x-toolbar select, .x-toolbar label {
+    font-size:12px;
+}
+
+.loading-indicator {
+    font-size:12px;
+    background-image:url('./resources/images/default/grid/loading.gif');
+    background-repeat: no-repeat;
+    background-position:top left;
+    padding-left:20px;
+	height:18px;
+	text-align:left;
+}
+
+#doc-body .loading-indicator {
+    font:bold 13px  Tahoma, Verdana, Arial, Helvetica, sans-serif;
+    position:absolute;
+    top:35%;
+    left:43%;
+    color:#444;
+    background-image:url(./resources/images/default/shared/large-loading.gif);
+    background-repeat: no-repeat;
+    background-position:left 5px;
+    padding:10px 10px 10px 38px;
+	text-align:left;
+}
+#loading-mask{
+	position:absolute;
+	left:0;
+	top:0;
+    width:100%;
+    height:100%;
+    z-index:20000;
+    background-color:white;
+}
+#loading{
+	position:absolute;
+	left:45%;
+	top:40%;
+	padding:2px;
+	z-index:20001;
+    height:auto;
+}
+#loading img {
+    margin-bottom:5px;
+}
+#loading .loading-indicator{
+	background:white;
+	color:#555;
+	font:bold 13px tahoma,arial,helvetica;
+	padding:10px;
+	margin:0;
+    text-align:center;
+    height:auto;
+}
+.search-item {
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+    padding:3px 10px 3px 10px;
+    border-bottom:1px solid #eeeeee;
+}
+.search-item h3 {
+    display:block;
+    font:inherit;
+    font-weight:bold;
+}
+
+.search-item h3 span {
+    float: right;
+    font-weight:normal;
+    margin:0 0 5px 5px;
+    width:100px;
+    display:block;
+    clear:none;
+}
+
+/* tree checkbox, height/width needed b/c of IE spacing weirdly, breaks lines */
+input.l-tcb {
+	height:13px;
+	width:13px;
+	margin-left:2px
+}
+
+/* fix scrolling issue with treeobj in a contentpanel 
+ * and loss of icons when a node is expanded
+*/
+.ext-ie .x-tree {
+	position:static !important;
+}
+
+/*
+ * FileUploadField component styles
+ */
+.x-form-file-wrap {
+    position: relative;
+    height: 22px;
+}
+.x-form-file-wrap .x-form-file {
+	position: absolute;
+	right: 0;
+	-moz-opacity: 0;
+	filter:alpha(opacity: 0);
+	opacity: 0;
+	z-index: 2;
+    height: 22px;
+}
+.x-form-file-wrap .x-form-file-btn {
+	position: absolute;
+	right: 0;
+	z-index: 1;
+}
+.x-form-file-wrap .x-form-file-text {
+    position: absolute;
+    left: 0;
+    z-index: 3;
+    color: #777;
+}
+
+.list-item {
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+    padding:3px 10px 3px 10px;
+    font-size:12px;
+    border-bottom:1px solid #eeeeee;
+}
+.list-item h3 {
+    display:block;    
+    font:inherit;
+}
+
+.list-item h3 span {
+    float: left;
+    font-weight:normal;
+    margin:0 0 5px 5px;
+    width:160px;
+    display:block;
+    clear:none;
+}
+.list-item h2 span {
+    float: left;
+    font-weight:normal;
+    margin:0 0 5px 5px;
+    width:80px;
+    display:block;
+    clear:none;
+}
+.x-combo-list-small .x-combo-list-item {
+    font:normal 12px tahoma, arial, helvetica, sans-serif;
+}
+.required .x-form-item-label {font-weight:normal;color:red;}
+.needed .x-form-item-label {font-weight:normal;color:green;}
+.highlight {font-weight:bold;color:red;}
+
+.x-grid3-editable-cell {
+    background: #f1f2f4;
+}
+
+.x-grid3-summary-row {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    color:#333;
+    background: #f1f2f4;
+    font-size:12px;
+}
+.x-grid3-summary-row .x-grid3-cell-inner {
+    font-weight:bold;
+    padding-bottom:4px;
+}
+.x-grid3-cell-first .x-grid3-cell-inner {
+    padding-left:16px;
+}
+.x-grid-hide-summary .x-grid3-summary-row {
+    display:none;
+}
+.x-grid3-summary-msg {
+    padding:4px 16px;
+    font-weight:bold;
+}
+
+.x-menu-item-nav {
+	background: #ebf3fd;
+}
+
+.x-menu-item-nav-active {
+	background: #ebf3fd url(../images/default/menu/item-over.gif) repeat-x left bottom;
+	border:1px solid #aaccf6;
+	padding: 0;
+}
+
+.ext-ie .x-form-text {
+margin-top:-1px;
+margin-bottom:0px;
+height:22px;
+line-height:18px;
+}
+
+
+.grid-checkbox-editor .x-form-check-wrap {text-align: center;}
+.red-b {font-weight:bold;color:red}
+.green-b {font-weight:bold;color:green}
+
+.ux-menu-editable-icon {
+    margin: 3px 3px 2px 2px;
+}
+
+.ux-filter-icon-find {
+    background-image:url(./images/find.gif) !important;
+}
+
+.ux-filter-icon-gt {
+    background-image:url(./images/greater_then.gif) !important;
+}
+
+.ux-filter-icon-lt {
+    background-image:url(./images/less_then.gif) !important;
+}
+
+.ux-filter-icon-eq {
+    background-image:url(./images/equals.gif) !important;
+}
+
+.ext-ie .x-menu-item-icon {left: -24px; top: 0px;}
+.ext-strict .x-menu-item-icon {left: 3px; top: 3px;}
+.ext-ie6 .x-menu-item-icon {left: -24px; top: 0px;}
