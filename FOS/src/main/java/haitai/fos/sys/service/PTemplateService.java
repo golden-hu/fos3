@@ -739,8 +739,7 @@ public class PTemplateService {
 			PTemplateMap ptm = fieldMap.get(varName);
 			if (ptm == null) {
 				logger.info(varName + " can't find mapping record!");
-			}
-			if (child.equalsIgnoreCase(ptm.getTemaTable())) {
+			} else if (child.equalsIgnoreCase(ptm.getTemaTable())) {
 				oneChildVar  = varName;
 				break;
 			}
