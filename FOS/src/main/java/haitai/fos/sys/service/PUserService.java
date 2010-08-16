@@ -66,6 +66,7 @@ public class PUserService {
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getUserId();
 				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+					checkLicenseNumber();
 					entity.setUserId(null);
 					entity.setUserPassword(CryptoUtil.MD5Encode(entity.getUserPassword()));
 					entity.setUserPasswordModifyDate(TimeUtil.getNow());
