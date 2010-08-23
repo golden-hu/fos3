@@ -54,7 +54,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FConsign.class;
 		final Class t2 = SExpense.class;
-		String joinSql = "t1.consId = t2.consId";
+		String joinSql = "t1.consId = t2.consId and t2.removed=0";
 		List retList = complexQuery(conditions, propertyMap, "t2", joinSql, t1,
 				t2);
 
