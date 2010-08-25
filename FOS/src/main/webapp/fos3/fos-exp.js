@@ -1353,8 +1353,10 @@ Fos.TransTab = function(p) {
 					trtaContainerNo:'',trtaSealNo:'',trtaArriveTimeDemand:'',trtaArriveTime:'',
 					trtaLoadTime:'',trtaLeaveTime:'',trtaBackTime:'',trtaDriver:'',trtaDriverTel:'',				
 					trtaTrackNo:'',trtaRemarks:'',version:0}); 
-					this.taskStore.add(t);t.set('rowAction','N');
-					this.taskGrid.getStore().insert(0,t);this.taskGrid.startEditing(0,1);
+					this.taskStore.add(t);
+					t.set('rowAction','N');
+					this.taskGrid.getStore().insert(0,t);
+					this.taskGrid.startEditing(0,1);
 				}
 				else XMG.alert(SYS,M_NO_DATA_SELECTED);
 			}},'-',
@@ -1487,25 +1489,33 @@ Fos.TransTab = function(p) {
 		var a =this.store.getModifiedRecords();
 		if(a.length>0){
 			var xml = ATX(a,'FTrans',FTrans);
-			var cc=[];
-			var ca =this.taskStore.getRange();
-			for(var i=0;i<ca.length;i++){if(ca[i].dirty) cc[cc.length]=ca[i];}
-			if(cc.length>0){var x = ATX(cc,'FTransTask',FTransTask);xml=xml+x;};
-			var dd=[];
-			var da =this.cargoStore.getRange();
-			for(var i=0;i<da.length;i++){if(da[i].dirty) dd[dd.length]=da[i];}
-			if(dd.length>0){var x = ATX(dd,'FTransCargo',FTransCargo);xml=xml+x;};
-			if(xml!=''){
-			 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'TRAN_S'},
-				success: function(r){
-					var a = XTRA(r.responseXML,'FTrans',FTrans);FOSU(this.store,a,FTrans);
-					var b = XTRA(r.responseXML,'FTransTask',FTransTask);FOSU(this.taskStore,b,FTransTask);
-					var c = XTRA(r.responseXML,'FTransCargo',FTransCargo);FOSU(this.cargoStore,c,FTransCargo);
-					XMG.alert(SYS,M_S);
-				},
-				failure:function(r){XMG.alert(SYS,M_F+r.responseText);},
-				xmlData:FOSX(xml)});
-			}
+		}
+			
+		var cc=[];
+		var ca =this.taskStore.getRange();
+		for(var i=0;i<ca.length;i++){
+			if(ca[i].dirty) cc[cc.length]=ca[i];
+		}
+		if(cc.length>0){
+			var x = ATX(cc,'FTransTask',FTransTask);
+			xml=xml+x;
+		};
+		
+		var dd=[];
+		var da =this.cargoStore.getRange();
+		for(var i=0;i<da.length;i++){if(da[i].dirty) dd[dd.length]=da[i];}
+		if(dd.length>0){var x = ATX(dd,'FTransCargo',FTransCargo);xml=xml+x;};
+		
+		if(xml!=''){
+		 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'TRAN_S'},
+			success: function(r){
+				var a = XTRA(r.responseXML,'FTrans',FTrans);FOSU(this.store,a,FTrans);
+				var b = XTRA(r.responseXML,'FTransTask',FTransTask);FOSU(this.taskStore,b,FTransTask);
+				var c = XTRA(r.responseXML,'FTransCargo',FTransCargo);FOSU(this.cargoStore,c,FTransCargo);
+				XMG.alert(SYS,M_S);
+			},
+			failure:function(r){XMG.alert(SYS,M_F+r.responseText);},
+			xmlData:FOSX(xml)});
 		}
 		else XMG.alert(SYS,M_NC);
 	};
@@ -2034,9 +2044,9 @@ Fos.ContainerTab = function(p) {
 		var pkg=0;gw=0;me=0;
 		var a=this.store.getRange();
 		for(var i=0;i<a.length;i++){
-			pkg=pkg+parseFloat(a[i].get('contPackageNum'));
-			gw=gw+parseFloat(a[i].get('contGrossWeight'));
-			me=me+parseFloat(a[i].get('contMeasurement'));			
+			if(a[i].get('contPackageNum')) pkg=pkg+parseFloat(a[i].get('contPackageNum'));
+			if(a[i].get('contGrossWeight')) gw=gw+parseFloat(a[i].get('contGrossWeight'));
+			if(a[i].get('contMeasurement')) me=me+parseFloat(a[i].get('contMeasurement'));			
 		}
 		totalPackages.setValue(round2(pkg)); 
 		totalGrossWeight.setValue(round2(gw));
@@ -2046,14 +2056,14 @@ Fos.ContainerTab = function(p) {
 		var pkg=0;gw=0;me=0;
 		var a=this.cargoGrid.getStore().getRange();
 		for(var i=0;i<a.length;i++){
-			pkg=pkg+parseFloat(a[i].get('cocaPackageNum'));
-			gw=gw+parseFloat(a[i].get('cocaGrossWeight'));
-			me=me+parseFloat(a[i].get('cocaMeasurement'));			
+			if(a[i].get('cocaPackageNum')>0) pkg=pkg+parseFloat(a[i].get('cocaPackageNum'));
+			if(a[i].get('cocaGrossWeight')>0) gw=gw+parseFloat(a[i].get('cocaGrossWeight'));
+			if(a[i].get('cocaMeasurement')>0) me=me+parseFloat(a[i].get('cocaMeasurement'));			
 		}
 		var r = this.grid.getSelectionModel().getSelected();		
-		r.set('contPackageNum',round2(pkg)); 
-		r.set('contGrossWeight',round2(gw));
-		r.set('contMeasurement',round2(me));
+		if(pkg>0) r.set('contPackageNum',round2(pkg)); 
+		if(gw>0) r.set('contGrossWeight',round2(gw));
+		if(me>0) r.set('contMeasurement',round2(me));
 	};
 	this.autoShip=function(){
 		
@@ -2200,18 +2210,18 @@ Fos.ContainerTab = function(p) {
 		var a =this.store.getModifiedRecords();
 		if(a.length){
 			var xml = ATX(a,'FContainer',FContainer);
-			var cc=getDirty(this.cargoStore);
-			if(cc.length>0){var x = ATX(cc,'FContainerCargo',FContainerCargo);xml=xml+x;};		
-			if(xml!=''){
-			 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONT_S'},
-				success: function(res){				
-					var a = XTRA(res.responseXML,'FContainerCargo',FContainerCargo);FOSU(this.cargoStore,a,FContainerCargo);
-					var b = XTRA(res.responseXML,'FContainer',FContainer);FOSU(this.store,b,FContainer);
-					XMG.alert(SYS,M_S);
-				},
-				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
-				xmlData:FOSX(xml)});
-			}
+		}
+		var cc=getDirty(this.cargoStore);
+		if(cc.length>0){var x = ATX(cc,'FContainerCargo',FContainerCargo);xml=xml+x;};		
+		if(xml!=''){
+		 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONT_S'},
+			success: function(res){				
+				var a = XTRA(res.responseXML,'FContainerCargo',FContainerCargo);FOSU(this.cargoStore,a,FContainerCargo);
+				var b = XTRA(res.responseXML,'FContainer',FContainer);FOSU(this.store,b,FContainer);
+				XMG.alert(SYS,M_S);
+			},
+			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+			xmlData:FOSX(xml)});
 		}
 		else XMG.alert(SYS,M_NC);
 	};
