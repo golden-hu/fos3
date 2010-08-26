@@ -1436,9 +1436,11 @@ Fos.TransTab = function(p) {
 		sumGW.setValue(sumG);
 		sumMM.setValue(sumM);
 		var b =this.tranGrid.getSelectionModel().getSelected();
+		b.beginEdit();
 		b.set('tranTotalPackages',sumP);
-		b.set('tranTotalGrossWeight',sumP);
-		b.set('tranTotalMeasurement',sumP);
+		b.set('tranTotalGrossWeight',sumG);
+		b.set('tranTotalMeasurement',sumM);
+		b.endEdit();
 	};
 	
 	this.addTrans = function(){
