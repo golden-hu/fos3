@@ -731,17 +731,15 @@ public class PTemplateService {
 		return sysConfigMap;
 	}
 
-	private String getChildFirstVar(String child,
-			Map<String, List<List<Integer>>> cellMap,
+	private String getChildFirstVar(String child, Map<String, List<List<Integer>>> cellMap,
 			Map<String, PTemplateMap> fieldMap) {
 		String oneChildVar = null;
 		for (String varName : cellMap.keySet()) {
 			PTemplateMap ptm = fieldMap.get(varName);
 			if (ptm == null) {
 				logger.info(varName + " can't find mapping record!");
-			}
-			if (child.equalsIgnoreCase(ptm.getTemaTable())) {
-				oneChildVar  = varName;
+			} else if (child.equalsIgnoreCase(ptm.getTemaTable())) {
+				oneChildVar = varName;
 				break;
 			}
 		}
