@@ -476,7 +476,8 @@ var FOSJ=function(x){return {FosRequest:{data:x}}};
 var FOSJA=function(o,t){if(o[t].length) return o; else{var d={};d[t]=[o[t]];return d;}};
 var FOSU=function(store,a,rt){
 	var fields = rt.prototype.fields;
-	var sa=store.getModifiedRecords();
+	//var sa=store.getModifiedRecords();
+	var sa=store.getRange();
 	for(i=0;i<sa.length;i++){
 		for(var j=0;j<a.length;j++){	
 			if(sa[i].get('id')==a[j].get('id')){
