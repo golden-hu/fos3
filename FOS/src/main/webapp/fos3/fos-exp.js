@@ -1428,9 +1428,9 @@ Fos.TransTab = function(p) {
 		var sumP=0;var sumG=0;var sumM=0;
 		var a=this.cargoGrid.getStore().getRange();
 		for(var i=0;i<a.length;i++){
-			sumP+=parseInt(a[i].get('trcaPackageNum'));
-			sumG+=parseFloat(a[i].get('trcaGrossWeight'));
-			sumM+=parseFloat(a[i].get('trcaMeasurement'));
+			(if(a[i].get('trcaPackageNum')>0)) sumP+=parseInt(a[i].get('trcaPackageNum'));
+			(if(a[i].get('trcaGrossWeight')>0))sumG+=parseFloat(a[i].get('trcaGrossWeight'));
+			(if(a[i].get('trcaMeasurement')>0))sumM+=parseFloat(a[i].get('trcaMeasurement'));
 		}
 		sumPK.setValue(sumP);
 		sumGW.setValue(sumG);
@@ -1821,10 +1821,10 @@ Fos.WarehouseTab = function(p) {
 		var sumP=0,sumG=0,sumM=0;
 		var a=this.cargoStore.getRange();		
 		for(var i=0;i<a.length;i++){
-			sumP=sumP+a[i].get('wacaPackagesNum');
-			sumG=sumG+a[i].get('wacaGrossWeight');
-			sumM=sumM+a[i].get('wacaMeasurement');
-		}		
+			if(a[i].get('wacaPackagesNum')>0) sumP=sumP+a[i].get('wacaPackagesNum');
+			if(a[i].get('wacaGrossWeight')) sumG=sumG+a[i].get('wacaGrossWeight');
+			if(a[i].get('wacaMeasurement')) sumM=sumM+a[i].get('wacaMeasurement');
+		}
 		sumPK.setValue(round2(sumP));
 		sumGW.setValue(round2(sumG));
 		sumMM.setValue(round2(sumM));
