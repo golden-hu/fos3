@@ -1566,7 +1566,6 @@ Fos.TransTab = function(p) {
 				}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}};
-	var c2={fieldLabel:C_TRAN_NO,name:'tranNo',disabled:true,tabIndex:5,xtype:'textfield',anchor:'95%'};
 	var c3={fieldLabel:C_LOAD_TIME,name:'tranLoadDate',tabIndex:26,xtype:'datefield',format:DATEF,anchor:'95%'};
 	var c4={fieldLabel:C_LOAD_FACTORY,name:'tranLoadFactory',tabIndex:9,xtype:'textfield',anchor:'95%'};
 	var c5={fieldLabel:C_LOAD_ADDRESS,name:'tranLoadAddress',tabIndex:13,xtype:'textfield',anchor:'95%'};
@@ -1604,7 +1603,7 @@ Fos.TransTab = function(p) {
 	var c27={fieldLabel:p.get('consBizClass')==BC_E?'S/O No.':C_MBL_NO,name:'tranSoNo',tabIndex:24,xtype:'textfield',anchor:'90%'};
 	var c28={fieldLabel:C_BACK_DATE,name:'tranBackDate',tabIndex:28,xtype:'datefield',format:DATEF,anchor:'90%'};
 	var t2={layout:'column',title:C_TRAN_INFO,layoutConfig:{columns:4},deferredRender:false,collapsible:true,
-			items:[{columnWidth:.25,layout:'form',border:false,items:[c1,c2,c3,c4,c5,c6,c7]},
+			items:[{columnWidth:.25,layout:'form',border:false,items:[c1,c3,c4,c5,c6,c7]},
 			{columnWidth:.25,layout:'form',border : false,labelWidth:90,items:[c8,c9,c10,c11,c12,c13,c14]},
 			{columnWidth:.25,layout:'form',border : false,items:[c15,c16,c17,c18,c19,c20,c21]},
 			{columnWidth:.25,layout:'form',border : false,items:[c22,c23,c24,c25,c26,c27,c28]}
