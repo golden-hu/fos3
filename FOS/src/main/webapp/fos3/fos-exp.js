@@ -400,6 +400,8 @@ Fos.BookTab = function(p) {
 			XMG.alert(SYS,M_POD_REQIRED,function(){this.find('name','consPodEn')[0].focus();},this);return;};
 		if(this.find('name','consPodEn')[0].getValue()==''){
 			XMG.alert(SYS,M_POD_REQIRED,function(){this.find('name','consPodEn')[0].focus();},this);return;};
+		if(p.get('consBizClass')==BC_E&&this.find('name','consEtd')[0].getValue()==''){
+			XMG.alert(SYS,M_ETD_REQIRED,function(){this.find('name','consEtd')[0].focus();},this);return;};
 		if(p.get('consBizClass')==BC_I && this.find('name','consEta')[0].getValue()==''){
 			XMG.alert(SYS,M_ETA_REQIRED,function(){this.find('name','consEta')[0].focus();},this);return;};
 		var f = FConsign.prototype.fields;
@@ -759,7 +761,8 @@ Fos.BookTab = function(p) {
         
     var m30={fieldLabel:C_ETA,name:'consEta',itemCls:p.get('consBizClass')==BC_I?'required':'',tabIndex:44,value:p.get('consEta'),xtype:'datefield',format:DATEF,anchor:'95%',
         listeners:{scope:this,change:function(f,nv,ov){if(p.get('consBizClass')==BC_I) p.set('consSailDate',nv);}}};
-    var m31={fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,itemCls:p.get('consBizClass')==BC_E?'needed':'',tabIndex:37,name:'consEtd',value:p.get('consEtd'),xtype:'datefield',format:DATEF,anchor:'95%',
+    var m31={fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,
+    		itemCls:p.get('consBizClass')==BC_E?'required':'',tabIndex:37,name:'consEtd',value:p.get('consEtd'),xtype:'datefield',format:DATEF,anchor:'95%',
         listeners:{scope:this,change:function(f,nv,ov){if(p.get('consBizClass')==BC_E) p.set('consSailDate',nv);}}};
             
     var m32={fieldLabel:C_VESS_NAME_CN,name:'vessNameCn',tabIndex:54,value:p.get('vessNameCn'),xtype:'textfield',anchor:'95%'};

@@ -66,6 +66,7 @@ var M_OPERATOR_REQIRED='请选择操作员!';
 var M_VESS_REQIRED='船名不能为空!';
 var M_VOYA_REQIRED='航次不能为空!';
 var M_POD_REQIRED='卸货港不能为空!';
+var M_ETD_REQIRED='开航日期不能为空!';
 var M_SHLI_REQIRED='航线不能为空!';
 var M_LAY_V_REQIRED='LAY(船东）不能为空!';
 var M_CAN_V_REQIRED='CAN(船东）不能为空!';
