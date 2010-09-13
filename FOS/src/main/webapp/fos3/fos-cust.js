@@ -1346,7 +1346,7 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
      		var consMblNo=at.find('name','contNo')[0].getValue();
      		var consMblNoM=at.find('name','contNoM')[0].getValue();
      		if(consMblNoM) op=7;action='CONS_CONTNO_X';
-     		a[a.length]={key:'contNo',value:consMblNo,op:op};
+     		a[a.length]={key:'consContainerNo',value:consMblNo,op:op};
      	}
      	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
      	store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
