@@ -779,7 +779,7 @@ var C_TRAN_FAX='拖车公司传真';
 
 var C_TRACK_TEL='装货联系电话';
 var C_LOAD_ADDRESS='装货地址';
-var C_LOAD_PLACE='装货地点';
+var C_LOAD_PLACE='装货地';
 var C_DRAW_CY='提箱堆场';
 var C_DRAW_DATE='提箱日期';
 var C_BACK_DATE='还箱日期';
@@ -939,6 +939,7 @@ var C_RA_CHARGE_REMARK='发货人承担下列过境铁路的费用';
 var C_RA_NOTES='对铁路无约束力的记载';
 var C_STATION_D='到达站';
 var C_DELIVERY_STATION='交货地';
+var C_DELIVERY_ADDRESS='交货地址';
 var C_CONT_DESC='箱体描述';
 var C_PRICE='价格';
 var C_PRSH='价格单';
