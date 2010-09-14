@@ -133,7 +133,12 @@ public class MainServlet extends HttpServlet {
 				dispatch(actName, fosRequest, fosResponse);
 				paramMap = fosRequest.getParam();
 				if(paramMap.containsKey(ConstUtil.REDIRECT_URL)) {
-					response.sendRedirect(paramMap.get(ConstUtil.REDIRECT_URL));
+					String url = paramMap.get(ConstUtil.REDIRECT_URL);
+					// file download, add random number suffix to prevent cache
+					if(url.endsWith(".xls") || url.endsWith(".doc")){
+						url += "?" + System.currentTimeMillis();
+					}
+					response.sendRedirect(url);
 					return;
 				}
 				copyRowCount(fosRequest, fosResponse);
