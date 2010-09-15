@@ -944,8 +944,11 @@ Fos.PriceSheetTab = function(p){
 	            		listeners:{scope:this,select:function(c,r,i){
 	            			p.set('prshVendorId',r.get('custId'));},
 	            			keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:500}}},
-	            	{fieldLabel:HL(C_POL),tabIndex:43,name:'prshPol',value:p.get('prshPol'),store:getPOL_S(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-	            		listeners:{scope:this,select:function(c,r,i){p.set('prshPolEn',r.get('portNameEn'));}}}
+	            	{fieldLabel:HL(C_POL),tabIndex:43,name:'prshPol',value:p.get('prshPol'),	            				
+	            				store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',
+	                      		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
+	            				triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	            		listeners:{scope:this,keydown:{fn:LP,buffer:BF},select:function(c,r,i){p.set('prshPolEn',r.get('portNameEn'));}}}
 	            ]},
     			{columnWidth:.25,layout:'form',border:false,labelWidth:60,labelAlign:'right',items:[	            	
 	           		{fieldLabel:C_VESS,tabIndex:34,name:'vessName',value:p.get('vessName'),store:getVES(),enableKeyEvents:true,
