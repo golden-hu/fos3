@@ -58,8 +58,8 @@ public class FfseController {
 	}
 
 	@Transactional
-	public void cancelBill(Map<String, Object> queryMap){
-		billService.cancel(queryMap);
+	public void updateBillStatus(Map<String, Object> queryMap){
+		billService.updateStatus(queryMap);
 	}
 
 	@SuppressWarnings("unchecked")

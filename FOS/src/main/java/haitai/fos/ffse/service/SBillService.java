@@ -135,18 +135,21 @@ public class SBillService {
 	}
 
 	@Transactional
-	public void cancel(Map<String, Object> queryMap) {
+	public void updateStatus(Map<String, Object> queryMap) {
 		Integer id = Integer.valueOf((String) queryMap.get("billId"));
+		Short status = Short.valueOf((String) queryMap.get("billStatus"));
 		SBill bill = dao.findById(id);
-		bill.setBillStatus(ConstUtil.BILL_STATUS_CANCELLED);
+		bill.setBillStatus(status);
 		dao.update(bill);
-		
+		//对帐单作废之后, 费用状态要改回来未用, 而不是改为作废
+		if(ConstUtil.BILL_STATUS_CANCELLED.equals(status))
+			status = ConstUtil.BILL_STATUS_NONE;
 		//更新对账单对应的费用行的状态
 		List<SBillItem> itemList = itemDao.findByProperties(queryMap);
 		for (SBillItem billItem : itemList) {
 			SExpense expense = expenseDao.findById(billItem.getExpeId());
 			expense.setExpeBillNo(null);
-			expense.setExpeBillStatus(ConstUtil.BILL_STATUS_NONE);
+			expense.setExpeBillStatus(status);
 			expenseDao.update(expense);
 		}
 	}
