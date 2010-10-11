@@ -117,14 +117,11 @@ public class LicenseUtil implements ServletContextAware {
 		String licenseMac = licenseProps.getProperty("MAC");
 		String licenseUsers = licenseProps.getProperty("Users");
 		String expire = licenseProps.getProperty("Expire");
-		String x = licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA
-		+ licenseMac + ConstUtil.COMMA + licenseUsers + ConstUtil.COMMA + expire + ConstUtil.COMMA
-		+ Long.MAX_VALUE;
-		System.out.println(x);
-		String key = CryptoUtil.MD5Encode(licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA
-				+ licenseMac + ConstUtil.COMMA + licenseUsers + ConstUtil.COMMA + expire + ConstUtil.COMMA
-				+ Long.MAX_VALUE);
-		System.out.println(key);
+		String x = licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA + licenseMac + ConstUtil.COMMA
+				+ licenseUsers + ConstUtil.COMMA + expire + ConstUtil.COMMA + Long.MAX_VALUE;
+		// System.out.println(x);
+		String key = CryptoUtil.MD5Encode(x);
+		// System.out.println(key);
 		return key;
 	}
 
