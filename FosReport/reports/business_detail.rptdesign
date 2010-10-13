@@ -344,8 +344,7 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="6"
- extends="dsFos.dsFos">
-        </oda-data-source>
+ extends="dsFos.dsFos"/>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsBusinessDetail" id="7">
@@ -1351,12 +1350,17 @@ where COMP_CODE = ?]]></xml-property>
                             <structure>
                                 <property name="name">groupTeu</property>
                                 <text-property name="displayName">groupTeu</text-property>
-                                <expression name="expression">dataSetRow["CONS_CONTAINERS_TEU"]</expression>
-                                <property name="dataType">string</property>
+                                <property name="dataType">float</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>group1</value>
                                 </simple-property-list>
-                                <property name="aggregateFunction">sum</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">dataSetRow["CONS_CONTAINERS_TEU"]</expression>
+                                    </structure>
+                                </list-property>
                             </structure>
                             <structure>
                                 <property name="name">groupGrossWeight</property>
@@ -1543,6 +1547,138 @@ where COMP_CODE = ?]]></xml-property>
                                     <structure>
                                         <property name="name">Expression</property>
                                         <expression name="value" type="javascript">row["PAY_EUR"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tTeu</property>
+                                <text-property name="displayName">tTeu</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["CONS_CONTAINERS_TEU"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tGrossWeight</property>
+                                <text-property name="displayName">tGrossWeight</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["CONS_TOTAL_GROSS_WEIGHT"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tRCNY</property>
+                                <text-property name="displayName">tRCNY</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE_CNY"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tRUSD</property>
+                                <text-property name="displayName">tRUSD</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE_USD"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tREUR</property>
+                                <text-property name="displayName">tREUR</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE_EUR"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tPCNY</property>
+                                <text-property name="displayName">tPCNY</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY_CNY"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tPUSD</property>
+                                <text-property name="displayName">tPUSD</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY_USD"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tPEUR</property>
+                                <text-property name="displayName">tPEUR</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY_EUR"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tR</property>
+                                <text-property name="displayName">tR</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tP</property>
+                                <text-property name="displayName">tP</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">tPro</property>
+                                <text-property name="displayName">tPro</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["GROSS_PROFIT"]</expression>
                                     </structure>
                                 </list-property>
                             </structure>
@@ -2300,6 +2436,136 @@ where COMP_CODE = ?]]></xml-property>
                                 </cell>
                             </row>
                         </detail>
+                        <footer>
+                            <row id="830">
+                                <cell id="831">
+                                    <label id="858">
+                                        <text-property name="text">总计</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="832"/>
+                                <cell id="833"/>
+                                <cell id="834"/>
+                                <cell id="835"/>
+                                <cell id="836"/>
+                                <cell id="837"/>
+                                <cell id="838"/>
+                                <cell id="839">
+                                    <data id="854">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tTeu</property>
+                                    </data>
+                                </cell>
+                                <cell id="840">
+                                    <data id="855">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tGrossWeight</property>
+                                    </data>
+                                </cell>
+                                <cell id="841">
+                                    <data id="856">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tRCNY</property>
+                                    </data>
+                                </cell>
+                                <cell id="842">
+                                    <data id="857">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tRUSD</property>
+                                    </data>
+                                </cell>
+                                <cell id="843">
+                                    <data id="859">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tREUR</property>
+                                    </data>
+                                </cell>
+                                <cell id="844">
+                                    <data id="860">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tPCNY</property>
+                                    </data>
+                                </cell>
+                                <cell id="845">
+                                    <data id="861">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tPUSD</property>
+                                    </data>
+                                </cell>
+                                <cell id="846">
+                                    <data id="862">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tPEUR</property>
+                                    </data>
+                                </cell>
+                                <cell id="847">
+                                    <data id="863">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tR</property>
+                                    </data>
+                                </cell>
+                                <cell id="848">
+                                    <data id="864">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tP</property>
+                                    </data>
+                                </cell>
+                                <cell id="849">
+                                    <data id="865">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">tPro</property>
+                                    </data>
+                                </cell>
+                                <cell id="850"/>
+                                <cell id="851"/>
+                                <cell id="852"/>
+                                <cell id="853"/>
+                            </row>
+                        </footer>
                     </table>
                 </cell>
             </row>
