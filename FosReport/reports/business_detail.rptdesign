@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
-    <property name="units">in</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <property name="comments">Copyright (c) 2008 &lt;&lt;海钛软件>></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -48,6 +48,7 @@
             <text-property name="promptText">分组字段</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">false</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -89,7 +90,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -99,6 +99,7 @@
             <text-property name="promptText">日期类型</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">false</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -115,7 +116,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -130,12 +130,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -216,12 +216,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -329,12 +329,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -344,7 +344,8 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="6"
- extends="dsFos.dsFos"/>
+ extends="dsFos.dsFos">
+        </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsBusinessDetail" id="7">
@@ -381,6 +382,192 @@ if(params["g"] == "1"){
 }
 rt;</expression>
                     <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CONS_ID</property>
+                    <text-property name="displayName">CONS_ID</text-property>
+                    <text-property name="heading">CONS_ID</text-property>
+                    <property name="displayLength">11</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">SHLI_NAME</property>
+                    <text-property name="displayName">SHLI_NAME</text-property>
+                    <text-property name="heading">SHLI_NAME</text-property>
+                    <property name="displayLength">32</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOYA_NAME</property>
+                    <text-property name="displayName">VOYA_NAME</text-property>
+                    <text-property name="heading">VOYA_NAME</text-property>
+                    <property name="displayLength">97</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_POD_EN</property>
+                    <text-property name="displayName">CONS_POD_EN</text-property>
+                    <text-property name="heading">CONS_POD_EN</text-property>
+                    <property name="displayLength">64</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_CARRIER_NAME</property>
+                    <text-property name="displayName">CONS_CARRIER_NAME</text-property>
+                    <text-property name="heading">CONS_CARRIER_NAME</text-property>
+                    <property name="displayLength">64</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_SNAME</property>
+                    <text-property name="displayName">CUST_SNAME</text-property>
+                    <text-property name="heading">CUST_SNAME</text-property>
+                    <property name="displayLength">64</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SALES_REP_NAME</property>
+                    <text-property name="displayName">CONS_SALES_REP_NAME</text-property>
+                    <text-property name="heading">CONS_SALES_REP_NAME</text-property>
+                    <property name="displayLength">32</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_OPERATOR_NAME</property>
+                    <text-property name="displayName">CONS_OPERATOR_NAME</text-property>
+                    <text-property name="heading">CONS_OPERATOR_NAME</text-property>
+                    <property name="displayLength">32</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_CONTAINERS_TEU</property>
+                    <text-property name="displayName">CONS_CONTAINERS_TEU</text-property>
+                    <text-property name="heading">CONS_CONTAINERS_TEU</text-property>
+                    <property name="displayLength">11</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_TOTAL_GROSS_WEIGHT</property>
+                    <text-property name="displayName">CONS_TOTAL_GROSS_WEIGHT</text-property>
+                    <text-property name="heading">CONS_TOTAL_GROSS_WEIGHT</text-property>
+                    <property name="displayLength">16</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">RECEIVE</property>
+                    <text-property name="displayName">RECEIVE</text-property>
+                    <text-property name="heading">RECEIVE</text-property>
+                    <property name="displayLength">45</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">PAY</property>
+                    <text-property name="displayName">PAY</text-property>
+                    <text-property name="heading">PAY</text-property>
+                    <property name="displayLength">45</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">RECEIVE_CNY</property>
+                    <text-property name="displayName">RECEIVE_CNY</text-property>
+                    <text-property name="heading">RECEIVE_CNY</text-property>
+                    <property name="displayLength">36</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">PAY_CNY</property>
+                    <text-property name="displayName">PAY_CNY</text-property>
+                    <text-property name="heading">PAY_CNY</text-property>
+                    <property name="displayLength">36</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">RECEIVE_USD</property>
+                    <text-property name="displayName">RECEIVE_USD</text-property>
+                    <text-property name="heading">RECEIVE_USD</text-property>
+                    <property name="displayLength">36</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">PAY_USD</property>
+                    <text-property name="displayName">PAY_USD</text-property>
+                    <text-property name="heading">PAY_USD</text-property>
+                    <property name="displayLength">36</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">RECEIVE_EUR</property>
+                    <text-property name="displayName">RECEIVE_EUR</text-property>
+                    <text-property name="heading">RECEIVE_EUR</text-property>
+                    <property name="displayLength">36</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">PAY_EUR</property>
+                    <text-property name="displayName">PAY_EUR</text-property>
+                    <text-property name="heading">PAY_EUR</text-property>
+                    <property name="displayLength">36</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_CONTAINERS_INFO</property>
+                    <text-property name="displayName">CONS_CONTAINERS_INFO</text-property>
+                    <text-property name="heading">CONS_CONTAINERS_INFO</text-property>
+                    <property name="displayLength">500</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SAIL_DATE</property>
+                    <text-property name="displayName">CONS_SAIL_DATE</text-property>
+                    <text-property name="heading">CONS_SAIL_DATE</text-property>
+                    <property name="displayLength">10</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_DATE</property>
+                    <text-property name="displayName">CONS_DATE</text-property>
+                    <text-property name="heading">CONS_DATE</text-property>
+                    <property name="displayLength">10</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">GROU_NAME</property>
+                    <text-property name="displayName">GROU_NAME</text-property>
+                    <text-property name="heading">GROU_NAME</text-property>
+                    <property name="displayLength">32</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_NO</property>
+                    <text-property name="displayName">CONS_NO</text-property>
+                    <text-property name="heading">CONS_NO</text-property>
+                    <property name="displayLength">32</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -447,41 +634,71 @@ rt;</expression>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">CONS_CONTAINERS_INFO</property>
-                        <property name="dataType">string</property>
+                        <property name="name">RECEIVE_CNY</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">CONS_SAIL_DATE</property>
-                        <property name="dataType">date</property>
+                        <property name="name">PAY_CNY</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">15</property>
-                        <property name="name">CONS_DATE</property>
-                        <property name="dataType">date</property>
+                        <property name="name">RECEIVE_USD</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">16</property>
-                        <property name="name">GROU_NAME</property>
-                        <property name="dataType">string</property>
+                        <property name="name">PAY_USD</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">17</property>
-                        <property name="name">CONS_NO</property>
-                        <property name="dataType">string</property>
+                        <property name="name">RECEIVE_EUR</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">18</property>
-                        <property name="name">GROSS_PROFIT</property>
+                        <property name="name">PAY_EUR</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
+                        <property name="name">CONS_CONTAINERS_INFO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">CONS_SAIL_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">CONS_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">GROU_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">CONS_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">GROSS_PROFIT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
                         <property name="name">GROSS_PROFIT_RATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">26</property>
                         <property name="name">groupBy</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -618,30 +835,66 @@ this.queryText = sql;]]></method>
                 </structure>
                 <structure>
                     <property name="position">13</property>
+                    <property name="name">RECEIVE_CNY</property>
+                    <property name="nativeName">RECEIVE_CNY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">PAY_CNY</property>
+                    <property name="nativeName">PAY_CNY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">RECEIVE_USD</property>
+                    <property name="nativeName">RECEIVE_USD</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">PAY_USD</property>
+                    <property name="nativeName">PAY_USD</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">RECEIVE_EUR</property>
+                    <property name="nativeName">RECEIVE_EUR</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">PAY_EUR</property>
+                    <property name="nativeName">PAY_EUR</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
                     <property name="name">CONS_CONTAINERS_INFO</property>
                     <property name="nativeName">CONS_CONTAINERS_INFO</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">20</property>
                     <property name="name">CONS_SAIL_DATE</property>
                     <property name="nativeName">CONS_SAIL_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">21</property>
                     <property name="name">CONS_DATE</property>
                     <property name="nativeName">CONS_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">16</property>
+                    <property name="position">22</property>
                     <property name="name">GROU_NAME</property>
                     <property name="nativeName">GROU_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">17</property>
+                    <property name="position">23</property>
                     <property name="name">CONS_NO</property>
                     <property name="nativeName">CONS_NO</property>
                     <property name="dataType">string</property>
@@ -656,6 +909,24 @@ c.CONS_CONTAINERS_TEU, c.CONS_TOTAL_GROSS_WEIGHT,
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" and e.removed=0) as RECEIVE,
 (select sum(e.EXPE_TOTAL_AMOUNT*e.EXPE_EX_RATE) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" and e.removed=0) as PAY,
+(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" 
+and e.removed=0 and e.CURR_CODE="CNY") as RECEIVE_CNY,
+(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" 
+and e.removed=0 and e.CURR_CODE="CNY") as PAY_CNY,
+(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" 
+and e.removed=0 and e.CURR_CODE="USD") as RECEIVE_USD,
+(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" 
+and e.removed=0 and e.CURR_CODE="USD") as PAY_USD,
+(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" 
+and e.removed=0 and e.CURR_CODE="EUR") as RECEIVE_EUR,
+(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" 
+and e.removed=0 and e.CURR_CODE="EUR") as PAY_EUR,
 c.CONS_CONTAINERS_INFO, c.CONS_SAIL_DATE, c.CONS_DATE,
 g.GROU_NAME, c.CONS_NO
 from F_CONSIGN c
@@ -667,7 +938,7 @@ left join P_GROUP g on c.DEPT_ID = g.GROU_ID
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">COMP_NAME_CN</property>
-                    <property name="displayName">COMP_NAME_CN</property>
+                    <text-property name="displayName">COMP_NAME_CN</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -1079,7 +1350,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupTeu</property>
-                                <property name="displayName">groupTeu</property>
+                                <text-property name="displayName">groupTeu</text-property>
                                 <expression name="expression">dataSetRow["CONS_CONTAINERS_TEU"]</expression>
                                 <property name="dataType">string</property>
                                 <simple-property-list name="aggregateOn">
@@ -1089,7 +1360,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupGrossWeight</property>
-                                <property name="displayName">groupGrossWeight</property>
+                                <text-property name="displayName">groupGrossWeight</text-property>
                                 <expression name="expression">dataSetRow["CONS_TOTAL_GROSS_WEIGHT"]</expression>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
@@ -1099,7 +1370,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupReceive</property>
-                                <property name="displayName">groupReceive</property>
+                                <text-property name="displayName">groupReceive</text-property>
                                 <expression name="expression">dataSetRow["RECEIVE"]</expression>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
@@ -1109,7 +1380,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupPay</property>
-                                <property name="displayName">groupPay</property>
+                                <text-property name="displayName">groupPay</text-property>
                                 <expression name="expression">dataSetRow["PAY"]</expression>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
@@ -1119,7 +1390,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupGrossProfit</property>
-                                <property name="displayName">groupGrossProfit</property>
+                                <text-property name="displayName">groupGrossProfit</text-property>
                                 <expression name="expression">dataSetRow["GROSS_PROFIT"]</expression>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
@@ -1129,7 +1400,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupByTitle</property>
-                                <property name="displayName">groupByTitle</property>
+                                <text-property name="displayName">groupByTitle</text-property>
                                 <expression name="expression">"" + row["groupBy"] == null ? "" : row["groupBy"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
@@ -1145,15 +1416,135 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_SALES_REP_NAME</property>
-                                <property name="displayName">sales</property>
+                                <text-property name="displayName">sales</text-property>
                                 <expression name="expression">dataSetRow["CONS_SALES_REP_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_OPERATOR_NAME</property>
-                                <property name="displayName">operator</property>
+                                <text-property name="displayName">operator</text-property>
                                 <expression name="expression">dataSetRow["CONS_OPERATOR_NAME"]</expression>
                                 <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">RECEIVE_CNY</property>
+                                <expression name="expression" type="javascript">dataSetRow["RECEIVE_CNY"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PAY_CNY</property>
+                                <expression name="expression" type="javascript">dataSetRow["PAY_CNY"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">RECEIVE_USD</property>
+                                <expression name="expression" type="javascript">dataSetRow["RECEIVE_USD"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PAY_USD</property>
+                                <expression name="expression" type="javascript">dataSetRow["PAY_USD"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">RECEIVE_EUR</property>
+                                <expression name="expression" type="javascript">dataSetRow["RECEIVE_EUR"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">PAY_EUR</property>
+                                <expression name="expression" type="javascript">dataSetRow["PAY_EUR"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupReceiveCNY</property>
+                                <text-property name="displayName">groupReceiveCNY</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group1</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE_CNY"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupPayCNY</property>
+                                <text-property name="displayName">groupPayCNY</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group1</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY_CNY"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupReceiveUSD</property>
+                                <text-property name="displayName">groupReceiveUSD</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group1</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE_USD"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupPayUSD</property>
+                                <text-property name="displayName">groupPayUSD</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group1</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY_USD"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupReceiveEUR</property>
+                                <text-property name="displayName">groupReceiveEUR</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group1</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["RECEIVE_EUR"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupPayEUR</property>
+                                <text-property name="displayName">groupPayEUR</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group1</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["PAY_EUR"]</expression>
+                                    </structure>
+                                </list-property>
                             </structure>
                         </list-property>
                         <property name="pageBreakInterval">50</property>
@@ -1208,6 +1599,12 @@ where COMP_CODE = ?]]></xml-property>
                         </column>
                         <column id="106"/>
                         <column id="107"/>
+                        <column id="772"/>
+                        <column id="781"/>
+                        <column id="790"/>
+                        <column id="799"/>
+                        <column id="808"/>
+                        <column id="817"/>
                         <column id="108"/>
                         <column id="109"/>
                         <column id="116"/>
@@ -1275,6 +1672,48 @@ where COMP_CODE = ?]]></xml-property>
                                 <cell id="43">
                                     <label id="44">
                                         <text-property name="text">毛重</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="766">
+                                    <property name="fontSize">10pt</property>
+                                    <label id="773">
+                                        <property name="fontSize">9pt</property>
+                                        <text-property name="text">人民币收入</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="775">
+                                    <property name="fontSize">10pt</property>
+                                    <label id="782">
+                                        <property name="fontSize">9pt</property>
+                                        <text-property name="text">美金收入</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="784">
+                                    <property name="fontSize">10pt</property>
+                                    <label id="791">
+                                        <property name="fontSize">9pt</property>
+                                        <text-property name="text">欧元收入</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="793">
+                                    <property name="fontSize">10pt</property>
+                                    <label id="800">
+                                        <property name="fontSize">9pt</property>
+                                        <text-property name="text">人民币支出</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="802">
+                                    <property name="fontSize">10pt</property>
+                                    <label id="809">
+                                        <property name="fontSize">9pt</property>
+                                        <text-property name="text">美金支出</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="811">
+                                    <property name="fontSize">10pt</property>
+                                    <label id="818">
+                                        <property name="fontSize">9pt</property>
+                                        <text-property name="text">欧元支出</text-property>
                                     </label>
                                 </cell>
                                 <cell id="45">
@@ -1357,7 +1796,7 @@ where COMP_CODE = ?]]></xml-property>
                                         </structure>
                                     </list-property>
                                     <cell id="720">
-                                        <property name="colSpan">17</property>
+                                        <property name="colSpan">23</property>
                                         <property name="rowSpan">1</property>
                                         <data id="644">
                                             <property name="resultSetColumn">groupByTitle</property>
@@ -1392,6 +1831,24 @@ where COMP_CODE = ?]]></xml-property>
                                         <property name="fontSize">10pt</property>
                                     </cell>
                                     <cell id="633">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="769">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="778">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="787">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="796">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="805">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="814">
                                         <property name="fontSize">10pt</property>
                                     </cell>
                                     <cell id="634">
@@ -1459,6 +1916,72 @@ where COMP_CODE = ?]]></xml-property>
                                             </structure>
                                             <property name="textAlign">right</property>
                                             <property name="resultSetColumn">groupGrossWeight</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="770">
+                                        <property name="fontSize">10pt</property>
+                                        <data id="820">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupReceiveCNY</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="779">
+                                        <property name="fontSize">10pt</property>
+                                        <data id="825">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupReceiveUSD</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="788">
+                                        <property name="fontSize">10pt</property>
+                                        <data id="826">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupReceiveEUR</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="797">
+                                        <property name="fontSize">10pt</property>
+                                        <data id="827">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupPayCNY</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="806">
+                                        <property name="fontSize">10pt</property>
+                                        <data id="828">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupPayUSD</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="815">
+                                        <property name="fontSize">10pt</property>
+                                        <data id="829">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupPayEUR</property>
                                         </data>
                                     </cell>
                                     <cell id="657">
@@ -1536,6 +2059,24 @@ where COMP_CODE = ?]]></xml-property>
                                         <property name="fontSize">10pt</property>
                                     </cell>
                                     <cell id="678">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="771">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="780">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="789">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="798">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="807">
+                                        <property name="fontSize">10pt</property>
+                                    </cell>
+                                    <cell id="816">
                                         <property name="fontSize">10pt</property>
                                     </cell>
                                     <cell id="679">
@@ -1623,6 +2164,72 @@ where COMP_CODE = ?]]></xml-property>
                                         </structure>
                                         <property name="textAlign">right</property>
                                         <property name="resultSetColumn">CONS_TOTAL_GROSS_WEIGHT</property>
+                                    </data>
+                                </cell>
+                                <cell id="768">
+                                    <property name="fontSize">10pt</property>
+                                    <data id="774">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">RECEIVE_CNY</property>
+                                    </data>
+                                </cell>
+                                <cell id="777">
+                                    <property name="fontSize">10pt</property>
+                                    <data id="783">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">RECEIVE_USD</property>
+                                    </data>
+                                </cell>
+                                <cell id="786">
+                                    <property name="fontSize">10pt</property>
+                                    <data id="792">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">RECEIVE_EUR</property>
+                                    </data>
+                                </cell>
+                                <cell id="795">
+                                    <property name="fontSize">10pt</property>
+                                    <data id="801">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">PAY_CNY</property>
+                                    </data>
+                                </cell>
+                                <cell id="804">
+                                    <property name="fontSize">10pt</property>
+                                    <data id="810">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">PAY_USD</property>
+                                    </data>
+                                </cell>
+                                <cell id="813">
+                                    <property name="fontSize">10pt</property>
+                                    <data id="819">
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">PAY_EUR</property>
                                     </data>
                                 </cell>
                                 <cell id="74">
