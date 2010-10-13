@@ -7,7 +7,6 @@ import haitai.fos.sys.entity.idao.IPRoleDAO;
 import haitai.fos.sys.entity.idao.IPRoleFunctionDAO;
 import haitai.fos.sys.entity.idao.IPUserDAO;
 import haitai.fos.sys.entity.idao.IPUserRoleDAO;
-import haitai.fos.sys.entity.table.PCompany;
 import haitai.fos.sys.entity.table.PGroup;
 import haitai.fos.sys.entity.table.PGroupUser;
 import haitai.fos.sys.entity.table.PRole;
@@ -23,6 +22,7 @@ import haitai.fw.util.ActionLogUtil;
 import haitai.fw.util.CompanyConfigUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.CryptoUtil;
+import haitai.fw.util.LicenseUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.StringUtil;
@@ -31,7 +31,6 @@ import haitai.fw.util.TimeUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,23 +49,23 @@ public class PUserService {
 	private IPUserRoleDAO userRoleDao = null;
 	private IPRoleFunctionDAO roleFunctionDao = null;
 	private IPCompanyDAO companyDao = null;
+	private LicenseUtil licenseUtil = null;
 	private static FosLogger logger = new FosLogger(PUserService.class);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 
 		// handle parent first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof PUser) {
 				PUser entity = (PUser) obj;
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getUserId();
 				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
-					checkLicenseNumber();
+					licenseUtil.checkUserAvailable();
 					entity.setUserId(null);
 					entity.setUserPassword(CryptoUtil.MD5Encode(entity.getUserPassword()));
 					entity.setUserPasswordModifyDate(TimeUtil.getNow());
@@ -90,8 +89,7 @@ public class PUserService {
 		}
 
 		// handle child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof PUserRole) {
 				PUserRole entity = (PUserRole) obj;
 				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
@@ -112,27 +110,14 @@ public class PUserService {
 		return retList;
 	}
 
-	@Transactional
-	private void checkLicenseNumber() {
-		List<PCompany> list = companyDao.findByProperties(new HashMap<String, Object>());
-		int licenseNum = 5;
-		if (list.size() == 1) {
-			licenseNum = list.get(0).getCompLicenseNumber();
-		}
-		List<PUser> userList = dao.findByProperties(new HashMap<String, Object>());
-		if (userList.size() >= licenseNum)
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_USERS);
-	}
-
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
 	public List saveGroup(List entityList) {
 		List retList = new ArrayList();
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 
 		// handle parent first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof PGroup) {
 				PGroup entity = (PGroup) obj;
 				entity.setCompCode(SessionManager.getStringAttr(SessionKeyType.COMPCODE));
@@ -157,8 +142,7 @@ public class PUserService {
 		}
 
 		// handle child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof PGroupUser) {
 				PGroupUser entity = (PGroupUser) obj;
 				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
@@ -179,15 +163,14 @@ public class PUserService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
 	public List saveRole(List entityList) {
 		List retList = new ArrayList();
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 
 		// handle parent first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof PRole) {
 				PRole entity = (PRole) obj;
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
@@ -211,8 +194,7 @@ public class PUserService {
 		}
 
 		// handle child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof PRoleFunction) {
 				PRoleFunction entity = (PRoleFunction) obj;
 				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
@@ -271,7 +253,7 @@ public class PUserService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Transactional(readOnly = true)
 	public PUser login(Map<String, Object> queryMap) {
 		// String compCode = (String) queryMap.get("compCode");
@@ -295,6 +277,8 @@ public class PUserService {
 			SessionManager.setAttr(SessionKeyType.USERNAME, user.getUserName());
 			SessionManager.setAttr(SessionKeyType.COMPCODE, user.getCompCode());
 			SessionManager.setAttr(SessionKeyType.USER, user);
+
+			licenseUtil.checkLicense();
 
 			List objList = dao.queryFuncCode();
 			StringBuffer sb = new StringBuffer();
@@ -355,7 +339,7 @@ public class PUserService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	public PUser queryCurrentUser() {
 		PUser user = dao.findById((Integer) SessionManager.getAttr(SessionKeyType.UID));
 		List objList = dao.queryFuncCode();
@@ -487,6 +471,15 @@ public class PUserService {
 	@Autowired
 	public void setCompanyDao(IPCompanyDAO companyDao) {
 		this.companyDao = companyDao;
+	}
+
+	public LicenseUtil getLicenseUtil() {
+		return licenseUtil;
+	}
+
+	@Autowired
+	public void setLicenseUtil(LicenseUtil licenseUtil) {
+		this.licenseUtil = licenseUtil;
 	}
 
 }

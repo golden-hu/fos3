@@ -1,6 +1,8 @@
 package haitai.fw.util;
 
+import haitai.fos.sys.entity.idao.IPCompanyDAO;
 import haitai.fos.sys.entity.idao.IPUserDAO;
+import haitai.fos.sys.entity.table.PCompany;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.platform.AppConfig;
@@ -10,6 +12,8 @@ import haitai.fw.session.SessionManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -42,6 +46,36 @@ public class LicenseUtil implements ServletContextAware {
 		}
 	}
 
+	public void checkUserAvailable(){
+		boolean status = false;
+		String licenseUsers = licenseProps.getProperty("Users");
+		String licenseSAAS = licenseProps.getProperty("SAAS");
+		if (licenseUsers != null) {
+			int num = Integer.parseInt(licenseUsers);
+			if (num == 0) {
+				status = true;
+			} else {
+				IPUserDAO dao = SpringContextUtil.getBean("PUserDAO");
+				// SAAS version, get user license number from P_COMPANY
+				if ("1".equals(licenseSAAS)) {
+					IPCompanyDAO cdao = SpringContextUtil.getBean("PCompanyDAO");
+					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
+					if (list.size() == 1) {
+						num = list.get(0).getCompLicenseNumber();
+					} else {
+						num = 5;
+					}
+				}
+				Map<String, Object> queryMap = new HashMap<String, Object>();
+				queryMap.put("removed", ConstUtil.FalseStr);
+				if (dao.findByProperties(queryMap).size() < num) {
+					status = true;
+				}
+			}
+		}
+		if(!status)
+			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_USERS);
+	}
 	public void checkLicense() {
 		if (!checkIp())
 			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_IP);
@@ -57,9 +91,12 @@ public class LicenseUtil implements ServletContextAware {
 
 	private boolean checkIp() {
 		String licenseIp = licenseProps.getProperty("IP");
-		String ip = NetworkInfo.getIpAddress();
-		if (licenseIp != null && (licenseIp.equals("0") || licenseIp.equals(ip))) {
+		if (licenseIp != null && (licenseIp.equals("0"))) {
 			return true;
+		} else {
+			String ip = NetworkInfo.getIpAddress();
+			if (licenseIp.equals(ip))
+				return true;
 		}
 		return false;
 	}
@@ -84,18 +121,28 @@ public class LicenseUtil implements ServletContextAware {
 	private boolean checkUsers() {
 		boolean status = false;
 		String licenseUsers = licenseProps.getProperty("Users");
+		String licenseSAAS = licenseProps.getProperty("SAAS");
 		if (licenseUsers != null) {
 			int num = Integer.parseInt(licenseUsers);
 			if (num == 0) {
 				return true;
 			} else {
 				IPUserDAO dao = SpringContextUtil.getBean("PUserDAO");
-				SessionManager.regSession(new MockHttpSession());
-				SessionManager.setAttr(SessionKeyType.COMPCODE, AppConfig.getConfig("compCode"));
-				if (dao.findByProperties(new HashMap<String, Object>()).size() <= num) {
+				// SAAS version, get user license number from P_COMPANY
+				if ("1".equals(licenseSAAS)) {
+					IPCompanyDAO cdao = SpringContextUtil.getBean("PCompanyDAO");
+					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
+					if (list.size() == 1) {
+						num = list.get(0).getCompLicenseNumber();
+					} else {
+						num = 5;
+					}
+				}
+				Map<String, Object> queryMap = new HashMap<String, Object>();
+				queryMap.put("removed", ConstUtil.FalseStr);
+				if (dao.findByProperties(queryMap).size() <= num) {
 					status = true;
 				}
-				SessionManager.unregSession();
 			}
 		}
 		return status;
@@ -116,13 +163,12 @@ public class LicenseUtil implements ServletContextAware {
 		String licenseIp = licenseProps.getProperty("IP");
 		String licenseMac = licenseProps.getProperty("MAC");
 		String licenseUsers = licenseProps.getProperty("Users");
+		String licenseSAAS = licenseProps.getProperty("SAAS");
 		String expire = licenseProps.getProperty("Expire");
 		String x = licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA + licenseMac + ConstUtil.COMMA
-				+ licenseUsers + ConstUtil.COMMA + expire + ConstUtil.COMMA + Long.MAX_VALUE;
-		// System.out.println(x);
-		String key = CryptoUtil.MD5Encode(x);
-		// System.out.println(key);
-		return key;
+				+ licenseUsers + ConstUtil.COMMA + licenseSAAS + ConstUtil.COMMA + expire + ConstUtil.COMMA
+				+ Long.MAX_VALUE;
+		return CryptoUtil.MD5Encode(x);
 	}
 
 	@Override

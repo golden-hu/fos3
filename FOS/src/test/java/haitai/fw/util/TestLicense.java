@@ -27,8 +27,9 @@ public class TestLicense {
 		String licenseIp = licenseProps.getProperty("IP");
 		String licenseMac = licenseProps.getProperty("MAC");
 		String licenseUsers = licenseProps.getProperty("Users");
-		String key = licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA + licenseMac
-				+ ConstUtil.COMMA + licenseUsers + ConstUtil.COMMA + generateExpire() + ConstUtil.COMMA
+		String licenseSAAS = licenseProps.getProperty("SAAS");
+		String key = licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA + licenseMac + ConstUtil.COMMA
+				+ licenseUsers + ConstUtil.COMMA + licenseSAAS + ConstUtil.COMMA + generateExpire() + ConstUtil.COMMA
 				+ Long.MAX_VALUE;
 		System.out.println(key);
 		key = CryptoUtil.MD5Encode(key);

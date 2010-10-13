@@ -13,7 +13,6 @@ import haitai.fw.session.SessionManager;
 import haitai.fw.util.ActionLogUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ExceptionUtil;
-import haitai.fw.util.LicenseUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.ReportUtil;
 import haitai.fw.util.SpringContextUtil;
@@ -100,8 +99,6 @@ public class MainServlet extends HttpServlet {
 										.getConfig(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 					PUserService.checkRepeatLogin(uid);
 				}
-				LicenseUtil licenseUtil = SpringContextUtil.getBean("licenseUtil");
-				licenseUtil.checkLicense();
 				String xml = null;
 				if (paramMap.containsKey(HttpHeader.UPLOADFILE)) {
 					parseFileForm(request, paramMap);					
@@ -510,12 +507,5 @@ public class MainServlet extends HttpServlet {
 
 	public void init() throws ServletException {
 		AppConfig.init(getServletContext());
-//		try {
-//			LicenseUtil util = new LicenseUtil();
-//			util.checkLicense(getServletContext());
-//		}catch (BusinessException e) {
-//			logger.fatal(MessageUtil.getMessage(e.getMessage()));
-//			System.exit(0);
-//		}
 	}
 }
