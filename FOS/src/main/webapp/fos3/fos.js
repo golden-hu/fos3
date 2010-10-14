@@ -536,18 +536,20 @@ Fos.StatWOTab = function(t){
          	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:T_S});
     var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
     var t4=new Ext.form.DateField({value:new Date(),format:DATEF});
+    var consNo=new Ext.form.TextField({width:100,value:''});
     var doc=new Ext.ux.IFrameComponent({id:'STWO', url:''});
  	this.report=function(){
 		if(!t1.getValue()){XMG.alert(SYS,M_SEL_WRITEOFF_DATE,function(){t3.focus();},this);return;};
-		Ext.get('IF_STWO').dom.src=SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value;
+		Ext.get('IF_STWO').dom.src=SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value+'&consNo='+consNo.getValue();
 	};
-	this.exp=function(){OWW(SERVICE_URL+'?A=REPT_WROF&format=xls&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value);};
+	this.exp=function(){OWW(SERVICE_URL+'?A=REPT_WROF&format=xls&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value+'&consNo='+consNo.getValue());};
 	Fos.StatWOTab.superclass.constructor.call(this, {    
     id:'T_WROF',title:C_STAT_WRITEOFF,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
     tbar:[{xtype:'tbtext',text:C_GROUP_TYPE},t1,'-',
 		{xtype:'tbtext',text:C_WRITEOFF_TYPE},t2,'-',
 		{xtype:'tbtext',text:C_WRITEOFF_DATE+C_FROM},t3,'-',
 		{xtype:'tbtext',text:C_TO},t4,'-',
+		{xtype:'tbtext',text:C_CONS_NO},consNo,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_WROF+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_WROF+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.exp}]}}],
 		items:[{layout:'fit',height:600,deferredRender:false,items:[doc]}]});
