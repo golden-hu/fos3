@@ -32,7 +32,7 @@
 <div id="north">
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
   <tr>
-  <td align="left" nowrap="nowrap"><img src='js/images/fos2008.gif'></td>
+  <td align="left" nowrap="nowrap"><img src='js/images/fos.png' width=180></td>
   <td align="right"nowrap="nowrap">
   <font size="-1">您好！<%=session.getAttribute("UserName")%>
  |<a href='#' onclick="javascript:changePass();">修改密码</a>|<a href='#' onclick="javascript:logout();">退出</a>|<a href='http://www.hitisoft.com:8080/hcms/help.jsp' target="_blank">在线帮助</a>|&nbsp;&nbsp;
