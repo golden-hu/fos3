@@ -89,7 +89,7 @@
 				cols=[sm,t1,t2,t3,t4,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t18,t19,t20,t25,t26];
 		}
 		else{
-			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t9,t10,t11,t7,t16,t12,t13,t17,t23,t19,t24,t20,t25];
+			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t23,t19,t24,t20,t25];
 		}
 	}
 	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'right'}});
