@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.util.*" %>
-<%if(session.getAttribute("username")==null){response.sendRedirect("login.html");}%>
+<%if(session.getAttribute("UserName")==null){response.sendRedirect("login.html");}%>
 <html>
 <script type="text/javascript" src="js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js/resource_Zh_Cn.js"></script>
