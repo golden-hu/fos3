@@ -19,7 +19,18 @@ var numRender = function(v){v=parseFloat(v);v=v.toFixed(2);if(v=='NaN') v='0.00'
 var rateRender = function(v){v=parseFloat(v);v=v.toFixed(4);if(v=='NaN') v='0.0000';return v;};
 var boolRender = function(v, p, record){p.css += ' x-grid3-check-col-td';return '<div class="x-grid3-check-col'+(v==1?'-on':'')+' x-grid3-cc-'+this.id+'">&#160;</div>';};
 var consRender  = function(v){return "<a href=\"javascript:openCons('"+v+"');\">"+v+"</a>";};
-var invoRender  = function(v){return "<a href=\"javascript:openInvo('"+v+"');\">"+v+"</a>";};
+var invoRender  = function(v){
+	if(v.indexOf(',') === -1){
+		return "<a href=\"javascript:openInvo('"+v+"');\">"+v+"</a>";
+	}else{
+		var a = v.split(',');
+		var s = '';
+		for(var i=0;i<a.length;i++){
+			s+="<a href=\"javascript:openInvo('"+a[i]+"');\">"+a[i]+"</a>,";
+		}
+		return s.substring(0,s.length-1);
+	}
+};
 var exhiRender  = function(v){
 	var idx=v.lastIndexOf("/");
 	fn=v.substr(idx+1,v.length);
@@ -690,20 +701,20 @@ function createGMTree(){
 	var sewa = CreateNode(C_SEWA,'SEWA',M1_J+G_SEWA,showG_SEWA);
 	var curr = CreateNode(C_CURR,'CURR',M1_J+G_CURR,showG_CURR);
 	var chcl = CreateNode(C_CHCL,'CHCL',M1_J+G_CHCL,showG_CHCL);
-	var char = CreateNode(C_CHAR,'CHAR',M1_J+G_CHAR,showG_CHAR);
+	var char2 = CreateNode(C_CHAR,'CHAR',M1_J+G_CHAR,showG_CHAR);
 	var coba = CreateNode(C_COBA,'COBA',M1_J+G_COBA,showG_COBA);
 	
-	var set = new Ext.tree.TreeNode({text:C_SETTLE_RELATED,leaf:false});
-	set.appendChild(sewa);
-	set.appendChild(curr);
-	set.appendChild(chcl);
-	set.appendChild(char);
-	set.appendChild(coba);
+	var sett = new Ext.tree.TreeNode({text:C_SETTLE_RELATED,leaf:false});
+	sett.appendChild(sewa);
+	sett.appendChild(curr);
+	sett.appendChild(chcl);
+	sett.appendChild(char2);
+	sett.appendChild(coba);
 		
 	var root=new Ext.tree.TreeNode({text:C_MASTER_DATA,leaf:false});
 	root.appendChild(biz);
 	root.appendChild(cus);
-	root.appendChild(set);
+	root.appendChild(sett);
 	
 	var tree = new Ext.tree.TreePanel({disabled:NR(M1_S),title:C_MASTER_DATA,rootVisible:false,
 		animate:true,enableDD:false,autoScroll:true,containerScroll:true,root:root

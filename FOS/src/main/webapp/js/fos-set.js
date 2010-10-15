@@ -3494,7 +3494,7 @@ Fos.ExalWin = function(store,p) {
 				]});
 	
 	Fos.ExalWin.superclass.constructor.call(this, {title:C_EXPE_ALLOCATION,modal:true,width:800,height:600,maximizable:true,
-		plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',layout:'border',items:[expeGrid,consGrid,exalGrid,
+		plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',layout:'border',items:[expeGrid,consGrid,exalGrid
 		    ]}); 
 };
 Ext.extend(Fos.ExalWin, Ext.Window);
