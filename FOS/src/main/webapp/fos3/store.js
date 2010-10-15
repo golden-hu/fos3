@@ -1213,6 +1213,7 @@ var T_PRCH='14';
 var T_PAY_PLAN='15';
 var T_PROF_SALES='16';
 var T_PTEU='17';
+var T_BUDS='18';
 
 var A_GROU='01';
 var A_ROLE='02';

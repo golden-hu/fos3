@@ -178,6 +178,7 @@ var C_STAT_PROFIT='利润分析表';
 var C_STAT_BIZ_SUM_SALES='业务员业务量汇总表';
 var C_STAT_PROFIT_SALES='业务员利润统计表';
 var C_STAT_BIZ_DETAIL='业务明细统计表';
+var C_STAT_BIZ_DETAIL_SALES='业务员业务明细统计表';
 var C_STAT_AR_AC='应收账款账龄分析表';
 var C_STAT_AP_AC='应付账款账龄分析表';
 var C_STAT_ARC='客户应收费用统计表';

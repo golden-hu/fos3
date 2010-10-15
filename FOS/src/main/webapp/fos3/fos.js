@@ -96,7 +96,7 @@ Fos.StatContProfitTab = function(){
 };
 Ext.extend(Fos.StatContProfitTab, Ext.Panel);
 
-Fos.StatDetailTab = function(){
+Fos.StatDetailTab = function(a){
 	var G_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_STAT_NO_GROUP],['4',C_BOOKER],['7',C_GROU],['5',C_SALES],['1',C_SHLI],['2',C_VOYA],['3',C_CARRIER],['6',C_OPERATOR]]});
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
 	var t1=new Ext.form.ComboBox({width:80,displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'0',
@@ -105,7 +105,7 @@ Fos.StatDetailTab = function(){
     var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
     var t4=new Ext.form.ComboBox({width:80,displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'0',
          	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:DT_S});
-    var doc=new Ext.ux.IFrameComponent({id:'STDE', url:''});    
+    var doc=new Ext.ux.IFrameComponent({id:a, url:''});    
 	var check=function(){
 		if(!t2.getValue()){XMG.alert(SYS,M_INPUT_START_TIME,function(){t2.focus();},this);return;};
 		if(!t3.getValue()){XMG.alert(SYS,M_INPUT_END_TIME,function(){t3.focus();},this);return;};
@@ -123,7 +123,7 @@ Fos.StatDetailTab = function(){
 		var consShipType=this.find('name','consShipType')[0].getValue();
 		var consPod=this.find('name','consPod')[0].getValue();
 		var consOperatorId=this.find('name','consOperatorId')[0].getValue();
-		var url = SERVICE_URL+'?A=REPT_BUDE&g='+t1.value+'&dt='+t4.value+'&F='+t2.value+'&T='+t3.value;		
+		var url = SERVICE_URL+'?A='+a+'&g='+t1.value+'&dt='+t4.value+'&F='+t2.value+'&T='+t3.value;		
 		if(consCarrier) url+='&consCarrier='+consCarrier;
 		if(vessId) url+='&vessId='+vessId;
 		if(shliId) url+='&shliId='+shliId;
@@ -138,15 +138,15 @@ Fos.StatDetailTab = function(){
 		if(consOperatorId) url+='&consOperatorId='+consOperatorId;
 		return url;
 	};
-	this.report=function(){check();Ext.get('IF_STDE').dom.src=this.getUrl();};
+	this.report=function(){check();Ext.get('IF_'+a).dom.src=this.getUrl();};
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	this.expExcel=function(){check();OWW(this.getUrl()+'&format=xls');};
 	Fos.StatDetailTab.superclass.constructor.call(this, {    
-    id:'T_BUDE',title:C_STAT_BIZ_DETAIL,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+    id:a,title:a=='T_BUDE'?C_STAT_BIZ_DETAIL:C_STAT_BIZ_DETAIL_SALES,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
 		tbar:[{xtype:'tbtext',text:C_GROUP_TYPE},t1,'-',
 			t4,{xtype:'tbtext',text:C_FROM},t2,{xtype:'tbtext',text:C_TO},t3,'-',
-			{text:C_GEN_REPORT,disabled:NR(M1_T+T_BUDE+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
-			{text:C_EXPORT,disabled:NR(M1_T+T_BUDE+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.expExcel}]}},'->',
+			{text:C_GEN_REPORT,disabled:NR(M1_T+(a=='T_BUDE'?T_BUDE:T_BUDS)+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
+			{text:C_EXPORT,disabled:NR(M1_T+(a=='T_BUDE'?T_BUDE:T_BUDS)+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.expExcel}]}},'->',
 			{text:C_CLEAR_FILTER,iconCls:'rotate',scope:this,handler:this.clear}],
 		items:[{title:C_FILTER_MORE,layout:'column',name:'sf',xtype:'form',layoutConfig:{columns:4},height:120,frame:true,deferredRender:false,collapsible:true,collapsed:true,items:[
 	        	{columnWidth:.25,layout:'form',labelWidth:60,labelAlign:'right',border:false,items:[
@@ -805,7 +805,8 @@ function getStaPanel(){
 	if(!NR(M1_T+T_BUSI)) items[items.length]=NaviMenu(C_STAT_BIZ_SUM_SALES,'REPT_BUSI_SALES',function(){return new Fos.StatSalesSumTab();});
 	if(!NR(M1_T+T_BUEX)) items[items.length]=NaviMenu(C_STAT_PROFIT_SUM,'REPT_BUEX',function(){return new Fos.StatSumTab('REPT_BUEX');});
 	if(!NR(M1_T+T_PTEU)) items[items.length]=NaviMenu(C_STAT_PROFIT_CONT,'REPT_PTEU',function(){return new Fos.StatContProfitTab();});
-	if(!NR(M1_T+T_BUDE)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL,'T_BUDE',function(){return new Fos.StatDetailTab();});
+	if(!NR(M1_T+T_BUDE)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL,'REPT_BUDE',function(){return new Fos.StatDetailTab('REPT_BUDE');});
+	if(!NR(M1_T+T_BUDS)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL_SALES,'REPT_BUDS',function(){return new Fos.StatDetailTab('REPT_BUDS');});
 	if(!NR(M1_T+T_PROF)) items[items.length]=NaviMenu(C_STAT_PROFIT,'REPT_PROF',function(){return new Fos.StatProfitTab('REPT_PROF');});
 	if(VERSION==0&&!NR(M1_T+T_PROF_SALES)) items[items.length]=NaviMenu(C_STAT_PROFIT_SALES,'REPT_PROF_SALES',function(){return new Fos.StatProfitTab('REPT_PROF_SALES');});
 	if(!NR(M1_T+T_ACAR)) items[items.length]=NaviMenu(C_STAT_AR_AC,'T_ACAR',function(){return new Fos.StatACTab('AR');});
