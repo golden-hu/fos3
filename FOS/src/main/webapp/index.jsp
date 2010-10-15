@@ -5,6 +5,7 @@
 <script type="text/javascript" src="js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js/resource_Zh_Cn.js"></script>
 <script type="text/javascript" src="js/ext-all.js"></script>
+<script type="text/javascript" src="js/version.js"></script>
 <script type="text/javascript" src="js/constant.js"></script>
 <script type="text/javascript" src="js/fos-sys.js"></script>
 <script type="text/javascript" src="js/store.js"></script>
