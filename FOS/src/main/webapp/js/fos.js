@@ -1,7 +1,7 @@
-﻿var getUN=function(p){var a=[];a[a.length]=['EACH','1'];if(p.get('consTotalMeasurement')){a[a.length]=['CBM',p.get('consTotalMeasurement')];}if(p.get('consTotalGrossWeight')){a[a.length]=['KG',p.get('consTotalGrossWeight')];}var s=p.get('consContainersInfo');if(s){s=s.replace(/(^\s*)|(\s*$)/g, "");var idx=s.indexOf(' ');if(idx==0){var b=s.split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}else{var c=s.split(' ');for(i=0;i<c.length;i++){var b=c[i].split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}}}return a;};
-var openCons=function(n){store = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',reader:new Ext.data.XmlReader({record:'FConsign'}, FConsign)});store.load({params:{consNo:n},callback:function(re,o,s){if(s&&re.length>0)showConsign(re[0]);}});};
+﻿var getUN=function(p){var a=[];a[a.length]=['EACH','1'];if(p.get('consTotalMeasurement')){a[a.length]=['CBM',p.get('consTotalMeasurement')];}if(p.get('consTotalGrossWeight')){a[a.length]=['KG',p.get('consTotalGrossWeight')];}var s=p.get('consContainersInfo');if(s){s=s.replace(/(^\s*)|(\s*$)/g, "");var idx=s.indexOf(' ');if(idx==0){var b=s.split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}else{var c=s.split(' ');for(var i=0;i<c.length;i++){var b=c[i].split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}}}return a;};
+var openCons=function(n){var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',reader:new Ext.data.XmlReader({record:'FConsign'}, FConsign)});store.load({params:{consNo:n},callback:function(re,o,s){if(s&&re.length>0)Fos.showConsign(re[0]);}});};
 var openInvo=function(n){
-	store = new Ext.data.Store({url: SERVICE_URL+'?A='+'INVO_Q',reader:new Ext.data.XmlReader({record:'SInvoice'}, SInvoice)});
+	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'INVO_Q',reader:new Ext.data.XmlReader({record:'SInvoice'}, SInvoice)});
 	store.load({params:{invoNo:n},callback:function(re,o,s){if(s&&re.length>0)	showInvoice(re[0]);}});
 };
 
@@ -449,7 +449,7 @@ Fos.StatApTab = function(){
 Ext.extend(Fos.StatApTab, Ext.Panel);
 
 Fos.SalesCommissionTab = function(){
-    var d=new Date();y=d.format('Y');m=d.format('m');    
+    var d=new Date();var y=d.format('Y');var m=d.format('m');    
     var t1=new Ext.form.ComboBox({width:80,value:y,displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:YY_S});
     var t2=new Ext.form.ComboBox({width:80,value:m,displayField:'NAME',valueField:'CODE',triggerAction:'all',
@@ -506,7 +506,7 @@ Ext.extend(Fos.SalesCommissionTab,Ext.Panel);
 
 
 Fos.StatPayPlanTab = function(t){
-    var d=new Date();y=d.format('Y');m=d.format('m');    
+    var d=new Date();var y=d.format('Y');var m=d.format('m');    
     var t1=new Ext.form.ComboBox({width:80,value:y,displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:YY_S});
     var t2=new Ext.form.ComboBox({width:80,value:m,displayField:'NAME',valueField:'CODE',triggerAction:'all',
@@ -555,7 +555,7 @@ Fos.StatWOTab = function(t){
 };
 Ext.extend(Fos.StatWOTab, Ext.Panel);
 Fos.StatAraTab = function(t){
-    var d=new Date();y=d.format('Y');
+    var d=new Date();var y=d.format('Y');
     var t1=new Ext.form.ComboBox({width:80,value:y,displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:YY_S});   
     var doc=new Ext.ux.IFrameComponent({id:t=='R'?'ARA':'APA', url:''});
@@ -829,7 +829,7 @@ function getCusPanel(){
 	if(!NR(M1_V+V_SAQU+F_V)) items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
 	if(!NR(M1_T+T_SALES)) items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
 	if(!NR(M1_V+V_CUST+F_V)) items[items.length]=NaviMenu(C_CUST,'G_CUST',function(){return new Fos.CustomerGrid();});
-	if(!NR(M1_V+V_CUCA+F_V)) items[items.length]=NaviMenu(C_CUCA,'G_CUCA',function(){return showCustomerCategory();});
+	if(!NR(M1_V+V_CUCA+F_V)) items[items.length]=NaviMenu(C_CUCA,'G_CUCA',function(){return Fos.showCustomerCategory();});
 	return  new Ext.Panel({title:C_CUST+'(9)',collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -943,7 +943,7 @@ function createBulkTree(){
 		root.appendChild(fcon);
 	}
 	if(!NR(M1_B+M2_BV)){
-		var voya = CreateNode(C_SHIP_DATE,'VOYA',M1_B+M2_BV,function(){return showG_VOYA();});
+		var voya = CreateNode(C_SHIP_DATE,'VOYA',M1_B+M2_BV,function(){return Fos.showG_VOYA();});
 		root.appendChild(voya);
 		var task = CreateNode(C_TASK_LIST,'TASK_B',M1_B+M2_BV,function(){return new Fos.TaskTab(BC_E,BT_B);});
 		root.appendChild(task);
@@ -1175,7 +1175,7 @@ function createFunctionTree(store,nodeListener){
 		selModel:new Ext.tree.MultiSelectionModel(),
 		listeners:nodeListener
 	});
-	fp = {};
+	var fp = {};
 	var maxDep = 0;var root;
 	var a = store.getRange();
 	for(var i=0;i<a.length;i++){

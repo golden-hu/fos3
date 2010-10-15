@@ -1,4 +1,4 @@
-﻿var showCustomerCategory = function() {
+﻿Fos.showCustomerCategory = function() {
 	var store = GS('CUCA_Q','CCustomerCategory',CCustomerCategory,'cucaId','DESC','',false);
 	store.load();
     var sm=getCSM();
@@ -73,9 +73,9 @@ Fos.CustomerGrid = function() {
             	if(btn == 'yes') {
             		var w = new Fos.CustMergeWin();
         			w.addButton({text:C_OK,handler:function(){        				
-        				custId = w.custId;
+        				var custId = w.custId;
         				if(custId!=''){
-	        				custIds='';
+	        				var custIds='';
 	        				var a=sm.getSelections();
 	        				for(var i=0;i<a.length;i++){
 	        					if(custIds=='') custIds=a[i].get('custId');
@@ -366,7 +366,7 @@ Fos.CustomerLW = function(store) {
         	{fieldLabel:C_CONTACT,name:'custContact',xtype:'textfield',anchor:'90%'}]},
 	    {columnWidth:.33,layout:'form',border:false,items:[
 	    	{fieldLabel:C_ESNAME,tabIndex:2,name:'custSNameEn',xtype:'textfield',anchor:'90%'},
-	    	{fieldLabel:C_CPTY,name:'custType',xtype:'combo',store:COPR_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	    	{fieldLabel:C_CPTY,name:'custType',xtype:'combo',store:COPR_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
 	     	]},
 		{columnWidth:.34,layout:'form',border:false,items:[
 			{fieldLabel:C_CUCA,tabIndex:3,name: 'cucaId',xtype:'combo',store:getCUCA_S(),displayField:'cucaName',valueField:'cucaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
@@ -825,7 +825,7 @@ Fos.PriceSheetTab = function(p){
 		var raj=[];
 		var a =this.store.getModifiedRecords();
 		if(a.length>0) raj=ATJ(a,CPriceLine);		
-		var cc=[];rcj=[];
+		var cc=[];var rcj=[];
 		var ca =this.prreStore.getRange();
 		for(var i=0;i<ca.length;i++){if(ca[i].dirty) cc[cc.length]=ca[i];};
 		if(cc.length>0) rcj=ATJ(cc,CPriceRecord);		
@@ -876,7 +876,7 @@ Fos.PriceSheetTab = function(p){
 	this.effect=function(){this.updateStatus(1);};
     this.expiry=function(){this.updateStatus(2);};
     this.updateToolBar = function(){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		tb.getComponent('TB_A').setDisabled(p.get('prshStatus')!=0);
     	tb.getComponent('TB_B').setDisabled(p.get('prshStatus')!=0);
     	tb.getComponent('TB_C').setDisabled(p.get('prshStatus')!=0);
@@ -1872,7 +1872,7 @@ Fos.SalesQuotaGrid = function() {
 	{header:C_BASE_PROFIT,dataIndex:'saquBaseProfit',width:80,editor:new Ext.form.NumberField({decimalPrecision:2})},
 	{header:C_COMMISION_RATE,dataIndex:'saquCommissionRate',width:80,editor:new Ext.form.NumberField({decimalPrecision:4})}	
 	],defaults:{sortable:true,width:100}});
-	var d=new Date();y=d.format('Y');m=d.format('m');
+	var d=new Date();var y=d.format('Y');var m=d.format('m');
 	this.add=function(){
 		this.saquId=this.saquId-1;
 		var t = new CSalesQuota({saquId:this.saquId,saquSalesId:'',saquSalesName:'',saquYear:y,saquMonth:m,

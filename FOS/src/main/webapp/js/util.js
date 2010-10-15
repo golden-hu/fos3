@@ -33,7 +33,7 @@ var invoRender  = function(v){
 };
 var exhiRender  = function(v){
 	var idx=v.lastIndexOf("/");
-	fn=v.substr(idx+1,v.length);
+	var fn=v.substr(idx+1,v.length);
 	return "<a href=\"javascript:OW('"+SERVER_URL+v+"');\">"+fn+"</a>";
 };
 var HL=function(c){return '<font color=#ff0000>'+c+'</font>'};
@@ -176,7 +176,7 @@ var getUN=function(p){
 		}
 		else{
 			var c=s.split(' ');
-			for(i=0;i<c.length;i++){
+			for(var i=0;i<c.length;i++){
 				var b=c[i].split('X');
 				if(b.length>0){a[a.length]=[b[1],b[0]];}
 			}
@@ -278,11 +278,11 @@ var EXPM=function(to,cc,sub,msg,t,p,mt){
 	var m=new PMessage({messTo:to,messCc:cc,messSubject:sub,messBody:msg,rowAction:'N'});	
 	var w=new Fos.MailWin(m,t,mt?mt:1);
 	w.addButton({text:C_SEND,handler:function(){
-		to= w.findById('to').getValue();
-		cc= w.findById('cc').getValue();
-		sub= w.findById('sub').getValue();
-		body= w.findById('body').getValue();
-		tid=w.findById('tempId').getValue();
+		var to= w.findById('to').getValue();
+		var cc= w.findById('cc').getValue();
+		var sub= w.findById('sub').getValue();
+		var body= w.findById('body').getValue();
+		var tid=w.findById('tempId').getValue();
 		m.set('messTo',to);
 		m.set('messCc',cc);
 		m.set('messSubject',sub);
@@ -376,7 +376,7 @@ var STX4R=function(store,t,pid){
 	return xml;
 };
 var RTX = function(r,t,rt){
-	f=rt.prototype.fields;
+	var f=rt.prototype.fields;
 	var x='<'+t+'>\n';
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
 	for(var i=0;i<f.length;i++){
@@ -402,7 +402,7 @@ var RTX = function(r,t,rt){
 
 var ATX = function(a,t,rt){
 	var x='';
-	f=rt.prototype.fields;
+	var f=rt.prototype.fields;
 	for(var j=0;j<a.length;j++)
 	{
 		var r=a[j];
@@ -444,16 +444,16 @@ var JTR = function(json,rt){
 	for(var j = 0, jlen = fields.length; j < jlen; j++){
 		var f = fields.items[j];
 		var fn=f.name;
-		v = json[fn];
+		var v = json[fn];
 		values[fn] = v;
 	}
 	var record = new rt(values);
 	return record;
 };
 var RTJ = function(r,rt){
-	f=rt.prototype.fields;	
+	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
-	v={};
+	var v={};
 	for(var i=0;i<f.length;i++){
 		var item = f.items[i];
 		var n = item.name;
@@ -474,7 +474,7 @@ var RTJ = function(r,rt){
 };
 var RJ= function(rj,t){var j={};j[t]=rj;return j;};
 var ATJ = function(a,rt){
-	f=rt.prototype.fields;
+	var f=rt.prototype.fields;
 	var ra=[];
 	for(var j=0;j<a.length;j++)
 	{
@@ -489,7 +489,7 @@ var FOSU=function(store,a,rt){
 	var fields = rt.prototype.fields;
 	//var sa=store.getModifiedRecords();
 	var sa=store.getRange();
-	for(i=0;i<sa.length;i++){
+	for(var i=0;i<sa.length;i++){
 		for(var j=0;j<a.length;j++){	
 			if(sa[i].get('id')==a[j].get('id')){
 				for(var k = 0;k < fields.length;k++){
@@ -509,7 +509,7 @@ var FOSU=function(store,a,rt){
 var FOSUJ=function(store,a,rt){
 	var fields = rt.prototype.fields;
 	var sa=store.getModifiedRecords();
-	for(i=0;i<sa.length;i++){
+	for(var i=0;i<sa.length;i++){
 		for(var j=0;j<a.length;j++){	
 			if(sa[i].get('id')==a[j].id){
 				for(var k = 0;k < fields.length;k++){
@@ -584,6 +584,7 @@ var CREATE_KM=function(id,s,g){
 		 	if(tc){
 			 	if(tc==T_MAIN.getActiveTab())
 			 	{
+			 		var tb;
 			 		if(g) tb=s.grid.getTopToolbar();
 			 		else tb=s.getTopToolbar();
 			 		switch(k) {
@@ -816,7 +817,7 @@ Ext.reg('fileuploadfield', Ext.form.FileUploadField);
 
 function checkContainerNo(n){
 	if(n.length!=11) return false;
-	exp=/^[A-Za-z]...{4}d...{7}$/g;
+	var exp=/^[A-Za-z]...{4}d...{7}$/g;
 	if (!exp.test(n)) return false;
 	var a = new Array(11);
 	var CONT_NO_MAP = {A:10,B:12,C:13,D:14,E:15,F:16,G:17,H:18,I:19,J:20,K:21,L:23,M:24,N:25,O:26,P:27,Q:28,R:29,S:30,T:31,U:32,V:34,W:35,X:36,Y:37,Z:38};
@@ -831,8 +832,8 @@ function checkContainerNo(n){
     a[8]=n.substr(8,1);
     a[9]=n.substr(9,1);
     a[10]=n.substr(10,1);
-    s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
-    r=s%11;
+    var s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
+    var r=s%11;
     if(r!=a[10]) return false;
     return true;};
 function round2(v){return (Math.round(v*100)/100)};
@@ -916,12 +917,12 @@ function N2EW(input){
 	var d2=['','','TWENTY ','THIRTY ','FORTY ','FIFTY ','SIXTY ','SEVENTY ','EIGHTY ','NINETY '];
 	var d3=['TEN ','ELEVEN ','TWELVE ','THIRTEEN ','FOURTEEN ','FIFTEEN ','SIXTEEN','SEVENTEEN ','EIGHTEEN ','NINETEEN '];
 	var x = 0;
-	var teen1 = "";teen2 = "";teen3 = "";numName = "";invalidNum = "";
-	var a1 = "";a2 = "";a3 = "";a4 = "";a5 = "";
-	digit = new Array(inputlength);
-	for (i = 0; i < inputlength; i++){digit[inputlength - i] = input.charAt(i)};
-	store = new Array(9);
-	for (i = 0; i < inputlength; i++) {
+	var teen1 = "",teen2 = "",teen3 = "",numName = "",invalidNum = "";
+	var a1 = "",a2 = "",a3 = "",a4 = "",a5 = "";
+	var digit = new Array(inputlength);
+	for (var i = 0; i < inputlength; i++){digit[inputlength - i] = input.charAt(i)};
+	var store = new Array(9);
+	for (var i = 0; i < inputlength; i++) {
 		x= inputlength - i;
 		switch (x) {
 			case x=9: store[x] = d1[digit[x]]; break;

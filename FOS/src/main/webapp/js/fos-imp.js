@@ -297,7 +297,7 @@ Fos.DoGrid = function(p,store,frm) {
 	this.imp=function(){
 		var hbl_s = GS('BL_Q','FBl',FBl,'blId','DESC','','S_HBL','blId');
 		hbl_s.load({params:{consId:p.get('consId'),blType:'H/BL'},scope:this,callback:function(r,o,s){
-			for(j=0;j<r.length;j++){
+			for(var j=0;j<r.length;j++){
 				this.doId=this.doId-1;
 				var d = new FDo({id:GGUID(),doId:'0',doNo:p.get('consMblNo')+'*'+(j+1),
 					blId:r[j].get('blId'),
@@ -829,7 +829,7 @@ Fos.CustomsTab = function(p) {
 			}
 		}]
 	});	
-	newCude=function(){
+	var newCude=function(){
 		var rid=GGUID();
 		var b = new FCustomsDeclaration({id:rid,cudeId:rid,cudeNo:'',consId:p.get('consId'),consNo:p.get('consNo'),
 			consMasterId:p.get('consMasterId'),consMasterNo:p.get('consMasterNo'),
@@ -1298,7 +1298,7 @@ Fos.BLTab = function(p){
 		if(r.get('blMergeFlag')==1||r.get('blSplitFlag')==1){XMG.alert(SYS,M_BL_MERGED);return;}
 		var w = new Fos.NumWin(C_SPLIT_NUM);			
 		w.addButton({text:C_OK},function(){
-			n = w.findById('NUM').getValue();
+			var n = w.findById('NUM').getValue();
 			var a=[];
 			for(var i=0;i<n;i++){
 				var rid=GGUID();

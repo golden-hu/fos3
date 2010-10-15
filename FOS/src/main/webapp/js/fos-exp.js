@@ -1,4 +1,4 @@
-﻿var newConsign = function(bc,bt,st){
+﻿Fos.newConsign = function(bc,bt,st){
 	var sr='';
 	if(bt==BT_G) sr=SR_CUDE; else if(bt==BT_I) sr=SR_INSP;
 	var rid=GGUID();
@@ -18,7 +18,7 @@
 		consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
 	return c;
 };
-var copyConsign = function(p){
+Fos.copyConsign = function(p){
 	var c = new FConsign({});var rid=GGUID();
 	var f = FConsign.prototype.fields;
 	for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];c.set(fn,p.get(fn));};
@@ -37,11 +37,11 @@ var copyConsign = function(p){
 	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');
 	return c;
 };
-var showConsign = function(p){
+Fos.showConsign = function(p){
 	var t = T_MAIN.getComponent('C_'+p.get("id"));
 	if(t){T_MAIN.setActiveTab(t);} else{t = new Fos.ConsignTab(p);T_MAIN.add(t);T_MAIN.setActiveTab(t);}
 };
-var showConsignTabs = function(p){
+Fos.showConsignTabs = function(p){
 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 	if(p.get('rowAction')!='N'){
 		if(!tc.getComponent('T_DOC_'+p.get('id'))){tc.add(new Fos.ConsDocGrid(p));};
@@ -120,7 +120,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	this.addConsign = function(){
 		var c=sm.getSelected();
 		if(c.get('consMasterFlag')=='1'){
-			var b=newConsign(bizClass,bizType,shipType);
+			var b=Fos.newConsign(bizClass,bizType,shipType);
 			b.set('consMasterFlag','0');
 			b.set('consMasterId',c.get('consId'));
 			b.set('consMasterNo',c.get('consNo'));
@@ -146,16 +146,16 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			b.set('consCarrier',c.get('consCarrier'));
 			b.set('consCarrierName',c.get('consCarrierName'));
 			b.set('consExternalFlag',external?external:0);
-			showConsign(b);
+			Fos.showConsign(b);
 		}
 		else XMG.alert(SYS,M_SEL_M_CONS);
 	};
 	this.newConsign = function(){
-		var c=newConsign(bizClass,bizType,shipType);
+		var c=Fos.newConsign(bizClass,bizType,shipType);
 		c.set('consExternalFlag',external?external:'0');
-		showConsign(c);
+		Fos.showConsign(c);
 	};
-	this.editConsign = function(){var b=sm.getSelected();if(b) showConsign(b); else XMG.alert(SYS,M_NO_DATA_SELECTED);};
+	this.editConsign = function(){var b=sm.getSelected();if(b) Fos.showConsign(b); else XMG.alert(SYS,M_NO_DATA_SELECTED);};
 	this.task = function(){
 		var b=sm.getSelected();
 		if(b){var w=new Fos.TaskWin(b);w.show();}
@@ -183,7 +183,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	this.search = function(){var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store);w.show();};
 	var rowCtxEvents = {
 		rowdblclick: function(grid, rowIndex, event){
-			var c=grid.getSelectionModel().getSelected();if(c){showConsign(c);}},
+			var c=grid.getSelectionModel().getSelected();if(c){Fos.showConsign(c);}},
 		render: function(g) {
 			var target = g.getView().el.dom.childNodes[0].childNodes[1];
 			var firstGridDropTarget = new Ext.dd.DropTarget(target, {
@@ -353,7 +353,7 @@ Fos.ConsignTab = function(p){
 		},
 		stopEvent: true
 	});
-	title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
+	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
 	if(p.get('consBizType')==BT_C){
 	   if(p.get('consBizClass')==BC_I&&p.get('consShipType')=='LCL') title+=C_SWITCH; 
 	   else title+=getSHTY(p.get('consShipType'));
@@ -444,7 +444,7 @@ Fos.BookTab = function(p) {
    	 	if(p.get('consBizType')==BT_C){
 	   	 	var c =this.cont_s.getModifiedRecords();
 	   	 	if(c.length>0){
-	   	 		var tc=0;cif='';tn=0;
+	   	 		var tc=0;var cif='';var tn=0;
 	   	 		var df=false;rf=false;bf=false;
 	   	 		var ra = this.contGrid.getStore().getRange();
 	   	 		for(var i=0;i<ra.length;i++){
@@ -517,7 +517,7 @@ Fos.BookTab = function(p) {
 				if(p.get('consBizType')==BT_C&&p.get('consBizClass')==BC_I){
 					var c = XTRA(res.responseXML,'FBl',FBl);FOSU(this.hbl_s,c,FBl);
 				}
-				XMG.alert(SYS,M_S);showConsignTabs(p);
+				XMG.alert(SYS,M_S);Fos.showConsignTabs(p);
 			},
 			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
 			xmlData:FOSX(xml)
@@ -1037,11 +1037,11 @@ Fos.BookTab = function(p) {
 	};
 	
 	this.expEmail=function(code,sub){
-		var to='';var cc='';sub=sub;msg='';
+		var to='';var cc='';sub=sub;var msg='';
 		EXPM(to,cc,sub,msg,code,'consId='+p.get('consId'));
 	};
 	this.expFax=function(code,sub){
-        var to=p.get('custFax');var cc='';sub=sub;msg='';
+        var to=p.get('custFax');var cc='';sub=sub;var msg='';
         EXPM(to,cc,sub,msg,code,'consId='+p.get('consId'),3);
     };
     this.expExcel=function(c){
@@ -1144,7 +1144,7 @@ Fos.BookTab = function(p) {
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;
 	this.updateToolBar = function(s){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		locked=p.get('consStatusLock')==1;
 		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(m+F_M)||locked||disable);
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(m+F_M)||locked||disable||s!=0);
@@ -1170,7 +1170,7 @@ Fos.BookTab = function(p) {
 	var b6={text:C_BOOK_QUIT+'(X)',itemId:'TB_F',iconCls:'consCancel',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==5,scope:this,handler:this.quit};
 	var b7={text:C_BOOK_RENEW+'(R)',itemId:'TB_G',iconCls:'renew',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')<2,scope:this,handler:this.rebook};
 	var b8={text:C_INVALID+'(F)',itemId:'TB_H',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.cancel};
-	var b9={text:C_COPY+'(A)',itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){showConsign(copyConsign(p));}};
+	var b9={text:C_COPY+'(A)',itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){Fos.showConsign(Fos.copyConsign(p));}};
 	var b16={text:C_COPY_FROM+'(C)',itemId:'TB_O',iconCls:'copy',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.copyFrom};
 	
 	var b11={text:C_ARRIVE,itemId:'TB_I',iconCls:'plane',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.arrive};
@@ -1230,7 +1230,7 @@ Fos.BookTab = function(p) {
 					case Ext.EventObject.F:
 						if(!tb.getComponent('TB_H').disabled) this.cancel();break;
 					case Ext.EventObject.A:
-						if(!tb.getComponent('TB_N').disabled) showConsign(copyConsign(p));break;
+						if(!tb.getComponent('TB_N').disabled) Fos.showConsign(Fos.copyConsign(p));break;
 					case Ext.EventObject.C:
 						if(!tb.getComponent('TB_O').disabled) this.copyFrom();break;
 				}}
@@ -2045,7 +2045,7 @@ Fos.ContainerTab = function(p) {
 	var totalGrossWeight = new Ext.form.TextField({width:80,disabled:true});
 	var totalMeasurement = new Ext.form.TextField({width:80,disabled:true});
 	this.reCalculate = function(){
-		var pkg=0;gw=0;me=0;
+		var pkg=0;var gw=0;var me=0;
 		var a=this.store.getRange();
 		for(var i=0;i<a.length;i++){
 			if(a[i].get('contPackageNum')) pkg=pkg+parseFloat(a[i].get('contPackageNum'));
@@ -2057,7 +2057,7 @@ Fos.ContainerTab = function(p) {
 		totalMeasurement.setValue(round2(me));
 	};
 	this.calContainer = function(){		
-		var pkg=0;gw=0;me=0;
+		var pkg=0;var gw=0;var me=0;
 		var a=this.cargoGrid.getStore().getRange();
 		for(var i=0;i<a.length;i++){
 			if(a[i].get('cocaPackageNum')>0) pkg=pkg+parseFloat(a[i].get('cocaPackageNum'));

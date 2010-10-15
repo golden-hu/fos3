@@ -1,4 +1,4 @@
-﻿var showG_VOYA = function() {
+﻿Fos.showG_VOYA = function() {
 	var store = new Ext.data.GroupingStore({url: SERVICE_URL+'?A=VOYA_X',
             reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'GVoyage'}, GVoyage),
             baseParams:{mt:'JSON',xml:''},remoteSort:true,
@@ -68,9 +68,9 @@
     	if(b){
     		var w = new Fos.PaliWin();
 			w.addButton({text:C_OK,handler:function(){
-				harbourId = w.findById('harbourId').getValue();
-				charterId = w.findById('charterId').getValue();
-				harbourName = w.harbourName;
+				var harbourId = w.findById('harbourId').getValue();
+				var charterId = w.findById('charterId').getValue();
+				var harbourName = w.harbourName;
 				OWW(SERVICE_URL+'?A='+A+'&format=xls&charterId='+charterId+'&paliHarbourId='+harbourId+'&paliHarbourName='+harbourName+'&voyaId='+b.get('voyaId'));
 				w.close();
 			}},this);
@@ -84,7 +84,7 @@
     	if(store.baseParams.xml){
     		var json= Ext.util.JSON.decode(store.baseParams.xml);
     		var qa=json.FosRequest.data.fosQuery;
-    		for(i=0;i<qa.length;i++){
+    		for(var i=0;i<qa.length;i++){
     			if(qa[i].value==GE)
     				url+='&'+qa[i].key+'F='+qa[i].value;
     			else if(qa[i].value==LE)
@@ -103,8 +103,8 @@
     	if(b){
 	    	var w = new Fos.ExcoWin();
 			w.addButton({text:C_OK,handler:function(){
-				harbourId = w.findById('harbourId').getValue();
-				harbourName = w.harbourName;
+				var harbourId = w.findById('harbourId').getValue();
+				var harbourName = w.harbourName;
 				OWW(SERVICE_URL+'?A=REPT_EXCO&format=xls&paliHarbourId='+harbourId+'&paliHarbourName='+harbourName+'&voyaId='+b.get('voyaId'));
 				w.close();
 			}},this);
@@ -353,7 +353,7 @@ Fos.PakingListGrid = function(T){
 				success: function(res){
 					var a = XTRA(res.responseXML,'FPackingList',FPackingList);
 					var fields = FPackingList.prototype.fields;			
-					for(i=0;i<sa.length;i++){
+					for(var i=0;i<sa.length;i++){
 						for(var j=0;j<a.length;j++){	
 							if(sa[i].get('id')==a[j].get('id')){
 								for(var k = 0;k < fields.length;k++){
@@ -394,12 +394,12 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.TransWin();
 			w.addButton({text:C_OK,handler:function(){
-				trliTrackType = w.findById('trliTrackType').getValue();
-				trliTranDate = w.findById('trliTranDate').getValue();
-				trliStationId = w.findById('trliStationId').getValue();
-				trliArriveDate = w.findById('trliArriveDate').getValue();
-				trliLocation = w.findById('trliLocation').getValue();
-				stationName = w.stationName;
+				var trliTrackType = w.findById('trliTrackType').getValue();
+				var trliTranDate = w.findById('trliTranDate').getValue();
+				var trliStationId = w.findById('trliStationId').getValue();
+				var trliArriveDate = w.findById('trliArriveDate').getValue();
+				var trliLocation = w.findById('trliLocation').getValue();
+				var stationName = w.stationName;
 				var ra=[];            
 				for(var i=0;i<a.length;i++){
 					var r=a[i];var rid =GGUID();
@@ -451,8 +451,8 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.HarbourWin();
 			w.addButton({text:C_OK,handler:function(){
-				harbourId = w.findById('paliHarbourId').getValue();
-				harbourName = w.harbourName;
+				var harbourId = w.findById('paliHarbourId').getValue();
+				var harbourName = w.harbourName;
 				for(var i=0;i<a.length;i++){a[i].set('paliHarbourId',harbourId);a[i].set('paliHarbourName',harbourName);}
 				w.close();
 			}},this);
@@ -466,8 +466,8 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.StationWin();
 			w.addButton({text:C_OK,handler:function(){
-				stationId = w.findById('paliStationId').getValue();
-				stationName = w.stationName;
+				var stationId = w.findById('paliStationId').getValue();
+				var stationName = w.stationName;
 				for(var i=0;i<a.length;i++){
 				    a[i].set('paliStationId',stationId);
 				    a[i].set('paliStationName',stationName);
@@ -488,7 +488,7 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.DateSelWin(C_PACKING_ARRIVE_DATE);
 			w.addButton({text:C_OK,handler:function(){
-				dd = w.findById('dd').getValue();
+				var dd = w.findById('dd').getValue();
 				for(var i=0;i<a.length;i++){a[i].set('paliArriveDate',dd);}
 				w.close();
 			}},this);
@@ -510,7 +510,7 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.TrackTypeWin(C_TRACK_TYPE);
 			w.addButton({text:C_OK,handler:function(){
-				paliTrackType = w.findById('paliTrackType').getValue();
+				var paliTrackType = w.findById('paliTrackType').getValue();
 				for(var i=0;i<a.length;i++){a[i].set('paliTrackType',paliTrackType);}
 				w.close();
 			}},this);
@@ -524,7 +524,7 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.TrackTypeWin(C_TRACK_TYPE_P);
 			w.addButton({text:C_OK,handler:function(){
-				paliTrackType = w.findById('paliTrackType').getValue();
+				var paliTrackType = w.findById('paliTrackType').getValue();
 				for(var i=0;i<a.length;i++){a[i].set('paliTrackTypeP',paliTrackType);}
 				w.close();
 			}},this);
@@ -538,8 +538,8 @@ Fos.PakingListGrid = function(T){
 		if(a.length){
 			var w = new Fos.PackWin();			
 			w.addButton({text:C_OK,handler:function(){
-				packId = w.findById('packId').getValue();
-				packName = w.packName;
+				var packId = w.findById('packId').getValue();
+				var packName = w.packName;
 				for(var i=0;i<a.length;i++){a[i].set('packId',packId);a[i].set('packName',packName);}
 				w.close();
 			}},this);
@@ -560,7 +560,7 @@ Fos.PakingListGrid = function(T){
         if(a.length){
             var w = new Fos.LenWin(C_LENGTH);          
             w.addButton({text:C_OK,handler:function(){
-                len = w.findById('len').getValue();
+                var len = w.findById('len').getValue();
                 for(var i=0;i<a.length;i++){a[i].set('paliLength',len);a[i].set('paliTotalLength',len*a[i].get('paliPieces'))}
                 w.close();
             }},this);
@@ -574,7 +574,7 @@ Fos.PakingListGrid = function(T){
         if(a.length){
             var w = new Fos.LenWin(C_TOTAL_LENGTH);          
             w.addButton({text:C_OK,handler:function(){
-                len = w.findById('len').getValue();
+                var len = w.findById('len').getValue();
                 for(var i=0;i<a.length;i++){a[i].set('paliTotalLength',len);
                 if(a[i].get('paliPieces')>0) a[i].set('paliLength',len/a[i].get('paliPieces'))}
                 w.close();
@@ -589,8 +589,8 @@ Fos.PakingListGrid = function(T){
         if(a.length){
             var w = new Fos.UnitWin();          
             w.addButton({text:C_OK,handler:function(){
-                unitName = w.findById('unitName').getValue();
-                unitId = w.unitId;
+                var unitName = w.findById('unitName').getValue();
+                var unitId = w.unitId;
                 for(var i=0;i<a.length;i++){a[i].set('unitNameLen',unitName);a[i].set('unitIdLen',unitId);}
                 w.close();
             }},this);
@@ -604,9 +604,9 @@ Fos.PakingListGrid = function(T){
 	this.exp=function(){
 		var w = new Fos.PaliExpWin();
 		w.addButton({text:C_OK,handler:function(){
-			harbourId = w.findById('harbourId').getValue();
-			createTime = w.findById('createTime').getValue().format(DATEF);
-			harbourName = w.harbourName;
+			var harbourId = w.findById('harbourId').getValue();
+			var createTime = w.findById('createTime').getValue().format(DATEF);
+			var harbourName = w.harbourName;
 			OWW(SERVICE_URL+'?A=REPT_PALI&format=xls&paliHarbourId='+harbourId+'&paliHarbourName='+harbourName+'&createTime='+createTime);
 			w.close();
 		}},this);
@@ -616,7 +616,7 @@ Fos.PakingListGrid = function(T){
 	this.expInv=function(){
 		var w = new Fos.CustSelWin();
 		w.addButton({text:C_OK,handler:function(){
-			charterId = w.custId;
+			var charterId = w.custId;
 			OWW(SERVICE_URL+'?A=REPT_PAIV&format=xls&charterId='+charterId);
 			w.close();
 		}},this);
@@ -627,7 +627,7 @@ Fos.PakingListGrid = function(T){
 	this.expOverDuty=function(){
         var w = new Fos.DateSelWin(C_STAT_DATE);
         w.addButton({text:C_OK,handler:function(){
-            dd = w.findById('dd').getValue();
+            var dd = w.findById('dd').getValue();
             OWW(SERVICE_URL+'?A=REPT_PAOD&format=xls&d='+dd.format(DATEF));
             w.close();
         }},this);
@@ -637,7 +637,7 @@ Fos.PakingListGrid = function(T){
     this.expLiveOverDuty=function(){
         var w = new Fos.DateSelWin(C_STAT_DATE);
         w.addButton({text:C_OK,handler:function(){
-            dd = w.findById('dd').getValue();
+            var dd = w.findById('dd').getValue();
             OWW(SERVICE_URL+'?A=REPT_PAON&format=xls&d='+dd.format(DATEF));
             w.close();
         }},this);
@@ -650,7 +650,7 @@ Fos.PakingListGrid = function(T){
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_PALI_X');
 		 	if(tc && tc==T_MAIN.getActiveTab()){
-		 		tb=this.getTopToolbar();
+		 		var tb=this.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.S:
 					if(!tb.getComponent('TB_S').disabled) this.save();break;
@@ -761,7 +761,7 @@ Fos.PakingListGrid = function(T){
 };
 Ext.extend(Fos.PakingListGrid,Ext.grid.EditorGridPanel);
 Fos.PaliGrid = function(p,store,loliS,frm){
-	blStore = GS('BL_Q','FBl',FBl,'blId','DESC','','','id');
+	var blStore = GS('BL_Q','FBl',FBl,'blId','DESC','','','id');
 	blStore.load({params:{fconId:p.get('fconId')}});
 	var arrived=CHKCLM(C_ARRIVED,'paliStatus',50);
 	var gv=new Ext.grid.GroupingView({
@@ -996,12 +996,12 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(b){
 			var w = new Fos.TransWin(b);
 			w.addButton({text:C_OK,handler:function(){
-				trliTrackType = w.findById('trliTrackType').getValue();
-				trliTranDate = w.findById('trliTranDate').getValue();
-				trliStationId = w.findById('trliStationId').getValue();
-				trliArriveDate = w.findById('trliArriveDate').getValue();
-				trliLocation = w.findById('trliLocation').getValue();
-				stationName = w.stationName;
+				var trliTrackType = w.findById('trliTrackType').getValue();
+				var trliTranDate = w.findById('trliTranDate').getValue();
+				var trliStationId = w.findById('trliStationId').getValue();
+				var trliArriveDate = w.findById('trliArriveDate').getValue();
+				var trliLocation = w.findById('trliLocation').getValue();
+				var stationName = w.stationName;
 				var a=sm.getSelections();var ra=[];
 				for(var i=0;i<a.length;i++){
 					var r=a[i];var rid =GGUID();
@@ -1050,8 +1050,8 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(a.length){
 			var w = new Fos.HarbourWin();
 			w.addButton({text:C_OK,handler:function(){
-				harbourId = w.findById('paliHarbourId').getValue();
-				harbourName = w.harbourName;
+				var harbourId = w.findById('paliHarbourId').getValue();
+				var harbourName = w.harbourName;
 				for(var i=0;i<a.length;i++){a[i].set('paliHarbourId',harbourId);a[i].set('paliHarbourName',harbourName);}
 				w.close();
 			}},this);
@@ -1065,8 +1065,8 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(a.length){
 			var w = new Fos.StationWin();
 			w.addButton({text:C_OK,handler:function(){
-				stationId = w.findById('paliStationId').getValue();
-				stationName = w.stationName;
+				var stationId = w.findById('paliStationId').getValue();
+				var stationName = w.stationName;
 				for(var i=0;i<a.length;i++){
 				    a[i].set('paliStationId',stationId);
 				    a[i].set('paliStationName',stationName);
@@ -1087,7 +1087,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(a.length){
 			var w = new Fos.DateSelWin(C_PACKING_ARRIVE_DATE);
 			w.addButton({text:C_OK,handler:function(){
-				dd = w.findById('dd').getValue();
+				var dd = w.findById('dd').getValue();
 				for(var i=0;i<a.length;i++){a[i].set('paliArriveDate',dd);}
 				w.close();
 			}},this);
@@ -1112,7 +1112,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(a.length){
 			var w = new Fos.TrackTypeWin(C_TRACK_TYPE);
 			w.addButton({text:C_OK,handler:function(){
-				paliTrackType = w.findById('paliTrackType').getValue();
+				var paliTrackType = w.findById('paliTrackType').getValue();
 				for(var i=0;i<a.length;i++){a[i].set('paliTrackType',paliTrackType);}
 				w.close();
 			}},this);
@@ -1126,7 +1126,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(a.length){
 			var w = new Fos.TrackTypeWin(C_TRACK_TYPE_P);
 			w.addButton({text:C_OK,handler:function(){
-				paliTrackType = w.findById('paliTrackType').getValue();
+				var paliTrackType = w.findById('paliTrackType').getValue();
 				for(var i=0;i<a.length;i++){a[i].set('paliTrackTypeP',paliTrackType);}
 				w.close();
 			}},this);
@@ -1140,8 +1140,8 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		if(a.length){
 			var w = new Fos.PackWin();			
 			w.addButton({text:C_OK,handler:function(){
-				packId = w.findById('packId').getValue();
-				packName = w.packName;
+				var packId = w.findById('packId').getValue();
+				var packName = w.packName;
 				for(var i=0;i<a.length;i++){a[i].set('packId',packId);a[i].set('packName',packName);}
 				w.close();
 			}},this);
@@ -1195,7 +1195,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};		
-	cargNameCn=new Ext.form.TextField({name:'cargNameCn',value:p.get('cargNameCn'),width:80,
+	var cargNameCn=new Ext.form.TextField({name:'cargNameCn',value:p.get('cargNameCn'),width:80,
 		listeners:{scope:this,change:function(f,nv,ov){
 		var a=store.getRange();
 		for(var i=0;i<a.length;i++){
@@ -1204,7 +1204,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		}
 	}}
 	});
-	packName = new Ext.form.ComboBox({name:'packId',value:p.get('packId'),store:getPACK_S(),displayField:'packName',valueField:'packId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,width:80,
+	var packName = new Ext.form.ComboBox({name:'packId',value:p.get('packId'),store:getPACK_S(),displayField:'packName',valueField:'packId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,width:80,
 		listeners:{scope:this,select:function(c,r,i){p.set('packName',r.get('packName'));
 			var a=store.getRange();
 			for(var i=0;i<a.length;i++){
@@ -1212,9 +1212,9 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 				a[i].set('packId',r.get('packId'));	a[i].set('packName',r.get('packName'));			
 			}
 	}}});
-	cudeType = new Ext.form.ComboBox({name:'fconCudeType',value:p.get('fconCudeType'),store:CUTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,width:80});
-	invFlag=new Ext.form.Checkbox({name:'fconInvoiceFlag',checked:p.get('fconInvoiceFlag')=='1',width:20});
-	inspFlag=new Ext.form.Checkbox({name:'fconInspectionFlag',checked:p.get('fconInspectionFlag')=='1',width:20});
+	var cudeType = new Ext.form.ComboBox({name:'fconCudeType',value:p.get('fconCudeType'),store:CUTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,width:80});
+	var invFlag=new Ext.form.Checkbox({name:'fconInvoiceFlag',checked:p.get('fconInvoiceFlag')=='1',width:20});
+	var inspFlag=new Ext.form.Checkbox({name:'fconInspectionFlag',checked:p.get('fconInspectionFlag')=='1',width:20});
 	this.saveFcon=function(){		
 		p.set('cargNameCn',cargNameCn.getValue());
 		p.set('packName',packName.getValue());
@@ -1239,7 +1239,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 		 	if(tc){
 			 	if(tc==T_MAIN.getActiveTab())
 			 	{
-			 		tb=this.getTopToolbar();
+			 		var tb=this.getTopToolbar();
 			 		switch(k) {
 			 		case Ext.EventObject.N:
 						if(!tb.getComponent('TB_N').disabled) this.add();break;
@@ -1347,10 +1347,10 @@ Fos.PaliTab = function(p) {
 		loliS.insert(0,e);
 	}});
 	
-	contractNo = new Ext.form.TextField({value:p.get('fconContractNo'),width:80,disabled:true});
-	contractQuantity = new Ext.form.TextField({value:p.get('fconContractQuantity'),width:80,disabled:true});
-	totalPackages = new Ext.form.TextField({value:p.get('fconTotalPackages'),width:80,disabled:true});
-	totalGW = new Ext.form.TextField({value:p.get('fconTotalGrossWeight'),width:80,disabled:true});
+	var contractNo = new Ext.form.TextField({value:p.get('fconContractNo'),width:80,disabled:true});
+	var contractQuantity = new Ext.form.TextField({value:p.get('fconContractQuantity'),width:80,disabled:true});
+	var totalPackages = new Ext.form.TextField({value:p.get('fconTotalPackages'),width:80,disabled:true});
+	var totalGW = new Ext.form.TextField({value:p.get('fconTotalGrossWeight'),width:80,disabled:true});
 		
 	this.reCalculate=function(){
 		var sumP=0;var sumG=0;
@@ -1580,7 +1580,7 @@ Fos.ShipTab = function(p) {
 				var a = XTRA(res.responseXML,'FLoadingList',FLoadingList);
 				var fields = FLoadingList.prototype.fields;
 				var sa=store.getModifiedRecords();
-				for(i=0;i<sa.length;i++){
+				for(var i=0;i<sa.length;i++){
 					for(var j=0;j<a.length;j++){	
 						if(sa[i].get('id')==a[j].get('id')){
 							for(var k = 0;k < fields.length;k++){
@@ -1649,7 +1649,7 @@ Fos.ShipTab = function(p) {
 					pateId:con.get('pateIdR'),pateName:con.get('pateNameR'),pateIdP:con.get('pateIdP'),pateNameP:con.get('pateNameP'),
 					fconId:r.get('fconId'),loliId:r.get('loliId'),deptId:getCFG('DEFAULT_DEPT_B'),consExternalFlag:'0',
 					consFumigateFlag:'0',consQuarantineFlag:'0',consTransferringFlag:'0',version:'0',rowAction:'N'});
-					showConsign(c);
+					Fos.showConsign(c);
    			}},scope:this});
 		}
 	};
@@ -1723,8 +1723,8 @@ Fos.ShipTab = function(p) {
                 items:[{fieldLabel:C_CARRIER,name:'voyaCarrierName',value:p.get('voyaCarrierName'),disabled:true,xtype:'textfield',anchor:'95%'}]},
             {columnWidth:.5,layout:'form',border:false,labelWidth:80,
                 items:[
-                {fieldLabel:C_VOYA_PORTS,name:'voyaPorts',value:p.get('voyaPorts'),disabled:true,xtype:'textfield',anchor:'95%'},
-                ]},
+                {fieldLabel:C_VOYA_PORTS,name:'voyaPorts',value:p.get('voyaPorts'),disabled:true,xtype:'textfield',anchor:'95%'}
+                ]}
 			]},
 			{region:'center',layout:'fit',title:C_SHIP_LIST,border:false,items:[this.cg]}
 			]});
@@ -1734,7 +1734,7 @@ Ext.extend(Fos.ShipTab, Ext.Panel);
 Fos.FConLW = function(p) {    
 	var a=[];
 	a[a.length]={key:'fconStatus',value:2,op:NE};
-	store = new Ext.data.Store({url: SERVICE_URL+'?A='+'FCON_X',
+	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'FCON_X',
 		baseParams:{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))},
 		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FContract'}, FContract),
 		sortInfo:{field:'fconId', direction:'DESC'}});
@@ -2012,7 +2012,7 @@ Fos.ContractListTab = function(T){
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_FCON_'+T);
 		 	if(tc && tc==T_MAIN.getActiveTab()){
-		 		tb=this.getTopToolbar();
+		 		var tb=this.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.N:
 					if(!tb.getComponent('TB_N').disabled) this.add();break;
@@ -2055,7 +2055,7 @@ Fos.ContractListTab = function(T){
     this.expStation=function(){
     	var w = new Fos.StationWin();
 		w.addButton({text:C_OK,handler:function(){
-			stationId = w.findById('paliStationId').getValue();
+			var stationId = w.findById('paliStationId').getValue();
 			EXP('C','PLAC_E',store.baseParams.xml?'&mt=JSON&placId='+stationId+'&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON&placId='+stationId);
 			w.close();
 		}},this);
@@ -2240,7 +2240,7 @@ Fos.FConTab = function(p,store) {
 		 	if(tc){
 			 	if(tc==T_MAIN.getActiveTab())
 			 	{
-			 		tb=this.getTopToolbar();
+			 		var tb=this.getTopToolbar();
 			 		switch(k) {
 			 		case Ext.EventObject.S:
 						if(!tb.getComponent('TB_S').disabled) this.save();break;			 		
@@ -2543,13 +2543,13 @@ Fos.FDocLookupWin = function(store,s){
 		]};	
 	this.reload=function(){
      	var at = t.getActiveTab();
-     	a=[];
+     	var a=[];
      	if(s=='B') a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};
-		else if(s=='C'){title=C_DOC_RETURN_NOT_BACK;
+		else if(s=='C'){
 			a[a.length]={key:'fdocReturnFlag',value:'1',op:EQ};
 			a[a.length]={key:'fdocBackFlag',value:'0',op:EQ};
 		}
-		else if(s=='D'){title=C_DOC_BACK;a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};}     	
+		else if(s=='D'){a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};}     	
      	if(at.getId()=='T_CONS_LOOK_1'){
      		var consNo=at.find('name','consNo')[0].getValue();
      		var consNoM=at.find('name','consNoM')[0].getValue();
@@ -2808,7 +2808,7 @@ Fos.TransWin = function() {
 };
 Ext.extend(Fos.TransWin,Ext.Window);
 
-Fos.consPaliWin = function(consId){
+Fos.ConsPaliWin = function(consId){
 	var store = GS('PALI_X','FPackingList',FPackingList,'paliId','DESC','fconContractNo','','');
 	store.load({params:{consId:consId}});
 	var c1={header:C_PACKING_LABEL,width:100,dataIndex:"paliLabel"};
@@ -2837,10 +2837,10 @@ Fos.consPaliWin = function(consId){
 	var cm=new Ext.grid.ColumnModel({columns:[sm,c15,c1,c2,c3,c4,c5,c20,c6,c7,c8,c9,c10,c11,c12,
 		transFlag,c13,c14,c16,c23,c17,c18,c19,c21,c22],defaults:{sortable:true,width:100}});
 	var grid=new  Ext.grid.GridPanel({border:true,autoScroll:true,plugins:[transFlag],stripeRows:true,store:store,sm:sm,cm:cm});
-	Fos.consPaliWin.superclass.constructor.call(this, {title:C_PACKING_LIST,modal:true,width:600,
+	Fos.ConsPaliWin.superclass.constructor.call(this, {title:C_PACKING_LIST,modal:true,width:600,
         height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid}); 
 };
-Ext.extend(Fos.consPaliWin,Ext.Window);
+Ext.extend(Fos.ConsPaliWin,Ext.Window);
 Fos.HarbourWin = function() {
 	this.harbourName='';
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',items:[

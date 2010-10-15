@@ -193,7 +193,7 @@ Fos.AcloGrid = function() {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_ACLO');
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=grid.getTopToolbar();
+		 		var tb=grid.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.S:
 		 			if(!tb.getComponent('TB_F').disabled) this.search();break;
@@ -307,7 +307,7 @@ Fos.GroupTab = function(p) {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_GROU');
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=this.grid.getTopToolbar();
+		 		var tb=this.grid.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.N:
 		 			if(!tb.getComponent('TB_N').disabled) this.addGrou();break;
@@ -321,7 +321,7 @@ Fos.GroupTab = function(p) {
 	var re = {scope:this,
 		rowselect:function(sm,row,record){
 			if(this.reload==false){
-				var a = us.getRange();b=false;
+				var a = us.getRange();var b=false;
 				for(var i=0;i<a.length;i++){				
 					if(a[i].get('grouId')==this.sel && record.get('grouId') == a[i].get('grouId')){
 						b=true;if(a[i].get('rowAction')=='R') a[i].set('rowAction','M');break;
@@ -404,7 +404,7 @@ Fos.RoleTab = function() {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_ROLE');
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=this.grid.getTopToolbar();
+		 		var tb=this.grid.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.N:
 		 			if(!tb.getComponent('TB_N').disabled) this.addRole();break;
@@ -430,7 +430,7 @@ Fos.RoleFuncWin = function(role) {
 			checkchange:function(n,c){
 				if(!this.reload){
 					var a = us.getRange();
-					b=false;
+					var b=false;
 					for(var i=0;i<a.length;i++){				
 						if(a[i].get('roleId')==role.get('roleId') && n.id == a[i].get('funcCode')){
 							b=true;
@@ -477,7 +477,7 @@ Fos.RoleFuncWin = function(role) {
 		selModel:new Ext.tree.MultiSelectionModel(),
 		listeners:nl
 	});
-	fp = {};
+	var fp = {};
 	var maxDep = 0;var root;
 	var a = funcStore.getRange();
 	for(var i=0;i<a.length;i++){
@@ -696,7 +696,7 @@ Fos.UserTab = function() {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_USER');
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=ug.getTopToolbar();
+		 		var tb=ug.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.N:
 		 			if(!tb.getComponent('TB_N').disabled) this.addUser();break;
@@ -715,7 +715,7 @@ Fos.UserTab = function() {
 		rowselect:function(sm,row,record){
 			if(this.reload==false){
 				var a = urStore.getRange();
-				b=false;
+				var b=false;
 				for(var i=0;i<a.length;i++){				
 					if(a[i].get('userId')==this.sel && record.get('roleId') == a[i].get('roleId')){
 						b=true;if(a[i].get('rowAction')=='R') a[i].set('rowAction','M');break;
@@ -807,7 +807,7 @@ var showG_TEMP = function() {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_TEMP');
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=grid.getTopToolbar();
+		 		var tb=grid.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.N:
 		 			if(!tb.getComponent('TB_N').disabled) this.add();break;
@@ -912,7 +912,7 @@ var showP_COCO = function() {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_COCO');
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=grid.getTopToolbar();
+		 		var tb=grid.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.S:
 		 			if(!tb.getComponent('TB_S').disabled) this.save();break;
@@ -1030,11 +1030,11 @@ Fos.MetoTab = function(p){
 		if(p){										
 			var w = new Fos.MesuWin(t);
 			w.addButton({text:C_OK,handler:function(){
-				mesuSubscriberId = w.mesuSubscriberId;
-				mesuSubscriberName = w.mesuSubscriberName;
-				mesuSubscriberEmail = w.mesuSubscriberEmail;
-				mesuMailFlag=w.mesuMailFlag.getValue()?1:0;
-				mesuImFlag=w.mesuImFlag.getValue()?1:0;
+				var mesuSubscriberId = w.mesuSubscriberId;
+				var mesuSubscriberName = w.mesuSubscriberName;
+				var mesuSubscriberEmail = w.mesuSubscriberEmail;
+				var mesuMailFlag=w.mesuMailFlag.getValue()?1:0;
+				var mesuImFlag=w.mesuImFlag.getValue()?1:0;
 				var rid=GGUID();
 				var e = new PMessageSubscribe({id:rid,mesuId:rid,metoId:p.get('metoId'),
 					mesuSubscriberType:t,mesuSubscriberName:mesuSubscriberName,
@@ -1156,7 +1156,7 @@ Fos.TatyGrid = function(t,bt,bc) {
 	store.load({params:{tatyBizType:bt,tatyBizClass:bc},callback:function(re,o,s){		
 		var sa=store.getRange();
 		var ra=[];
-		for(i=0;i<sa.length;i++){
+		for(var i=0;i<sa.length;i++){
 			var rr=new PTaskType({});
 			rr.set('tatyId',sa[i].get('tatyId'));
 			rr.set('tatyName',sa[i].get('tatyName'));
@@ -1310,7 +1310,7 @@ Fos.TaskTab = function(bc,bt) {
 					}
 					store.removeAll();
 					store.add(a);
-					tb=this.getBottomToolbar();
+					var tb=this.getBottomToolbar();
 					if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(this.page==1);
 					if(tb.getComponent('TB_P')) tb.getComponent('TB_P').setDisabled(this.page==1);
 					if(tb.getComponent('TB_N')) tb.getComponent('TB_N').setDisabled(this.page==this.totalPage);

@@ -317,9 +317,9 @@ Ext.ux.TabCloseMenu = function(){
     }
 };
 var RTJ = function(r,rt){
-	f=rt.prototype.fields;	
+	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
-	v={};
+	var v={};
 	for(var i=0;i<f.length;i++){
 		var item = f.items[i];
 		var n = item.name;
@@ -751,7 +751,7 @@ VoyaTab = function(){
     	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
-   		a=[];
+   		var a=[];
     	var vessName=this.find('name','vessName')[0].getValue();
    		if(vessName) a[a.length]={key:'vessName',value:vessName,op:LI};
    		var voyaName=this.find('name','voyaName')[0].getValue();
@@ -884,7 +884,7 @@ ConsTab = function(){
     	});
     this.search=function(){
    		if(CCUST=='null') return;   		
-   		a=[];
+   		var a=[];
    		a[a.length]={key:'custId',value:CCUST,op:EQ};
     	var consNo=this.find('name','consNo')[0].getValue();
     	if(consNo) a[a.length]={key:'consNo',value:consNo,op:LI};
@@ -987,7 +987,7 @@ BLTab = function(){
     	});
     this.search=function(){
    		if(CCUST=='null') return;   		
-   		a=[];
+   		var a=[];
    		a[a.length]={key:'custId',value:CCUST,op:EQ};
     	var consNo=this.find('name','consNo')[0].getValue();
     	if(consNo) a[a.length]={key:'consNo',value:consNo,op:LI};
@@ -1258,7 +1258,7 @@ BillTab = function(){
     	});
     this.search=function(){
    		if(CCUST=='null') return;   		
-   		a=[];
+   		var a=[];
    		a[a.length]={key:'custId',value:CCUST,op:EQ};
     	var billNo=this.find('name','billNo')[0].getValue();
     	if(billNo) a[a.length]={key:'billNo',value:billNo,op:LI};

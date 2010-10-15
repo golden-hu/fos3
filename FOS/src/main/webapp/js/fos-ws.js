@@ -202,7 +202,7 @@ var W2F=function(r){
 				consStatusSendCont:0,consStatusLock:0,consReassignFrom:0,consStatusSettlement:0,consExternalFlag:0,
 				deptId:getCFG('DEFAULT_DEPT_'+bt),consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
 				consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
-				showConsign(c);
+				Fos.showConsign(c);
 			}    						
 		},scope:this});				
 	}

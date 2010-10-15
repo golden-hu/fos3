@@ -136,7 +136,7 @@
 			}
 			var x = ATX(a,'SExpense',SExpense);
 			if(x!=''){								
-				tb=this.getTopToolbar();
+				var tb=this.getTopToolbar();
 				tb.getComponent('TB_C').setDisabled(true);
 				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXPE_S'},
 					success: function(res){
@@ -211,7 +211,7 @@
 				 	var te=tc.getComponent('T_EXPE_'+p.get('id'));
 				 	if(tc==T_MAIN.getActiveTab()&&te==tc.getActiveTab())
 				 	{
-				 		tb=this.getTopToolbar();
+				 		var tb=this.getTopToolbar();
 				 		switch(k) {
 						case Ext.EventObject.N:
 							if(!tb.getComponent('TB_A').disabled) this.add();break;
@@ -237,7 +237,7 @@
 				 	var te=tc.getComponent('T_EXPE_'+p.get('id'));
 				 	if(tc==T_MAIN.getActiveTab()&&te==tc.getActiveTab())
 				 	{
-				 		tb=this.getTopToolbar();
+				 		var tb=this.getTopToolbar();
 				 		switch(k) {
 						case Ext.EventObject.M:
 							if(!tb.getComponent('TB_A').disabled) this.add();break;
@@ -262,7 +262,7 @@
 				 	var te=tc.getComponent('T_EXPE_'+p.get('id'));
 				 	if(tc==T_MAIN.getActiveTab()&&te==tc.getActiveTab())
 				 	{
-				 		tb=this.getTopToolbar();
+				 		var tb=this.getTopToolbar();
 				 		switch(k) {
 						case Ext.EventObject.A:
 							if(!tb.getComponent('TB_A').disabled) this.add();break;
@@ -279,7 +279,7 @@
 			},stopEvent:true,scope:this});
     }    	
     this.updateTB=function(){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		var locked=p.get('consStatusExp')==1||p.get('consStatusAud')!=0;
 		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(m+F_M)||locked);
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(m+F_R)||locked);
@@ -371,12 +371,12 @@ Fos.ExpenseTab = function(p,f){
                 {fieldLabel:C_REMARKS,name:'consRemarks',value:p.get('consRemarks'),xtype:'textfield',anchor:'95%'}]}
 			]});
 			
-	PCny = new Ext.form.TextField({width:80,disabled:true});
-	PUsd = new Ext.form.TextField({width:80,disabled:true});
-	PEur = new Ext.form.TextField({width:80,disabled:true});
-	PLoc = new Ext.form.TextField({width:80,disabled:true});
-	PRc = new Ext.form.TextField({width:80,disabled:true});
-	PSale = new Ext.form.TextField({width:80,disabled:true});
+	var PCny = new Ext.form.TextField({width:80,disabled:true});
+	var PUsd = new Ext.form.TextField({width:80,disabled:true});
+	var PEur = new Ext.form.TextField({width:80,disabled:true});
+	var PLoc = new Ext.form.TextField({width:80,disabled:true});
+	var PRc = new Ext.form.TextField({width:80,disabled:true});
+	var PSale = new Ext.form.TextField({width:80,disabled:true});
 	this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	var cT={xtype:'tbtext',text:C_SUM_CNY_C};
 	var uT={xtype:'tbtext',text:C_SUM_USD_C};
@@ -388,12 +388,12 @@ Fos.ExpenseTab = function(p,f){
 	var sPT={xtype:'tbtext',text:C_SUM_SALE_P};
 	var sCT={xtype:'tbtext',text:C_SUM_SALE_C};
 	
-	sumCnyR = new Ext.form.TextField({width:80,disabled:true});
-	sumUsdR = new Ext.form.TextField({width:80,disabled:true});
-	sumEurR = new Ext.form.TextField({width:80,disabled:true});
-	sumLocR = new Ext.form.TextField({width:80,disabled:true});
-	sumRcR = new Ext.form.TextField({width:80,disabled:true});
-	sumSaleR = new Ext.form.TextField({width:80,disabled:true});
+	var sumCnyR = new Ext.form.TextField({width:80,disabled:true});
+	var sumUsdR = new Ext.form.TextField({width:80,disabled:true});
+	var sumEurR = new Ext.form.TextField({width:80,disabled:true});
+	var sumLocR = new Ext.form.TextField({width:80,disabled:true});
+	var sumRcR = new Ext.form.TextField({width:80,disabled:true});
+	var sumSaleR = new Ext.form.TextField({width:80,disabled:true});
 	this.sumCnyR=0;this.sumUsdR=0;this.sumEurR=0;this.sumLocR=0;this.sumRcR=0;this.sumSaleR=0;
 	this.rs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	this.calcR=function(){
@@ -423,12 +423,12 @@ Fos.ExpenseTab = function(p,f){
 		bbar:NR(m+S_AP+F_CV)?[sRT,sumSaleR]:[cT,sumCnyR,'-',uT,sumUsdR,'-',eT,sumEurR,'-',lT,sumLocR,'-',sRT,sumSaleR,'-',rT,sumRcR]
 	});	
 	
-	sumCnyP = new Ext.form.TextField({width:80,disabled:true});
-	sumUsdP = new Ext.form.TextField({width:80,disabled:true});
-	sumEurP = new Ext.form.TextField({width:80,disabled:true});
-	sumLocP = new Ext.form.TextField({width:80,disabled:true});
-	sumRcP = new Ext.form.TextField({width:80,disabled:true});
-	sumSaleP = new Ext.form.TextField({width:80,disabled:true});
+	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
+	var sumUsdP = new Ext.form.TextField({width:80,disabled:true});
+	var sumEurP = new Ext.form.TextField({width:80,disabled:true});
+	var sumLocP = new Ext.form.TextField({width:80,disabled:true});
+	var sumRcP = new Ext.form.TextField({width:80,disabled:true});
+	var sumSaleP = new Ext.form.TextField({width:80,disabled:true});
 	this.sumCnyP=0;this.sumUsdP=0;this.sumEurP=0;this.sumLocP=0;this.sumRcP=0;this.sumSaleP=0;	
 	this.ps=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	this.calcP=function(){
@@ -456,12 +456,12 @@ Fos.ExpenseTab = function(p,f){
 	var pP=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_P,collapsible:true,border:false,items:[this.pg],
 		bbar:NR(m+S_AP+F_CV)?[sPT,sumSaleP]:[cT,sumCnyP,'-',uT,sumUsdP,'-',eT,sumEurP,'-',lT,sumLocP,'-',sPT,sumSaleP,'-',rT,sumRcP]
 	});
-	sumCnyC = new Ext.form.TextField({width:80,disabled:true});
-	sumUsdC = new Ext.form.TextField({width:80,disabled:true});
-	sumEurC = new Ext.form.TextField({width:80,disabled:true});
-	sumLocC = new Ext.form.TextField({width:80,disabled:true});
-	sumRcC = new Ext.form.TextField({width:80,disabled:true});
-	sumSaleC = new Ext.form.TextField({width:80,disabled:true});	
+	var sumCnyC = new Ext.form.TextField({width:80,disabled:true});
+	var sumUsdC = new Ext.form.TextField({width:80,disabled:true});
+	var sumEurC = new Ext.form.TextField({width:80,disabled:true});
+	var sumLocC = new Ext.form.TextField({width:80,disabled:true});
+	var sumRcC = new Ext.form.TextField({width:80,disabled:true});
+	var sumSaleC = new Ext.form.TextField({width:80,disabled:true});	
 	this.sumCnyC=0;this.sumUsdC=0;this.sumEurC=0;this.sumLocC=0;this.sumRcC=0;this.sumSaleC=0;	
 	this.cs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	this.calcC=function(){
@@ -541,7 +541,7 @@ Fos.ExpenseTab = function(p,f){
 	this.check=function(){this.updateStatus('1')};
 	this.unCheck=function(){this.updateStatus('0')};
 	this.updateTB=function(){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0);
     	this.rg.updateTB();this.pg.updateTB();this.cg.updateTB();
@@ -628,10 +628,10 @@ Fos.ExpenseTab2 = function(p,f){
                 {fieldLabel:C_REMARKS,name:'consRemarks',value:p.get('consRemarks'),xtype:'textfield',anchor:'95%'}]}
 			]};
 			
-	PCny = new Ext.form.TextField({width:80,disabled:true});
-	PUsd = new Ext.form.TextField({width:80,disabled:true});
-	PLoc = new Ext.form.TextField({width:80,disabled:true});
-	PRc = new Ext.form.TextField({width:80,disabled:true});
+	var PCny = new Ext.form.TextField({width:80,disabled:true});
+	var PUsd = new Ext.form.TextField({width:80,disabled:true});
+	var PLoc = new Ext.form.TextField({width:80,disabled:true});
+	var PRc = new Ext.form.TextField({width:80,disabled:true});
 	
 	this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	var cT={xtype:'tbtext',text:C_SUM_CNY_C};
@@ -639,10 +639,10 @@ Fos.ExpenseTab2 = function(p,f){
 	var lT={xtype:'tbtext',text:C_SUM_LOC_C};	
 	var rT={xtype:'tbtext',text:C_SUM_RC};
 	
-	sumCnyR = new Ext.form.TextField({width:80,disabled:true});
-	sumUsdR = new Ext.form.TextField({width:80,disabled:true});
-	sumLocR = new Ext.form.TextField({width:80,disabled:true});
-	sumRcR = new Ext.form.TextField({width:80,disabled:true});
+	var sumCnyR = new Ext.form.TextField({width:80,disabled:true});
+	var sumUsdR = new Ext.form.TextField({width:80,disabled:true});
+	var sumLocR = new Ext.form.TextField({width:80,disabled:true});
+	var sumRcR = new Ext.form.TextField({width:80,disabled:true});
 	
 	this.sumCnyR=0;this.sumUsdR=0;this.sumLocR=0;this.sumRcR=0;
 	this.rs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
@@ -666,10 +666,10 @@ Fos.ExpenseTab2 = function(p,f){
 	var pR=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',title:C_EXPE_R,collapsible:true,autoscroll:true,border:false,items:[this.rg],
 		bbar:NR(m+S_AP+F_CV)?[]:[cT,sumCnyR,'-',uT,sumUsdR,'-',lT,sumLocR,'-',rT,sumRcR]
 	});		
-	sumCnyP = new Ext.form.TextField({width:80,disabled:true});
-	sumUsdP = new Ext.form.TextField({width:80,disabled:true});
-	sumLocP = new Ext.form.TextField({width:80,disabled:true});
-	sumRcP = new Ext.form.TextField({width:80,disabled:true});
+	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
+	var sumUsdP = new Ext.form.TextField({width:80,disabled:true});
+	var sumLocP = new Ext.form.TextField({width:80,disabled:true});
+	var sumRcP = new Ext.form.TextField({width:80,disabled:true});
 	
 	this.sumCnyP=0;this.sumUsdP=0;this.sumLocP=0;this.sumRcP=0;
 	this.ps=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
@@ -726,7 +726,7 @@ Fos.ExpenseTab2 = function(p,f){
 	this.check=function(){this.updateStatus('1')};
 	this.unCheck=function(){this.updateStatus('0')};
 	this.updateTB=function(){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0);
     	this.rg.updateTB();this.pg.updateTB();
@@ -841,7 +841,7 @@ Fos.ConsignAuditGrid = function() {
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};	
 	this.updateTB=function(r){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_2')) tb.getComponent('TB_2').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=0);
     	if(tb.getComponent('TB_3')) tb.getComponent('TB_3').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=1);
     	if(tb.getComponent('TB_6')) tb.getComponent('TB_6').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=1);
@@ -1286,7 +1286,7 @@ Fos.InvoItemGrid = function(p,frm){
 		 		var te=ti.getComponent('T_INV_EN_'+p.get('id'));
 		 		var tl=ti.getComponent('T_INV_LI_'+p.get('id'));
 		 		if(te==ti.getActiveTab()){		 			
-		 			tb=this.getTopToolbar();
+		 			var tb=this.getTopToolbar();
 		 			switch(k) {
 			 		case Ext.EventObject.A:
 						if(!tb.getComponent('TB_A').disabled) this.add();break;
@@ -1437,7 +1437,7 @@ Fos.InvoEntryGrid = function(p,frm) {
 		 		var ti=tc.getComponent('T_INV_T_'+p.get('id'));
 		 		var tl=ti.getComponent('T_INV_LI_'+p.get('id'));
 		 		if(tl==ti.getActiveTab()){		 			
-		 			tb=this.getTopToolbar();
+		 			var tb=this.getTopToolbar();
 		 			switch(k) {
 			 		case Ext.EventObject.A:
 						if(!tb.getComponent('TB_A').disabled) this.add();break;
@@ -1501,7 +1501,7 @@ Fos.InvoiceTab = function(p) {
 			var e = this.entryGrid.getStore().getModifiedRecords();
 			if(e.length>0){var x = ATX(e,'SInvoiceEntry',SInvoiceEntry);xml=xml+x;};
 		}
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		tb.getComponent('TB_A').setDisabled(true);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'INVO_S'},
 			success: function(res){
@@ -1565,7 +1565,7 @@ Fos.InvoiceTab = function(p) {
     this.renew=function(){this.updateStatus('INVO_U','0');};
     this.cancel=function(){this.updateStatus('INVO_C','2');};
 	this.updateToolBar = function(){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		tb.getComponent('TB_A').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0');
     	tb.getComponent('TB_B').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     	tb.getComponent('TB_C').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
@@ -1582,7 +1582,7 @@ Fos.InvoiceTab = function(p) {
 		 	if(tc){
 			 	if(tc==T_MAIN.getActiveTab())
 			 	{
-			 		tb=this.getTopToolbar();
+			 		var tb=this.getTopToolbar();
 			 		switch(k) {
 			 		case Ext.EventObject.S:
 						if(!tb.getComponent('TB_A').disabled) this.save();break;
@@ -2215,7 +2215,7 @@ Fos.VoucherTab = function(p,prId) {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_VOUC_'+p.get('id'));
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=this.getTopToolbar();
+		 		var tb=this.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.S: if(!tb.getComponent('TB_A').disabled) this.save();break;
 		 		case Ext.EventObject.D: if(!tb.getComponent('TB_B').disabled) this.removeVouc();break;
@@ -2319,7 +2319,7 @@ Fos.PrGrid = function(t){
 		var currCode='CNY';var w=new Fos.CurrencyWin();
 		w.addButton({text:C_OK,handler:function(){
 			currCode = w.findById('currCode').getValue();w.close();
-			id=GGUID();
+			var id=GGUID();
 			var e = new SPr({id:id,prId:id,prNo:'N'+id,prType:t,prDate:new Date(),
 			currCode:currCode,prExRate:getExRate(currCode,'CNY'),prStatus:'0',version:'0',rowAction:'N'});
 			var tab = T_MAIN.add(new Fos.PrTab(e));
@@ -2722,7 +2722,7 @@ Fos.PrTab = function(p) {
 	var b15={itemId:'TB_15',disabled:true,text:C_STATUS_C+getPRST(p.get('prStatus'))};
 	var b16={itemId:'TB_16',text:'(Q)',tooltip:C_COMMIT_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='1',scope:this,handler:this.uncheck0};
 	this.updateToolBar = function(){
-		tb=this.getTopToolbar();
+		var tb=this.getTopToolbar();
 		tb.getComponent('TB_1').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_M)||p.get('prStatus')!='0');
     	tb.getComponent('TB_2').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_R)||p.get('prStatus')!='0'||p.get('rowAction')=='N');
     	if(p.get('prType')=='R'){
@@ -2749,7 +2749,7 @@ Fos.PrTab = function(p) {
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_PR_'+p.get('id'));
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=this.getTopToolbar();
+		 		var tb=this.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.S:if(!tb.getComponent('TB_1').disabled) this.save();break;
 		 		case Ext.EventObject.D:if(!tb.getComponent('TB_2').disabled) this.removePr();break;
@@ -2849,7 +2849,7 @@ Fos.BillGrid = function(t) {
 		],defaults:{sortable:true,width:80}});
 	var rowCtxEvents={rowdblclick:function(grid, rowIndex, event){var c= grid.getSelectionModel().getSelected();if(c){showBill(c);}}};
 	this.add=function(){
-    	id = GGUID();
+    	var id = GGUID();
 		var r = new SBill({id:id,billId:id,billNo:'N'+id,
 			billType:t,billDate:new Date(),currCode:'CNY',billStatus:'0',version:'0',rowAction:'N'});
 		var tab = T_MAIN.add(new Fos.BillTab(r));
@@ -2963,7 +2963,7 @@ Fos.BillTab = function(p){
 		],defaults:{sortable:true}});
 	cm.defaultSortable = true;cm.defaultWidth=100;
     this.recalculate=function(){
-    	var cny=0;usd=0;sum=0;
+    	var cny=0;var usd=0;var sum=0;
     	var curr=p.get('currCode');
     	var cny=0;var usd=0;var loc=0;
 		var d=store.getRange();
@@ -3095,7 +3095,7 @@ Fos.BillTab = function(p){
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_BILL_'+p.get('id'));
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		tb=this.getTopToolbar();
+		 		var tb=this.getTopToolbar();
 		 		switch(k) {
 		 		case Ext.EventObject.S: if(!tb.getComponent('TB_A').disabled) this.save();break;
 		 		case Ext.EventObject.D: if(!tb.getComponent('TB_B').disabled) this.removeBill();break;
@@ -3159,7 +3159,7 @@ Fos.BillTab = function(p){
 };
 Ext.extend(Fos.BillTab, Ext.FormPanel);
 Fos.InvoNoGrid = function() {
-	store = GS('INNO_Q','SInvoiceNo',SInvoiceNo,'innoId','DESC','','S_INNO','id',false);
+	var store = GS('INNO_Q','SInvoiceNo',SInvoiceNo,'innoId','DESC','','S_INNO','id',false);
 	store.load();
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
@@ -3205,7 +3205,7 @@ Fos.ExhiWin = function() {
 };
 Ext.extend(Fos.ExhiWin,Ext.Window);
 Fos.ExhiGrid = function() {
-	store = GS('EXHI_Q','TExportHistory',TExportHistory,'exhiId','DESC','','','',false);
+	var store = GS('EXHI_Q','TExportHistory',TExportHistory,'exhiId','DESC','','','',false);
 	store.load({params:{start:0,limit:C_PS}});
 	var cm=new Ext.grid.ColumnModel({columns:[new Ext.grid.RowNumberer(),
 	{header:C_BATCH_NO,dataIndex:'exhiId',width:50},
@@ -3217,9 +3217,9 @@ Fos.ExhiGrid = function() {
 	this.add=function(){
 		var w = new Fos.ExhiWin();
 		w.addButton({text:C_OK,handler:function(){
-			exhiType = w.findById('exhiType').getValue();
-			exhiCheckDateF = w.findById('exhiCheckDateF').getValue().format(DATEF);
-			exhiCheckDateT = w.findById('exhiCheckDateT').getValue().format(DATEF);	
+			var exhiType = w.findById('exhiType').getValue();
+			var exhiCheckDateF = w.findById('exhiCheckDateF').getValue().format(DATEF);
+			var exhiCheckDateT = w.findById('exhiCheckDateT').getValue().format(DATEF);	
 			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXHI_E',
 				exhiType:exhiType,exhiCheckDateF:exhiCheckDateF,exhiCheckDateT:exhiCheckDateT},
 				success: function(r){XMG.alert(SYS,M_S);store.reLoad({params:{start:0,limit:C_PS}})},
@@ -3238,7 +3238,7 @@ Fos.ExhiGrid = function() {
 Ext.extend(Fos.ExhiGrid, Ext.grid.GridPanel);
 
 Fos.BalaGrid = function() {
-	store = GS('BALA_Q','SBalance',SBalance,'balaId','DESC','','','',false);
+	var store = GS('BALA_Q','SBalance',SBalance,'balaId','DESC','','','',false);
 	store.load({params:{start:0,limit:C_PS}});
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var cm=new Ext.grid.ColumnModel({columns:[new Ext.grid.RowNumberer(),sm,
@@ -3353,10 +3353,10 @@ Fos.ExalWin = function(store,p) {
 			} 
 			else XMG.alert(SYS,M_NOT_FOUND);}});
 	};
-	sumC = new Ext.form.TextField({width:120,disabled:true});
-	sumG = new Ext.form.TextField({width:120,disabled:true});
-	sumP = new Ext.form.TextField({width:120,disabled:true});
-	sumM = new Ext.form.TextField({width:120,disabled:true});
+	var sumC = new Ext.form.TextField({width:120,disabled:true});
+	var sumG = new Ext.form.TextField({width:120,disabled:true});
+	var sumP = new Ext.form.TextField({width:120,disabled:true});
+	var sumM = new Ext.form.TextField({width:120,disabled:true});
 	this.c=0;this.g=0;this.p=0;this.m=0;
 	this.reCalculate=function(){
 		var c=0;var g=0;var p=0;var m=0;
@@ -3384,8 +3384,8 @@ Fos.ExalWin = function(store,p) {
 		var a=store.getRange();
 		var r=consS.getRange();
 		if(r.length){
-			var unitPrice=0;var unm=0;var totalAmount=0;var innerPrice=0;var innerAmount=0;var base=0;			
-			for(var j=0;j<r.length;j++){				
+			var unitPrice=0;var num=0;var totalAmount=0;var innerPrice=0;var innerAmount=0;var base=0;			
+			for(var j=0;j<r.length;j++){
 				if(t=='C'){
 					num=1;base=this.c;
 				}
