@@ -20,7 +20,9 @@ var rateRender = function(v){v=parseFloat(v);v=v.toFixed(4);if(v=='NaN') v='0.00
 var boolRender = function(v, p, record){p.css += ' x-grid3-check-col-td';return '<div class="x-grid3-check-col'+(v==1?'-on':'')+' x-grid3-cc-'+this.id+'">&#160;</div>';};
 var consRender  = function(v){return "<a href=\"javascript:openCons('"+v+"');\">"+v+"</a>";};
 var invoRender  = function(v){
-	if(v.indexOf(',') === -1){
+	if(!Ext.isDefined(v)){
+		return '';
+	}else if(v.indexOf(',') === -1){
 		return "<a href=\"javascript:openInvo('"+v+"');\">"+v+"</a>";
 	}else{
 		var a = v.split(',');
