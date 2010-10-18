@@ -1631,7 +1631,7 @@ Fos.InvoiceTab = function(p) {
 			}
 			p.set('custId',r.get('custId'));p.set('custName',r.get('custNameCn'));			
 		},
-		keydown:{fn:function(f,e){LC(f,e,p.get('billType')=='R'?'custArFlag':'custApFlag');},buffer:500}}};
+		keydown:{fn:function(f,e){LC(f,e,p.get('invoType')=='R'?'custArFlag':'custApFlag');},buffer:500}}};
 	var c2={fieldLabel:HL(C_INVO_TITLE),tabIndex:2,name:'invoTitle',allowBlank:false,value:p.get('invoTitle'),xtype:'textfield',anchor:'95%'};
 	var c3={fieldLabel:C_INVO_NO,tabIndex:3,name:'invoNo',disabled:true,value:p.get('invoNo'),xtype:'textfield',anchor:'90%'};
 	var c4={fieldLabel:C_CURR,tabIndex:4,name:'currCode',allowBlank:false,value:p.get('currCode'),disabled:true,xtype:'textfield',anchor:'90%'};
