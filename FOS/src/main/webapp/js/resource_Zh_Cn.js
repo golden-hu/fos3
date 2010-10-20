@@ -1444,5 +1444,5 @@ var C_RESET_PASS='重置密码';
 var C_RESET_PASS_INFO='该用户的密码已经被重置成：123456';
 var C_PERMISSION_SET='授权';
 var M_SAVE_FIRST='必须先保存新增的数据。';
-
+var C_PACK_REQIRED='包装种类不能为空！';
 
