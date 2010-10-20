@@ -141,11 +141,11 @@ Fos.StatDetailTab = function(a){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	this.expExcel=function(){check();OWW(this.getUrl()+'&format=xls');};
 	Fos.StatDetailTab.superclass.constructor.call(this, {    
-    id:a,title:a=='T_BUDE'?C_STAT_BIZ_DETAIL:C_STAT_BIZ_DETAIL_SALES,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+    id:a,title:a=='REPT_BUDE'?C_STAT_BIZ_DETAIL:C_STAT_BIZ_DETAIL_SALES,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
 		tbar:[{xtype:'tbtext',text:C_GROUP_TYPE},t1,'-',
 			t4,{xtype:'tbtext',text:C_FROM},t2,{xtype:'tbtext',text:C_TO},t3,'-',
-			{text:C_GEN_REPORT,disabled:NR(M1_T+(a=='T_BUDE'?T_BUDE:T_BUDS)+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
-			{text:C_EXPORT,disabled:NR(M1_T+(a=='T_BUDE'?T_BUDE:T_BUDS)+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.expExcel}]}},'->',
+			{text:C_GEN_REPORT,disabled:NR(M1_T+(a=='REPT_BUDE'?T_BUDE:T_BUDS)+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
+			{text:C_EXPORT,disabled:NR(M1_T+(a=='REPT_BUDE'?T_BUDE:T_BUDS)+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.expExcel}]}},'->',
 			{text:C_CLEAR_FILTER,iconCls:'rotate',scope:this,handler:this.clear}],
 		items:[{title:C_FILTER_MORE,layout:'column',name:'sf',xtype:'form',layoutConfig:{columns:4},height:120,frame:true,deferredRender:false,collapsible:true,collapsed:true,items:[
 	        	{columnWidth:.25,layout:'form',labelWidth:60,labelAlign:'right',border:false,items:[
