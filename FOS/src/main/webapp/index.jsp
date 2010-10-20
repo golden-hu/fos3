@@ -2,6 +2,10 @@
 <%@ page import="java.util.*" %>
 <%if(session.getAttribute("UserName")==null){response.sendRedirect("login.html");}%>
 <html>
+<head>
+<title>FOS3.0货代运营系统 上海海钛软件科技有限公司</title>
+<link rel="stylesheet" type="text/css" href="js/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="js/fos.css" />
 <script type="text/javascript" src="js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js/resource_Zh_Cn.js"></script>
 <script type="text/javascript" src="js/ext-all.js"></script>
@@ -19,15 +23,11 @@
 <script type="text/javascript" src="js/fos-imp.js"></script>
 <script type="text/javascript" src="js/fos-air.js"></script>
 <script type="text/javascript" src="js/fos-ws.js"></script>
-<head>
-<title>FOS3.0货代运营系统 上海海钛软件科技有限公司</title>
-<link rel="stylesheet" type="text/css" href="js/resources/css/ext-all.css" />
-<link rel="stylesheet" type="text/css" href="js/fos.css" />
 </head>
 <body id="docs">
 <div id="loading-mask" style=""></div>
   <div id="loading">
-    <div class="loading-indicator"><img src="js/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading...</div>
+    <div class="loading-indicator"><img src="js/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="middle"/>Loading...</div>
 </div>
 <div id="west"></div>
 <div id="north">
