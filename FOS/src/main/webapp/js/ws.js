@@ -1,10 +1,15 @@
+var wl=window.location.href;
+var idx=wl.lastIndexOf("/");
+SERVICE_URL=wl.substr(0,idx)+'/MainServlet';
+SERVER_URL=wl.substr(0,idx)+'/';
+
 var GUID=0;
 var GGUID=function(k){if(!k) GUID=GUID-1;return GUID;};
-var CUSER=loadSession('USER_ID');
-var CCUST=loadSession('CUST_ID');
+var CUSER=sessionStorage.getItem('USER_ID');
+var CCUST=sessionStorage.getItem('CUST_ID');
 
 var COMP_CODE='JAH';
-var SYS= 'FOS2008网上服务系统';
+var SYS= 'FOS3.0网上服务系统';
 var M_NO_DATA_SELECTED='请先选择一条记录!';
 
 var C_BC='业务类型';
@@ -273,12 +278,10 @@ var QTX=function(a){
 var QTJ=function(a){return {fosQuery:a};};
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
 function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
+
 var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
-tranStore.load();
 var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.JsonReader({root:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
-pateStore.load();
 var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.JsonReader({root:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
-packStore.load();
 
 var LP=function(f,e){
 	if(e.getKey()!=e.ENTER){	
@@ -340,7 +343,7 @@ var RTJ = function(r,rt){
 };
 var FOSJ=function(x){return {FosRequest:{data:x}}};
 
-LoginWin = function(fn) {
+LoginWin = function() {
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',items:[
     	{fieldLabel:C_WS_USR_NAME,name:'wusrName',xtype:'textfield',anchor:'90%'},
     	{fieldLabel:C_WS_USR_PASS,name:'wusrPassword',xtype:'textfield',inputType:'password',anchor:'90%',enableKeyEvents:true,listeners:{scope:this,
@@ -353,26 +356,28 @@ LoginWin = function(fn) {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_LOGIN',mt:'JSON',wusrName:wusrName,wusrPassword:wusrPassword},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				saveSession('USER_ID',user.WUser[0].wusrId);
-				saveSession('CUST_ID',user.WUser[0].custId);
+				sessionStorage.setItem("USER_ID",user.WUser[0].wusrId);
+				sessionStorage.setItem("CUST_ID",user.WUser[0].custId);				
 				CUSER=user.WUser[0].wusrId;
 				CCUST=user.WUser[0].custId;
 				alert('登录成功！');
 				this.close();
-				fn();
 			},
 			failure: function(r){
-				var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);frm.find('name','wusrName')[0].focus();}
+				var user=Ext.util.JSON.decode(r.responseText);
+				alert(user.FosResponse.msg);
+				frm.find('name','wusrName')[0].focus();
+			}
 		});
 	};
 	this.reg=function(){
 		var w= new RegWin();
 		w.show();
-		this.close();
+		//this.close();
 	};
-    LoginWin.superclass.constructor.call(this, {title:'用户登录',modal:true,width:300,
+    LoginWin.superclass.constructor.call(this, {title:'用户登录',modal:true,width:300,closable:false,
         height:130,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
-        buttons:[{text:"登录",scope:this,handler:this.login},{text:"注册新用户",scope:this,handler:this.reg},{text:"取消",scope:this,handler:this.close}]
+        buttons:[{text:"登录",scope:this,handler:this.login},{text:"注册新用户",scope:this,handler:this.reg}]
         }); 
 };
 
@@ -410,7 +415,9 @@ RegWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_REG',mt:'JSON'},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				saveSession('USER_ID',user.WUser[0].wusrId)
+				sessionStorage.setItem("USER_ID",user.WUser[0].wusrId);
+				sessionStorage.setItem("CUST_ID",user.WUser[0].custId);
+				
 				CUSER=user.WUser[0].wusrId;
 				alert('注册成功！');
 			},
@@ -1368,16 +1375,13 @@ var logout=function(){
 			failure: function(r){}				
 		});
 	};
-var checkLogin=function(fn){	
-	if(CUSER!='null'&&CUSER!=0)	return 1;
-	else{var w=new LoginWin(fn);w.show();return 0;}	
-};
+
 function CreateMenu(title,wid,f){
  	var fn=function(){T_MAIN.setActiveTab(T_MAIN.getComponent(wid)?T_MAIN.getComponent(wid):T_MAIN.add(f()));};
  	return {text:title,iconCls :'grid',scope:this,handler:function(){if(checkLogin(fn)==1) fn();}};
 };
 var menuPanel = new Ext.Panel({
-	id:'MENU',title:'FOS2008网上服务',region:'west',split:true,collapsible: true,collapseMode:'mini',
+	id:'MENU',title:'FOS3.0网上服务',region:'west',split:true,collapsible: true,collapseMode:'mini',
 	width:200,minWidth:150,maxSize: 400,bodyStyle:'padding: 10px; background-color: #f0f0f0',
 	items:new Ext.menu.Menu({floating:false,items:['-',
 		CreateMenu('船期查询','T_VOYA',function(){return new VoyaTab();}),'-',
@@ -1393,9 +1397,26 @@ Ext.onReady(function(){
 	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
+    
     var tBar=new Ext.BoxComponent({region:'north',el:'north',height:90});   
 	var viewport = new Ext.Viewport({layout:'border',items:[tBar,menuPanel,T_MAIN]});
 	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));	
-	setTimeout(function(){Ext.get('loading').remove();Ext.get('loading-mask').fadeOut({remove:true});},50);	
+	
 	viewport.doLayout();
+	
+	if(!sessionStorage.getItem("USER_ID")){
+		var win= new LoginWin();
+		win.show();
+	}
+	else{
+		tranStore.load();
+		pateStore.load();
+		packStore.load();
+	}
+	
 });
+
+
+//
+
+
