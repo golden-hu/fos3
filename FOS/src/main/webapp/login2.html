@@ -8,7 +8,6 @@
 <TR>
 <TD ALIGN="center" VALIGN="middle">
 <center><br clear=all id=lgpd>
-<img src=js/images/fos.png border=0 alt=海钛软件 title=海钛软件><br><br>
 <form action="javascript:login();return" name=f>
 <table cellpadding=0 cellspacing=0>
 <tr valign=top><td width=25%>&nbsp;</td>
@@ -16,10 +15,10 @@
 <td align=center nowrap>
 	<table cellpadding=0 cellspacing=2>
 	<tr valign=top><td width=40%>用户名：</td><td  width=60%><input name=userLoginName value='' style="width:120px; height:20px;"></td></tr>
-	<tr valign=top><td width=40%>密&nbsp;&nbsp;码：</td><td width=60%><input type=password name=userPassword value='' onkeypress="javascript:if (event.keyCode == 13) login();return" style="width:120px; height:20px;"></td></tr>
+	<tr valign=top><td width=40%>密&nbsp;&nbsp;码：</td><td width=60%><input type=password name=userPassword value='' onkeypress="javascript:if (event.keyCode == 13) login(document.f);return" style="width:120px; height:20px;"></td></tr>
 	</table>
 	<br>
-	<input name=btnG type=button value="登录" style="width:100px;" onclick="javascript:login();return">
+	<input name=btnG type=button value="登录" style="width:100px;" onclick="javascript:login(document.f);return">
 </td>
 
 <td nowrap width=25%>&nbsp;</td>
