@@ -309,7 +309,9 @@ FDoc = Ext.data.Record.create(['id','fdocId','fdocNo','consId','consNo','dotyId'
 	'compCode','version','rowAction']);
 FCustomsDeclaration= Ext.data.Record.create(['id',
 	'cudeId','cudeNo','consId','consNo','consMasterId','consMasterNo','consBizClass','consBizType','custId','custName','cudeVendorId','cudeVendorName',
-	'cudeVendorContact','cudeVendorTel','cudePreNo','cudeCustomsNo','cudePortDomestic','cudeRecordNo',
+	'cudeVendorContact','cudeVendorTel','cudePreNo',
+	{name:'cudeCustomsNo',type:'string'},
+	'cudePortDomestic','cudeRecordNo',
 	{name:'cudeEntryDate',type:'date',dateFormat:DATEF},{name:'cudeDeclarDate',type:'date',dateFormat:DATEF},
 	'cudeCustomer','cudeShipper','tratCode','cudeConveyance','cudeBlNo','trtyCode','letyCode','exseCode','usagName','cudeCertificateNo',
 	'cudeLevyPercent','cudeApprovalNo','consContractNo','cudeContainerNo','cudeCountry','cudePortForeign',

@@ -747,8 +747,10 @@ Fos.CustomsTab = function(p) {
 	var re = {scope:this,
 		rowselect:function(sm,row,r){
 			if(this.sel!=r.get('cudeId')){
-				this.sel=r.get('cudeId');this.getForm().reset();
-				this.getForm().loadRecord(r);
+				this.sel=r.get('cudeId');
+				this.getForm().reset();
+				this.getForm().loadRecord(r);				
+				this.find('name','cudeCustomsNo')[0].setValue(r.get('cudeCustomsNo'));
 				this.find('name','cudeDocNum')[0].setValue(r.get('cudeDocNum'));
 				this.find('name','cudeDocSendDate')[0].setValue(r.get('cudeDocSendDate'));
 				this.find('name','cudeDocRecvDate')[0].setValue(r.get('cudeDocRecvDate'));
@@ -764,9 +766,13 @@ Fos.CustomsTab = function(p) {
 				this.find('name','cudeTaxLevy')[0].setValue(r.get('cudeTaxLevy'));
 				this.find('name','cudeRemarks')[0].setValue(r.get('cudeRemarks'));
 				this.find('name','cudeDeclarent')[0].setValue(r.get('cudeDeclarent'));
-				var s = this.entryGrid.getStore();s.removeAll();
+				var s = this.entryGrid.getStore();
+				s.removeAll();
 				var a = this.entryStore.getRange();
-				for(var i=0;i<a.length;i++){if(a[i].get('cudeId')==this.sel && a[i].get('rowAction')!='D' && a[i].get('rowAction')!='R') s.add(a[i]);};
+				for(var i=0;i<a.length;i++){
+					if(a[i].get('cudeId')==this.sel && a[i].get('rowAction')!='D' && a[i].get('rowAction')!='R') 
+						s.add(a[i]);
+				};
 				this.updateToolBar();
 			}
 		},
@@ -782,6 +788,7 @@ Fos.CustomsTab = function(p) {
 	{header:C_TRAFFIC_NO,dataIndex:'cudeBlNo'},
 	{header:C_DECLARE_DATE,dataIndex:'cudeDeclarDate',renderer:formatDate,width:150},
 	{header:C_PRE_NO,dataIndex:'cudePreNo'},
+	{header:C_CUSTOMS_NO,dataIndex:'cudeCustomsNo'},
 	{header:C_RECORD_NO,dataIndex:'cudeRecordNo'},
 	{header:C_STATUS,dataIndex:'cudeStatus',renderer:getCDST}
 	],defaults:{sortable:true,width:100}});
