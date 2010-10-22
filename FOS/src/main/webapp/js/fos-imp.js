@@ -986,7 +986,20 @@ Fos.CustomsTab = function(p) {
 		this.grid.stopEditing();
 		this.entryGrid.stopEditing();
 		var b =this.grid.getSelectionModel().getSelected();
-		if(b){b.beginEdit();this.getForm().updateRecord(b);b.endEdit();}
+		if(b){
+			b.beginEdit();
+			var fs = b.fields;
+	        fs.each(function(f){
+	            var field = this.getForm().findField(f.name);
+	            if(field){
+	                b.set(f.name, field.getValue());
+	            }
+	        }, this);
+	        b.endEdit();
+        }
+        
+		//if(b){b.beginEdit();this.getForm().updateRecord(b);b.endEdit();}
+		
 		var xml='';
 		var a =this.store.getModifiedRecords();
 		for(var i=0;i<a.length;i++){
@@ -1495,7 +1508,18 @@ Fos.BlWin = function(p,b,store) {
 	this.save = function(){			
 		if(this.find('name','blNo')[0].getValue()==''){
 			XMG.alert(SYS,M_BL_REQIRED,function(){this.find('name','blNo')[0].focus();},this);return;};
-		b.beginEdit();this.frm.getForm().updateRecord(b);b.endEdit();		
+		b.beginEdit();
+		//this.frm.getForm().updateRecord(b);
+		
+		var fs = b.fields;
+        fs.each(function(f){
+            var field = this.frm.getForm().findField(f.name);
+            if(field){
+                b.set(f.name, field.getValue());
+            }
+        }, this);
+        
+		b.endEdit();		
 		var xml = RTX(b,'FBl',FBl);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'BL_S'},
 			success: function(res){				
