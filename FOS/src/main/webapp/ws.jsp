@@ -15,7 +15,7 @@
   <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
   <tr>
   <td align="left" nowrap="nowrap" valign='middle'>
-   <img src='images/fos2008.gif' width=180>
+   <img src='images/fos.png' width=180>
   </td>
   <td align="right"nowrap="nowrap"><br>
   </td>

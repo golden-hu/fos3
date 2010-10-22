@@ -159,13 +159,13 @@ html, body {
     right: 0;
 }
 .x-tab-strip SPAN.x-tab-strip-text {
-    font-size: 12px;
+    font-size: 14px;
 }
 .x-panel-header {
-    font-size: 12px;
+    font-size: 14px;
 }
 .x-tree-node {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .vline-on .x-grid3-col {
@@ -180,38 +180,38 @@ html, body {
 }
 
 .x-grid3-hd-row TD {
-    font-size: 12px;
+    font-size: 14px;
 }
 .x-grid3-row TD {
-    font-size: 12px;
+    font-size: 14px;
     LINE-HEIGHT: 16px;
 }
 .x-tip .x-tip-bd {
-    font-size: 12px;
+    font-size: 14px;
 }
 .x-tip h3{
-    font-size: 12px;
+    font-size: 14px;
 }
 .x-tip .x-tip-bd-inner{
-    font-size:12px;
+    font-size:14px;
 }
 .x-panel-tl .x-panel-header {
-    FONT: normal 12px tahoma,arial,verdana,sans-serif;
+    FONT: normal 14px tahoma,arial,verdana,sans-serif;
 }
 .x-form-field {
-    FONT: 12px tahoma,arial,helvetica,sans-serif   
+    FONT: 14px tahoma,arial,helvetica,sans-serif   
 }
 .x-small-editor .x-form-field {
-    FONT: 12px tahoma,arial,helvetica,sans-serif   
+    FONT: 14px tahoma,arial,helvetica,sans-serif   
 }
 .x-combo-list-item {
-    FONT: 12px tahoma,arial,helvetica,sans-serif;   
+    FONT: 14px tahoma,arial,helvetica,sans-serif;   
 }   
 .x-menu-list-item {
-    FONT: 12px tahoma,arial,sans-serif;
+    FONT: 14px tahoma,arial,sans-serif;
 }
 .x-window-tl .x-window-header {
-    FONT: bold 12px tahoma,arial,verdana,sans-serif;   
+    FONT: bold 14px tahoma,arial,verdana,sans-serif;   
 }
 .x-layout-split-west .x-layout-mini {   
     BACKGROUND-IMAGE: url(resources/images/default/layout/mini-left.gif);   
@@ -220,10 +220,10 @@ html, body {
     margin-top:1px;
 } /* the textField missing bottom line */
 .x-form-item {   
-    FONT: 12px tahoma,arial,helvetica,sans-serif
+    FONT: 14px tahoma,arial,helvetica,sans-serif
 }
 .x-grid-group-hd DIV {   
-    FONT: bold 12px tahoma,arial,helvetica,sans-serif;
+    FONT: bold 14px tahoma,arial,helvetica,sans-serif;
 }
 
 .x-btn-text-icon .x-btn-center .x-btn-text {ext-all.css (line 227)
@@ -235,15 +235,15 @@ padding:3px 0pt 2px 18px;
 padding-left:0pt;
 padding-right:0pt;
 }
-.x-btn button{font-size:12px;}
-.x-btn text{font-size:12px;}
-.x-nav{font-size:12px;line-height:16px;text-decoration:none;}
+.x-btn button{font-size:14px;}
+.x-btn text{font-size:14px;}
+.x-nav{font-size:14px;line-height:16px;text-decoration:none;}
 .x-toolbar td, .x-toolbar span, .x-toolbar input, .x-toolbar div, .x-toolbar select, .x-toolbar label {
-    font-size:12px;
+    font-size:14px;
 }
 
 .loading-indicator {
-    font-size:12px;
+    font-size:14px;
     background-image:url('resources/images/default/grid/loading.gif');
     background-repeat: no-repeat;
     background-position:top left;
@@ -358,7 +358,7 @@ input.l-tcb {
 .list-item {
     font:normal 11px tahoma, arial, helvetica, sans-serif;
     padding:3px 10px 3px 10px;
-    font-size:12px;
+    font-size:14px;
     border-bottom:1px solid #eeeeee;
 }
 .list-item h3 {
@@ -383,7 +383,7 @@ input.l-tcb {
     clear:none;
 }
 .x-combo-list-small .x-combo-list-item {
-    font:normal 12px tahoma, arial, helvetica, sans-serif;
+    font:normal 14px tahoma, arial, helvetica, sans-serif;
 }
 .required .x-form-item-label {font-weight:normal;color:red;}
 .needed .x-form-item-label {font-weight:normal;color:green;}
@@ -398,7 +398,7 @@ input.l-tcb {
     border-right:1px solid #fff;
     color:#333;
     background: #f1f2f4;
-    font-size:12px;
+    font-size:14px;
 }
 .x-grid3-summary-row .x-grid3-cell-inner {
     font-weight:bold;

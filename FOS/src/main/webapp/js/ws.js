@@ -1364,7 +1364,10 @@ BillWin = function(p) {
 	]}); 
 };
 Ext.extend(BillWin, Ext.Window);
-
+var checkLogin=function(fn){	
+	if(CUSER!='null'&&CUSER!=0)	return 1;
+	else{var w=new LoginWin(fn);w.show();return 0;}	
+};
 var logout=function(){	
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_LOGOUT'},
 			success: function(r){				
