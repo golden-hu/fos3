@@ -88,7 +88,7 @@
 		}
 		else if(NR(m+F_CV)){
 			if(frm.f=='C')
-				cols=[sm,t1,t2,t3,t4,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t14,t17,t19,t20,t25];
+				cols=[sm,t1,t2,t3,t4,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t17,t19,t20,t25];
 			else
 				cols=[sm,t1,t2,t3,t4,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t18,t19,t20,t25,t26];
 		}
