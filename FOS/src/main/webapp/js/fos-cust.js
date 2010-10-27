@@ -208,7 +208,16 @@ Fos.CustomerWin = function(p,store,wu){
 	this.save=function(){
 		if(frmCustomer.getForm().isValid()){				
 				p.beginEdit();
-				frmCustomer.getForm().updateRecord(p);
+				//frmCustomer.getForm().updateRecord(p);
+				
+				var fs = p.fields;
+		        fs.each(function(f){
+		            var field = frmCustomer.getForm().findField(f.name);
+		            if(field){
+		                p.set(f.name, field.getValue());
+		            }
+		        }, this);
+		        
 				p.set('custArFlag',p.get('custArFlag')?1:0);
 		   	 	p.set('custApFlag',p.get('custApFlag')?1:0);
 		   	 	p.set('custCarrierFlag',p.get('custCarrierFlag')?1:0);
