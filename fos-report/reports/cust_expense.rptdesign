@@ -1692,6 +1692,10 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="1054"/>
                                     <cell id="1082">
                                         <data id="1105">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                            </structure>
                                             <property name="resultSetColumn">gInraRate</property>
                                         </data>
                                     </cell>
@@ -1744,6 +1748,10 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="1055"/>
                                     <cell id="1083">
                                         <data id="1107">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                            </structure>
                                             <property name="resultSetColumn">gInraRateUSD</property>
                                         </data>
                                     </cell>
@@ -1914,6 +1922,10 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <cell id="1085">
                                     <data id="1108">
                                         <property name="fontWeight">bold</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                        </structure>
                                         <property name="resultSetColumn">tInraRate</property>
                                     </data>
                                 </cell>
@@ -1965,6 +1977,10 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <cell id="1086">
                                     <data id="1109">
                                         <property name="fontWeight">bold</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                        </structure>
                                         <property name="resultSetColumn">tInraRateUSD</property>
                                     </data>
                                 </cell>
