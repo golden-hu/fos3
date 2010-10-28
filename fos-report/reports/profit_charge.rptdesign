@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
     <property name="units">in</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">27</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">27</property>
+        </structure>
+    </list-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -19,6 +29,7 @@
             <text-property name="promptText">日期</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -36,7 +47,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -46,12 +56,12 @@
             <text-property name="promptText">费目</text-property>
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">1</value>
             </simple-property-list>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -61,6 +71,7 @@
             <text-property name="promptText">费用类型</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">R</value>
             </simple-property-list>
@@ -78,7 +89,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -88,12 +98,12 @@
             <text-property name="promptText">费目名称</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">代理费</value>
             </simple-property-list>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -107,12 +117,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -193,12 +203,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -306,12 +316,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -321,10 +331,26 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="23"
- extends="dsFos.dsFos"/>
+ extends="dsFos.dsFos">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/fos</property>
+            <property name="odaUser">fos</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Zm9z</encrypted-property>
+        </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsProfit" id="27">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">biz</property>
@@ -352,7 +378,157 @@ if(row["CONS_BIZ_TYPE"] == "A"){
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CONS_NO</property>
+                    <text-property name="displayName">cons_no</text-property>
+                    <text-property name="heading">cons_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_SNAME</property>
+                    <text-property name="displayName">cust_sname</text-property>
+                    <text-property name="heading">cust_sname</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VESS_NAME</property>
+                    <text-property name="displayName">vess_name</text-property>
+                    <text-property name="heading">vess_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOYA_NAME</property>
+                    <text-property name="displayName">voya_name</text-property>
+                    <text-property name="heading">voya_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_MBL_NO</property>
+                    <text-property name="displayName">cons_mbl_no</text-property>
+                    <text-property name="heading">cons_mbl_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SAIL_DATE</property>
+                    <text-property name="displayName">cons_sail_date</text-property>
+                    <text-property name="heading">cons_sail_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_BIZ_CLASS</property>
+                    <text-property name="displayName">cons_biz_class</text-property>
+                    <text-property name="heading">cons_biz_class</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_BIZ_TYPE</property>
+                    <text-property name="displayName">cons_biz_type</text-property>
+                    <text-property name="heading">cons_biz_type</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SHIP_TYPE</property>
+                    <text-property name="displayName">cons_ship_type</text-property>
+                    <text-property name="heading">cons_ship_type</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">amount</property>
+                    <text-property name="displayName">amount</text-property>
+                    <text-property name="heading">amount</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CHAR_ID</property>
+                    <text-property name="displayName">char_id</text-property>
+                    <text-property name="heading">char_id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CHAR_NAME</property>
+                    <text-property name="displayName">char_name</text-property>
+                    <text-property name="heading">char_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_TYPE</property>
+                    <text-property name="displayName">expe_type</text-property>
+                    <text-property name="heading">expe_type</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SALES_REP_NAME</property>
+                    <text-property name="displayName">cons_sales_rep_name</text-property>
+                    <text-property name="heading">cons_sales_rep_name</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CONS_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUST_SNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">VESS_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">VOYA_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">CONS_MBL_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">CONS_SAIL_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">CONS_BIZ_CLASS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CONS_BIZ_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CONS_SHIP_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">amount</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">CHAR_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">CHAR_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">EXPE_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">CONS_SALES_REP_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">biz</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[var sql = this.queryText;
 if(params["dt"] == "0"){
 	sql += " and c.CONS_DATE >= '" + params["F"] + "'";
@@ -494,8 +670,8 @@ this.queryText = sql;]]></method>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">biz</property>
-                    <property name="nativeName">biz</property>
+                    <property name="name">CONS_SALES_REP_NAME</property>
+                    <property name="nativeName">CONS_SALES_REP_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
@@ -503,7 +679,7 @@ this.queryText = sql;]]></method>
 c.cons_mbl_no, c.cons_sail_date, 
 c.cons_biz_class, c.cons_biz_type, c.cons_ship_type,
 e.expe_total_amount*e.expe_ex_rate as amount,
-e.char_id, e.char_name, e.expe_type
+e.char_id, e.char_name, e.expe_type, c.cons_sales_rep_name
  from F_CONSIGN c, S_EXPENSE e
 where c.cons_id = e.cons_id]]></xml-property>
         </oda-data-set>
@@ -511,7 +687,7 @@ where c.cons_id = e.cons_id]]></xml-property>
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">COMP_NAME_CN</property>
-                    <property name="displayName">COMP_NAME_CN</property>
+                    <text-property name="displayName">COMP_NAME_CN</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -722,85 +898,85 @@ where COMP_CODE = ?]]></xml-property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">CONS_NO</property>
-                                <property name="displayName">CONS_NO</property>
+                                <text-property name="displayName">CONS_NO</text-property>
                                 <expression name="expression">dataSetRow["CONS_NO"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME</property>
-                                <property name="displayName">CUST_SNAME</property>
+                                <text-property name="displayName">CUST_SNAME</text-property>
                                 <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">VESS_NAME</property>
-                                <property name="displayName">VESS_NAME</property>
+                                <text-property name="displayName">VESS_NAME</text-property>
                                 <expression name="expression">dataSetRow["VESS_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">VOYA_NAME</property>
-                                <property name="displayName">VOYA_NAME</property>
+                                <text-property name="displayName">VOYA_NAME</text-property>
                                 <expression name="expression">dataSetRow["VOYA_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_MBL_NO</property>
-                                <property name="displayName">CONS_MBL_NO</property>
+                                <text-property name="displayName">CONS_MBL_NO</text-property>
                                 <expression name="expression">dataSetRow["CONS_MBL_NO"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_SAIL_DATE</property>
-                                <property name="displayName">CONS_SAIL_DATE</property>
+                                <text-property name="displayName">CONS_SAIL_DATE</text-property>
                                 <expression name="expression">dataSetRow["CONS_SAIL_DATE"]</expression>
                                 <property name="dataType">date</property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_BIZ_CLASS</property>
-                                <property name="displayName">CONS_BIZ_CLASS</property>
+                                <text-property name="displayName">CONS_BIZ_CLASS</text-property>
                                 <expression name="expression">dataSetRow["CONS_BIZ_CLASS"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_BIZ_TYPE</property>
-                                <property name="displayName">CONS_BIZ_TYPE</property>
+                                <text-property name="displayName">CONS_BIZ_TYPE</text-property>
                                 <expression name="expression">dataSetRow["CONS_BIZ_TYPE"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">CONS_SHIP_TYPE</property>
-                                <property name="displayName">CONS_SHIP_TYPE</property>
+                                <text-property name="displayName">CONS_SHIP_TYPE</text-property>
                                 <expression name="expression">dataSetRow["CONS_SHIP_TYPE"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">amount</property>
-                                <property name="displayName">amount</property>
+                                <text-property name="displayName">amount</text-property>
                                 <expression name="expression">dataSetRow["amount"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                             <structure>
                                 <property name="name">CHAR_ID</property>
-                                <property name="displayName">CHAR_ID</property>
+                                <text-property name="displayName">CHAR_ID</text-property>
                                 <expression name="expression">dataSetRow["CHAR_ID"]</expression>
                                 <property name="dataType">integer</property>
                             </structure>
                             <structure>
                                 <property name="name">CHAR_NAME</property>
-                                <property name="displayName">CHAR_NAME</property>
+                                <text-property name="displayName">CHAR_NAME</text-property>
                                 <expression name="expression">dataSetRow["CHAR_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">EXPE_TYPE</property>
-                                <property name="displayName">EXPE_TYPE</property>
+                                <text-property name="displayName">EXPE_TYPE</text-property>
                                 <expression name="expression">dataSetRow["EXPE_TYPE"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">biz</property>
-                                <property name="displayName">biz</property>
+                                <text-property name="displayName">biz</text-property>
                                 <expression name="expression">dataSetRow["biz"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
@@ -838,9 +1014,18 @@ where COMP_CODE = ?]]></xml-property>
                                 <expression name="expression">row["profit"] == 0 ? 0 : row["agent"]/row["profit"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
+                            <structure>
+                                <property name="name">CONS_SALES_REP_NAME</property>
+                                <text-property name="displayName">cons_sales_rep_name</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["CONS_SALES_REP_NAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
                         </list-property>
                         <column id="376"/>
                         <column id="377"/>
+                        <column id="716">
+                            <property name="repeat">1</property>
+                        </column>
                         <column id="378"/>
                         <column id="379"/>
                         <column id="380"/>
@@ -871,6 +1056,17 @@ where COMP_CODE = ?]]></xml-property>
                                     <property name="borderTopWidth">medium</property>
                                     <label id="307">
                                         <text-property name="text">定舱客户</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="717">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">medium</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">medium</property>
+                                    <label id="718">
+                                        <text-property name="text">业务员</text-property>
                                     </label>
                                 </cell>
                                 <cell id="308">
@@ -1001,6 +1197,15 @@ where COMP_CODE = ?]]></xml-property>
                                         <data id="336">
                                             <property name="paddingLeft">5pt</property>
                                             <property name="resultSetColumn">CUST_SNAME</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="719">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <data id="720">
+                                            <property name="paddingLeft">5pt</property>
+                                            <property name="resultSetColumn">CONS_SALES_REP_NAME</property>
                                         </data>
                                     </cell>
                                     <cell id="394">
