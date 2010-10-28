@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
-    <property name="units">in</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -19,6 +19,7 @@
             <text-property name="promptText">类型</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">false</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -60,7 +61,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -97,6 +97,7 @@
             <text-property name="promptText">日期类型</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">false</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -117,7 +118,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -128,12 +128,12 @@
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">integer</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">30</value>
             </simple-property-list>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -259,12 +259,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -274,12 +274,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -289,12 +289,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -304,12 +304,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -353,7 +353,110 @@ rt;</expression>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">EXPE_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUST_SNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">VESSEL_VOYAGE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONS_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">CONS_REF_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">CHAR_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">CURR_CODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">EXPE_TOTAL_AMOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">NOT_WRITE_OFF_AMOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CONS_MBL_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">CONS_HBL_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">CONS_SAIL_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CONS_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">EXPE_INVOICE_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">EXPE_TAX_INVOICE_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">USER_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">CUST_CREDIT_DAY</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">GROU_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">groupBy</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">timeSpan</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[var sql = this.queryText;
 if(params["dt"] == "0"){
 	sql += " and c.CONS_DATE >= '" + params["F"] + "'";
@@ -537,27 +640,27 @@ AND e.removed = "0"
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">rateUsd3</property>
-                    <property name="displayName">rateUsd3</property>
+                    <text-property name="displayName">rateUsd3</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">rateUsd6</property>
-                    <property name="displayName">rateUsd6</property>
+                    <text-property name="displayName">rateUsd6</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">rateUsd12</property>
-                    <property name="displayName">rateUsd12</property>
+                    <text-property name="displayName">rateUsd12</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">rateCny3</property>
-                    <property name="displayName">rateCny3</property>
+                    <text-property name="displayName">rateCny3</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">rateCny6</property>
-                    <property name="displayName">rateCny6</property>
+                    <text-property name="displayName">rateCny6</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">rateCny12</property>
-                    <property name="displayName">rateCny12</property>
+                    <text-property name="displayName">rateCny12</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -756,7 +859,7 @@ as rateCny12
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">COMP_NAME_CN</property>
-                    <property name="displayName">COMP_NAME_CN</property>
+                    <text-property name="displayName">COMP_NAME_CN</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -819,8 +922,7 @@ where COMP_CODE = ?]]></xml-property>
       </design:resultSetColumns>
     </design:resultSetDefinitions>
   </design:ResultSets>
-</model:DesignValues>
-]]></xml-property>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -1012,7 +1114,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME</property>
-                                <property name="displayName">名称</property>
+                                <text-property name="displayName">名称</text-property>
                                 <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
@@ -1088,7 +1190,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             </structure>
                             <structure>
                                 <property name="name">groupAmount</property>
-                                <property name="displayName">金额小计</property>
+                                <text-property name="displayName">金额小计</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1104,7 +1206,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             </structure>
                             <structure>
                                 <property name="name">groupNAmount</property>
-                                <property name="displayName">未核销金额</property>
+                                <text-property name="displayName">未核销金额</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1120,7 +1222,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             </structure>
                             <structure>
                                 <property name="name">groupAmountUSD</property>
-                                <property name="displayName">美金金额小计</property>
+                                <text-property name="displayName">美金金额小计</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1136,7 +1238,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             </structure>
                             <structure>
                                 <property name="name">groupNAmountUSD</property>
-                                <property name="displayName">美金未核销金额</property>
+                                <text-property name="displayName">美金未核销金额</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1152,7 +1254,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             </structure>
                             <structure>
                                 <property name="name">groupByTitle</property>
-                                <property name="displayName">groupByTitle</property>
+                                <text-property name="displayName">groupByTitle</text-property>
                                 <expression name="expression">var title;
 if(params["g"].value == "1"){
 	title = "客户名称";
@@ -1264,6 +1366,64 @@ if(overDay &lt;= 90 &amp;&amp; row["CURR_CODE"] == 'USD'){
 }
 rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">gInraRate</property>
+                                <text-property name="displayName">利息小计</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupBy</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["inraRate"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "CNY"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">gInraRateUSD</property>
+                                <text-property name="displayName">美金利息小计</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupBy</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["inraRate"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"]=="USD"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">tInraRate</property>
+                                <text-property name="displayName">利息总计</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["inraRate"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"]=="CNY"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">tInraRateUSD</property>
+                                <text-property name="displayName">美金利息总计</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["inraRate"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"]=="USD"</expression>
                             </structure>
                         </list-property>
                         <property name="pageBreakInterval">50</property>
@@ -1530,7 +1690,11 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="549"/>
                                     <cell id="1042"/>
                                     <cell id="1054"/>
-                                    <cell id="1082"/>
+                                    <cell id="1082">
+                                        <data id="1105">
+                                            <property name="resultSetColumn">gInraRate</property>
+                                        </data>
+                                    </cell>
                                     <cell id="550"/>
                                     <cell id="551"/>
                                     <cell id="1066"/>
@@ -1578,7 +1742,11 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="718"/>
                                     <cell id="1043"/>
                                     <cell id="1055"/>
-                                    <cell id="1083"/>
+                                    <cell id="1083">
+                                        <data id="1107">
+                                            <property name="resultSetColumn">gInraRateUSD</property>
+                                        </data>
+                                    </cell>
                                     <cell id="719"/>
                                     <cell id="720"/>
                                     <cell id="1067"/>
@@ -1743,7 +1911,12 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <cell id="1016"/>
                                 <cell id="1045"/>
                                 <cell id="1057"/>
-                                <cell id="1085"/>
+                                <cell id="1085">
+                                    <data id="1108">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="resultSetColumn">tInraRate</property>
+                                    </data>
+                                </cell>
                                 <cell id="1017"/>
                                 <cell id="1018"/>
                                 <cell id="1069"/>
@@ -1789,7 +1962,12 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <cell id="1032"/>
                                 <cell id="1046"/>
                                 <cell id="1058"/>
-                                <cell id="1086"/>
+                                <cell id="1086">
+                                    <data id="1109">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="resultSetColumn">tInraRateUSD</property>
+                                    </data>
+                                </cell>
                                 <cell id="1033"/>
                                 <cell id="1034"/>
                                 <cell id="1070"/>
