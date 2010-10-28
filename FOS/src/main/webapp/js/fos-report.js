@@ -28,6 +28,38 @@ Fos.StatSumTab = function(a){
 		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc})
 };
 Ext.extend(Fos.StatSumTab, Ext.Panel);
+Fos.StatBuexTab = function(a){
+	var RT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_BIZ_TYPE],['1',C_CARRIER],['2',C_BOOKER],['3',C_SALES],['4',C_SHLI]]});
+	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
+	var t1=new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'0',
+         	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:RT_S});
+    var t2=new Ext.form.DateField({value:(new Date()).getFirstDateOfMonth(),format:DATEF});
+    var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
+    var t4=new Ext.form.ComboBox({width:80,displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'0',
+         	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:DT_S});
+    var doc=new Ext.ux.IFrameComponent({id:a, url:''});
+    this.report=function(){
+		if(!t2.getValue()){
+			XMG.alert(SYS,M_INPUT_START_TIME,function(){t2.focus();},this);return;};
+		if(!t3.getValue()){
+			XMG.alert(SYS,M_INPUT_END_TIME,function(){t3.focus();},this);return;};
+		var iframe = Ext.get('IF_'+a);
+		iframe.dom.src=SERVICE_URL+'?A='+a+'&type='+t1.value+'&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();
+	};
+	this.expExcel=function(){
+		var url=SERVICE_URL+'?A='+a+'&format=xls&type='+t1.value+'&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();
+		window.open(url,'download','height=5,width=5,top=0,left=0,toolbar=no, menubar=no, scrollbars=no,resizable=no,location=no,status=no');
+	};
+	Fos.StatBuexTab.superclass.constructor.call(this, {    
+    id:a,title:C_STAT_PROFIT_SUM,layout:'fit',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+     tbar:[{xtype:'tbtext',text:C_STAT_TYPE},t1,'-',
+		t4,{xtype:'tbtext',text:C_FROM},t2,{xtype:'tbtext',text:C_TO},t3,'-',
+		{text:C_GEN_REPORT,disabled:NR(M1_T+T_BUEX+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
+		{text:C_EXPORT,disabled:NR(M1_T+T_BUEX+F_E),iconCls:'print',scope:this,
+		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc})
+};
+Ext.extend(Fos.StatBuexTab, Ext.Panel);
+
 Fos.StatSalesSumTab = function(){
     var t2=new Ext.form.DateField({value:(new Date()).getFirstDateOfMonth(),format:DATEF});
     var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
