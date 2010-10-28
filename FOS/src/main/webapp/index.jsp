@@ -15,6 +15,7 @@
 <script type="text/javascript" src="js/store.js"></script>
 <script type="text/javascript" src="js/fos-gen.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/fos-report.js"></script>
 
 <script type="text/javascript" src="js/fos.js"></script>
 <script type="text/javascript" src="js/fos-cust.js"></script>
