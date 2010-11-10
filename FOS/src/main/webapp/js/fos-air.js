@@ -1614,7 +1614,7 @@ Fos.ShipTab = function(p) {
 					var c = new FConsign({consId:rid,id:rid,consNotifyParty:'SAME AS CONSIGNEE',
 					consNo:'N'+rid,consType:'A',consShipType:'BULK',consActionType:'A',consMasterFlag:'1',
 					consBizClass:BC_E,consBizType:BT_B,consSource:'0',consDate:new Date(),
-					consEtd:p.get('voyaEtd'),consSailDate:con.get('voyaSailDate'),
+					consEtd:p.get('voyaEtd'),consSailDate:con.get('voyaSailDate')?con.get('voyaSailDate'):p.get('voyaEtd'),
 					consEta:p.get('voyaEta'),voyaShipDateF:p.get('voyaShipDateF'),voyaShipDateT:p.get('voyaShipDateT'),
 					fconShipDateF:con.get('fconShipDateF'),fconShipDateT:con.get('fconShipDateT'),
 					consContractNo:r.get('fconContractNo'),consCarrier:r.get('carrierId'),consCarrierName:r.get('carrierName'),
