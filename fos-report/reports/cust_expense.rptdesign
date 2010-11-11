@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
@@ -501,8 +501,10 @@ if(params["consStatusAud"] != ""){
 if(params["consStatusInvoR"] != ""){
 	sql += " and c.CONS_STATUS_INVO_R = '" + params["consStatusInvoR"] + "'";
 }
-if(params["consStatusAr"] != ""){
-	sql += " and c.CONS_STATUS_AR = '" + params["consStatusAr"] + "'";
+if(params["consStatusAr"].value == "0"){
+	sql += " and (e.EXPE_WRITEOFF_STATUS is null or e.EXPE_WRITEOFF_STATUS in (0,1))";
+}else if(params["consStatusAr"].value == "2"){
+	sql += " and e.EXPE_WRITEOFF_STATUS = 2";
 }
 sql += " and c.COMP_CODE = '" + params["compCode"] + "'";
 sql += " and e.COMP_CODE = '" + params["compCode"] + "'";

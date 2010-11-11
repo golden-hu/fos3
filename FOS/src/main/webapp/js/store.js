@@ -775,6 +775,8 @@ getBIST = function(v){if(v>=0) return BIST_S.getById(v).get('NAME'); else return
 
 var WRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['1','部分核销'],['2','已核销']]});
 getWRST = function(v){if(v>=0) return WRST_S.getById(v).get('NAME'); else return ''};
+var WRSN_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['2','已核销']]});
+getWRSN = function(v){if(v>=0) return WRSN_S.getById(v).get('NAME'); else return ''};
 var INST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未开账单'],['1','部分开账单'],['2','已开账单']]});
 getINST = function(v){if(v>=0) return INST_S.getById(v).get('NAME'); else return ''};
 var EXPC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认']]});

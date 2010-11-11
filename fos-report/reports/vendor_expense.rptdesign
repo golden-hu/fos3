@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
-    <property name="units">in</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -20,6 +20,7 @@
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -61,7 +62,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -98,6 +98,7 @@
             <text-property name="promptText">日期类型</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">false</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -118,7 +119,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -245,12 +245,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -261,12 +261,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -277,12 +277,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -292,12 +292,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -307,12 +307,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -322,12 +322,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -337,12 +337,12 @@
                     <property name="valueType">static</property>
                     <property name="isRequired">false</property>
                     <property name="dataType">string</property>
+                    <property name="distinct">true</property>
                     <simple-property-list name="defaultValue">
                         <value type="constant"></value>
                     </simple-property-list>
                     <property name="paramType">simple</property>
                     <property name="controlType">text-box</property>
-                    <property name="distinct">true</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -533,8 +533,10 @@ if(params["consStatusAud"] != ""){
 if(params["consStatusInvoP"] != ""){
 	sql += " and c.CONS_STATUS_INVO_P = '" + params["consStatusInvoP"] + "'";
 }
-if(params["consStatusAp"] != ""){
-	sql += " and c.CONS_STATUS_AP = '" + params["consStatusAp"] + "'";
+if(params["consStatusAp"].value == "0"){
+	sql += " and (e.EXPE_WRITEOFF_STATUS is null or e.EXPE_WRITEOFF_STATUS in (0,1))";
+}else if(params["consStatusAp"].value == "2"){
+	sql += " and e.EXPE_WRITEOFF_STATUS = 2";
 }
 sql += " and c.comp_code = '" + params["compCode"] + "'";
 sql += " and e.comp_code = '" + params["compCode"] + "'";
@@ -672,7 +674,7 @@ and e.removed = "0"
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">COMP_NAME_CN</property>
-                    <property name="displayName">COMP_NAME_CN</property>
+                    <text-property name="displayName">COMP_NAME_CN</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -735,8 +737,7 @@ where COMP_CODE = ?]]></xml-property>
       </design:resultSetColumns>
     </design:resultSetDefinitions>
   </design:ResultSets>
-</model:DesignValues>
-]]></xml-property>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -972,7 +973,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME</property>
-                                <property name="displayName">名称</property>
+                                <text-property name="displayName">名称</text-property>
                                 <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
@@ -1048,7 +1049,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupAmount</property>
-                                <property name="displayName">金额小计</property>
+                                <text-property name="displayName">金额小计</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1064,7 +1065,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupNAmount</property>
-                                <property name="displayName">未核销金额</property>
+                                <text-property name="displayName">未核销金额</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1080,7 +1081,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupAmountUSD</property>
-                                <property name="displayName">美金金额小计</property>
+                                <text-property name="displayName">美金金额小计</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1096,7 +1097,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupNAmountUSD</property>
-                                <property name="displayName">美金未核销金额</property>
+                                <text-property name="displayName">美金未核销金额</text-property>
                                 <property name="dataType">decimal</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupBy</value>
@@ -1112,7 +1113,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">groupByTitle</property>
-                                <property name="displayName">groupByTitle</property>
+                                <text-property name="displayName">groupByTitle</text-property>
                                 <expression name="expression">var title;
 if(params["g"].value == "1"){
 	title = "供应商名称";

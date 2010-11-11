@@ -368,7 +368,7 @@ Fos.StatArTab = function(T){
 	           		{fieldLabel:C_SALES,tabIndex:6,name:'consSalesRepId',value:(USER_ALL_VIEW_FLAG==0&&USER_IS_SALES==1)?CUSER_ID:'',readOnly:(USER_ALL_VIEW_FLAG==0&&USER_IS_SALES==1),
 	            		store:getSALE_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
 	           		{fieldLabel:C_SHIP_TYPE,tabIndex:9,name:'consShipType',store:SHTY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-	           		{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%'}
+	           		{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',store:WRSN_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%'}
 	            ]}
 	    	]},
 	    	{layout:'fit',height:500,items:[doc]}]});
@@ -465,7 +465,7 @@ Fos.StatApTab = function(){
 	            		store:getSALE_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
 	           		{fieldLabel:C_RECEIPT_PLACE,name:'consReceiptPlace',tabIndex:12,xtype:'textfield',anchor:'95%'},
 	           		{fieldLabel:C_SHIP_TYPE,tabIndex:9,name:'consShipType',store:SHTY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-	           		{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%'}
+	           		{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',store:WRSN_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%'}
 	            ]}]},
 	    	{layout:'fit',height:600,deferredRender:false,items:[doc]}]});
 };
