@@ -182,7 +182,7 @@ public final class NetworkInfo {
 		Process p;
 		String outputText = null;
 		try {
-			p = Runtime.getRuntime().exec("ifconfig");
+			p = Runtime.getRuntime().exec("/sbin/ifconfig");
 			InputStream stdoutStream = new BufferedInputStream(p
 					.getInputStream());
 
