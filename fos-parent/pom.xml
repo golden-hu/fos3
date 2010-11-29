@@ -193,12 +193,12 @@
 		<repository>
 			<id>hitisoft-releases</id>
 			<name>hitisoft repository releases</name>
-			<url>http://www.hitisoft.com:8080/nexus/content/repositories/releases</url>
+			<url>http://www.hitisoft.com:8081/nexus/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>hitisoft-snapshots</id>
 			<name>hitisoft repository snapshots</name>
-			<url>http://www.hitisoft.com:8080/nexus/content/repositories/snapshots</url>
+			<url>http://www.hitisoft.com:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<properties>
