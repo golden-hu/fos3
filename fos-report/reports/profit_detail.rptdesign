@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20100208 Build &lt;2.5.2.v20100210-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -302,130 +302,7 @@ rt;</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">EXPE_ID</property>
-                    <text-property name="displayName">expe_id</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CUST_SNAME</property>
-                    <text-property name="displayName">cust_sname</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">EXPE_TOTAL_AMOUNT</property>
-                    <text-property name="displayName">expe_total_amount</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">EXPE_EX_RATE</property>
-                    <text-property name="displayName">expe_ex_rate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CURR_CODE</property>
-                    <text-property name="displayName">curr_code</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">EXPE_INVOICE_DATE</property>
-                    <text-property name="displayName">expe_invoice_date</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CONS_SAIL_DATE</property>
-                    <text-property name="displayName">cons_sail_date</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CONS_POD_EN</property>
-                    <text-property name="displayName">cons_pod_en</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">USER_NAME</property>
-                    <text-property name="displayName">user_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">GROU_NAME</property>
-                    <text-property name="displayName">grou_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">EXPE_TYPE</property>
-                    <text-property name="displayName">expe_type</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">CONS_DATE</property>
-                    <text-property name="displayName">cons_date</text-property>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">EXPE_ID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">CUST_SNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">EXPE_TOTAL_AMOUNT</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">EXPE_EX_RATE</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">CURR_CODE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">EXPE_INVOICE_DATE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">CONS_SAIL_DATE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">CONS_POD_EN</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">USER_NAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">GROU_NAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">EXPE_TYPE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
-                        <property name="name">CONS_DATE</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
-                        <property name="name">LOCAL_AMOUNT</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">14</property>
-                        <property name="name">groupBy</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[var sql = this.queryText;
 if(params["dt"] == "0"){
 	sql += " and c.CONS_DATE >= '" + params["F"] + "'";
@@ -469,103 +346,18 @@ sql += " and e.comp_code = '" + params["compCode"] + "'";
 
 this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">EXPE_ID</property>
-                    <property name="nativeName">EXPE_ID</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">CUST_SNAME</property>
-                    <property name="nativeName">CUST_SNAME</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">EXPE_TOTAL_AMOUNT</property>
-                    <property name="nativeName">EXPE_TOTAL_AMOUNT</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">EXPE_EX_RATE</property>
-                    <property name="nativeName">EXPE_EX_RATE</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">CURR_CODE</property>
-                    <property name="nativeName">CURR_CODE</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">EXPE_INVOICE_DATE</property>
-                    <property name="nativeName">EXPE_INVOICE_DATE</property>
-                    <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">CONS_SAIL_DATE</property>
-                    <property name="nativeName">CONS_SAIL_DATE</property>
-                    <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">CONS_POD_EN</property>
-                    <property name="nativeName">CONS_POD_EN</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">USER_NAME</property>
-                    <property name="nativeName">USER_NAME</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">GROU_NAME</property>
-                    <property name="nativeName">GROU_NAME</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">EXPE_TYPE</property>
-                    <property name="nativeName">EXPE_TYPE</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">12</property>
-                    <property name="name">CONS_DATE</property>
-                    <property name="nativeName">CONS_DATE</property>
-                    <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
-                </structure>
-            </list-property>
             <xml-property name="queryText"><![CDATA[SELECT e.expe_id, e.cust_sname, 
 e.expe_total_amount, e.expe_ex_rate, 
 e.curr_code, e.expe_invoice_date, 
 c.cons_sail_date, c.cons_pod_en, 
 u.user_name, g.grou_name, e.expe_type, 
 c.cons_date
-FROM S_EXPENSE e, F_CONSIGN c, 
-P_USER u, P_GROUP g
+FROM S_EXPENSE e, F_CONSIGN c
+left join P_USER u 
+on c.cons_sales_rep_id = u.user_id
+left join P_GROUP g
+on c.dept_id = g.grou_id
 WHERE e.cons_id = c.cons_id
-AND c.cons_sales_rep_id = u.user_id
-AND c.dept_id = g.grou_id
 AND c.removed = "0"
 AND e.removed = "0"]]></xml-property>
         </oda-data-set>
@@ -941,7 +733,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">usdR</property>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupDate</value>
                                 </simple-property-list>
@@ -949,14 +741,14 @@ where COMP_CODE = ?]]></xml-property>
                                 <list-property name="arguments">
                                     <structure>
                                         <property name="name">Expression</property>
-                                        <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] != "CNY" &amp;&amp; row["EXPE_TYPE"] == "R"</expression>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] == "R"</expression>
                             </structure>
                             <structure>
                                 <property name="name">usdP</property>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
                                 <simple-property-list name="aggregateOn">
                                     <value>groupDate</value>
                                 </simple-property-list>
@@ -964,10 +756,10 @@ where COMP_CODE = ?]]></xml-property>
                                 <list-property name="arguments">
                                     <structure>
                                         <property name="name">Expression</property>
-                                        <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] != "CNY" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
                             </structure>
                             <structure>
                                 <property name="name">usdI</property>
@@ -1059,28 +851,28 @@ where COMP_CODE = ?]]></xml-property>
                             <structure>
                                 <property name="name">tUR</property>
                                 <text-property name="displayName">tUR</text-property>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
                                     <structure>
                                         <property name="name">Expression</property>
-                                        <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] != "CNY" &amp;&amp; row["EXPE_TYPE"] == "R"</expression>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] == "R"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tUP</property>
                                 <text-property name="displayName">tUP</text-property>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
                                     <structure>
                                         <property name="name">Expression</property>
-                                        <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] != "CNY" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tUI</property>
@@ -1120,6 +912,76 @@ where COMP_CODE = ?]]></xml-property>
                                 <expression name="expression">row["tLR"]-row["tLP"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
+                            <structure>
+                                <property name="name">eurR</property>
+                                <text-property name="displayName">eurR</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupDate</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "EUR" &amp;&amp; row["EXPE_TYPE"] == "R"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">eurP</property>
+                                <text-property name="displayName">eurP</text-property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupDate</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "EUR" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">eurI</property>
+                                <text-property name="displayName">eurI</text-property>
+                                <expression name="expression" type="javascript">row["eurR"]-row["eurP"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                            <structure>
+                                <property name="name">tER</property>
+                                <text-property name="displayName">tER</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "EUR" &amp;&amp; row["EXPE_TYPE"] == "R"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">tEP</property>
+                                <text-property name="displayName">tEP</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "EUR" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">tEI</property>
+                                <text-property name="displayName">tEI</text-property>
+                                <expression name="expression" type="javascript">row["tER"]-row["tEP"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
                         </list-property>
                         <column id="278"/>
                         <column id="175">
@@ -1131,6 +993,15 @@ where COMP_CODE = ?]]></xml-property>
                         <column id="180"/>
                         <column id="181"/>
                         <column id="182"/>
+                        <column id="350">
+                            <property name="repeat">1</property>
+                        </column>
+                        <column id="366">
+                            <property name="repeat">1</property>
+                        </column>
+                        <column id="358">
+                            <property name="repeat">1</property>
+                        </column>
                         <column id="183"/>
                         <column id="184"/>
                         <column id="256"/>
@@ -1182,6 +1053,24 @@ where COMP_CODE = ?]]></xml-property>
                                     <property name="textAlign">right</property>
                                     <label id="246">
                                         <text-property name="text">美金利润</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="351">
+                                    <property name="textAlign">right</property>
+                                    <label id="352">
+                                        <text-property name="text">欧元收入</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="367">
+                                    <property name="textAlign">right</property>
+                                    <label id="368">
+                                        <text-property name="text">欧元支出</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="359">
+                                    <property name="textAlign">right</property>
+                                    <label id="360">
+                                        <text-property name="text">欧元利润</text-property>
                                     </label>
                                 </cell>
                                 <cell id="148">
@@ -1259,6 +1148,15 @@ where COMP_CODE = ?]]></xml-property>
                                         <property name="drop">none</property>
                                     </cell>
                                     <cell id="331">
+                                        <property name="drop">none</property>
+                                    </cell>
+                                    <cell id="353">
+                                        <property name="drop">none</property>
+                                    </cell>
+                                    <cell id="369">
+                                        <property name="drop">none</property>
+                                    </cell>
+                                    <cell id="361">
                                         <property name="drop">none</property>
                                     </cell>
                                     <cell id="332">
@@ -1633,6 +1531,192 @@ where COMP_CODE = ?]]></xml-property>
                                             <property name="resultSetColumn">usdI</property>
                                         </data>
                                     </cell>
+                                    <cell id="354">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="numberAlign">center</property>
+                                        <property name="textAlign">right</property>
+                                        <data id="355">
+                                            <property name="backgroundAttachment">scroll</property>
+                                            <property name="backgroundPositionX">0%</property>
+                                            <property name="backgroundPositionY">0%</property>
+                                            <property name="backgroundRepeat">repeat</property>
+                                            <property name="fontFamily">"Sans"</property>
+                                            <property name="fontSize">9pt</property>
+                                            <property name="fontWeight">normal</property>
+                                            <property name="fontStyle">normal</property>
+                                            <property name="fontVariant">normal</property>
+                                            <property name="color">black</property>
+                                            <property name="textLineThrough">none</property>
+                                            <property name="textOverline">none</property>
+                                            <property name="textUnderline">none</property>
+                                            <property name="borderBottomColor">black</property>
+                                            <property name="borderBottomStyle">none</property>
+                                            <property name="borderBottomWidth">medium</property>
+                                            <property name="borderLeftColor">black</property>
+                                            <property name="borderLeftStyle">none</property>
+                                            <property name="borderLeftWidth">medium</property>
+                                            <property name="borderRightColor">black</property>
+                                            <property name="borderRightStyle">none</property>
+                                            <property name="borderRightWidth">medium</property>
+                                            <property name="borderTopColor">black</property>
+                                            <property name="borderTopStyle">none</property>
+                                            <property name="borderTopWidth">medium</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="marginLeft">0pt</property>
+                                            <property name="marginBottom">0pt</property>
+                                            <property name="marginRight">0pt</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="paddingLeft">1pt</property>
+                                            <property name="paddingBottom">1pt</property>
+                                            <property name="paddingRight">1pt</property>
+                                            <property name="numberAlign">right</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="letterSpacing">normal</property>
+                                            <property name="lineHeight">normal</property>
+                                            <property name="orphans">2</property>
+                                            <property name="textTransform">none</property>
+                                            <property name="whiteSpace">normal</property>
+                                            <property name="widows">2</property>
+                                            <property name="wordSpacing">normal</property>
+                                            <property name="display">block</property>
+                                            <property name="pageBreakAfter">auto</property>
+                                            <property name="pageBreakBefore">auto</property>
+                                            <property name="pageBreakInside">auto</property>
+                                            <property name="showIfBlank">false</property>
+                                            <property name="canShrink">false</property>
+                                            <property name="resultSetColumn">eurR</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="370">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="numberAlign">center</property>
+                                        <property name="textAlign">right</property>
+                                        <data id="371">
+                                            <property name="backgroundAttachment">scroll</property>
+                                            <property name="backgroundPositionX">0%</property>
+                                            <property name="backgroundPositionY">0%</property>
+                                            <property name="backgroundRepeat">repeat</property>
+                                            <property name="fontFamily">"Sans"</property>
+                                            <property name="fontSize">9pt</property>
+                                            <property name="fontWeight">normal</property>
+                                            <property name="fontStyle">normal</property>
+                                            <property name="fontVariant">normal</property>
+                                            <property name="color">black</property>
+                                            <property name="textLineThrough">none</property>
+                                            <property name="textOverline">none</property>
+                                            <property name="textUnderline">none</property>
+                                            <property name="borderBottomColor">black</property>
+                                            <property name="borderBottomStyle">none</property>
+                                            <property name="borderBottomWidth">medium</property>
+                                            <property name="borderLeftColor">black</property>
+                                            <property name="borderLeftStyle">none</property>
+                                            <property name="borderLeftWidth">medium</property>
+                                            <property name="borderRightColor">black</property>
+                                            <property name="borderRightStyle">none</property>
+                                            <property name="borderRightWidth">medium</property>
+                                            <property name="borderTopColor">black</property>
+                                            <property name="borderTopStyle">none</property>
+                                            <property name="borderTopWidth">medium</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="marginLeft">0pt</property>
+                                            <property name="marginBottom">0pt</property>
+                                            <property name="marginRight">0pt</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="paddingLeft">1pt</property>
+                                            <property name="paddingBottom">1pt</property>
+                                            <property name="paddingRight">1pt</property>
+                                            <property name="numberAlign">right</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="letterSpacing">normal</property>
+                                            <property name="lineHeight">normal</property>
+                                            <property name="orphans">2</property>
+                                            <property name="textTransform">none</property>
+                                            <property name="whiteSpace">normal</property>
+                                            <property name="widows">2</property>
+                                            <property name="wordSpacing">normal</property>
+                                            <property name="display">block</property>
+                                            <property name="pageBreakAfter">auto</property>
+                                            <property name="pageBreakBefore">auto</property>
+                                            <property name="pageBreakInside">auto</property>
+                                            <property name="showIfBlank">false</property>
+                                            <property name="canShrink">false</property>
+                                            <property name="resultSetColumn">eurP</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="362">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="numberAlign">center</property>
+                                        <property name="textAlign">right</property>
+                                        <data id="363">
+                                            <property name="backgroundAttachment">scroll</property>
+                                            <property name="backgroundPositionX">0%</property>
+                                            <property name="backgroundPositionY">0%</property>
+                                            <property name="backgroundRepeat">repeat</property>
+                                            <property name="fontFamily">"Sans"</property>
+                                            <property name="fontSize">9pt</property>
+                                            <property name="fontWeight">normal</property>
+                                            <property name="fontStyle">normal</property>
+                                            <property name="fontVariant">normal</property>
+                                            <property name="color">black</property>
+                                            <property name="textLineThrough">none</property>
+                                            <property name="textOverline">none</property>
+                                            <property name="textUnderline">none</property>
+                                            <property name="borderBottomColor">black</property>
+                                            <property name="borderBottomStyle">none</property>
+                                            <property name="borderBottomWidth">medium</property>
+                                            <property name="borderLeftColor">black</property>
+                                            <property name="borderLeftStyle">none</property>
+                                            <property name="borderLeftWidth">medium</property>
+                                            <property name="borderRightColor">black</property>
+                                            <property name="borderRightStyle">none</property>
+                                            <property name="borderRightWidth">medium</property>
+                                            <property name="borderTopColor">black</property>
+                                            <property name="borderTopStyle">none</property>
+                                            <property name="borderTopWidth">medium</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="marginLeft">0pt</property>
+                                            <property name="marginBottom">0pt</property>
+                                            <property name="marginRight">0pt</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="paddingLeft">1pt</property>
+                                            <property name="paddingBottom">1pt</property>
+                                            <property name="paddingRight">1pt</property>
+                                            <property name="numberAlign">right</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="letterSpacing">normal</property>
+                                            <property name="lineHeight">normal</property>
+                                            <property name="orphans">2</property>
+                                            <property name="textTransform">none</property>
+                                            <property name="whiteSpace">normal</property>
+                                            <property name="widows">2</property>
+                                            <property name="wordSpacing">normal</property>
+                                            <property name="display">block</property>
+                                            <property name="pageBreakAfter">auto</property>
+                                            <property name="pageBreakBefore">auto</property>
+                                            <property name="pageBreakInside">auto</property>
+                                            <property name="showIfBlank">false</property>
+                                            <property name="canShrink">false</property>
+                                            <property name="resultSetColumn">eurI</property>
+                                        </data>
+                                    </cell>
                                     <cell id="223">
                                         <property name="borderBottomColor">#000000</property>
                                         <property name="borderBottomStyle">solid</property>
@@ -1888,6 +1972,36 @@ where COMP_CODE = ?]]></xml-property>
                                             <property name="pattern">###0.00</property>
                                         </structure>
                                         <property name="resultSetColumn">tUI</property>
+                                    </data>
+                                </cell>
+                                <cell id="356">
+                                    <data id="357">
+                                        <property name="numberAlign">right</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="resultSetColumn">tER</property>
+                                    </data>
+                                </cell>
+                                <cell id="372">
+                                    <data id="373">
+                                        <property name="numberAlign">right</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="resultSetColumn">tEP</property>
+                                    </data>
+                                </cell>
+                                <cell id="364">
+                                    <data id="365">
+                                        <property name="numberAlign">right</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="resultSetColumn">tEI</property>
                                     </data>
                                 </cell>
                                 <cell id="172">
