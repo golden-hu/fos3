@@ -450,7 +450,7 @@ if(params["consNo"] != ""){
 	sql += " and c.CONS_NO = '" + params["consNo"] + "'";
 }
 if(params["custId"] != ""){
-	sql += " and e.CUST_ID = " + params["custId"];
+	sql += " and c.CUST_ID = " + params["custId"];
 }
 if(params["shliId"] != ""){
 	sql += " and c.SHLI_ID = " + params["shliId"];
@@ -567,7 +567,7 @@ on c.cons_sales_rep_id = u.user_id
 left join P_GROUP g
 on c.dept_id = g.grou_id
 WHERE e.cons_id = c.cons_id
-and e.cust_id = m.cust_id
+and c.cust_id = m.cust_id
 AND c.removed = "0"
 AND e.removed = "0"]]></xml-property>
         </oda-data-set>
@@ -1014,7 +1014,7 @@ where COMP_CODE = ?]]></xml-property>
                             <structure>
                                 <property name="name">groupDate</property>
                                 <text-property name="displayName">groupDate</text-property>
-                                <expression name="expression">params["dt"].value == "1" ? (dataSetRow["CONS_SAIL_DATE"] == null ? "" : "" +  (1900 + row["CONS_SAIL_DATE"].getYear()) + "-" + (dataSetRow["CONS_SAIL_DATE"].getMonth() + 1)) :  (dataSetRow["CONS_SAIL_DATE"] == null ? "" : "" +  (1900 + row["CONS_DATE"].getYear()) + "-" + (dataSetRow["CONS_DATE"].getMonth() + 1))</expression>
+                                <expression name="expression" type="javascript">params["dt"].value == "1" ? (dataSetRow["CONS_SAIL_DATE"] == null ? "" : "" +  (1900 + row["CONS_SAIL_DATE"].getYear()) + "-" + (dataSetRow["CONS_SAIL_DATE"].getMonth() + 1 &lt; 10 ? "0":"") + (dataSetRow["CONS_SAIL_DATE"].getMonth() + 1)) :  (dataSetRow["CONS_DATE"] == null ? "" : "" +  (1900 + row["CONS_DATE"].getYear()) + "-" + (dataSetRow["CONS_DATE"].getMonth() + 1&lt;10?"0":"") + (dataSetRow["CONS_DATE"].getMonth() + 1))</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
