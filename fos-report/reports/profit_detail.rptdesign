@@ -288,7 +288,7 @@
                     <property name="name">groupBy</property>
                     <expression name="expression">var rt;
 if(params["g"] == "1"){
-  rt = row["CUST_SNAME"];
+  rt = row["CUST_CODE"];
 }else if (params["g"] == "2"){
   rt = row["USER_NAME"];
 }else if (params["g"] == "3"){
@@ -302,7 +302,142 @@ rt;</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">EXPE_ID</property>
+                    <text-property name="displayName">expe_id</text-property>
+                    <text-property name="heading">expe_id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_CODE</property>
+                    <text-property name="displayName">cust_code</text-property>
+                    <text-property name="heading">cust_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_TOTAL_AMOUNT</property>
+                    <text-property name="displayName">expe_total_amount</text-property>
+                    <text-property name="heading">expe_total_amount</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_EX_RATE</property>
+                    <text-property name="displayName">expe_ex_rate</text-property>
+                    <text-property name="heading">expe_ex_rate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CURR_CODE</property>
+                    <text-property name="displayName">curr_code</text-property>
+                    <text-property name="heading">curr_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_INVOICE_DATE</property>
+                    <text-property name="displayName">expe_invoice_date</text-property>
+                    <text-property name="heading">expe_invoice_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SAIL_DATE</property>
+                    <text-property name="displayName">cons_sail_date</text-property>
+                    <text-property name="heading">cons_sail_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_POD_EN</property>
+                    <text-property name="displayName">cons_pod_en</text-property>
+                    <text-property name="heading">cons_pod_en</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">USER_NAME</property>
+                    <text-property name="displayName">user_name</text-property>
+                    <text-property name="heading">user_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">GROU_NAME</property>
+                    <text-property name="displayName">grou_name</text-property>
+                    <text-property name="heading">grou_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_TYPE</property>
+                    <text-property name="displayName">expe_type</text-property>
+                    <text-property name="heading">expe_type</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_DATE</property>
+                    <text-property name="displayName">cons_date</text-property>
+                    <text-property name="heading">cons_date</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">EXPE_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUST_CODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">EXPE_TOTAL_AMOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">EXPE_EX_RATE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">CURR_CODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">EXPE_INVOICE_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">CONS_SAIL_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CONS_POD_EN</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">USER_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">GROU_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">EXPE_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">CONS_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">LOCAL_AMOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">groupBy</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[var sql = this.queryText;
 if(params["dt"] == "0"){
 	sql += " and c.CONS_DATE >= '" + params["F"] + "'";
@@ -346,18 +481,93 @@ sql += " and e.comp_code = '" + params["compCode"] + "'";
 
 this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
-            <xml-property name="queryText"><![CDATA[SELECT e.expe_id, e.cust_sname, 
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">EXPE_ID</property>
+                    <property name="nativeName">EXPE_ID</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUST_CODE</property>
+                    <property name="nativeName">CUST_CODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">EXPE_TOTAL_AMOUNT</property>
+                    <property name="nativeName">EXPE_TOTAL_AMOUNT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">EXPE_EX_RATE</property>
+                    <property name="nativeName">EXPE_EX_RATE</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">CURR_CODE</property>
+                    <property name="nativeName">CURR_CODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">EXPE_INVOICE_DATE</property>
+                    <property name="nativeName">EXPE_INVOICE_DATE</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">CONS_SAIL_DATE</property>
+                    <property name="nativeName">CONS_SAIL_DATE</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CONS_POD_EN</property>
+                    <property name="nativeName">CONS_POD_EN</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">USER_NAME</property>
+                    <property name="nativeName">USER_NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">GROU_NAME</property>
+                    <property name="nativeName">GROU_NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">EXPE_TYPE</property>
+                    <property name="nativeName">EXPE_TYPE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">CONS_DATE</property>
+                    <property name="nativeName">CONS_DATE</property>
+                    <property name="dataType">date</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT e.expe_id, m.cust_code, 
 e.expe_total_amount, e.expe_ex_rate, 
 e.curr_code, e.expe_invoice_date, 
 c.cons_sail_date, c.cons_pod_en, 
 u.user_name, g.grou_name, e.expe_type, 
 c.cons_date
-FROM S_EXPENSE e, F_CONSIGN c
+FROM S_EXPENSE e, C_CUSTOMER m, F_CONSIGN c
 left join P_USER u 
 on c.cons_sales_rep_id = u.user_id
 left join P_GROUP g
 on c.dept_id = g.grou_id
 WHERE e.cons_id = c.cons_id
+and e.cust_id = m.cust_id
 AND c.removed = "0"
 AND e.removed = "0"]]></xml-property>
         </oda-data-set>
@@ -536,7 +746,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME</property>
-                                <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
+                                <expression name="expression">dataSetRow["CUST_CODE"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -638,7 +848,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME</property>
-                                <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["CUST_CODE"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
