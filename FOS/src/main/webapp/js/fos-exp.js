@@ -533,7 +533,8 @@ Fos.BookTab = function(p) {
 				this.find('name','custTel')[0].setValue(r.get('custTel'));
 				this.find('name','custFax')[0].setValue(r.get('custFax'));
 				this.find('name','custSalesId')[0].store.reload({params:{custId:r.get('custId')}});
-				p.set('custId',r.get('custId'));p.set('custSname',r.get('custCode'));
+				p.set('custId',r.get('custId'));
+				p.set('custSname',r.get('custCode'));
 				this.find('name','consShipper')[0].setValue(r.get('custShipper'));
 				var attr9=r.get('attr9');
 				var attr10=r.get('attr10');
@@ -709,7 +710,9 @@ Fos.BookTab = function(p) {
 		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consBookingAgency','');p.set('consBookingAgencyName','');}},
-        	select:function(c,r,i){p.set('consBookingAgency',r.get('custId'));p.set('consBookingAgencySname',r.get('custCode'));},
+        	select:function(c,r,i){
+				p.set('consBookingAgency',r.get('custId'));
+				p.set('consBookingAgencySname',r.get('custCode'));},
         	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
     var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,

@@ -2090,15 +2090,16 @@ Fos.FConTab = function(p,store) {
 				mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',selectOnFocus:true,anchor:'95%',
 			  	listeners:{scope:this,
 			  	blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('charterId','');p.set('charterName','');}},
-			  	select:function(c,r,i){p.set('charterId',r.get('custId'));
-			  		p.set('charterSname',r.get('custSnameCn'));
+			  	select:function(c,r,i){
+			  		p.set('charterId',r.get('custId'));
+			  		p.set('charterSname',r.get('custCode'));
 			  		p.set('custContact',r.get('custContact'));
 					p.set('custTel',r.get('custTel'));
 					p.set('custFax',r.get('custFax'));
 					if(!p.get('custId')){
 							p.set('custId',r.get('custId'));
 							p.set('custName',r.get('custNameCn'));
-							p.set('custSname',r.get('custSnameCn'));
+							p.set('custSname',r.get('custCode'));
 							this.find('name','custName')[0].setValue(r.get('custNameCn'));};
 					},
 				keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}}]},
