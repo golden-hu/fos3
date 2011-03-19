@@ -283,7 +283,7 @@ public class SVoucherService {
 		invoice.setInvoWriteOffNo(writeOffNo);
 		invoice.setInvoAmountWriteOff(writeOffAmount);
 		//核销状态		
-		Short status = caclWriteOffStatus(invoice.getInvoAmountWriteOff(), writeOffAmount);
+		Short status = caclWriteOffStatus(invoice.getInvoAmount(), writeOffAmount);
 		invoice.setInvoWriteOffStatus(status);
 	}
 
