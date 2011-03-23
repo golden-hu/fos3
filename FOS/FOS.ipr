@@ -256,6 +256,20 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="yonggguo">
+      <words>
+        <w>cimv</w>
+        <w>cscript</w>
+        <w>deactived</w>
+        <w>hitisoft</w>
+        <w>realhowto</w>
+        <w>saas</w>
+        <w>winmgmts</w>
+        <w>wscript</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FOS.iml" filepath="$PROJECT_DIR$/FOS.iml" />

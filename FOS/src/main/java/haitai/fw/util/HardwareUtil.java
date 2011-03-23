@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 public class HardwareUtil {
-	public static String getMotherboardSN() {
+	public static String getMotherBoard() {
 		String result = "";
 		try {
 			File file = File.createTempFile("realhowto", ".vbs");
@@ -33,7 +33,7 @@ public class HardwareUtil {
 		return result.trim();
 	}
 
-	public static String getSerialNumber(String drive) {
+	public static String getHardDisk(String drive) {
 		String result = "";
 		try {
 			File file = File.createTempFile("realhowto", ".vbs");
@@ -59,10 +59,10 @@ public class HardwareUtil {
 	}
 
 	public static void main(String[] args) {
-		String cpuId = getMotherboardSN();
+		String cpuId = getMotherBoard();
 		System.out.println("Motherboard serial number: " + cpuId);
 
-		String sn = getSerialNumber("C");
+		String sn = getHardDisk("C");
 		System.out.println("Serial Number of C: " + sn);
 	}
 }

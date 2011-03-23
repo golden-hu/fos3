@@ -1,9 +1,9 @@
 package haitai.fw.util;
 
+import org.springframework.context.MessageSource;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.context.MessageSource;
 
 public class MessageUtil {
 	private static MessageSource ms = SpringContextUtil.getContext();
@@ -29,6 +29,8 @@ public class MessageUtil {
 	public static final String FW_ERROR_LICENSE_LOAD = "fw.license_load";
 	public static final String FW_ERROR_LICENSE_IP = "fw.license_ip";
 	public static final String FW_ERROR_LICENSE_MAC = "fw.license_mac";
+	public static final String FW_ERROR_LICENSE_MB = "fw.license_mb";
+	public static final String FW_ERROR_LICENSE_HD = "fw.license_hd";
 	public static final String FW_ERROR_LICENSE_KEY = "fw.license_key";
 	public static final String FW_ERROR_LICENSE_USERS = "fw.license_users";
 	public static final String FW_ERROR_LICENSE_EXPIRED = "fw.license_expired";
@@ -56,6 +58,8 @@ public class MessageUtil {
 		msgSet.add(FW_ERROR_LICENSE_LOAD);
 		msgSet.add(FW_ERROR_LICENSE_IP);
 		msgSet.add(FW_ERROR_LICENSE_MAC);
+		msgSet.add(FW_ERROR_LICENSE_MB);
+		msgSet.add(FW_ERROR_LICENSE_HD);
 		msgSet.add(FW_ERROR_LICENSE_KEY);
 		msgSet.add(FW_ERROR_LICENSE_USERS);
 		msgSet.add(FW_ERROR_LICENSE_EXPIRED);
