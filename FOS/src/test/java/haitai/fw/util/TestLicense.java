@@ -14,9 +14,7 @@ public class TestLicense {
 
 	public long generateExpire() {
 		long d = 365L;
-		long now = System.currentTimeMillis();
-		long expire = now + d * 24 * 60 * 60 * 1000;
-		return expire;
+		return System.currentTimeMillis() + d * 24 * 60 * 60 * 1000;
 	}
 
 	@Test
