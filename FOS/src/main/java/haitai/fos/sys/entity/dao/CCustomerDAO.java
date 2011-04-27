@@ -229,6 +229,16 @@ public class CCustomerDAO extends GenericDAO<CCustomer, Integer> implements
 				+ toCustName + "', t.custSname = '" + toCustSname
 				+ "' where t.custId = " + fromId;
 		doUpdate(sql);
+		//22
+		sql = "update SInvoiceItem t set t.custId = " + toId + ", t.custName = '"
+				+ toCustName + "', t.custSname = '" + toCustSname
+				+ "' where t.custId = " + fromId;
+		doUpdate(sql);
+		//23
+		sql = "update SVoucherItem t set t.custId = " + toId + ", t.custName = '"
+				+ toCustName + "', t.custSname = '" + toCustSname
+				+ "' where t.custId = " + fromId;
+		doUpdate(sql);
 	}
 
 	@SuppressWarnings("unchecked")
