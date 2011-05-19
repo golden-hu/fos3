@@ -7,7 +7,6 @@
 		<relativePath>../fos-parent</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hitisoft</groupId>
 	<artifactId>fos</artifactId>
 	<packaging>war</packaging>
 	<name>fos JEE5 Webapp</name>
