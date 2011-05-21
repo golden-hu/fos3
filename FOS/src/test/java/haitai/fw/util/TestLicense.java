@@ -20,7 +20,7 @@ public class TestLicense {
 	@Test
 	public void generateTest() throws Exception {
 		Properties licenseProps = new Properties();
-		licenseProps.load(new FileInputStream("C:/hitisoft_license"));
+		licenseProps.load(new FileInputStream("/tmp/license"));
 		String licenseCompany = licenseProps.getProperty("Company");
 		String licenseIp = licenseProps.getProperty("IP");
 		String licenseMac = licenseProps.getProperty("MAC");

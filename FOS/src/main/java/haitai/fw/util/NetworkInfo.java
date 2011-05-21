@@ -47,7 +47,9 @@ public final class NetworkInfo {
 			if (os.startsWith("Windows")) {
 				return windowsParseMacAddress(windowsRunIpConfigCommand());
 			} else if (os.startsWith("Linux")) {
-				return linuxParseMacAddress(linuxRunIfConfigCommand());
+				return linuxParseMacAddress(linuxRunIfConfigCommand(),"HWaddr");
+            } else if (os.startsWith("Mac")) {
+                return linuxParseMacAddress(linuxRunIfConfigCommand(),"ether");
 			} else {
 				throw new BusinessException("unknown operating system: " + os);
 			}
@@ -80,7 +82,7 @@ public final class NetworkInfo {
 	/*
 	 * Linux stuff
 	 */
-	private final static String linuxParseMacAddress(String ipConfigResponse)
+	private final static String linuxParseMacAddress(String ipConfigResponse, String key)
 			throws ParseException {
 		String localHost = null;
 		try {
@@ -103,18 +105,20 @@ public final class NetworkInfo {
 			}
 
 			// see if line contains MAC address
-			int macAddressPosition = line.indexOf("HWaddr");
-			if (macAddressPosition <= 0)
+			int macAddressPosition = line.indexOf(key);
+			if (macAddressPosition < 0)
 				continue;
 
-			String macAddressCandidate = line.substring(macAddressPosition + 6)
-					.trim();
+			String macAddressCandidate = line.substring(macAddressPosition + key.length()).trim();
 			if (linuxIsMacAddress(macAddressCandidate)) {
 				lastMacAddress = macAddressCandidate;
 				continue;
 			}
 		}
-
+        //for mac os x, lo isn't the last one
+        if(key.equals("ether")){
+            return lastMacAddress;
+        }
 		ParseException ex = new ParseException("cannot read MAC address for "
 				+ localHost + " from [" + ipConfigResponse + "]", 0);
 		ex.printStackTrace();
