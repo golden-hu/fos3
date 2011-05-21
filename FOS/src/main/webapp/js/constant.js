@@ -75,7 +75,7 @@ function  deleteUserData(key){
     if(isIE){with(document.documentElement)try{load(key);expires = new Date(315532799000).toUTCString();save(key);}
         catch (ex){alert(ex.message);}
     }else if(window.sessionStorage){try{sessionStorage.removeItem(key)}catch (ex){alert(ex);}}};
-var checkBrowser=function(){if(!Ext.isGecko3&&!Ext.isIE8&&!Ext.isChrome) alert('您的浏览器版本太低，请升级到Firefox3/IE8/Chrome!');};
+var checkBrowser=function(){if(!Ext.isGecko&&!Ext.isIE8&&!Ext.isChrome) alert('您的浏览器版本太低，请升级到Firefox4/IE8/Chrome!');};
 var login = function(f){checkBrowser();	
 	var n=f.userLoginName.value;
 	var p=f.userPassword.value;
