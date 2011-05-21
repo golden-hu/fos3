@@ -12,8 +12,6 @@ import haitai.fw.exception.NestedRuntimeException;
  * @author Juergen Hoeller
  * @since 2.0
  * @see NestedRuntimeException
- * @see NestedCheckedException
- * @see NestedIOException
  * @see org.springframework.web.util.NestedServletException
  */
 public abstract class ExceptionUtil {
@@ -26,7 +24,7 @@ public abstract class ExceptionUtil {
 	 */
 	public static String buildMessage(String message, Throwable cause) {
 		if (cause != null) {
-			StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
 			if (message != null) {
 				buf.append(message).append("; ");
 			}
@@ -40,8 +38,8 @@ public abstract class ExceptionUtil {
 	
 	/**
 	 * Check if the exception contains the exType
-	 * @param exType
-	 * @param ex
+	 * @param exType the exception type
+	 * @param ex the exception
 	 * @return true if the ex nestly contains exType
 	 */
 	public static boolean contains(Class<? extends Throwable> exType, Throwable ex) {
@@ -72,8 +70,7 @@ public abstract class ExceptionUtil {
 		}
 	}
 
-	public static Throwable getTypeException(Class<? extends Throwable> exType,
-			Throwable ex) {
+	public static Throwable getTypeException(Class<? extends Throwable> exType, Throwable ex) {
 		if (exType == null || exType.isInstance(ex)) {
 			return ex;
 		}

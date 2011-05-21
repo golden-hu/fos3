@@ -58,7 +58,8 @@ public class MainServlet extends HttpServlet {
 		super.destroy();
 	}
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response){
+	@Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response){
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		StringBuffer sbResult = new StringBuffer();
@@ -144,7 +145,7 @@ public class MainServlet extends HttpServlet {
 				}
 				entity2Text(sbResult, fosResponse, isJSON);
 
-				byte[] byteResult = null;
+				byte[] byteResult;
 				byteResult = sbResult.toString().getBytes(ConstUtil.XML_ENCODING_UTF8);
 				logger.info("\n" + sbResult);
 				bufferedWrite(outputStream, byteResult);
@@ -206,8 +207,8 @@ public class MainServlet extends HttpServlet {
 	/**
 	 * 从请求中获取所有的参数, 并放入参数Map中,
 	 * 后续的查询等需要使用这个参数Map
-	 * @param request
-	 * @return
+	 * @param request the http request
+	 * @return the parameter map
 	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, String> getRequestParams(HttpServletRequest request) {
@@ -222,7 +223,7 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 删除没用的参数
-	 * @param paramMap
+	 * @param paramMap remove unused parameter
 	 */
 	private void clearNotUsedParam(Map<String, String> paramMap) {
 		paramMap.remove(HttpHeader.ACTNAME);
@@ -230,8 +231,8 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 注册session
-	 * @param request
-	 * @param actName
+	 * @param request the http request
+	 * @param actName the action name
 	 */
 	private void regSessionAttr(HttpServletRequest request, String actName) {
 		SessionManager.regSession(request.getSession());
@@ -244,8 +245,8 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 登录时, 把IP写到Session
-	 * @param request
-	 * @param actName
+	 * @param request the http request
+	 * @param actName the action name
 	 */
 	private void regIpInSessionWhenLogin(HttpServletRequest request, String actName) {
 		if(ConstUtil.ACT_LOGIN.equalsIgnoreCase(actName)){
@@ -255,28 +256,27 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 从请求中取得POST的XML或者JSON文本
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
+	 * @param inputStream the post parameter
+	 * @return the xml or json string
+	 * @throws IOException read error
 	 */
 	private String readXml(InputStream inputStream) throws IOException {
 		InputStreamReader br = new InputStreamReader(inputStream, ConstUtil.XML_ENCODING_UTF8);
 		BufferedReader br2 = new BufferedReader(br);
-		String line = null;
-		StringBuffer sb = new StringBuffer();
+		String line;
+        StringBuilder sb = new StringBuilder();
 		while ((line = br2.readLine()) != null) {
 			sb.append(line).append(ConstUtil.LINE_SEPARATOR);
 		}
-		String xml = sb.toString();
-		return xml;
+        return sb.toString();
 	}
 
 	/**
 	 * 把输入的XML解析成FosRequest对象
-	 * @param actName
-	 * @param xml
-	 * @param isJSON
-	 * @return
+	 * @param actName the action name
+	 * @param xml the xml or json string
+	 * @param isJSON the message format is json
+	 * @return fos request object
 	 */
 	private FosRequest parseXml(String actName, String xml, boolean isJSON) {
 		FosRequest fosRequest;
@@ -294,12 +294,11 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 设置response的头信息
-	 * @param response
-	 * @param sbResult
-	 * @param isJSON
+	 * @param response the http response
+	 * @param sbResult the output string
+	 * @param isJSON format is json
 	 */
-	private void setResponseHeader(HttpServletResponse response,
-			StringBuffer sbResult, boolean isJSON) {
+	private void setResponseHeader(HttpServletResponse response, StringBuffer sbResult, boolean isJSON) {
 		//Http 1.0 header
 		response.setDateHeader("Expires", 0);
 		response.addHeader("Pragma", "no-cache");
@@ -315,13 +314,12 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 调用相关服务
-	 * @param actName
-	 * @param fosRequest
-	 * @param fosResponse
-	 * @throws Exception
+	 * @param actName the action name
+	 * @param fosRequest the fos request
+	 * @param fosResponse the fos response
+	 * @throws Exception the exception
 	 */
-	private void dispatch(String actName, FosRequest fosRequest,
-			FosResponse fosResponse) throws Exception {
+	private void dispatch(String actName, FosRequest fosRequest, FosResponse fosResponse) throws Exception {
 		// get service class and action method
 		Action action = ActionManager.getAction(actName);
 		Object service = SpringContextUtil.getBean(action.getActClass());
@@ -350,7 +348,6 @@ public class MainServlet extends HttpServlet {
 				}
 				fosResponse.setCode(0);
 				fosResponse.setMsg(MessageUtil.getMessage(MessageUtil.FW_SUCCESS));
-				retObj = null;
 			}
 		}
 	}
@@ -358,8 +355,8 @@ public class MainServlet extends HttpServlet {
 	
 	/**
 	 * 把row count参数从request复制到response
-	 * @param fosRequest
-	 * @param fosResponse
+	 * @param fosRequest the fos request
+	 * @param fosResponse the fos response
 	 */
 	private void copyRowCount(FosRequest fosRequest, FosResponse fosResponse) {
 		if(fosRequest.getParam() != null 
@@ -371,9 +368,9 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 把返回的对象序列化, 生成返回前台的文本
-	 * @param sbResult
-	 * @param fosResponse
-	 * @param isJSON
+	 * @param sbResult the output
+	 * @param fosResponse the fos response
+	 * @param isJSON format is json
 	 */
 	private void entity2Text(StringBuffer sbResult, FosResponse fosResponse,
 			boolean isJSON) {
@@ -388,8 +385,8 @@ public class MainServlet extends HttpServlet {
 	 * 把返回的FosResponse对象转换成JSON文本返回,
 	 * 因为前台的原因, 需要把FosResponse和Data两个tag去掉,
 	 * 并且把Code, Message, RowCount, 对象数组,这四部分拉平
-	 * @param sbResult
-	 * @param fosResponse
+	 * @param sbResult the output
+	 * @param fosResponse the fos response
 	 */
 	private void toJson(StringBuffer sbResult, FosResponse fosResponse) {
 		if(fosResponse.getData() != null && fosResponse.getData().size() > 0) {
@@ -406,7 +403,7 @@ public class MainServlet extends HttpServlet {
 					+ "\",");
 		} else {
 			if (fosResponse.getSuccess() != null) {
-				sbResult.append("{rowCount : 0, success : " + fosResponse.getSuccess() + "}");
+                sbResult.append("{rowCount : 0, success : ").append(fosResponse.getSuccess()).append("}");
 			} else {
 				sbResult.append("{rowCount : 0}");
 			}
@@ -415,8 +412,8 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 根据异常, 构建一个表示出错的FosResponse
-	 * @param e
-	 * @return
+	 * @param e the exception
+	 * @return the exception fos response
 	 */
 	private FosResponse buildErrorResponse(Exception e) {
 		int errCode = -1;
@@ -431,9 +428,9 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 出错的FosResponse转换成返回前台的文本
-	 * @param fosResponse
-	 * @param isJSON
-	 * @return
+	 * @param fosResponse the fos response
+	 * @param isJSON the format is json
+	 * @return xml/json
 	 */
 	private StringBuffer entity2TextWhenError(FosResponse fosResponse,
 			boolean isJSON) {
@@ -449,11 +446,11 @@ public class MainServlet extends HttpServlet {
 
 	/**
 	 * 根据异常, 得到返回的异常信息
-	 * @param e
-	 * @return
+	 * @param e the exception
+	 * @return the exception message
 	 */
 	private String buildErrorMessage(Exception e) {
-		String msg = null;
+		String msg;
 		if (ExceptionUtil.contains(EntityExistsException.class, e)) {
 			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_ENTITY_EXIST);
 		} else if (ExceptionUtil.contains(OptimisticLockException.class, e)) {
@@ -462,8 +459,7 @@ public class MainServlet extends HttpServlet {
 				ConstraintViolationException.class, e)) {
 			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_CONSTRAINT_VIOLATION);
 		} else if (ExceptionUtil.contains(BusinessException.class, e)) {
-			Throwable b = ExceptionUtil.getTypeException(
-					BusinessException.class, e);
+			Throwable b = ExceptionUtil.getTypeException(BusinessException.class, e);
 			if (b != null && MessageUtil.msgSet.contains(b.getMessage())) {
 				msg = MessageUtil.getMessage(b.getMessage());
 			} else {
