@@ -34,7 +34,7 @@ Fos.copyConsign = function(p){
 	c.set('consStatusOnBoard',0);c.set('consStatusEir',0);c.set('consStatusSendCont',0);
 	c.set('consReassignFrom',0);c.set('consStatusLock',0);c.set('consStatusSettlement',0);c.set('rowAction','N');
 	c.set('fconId','');c.set('loliId','');c.set('consMasterFlag','0');c.set('consMasterId','');
-	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');
+	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');c.set('rowAction','N');
 	return c;
 };
 Fos.showConsign = function(p){
@@ -97,7 +97,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c20={header:C_CBM,width:80,dataIndex:"consTotalMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
     
     var c21={header:C_CONT_INFO,width:80,dataIndex:"consContainersInfo"};
-    var c22={header:C_CONT_NUM,width:80,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0},css:'font-weight:bold;'};
+    var c22={header:C_CONT_NUM,width:80,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'};
     var c23={header:C_POT,dataIndex:"consPotEn"};
     var c24={header:C_CARRIER,dataIndex:"consCarrierName"};
     var c25={header:C_BOOK_AGENCY,dataIndex:"consBookingAgencyName"};
@@ -1073,7 +1073,7 @@ Fos.BookTab = function(p) {
 			},scope:this});
 				
 		},
-		failure: function(r){XMG.alert(SYS,M_F+r.responseText)}});
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     this.unlock=function(){
     	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
@@ -1094,7 +1094,7 @@ Fos.BookTab = function(p) {
 				}    						
 			},scope:this});				
 		},
-		failure: function(r){XMG.alert(SYS,M_F+r.responseText)}});
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     this.start=function(){this.updateStatus('1');};
     this.check=function(){this.updateStatus('2');};
@@ -1395,7 +1395,7 @@ Fos.TransTab = function(p) {
 						var a = g.getSelectionModel().getSelections();
 						if(a){
 							for(var i=0;i<a.length;i++){
-								if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId')})==-1){
+								if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId');})==-1){
 									var t = new FTransCargo({id:GGUID(),trcaId:'0',tranId:r.get('tranId'),consId:r.get('consId'),
 										cargId:a[i].get('cargId'),trcaCargoName:a[i].get('cargNameEn'),
 										packId:a[i].get('packId'),packName:getPACK(a[i].get('packId')),trcaPackageNum:a[i].get('cargPackageNum'),
@@ -1790,7 +1790,7 @@ Fos.WarehouseTab = function(p) {
 					var a = g.getSelectionModel().getSelections();
 					if(a){
 						for(var i=0;i<a.length;i++){
-							if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId')})==-1){
+							if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId');})==-1){
 								var rid=GGUID();
 								var t = new FWarehouseCargo({id:rid,wacaId:rid,wareId:r.get('wareId'),consId:r.get('consId'),
 									cargId:a[i].get('cargId'),wacaCargoName:a[i].get('cargNameEn'),wacaCargoMarks:a[i].get('cargMarks'),
@@ -2131,7 +2131,7 @@ Fos.ContainerTab = function(p) {
 				var a = g.getSelectionModel().getSelections();
 				if(a){
 					for(var i=0;i<a.length;i++){
-						if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId')})==-1){
+						if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId');})==-1){
 							var rid=GGUID();
 							var t = new FContainerCargo({id:rid,cocaId:rid,contId:r.get('contId'),
 								consId:p.get('consId'),consNo:p.get('consNo'),cargId:a[i].get('cargId'),
@@ -2417,7 +2417,7 @@ Fos.BBookingTab = function(p) {
     this.updateStatus=function(s){
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatus:s},
 		success: function(r){p.set('consStatusBBook',s);this.updateToolBar(s);XMG.alert(SYS,M_S);},
-		failure: function(r){XMG.alert(SYS,M_F+r.responseText)}});
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     this.updateToolBar = function(s){  
 		var tb=this.getTopToolbar();
