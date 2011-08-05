@@ -569,23 +569,15 @@ Fos.InspectionTab = function(p) {
 	this.expExcel=function(){
 		var b = this.inspGrid.getSelectionModel().getSelected();
 		if(b){
-			b.beginEdit();this.getForm().updateRecord(b);b.endEdit();
-			if(b.dirty){			
-				XMG.alert(SYS,M_DIRTY_PROMPT);return;
-			}
-			else EXPC('INSP','&inspId='+b.get('inspId'));
+			EXPC('INSP','&inspId='+b.get('inspId'));
 		}
 	};
 	this.expEmail=function(){
 		var b = this.inspGrid.getSelectionModel().getSelected();
 		if(b){
-			b.beginEdit();this.getForm().updateRecord(b);b.endEdit();
-			if(b.dirty){XMG.alert(SYS,M_DIRTY_PROMPT);return;}
-			else{
 				var to='',cc='',sub=C_INSP_BILL;
 				var msg='';
 				EXPM(to,cc,sub,msg,'INSP','inspId='+b.get('inspId'));
-			}
 		}
 	};
 	this.updateStatus=function(s){
@@ -912,25 +904,15 @@ Fos.CustomsTab = function(p) {
 	this.expExcel=function(){
 		var b = this.grid.getSelectionModel().getSelected();
 		if(b){
-			b.beginEdit();this.getForm().updateRecord(b);b.endEdit();
-			if(b.dirty){			
-				XMG.alert(SYS,M_DIRTY_PROMPT);return;
-			}
-			else EXPC('CUDE','&cudeId='+b.get('cudeId'));
+			EXPC('CUDE','&cudeId='+b.get('cudeId'));
 		}
 	};
 	this.expEmail=function(){
 		var b = this.grid.getSelectionModel().getSelected();
-		if(b){
-			b.beginEdit();this.getForm().updateRecord(b);b.endEdit();
-			if(b.dirty){			
-				XMG.alert(SYS,M_DIRTY_PROMPT);return;
-			}
-			else{
+		if(b){			
 				var to='',cc='',sub=C_CUST_BILL;
 				var msg='';
 				EXPM(to,cc,sub,msg,'CUDE','cudeId='+b.get('cudeId'));
-			}
 		}
 	};
 	this.updateStatus=function(s){
