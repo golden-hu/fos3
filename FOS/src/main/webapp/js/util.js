@@ -81,7 +81,7 @@ var checkPassEx=function(){
 	if(bP){
 		var t=new Ext.Template(M_PASS_EXP);
 		var msg=t.apply([ed.format(DATEF)]);
-		XMG.alert(SYS,msg);
+		//XMG.alert(SYS,msg);
 	}
 };
 function GS(a,r,o,s,d,g,sid,id,rs){

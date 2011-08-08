@@ -58,11 +58,11 @@ function  saveUserData(key, value){
     if(isIE){
         with(document.documentElement)
         	try {load(key);setAttribute("value", value);save(key);return  getAttribute("value");}
-        	catch (ex){alert(ex.message)}
+        	catch (ex){alert(ex.message);}
     }
     else if(window.sessionStorage){
-        try{sessionStorage.setItem(key,value)} catch (ex){alert(ex);}
-    }else{alert("当前浏览器不支持userdata或者sessionStorage特性")}
+        try{sessionStorage.setItem(key,value);} catch (ex){alert(ex);}
+    }else{alert("当前浏览器不支持userdata或者sessionStorage特性");}
 };
 
 function loadUserData(key){
@@ -74,9 +74,11 @@ function  deleteUserData(key){
     var ex; 
     if(isIE){with(document.documentElement)try{load(key);expires = new Date(315532799000).toUTCString();save(key);}
         catch (ex){alert(ex.message);}
-    }else if(window.sessionStorage){try{sessionStorage.removeItem(key)}catch (ex){alert(ex);}}};
+    }
+    else if(window.sessionStorage){try{sessionStorage.removeItem(key);}catch (ex){alert(ex);}}};
 var checkBrowser=function(){if(!Ext.isGecko&&!Ext.isIE8&&!Ext.isChrome) alert('您的浏览器版本太低，请升级到Firefox4/IE8/Chrome!');};
-var login = function(f){checkBrowser();	
+var login = function(f){
+	//checkBrowser();	
 	var n=f.userLoginName.value;
 	var p=f.userPassword.value;
 	Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'LOGIN',mt:'JSON',userLoginName:n,userPassword:p},
