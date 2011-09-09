@@ -1,24 +1,7 @@
 package haitai.fos.ffop.service;
 
-import haitai.fos.ffop.entity.idao.IFBlDAO;
-import haitai.fos.ffop.entity.idao.IFCargoDAO;
-import haitai.fos.ffop.entity.idao.IFConsignDAO;
-import haitai.fos.ffop.entity.idao.IFContainerDAO;
-import haitai.fos.ffop.entity.idao.IFContractDAO;
-import haitai.fos.ffop.entity.idao.IFDoDAO;
-import haitai.fos.ffop.entity.idao.IFDocDAO;
-import haitai.fos.ffop.entity.idao.IFLoadingListDAO;
-import haitai.fos.ffop.entity.idao.IFPackingListDAO;
-import haitai.fos.ffop.entity.idao.IFTaskDAO;
-import haitai.fos.ffop.entity.table.FBl;
-import haitai.fos.ffop.entity.table.FCargo;
-import haitai.fos.ffop.entity.table.FConsign;
-import haitai.fos.ffop.entity.table.FContainer;
-import haitai.fos.ffop.entity.table.FContract;
-import haitai.fos.ffop.entity.table.FDo;
-import haitai.fos.ffop.entity.table.FLoadingList;
-import haitai.fos.ffop.entity.table.FPackingList;
-import haitai.fos.ffop.entity.table.FTask;
+import haitai.fos.ffop.entity.idao.*;
+import haitai.fos.ffop.entity.table.*;
 import haitai.fos.ffse.entity.idao.ISExpenseDAO;
 import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GVoyage;
@@ -34,30 +17,16 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
-import haitai.fw.util.NumberUtil;
-import haitai.fw.util.ObjectUtil;
-import haitai.fw.util.SpringContextUtil;
-import haitai.fw.util.StringUtil;
-import haitai.fw.util.TimeUtil;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import haitai.fw.util.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class FConsignService {
@@ -524,8 +493,8 @@ public class FConsignService {
 	 */
 	private String getConsignNo(FConsign entity) {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put(SerialFactory.RULE_CONS_TYPE, entity.getClassType()
-				+ entity.getConsBizClass() + entity.getExternal());
+		map.put(SerialFactory.RULE_CONS_TYPE, entity.getClassType() + entity.getConsBizClass() + entity.getExternal());
+		map.put(SerialFactory.RULE_CUST_CODE, entity.getCustSname());
 		String no = SerialFactory.getSerial("consign_no", map);
 		return no;
 	}

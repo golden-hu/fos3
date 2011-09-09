@@ -8,14 +8,13 @@ import haitai.fw.session.SessionManager;
 import haitai.fw.util.SpringContextUtil;
 import haitai.fw.util.StringUtil;
 import haitai.fw.util.TimeUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.transaction.annotation.Transactional;
 
 public class SerialFactory {
 //	private static final Short LOOP_NONE = 0;
@@ -32,6 +31,7 @@ public class SerialFactory {
 	public static final String RULE_CURRENCY = "<CUR>";
 	public static final String RULE_RP = "<RP>";
 	public static final String RULE_CONS_TYPE = "<CONS_TYPE>";
+	public static final String RULE_CUST_CODE = "<CUST_CODE>";
 
 	/**
 	 * 获取序列号

@@ -274,6 +274,7 @@
       <words>
         <w>cimv</w>
         <w>cscript</w>
+        <w>cust</w>
         <w>deactived</w>
         <w>hitisoft</w>
         <w>realhowto</w>
@@ -297,6 +298,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
     <library name="Maven: antlr:antlr:2.7.6">
       <CLASSES>
