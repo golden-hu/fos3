@@ -30,20 +30,34 @@ import java.util.*;
 
 @Service
 public class FConsignService {
-	private IFConsignDAO dao = null;
-	private IFContainerDAO containerDao = null;
-	private IFCargoDAO cargoDao = null;
-	private IFBlDAO blDao = null;
-	private IFDoDAO doDao = null;
-	private IFDocDAO docDao = null;
-	private ISExpenseDAO expenseDao = null;
-	private IFContractDAO contractDao = null;
-	private IFLoadingListDAO loadingListDao = null;
-	private IGVoyageDAO voyageDao = null;
-	private IFPackingListDAO packingListDao = null;
-	private IPCompanyConfigDAO companyConfigDao = null;
-	private IPTaskTypeDAO taskTypeDao = null;
-	private IFTaskDAO taskDao = null;
+	@Autowired
+	private IFConsignDAO dao;
+	@Autowired
+	private IFContainerDAO containerDao;
+	@Autowired
+	private IFCargoDAO cargoDao;
+	@Autowired
+	private IFBlDAO blDao;
+	@Autowired
+	private IFDoDAO doDao;
+	@Autowired
+	private IFDocDAO docDao;
+	@Autowired
+	private ISExpenseDAO expenseDao;
+	@Autowired
+	private IFContractDAO contractDao;
+	@Autowired
+	private IFLoadingListDAO loadingListDao;
+	@Autowired
+	private IGVoyageDAO voyageDao;
+	@Autowired
+	private IFPackingListDAO packingListDao;
+	@Autowired
+	private IPCompanyConfigDAO companyConfigDao;
+	@Autowired
+	private IPTaskTypeDAO taskTypeDao;
+	@Autowired
+	private IFTaskDAO taskDao;
 	@Autowired
 	private PMessageService messageService;
 	
@@ -55,8 +69,7 @@ public class FConsignService {
 		Integer newId = null;
 		String consNo = null;
 		// handle consign first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FConsign) {
 				FConsign entity = (FConsign) obj;
 				saveConsign(entity, retList);
@@ -65,29 +78,25 @@ public class FConsignService {
 				break;
 			}
 		}
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FContainer) {
 				FContainer entity = (FContainer) obj;
 				saveContainer(entity, retList, newId, consNo);
 			}
 		}
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FCargo) {
 				FCargo entity = (FCargo) obj;
 				saveCargo(entity, retList, newId, consNo);
 			}
 		}
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FBl) {
 				FBl entity = (FBl) obj;
 				saveBl(entity, retList, newId, consNo);
 			}
 		}
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FDo) {
 				FDo entity = (FDo) obj;
 				saveDo(entity, retList, newId, consNo);
@@ -96,105 +105,84 @@ public class FConsignService {
 		return retList;
 	}
 
-	private void saveDo(FDo entity, List<Object> retList, Integer newId,
-			String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-				.getRowAction())) {
+	private void saveDo(FDo entity, List<Object> retList, Integer newId, String consNo) {
+		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 			entity.setDoId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			doDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 			retList.add(doDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 			FDo delEntity = doDao.findById(entity.getDoId());
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			doDao.update(delEntity);
 		} else {
-			throw new BusinessException(
-					MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 		}
 	}
 
-	private void saveBl(FBl entity, List<Object> retList, Integer newId,
-			String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-				.getRowAction())) {
+	private void saveBl(FBl entity, List<Object> retList, Integer newId, String consNo) {
+		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 			entity.setBlId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			blDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 			retList.add(blDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 			FBl delEntity = blDao.findById(entity.getBlId());
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			blDao.update(delEntity);
 		} else {
-			throw new BusinessException(
-					MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 		}
 	}
 
 	private void saveCargo(FCargo entity, List<Object> retList, Integer newId,
 			String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-				.getRowAction())) {
+		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 			entity.setCargId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			cargoDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 			retList.add(cargoDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 			FCargo delEntity = cargoDao.findById(entity.getCargId());
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			cargoDao.update(delEntity);
 		} else {
-			throw new BusinessException(
-					MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 		}
 	}
 
-	private void saveContainer(FContainer entity, List<Object> retList, Integer newId,
-			String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-				.getRowAction())) {
+	private void saveContainer(FContainer entity, List<Object> retList, Integer newId, String consNo) {
+		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 			entity.setContId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			containerDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 			retList.add(containerDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 			FContainer delEntity = containerDao.findById(entity.getContId());
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			containerDao.update(delEntity);
 		} else {
-			throw new BusinessException(
-					MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 		}
 	}
 
 	private void saveConsign(FConsign entity, List<Object> retList){
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-				.getRowAction())) {
+		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 			entity.setConsId(null);
 			checkBlNoDuplicated(entity);
-			if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())
-					&& entity.getVoyaId() != null) {
+			if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType()) && entity.getVoyaId() != null) {
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("custId", String.valueOf(entity.getCustId()));
 				queryMap.put("voyaId", String.valueOf(entity.getVoyaId()));
@@ -278,8 +266,7 @@ public class FConsignService {
 				syncPackingList(entity);
 				updateFactQuantity(entity, false);
 			}
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 			checkBlNoDuplicated(entity);
 			syncTask(entity);
 			FConsign retEntity = dao.update(entity);
@@ -290,8 +277,7 @@ public class FConsignService {
 				syncPackingList(entity);
 				updateFactQuantity(retEntity, false);
 			}
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-				.getRowAction())) {
+		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 			FConsign delEntity = dao.findById(entity.getConsId());
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			dao.update(delEntity);
@@ -299,8 +285,7 @@ public class FConsignService {
 				updateFactQuantity(delEntity, true);
 			}
 		} else {
-			throw new BusinessException(
-					MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 		}
 	}
 
@@ -366,19 +351,15 @@ public class FConsignService {
 		}else if(ConstUtil.TASK_DATE_TYPE_BASE_TASK_D.equals(type)){
 			d = dateMap.get(task.getTatyDId());
 		}
-		Date ed = (d == null ? null : TimeUtil.addDate(d, taskType
-				.getTatyDateEstimated()));
+		Date ed = (d == null ? null : TimeUtil.addDate(d, taskType.getTatyDateEstimated()));
 		task.setTaskEstimatedDate(ed);
 		return ed;
 	}
 
 	private boolean isDateChanged(FConsign entity, FConsign dbEntity) {
-		return ObjectUtil.isNotEqual(entity.getConsDate(), dbEntity
-				.getConsDate())
-				|| ObjectUtil.isNotEqual(entity.getConsEta(), dbEntity
-						.getConsEta())
-				|| ObjectUtil.isNotEqual(entity.getConsSailDate(), dbEntity
-						.getConsSailDate());
+		return ObjectUtil.isNotEqual(entity.getConsDate(), dbEntity.getConsDate())
+				|| ObjectUtil.isNotEqual(entity.getConsEta(), dbEntity.getConsEta())
+				|| ObjectUtil.isNotEqual(entity.getConsSailDate(), dbEntity.getConsSailDate());
 	}
 	
 	private void generateTask(FConsign master, FConsign slave) {
@@ -495,16 +476,15 @@ public class FConsignService {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(SerialFactory.RULE_CONS_TYPE, entity.getClassType() + entity.getConsBizClass() + entity.getExternal());
 		map.put(SerialFactory.RULE_CUST_CODE, entity.getCustSname());
-		String no = SerialFactory.getSerial("consign_no", map);
-		return no;
+		return SerialFactory.getSerial("consign_no", map);
 	}
 
 	private void updateFactQuantity(FConsign entity, boolean isDelete) {
 		FContract contract = contractDao.findById(entity.getFconId());
 		FLoadingList loadingList = loadingListDao.findById(entity.getLoliId());
 		if(isDelete) {
-			loadingList.setLoliFactQuantity(new Double(0));
-			loadingList.setLoliFactCbm(new Double(0));
+			loadingList.setLoliFactQuantity((double) 0);
+			loadingList.setLoliFactCbm((double) 0);
 			loadingList.setLoliStatus(ConstUtil.FalseShort);
 		} else {
 			loadingList.setLoliFactQuantity(entity.getConsTotalGrossWeight());
@@ -518,7 +498,7 @@ public class FConsignService {
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("fconId", ""+ entity.getFconId());
 		List<FLoadingList> objlist = loadingListDao.findByProperties(queryMap);
-		Double quantity = new Double(0);
+		Double quantity = (double) 0;
 		Set<String> consNoSet = new HashSet<String>();
 		Set<String> blNoSet = new HashSet<String>();
 		Integer consId = null;
@@ -549,7 +529,7 @@ public class FConsignService {
 		Map<String, Object> propertyMap = new HashMap<String, Object>();
 		propertyMap.put("voyaId", voyage.getVoyaId());
 		List<FLoadingList> list = loadingListDao.findByProperties(propertyMap);
-		quantity = new Double(0);
+		quantity = (double) 0;
 		for (FLoadingList item : list) {
 			if(item.getLoliFactQuantity() != null) {
 				quantity += item.getLoliFactQuantity();
@@ -623,12 +603,9 @@ public class FConsignService {
 		for (String strId : idArray) {
 			if (StringUtil.isNotBlank(strId)) {
 				Integer id = Integer.valueOf(strId);
-				for (Iterator iterator = queryMap.keySet().iterator(); iterator
-						.hasNext();) {
-					String item = (String) iterator.next();
+				for (String item : queryMap.keySet()) {
 					if (item.startsWith("consStatus")) {
-						Short status = Short.valueOf((String) queryMap
-								.get(item));
+						Short status = Short.valueOf((String) queryMap.get(item));
 						dao.updateStatusById(id, item, status);
 						break;
 					}
@@ -677,8 +654,7 @@ public class FConsignService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<FConsign> complexQuery(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
+	public List<FConsign> complexQuery(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		List<FConsign> consignList = dao.complexQuery(conditions, queryMap);
 		PUser myself = (PUser) SessionManager.getAttr(SessionKeyType.USER);
 		Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
@@ -696,15 +672,13 @@ public class FConsignService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<FConsign> complexQueryByContNo(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
+	public List<FConsign> complexQueryByContNo(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		return dao.complexQueryByContNo(conditions, queryMap);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List complexQueryCheck(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
+	public List complexQueryCheck(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		List retList = new ArrayList();
 		List objList = dao.complexQueryCheck(conditions, queryMap);
 		checkMergeStatistics(retList, objList);
@@ -716,8 +690,7 @@ public class FConsignService {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List complexQueryTask(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
+	public List complexQueryTask(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		List retList = new ArrayList();
 		List<FConsign> objList = dao.complexQueryTask(conditions, queryMap);
 		String consIds = "";
@@ -815,9 +788,7 @@ public class FConsignService {
 		List<FConsign> list = query(queryMap);
 		//如果>1, 说明肯定重复了
 		//如果=1, 而且主键不等, 说明有另外一个对象有同样的号
-		if (list.size() > 1
-				|| (list.size() == 1 
-						&& !list.get(0).getConsId().equals(entity.getConsId()))) {
+		if (list.size() > 1 || (list.size() == 1 && !list.get(0).getConsId().equals(entity.getConsId()))) {
 			throw new BusinessException(
 					MessageUtil.FFSE_BL_NO_DUPLICATED);
 		}
@@ -913,130 +884,4 @@ public class FConsignService {
 		retList.add(consign);
 		return retList;
 	}
-	public IFConsignDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IFConsignDAO dao) {
-		this.dao = dao;
-	}
-
-	public IFContainerDAO getContainerDao() {
-		return containerDao;
-	}
-
-	@Autowired
-	public void setContainerDao(IFContainerDAO containerDao) {
-		this.containerDao = containerDao;
-	}
-
-	public IFCargoDAO getCargoDao() {
-		return cargoDao;
-	}
-
-	@Autowired
-	public void setCargoDao(IFCargoDAO cargoDao) {
-		this.cargoDao = cargoDao;
-	}
-
-	public IFBlDAO getBlDao() {
-		return blDao;
-	}
-
-	@Autowired
-	public void setBlDao(IFBlDAO blDao) {
-		this.blDao = blDao;
-	}
-
-	public IFDoDAO getDoDao() {
-		return doDao;
-	}
-
-	@Autowired
-	public void setDoDao(IFDoDAO doDao) {
-		this.doDao = doDao;
-	}
-
-	public IFDocDAO getDocDao() {
-		return docDao;
-	}
-
-	@Autowired
-	public void setDocDao(IFDocDAO docDao) {
-		this.docDao = docDao;
-	}
-
-	public ISExpenseDAO getExpenseDao() {
-		return expenseDao;
-	}
-
-	@Autowired
-	public void setExpenseDao(ISExpenseDAO expenseDao) {
-		this.expenseDao = expenseDao;
-	}
-
-	public IFContractDAO getContractDao() {
-		return contractDao;
-	}
-
-	@Autowired
-	public void setContractDao(IFContractDAO contractDao) {
-		this.contractDao = contractDao;
-	}
-
-	public IFLoadingListDAO getLoadingListDao() {
-		return loadingListDao;
-	}
-
-	@Autowired
-	public void setLoadingListDao(IFLoadingListDAO loadingListDao) {
-		this.loadingListDao = loadingListDao;
-	}
-
-	public IGVoyageDAO getVoyageDao() {
-		return voyageDao;
-	}
-
-	@Autowired
-	public void setVoyageDao(IGVoyageDAO voyageDao) {
-		this.voyageDao = voyageDao;
-	}
-
-	public IFPackingListDAO getPackingListDao() {
-		return packingListDao;
-	}
-
-	@Autowired
-	public void setPackingListDao(IFPackingListDAO packingListDao) {
-		this.packingListDao = packingListDao;
-	}
-
-	public IPCompanyConfigDAO getCompanyConfigDao() {
-		return companyConfigDao;
-	}
-
-	@Autowired
-	public void setCompanyConfigDao(IPCompanyConfigDAO companyConfigDao) {
-		this.companyConfigDao = companyConfigDao;
-	}
-
-	public IPTaskTypeDAO getTaskTypeDao() {
-		return taskTypeDao;
-	}
-
-	@Autowired
-	public void setTaskTypeDao(IPTaskTypeDAO taskTypeDao) {
-		this.taskTypeDao = taskTypeDao;
-	}
-
-	public IFTaskDAO getTaskDao() {
-		return taskDao;
-	}
-
-	@Autowired
-	public void setTaskDao(IFTaskDAO taskDao) {
-		this.taskDao = taskDao;
-	}
-	
 }
