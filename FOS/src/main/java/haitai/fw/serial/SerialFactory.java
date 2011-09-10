@@ -36,8 +36,8 @@ public class SerialFactory {
 	/**
 	 * 获取序列号
 	 * code: 对应的序列号生成规则名称
-	 * @param code
-	 * @return
+	 * @param code rule code
+	 * @return the generated serial no
 	 */
 	public static String getSerial(String code){
 		return getSerial(code, new HashMap<String, String>());
@@ -50,9 +50,9 @@ public class SerialFactory {
 	 *   公司简称: SerialFactory.RULE_COMP, 如果不提供, 自动取当前公司
 	 *   用户简称: SerialFactory.RULE_USER, 如果不提供, 自动取当前用户
 	 *   币种简称: SerialFactory.RULE_CURRENCY
-	 * @param code
-	 * @param paramMap
-	 * @return
+	 * @param code serial rule code
+	 * @param paramMap parameter map
+	 * @return the generated serial no
 	 */
 	public static String getSerial(String code, Map<String, String> paramMap) {
 		/**
@@ -82,7 +82,7 @@ public class SerialFactory {
 		//insert fields of serial no 
 		queryMap.put("seruId", rule.getSeruId());
 		queryMap.put("senoSuffix", senoSuffix);
-		queryMap.put("senoCurrentNo", new Long(1));
+		queryMap.put("senoCurrentNo", (long) 1);
 		queryMap.put("seruCode", code);
 		//expire time of serial no
 		Short seruLoopPeriod = rule.getSeruLoopPeriod();
@@ -98,14 +98,13 @@ public class SerialFactory {
 		//get final serial no
 		//use real value of variable to replace the variable symbol
 		paramMap.put(RULE_SERIAL, strSN);
-		String serialNo = fillRule(rule.getSeruRule(), paramMap);
-		return serialNo;
+		return fillRule(rule.getSeruRule(), paramMap);
 	}
 
 	/**
 	 * 计算规则的过期时间
-	 * @param seruLoopPeriod
-	 * @return
+	 * @param seruLoopPeriod calculate loop period
+	 * @return the expire time
 	 */
 	private static Calendar getExpireTime(Short seruLoopPeriod) {
 		Calendar expire = Calendar.getInstance();
@@ -126,7 +125,7 @@ public class SerialFactory {
 
 	/**
 	 * 查询条件
-	 * @param propertyMap
+	 * @param propertyMap param map
 	 */
 	private static void buildParamMap(
 			Map<String, String> propertyMap) {
@@ -140,8 +139,8 @@ public class SerialFactory {
 
 	/**
 	 * 查询规则
-	 * @param querymap
-	 * @return
+	 * @param querymap query map
+	 * @return all matching rules
 	 */
 	@Transactional(readOnly=true)
 	private static PSerialRule getSerialRule(Map<String, Object> querymap) {
@@ -151,9 +150,9 @@ public class SerialFactory {
 
 	/**
 	 * 替换规则中的变量
-	 * @param rule
-	 * @param paramMap
-	 * @return
+	 * @param rule rule code
+	 * @param paramMap param map
+	 * @return the serial number after replaced variable
 	 */
 	private static String fillRule(String rule, Map<String, String> paramMap) {
 		Date now = TimeUtil.getNow();
@@ -174,8 +173,8 @@ public class SerialFactory {
 
 	/**
 	 * 从流水号表中查询到最新流水号
-	 * @param paramMap
-	 * @return
+	 * @param paramMap the param map
+	 * @return the next serial number
 	 */
 	@Transactional
 	private static Long getNextNo(Map<String, Object> paramMap) {
@@ -185,9 +184,9 @@ public class SerialFactory {
 
 	/**
 	 * 流水号补0
-	 * @param sn
-	 * @param length
-	 * @return
+	 * @param sn the number
+	 * @param length target length
+	 * @return the number in target length
 	 */
 	private static String formatSN(Long sn, Integer length) {
 		BigInteger i = new BigInteger("10");
