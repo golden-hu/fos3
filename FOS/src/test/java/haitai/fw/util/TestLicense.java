@@ -2,38 +2,51 @@ package haitai.fw.util;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.FileInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:LicenseTestContext.xml"})
 public class TestLicense {
 
 	@Before
 	public void setUp() throws Exception {
 	}
 
-	public long generateExpire() {
-		long d = 365L;
-		return System.currentTimeMillis() + d * 24 * 60 * 60 * 1000;
+	public long generateExpire(long day) {
+		return System.currentTimeMillis() + day * 24 * 60 * 60 * 1000;
 	}
 
 	@Test
 	public void generateTest() throws Exception {
-		Properties licenseProps = new Properties();
-		licenseProps.load(new FileInputStream("/tmp/license"));
-		String licenseCompany = licenseProps.getProperty("Company");
-		String licenseIp = licenseProps.getProperty("IP");
-		String licenseMac = licenseProps.getProperty("MAC");
-		String licenseMB = licenseProps.getProperty("MB");
-		String licenseHD = licenseProps.getProperty("HD");
-		String licenseUsers = licenseProps.getProperty("Users");
-		String licenseSAAS = licenseProps.getProperty("SAAS");
-		String key = licenseCompany + ConstUtil.COMMA + licenseIp + ConstUtil.COMMA + licenseMac + ConstUtil.COMMA
-				+ licenseMB + ConstUtil.COMMA + licenseHD + ConstUtil.COMMA
-				+ licenseUsers + ConstUtil.COMMA + licenseSAAS + ConstUtil.COMMA + generateExpire() + ConstUtil.COMMA
+		Properties properties = SpringContextUtil.getBean("licenseProperties");
+		String company = properties.getProperty("Company");
+		String ip = properties.getProperty("IP");
+		String mac = properties.getProperty("MAC");
+		String mb = properties.getProperty("MB");
+		String hd = properties.getProperty("HD");
+		String users = properties.getProperty("Users");
+		String saas = properties.getProperty("SAAS");
+		String expireDays = properties.getProperty("ExpireDays");
+		long expireTime = generateExpire(Long.parseLong(expireDays));
+		String key = company + ConstUtil.COMMA + ip + ConstUtil.COMMA + mac + ConstUtil.COMMA
+				+ mb + ConstUtil.COMMA + hd + ConstUtil.COMMA
+				+ users + ConstUtil.COMMA + saas + ConstUtil.COMMA
+				+ expireTime + ConstUtil.COMMA
 				+ Long.MAX_VALUE;
-		System.out.println(key);
 		key = CryptoUtil.MD5Encode(key);
-		System.out.println(key);
+
+		properties.setProperty("Expire", "" + expireTime);
+		properties.setProperty("Key", key);
+		properties.remove("ExpireDays");
+		OutputStream out = new FileOutputStream(new File("license.new"));
+		properties.store(out, null);
 	}
 }
