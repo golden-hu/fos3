@@ -17,7 +17,7 @@ public class ActionLogUtil {
 	PTableInfoService tableInfoService = null;
 	
 	public static void log() {
-		ActionLogUtil actLogUtil = SpringContextUtil.getBean("ActionLogUtil");
+		ActionLogUtil actLogUtil = SpringContextUtil.getBean("actionLogUtil");
 		actLogUtil.saveActLog();
 	}
 	

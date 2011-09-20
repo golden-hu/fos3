@@ -1,74 +1,63 @@
 package haitai.fos.sys.service;
 
 import haitai.fos.ffop.entity.table.FConsign;
-import haitai.fos.sys.entity.idao.IPMessageDAO;
-import haitai.fos.sys.entity.idao.IPMessageSubscribeDAO;
-import haitai.fos.sys.entity.idao.IPMessageTopicDAO;
-import haitai.fos.sys.entity.idao.IPTemplateMapDAO;
-import haitai.fos.sys.entity.idao.IPUserDAO;
-import haitai.fos.sys.entity.table.PMessage;
-import haitai.fos.sys.entity.table.PMessageSubscribe;
-import haitai.fos.sys.entity.table.PMessageTopic;
-import haitai.fos.sys.entity.table.PTemplateMap;
-import haitai.fos.sys.entity.table.PUser;
+import haitai.fos.sys.entity.idao.*;
+import haitai.fos.sys.entity.table.*;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.message.MailManager;
 import haitai.fw.platform.AppConfig;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
-import haitai.fw.util.MethodUtil;
-import haitai.fw.util.StringUtil;
-import haitai.fw.util.TimeUtil;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import haitai.fw.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Service("PMessageService")
 public class PMessageService {
-	
-	private IPMessageDAO dao = null;
-	private IPMessageTopicDAO topicDao = null;
-	private IPMessageSubscribeDAO subscribeDao = null;
-	private IPTemplateMapDAO mapDao = null;
-	private IPUserDAO userDao = null;
-	private MailManager mailManager = null;
-	private PTableInfoService tableInfoService = null;
-	private PTemplateService templateService = null;
+	@Autowired
+	private IPMessageDAO dao;
+	@Autowired
+	private IPMessageTopicDAO topicDao;
+	@Autowired
+	private IPMessageSubscribeDAO subscribeDao;
+	@Autowired
+	private IPTemplateMapDAO mapDao;
+	@Autowired
+	private IPUserDAO userDao;
+	@Autowired
+	private MailManager mailManager;
+	@Autowired
+	private PTableInfoService tableInfoService;
+	@Autowired
+	private PTemplateService templateService;
 	private FosLogger logger = new FosLogger(PMessageService.class);
-	private Map<String, List<PMessageTopic>> topicMap = 
-		new ConcurrentHashMap<String, List<PMessageTopic>>();
-	private Map<Integer, List<PMessageSubscribe>> subscMap = 
-		new ConcurrentHashMap<Integer, List<PMessageSubscribe>>();
-	
+	private Map<String, List<PMessageTopic>> topicMap = new ConcurrentHashMap<String, List<PMessageTopic>>();
+	private Map<Integer, List<PMessageSubscribe>> subscMap = new ConcurrentHashMap<Integer,
+			List<PMessageSubscribe>>();
+
 	@Transactional
 	public List<PMessage> save(List<PMessage> entityList,
-			Map<String, String> queryMap) throws Exception {
+							   Map<String, String> queryMap) throws Exception {
 		List<PMessage> retList = new ArrayList<PMessage>();
 		for (PMessage entity : entityList) {
 			if (ConstUtil.ROW_N
 					.equalsIgnoreCase(entity.getRowAction())) {
 				entity.setMessId(null);
 				entity.setMessCreateTime(new Date());
-				if(entity.getMessType() == ConstUtil.MESS_TYPE_EMAIL
-						|| entity.getMessType() == ConstUtil.MESS_TYPE_FAX){
+				if (entity.getMessType() == ConstUtil.MESS_TYPE_EMAIL
+						|| entity.getMessType() == ConstUtil.MESS_TYPE_FAX) {
 					entity.setMessSendFlag(ConstUtil.FalseShort);
 					PUser user = (PUser) SessionManager.getAttr(SessionKeyType.USER);
 					//发件人
-					if(StringUtil.isNotBlank(user.getUserEmail())) {
+					if (StringUtil.isNotBlank(user.getUserEmail())) {
 						entity.setMessFrom(user.getUserEmail());
-					}else {
+					} else {
 						String sender = AppConfig
 								.getConfig(ConstUtil.CONFIG_DEFAULT_EMAIL_SENDER);
 						if (StringUtil.isBlank(sender)) {
@@ -77,16 +66,16 @@ public class PMessageService {
 						entity.setMessFrom(sender);
 					}
 					//传真收件人=传真号码<传真邮件账号>
-					if(entity.getMessType() == ConstUtil.MESS_TYPE_FAX) {
+					if (entity.getMessType() == ConstUtil.MESS_TYPE_FAX) {
 						String sender = AppConfig
 								.getConfig(ConstUtil.CONFIG_FAX_SENDER);
 						sender = entity.getMessTo() + "<" + sender + ">";
 						entity.setMessTo(sender);
 					}
 					//附件
-					if(queryMap.containsKey(ConstUtil.TEMP_PARAM_ID)) {
+					if (queryMap.containsKey(ConstUtil.TEMP_PARAM_ID)) {
 						String fileName = templateService.exportTemplate(null, queryMap);
-						if(StringUtil.isNotBlank(fileName)) {
+						if (StringUtil.isNotBlank(fileName)) {
 							entity.setMessAttachment(StringUtil.ascii2utf8(fileName));
 						}
 					}
@@ -112,18 +101,18 @@ public class PMessageService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<PMessage> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
-	}	
+	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<PMessage> queryOwn(Map queryMap) {
 		return dao.queryOwn(queryMap);
-	}	
-	
-	public void send(){
+	}
+
+	public void send() {
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		SessionManager.regSession(new MockHttpSession());
 		SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
@@ -143,7 +132,7 @@ public class PMessageService {
 		for (PMessage message : messList) {
 			try {
 				mailManager.sendEmail(message);
-			}catch (BusinessException e) {
+			} catch (BusinessException e) {
 				logger.error("mail send failed!");
 			}
 		}
@@ -152,7 +141,7 @@ public class PMessageService {
 	public void clearSubscribeMap() {
 		subscMap.clear();
 	}
-	
+
 	@Transactional
 	public void triggerMessage(Object entity) {
 		String actName = SessionManager.getStringAttr(SessionKeyType.ACTNAME);
@@ -161,7 +150,7 @@ public class PMessageService {
 			initTopicMap();
 		if (subscMap.size() == 0)
 			initSubscribeMap();
-		
+
 		if (topicMap.containsKey(actName)) {
 			List<PMessageTopic> list = topicMap.get(actName);
 			for (PMessageTopic topic : list) {
@@ -169,19 +158,19 @@ public class PMessageService {
 				if (compCode.equals(topic.getCompCode())) {
 					List<PMessageSubscribe> list2 = subscMap.get(topic.getMetoId());
 					// 循环订阅列表
-					if(list2 != null) {
+					if (list2 != null) {
 						for (PMessageSubscribe subscribe : list2) {
-							if(subscribe.getMesuSubscriberType() == ConstUtil.MESU_TYPE_USER
-									&& subscribe.getMesuMailFlag() == ConstUtil.True){
+							if (subscribe.getMesuSubscriberType() == ConstUtil.MESU_TYPE_USER
+									&& subscribe.getMesuMailFlag() == ConstUtil.True) {
 								mailList.add(subscribe);
-							}else{
+							} else {
 								buildMsg(topic, subscribe, entity);
 							}
 						}
 						//如果是邮件, 要合并成一条邮件, 用户可以回复所有
-						if(mailList.size() > 1){
+						if (mailList.size() > 1) {
 							buildMsg(topic, mailList, entity);
-						}else if(mailList.size() == 1){
+						} else if (mailList.size() == 1) {
 							buildMsg(topic, mailList.get(0), entity);
 						}
 					}
@@ -189,9 +178,10 @@ public class PMessageService {
 			}
 		}
 	}
-	
+
 	/**
 	 * 配船通知
+	 *
 	 * @param topic
 	 * @param mailList
 	 * @param entity
@@ -246,7 +236,7 @@ public class PMessageService {
 			String clazz = entity.getClass().getSimpleName();
 			String fieldName = getFieldName(clazz, id);
 			//有这个字段
-			if(StringUtil.isNotBlank(fieldName)) {
+			if (StringUtil.isNotBlank(fieldName)) {
 				Integer userId = (Integer) MethodUtil.doGetMethod(entity, fieldName);
 				PUser user = userDao.findById(userId);
 				name = user.getUserName();
@@ -258,7 +248,7 @@ public class PMessageService {
 					buildMsg(subject, template, name, userId, name, ConstUtil.MESS_TYPE_IM);
 				}
 			}
-		}else {
+		} else {
 			//外部客户
 		}
 	}
@@ -277,7 +267,7 @@ public class PMessageService {
 	}
 
 	private void buildMsg(String subject, String template, String messTo,
-			Integer userId, String userName, Short messType) {
+						  Integer userId, String userName, Short messType) {
 		//如果是邮件,必须有接收地址
 		if (StringUtil.isNotBlank(messTo) || messType != ConstUtil.MESS_TYPE_EMAIL) {
 			PMessage msg = new PMessage();
@@ -300,7 +290,7 @@ public class PMessageService {
 	private String getBody(PMessageTopic topic, Object entity) {
 		String template = topic.getMetoTemplate();
 		Integer tetyId = topic.getTetyId();
-		if(tetyId == null) return template;
+		if (tetyId == null) return template;
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("tetyId", tetyId);
 		List<PTemplateMap> temaList = mapDao.findByProperties(queryMap);
@@ -313,11 +303,11 @@ public class PMessageService {
 			int suffix = template.indexOf(ConstUtil.STRING_RIGHT_BRACE);
 			String key = template.substring(prefix + 1, suffix);
 			PTemplateMap tema = temaMap.get(key);
-			if(tema != null) {
+			if (tema != null) {
 				String field = tema.getTemaField();
 				template = template.replaceAll("\\{" + key + "\\}",
 						toString(MethodUtil.doGetMethod(entity, field)));
-			}else {
+			} else {
 				template = template.substring(0, prefix)
 						+ template.substring(suffix + 1);
 			}
@@ -373,7 +363,7 @@ public class PMessageService {
 
 	private String toString(Object retObj) {
 		String strObj;
-		if(retObj == null) {
+		if (retObj == null) {
 			strObj = "";
 		} else if (retObj instanceof String) {
 			strObj = (String) retObj;
@@ -388,77 +378,4 @@ public class PMessageService {
 		}
 		return strObj;
 	}
-
-	public IPMessageDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IPMessageDAO dao) {
-		this.dao = dao;
-	}
-
-	public MailManager getMailManager() {
-		return mailManager;
-	}
-
-	@Autowired
-	public void setMailManager(MailManager mailManager) {
-		this.mailManager = mailManager;
-	}
-
-	public IPMessageTopicDAO getTopicDao() {
-		return topicDao;
-	}
-
-	@Autowired
-	public void setTopicDao(IPMessageTopicDAO topicDao) {
-		this.topicDao = topicDao;
-	}
-
-	public IPMessageSubscribeDAO getSubscribeDao() {
-		return subscribeDao;
-	}
-
-	@Autowired
-	public void setSubscribeDao(IPMessageSubscribeDAO subscribeDao) {
-		this.subscribeDao = subscribeDao;
-	}
-
-	public IPTemplateMapDAO getMapDao() {
-		return mapDao;
-	}
-
-	@Autowired
-	public void setMapDao(IPTemplateMapDAO mapDao) {
-		this.mapDao = mapDao;
-	}
-
-	public IPUserDAO getUserDao() {
-		return userDao;
-	}
-
-	@Autowired
-	public void setUserDao(IPUserDAO userDao) {
-		this.userDao = userDao;
-	}
-
-	public PTableInfoService getTableInfoService() {
-		return tableInfoService;
-	}
-
-	@Autowired
-	public void setTableInfoService(PTableInfoService tableInfoService) {
-		this.tableInfoService = tableInfoService;
-	}
-
-	public PTemplateService getTemplateService() {
-		return templateService;
-	}
-
-	@Autowired
-	public void setTemplateService(PTemplateService templateService) {
-		this.templateService = templateService;
-	}
-	
 }
