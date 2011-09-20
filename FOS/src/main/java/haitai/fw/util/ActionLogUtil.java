@@ -7,23 +7,24 @@ import haitai.fw.log.FosLogger;
 import haitai.fw.platform.ActionManager;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class ActionLogUtil {
 	FosLogger logger = new FosLogger(ActionLogUtil.class);
-	IPActionLogDAO logDao = null;
-	PTableInfoService tableInfoService = null;
-	
+	@Autowired
+	IPActionLogDAO logDao;
+	@Autowired
+	PTableInfoService tableInfoService;
+
 	public static void log() {
 		ActionLogUtil actLogUtil = SpringContextUtil.getBean("actionLogUtil");
 		actLogUtil.saveActLog();
 	}
-	
+
 	@Transactional
 	public void saveActLog(PActionLog... actLogs) {
-		PActionLog actLog = null;
+		PActionLog actLog;
 		if (actLogs.length > 0) {
 			actLog = actLogs[0];
 		} else {
@@ -34,31 +35,28 @@ public class ActionLogUtil {
 		actLog.setAcloActName(actName);
 		actLog.setAcloActRemark(ActionManager.getAction(actName).getActRemark());
 		actLog.setAcloIp(SessionManager.getStringAttr(SessionKeyType.HOSTNAME));
-		actLog.setAcloUserId((Integer) SessionManager
-				.getAttr(SessionKeyType.UID));
-		actLog.setAcloUserName(SessionManager
-				.getStringAttr(SessionKeyType.USERNAME));
+		actLog.setAcloUserId((Integer) SessionManager.getAttr(SessionKeyType.UID));
+		actLog.setAcloUserName(SessionManager.getStringAttr(SessionKeyType.USERNAME));
 		actLog.setCompCode(SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 		actLog.setCreateTime(TimeUtil.getNow());
 		actLog.setRowAction(ConstUtil.ROW_N);
 		logDao.save(actLog);
 	}
-	
+
 	@Transactional
 	public void saveActionLog(Object entity) {
 		PActionLog actLog = new PActionLog();
 		String clazzName = entity.getClass().getSimpleName();
 		actLog.setAcloTable(clazzName);
 		try {
-			actLog.setAcloTid((Integer) MethodUtil.doGetMethod(entity,
-					tableInfoService.getId(clazzName)));
+			actLog.setAcloTid((Integer) MethodUtil.doGetMethod(entity, tableInfoService.getId(clazzName)));
 			if (StringUtil.isNotBlank(tableInfoService.getNo(clazzName))) {
 				Object no = MethodUtil.doGetMethod(entity, tableInfoService.getNo(clazzName));
 				String strNo = null;
 				if (no instanceof String) {
 					strNo = (String) no;
 				} else if (no instanceof Integer) {
-					strNo = String.valueOf((Integer) no);
+					strNo = String.valueOf(no);
 				}
 				actLog.setAcloTno(strNo);
 			}
@@ -67,23 +65,4 @@ public class ActionLogUtil {
 		}
 		saveActLog(actLog);
 	}
-
-	public IPActionLogDAO getLogDao() {
-		return logDao;
-	}
-
-	@Autowired
-	public void setLogDao(IPActionLogDAO logDao) {
-		this.logDao = logDao;
-	}
-
-	public PTableInfoService getTableInfoService() {
-		return tableInfoService;
-	}
-
-	@Autowired
-	public void setTableInfoService(PTableInfoService tableInfoService) {
-		this.tableInfoService = tableInfoService;
-	}
-
 }
