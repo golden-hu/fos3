@@ -2276,7 +2276,8 @@ Fos.ConsDocGrid = function(p) {
 			editor:new Ext.form.ComboBox({displayField:'dotyCode',valueField:'dotyName',triggerAction:'all',
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
             listeners:{scope:this,select:function(c,r,i){sm.getSelected().set('dotyId',r.get('dotyId'));}}})},
-	{header:C_DOC_NO,dataIndex:'fdocNo',width:80,editor:new Ext.form.TextField()},
+    {header:C_BIZ_COMPANY,dataIndex:'fdocCompany',width:100,editor:new Ext.form.TextField()},
+    {header:C_DOC_NO,dataIndex:'fdocNo',width:80,editor:new Ext.form.TextField()},
 	{header:C_DOC_ORI_NUM,dataIndex:'fdocOriginalNum',width:80,editor:new Ext.form.NumberField()},
 	{header:C_DOC_COPY_NUM,dataIndex:'fdocCopyNum',width:80,editor:new Ext.form.NumberField()},
 	{header:C_STATUS,dataIndex:'fdocStatus',width:80,renderer:getDOST,
@@ -2330,7 +2331,7 @@ Fos.ConsDocGrid = function(p) {
 		this.store.insert(0,t);t.set('rowAction','N');sm.selectFirstRow();this.startEditing(0,1);
 	};
 	Fos.ConsDocGrid.superclass.constructor.call(this,{
-	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,
+	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,clicksToEdit:1,
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:this.store,sortInfo:{field:'fdocId',direction:'DESC'},
 		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.add},'-',
 			{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:function(){FOS_REMOVE(sm,this.store);}},'-',
@@ -2369,7 +2370,8 @@ Fos.DocGrid = function(s) {
 			editor:new Ext.form.ComboBox({displayField:'dotyCode',valueField:'dotyName',triggerAction:'all',
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
             listeners:{scope:this,select:function(c,r,i){sm.getSelected().set('dotyId',r.get('dotyId'));}}})},
-	{header:C_CONS_NO,dataIndex:'consNo',width:80,renderer:consRender},
+    {header:C_BIZ_COMPANY,dataIndex:'fdocCompany',width:100,editor:new Ext.form.TextField()},
+    {header:C_CONS_NO,dataIndex:'consNo',width:80,renderer:consRender},
 	{header:C_DOC_NO,dataIndex:'fdocNo',width:80,editor:new Ext.form.TextField()},	
 	{header:C_DOC_ORI_NUM,dataIndex:'fdocOriginalNum',width:30,editor:new Ext.form.NumberField()},
 	{header:C_DOC_COPY_NUM,dataIndex:'fdocCopyNum',width:30,editor:new Ext.form.NumberField()},	
@@ -2451,7 +2453,7 @@ Fos.DocGrid = function(s) {
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
-	Fos.DocGrid.superclass.constructor.call(this,{
+	Fos.DocGrid.superclass.constructor.call(this,{clicksToEdit:1,
 	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
 		view:new Ext.grid.GroupingView(vc),

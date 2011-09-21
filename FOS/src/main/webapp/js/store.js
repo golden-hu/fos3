@@ -302,6 +302,7 @@ FDoc = Ext.data.Record.create(['id','fdocId','fdocNo','consId','consNo','dotyId'
 	{name:'fdocReturnDate',type:'date',dateFormat:DATEF},
 	{name:'fdocBackDate',type:'date',dateFormat:DATEF},
 	'fdocSendTo','fdocSendType','fdocBackType','fdocSendSigner','fdocBackSigner',
+	'fdocCompany','fdocRemark',
 	{name:'fdocBackFlag',type:'boolean',convert:function(v){return v==1;}},
 	{name:'fdocReturnFlag',type:'boolean',convert:function(v){return v==1;}},
 	{name:'fdocReleasableFlag',type:'boolean',convert:function(v){return v==1;}},

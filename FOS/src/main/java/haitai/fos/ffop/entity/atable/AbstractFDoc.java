@@ -51,6 +51,9 @@ public abstract class AbstractFDoc extends BaseDomain {
 	private String compCode;
 	private Short removed;
 
+	private String fdocCompany;
+	private String fdocRemark;
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "FDOC_ID", unique = true, nullable = false)
@@ -365,5 +368,22 @@ public abstract class AbstractFDoc extends BaseDomain {
 	public void setRemoved(Short removed) {
 		this.removed = removed;
 	}
+	
+	@Column(name = "FDOC_COMPANY", length = 200)
+	public String getFdocCompany() {
+		return this.fdocCompany;
+	}
 
+	public void setFdocCompany(String fdocCompany) {
+		this.fdocCompany = fdocCompany;
+	}
+
+	@Column(name = "FDOC_REMARK", length = 200)
+	public String getFdocRemark() {
+		return this.fdocRemark;
+	}
+
+	public void setFdocRemark(String fdocRemark) {
+		this.fdocRemark = fdocRemark;
+	}
 }
