@@ -462,7 +462,7 @@ Fos.BookTab = function(p) {
 	   	 		}
 	   	 		var tbt=this.getComponent('T_BOOK_T_'+p.get('id'));
 	   	 		var t=tbt.getComponent('C_B_H_'+p.get('id'));
-	   	 		if(bf&&(p.get('cargLength')==''||p.get('cargWidth')==''||p.get('cargHigh')=='')){
+	   	 		/*if(bf&&(p.get('cargLength')==''||p.get('cargWidth')==''||p.get('cargHigh')=='')){
 	   	 			XMG.alert(SYS,M_BIG_CARGO_INFO,function(){tbt.setActiveTab(t);},this);
 	   	 			return;
 	   	 		}
@@ -473,7 +473,7 @@ Fos.BookTab = function(p) {
 	   	 		if(rf&&(p.get('cargTemperature')==''||p.get('cargTemperatureLow')==''||p.get('cargTemperatureHigh')=='')){
 	   	 			XMG.alert(SYS,M_REEFTER_CARGO_INFO,function(){tbt.setActiveTab(t);},this);
 	   	 			return;
-	   	 		}
+	   	 		}*/
 	   	 		p.set('consTotalContainers',tc);
 	   	 		p.set('consContainersInfo',cif);
 	   	 		p.set('consContainersTeu',tn);
