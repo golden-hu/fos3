@@ -56,8 +56,6 @@
             <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.3.0" />
             <element id="library" level="project" name="Maven: org.codehaus.jettison:jettison:1.0.1" />
             <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
-            <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.0.1" />
-            <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.1" />
             <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:0.9.29" />
             <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:0.9.29" />
             <element id="library" level="project" name="Maven: javax.mail:mail:1.4.1" />
@@ -146,24 +144,6 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
-    </option>
-  </component>
-  <component name="NullableNotNullManager">
-    <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
-    <option name="myDefaultNotNull" value="org.jetbrains.annotations.NotNull" />
-    <option name="myNullables">
-      <value>
-        <list size="0" />
-      </value>
-    </option>
-    <option name="myNotNulls">
-      <value>
-        <list size="3">
-          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
-          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
-          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
-        </list>
-      </value>
     </option>
   </component>
   <component name="Palette2">
@@ -359,17 +339,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.1/asm-3.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: c3p0:c3p0:0.9.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/c3p0/c3p0/0.9.1.1/c3p0-0.9.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/c3p0/c3p0/0.9.1.1/c3p0-0.9.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/c3p0/c3p0/0.9.1.1/c3p0-0.9.1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: cglib:cglib:2.2">
@@ -634,17 +603,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.6.7.Final/hibernate-entitymanager-3.6.7.Final-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.quartz-scheduler:quartz:2.0.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.0.1/quartz-2.0.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.0.1/quartz-2.0.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.0.1/quartz-2.0.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.slf4j:jcl-over-slf4j:1.6.2">

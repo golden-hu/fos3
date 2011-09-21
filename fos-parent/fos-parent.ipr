@@ -226,17 +226,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.1/asm-3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: c3p0:c3p0:0.9.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/c3p0/c3p0/0.9.1.1/c3p0-0.9.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/c3p0/c3p0/0.9.1.1/c3p0-0.9.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/c3p0/c3p0/0.9.1.1/c3p0-0.9.1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: cglib:cglib:2.2">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/cglib/cglib/2.2/cglib-2.2.jar!/" />
@@ -488,17 +477,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.6.7.Final/hibernate-entitymanager-3.6.7.Final-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.quartz-scheduler:quartz:2.0.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.0.1/quartz-2.0.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.0.1/quartz-2.0.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.0.1/quartz-2.0.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.slf4j:jcl-over-slf4j:1.6.2">
