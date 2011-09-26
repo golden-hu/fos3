@@ -38,9 +38,9 @@
             	var b=this.getSelectionModel().getSelected();
             	var rec=frm.UN.getById(r.get('unitCode'));
             	b.set('expeNum',rec?rec.get('N'):1);}}})};
-    var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:rateRender,
+    var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:expenseNumRender,
 			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
-	var t5={header:C_UNIT_PRICE,width:80,dataIndex:"expeUnitPrice",renderer:rateRender,
+	var t5={header:C_UNIT_PRICE,width:80,dataIndex:"expeUnitPrice",renderer:expenseNumRender,
 			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
 	var t6={header:C_CURR,dataIndex:'currCode',width:50,align:'center',
 			editor:new Ext.form.ComboBox({displayField:'currCode',valueField:'currCode',triggerAction: 'all',
@@ -112,7 +112,7 @@
     		expeCommissionRate:'',expeCommission:'',expeInnerPrice:'',expeExRate:'1.0000',expeRemarks:'',expeDate:new Date(),
     		expeAllocationFlag:'0',expeAllocatedFlag:'0',
     		expeInvoiceAmount:'0',expeWriteOffAmount:'0',expeWriteOffRcAmount:'0',expeInnerAmount:'0',expeRcAmount:'0',
-    		expeTotalAmount:'0',expeNum:n,version:'0'});
+    		expeTotalAmount:'0',expeNum:'',version:'0'});
     	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
 	};
 	this.removeExp=function(){
@@ -174,6 +174,48 @@
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
+	this.copyFrom=function(){
+		var win = new Fos.ExCopyWin(t);
+		win.addButton({text:C_OK,scope:this,handler:function(){
+			var g = win.findById('G_EXP_COPY_FROM');
+			var a = g.getSelectionModel().getSelections();
+			if(a){
+				for(var i=0;i<a.length;i++){
+					var r = a[i];
+					var rid=GGUID();
+					var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consSailDate:p.get('consSailDate'),
+			    		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
+			    		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
+			    		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',expeInvoiceStatus:'0',expeWriteOffStatus:'0',
+			    		custId:r.get('custId'),
+			    		custName:r.get('custName'),
+			    		custSname:r.get('custSname'),
+			    		consCustId:p.get('custId'),consCustName:p.get('custName'),chclId:r.get('chclId'),charId:r.get('charId'),charName:r.get('charName'),
+			    		expeType:t,pateId:r.get('pateId'),pateCode:r.get('pateCode'),unitName:r.get('unitName'),
+			    		currCode:r.get('currCode'),expeUnitPrice:r.get('expeUnitPrice'),
+			    		expeCommissionRate:r.get('expeCommissionRate'),
+			    		expeCommission:r.get('expeCommission'),
+			    		expeInnerPrice:r.get('expeInnerPrice'),
+			    		expeExRate:r.get('expeExRate'),
+			    		expeRemarks:'',expeDate:new Date(),
+			    		expeAllocationFlag:'0',expeAllocatedFlag:'0',
+			    		expeInvoiceAmount:'0',expeWriteOffAmount:'0',
+			    		expeWriteOffRcAmount:'0',
+			    		expeInnerAmount:'0',
+			    		expeRcAmount:'0',
+			    		expeTotalAmount:'0',expeNum:r.get('expeNum'),version:'0',rowAction:'N'});
+					store.add(e);
+				};
+				this.reCalculate();
+			}
+			win.close();
+		}},this);
+		win.addButton({text:C_CANCEL,handler : function(){win.close();}},this);
+		
+		win.show();
+	};
+	
 	this.allocate=function(){
 		var a = sm.getSelections();
 		if(a.length){			
@@ -206,6 +248,9 @@
     var b5={text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(m+F_M)||locked,scope:this,menu: {items: [
            {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}]}};
     var b6={itemId:'TB_F'+'F',text:C_ALLOCATION,iconCls:'broken',disabled:NR(m+F_M)||locked,scope:this,handler:this.allocate};
+    
+    var b7={itemId:'TB_CF',text:'COPY FROM...',iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.copyFrom};
+    
     if(t=='R'){
 	    new Ext.KeyMap(Ext.getDoc(), {
 			key:'nrsc',ctrl:true,
@@ -289,6 +334,7 @@
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(m+F_R)||locked);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked);
     	if(tb.getComponent('TB_D')) tb.getComponent('TB_D').setDisabled(NR(m+F_M)||locked);
+    	if(tb.getComponent('TB_CF')) tb.getComponent('TB_CF').setDisabled(NR(m+F_M)||locked);
 	};
 	
 	Fos.ExGrid.superclass.constructor.call(this, {id:'G_EXOE_'+p.get('consNo')+t,
@@ -332,9 +378,41 @@
 			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
 			this.reCalculate();}
     }},
-    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b5]:[b1, '-',b2,'-',b3,'-',b4,'-',b6]});
+    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b7]:[b1, '-',b2,'-',b3,'-',b4,'-',b6,'-',b7]});
 };
 Ext.extend(Fos.ExGrid, Ext.grid.EditorGridPanel);
+
+Fos.ExCopyWin = function(t) {
+	var store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	this.search = function(){		
+		store.load({params:{expeType:t,consNo:txtNo.getValue()}});
+	};
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var cm=new Ext.grid.ColumnModel({columns:[sm,
+	       {header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'left'},
+	       {header:C_CHAR,width:80,dataIndex:"charName",align:'center'},
+	       {header:C_UNIT,width:60,dataIndex:"unitName",align:'center'},
+	       {header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:rateRender},
+	       {header:C_UNIT_PRICE,width:80,dataIndex:"expeUnitPrice",renderer:rateRender},
+	       {header:C_CURR,dataIndex:'currCode',width:50,align:'center'},
+	       {header:C_EX_RATE,width:60,dataIndex:"expeExRate",renderer:rateRender},
+	       {header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender}	       
+	    ],
+		defaults:{sortable:true,width:100,align:'right'}});
+	cm.defaultSortable=true;cm.defaultWidth=100;			
+	
+	var txtNo = new Ext.form.TextField({});
+	
+    var grid = new Ext.grid.GridPanel({id:'G_EXP_COPY_FROM',stripeRows:true,store:store,sm:sm,cm:cm,
+    	tbar:[txtNo,
+    	      {itemId:'TB_L',text:C_SEARCH,iconCls:'search',scope:this,handler:this.search}]});
+    
+    Fos.ExCopyWin.superclass.constructor.call(this, {title:C_COPY_EXPENSE,modal:true,width:800,
+        height:400,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid});
+};
+Ext.extend(Fos.ExCopyWin,Ext.Window);
+
 Fos.ExpenseTab = function(p,f){
 	this.f=f;
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
@@ -542,8 +620,8 @@ Fos.ExpenseTab = function(p,f){
 			this.updateTB();XMG.alert(SYS,M_S);},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
 	};
-	this.check=function(){this.updateStatus('1')};
-	this.unCheck=function(){this.updateStatus('0')};
+	this.check=function(){this.updateStatus('1');};
+	this.unCheck=function(){this.updateStatus('0');};
 	this.updateTB=function(){
 		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
@@ -727,8 +805,8 @@ Fos.ExpenseTab2 = function(p,f){
 			this.updateTB();XMG.alert(SYS,M_S);},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
 	};
-	this.check=function(){this.updateStatus('1')};
-	this.unCheck=function(){this.updateStatus('0')};
+	this.check=function(){this.updateStatus('1');};
+	this.unCheck=function(){this.updateStatus('0');};
 	this.updateTB=function(){
 		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
@@ -798,11 +876,11 @@ Fos.ConsignAuditGrid = function() {
 		{header:C_AP_USD,dataIndex:"sumPUsd",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_AR_CNY,dataIndex:"sumRCny",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_AP_CNY,dataIndex:"sumPCny",align:'right',renderer:numRender,css:'font-weight:bold;'},
-		{header:C_CONT_NUM,width:60,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0},css:'font-weight:bold;'},
-		{header:"20'",hidden:true,dataIndex:"consContainers20",align:'right',renderer:function(v){return (v)?v:0},css:'font-weight:bold;'},
-		{header:"40'",hidden:true,dataIndex:"consContainers40",align:'right',renderer:function(v){return (v)?v:0},css:'font-weight:bold;'},
-		{header:"40'H",hidden:true,dataIndex:"consContainers40h",align:'right',renderer:function(v){return (v)?v:0},css:'font-weight:bold;'},
-		{header:"45'H",hidden:true,dataIndex:"consContainers45",align:'right',renderer:function(v){return (v)?v:0},css:'font-weight:bold;'},
+		{header:C_CONT_NUM,width:60,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
+		{header:"20'",hidden:true,dataIndex:"consContainers20",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
+		{header:"40'",hidden:true,dataIndex:"consContainers40",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
+		{header:"40'H",hidden:true,dataIndex:"consContainers40h",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
+		{header:"45'H",hidden:true,dataIndex:"consContainers45",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
 		{header:C_CONT_INFO,width:60,dataIndex:"consContainersInfo"},
 		{header:C_AR_USD_INVOICED,hidden:true,dataIndex:"sumRUsdInvoice",align:'right',renderer:numRender},
 		{header:C_AR_USD_WRITEOFFED,hidden:true,dataIndex:"sumRUsdWriteOff",align:'right',renderer:numRender},
@@ -1244,7 +1322,7 @@ Fos.InvoItemGrid = function(p,frm){
 				if(r){
 					var rn = store.getCount();
 					for(var i=0;i<r.length;i++){
-						if(rn==0 || store.findBy(function(rec,id){return rec.get('expeId')==r[i].get('expeId')})==-1){							
+						if(rn==0 || store.findBy(function(rec,id){return rec.get('expeId')==r[i].get('expeId');})==-1){							
 							var ex=r[i].get('currCode')==p.get('currCode')?p.get('invoExRate'):getExRate(r[i].get('currCode'),'CNY');
 							var invoAmountOri = round2(r[i].get('expeTotalAmount')-r[i].get('expeInvoiceAmount'));
 							var invoAmount = round2(invoAmountOri*ex/p.get('invoExRate'));
@@ -1407,7 +1485,7 @@ Fos.InvoEntryGrid = function(p,frm) {
 	};
 	this.refresh=function(){
 		var a=store.getRange();
-		for(var i=0;i<a.length;i++){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');store.remove(a[i])};
+		for(var i=0;i<a.length;i++){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');store.remove(a[i]);};
 		var g=frm.findById('G_INVO_I'+p.get('id'));
 		var total = 0;
 		var s = g.getStore();
@@ -1540,7 +1618,7 @@ Fos.InvoiceTab = function(p) {
     	p.set('rowAction','R');
 		var xml = RTX(p,'SInvoice',SInvoice);   	 	
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'INVO_S'},
-			success: function(r){XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_INVO_'+p.get('id'))});},
+			success: function(r){XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_INVO_'+p.get('id'));});},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(xml)
 		});
@@ -1643,7 +1721,7 @@ Fos.InvoiceTab = function(p) {
         	listeners:{scope:this,select:function(c,r,i){
 		this.find('name','invoAccount')[0].setValue(r.get('cobaAccount'));},
 		render:function(cbx){
-			cbx.store.filterBy(function(rec,id){return rec.get('currCode')==p.get('currCode')});}}};
+			cbx.store.filterBy(function(rec,id){return rec.get('currCode')==p.get('currCode');});}}};
 	var c6={fieldLabel:HL(C_INVO_DATE),tabIndex:6,name:'invoDate',value:p.get('invoDate'),xtype:'datefield',format:DATEF,anchor:'95%'};
 	var c7={fieldLabel:C_EX_RATE,tabIndex:7,name:'invoExRate',value:p.get('invoExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'90%',
             listeners:{scope:this,change:function(f,nv,ov){
@@ -1944,7 +2022,7 @@ Fos.InitLookupWin = function(c,t) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});	
 	var gv = new Ext.grid.GroupingView({forceFit:false,getRowClass:function(row,idx) {if(row.data.expeType!=t)return 'red-row';},groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_EXPE_TYPE,width:40,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP}},
+		{header:C_EXPE_TYPE,width:40,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
 		{header:C_INVO_NO,width:80,dataIndex:"invoNo"},
 		{header:C_TAX_NO,width:80,dataIndex:"invoTaxNo"},
 		{header:C_SETTLE_OBJECT,dataIndex:"custSname"},
@@ -1973,7 +2051,7 @@ Ext.extend(Fos.InitLookupWin,Ext.Window);
 Fos.VoucItemGrid = function(p,store){
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_EXPE_TYPE,width:40,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP}},
+		{header:C_EXPE_TYPE,width:40,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
 		{header:C_INVO_NO,width:90,dataIndex:'invoNo'},
 		{header:C_TAX_NO,width:90,dataIndex:'invoTaxNo'},
 		{header:C_CHAR,width:80,dataIndex:'charName'},
@@ -2033,7 +2111,7 @@ Fos.VoucItemGrid = function(p,store){
 				if(r){
 					var rn = store.getCount();
 					for(var i=0;i<r.length;i++){
-						if(rn==0 || store.findBy(function(rec,id){return rec.get('initId')==r[i].get('initId')})==-1){
+						if(rn==0 || store.findBy(function(rec,id){return rec.get('initId')==r[i].get('initId');})==-1){
 							var ex=r[i].get('invoCurrCode')==p.get('currCode')?p.get('voucExRate'):getExRate(r[i].get('invoCurrCode'),'CNY');
 							var voitAmountW = round2(r[i].get('initInvoiceAmount')-r[i].get('initInvoiceAmountW'));
 							var voitAmountOriW = round2(voitAmountW*r[i].get('invoExRate')/r[i].get('initExRate'));
@@ -2191,7 +2269,7 @@ Fos.VoucherTab = function(p,prId) {
     	p.set('rowAction','R');
 		var xml = RTX(p,'SVoucher',SVoucher);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'VOUC_S'},
-			success: function(r){XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_VOUC_'+p.get('id'))});},
+			success: function(r){XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_VOUC_'+p.get('id'));});},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(xml)});
     };
@@ -2202,9 +2280,9 @@ Fos.VoucherTab = function(p,prId) {
     			this.updateToolBar();XMG.alert(SYS,M_S);},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
-    this.check=function(){this.updateStatus('VOUC_U','1')};
-    this.renew=function(){this.updateStatus('VOUC_U','0')};
-    this.cancel=function(){this.updateStatus('VOUC_C','2')};
+    this.check=function(){this.updateStatus('VOUC_U','1');};
+    this.renew=function(){this.updateStatus('VOUC_U','0');};
+    this.cancel=function(){this.updateStatus('VOUC_C','2');};
     this.updateToolBar = function(){
 		var tb=this.getTopToolbar();
 		tb.getComponent('TB_A').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('voucStatus')!='0');
@@ -2561,7 +2639,7 @@ Fos.PrItemGrid = function(p){
 				if(r){
 					var rn = store.getCount();
 					for(var i=0;i<r.length;i++){
-						if(rn==0 || store.findBy(function(rec,id){return rec.get('invoId')==r[i].get('invoId')})==-1){
+						if(rn==0 || store.findBy(function(rec,id){return rec.get('invoId')==r[i].get('invoId');})==-1){
 							var amount = round2(r[i].get('invoAmount'));var rid=GGUID();						
 							var item = new SPrItem({id:rid,pritId:rid,prId:r[i].get('prId'),invoId:r[i].get('invoId'),
 							invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),invoDate:r[i].get('invoDate'),
@@ -2675,7 +2753,7 @@ Fos.PrTab = function(p) {
 		};
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'PR_S'},
 			success: function(r){
-				XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_PR_'+p.get('id'))});},
+				XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_PR_'+p.get('id'));});},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(xml)
 		});
@@ -2990,7 +3068,7 @@ Fos.BillTab = function(p){
 				if(r){
 					var rn = store.getCount();
 					for(var i=0;i<r.length;i++){
-						if(rn==0 || store.findBy(function(rec,id){return rec.get('expeId')==r[i].get('expeId')})==-1){							
+						if(rn==0 || store.findBy(function(rec,id){return rec.get('expeId')==r[i].get('expeId');})==-1){							
 							var rid=GGUID();
 							var it = new SBillItem({id:rid,biitId:rid,billId:p.get('billId'),expeId:r[i].get('expeId'),
 							custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
@@ -3069,7 +3147,7 @@ Fos.BillTab = function(p){
 			var x = ATX(a,'SBillItem',SBillItem);xml=xml+x;
 		};
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'BILL_S'},
-			success: function(r){XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_BILL_' + p.get('id'))});},
+			success: function(r){XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_BILL_' + p.get('id'));});},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(xml)
 		});
@@ -3172,14 +3250,14 @@ Fos.InvoNoGrid = function() {
 	{header:C_INNO_START,dataIndex:'innoStartNo',editor:new Ext.form.NumberField()},
 	{header:C_INNO_END,dataIndex:'innoEndNo',editor:new Ext.form.NumberField()},
 	{header:C_INNO_NEXT,dataIndex:'innoNextNo',editor:new Ext.form.NumberField()},
-	{header:C_ACTIVE,dataIndex:'active',renderer:function(v){return v==1?'Y':'N'}},
+	{header:C_ACTIVE,dataIndex:'active',renderer:function(v){return v==1?'Y':'N';}},
 	{header:C_ACTIVE_DATE,dataIndex:'innoStartDate',renderer:formatDate,width:80}],defaults:{sortable:true,width:80}});
 	this.active=function(){
 		var b =sm.getSelected();
 		if(b){
 			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'INNO_U',innoId:b.get('innoId')},
 			success: function(r){store.reload();XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText)}});			
+			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});			
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
@@ -3226,7 +3304,7 @@ Fos.ExhiGrid = function() {
 			var exhiCheckDateT = w.findById('exhiCheckDateT').getValue().format(DATEF);	
 			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXHI_E',
 				exhiType:exhiType,exhiCheckDateF:exhiCheckDateF,exhiCheckDateT:exhiCheckDateT},
-				success: function(r){XMG.alert(SYS,M_S);store.reLoad({params:{start:0,limit:C_PS}})},
+				success: function(r){XMG.alert(SYS,M_S);store.reLoad({params:{start:0,limit:C_PS}});},
 				failure: function(r){XMG.alert(SYS,M_F+r.responseText);}
 			});
 			w.close();
@@ -3275,7 +3353,7 @@ Fos.BaliWin = function(b){
         new Ext.grid.RowNumberer(),
         {header:C_VOUC_NO,width:100,dataIndex:"voucNo"},
         {header:C_DATE,dataIndex:"voucDate",renderer:formatDate},
-        {header:C_CHAR_TYPE,dataIndex:"voucType",renderer:function(v){return v=='R'?C_R:C_P}},        
+        {header:C_CHAR_TYPE,dataIndex:"voucType",renderer:function(v){return v=='R'?C_R:C_P;}},        
         {header:C_CURR,width:60,dataIndex:"currCode"},
         {header:C_FIX_AMOUNT,align:'right',renderer:numRender,dataIndex:"voucFixAmount"},
         {header:C_INVO_NO,dataIndex:"voucInvoiceNo"},
@@ -3335,7 +3413,7 @@ Fos.ExalWin = function(store,p) {
 		s.load({params:{consMasterFlag:0,consMasterId:p.get('consId')},scope:this,callback:function(r){
 			if(r.length){
 				for(var i=0;i<r.length;i++){
-					if(store.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId')})==-1&&consS.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId')})==-1){
+					if(store.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId');})==-1&&consS.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId');})==-1){
 						consS.insert(exalS.getTotalCount(),r[i]);
 					}
 				}
@@ -3349,7 +3427,7 @@ Fos.ExalWin = function(store,p) {
 		s.load({params:{vessId:p.get('vessId'),voyaName:p.get('voyaName')},scope:this,callback:function(r){
 			if(r.length){
 				for(var i=0;i<r.length;i++){
-					if(store.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId')})==-1&&consS.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId')})==-1){
+					if(store.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId');})==-1&&consS.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId');})==-1){
 						consS.insert(0,r[i]);
 					}
 				}

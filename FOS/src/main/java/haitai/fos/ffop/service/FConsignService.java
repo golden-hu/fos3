@@ -3,6 +3,7 @@ package haitai.fos.ffop.service;
 import haitai.fos.ffop.entity.idao.*;
 import haitai.fos.ffop.entity.table.*;
 import haitai.fos.ffse.entity.idao.ISExpenseDAO;
+import haitai.fos.ffse.entity.table.SExpense;
 import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GVoyage;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
@@ -269,6 +270,7 @@ public class FConsignService {
 		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 			checkBlNoDuplicated(entity);
 			syncTask(entity);
+			syncExp(entity);
 			FConsign retEntity = dao.update(entity);
 			retEntity.setEditable(ConstUtil.TrueShort);
 			retList.add(retEntity);
@@ -289,6 +291,7 @@ public class FConsignService {
 		}
 	}
 
+	
 	/**
 	 * 散货在生成主单的时候, 
 	 * 要发送配船通知rowAction=N,consBizType=B,consMasterFlag=1
@@ -338,6 +341,36 @@ public class FConsignService {
 		}
 	}
 
+	/**
+	 * 委托上的 sail_date, vessel_name,voyage_name,mbl_no,hbl_no修改的时候,
+	 * 要同步到费用上
+	 * @param entity
+	 */
+	private void syncExp(FConsign entity){
+		FConsign dbEntity = dao.findById(entity.getConsId());
+		if (isExpenseAffected(entity, dbEntity)) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("consId", "" + entity.getConsId());
+			List<SExpense> list = expenseDao.findByProperties(map);			
+			for (SExpense exp : list) {
+				exp.setConsVessel(entity.getVessName());
+				exp.setConsVoyage(entity.getVoyaName());
+				exp.setConsMblNo(entity.getConsMblNo());
+				exp.setConsHblNo(entity.getConsHblNo());
+				exp.setConsSailDate(entity.getConsSailDate());
+				expenseDao.save(exp);
+			}
+		}
+	}
+	
+	private boolean isExpenseAffected(FConsign entity, FConsign dbEntity) {
+		return ObjectUtil.isNotEqual(entity.getVessName(), dbEntity.getVessName())
+				|| ObjectUtil.isNotEqual(entity.getVoyaName(), dbEntity.getVoyaName())
+				|| ObjectUtil.isNotEqual(entity.getConsMblNo(), dbEntity.getConsMblNo())
+				|| ObjectUtil.isNotEqual(entity.getConsHblNo(), dbEntity.getConsHblNo())
+				|| ObjectUtil.isNotEqual(entity.getConsSailDate(), dbEntity.getConsSailDate());
+	}
+	
 	private Date getEstimatedDate(FConsign entity, FTask task,
 			PTaskType taskType, Map<Integer, Date> dateMap) {
 		String type = taskType.getTatyDateType();
