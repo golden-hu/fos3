@@ -336,7 +336,7 @@ public class FConsignService {
 				PTaskType taskType = tatyMap.get(task.getTatyId());
 				Date ed = getEstimatedDate(entity, task, taskType, dateMap);
 				dateMap.put(task.getTatyId(), ed);
-				taskDao.save(task);
+				taskDao.update(task);
 			}
 		}
 	}
@@ -358,7 +358,7 @@ public class FConsignService {
 				exp.setConsMblNo(entity.getConsMblNo());
 				exp.setConsHblNo(entity.getConsHblNo());
 				exp.setConsSailDate(entity.getConsSailDate());
-				expenseDao.save(exp);
+				expenseDao.update(exp);
 			}
 		}
 	}
