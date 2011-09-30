@@ -16,38 +16,43 @@ import haitai.fw.util.CompanyConfigUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.StringUtil;
 import haitai.fw.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.stereotype.Service;
-
 @Service
 public class FfopScheduleService {
 
-	private IFDocDAO docDao = null;
-	private IPMessageTopicDAO topicDao = null;
-	private IPMessageSubscribeDAO subscribeDao = null;
-	private FDocService docService = null;
-	private PMessageService messageService = null;
-	private IFConsignDAO consignDao = null;
-	
-	public void alertSalesOverdue(){
+	@Autowired
+	private IFDocDAO docDao;
+	@Autowired
+	private IPMessageTopicDAO topicDao;
+	@Autowired
+	private IPMessageSubscribeDAO subscribeDao;
+	@Autowired
+	private FDocService docService;
+	@Autowired
+	private PMessageService messageService;
+	@Autowired
+	private IFConsignDAO consignDao;
+
+	public void alertSalesOverdue() {
 		SessionManager.regSession(new MockHttpSession());
 		SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
 		SessionManager.setAttr(SessionKeyType.UID, 0);
 		SessionManager.setAttr(SessionKeyType.USERNAME, "daemon");
 		//查询有客户超期严重的业务员
 		//(委托从开船日期算,超过公司配置的最大应收账款天数,应收没有完全核销的)
-		List<PMessageTopic> topicList = getTopics(ConstUtil.QUARTZ_CONS_ALERT_SALES);	
+		List<PMessageTopic> topicList = getTopics(ConstUtil.QUARTZ_CONS_ALERT_SALES);
 		for (PMessageTopic topic : topicList) {
 			SessionManager.setAttr(SessionKeyType.COMPCODE, topic.getCompCode());
 			List<PMessageSubscribe> subscribeList = getSubscribe(topic.getMetoId());
-			if(subscribeList.size() <= 0) continue;
+			if (subscribeList.size() <= 0) continue;
 			List<FConsign> consignList = getNeedAlertSales();
 			for (PMessageSubscribe subscribe : subscribeList) {
 				for (FConsign consign : consignList) {
@@ -57,11 +62,10 @@ public class FfopScheduleService {
 		}
 		SessionManager.unregSession();
 	}
-	
-	public List<FConsign> getNeedAlertSales(){
+
+	public List<FConsign> getNeedAlertSales() {
 		int dateDue = 30;
-		String strDateDue = CompanyConfigUtil
-				.getCompanyConfig(ConstUtil.COMCF_CONS_AR_OVERDUE_DAYS);
+		String strDateDue = CompanyConfigUtil.getCompanyConfig(ConstUtil.COMCF_CONS_AR_OVERDUE_DAYS);
 		if (StringUtil.isNotBlank(strDateDue))
 			dateDue = Integer.parseInt(strDateDue);
 		List<Object> objList = consignDao.complexQueryOverDueSales(dateDue);
@@ -73,8 +77,8 @@ public class FfopScheduleService {
 				Integer salesId = (Integer) objArray[0];
 				String salesName = (String) objArray[1];
 				String blNo = (String) objArray[2];
-				String oldNo = blNoMap.get(salesName);
-				if(oldNo != null)
+				String oldNo = blNoMap.get(salesId);
+				if (oldNo != null)
 					blNo = oldNo + ConstUtil.COMMA + blNo;
 				blNoMap.put(salesId, blNo);
 				if (StringUtil.isNotBlank(salesMap.get(salesId)))
@@ -94,14 +98,14 @@ public class FfopScheduleService {
 		}
 		return retList;
 	}
-	
-	public void alertWriteOffDoc(){
+
+	public void alertWriteOffDoc() {
 		SessionManager.regSession(new MockHttpSession());
 		SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
 		SessionManager.setAttr(SessionKeyType.UID, 0);
 		SessionManager.setAttr(SessionKeyType.USERNAME, "daemon");
 		//找到核销单提醒的消息主题
-		List<PMessageTopic> topicList = getTopics(ConstUtil.QUARTZ_FDOC_ALERT_WRITEOFF);	
+		List<PMessageTopic> topicList = getTopics(ConstUtil.QUARTZ_FDOC_ALERT_WRITEOFF);
 		for (PMessageTopic topic : topicList) {
 			SessionManager.setAttr(SessionKeyType.COMPCODE, topic.getCompCode());
 			//找到该消息主题的订阅人列表
@@ -134,59 +138,8 @@ public class FfopScheduleService {
 		String ccId = CompanyConfigUtil.getCompanyConfig(ConstUtil.COMCF_FDOC_CC);
 		List<FosQuery> conditions = new ArrayList<FosQuery>();
 		conditions.add(new FosQuery("dotyId", ConstUtil.SQL_OP_EQUAL, ccId));
-		conditions.add(new FosQuery("fdocBackFlag", ConstUtil.SQL_OP_EQUAL,
-				ConstUtil.FalseStr));
-		conditions.add(new FosQuery("consSailDate", ConstUtil.SQL_OP_LESSEQUAL,
-				TimeUtil.addDate(-30)));
-		List<FDoc> docList = docDao.complexQueryNeedAlert(conditions, null);
-		return docList;
+		conditions.add(new FosQuery("fdocBackFlag", ConstUtil.SQL_OP_EQUAL, ConstUtil.FalseStr));
+		conditions.add(new FosQuery("consSailDate", ConstUtil.SQL_OP_LESSEQUAL, TimeUtil.addDate(-30)));
+		return docDao.complexQueryNeedAlert(conditions, null);
 	}
-
-	public IFDocDAO getDocDao() {
-		return docDao;
-	}
-	@Autowired
-	public void setDocDao(IFDocDAO docDao) {
-		this.docDao = docDao;
-	}
-	public IPMessageTopicDAO getTopicDao() {
-		return topicDao;
-	}
-	@Autowired
-	public void setTopicDao(IPMessageTopicDAO topicDao) {
-		this.topicDao = topicDao;
-	}
-	public IPMessageSubscribeDAO getSubscribeDao() {
-		return subscribeDao;
-	}
-	@Autowired
-	public void setSubscribeDao(IPMessageSubscribeDAO subscribeDao) {
-		this.subscribeDao = subscribeDao;
-	}
-	public FDocService getDocService() {
-		return docService;
-	}
-	@Autowired
-	public void setDocService(FDocService docService) {
-		this.docService = docService;
-	}
-
-	public PMessageService getMessageService() {
-		return messageService;
-	}
-
-	@Autowired
-	public void setMessageService(PMessageService messageService) {
-		this.messageService = messageService;
-	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-	
 }

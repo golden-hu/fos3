@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <configuration>
-
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%-30(%d{HH:mm:ss.SSS} [%thread]) %-5level %class{15}.%M:%L - %m%n</pattern>
 		</encoder>
 	</appender>
+	<logger name="org.hibernate.SQL" level="DEBUG"/>
+	<logger name="org.hibernate.type" level="DEBUG"/>
+	<logger name="haitai" level="DEBUG"/>
 
-	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<encoder>
-			<pattern>%-30(%d{HH:mm:ss.SSS} [%thread]) %-5level %class{15}.%M:%L - %m%n</pattern>
-		</encoder>
-		<File>${java.io.tmpdir}/fos.log</File>
-	</appender>
-
-	<logger name="org.hibernate.SQL" level="DEBUG" />
-	<logger name="org.hibernate.type" level="DEBUG" />
-	<logger name="haitai" level="DEBUG" />
-	
 	<root level="ERROR">
-		<appender-ref ref="STDOUT" />
-		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT"/>
 	</root>
 </configuration>
