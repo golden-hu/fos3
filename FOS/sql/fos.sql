@@ -6424,6 +6424,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (1134, 33, '卸货港', 'FLoadingList', 'fconPodEn', NULL),
 (1135, 33, '货物描述', 'FLoadingList', 'fconCargoDesc', NULL),
 (1136, 33, '备注', 'FLoadingList', 'loliRemarks', NULL),
+(1878, 26, '业务号', 'FConsign', 'consNo', NULL),
 (1166, 26, '发货人', 'FConsign', 'consShipper', NULL),
 (1167, 26, '收货人', 'FConsign', 'consConsignee', NULL),
 (1168, 26, '通知人', 'FConsign', 'consNotifyParty', NULL),
