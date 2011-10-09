@@ -8,8 +8,10 @@ import haitai.fw.platform.ActionManager;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Component
 public class ActionLogUtil {
 	FosLogger logger = new FosLogger(ActionLogUtil.class);
 	@Autowired
