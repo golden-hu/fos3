@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef583f87-8728-4470-9a6d-53b0142c6add" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FOS/FOS.iml" afterPath="$PROJECT_DIR$/../FOS/FOS.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FOS/FOS.ipr" afterPath="$PROJECT_DIR$/../FOS/FOS.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FOS/src/main/webapp/WEB-INF/task.xml" afterPath="$PROJECT_DIR$/../FOS/src/main/webapp/WEB-INF/task.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fos-parent.iml" afterPath="$PROJECT_DIR$/fos-parent.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fos-parent.ipr" afterPath="$PROJECT_DIR$/fos-parent.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fos-parent.iws" afterPath="$PROJECT_DIR$/fos-parent.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fos-parent.ipr" afterPath="$PROJECT_DIR$/fos-parent.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FOS/FOS.iml" afterPath="$PROJECT_DIR$/../FOS/FOS.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fos-parent.iws" afterPath="$PROJECT_DIR$/fos-parent.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FOS/src/main/webapp/WEB-INF/task.xml" afterPath="$PROJECT_DIR$/../FOS/src/main/webapp/WEB-INF/task.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FOS/FOS.ipr" afterPath="$PROJECT_DIR$/../FOS/FOS.ipr" />
     </list>
     <ignored path="fos-parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,7 +70,7 @@
       <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="37" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.4716981">
+            <state line="101" column="37" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.02728732">
               <folding />
             </state>
           </provider>
@@ -176,6 +176,8 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Favorites" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -196,8 +198,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -214,9 +214,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Maven.fos-parent [install]">
     <configuration default="false" name="fos-parent [install]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
@@ -515,7 +515,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="816" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32927817" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -525,17 +525,17 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32880846" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34063262" sideWeight="0.6711916" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24979724" sideWeight="0.6711916" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32927817" sideWeight="0.0" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32880846" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32880846" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -610,15 +610,15 @@
             <node x="124.0" y="2242.0">org.apache.commons:commons-io:jar:1.3.2</node>
             <node x="124.0" y="2128.0">javax.mail:mail:jar:1.4.1</node>
             <node x="402.0" y="1102.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
-            <node x="124.0" y="1672.0">com.thoughtworks.xstream:xstream:jar:1.3.1</node>
             <node x="441.0" y="1026.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-expression:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
-            <node x="124.0" y="2280.0">junit:junit:jar:4.8.2</node>
+            <node x="124.0" y="1672.0">com.thoughtworks.xstream:xstream:jar:1.3.1</node>
             <node x="321.0" y="456.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE</node>
+            <node x="124.0" y="2280.0">junit:junit:jar:4.8.2</node>
             <node x="482.0" y="38.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/commons-collections:commons-collections:jar:3.1</node>
             <node x="423.0" y="266.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/cglib:cglib:jar:2.2/asm:asm:jar:3.1</node>
             <node x="124.0" y="1862.0">mysql:mysql-connector-java:jar:5.1.17</node>
-            <node x="265.0" y="1900.0">net.sf.ehcache:ehcache-core:jar:2.3.0/org.slf4j:slf4j-api:jar:1.5.11</node>
             <node x="379.0" y="1368.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE</node>
+            <node x="265.0" y="1900.0">net.sf.ehcache:ehcache-core:jar:2.3.0/org.slf4j:slf4j-api:jar:1.5.11</node>
             <node x="275.0" y="1026.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-expression:jar:3.0.6.RELEASE</node>
             <node x="321.0" y="418.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
             <node x="482.0" y="228.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.slf4j:slf4j-api:jar:1.6.1</node>
@@ -642,43 +642,43 @@
             <node x="124.0" y="0.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final</node>
             <node x="469.0" y="684.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-expression:jar:3.0.6.RELEASE</node>
             <node x="333.0" y="304.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/javassist:javassist:jar:3.12.0.GA</node>
+            <node x="402.0" y="1178.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
             <node x="469.0" y="646.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
             <node x="482.0" y="152.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.0.Final</node>
-            <node x="402.0" y="1178.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
             <node x="124.0" y="1938.0">org.codehaus.jettison:jettison:jar:1.0.1</node>
-            <node x="236.0" y="1672.0">com.thoughtworks.xstream:xstream:jar:1.3.1/xpp3:xpp3_min:jar:1.1.4c</node>
-            <node x="594.0" y="532.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
             <node x="333.0" y="0.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final</node>
+            <node x="594.0" y="532.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
+            <node x="236.0" y="1672.0">com.thoughtworks.xstream:xstream:jar:1.3.1/xpp3:xpp3_min:jar:1.1.4c</node>
             <node x="333.0" y="342.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.0.Final</node>
-            <node x="124.0" y="1976.0">org.quartz-scheduler:quartz:jar:1.7.3</node>
-            <node x="367.0" y="1406.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/aopalliance:aopalliance:jar:1.0</node>
             <node x="594.0" y="456.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE/aopalliance:aopalliance:jar:1.0</node>
+            <node x="367.0" y="1406.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/aopalliance:aopalliance:jar:1.0</node>
+            <node x="124.0" y="1976.0">org.quartz-scheduler:quartz:jar:1.7.3</node>
             <node x="124.0" y="418.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE</node>
             <node x="124.0" y="2090.0">ch.qos.logback:logback-classic:jar:0.9.30</node>
             <node x="333.0" y="266.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/cglib:cglib:jar:2.2</node>
-            <node x="124.0" y="1824.0">proxool:proxool-cglib:jar:0.9.1</node>
             <node x="482.0" y="0.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/antlr:antlr:jar:2.7.6</node>
-            <node x="124.0" y="2204.0">org.slf4j:jcl-over-slf4j:jar:1.6.2</node>
-            <node x="276.0" y="2166.0">org.slf4j:log4j-over-slf4j:jar:1.6.2/org.slf4j:slf4j-api:jar:1.6.2</node>
+            <node x="124.0" y="1824.0">proxool:proxool-cglib:jar:0.9.1</node>
             <node x="367.0" y="1520.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE</node>
-            <node x="124.0" y="1634.0">org.aspectj:aspectjweaver:jar:1.6.8</node>
+            <node x="276.0" y="2166.0">org.slf4j:log4j-over-slf4j:jar:1.6.2/org.slf4j:slf4j-api:jar:1.6.2</node>
+            <node x="124.0" y="2204.0">org.slf4j:jcl-over-slf4j:jar:1.6.2</node>
             <node x="594.0" y="570.0">org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
+            <node x="124.0" y="1634.0">org.aspectj:aspectjweaver:jar:1.6.8</node>
             <node x="124.0" y="1596.0">org.springframework:spring-test:jar:3.0.6.RELEASE</node>
             <node x="251.0" y="1254.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
             <node x="124.0" y="1786.0">proxool:proxool:jar:0.9.1</node>
             <node x="124.0" y="836.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE</node>
             <node x="124.0" y="2014.0">org.slf4j:slf4j-api:jar:1.6.2</node>
             <node x="333.0" y="380.0">org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.slf4j:slf4j-api:jar:1.6.1</node>
-            <node x="232.0" y="1938.0">org.codehaus.jettison:jettison:jar:1.0.1/stax:stax-api:jar:1.0.1</node>
             <node x="275.0" y="836.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-asm:jar:3.0.6.RELEASE</node>
+            <node x="232.0" y="1938.0">org.codehaus.jettison:jettison:jar:1.0.1/stax:stax-api:jar:1.0.1</node>
             <node x="367.0" y="1482.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
             <node x="124.0" y="1900.0">net.sf.ehcache:ehcache-core:jar:2.3.0</node>
             <node x="402.0" y="1140.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE</node>
             <node x="402.0" y="1064.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE/aopalliance:aopalliance:jar:1.0</node>
             <node x="275.0" y="950.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-context-support:jar:3.0.6.RELEASE</node>
             <node x="124.0" y="1216.0">org.springframework:spring-orm:jar:3.0.6.RELEASE</node>
-            <node x="379.0" y="1330.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
             <node x="275.0" y="874.0">org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
+            <node x="379.0" y="1330.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE</node>
             <node x="379.0" y="1292.0">org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE</node>
           </nodes>
           <notes />
@@ -758,14 +758,14 @@
               <point x="47.0" y="432.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE">
-              <point x="0.0" y="0.0" />
-              <point x="294.0" y="1458.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
             <edge source="org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE" target="org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-web:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
               <point x="323.5" y="1192.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE">
+              <point x="0.0" y="0.0" />
+              <point x="294.0" y="1458.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE">
@@ -778,14 +778,14 @@
               <point x="294.0" y="1534.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE/commons-logging:commons-logging:jar:1.1">
-              <point x="0.0" y="0.0" />
-              <point x="370.5" y="812.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
             <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/javax.transaction:jta:jar:1.1">
               <point x="0.0" y="0.0" />
               <point x="392.5" y="204.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE/commons-logging:commons-logging:jar:1.1">
+              <point x="0.0" y="0.0" />
+              <point x="370.5" y="812.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.springframework:spring-webmvc:jar:3.0.6.RELEASE" target="org.springframework:spring-webmvc:jar:3.0.6.RELEASE/org.springframework:spring-expression:jar:3.0.6.RELEASE">
@@ -921,11 +921,11 @@
               <point x="0.0" y="0.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final/org.slf4j:slf4j-api:jar:1.5.8">
+            <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE">
+            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final/org.slf4j:slf4j-api:jar:1.5.8">
               <point x="0.0" y="0.0" />
               <point x="0.0" y="0.0" />
             </edge>
@@ -942,23 +942,23 @@
               <point x="0.0" y="0.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="com.hitisoft:fos-parent:3.0.0-SNAPSHOT" target="ch.qos.logback:logback-classic:jar:0.9.30">
-              <point x="0.0" y="0.0" />
-              <point x="47.0" y="2104.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
             <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
               <point x="380.0" y="660.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final">
+            <edge source="com.hitisoft:fos-parent:3.0.0-SNAPSHOT" target="ch.qos.logback:logback-classic:jar:0.9.30">
               <point x="0.0" y="0.0" />
-              <point x="392.5" y="128.0" />
+              <point x="47.0" y="2104.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final">
+              <point x="0.0" y="0.0" />
+              <point x="392.5" y="128.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE">
@@ -975,19 +975,14 @@
               <point x="184.5" y="964.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE">
-              <point x="0.0" y="0.0" />
-              <point x="516.5" y="546.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
             <edge source="com.hitisoft:fos-parent:3.0.0-SNAPSHOT" target="org.springframework:spring-webmvc:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
               <point x="47.0" y="850.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.slf4j:slf4j-api:jar:1.6.1">
+            <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-aop:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
-              <point x="392.5" y="242.0" />
+              <point x="516.5" y="546.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE">
@@ -995,9 +990,9 @@
               <point x="294.0" y="1572.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE">
+            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/org.slf4j:slf4j-api:jar:1.6.1">
               <point x="0.0" y="0.0" />
-              <point x="300.0" y="1382.0" />
+              <point x="392.5" y="242.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE" target="org.springframework:spring-context-support:jar:3.0.6.RELEASE/org.springframework:spring-context:jar:3.0.6.RELEASE/org.springframework:spring-asm:jar:3.0.6.RELEASE">
@@ -1005,13 +1000,18 @@
               <point x="380.0" y="736.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE">
+            <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-jdbc:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
-              <point x="294.0" y="1496.0" />
+              <point x="300.0" y="1382.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="org.codehaus.jettison:jettison:jar:1.0.1" target="org.codehaus.jettison:jettison:jar:1.0.1/stax:stax-api:jar:1.0.1">
               <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-tx:jar:3.0.6.RELEASE/org.springframework:spring-beans:jar:3.0.6.RELEASE">
+              <point x="0.0" y="0.0" />
+              <point x="294.0" y="1496.0" />
               <point x="0.0" y="0.0" />
             </edge>
             <edge source="com.hitisoft:fos-parent:3.0.0-SNAPSHOT" target="org.springframework:spring-orm:jar:3.0.6.RELEASE">
@@ -1070,14 +1070,14 @@
               <point x="0.0" y="0.0" />
               <point x="0.0" y="0.0" />
             </edge>
-            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/commons-collections:commons-collections:jar:3.1">
-              <point x="0.0" y="0.0" />
-              <point x="392.5" y="52.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
             <edge source="org.springframework:spring-orm:jar:3.0.6.RELEASE" target="org.springframework:spring-orm:jar:3.0.6.RELEASE/org.springframework:spring-core:jar:3.0.6.RELEASE">
               <point x="0.0" y="0.0" />
               <point x="172.5" y="1268.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final" target="org.hibernate:hibernate-entitymanager:jar:3.6.4.Final/org.hibernate:hibernate-core:jar:3.6.4.Final/commons-collections:commons-collections:jar:3.1">
+              <point x="0.0" y="0.0" />
+              <point x="392.5" y="52.0" />
               <point x="0.0" y="0.0" />
             </edge>
           </edges>
@@ -1091,7 +1091,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="37" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.4716981">
+        <state line="101" column="37" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.02728732">
           <folding />
         </state>
       </provider>
