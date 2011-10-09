@@ -198,7 +198,7 @@
 		<repository>
 			<id>hitisoft</id>
 			<name>hitisoft mirror repository</name>
-			<url>http://www.hitisoft.com:8081/nexus/content/group/public</url>
+			<url>http://www.hitisoft.com:8081/nexus/content/groups/public</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -211,7 +211,7 @@
 		<pluginRepository>
 			<id>hitisoft</id>
 			<name>hitisoft mirror repository</name>
-			<url>http://www.hitisoft.com:8081/nexus/content/group/public</url>
+			<url>http://www.hitisoft.com:8081/nexus/content/groups/public</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
