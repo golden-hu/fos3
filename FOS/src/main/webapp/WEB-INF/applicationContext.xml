@@ -37,6 +37,5 @@
 		<entry key="mail.stmp.auth" value="true"/>
 		<entry key="mail.stmp.timeout" value="25000"/>
 	</util:map>
-	<bean id="springContextUtil" class="haitai.fw.util.SpringContextUtil"/>
 	<import resource="task.xml"/>
 </beans>
