@@ -37,9 +37,5 @@
 		<entry key="mail.stmp.auth" value="true"/>
 		<entry key="mail.stmp.timeout" value="25000"/>
 	</util:map>
-	<bean id="mailManager" class="haitai.fw.message.MailManager" p:sender-ref="mailSender"/>
-	<bean id="mappingConverterUtil" class="haitai.fw.util.MappingConverterUtil"/>
-	<bean id="actionLogUtil" class="haitai.fw.util.ActionLogUtil"/>
-	<bean id="springContextUtil" class="haitai.fw.util.SpringContextUtil"/>
 	<import resource="task.xml"/>
 </beans>

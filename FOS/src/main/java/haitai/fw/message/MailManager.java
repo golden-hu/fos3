@@ -10,23 +10,25 @@ import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.FileUtil;
 import haitai.fw.util.StringUtil;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+
+@Component
 public class MailManager {
+	@Autowired
 	private JavaMailSender sender;
-	private IPMessageDAO dao = null;
+	@Autowired
+	private IPMessageDAO dao;
 	private static FosLogger logger = new FosLogger(MailManager.class);
 
 	public void setSender(JavaMailSender sender) {
@@ -99,13 +101,4 @@ public class MailManager {
 		return s.split(";");
 	}
 
-	public IPMessageDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IPMessageDAO dao) {
-		this.dao = dao;
-	}
-	
 }

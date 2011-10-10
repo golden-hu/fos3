@@ -1,9 +1,5 @@
 package haitai.fw.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import haitai.fos.general.entity.idao.IGPaymentTermDAO;
 import haitai.fos.general.entity.idao.IGTransTermDAO;
 import haitai.fos.general.entity.table.GPaymentTerm;
@@ -11,14 +7,22 @@ import haitai.fos.general.entity.table.GTransTerm;
 import haitai.fos.sys.entity.idao.IPUserDAO;
 import haitai.fos.sys.entity.table.PUser;
 import haitai.fw.log.FosLogger;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Component
 public class MappingConverterUtil {
 	FosLogger logger = new FosLogger(MappingConverterUtil.class);
-	private IGTransTermDAO transTermDao = null;
-	private IGPaymentTermDAO paymentTermDao = null;
-	private IPUserDAO userDao = null;
+	@Autowired
+	private IGTransTermDAO transTermDao;
+	@Autowired
+	private IGPaymentTermDAO paymentTermDao;
+	@Autowired
+	private IPUserDAO userDao;
 	
 	public String Bool(String str) {
 		if ("1".equals(str)) {
@@ -129,32 +133,4 @@ public class MappingConverterUtil {
 		}
 		return status;
 	}
-	
-	public IGTransTermDAO getTransTermDao() {
-		return transTermDao;
-	}
-
-	@Autowired
-	public void setTransTermDao(IGTransTermDAO transTermDao) {
-		this.transTermDao = transTermDao;
-	}
-
-	public IGPaymentTermDAO getPaymentTermDao() {
-		return paymentTermDao;
-	}
-
-	@Autowired
-	public void setPaymentTermDao(IGPaymentTermDAO paymentTermDao) {
-		this.paymentTermDao = paymentTermDao;
-	}
-
-	public IPUserDAO getUserDao() {
-		return userDao;
-	}
-
-	@Autowired
-	public void setUserDao(IPUserDAO userDao) {
-		this.userDao = userDao;
-	}
-	
 }
