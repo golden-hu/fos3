@@ -249,7 +249,7 @@
            {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}]}};
     var b6={itemId:'TB_F'+'F',text:C_ALLOCATION,iconCls:'broken',disabled:NR(m+F_M)||locked,scope:this,handler:this.allocate};
     
-    var b7={itemId:'TB_CF',text:'COPY FROM...',iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.copyFrom};
+    var b7={itemId:'TB_CF',text:C_COPY_FROM_OT,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.copyFrom};
     
     if(t=='R'){
 	    new Ext.KeyMap(Ext.getDoc(), {
@@ -405,8 +405,9 @@ Fos.ExCopyWin = function(t) {
 	var txtNo = new Ext.form.TextField({});
 	
     var grid = new Ext.grid.GridPanel({id:'G_EXP_COPY_FROM',stripeRows:true,store:store,sm:sm,cm:cm,
-    	tbar:[txtNo,
-    	      {itemId:'TB_L',text:C_SEARCH,iconCls:'search',scope:this,handler:this.search}]});
+    	tbar:[{xtype:'tbtext',text:C_CONS_NO},
+    	      txtNo,
+    	      {text:C_SEARCH,iconCls:'search',scope:this,handler:this.search}]});
     
     Fos.ExCopyWin.superclass.constructor.call(this, {title:C_COPY_EXPENSE,modal:true,width:800,
         height:400,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid});

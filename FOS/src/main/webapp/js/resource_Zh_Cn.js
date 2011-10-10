@@ -594,7 +594,7 @@ var C_GW_ARRIVED='到货量';
 var C_PIECES='支数';
 var C_KGS='(KGS)';
 var C_MT='(MT)';
-
+var C_COPY_FROM_OT='从其他单票复制';
 var C_CBM='体积(CBM)';
 var C_CONT_INFO='箱信息';
 var C_CONT_NUM='箱量';
