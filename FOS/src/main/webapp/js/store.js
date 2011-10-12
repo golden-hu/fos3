@@ -649,7 +649,12 @@ WInquiry = Ext.data.Record.create(['id','winqId','winqCargoDesc','winqCargoPacka
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	{name:'modiryTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	'winqStatus','wusrId','wusrFirstName','wusrMobile','wusrCompanyName','wusrTel','compCode','version','rowAction']);
-     		
+FAttach = Ext.data.Record.create(['attachId','attachName','attachFileName','attachDesc',
+	'consId','consNo','createBy','modifyBy',
+	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+	'compCode','version','rowAction']);
+
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['CONS_DATE','委托生成日期'],['CONS_ETA','预计船到日期'],['CONS_SAIL_DATE','开船日期'],['BASE_TASK_D','依赖任务完成日']]});
 getDATY = function(v){if(v) return DATY_S.getById(v).get('NAME'); else return ''};
 

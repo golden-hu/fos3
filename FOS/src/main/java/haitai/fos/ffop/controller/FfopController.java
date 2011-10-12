@@ -1,5 +1,6 @@
 package haitai.fos.ffop.controller;
 
+import haitai.fos.ffop.entity.table.FAttach;
 import haitai.fos.ffop.entity.table.FBl;
 import haitai.fos.ffop.entity.table.FConsign;
 import haitai.fos.ffop.entity.table.FContainer;
@@ -14,6 +15,7 @@ import haitai.fos.ffop.entity.table.FTask;
 import haitai.fos.ffop.entity.table.FTrans;
 import haitai.fos.ffop.entity.table.FTransList;
 import haitai.fos.ffop.entity.table.FWarehouse;
+import haitai.fos.ffop.service.FAttachService;
 import haitai.fos.ffop.service.FBlService;
 import haitai.fos.ffop.service.FCargoService;
 import haitai.fos.ffop.service.FConsignService;
@@ -33,6 +35,8 @@ import haitai.fos.ffop.service.FTaskService;
 import haitai.fos.ffop.service.FTransListService;
 import haitai.fos.ffop.service.FTransService;
 import haitai.fos.ffop.service.FWarehouseService;
+import haitai.fos.sys.entity.table.PMessageTopic;
+import haitai.fos.sys.service.PTemplateService;
 import haitai.fw.entity.FosQuery;
 
 import java.lang.reflect.InvocationTargetException;
@@ -65,6 +69,7 @@ public class FfopController {
 	private FTransListService transListService;
 	private FTaskService taskService;
 	
+	private FAttachService attachService;
 	/**
 	 * Consign save (create, update, delete)
 	 * @param entityList
@@ -809,5 +814,27 @@ public class FfopController {
 		this.taskService = taskService;
 	}
 
+	public FAttachService getAttachService() {
+		return attachService;
+	}
 
+	@Autowired
+	public void setAttachService(FAttachService attachService) {
+		this.attachService = attachService;
+	}
+	
+	@Transactional
+	public void uploadAttach(Map<String, String> queryMap) {
+		attachService.uploadAttach(queryMap);
+	}
+	
+	@Transactional(readOnly = true)
+	public void downAttach(Map<String, String> queryMap) {
+		attachService.downAttach(queryMap);
+	}
+
+	@Transactional(readOnly = true)
+	public List<FAttach> queryAttach(Map<String, Object> queryMap) {
+		return attachService.query(queryMap);
+	}
 }

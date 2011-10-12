@@ -43,6 +43,7 @@ public class ConstUtil {
 	public static final String ROW_O = "";
 	
 	public static final String CONFIG_DATA_DIR = "DataDir";
+	public static final String CONFIG_ATTACH_DIR = "AttachDir";
 	public static final String CONFIG_TEMPLATE_DIR = "TemplateDir";
 	public static final String CONFIG_TEMP_DIR = "TempDir";
 	public static final String CONFIG_EXPORT_DIR = "ExportDir";
@@ -67,6 +68,7 @@ public class ConstUtil {
 	public static final String ACT_CACHE_CLEAR = "CACHE_C";
 	public static final String TEMP_SUFFIX_EXCEL = "xls";
 	public static final String TEMP_SUFFIX_WORD = "doc";
+	public static final String ATTACH_PARAM_ID = "attachId";
 	public static final String TEMP_PARAM_ID = "tempId";
 	public static final String TEMP_PARAM_CODE = "tetyCode";
 	public static final String TEMP_PARAM_TYPE = "type";

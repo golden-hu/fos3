@@ -1446,3 +1446,11 @@ var C_PERMISSION_SET='授权';
 var M_SAVE_FIRST='必须先保存新增的数据。';
 var C_PACK_REQIRED='包装种类不能为空！';
 var C_COPY_EXPENSE='费用复制';
+var C_ATTACH='文件';
+var C_FILE_NAME = '文件名';
+var C_ATTACH_UPLOAD='上传文件';
+var C_ATTACH_DOWNLOAD='下载文件';
+var C_ATTACH_FILE_P='选择文件。';
+
+
+

@@ -30,6 +30,24 @@ flush privileges;
 -- 表的结构 `C_COMMISSION`
 --
 
+CREATE TABLE F_ATTACH(
+    ATTACH_ID           INT             AUTO_INCREMENT,
+    ATTACH_NAME         VARCHAR(64),
+    ATTACH_FILE_NAME    VARCHAR(200),
+    ATTACH_DESC         VARCHAR(200),
+    CONS_ID             INT,
+    CONS_NO             VARCHAR(32),
+    CREATE_BY           INT,
+    CREATE_TIME         DATETIME,
+    MODIFY_BY           INT,
+    MODIFY_TIME         DATETIME,
+    COMP_CODE           CHAR(4)         NOT NULL,
+    VERSION             INT             DEFAULT 0 NOT NULL,
+    REMOVED             TINYINT         DEFAULT 0 NOT NULL,
+    PRIMARY KEY (ATTACH_ID)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 CREATE TABLE IF NOT EXISTS `C_COMMISSION` (
   `COMM_ID` int(11) NOT NULL auto_increment,
   `COMM_NAME` varchar(200) collate utf8_unicode_ci NOT NULL,
@@ -4960,7 +4978,13 @@ INSERT INTO `P_ACTION` (`ACT_ID`, `ACT_NAME`, `ACT_CLASS`, `ACT_METHOD`, `ACT_SE
 (303, 'BL_M_C', 'FfopController', 'cancelMergeBl', '', '提单并单撤销', 0, 0),
 (304, 'BL_SP_C', 'FfopController', 'cancelSplitBl', '', '提单拆单撤销', 0, 0),
 (305, 'CONS_T_X', 'FfopController', 'complexQueryTask', '', '查询委托和对应的任务', 0, 0),
-(306, 'USER_UA', 'SysController', 'updateUserPasswordByAdmin', '', '用户密码修改(管理员)', 0, 0);
+(306, 'USER_UA', 'SysController', 'updateUserPasswordByAdmin', '', '用户密码修改(管理员)', 0, 0),
+(307, 'BILL_U', 'FfseController', 'updateBillStatus', '', '对帐单状态更新', 0, 0),
+(308, 'REPT_BUDS', '', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)', 0, 0);
+(309, 'ATTACH_D', 'FfopController', 'downAttach', '', '下载文档', 0, 0),
+(310, 'ATTACH_U', 'FfopController', 'uploadAttach', '', '上传文档', 0, 0),
+(311, 'ATTACH_Q', 'FfopController', 'queryAttach', '', '查询文档', 0, 0)
+;
 
 --
 -- 转存表中的数据 `P_FUNCTION`
@@ -6065,6 +6089,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (323, 19, '委托单位', 'FConsign', 'custName', NULL),
 (324, 19, '客户业务号', 'FConsign', 'consRefNo', NULL),
 (325, 19, '承运人', 'FConsign', 'consCarrierName', NULL),
+(1881, 19, '订舱代理', 'FConsign', 'consBookingAgencyName', NULL),
 (326, 19, '船名', 'FConsign', 'vessName', NULL),
 (327, 19, '航次', 'FConsign', 'voyaName', NULL),
 (328, 19, '提单号', 'FConsign', 'consMblNo', NULL),
@@ -6425,6 +6450,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (1135, 33, '货物描述', 'FLoadingList', 'fconCargoDesc', NULL),
 (1136, 33, '备注', 'FLoadingList', 'loliRemarks', NULL),
 (1878, 26, '业务号', 'FConsign', 'consNo', NULL),
+(1879, 26, '承运人', 'FConsign', 'consCarrierName', NULL),
+(1880, 26, '订舱代理', 'FConsign', 'consBookingAgencyName', NULL),
 (1166, 26, '发货人', 'FConsign', 'consShipper', NULL),
 (1167, 26, '收货人', 'FConsign', 'consConsignee', NULL),
 (1168, 26, '通知人', 'FConsign', 'consNotifyParty', NULL),
@@ -6833,7 +6860,10 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (2019, 37, '合同号', 'FConsign', 'consContractNo', NULL),
 (2020, 26, '开航日期', 'FConsign', 'consEtd', NULL),
 (2021, 26, '单票号', 'FConsign', 'consNo', NULL),
-(2022, 26, '合同号', 'FConsign', 'consContractNo', NULL);
+(2022, 26, '合同号', 'FConsign', 'consContractNo', NULL),
+(2023, 34, '客户联系人', 'FConsign', 'custTel', NULL),
+(2024, 34, '客户传真', 'FConsign', 'custFax', NULL)
+;
 
 --
 -- 转存表中的数据 `P_TEMPLATE_TYPE`

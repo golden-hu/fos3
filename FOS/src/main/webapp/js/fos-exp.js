@@ -305,8 +305,9 @@ Fos.ConsignTab = function(p){
 	var items=[];
 	items[0]=new Fos.BookTab(p);
 	if(p.get('rowAction')!='N'){
-		items[items.length]=new Fos.ConsDocGrid(p);
-		items[items.length]=VERSION==1?(new Fos.ExpenseTab2(p,'C')):(new Fos.ExpenseTab(p,'C'));
+		items[items.length]= new Fos.ConsDocGrid(p);
+		items[items.length]= VERSION==1?(new Fos.ExpenseTab2(p,'C')):(new Fos.ExpenseTab(p,'C'));
+		items[items.length] = new Fos.AttachTab(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
 	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) items[items.length]=new Fos.WarehouseTab(p);
@@ -2693,3 +2694,51 @@ Fos.RailwayBlTab = function(p) {
 	});
 };
 Ext.extend(Fos.RailwayBlTab,Ext.FormPanel);
+
+Fos.AttachTab = function(p) {
+	this.store = GS('ATTACH_Q','FAttach',FAttach,'attachId','DESC','','S_ATTACH','attachId',true);
+    this.store.load();    
+    this.upload = function(){    	
+		var win = new Fos.FileUploadWin(C_ATTACH_UPLOAD,C_ATTACH_FILE_P);
+		win.addButton({text:C_UPLOAD,handler:function(){
+			var f = Fos.FileUploadWin.superclass.findById.call(win,'F_UP');
+			if(f.getForm().isValid()){
+            	f.getForm().submit({
+                	url: SERVICE_URL+'?mt=json&A=ATTACH_U&uf=1',
+                	waitMsg:'Uploading...',
+                	success: function(f, o){
+                		XMG.alert(SYS,C_UPLOAD_SUCCESS);
+                		win.close();
+                	}
+            	});
+        }}});
+        win.addButton({text:C_CANCEL,handler:function(){win.close();}},this);
+		win.show();	    	
+    };
+    this.download=function(){
+    	var b =sm.getSelected();
+    	if(b){
+	    	var url = SERVICE_URL+'?A='+'ATTACH_D&attachId='+b.get('attachId');
+	    	window.open(url,'download', 'height=100, width=400, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no');
+    	}
+    	else XMG.alert(SYS,M_NO_DATA_SELECTED);
+    };
+    this.removeAttach=function(){FOS_REMOVE(sm,store);};
+    
+    var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+    var cm=new Ext.grid.ColumnModel({columns:[sm,
+	{header:C_FILE_NAME,dataIndex:'attachFileName',width:200},
+	{header:C_MODIFY_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"}
+	],defaults:{sortable:true,width:100}});
+	
+	Fos.AttachTab.superclass.constructor.call(this, {title:C_ATTACH,header:false,
+	closable:false,store:this.store,sm:sm,cm:cm,
+	tbar:[
+	    {itemId:'TB_D',text:C_ATTACH_DOWNLOAD+'(D)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'down',scope:this,handler:this.download},'-',
+		{itemId:'TB_U',text:C_ATTACH_UPLOAD+'(U)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'up',scope:this,handler:this.upload},'-',
+        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_TEMP+F_R),iconCls:'remove',scope:this,handler:this.removeAttach},        
+        
+        ]
+    });   
+};
+Ext.extend(Fos.AttachTab,Ext.grid.GridPanel);

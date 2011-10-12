@@ -36,7 +36,7 @@
 		<class>haitai.fos.sys.entity.table.CCustomerContact</class>
 		<class>haitai.fos.sys.entity.table.CCustomerCategory</class>
 		<class>haitai.fos.sys.entity.table.CCustomer</class>
-		<class>haitai.fos.sys.entity.table.Action</class>
+		<class>haitai.fos.sys.entity.table.Action</class>		
 		<class>haitai.fos.sys.entity.atable.AbstractPUserSetting</class>
 		<class>haitai.fos.sys.entity.atable.AbstractPUserRole</class>
 		<class>haitai.fos.sys.entity.atable.AbstractPUser</class>
@@ -179,6 +179,8 @@
 		<class>haitai.fos.ffop.entity.table.FConsign</class>
 		<class>haitai.fos.ffop.entity.table.FCargo</class>
 		<class>haitai.fos.ffop.entity.table.FBl</class>
+		<class>haitai.fos.ffop.entity.table.FAttach</class>
+		<class>haitai.fos.ffop.entity.atable.AbstractFAttach</class>
 		<class>haitai.fos.ffop.entity.atable.AbstractFWarehouseCargo</class>
 		<class>haitai.fos.ffop.entity.atable.AbstractFWarehouse</class>
 		<class>haitai.fos.ffop.entity.atable.AbstractFTransTask</class>

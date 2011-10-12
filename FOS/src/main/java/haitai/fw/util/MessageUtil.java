@@ -37,6 +37,7 @@ public class MessageUtil {
 	public static final String FFSE_INVOICE_TAX_NO_DUPLICATED = "ffse.invoice_tax_no_duplicated";
 	public static final String FFSE_BL_NO_DUPLICATED = "ffse.bl_no_duplicated";
 	public static final String SYS_TEMPLATE_FILE_NOT_EXIST="sys.template_file_not_exist";
+	public static final String SYS_FILE_NOT_EXIST="sys.file_not_exist";
 	public static final String SYS_USEP_FEE_ALL = "sys.usep.fee_all";
 	public static final String FFOP_FCON_CANT_DELETE = "ffop.fcon.cant_delete";
 	public static final Set<String> msgSet = new HashSet<String>();
@@ -66,6 +67,7 @@ public class MessageUtil {
 		msgSet.add(FFSE_INVOICE_TAX_NO_DUPLICATED);
 		msgSet.add(FFSE_BL_NO_DUPLICATED);
 		msgSet.add(SYS_TEMPLATE_FILE_NOT_EXIST);
+		msgSet.add(SYS_FILE_NOT_EXIST);
 		msgSet.add(FFOP_FCON_CANT_DELETE);
 	}
 }
