@@ -489,7 +489,9 @@ SInvoiceNo = Ext.data.Record.create(['id',
 	'compCode','version','rowAction']);
 SBalance = Ext.data.Record.create(['id','balaId','custId','custName','custSname','currCode','balaAmount','compCode','version']);
 
-PCompanyBankAccount= Ext.data.Record.create(['id','cobaId','cobaName','cobaBank','cobaAccount','currCode','compCode','active','version','rowAction']);
+PCompanyBankAccount= Ext.data.Record.create(['id','cobaId','cobaName','cobaBank',
+                                             {name:'cobaAccount',type:'string'},
+                                             'currCode','compCode','active','version','rowAction']);
 PGroup = Ext.data.Record.create(['id','grouId','grouName','grouDesc','compCode','active','version','rowAction']);
 PRole = Ext.data.Record.create(['id','roleId','roleName','roleDesc','active','compCode','version','rowAction']); 
 PGroupUser = Ext.data.Record.create(['id','grusId','grouId','userId','userName','active','compCode','version','rowAction']); 
@@ -565,8 +567,12 @@ CPriceRecord = Ext.data.Record.create(['id','prreId','prliId','prshId','currCode
 	'compCode','version','rowAction']);
 CCustomerContact = Ext.data.Record.create(['id','cucoId','custId','cucoName','cucoTitle','cucoAddress1','cucoAddress2','cucoTel',
 	'cucoHomeTel','cucoMobile','cucoEmail','cucoGender','cucoMsn','cucoQq','cucoFax',
-	'cucoZip','cucoBirthday','cucoRemarks',
-	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+	'cucoZip',
+	{name:'cucoBirthday',type:'date',dateFormat:DATEF},
+	'cucoRemarks',
+	'userId','grouId','createBy','modifyBy',
+	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
 CSalesQuota = Ext.data.Record.create(['id','saquId','saquSalesId','saquSalesName','saquYear','saquMonth',
 	{name:'saquBaseProfit',type:'float'},{name:'saquCommissionRate',type:'float'},	

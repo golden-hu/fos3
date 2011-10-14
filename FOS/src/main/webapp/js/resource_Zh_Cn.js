@@ -1014,6 +1014,7 @@ var C_SETTLE='商务结算';
 var C_SETTLE_AR='应收结算';
 var C_SETTLE_AP='应付结算';
 var C_ACCOUNT='结算对象';
+var C_BANK_ACCOUNT='银行帐号';
 var C_ACCOUNT_AR='应收结算对象';
 var C_ACCOUNT_AP='应付结算对象';
 var C_BANK_CNY='开户行(CNY)';
@@ -1451,6 +1452,6 @@ var C_FILE_NAME = '文件名';
 var C_ATTACH_UPLOAD='上传文件';
 var C_ATTACH_DOWNLOAD='下载文件';
 var C_ATTACH_FILE_P='选择文件。';
-
-
+var C_COPY_TO_P='复制成应付';
+var C_COPY_TO_R='复制成应收';
 

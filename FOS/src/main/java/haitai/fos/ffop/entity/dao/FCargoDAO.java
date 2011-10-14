@@ -25,7 +25,7 @@ public class FCargoDAO extends GenericDAO<FCargo, Integer> implements
 		Class t1 = FConsign.class;
 		Class t2 = FCargo.class;
 		String fieldSql = "t1,t2";
-		String joinSql = "t1.consMasterId = t2.consId";
+		String joinSql = "t1.consId = t2.consId";
 		List retList = complexQuery(conditions, propertyMap, fieldSql, joinSql,
 				t1, t2);
 		return retList;

@@ -664,14 +664,16 @@ var showG_DOTY = function() {
     return grid;
 };
 var showG_COBA = function() {    
-	var store = GS('COBA_Q','PCompanyBankAccount',PCompanyBankAccount,'cobaId','DESC','','','id',false);
+	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'xml',A:'COBA_Q'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'PCompanyBankAccount',idProperty:'cobaId'},PCompanyBankAccount),
+		remoteSort:true,sortInfo:{field:'id', direction:'DESC'}});		
     store.load();
     var ac=ACTIVE();	
     var sm=getCSM();
     var cm=new Ext.grid.ColumnModel({columns:[sm,
 	{header:C_ACCOUNT_NAME,dataIndex:'cobaName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_BANK,dataIndex:'cobaBank',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_ACCOUNT,dataIndex:'cobaAccount',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_BANK_ACCOUNT,dataIndex:'cobaAccount',editor:new Ext.form.TextField()},
 	{header:C_CURR,dataIndex: 'currCode',
 			editor:new Ext.form.ComboBox({displayField:'currCode',valueField:'currCode',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCURR_S()})},

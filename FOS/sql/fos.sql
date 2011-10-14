@@ -4983,7 +4983,8 @@ INSERT INTO `P_ACTION` (`ACT_ID`, `ACT_NAME`, `ACT_CLASS`, `ACT_METHOD`, `ACT_SE
 (308, 'REPT_BUDS', '', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)', 0, 0);
 (309, 'ATTACH_D', 'FfopController', 'downAttach', '', '下载文档', 0, 0),
 (310, 'ATTACH_U', 'FfopController', 'uploadAttach', '', '上传文档', 0, 0),
-(311, 'ATTACH_Q', 'FfopController', 'queryAttach', '', '查询文档', 0, 0)
+(311, 'ATTACH_Q', 'FfopController', 'queryAttach', '', '查询文档', 0, 0),
+(312, 'ATTACH_R', 'FfopController', 'removeAttach', '', '删除文档', 0, 0)
 ;
 
 --

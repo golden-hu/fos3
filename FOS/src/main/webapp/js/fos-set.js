@@ -1,7 +1,14 @@
 ﻿Fos.ExGrid = function(p,t,frm,store) {
 	this.reCalculate = function(){
-		if(t=='R') frm.calcR(); else if(t=='P') frm.calcP(); else frm.calcC();
-		frm.reCalculate();};
+		if(t=='R') 
+			frm.calcR(); 
+		else if(t=='P') 
+			frm.calcP(); 
+		else 
+			frm.calcC();
+		frm.reCalculate();
+	};
+	
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	var x=S_AR;
 	if(t=='P') x=S_AP; else if(t=='R')  x=S_AR; else x=S_AC;
@@ -153,12 +160,13 @@
 		}
 		else XMG.alert(SYS,M_NC);
 	};
+	//复制一条费用
 	this.cp=function(){
-		var p = sm.getSelected();
-		if(p){
+		var r = sm.getSelected();
+		if(r){
 			var e = new SExpense({});var id=GGUID();
 			var f = SExpense.prototype.fields;
-			for (var i=0;i<f.keys.length;i++){var fn=''+f.keys[i];e.set(fn,p.get(fn));}
+			for (var i=0;i<f.keys.length;i++){var fn=''+f.keys[i];e.set(fn,r.get(fn));}
 			e.set('expeDate',new Date());e.set('id',id);e.set('expeId',id);
 			e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
 			e.set('expeUnitPrice','');e.set('expeNum','');e.set('expeNum2','');
@@ -171,6 +179,39 @@
 			e.set('consIdM','');e.set('consNoM','');
 			this.stopEditing();store.insert(0,e);e.set('rowAction','N');this.startEditing(0,1);
 			this.reCalculate();
+		}
+		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
+	//复制选中的应收到应付，或者复制选中的应付到应收
+	this.cpTo=function(){
+		var ea = sm.getSelections();
+		if(ea.length>0){
+			var expArr = [];
+			for(var i=0;i<ea.length;i++){
+				var r = ea[i];
+				var e = new SExpense({});
+				var id=GGUID();
+				var f = SExpense.prototype.fields;
+				for (var i=0;i<f.keys.length;i++){var fn=''+f.keys[i];e.set(fn,r.get(fn));}
+				e.set('custId',t=='P'?p.get('custId'):'');
+				e.set('custName',t=='P'?p.get('custName'):'');
+				e.set('custSname',t=='P'?p.get('custSname'):'');
+				e.set('consCustId',e.get('custId'));
+				e.set('consCustName',e.get('custName'));
+			    		
+				e.set('expeDate',new Date());e.set('id',id);e.set('expeId',id);
+				e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
+				e.set('expeUnitPrice','');e.set('expeNum','');e.set('expeNum2','');
+				e.set('expeInnerPrice','');e.set('expeInnerAmount','');e.set('expeTotalAmount','');
+				e.set('expeCommission','');e.set('expeCommissionRate','');e.set('expeRcAmount','');
+				e.set('expeWriteOffDate','');
+				e.set('expeInvoiceAmount',0);e.set('expeWriteOffAmount',0);
+				e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
+				e.set('expeWriteoffStatus',0);e.set('expeAllocationFlag',0);e.set('expeAllocatedFlag',0);
+				e.set('consIdM','');e.set('consNoM','');
+				expArr[expArr.length] = e;
+			}
+			frm.cpTo(t,expArr);
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
@@ -250,6 +291,7 @@
     var b6={itemId:'TB_F'+'F',text:C_ALLOCATION,iconCls:'broken',disabled:NR(m+F_M)||locked,scope:this,handler:this.allocate};
     
     var b7={itemId:'TB_CF',text:C_COPY_FROM_OT,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.copyFrom};
+    var b8={itemId:'TB_CT',text:t=='R'?C_COPY_TO_P:C_COPY_TO_R,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.cpTo};
     
     if(t=='R'){
 	    new Ext.KeyMap(Ext.getDoc(), {
@@ -378,7 +420,7 @@
 			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
 			this.reCalculate();}
     }},
-    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b7]:[b1, '-',b2,'-',b3,'-',b4,'-',b6,'-',b7]});
+    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b5]:[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b6]});
 };
 Ext.extend(Fos.ExGrid, Ext.grid.EditorGridPanel);
 
@@ -581,6 +623,14 @@ Fos.ExpenseTab = function(p,f){
 		PRc.setValue(round2(this.sumRcR-this.sumRcP-this.sumRcC));
 		PSale.setValue(round2(this.sumSaleR-this.sumSaleP-this.sumSaleC));
 	};	
+	
+	this.cpTo=function(rpType,expArr){
+		if(rpType=='R')
+			this.ps.add(expArr);
+		else
+			this.rs.add(expArr);
+	};
+	
 	var rC=getCFG('COMMISSION_CHAR_CNY');
 	var uC=getCFG('COMMISSION_CHAR_USD');
 	var bVR=true;
@@ -784,6 +834,14 @@ Fos.ExpenseTab2 = function(p,f){
 		PLoc.setValue(round2(this.sumLocR-this.sumLocP));
 		PRc.setValue(round2(this.sumRcR-this.sumRcP));		
 	};
+	
+	this.cpTo=function(rpType,expArr){
+		if(rpType=='R')
+			this.ps.add(expArr);
+		else
+			this.rs.add(expArr);
+	};
+	
 	if(p.get('rowAction')!='N')
 		this.store.load({params:{consId:p.get('consId')},callback:function(){
 			var a=this.store.getRange();

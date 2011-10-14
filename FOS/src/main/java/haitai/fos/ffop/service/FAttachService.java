@@ -68,9 +68,21 @@ public class FAttachService {
 		return retList;
 	}
 	
+	@Transactional
+	public void removeAttach(List<FAttach> entityList) {
+		for (FAttach entity : entityList) {			
+			FAttach delEntity = dao.findById(entity.getAttachId());
+			delEntity.setRowAction(ConstUtil.ROW_R);
+			dao.update(delEntity);
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void uploadAttach(Map<String, String> paramMap) {
 		String uploadDir = ConfigUtil.getRealAttachDir();
+		String consId = (String) paramMap.get("consId");
+		String consNo = (String) paramMap.get("consNo");
+		
 		File f = new File(uploadDir);
 		if (!f.exists()) {
 			f.mkdirs();
@@ -81,15 +93,17 @@ public class FAttachService {
 		while (iter.hasNext()) {
 			FileItem item = (FileItem) iter.next();
 			String oriFileName = item.getName();
-			int beginIdex = oriFileName.lastIndexOf(".");			
-			String extName = oriFileName.substring(beginIdex);			
+			//int beginIdex = oriFileName.lastIndexOf(".");			
+			//String extName = oriFileName.substring(beginIdex);			
 			FAttach fa = new FAttach();
 			fa.setRowAction(ConstUtil.ROW_N);
 			fa.setAttachFileName(oriFileName);
+			fa.setConsId(Integer.parseInt(consId));
+			fa.setConsNo(consNo);
 			dao.save(fa);
-			String filename = fa.getAttachId() + extName;
+			//String filename = fa.getAttachId() + extName;
 			try {
-				item.write(new File(uploadDir + ConstUtil.DIR_SEP + filename));
+				item.write(new File(uploadDir + ConstUtil.DIR_SEP + oriFileName));
 				
 			} catch (Exception e) {
 				logger.error("file upload error", e);
@@ -103,15 +117,14 @@ public class FAttachService {
 			Integer id = Integer.parseInt(sid);
 			FAttach fa = dao.findById(id);	
 			String oriFileName = fa.getAttachFileName();
-			int beginIdex = oriFileName.lastIndexOf(".");
-			String extName = oriFileName.substring(beginIdex);
 			
-			String filename = sid + extName;
-			
-			File f = new File(ConfigUtil.getRealAttachDir()+ ConstUtil.DIR_SEP + filename);
+			File f = new File(ConfigUtil.getRealAttachDir()+ ConstUtil.DIR_SEP + oriFileName);
 			if (!f.exists()) {
 				throw new BusinessException(MessageUtil.SYS_FILE_NOT_EXIST);
 			}
+			
+			String filename = ConfigUtil.getAttachDir() + ConstUtil.DIR_SEP
+			+ StringUtil.utf82ascii(oriFileName);
 			
 			paramMap.put(ConstUtil.REDIRECT_URL, filename);		
 		}		

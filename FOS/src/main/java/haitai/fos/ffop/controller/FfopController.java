@@ -837,4 +837,9 @@ public class FfopController {
 	public List<FAttach> queryAttach(Map<String, Object> queryMap) {
 		return attachService.query(queryMap);
 	}
+	
+	@Transactional
+	public void removeAttach(List<FAttach> entityList) {
+		attachService.removeAttach(entityList);
+	}
 }

@@ -791,7 +791,7 @@ Fos.BookTab = function(p) {
 		t133=[m15,m11,m30,m7];
 		t134=[m29,m12,m31,m21];
 		if(p.get('consBizType')==BT_A){
-			t131=[m2,m4,m11];
+			t131=[m2,m4,m11,m9];
 			t132=[m8,m10,m17];
 			t133=[m15,m30,m12];
 			t134=[m29,m31,m3];
@@ -809,7 +809,7 @@ Fos.BookTab = function(p) {
 		t133=[m15,m16,m17,m18,m19,m20,m21];
 		t134=[m31,m30,m24,m25,m26,m23,m27];
 		if(p.get('consBizType')==BT_A){
-			t131=[m2,m4,m10];
+			t131=[m2,m4,m10,m9];
 			t132=[m8,m11,m17];
 			t133=[m15,m30,m12];
 			t134=[m29,m31,m3];
@@ -1735,7 +1735,8 @@ Fos.WarehouseTab = function(p) {
 		rowselect:function(sm,row,record){
 			if(this.sel!=record.get('wareId')){
 				this.sel=record.get('wareId');
-				this.getForm().reset();this.getForm().loadRecord(record);
+				this.getForm().reset();
+				this.getForm().loadRecord(record);
 				sumPK.setValue(record.get('wareTotalPackages'));
 				sumGW.setValue(record.get('wareTotalGrossWeight'));
 				sumMM.setValue(record.get('wareTotalMeasurement'));
@@ -1880,7 +1881,11 @@ Fos.WarehouseTab = function(p) {
 		this.wareGrid.stopEditing();
 		this.cargoGrid.stopEditing();
 		var b =this.wareGrid.getSelectionModel().getSelected();
-		if(b){b.beginEdit();this.getForm().updateRecord(b);b.endEdit();};
+		if(b){
+			b.beginEdit();
+			this.getForm().updateRecord(b);
+			b.endEdit();
+		};
 		var xml='';
 		var a =this.store.getModifiedRecords();
 		if(a.length>0){xml = ATX(a,'FWarehouse',FWarehouse);};		
@@ -1894,8 +1899,20 @@ Fos.WarehouseTab = function(p) {
 		if(xml!=''){
 		 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'WARE_S'},
 			success: function(res){
-				var a = XTRA(res.responseXML,'FWarehouse',FWarehouse);FOSU(this.store,a,FWarehouse);
-				var b = XTRA(res.responseXML,'FWarehouseCargo',FWarehouseCargo);FOSU(this.cargoStore,b,FWarehouseCargo);
+				var a = XTRA(res.responseXML,'FWarehouse',FWarehouse);
+				FOSU(this.store,a,FWarehouse);
+				
+				var wn = Ext.getCmp('WG_WARE_NO');
+				if(wn){
+					var b =this.wareGrid.getSelectionModel().getSelected();
+					if(b){
+						wn.setValue(b.get('wareNo'));
+						alert(b.get('wareNo'));
+					}
+				}
+				
+				var b = XTRA(res.responseXML,'FWarehouseCargo',FWarehouseCargo);
+				FOSU(this.cargoStore,b,FWarehouseCargo);
 				XMG.alert(SYS,M_S);
 			},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
@@ -1976,7 +1993,7 @@ Fos.WarehouseTab = function(p) {
             	items:[
             {layout:'column',title:C_WARE_INFO,tabIndex:1,layoutConfig:{columns:4},deferredRender:false,collapsible:true,
 			items:[{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_WARE_NO,name:'wareNo',tabIndex:5,xtype:'textfield',anchor:'95%'},
+				{fieldLabel:C_WARE_NO,id:'WG_WARE_NO',name:'wareNo',disabled:true,tabIndex:5,xtype:'textfield',anchor:'95%'},
 				{fieldLabel:C_WAREHOUSE,name:'wareVendorName',tabIndex:9,store:getCS(),enableKeyEvents:true,
 					tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
 					listeners:{scope:this,
@@ -2112,7 +2129,7 @@ Fos.ContainerTab = function(p) {
     });	
 	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm2=new Ext.grid.ColumnModel({columns:[sm2,
-	{header:C_BL_NO,dataIndex:'consMblNo',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_MBL_NO,dataIndex:'consMblNo',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_MARKS,dataIndex:'cocaMarks',width:80,editor:new Ext.form.TextField({})},	
 	{header:C_CARGO_NAME_EN,dataIndex:'cocaCargoName',width:80,editor:new Ext.form.TextField({})},	
 	{header:C_PACKAGES,dataIndex:'cocaPackageNum',width:60,editor:new Ext.form.NumberField({allowBlank:false})},
@@ -2121,7 +2138,10 @@ Fos.ContainerTab = function(p) {
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
             listeners:{scope:this,select:function(c,r,i){this.cargoGrid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
 	{header:C_GW,dataIndex:'cocaGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},	
-	{header:C_CBM,dataIndex:'cocaMeasurement',width:60,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})}
+	{header:C_CBM,dataIndex:'cocaMeasurement',width:80,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_CONS_NO,dataIndex:'consNo',width:120},   	
+   	{header:C_HBL_NO,dataIndex:'consHblNo',width:120},
+   	{header:C_BOOKER,dataIndex:'consCustName',width:120}
 	],defaults:{sortable:true,width:120}});
 	this.addCargo=function(){
 		var r = this.grid.getSelectionModel().getSelected();
@@ -2135,8 +2155,8 @@ Fos.ContainerTab = function(p) {
 						if(this.cargoGrid.getStore().findBy(function(rec,id){return rec.get('cargId')==a[i].get('cargId');})==-1){
 							var rid=GGUID();
 							var t = new FContainerCargo({id:rid,cocaId:rid,contId:r.get('contId'),
-								consId:p.get('consId'),consNo:p.get('consNo'),cargId:a[i].get('cargId'),
-								consMblNo:p.get('consMblNo'),consHbl:p.get('consHbl'),consCustName:'',
+								consId:a[i].get('consId'),consNo:a[i].get('consNo'),cargId:a[i].get('cargId'),
+								consMblNo:a[i].get('consMblNo'),consHblNo:a[i].get('consHblNo'),consCustName:a[i].get('custName'),
 								cocaMarks:a[i].get('cargMarks'),cocaCargoName:a[i].get('cargNameEn'),packId:a[i].get('packId'),
 								packName:getPACK(a[i].get('packId')),cocaPackageNum:a[i].get('cargPackageNum'),
 								cocaGrossWeight:a[i].get('cargGrossWeight'),cocaMeasurement:a[i].get('cargMeasurement'),
@@ -2697,18 +2717,20 @@ Ext.extend(Fos.RailwayBlTab,Ext.FormPanel);
 
 Fos.AttachTab = function(p) {
 	this.store = GS('ATTACH_Q','FAttach',FAttach,'attachId','DESC','','S_ATTACH','attachId',true);
-    this.store.load();    
+    this.store.load({params:{consId:p.get('consId')}});
     this.upload = function(){    	
 		var win = new Fos.FileUploadWin(C_ATTACH_UPLOAD,C_ATTACH_FILE_P);
-		win.addButton({text:C_UPLOAD,handler:function(){
+		win.addButton({text:C_UPLOAD,scope:this,handler:function(){
 			var f = Fos.FileUploadWin.superclass.findById.call(win,'F_UP');
 			if(f.getForm().isValid()){
             	f.getForm().submit({
-                	url: SERVICE_URL+'?mt=json&A=ATTACH_U&uf=1',
+                	url: SERVICE_URL+'?mt=json&A=ATTACH_U&uf=1&consId='+p.get('consId')+'&consNo='+p.get('consNo'),
                 	waitMsg:'Uploading...',
+                	scope:this,
                 	success: function(f, o){
                 		XMG.alert(SYS,C_UPLOAD_SUCCESS);
                 		win.close();
+                		this.store.load({params:{consId:p.get('consId')}});
                 	}
             	});
         }}});
@@ -2723,7 +2745,22 @@ Fos.AttachTab = function(p) {
     	}
     	else XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
-    this.removeAttach=function(){FOS_REMOVE(sm,store);};
+    this.removeAttach=function(){
+    	var a =sm.getSelections();
+    	if(a.length>0){
+       		XMG.confirm(SYS,M_R_C,function(btn){
+           	if(btn=='yes'){
+           		var xml = SMTX4R(sm,'FAttach','attachId');	    		
+	    		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'ATTACH_R',attachId:p.get('attachId')},
+	    		success: function(r){
+	    			XMG.alert(SYS,M_S);			
+	    			this.store.load({params:{consId:p.get('consId')}});
+	    		},
+	    		failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+	    		xmlData:FOSX(xml)});
+            }},this);
+		}
+    };
     
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
     var cm=new Ext.grid.ColumnModel({columns:[sm,
@@ -2731,13 +2768,12 @@ Fos.AttachTab = function(p) {
 	{header:C_MODIFY_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"}
 	],defaults:{sortable:true,width:100}});
 	
-	Fos.AttachTab.superclass.constructor.call(this, {title:C_ATTACH,header:false,
+	Fos.AttachTab.superclass.constructor.call(this, {id:'G_ATTACH'+p.get('consId'),title:C_ATTACH,header:false,
 	closable:false,store:this.store,sm:sm,cm:cm,
 	tbar:[
+	      {itemId:'TB_U',text:C_ATTACH_UPLOAD+'(U)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'up',scope:this,handler:this.upload},'-',
 	    {itemId:'TB_D',text:C_ATTACH_DOWNLOAD+'(D)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'down',scope:this,handler:this.download},'-',
-		{itemId:'TB_U',text:C_ATTACH_UPLOAD+'(U)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'up',scope:this,handler:this.upload},'-',
-        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_TEMP+F_R),iconCls:'remove',scope:this,handler:this.removeAttach},        
-        
+        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_TEMP+F_R),iconCls:'remove',scope:this,handler:this.removeAttach}
         ]
     });   
 };
