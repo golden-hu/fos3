@@ -1454,4 +1454,7 @@ var C_ATTACH_DOWNLOAD='下载文件';
 var C_ATTACH_FILE_P='选择文件。';
 var C_COPY_TO_P='复制成应付';
 var C_COPY_TO_R='复制成应收';
-
+var M_SELECT_CUST_FIRST='请先选择客户！';
+var C_REMOVE_RECORD_CONFIRM='您确信要删除选中的记录吗？';
+var C_SHIPPER_AND_CONSIGNEE_INFO='收发货人信息';
+var C_SEL='选择';

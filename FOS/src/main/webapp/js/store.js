@@ -574,6 +574,11 @@ CCustomerContact = Ext.data.Record.create(['id','cucoId','custId','cucoName','cu
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
+CCustomerShipper = Ext.data.Record.create(['id','cushId','custId','cushName','cushType',
+   	'createBy','modifyBy',
+   	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+   	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+   	'compCode','version','rowAction']);
 CSalesQuota = Ext.data.Record.create(['id','saquId','saquSalesId','saquSalesName','saquYear','saquMonth',
 	{name:'saquBaseProfit',type:'float'},{name:'saquCommissionRate',type:'float'},	
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},

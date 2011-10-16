@@ -1,6 +1,7 @@
 package haitai.fos.sys.controller;
 
 import haitai.fos.sys.entity.table.CCustomerCategory;
+import haitai.fos.sys.entity.table.CCustomerShipper;
 import haitai.fos.sys.entity.table.CPriceLine;
 import haitai.fos.sys.entity.table.CPriceRecord;
 import haitai.fos.sys.entity.table.CSalesQuota;
@@ -28,6 +29,7 @@ import haitai.fos.sys.service.CCommissionItemService;
 import haitai.fos.sys.service.CCommissionService;
 import haitai.fos.sys.service.CCustomerCategoryService;
 import haitai.fos.sys.service.CCustomerContactService;
+import haitai.fos.sys.service.CCustomerShipperService;
 import haitai.fos.sys.service.CCustomerService;
 import haitai.fos.sys.service.CPriceLineService;
 import haitai.fos.sys.service.CPriceRecordService;
@@ -75,6 +77,7 @@ public class SysController {
 	private CCustomerService customerService;
 	private CCustomerCategoryService customerCategoryService;
 	private CCustomerContactService customerContactService;
+	private CCustomerShipperService customerShipperService;
 	private CVendorCategoryService vendorCategoryService;
 	private CPriceSheetService priceSheetService;
 	private CPriceLineService priceLineService;
@@ -342,6 +345,17 @@ public class SysController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List queryCustomerShipper(Map<String, Object> queryMap) {
+		return customerShipperService.query(queryMap);
+	}
+	
+	@Transactional
+	public List<CCustomerShipper> saveCustomerShipper(List<CCustomerShipper> entityList) {
+		return customerShipperService.save(entityList);
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List saveVendorCategory(List<CVendorCategory> entityList) {
 		return vendorCategoryService.save(entityList);
@@ -597,12 +611,22 @@ public class SysController {
 		return customerContactService;
 	}
 
+	public CCustomerShipperService getCustomerShipperService() {
+		return customerShipperService;
+	}
+	
 	@Autowired
 	public void setCustomerContactService(
 			CCustomerContactService customerContactService) {
 		this.customerContactService = customerContactService;
 	}
 
+	@Autowired
+	public void setCustomerShipperService(
+			CCustomerShipperService customerShipperService) {
+		this.customerShipperService = customerShipperService;
+	}
+	
 	public CVendorCategoryService getVendorCategoryService() {
 		return vendorCategoryService;
 	}

@@ -185,14 +185,18 @@
 	//复制选中的应收到应付，或者复制选中的应付到应收
 	this.cpTo=function(){
 		var ea = sm.getSelections();
-		if(ea.length>0){
-			var expArr = [];
+		if(ea.length>0){			
 			for(var i=0;i<ea.length;i++){
 				var r = ea[i];
-				var e = new SExpense({});
 				var id=GGUID();
+				var e = new SExpense({id:id,expeId:id});
+				
 				var f = SExpense.prototype.fields;
-				for (var i=0;i<f.keys.length;i++){var fn=''+f.keys[i];e.set(fn,r.get(fn));}
+				for (var j=0;j<f.keys.length;j++){
+					var fn=''+f.keys[j];
+					e.set(fn,r.get(fn));
+				}
+				
 				e.set('custId',t=='P'?p.get('custId'):'');
 				e.set('custName',t=='P'?p.get('custName'):'');
 				e.set('custSname',t=='P'?p.get('custSname'):'');
@@ -209,9 +213,12 @@
 				e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
 				e.set('expeWriteoffStatus',0);e.set('expeAllocationFlag',0);e.set('expeAllocatedFlag',0);
 				e.set('consIdM','');e.set('consNoM','');
-				expArr[expArr.length] = e;
+								
+				if(t=='R')
+					frm.ps.add(e);
+				else
+					frm.rs.add(e);
 			}
-			frm.cpTo(t,expArr);
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
@@ -622,13 +629,6 @@ Fos.ExpenseTab = function(p,f){
 		PLoc.setValue(round2(this.sumLocR-this.sumLocP-this.sumLocC));
 		PRc.setValue(round2(this.sumRcR-this.sumRcP-this.sumRcC));
 		PSale.setValue(round2(this.sumSaleR-this.sumSaleP-this.sumSaleC));
-	};	
-	
-	this.cpTo=function(rpType,expArr){
-		if(rpType=='R')
-			this.ps.add(expArr);
-		else
-			this.rs.add(expArr);
 	};
 	
 	var rC=getCFG('COMMISSION_CHAR_CNY');
@@ -833,13 +833,6 @@ Fos.ExpenseTab2 = function(p,f){
 		PUsd.setValue(round2(this.sumUsdR-this.sumUsdP));
 		PLoc.setValue(round2(this.sumLocR-this.sumLocP));
 		PRc.setValue(round2(this.sumRcR-this.sumRcP));		
-	};
-	
-	this.cpTo=function(rpType,expArr){
-		if(rpType=='R')
-			this.ps.add(expArr);
-		else
-			this.rs.add(expArr);
 	};
 	
 	if(p.get('rowAction')!='N')

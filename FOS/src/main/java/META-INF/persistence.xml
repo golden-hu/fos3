@@ -36,6 +36,7 @@
 		<class>haitai.fos.sys.entity.table.CCustomerContact</class>
 		<class>haitai.fos.sys.entity.table.CCustomerCategory</class>
 		<class>haitai.fos.sys.entity.table.CCustomer</class>
+		<class>haitai.fos.sys.entity.table.CCustomerShipper</class>
 		<class>haitai.fos.sys.entity.table.Action</class>		
 		<class>haitai.fos.sys.entity.atable.AbstractPUserSetting</class>
 		<class>haitai.fos.sys.entity.atable.AbstractPUserRole</class>
@@ -65,6 +66,7 @@
 		<class>haitai.fos.sys.entity.atable.AbstractCCustomerContact</class>
 		<class>haitai.fos.sys.entity.atable.AbstractCCustomerCategory</class>
 		<class>haitai.fos.sys.entity.atable.AbstractCCustomer</class>
+		<class>haitai.fos.sys.entity.atable.AbstractCCustomerShipper</class>
 		<class>haitai.fos.general.entity.table.GVoyage</class>
 		<class>haitai.fos.general.entity.table.GVessel</class>
 		<class>haitai.fos.general.entity.table.GVehicleType</class>

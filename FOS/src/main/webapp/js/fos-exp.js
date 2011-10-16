@@ -827,12 +827,74 @@ Fos.BookTab = function(p) {
           	{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:t133},
           	{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:t134}
 		]};
-		
+
+    function saveShipper(shipperT){
+    	var cushName = '';
+    	if(shipperT==1) cushName = Ext.getCmp('CONS_SHIPPER').getValue();
+    	else if(shipperT==2) cushName = Ext.getCmp('CONS_CONSIGNEE').getValue();
+    	else if(shipperT==3) cushName = Ext.getCmp('CONS_NOTIFY_PARTY').getValue();
+    	else if(shipperT==4) cushName = Ext.getCmp('CONS_NOTIFY_PARTY2').getValue();
+    	    	
+    	if(!p.get('custId')){
+    		XMG.alert(SYS,M_SELECT_CUST_FIRST);
+    		return;
+    	}
+    	if(cushName!=''){
+    		
+    		var c = new CCustomerShipper({rowAction:'N',custId:p.get('custId'),cushType:shipperT,cushName:cushName});
+    		var xml = RTX(c,'CCustomerShipper',CCustomerShipper);
+			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+				params:{A:'CUSH_S'},
+				success: function(res){XMG.alert(SYS,M_S);},
+				failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+				xmlData:FOSX(xml)
+			});
+    	}
+    };
+    
+    function selShipper(shipperT){
+    	if(p.get('custId')){
+    		var win = new  Fos.ShipperWin(p.get('custId'),shipperT,updateShipper);
+        	win.show();
+    	}
+    	else
+    		XMG.alert(SYS,M_SELECT_CUST_FIRST);
+    }
+    
+    function updateShipper(shipperT,cushName){
+    	if(shipperT==1) cushName = Ext.getCmp('CONS_SHIPPER').setValue(cushName);
+    	else if(shipperT==2) cushName = Ext.getCmp('CONS_CONSIGNEE').setValue(cushName);
+    	else if(shipperT==3) cushName = Ext.getCmp('CONS_NOTIFY_PARTY').setValue(cushName);
+    	else if(shipperT==4) cushName = Ext.getCmp('CONS_NOTIFY_PARTY2').setValue(cushName);
+    };
+    
+    var bSaveShipper = new Ext.Button({text:'保存',handler:function(){saveShipper(1);}});
+    var bSearchShipper = new Ext.Button({text:'选择',handler:function(){selShipper(1);}});
+    var bSaveConsignee = new Ext.Button({text:'保存',handler:function(){saveShipper(2);}});
+    var bSearchConsignee = new Ext.Button({text:'选择',handler:function(){selShipper(2);}});
+    var bSaveNotifyParty = new Ext.Button({text:'保存',handler:function(){saveShipper(3);}});
+    var bSearchNotifyParty = new Ext.Button({text:'选择',handler:function(){selShipper(3);}});
+    var bSaveNotifyParty2 = new Ext.Button({text:'保存',handler:function(){saveShipper(4);}});
+    var bSearchNotifyParty2 = new Ext.Button({text:'选择',handler:function(){selShipper(4);}});
+    
     var t14={layout:'column',title:C_SHIPPER_INFO,collapsible:true,items:
-			[{columnWidth:.5,layout:'form',border:false,labelWidth:60,items:[{fieldLabel:C_SHIPPER,tabIndex:65,name:'consShipper',value:p.get('consShipper'),xtype:'textarea',height:100,anchor:'95%'}]},
-			{columnWidth:.5,layout:'form',border:false,labelWidth:60,items:[{fieldLabel:C_CONSIGNEE,tabIndex:66,name:'consConsignee',value:p.get('consConsignee'),xtype:'textarea',height:100,anchor:'95%'}]},
-			{columnWidth:.5,layout:'form',border:false,labelWidth:60,items:[{fieldLabel:C_NOTIFIER,tabIndex:67,name:'consNotifyParty',value:p.get('consNotifyParty'),xtype:'textarea',height:100,anchor:'95%'}]},
-			{columnWidth:.5,layout:'form',border:false,labelWidth:60,items:[{fieldLabel:C_OVERSEA_AGENCY,tabIndex:68,name:'consNotifyParty2',value:p.get('consNotifyParty2'),xtype:'textarea',height:100,anchor:'95%'}]}			                            
+			[{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+				items:[{fieldLabel:C_SHIPPER,id:'CONS_SHIPPER',tabIndex:65,name:'consShipper',value:p.get('consShipper'),
+				    	xtype:'textarea',height:100,anchor:'99%'}]},
+			{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
+			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+				items:[{fieldLabel:C_CONSIGNEE,id:'CONS_CONSIGNEE',tabIndex:66,name:'consConsignee',value:p.get('consConsignee'),
+					xtype:'textarea',height:100,anchor:'99%'}]},
+			{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
+			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+				items:[{fieldLabel:C_NOTIFIER,id:'CONS_NOTIFY_PARTY',tabIndex:67,name:'consNotifyParty',value:p.get('consNotifyParty'),
+					xtype:'textarea',height:100,anchor:'99%'}]},
+			{columnWidth:.05,border:false,items:[bSaveNotifyParty,bSearchNotifyParty]},
+			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+				items:[{fieldLabel:C_OVERSEA_AGENCY,id:'CONS_NOTIFY_PARTY2',tabIndex:68,name:'consNotifyParty2',value:p.get('consNotifyParty2'),
+					xtype:'textarea',height:100,anchor:'99%'}]},
+			{columnWidth:.05,border:false,items:[bSaveNotifyParty2,bSearchNotifyParty2]}
+					
 		]};    
 	var t1={id:'C_B_J_'+p.get('id'),title:C_BASE_INFO+'(J)',height:650,
 		items:(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I)?[t11,t13,t14]:[t11,t12,t13,t14]};
@@ -2778,3 +2840,57 @@ Fos.AttachTab = function(p) {
     });   
 };
 Ext.extend(Fos.AttachTab,Ext.grid.GridPanel);
+
+Fos.ShipperWin=function(custId,shipperT,fn){
+	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'json',A:'CUSH_Q'},
+		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomerShipper',id:'cushId'},CCustomerShipper),
+		remoteSort:true,sortInfo:{field:'cushId', direction:'DESC'}});
+	store.load({params:{custId:custId,cushType:shipperT}});
+	
+		
+	this.selRecord = function(){
+		var b =sm.getSelected();
+		if(b){
+			fn(shipperT,b.get('cushName'));
+			this.close();
+		}
+	};
+		    
+	this.removeRecord=function(){	
+		var a =sm.getSelections();
+       	if(a.length){
+       		XMG.confirm(SYS,M_R_C,function(btn){
+           	if(btn=='yes'){           		
+               		var xml = SMTX4R(sm,'CCustomerShipper','cushId');
+               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CUSH_S'},
+					success: function(){
+               			store.load({params:{custId:custId,cushType:shipperT}});
+               			XMG.alert(SYS,M_S);
+               		},
+					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+					xmlData:FOSX(xml)});
+           }});
+		}
+       	else XMG.alert(SYS,M_R_P);		
+	};
+	
+	 var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	    var cm=new Ext.grid.ColumnModel({columns:[sm,
+		{header:C_FILE_NAME,dataIndex:'cushName',width:200},
+		{header:C_CREATE_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"}
+		],defaults:{sortable:true,width:100}});
+
+	    
+	var panel = new Ext.grid.GridPanel({header:false,
+		closable:false,store:store,sm:sm,cm:cm});
+	
+	Fos.ShipperWin.superclass.constructor.call(this,{buttonAlign:'right',
+		title:C_SHIPPER_AND_CONSIGNEE_INFO,layout:'fit',
+		width:600,height:400,modal:true,
+	  	items:[panel],
+	  	buttons:[{text:C_SEL,iconCls:'check',scope:this,handler:this.selRecord},
+	  	       {text:C_REMOVE,iconCls:'remove',scope:this,handler:this.removeRecord},
+		  	       {text:C_CANCEL,iconCls:'cancel',scope:this,handler:this.close}]
+	});
+};
+Ext.extend(Fos.ShipperWin, Ext.Window);

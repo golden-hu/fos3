@@ -26,9 +26,21 @@ flush privileges;
 
 -- --------------------------------------------------------
 
---
--- 表的结构 `C_COMMISSION`
---
+CREATE TABLE C_CUSTOMER_SHIPPER(
+    CUSH_ID        INT             AUTO_INCREMENT,
+    CUST_ID        INT             NOT NULL,
+    CUSH_NAME      VARCHAR(200),
+    CUSH_TYPE      INT,
+    CREATE_BY      INT,
+    CREATE_TIME    DATETIME,
+    MODIFY_BY      INT,
+    MODIFY_TIME    DATETIME,
+    COMP_CODE      CHAR(4)         NOT NULL,
+    VERSION        INT             DEFAULT 0 NOT NULL,
+    REMOVED        TINYINT         DEFAULT 0 NOT NULL,
+    PRIMARY KEY (CUSH_ID)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+;
 
 CREATE TABLE F_ATTACH(
     ATTACH_ID           INT             AUTO_INCREMENT,
@@ -4978,13 +4990,37 @@ INSERT INTO `P_ACTION` (`ACT_ID`, `ACT_NAME`, `ACT_CLASS`, `ACT_METHOD`, `ACT_SE
 (303, 'BL_M_C', 'FfopController', 'cancelMergeBl', '', '提单并单撤销', 0, 0),
 (304, 'BL_SP_C', 'FfopController', 'cancelSplitBl', '', '提单拆单撤销', 0, 0),
 (305, 'CONS_T_X', 'FfopController', 'complexQueryTask', '', '查询委托和对应的任务', 0, 0),
-(306, 'USER_UA', 'SysController', 'updateUserPasswordByAdmin', '', '用户密码修改(管理员)', 0, 0),
-(307, 'BILL_U', 'FfseController', 'updateBillStatus', '', '对帐单状态更新', 0, 0),
-(308, 'REPT_BUDS', '', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)', 0, 0);
-(309, 'ATTACH_D', 'FfopController', 'downAttach', '', '下载文档', 0, 0),
-(310, 'ATTACH_U', 'FfopController', 'uploadAttach', '', '上传文档', 0, 0),
-(311, 'ATTACH_Q', 'FfopController', 'queryAttach', '', '查询文档', 0, 0),
-(312, 'ATTACH_R', 'FfopController', 'removeAttach', '', '删除文档', 0, 0)
+(306, 'WCON_S', 'wsController', 'saveRealConsign', '', '(网上服务)临时委托转正式委托', 0, 0),
+(307, 'WS_CUST_S', 'wsController', 'saveCustomer', '', '(网上服务)用户转正式客户', 0, 0),
+(308, 'WINQ_X', 'wsController', 'complexQueryInquiry', '', '(网上服务)询价复杂查询', 0, 0),
+(309, 'WUSR_Q', 'wsController', 'queryUser', '', '(网上服务)用户查询', 0, 0),
+(310, 'WCON_X', 'wsController', 'complexQueryWConsign', '', '(网上服务)临时委托复杂查询', 0, 0),
+(311, 'WS_LOGIN', 'mainController', 'login', '', '网上服务-登录', 0, 0),
+(312, 'WS_REG', 'mainController', 'saveUser', '', '网上服务-注册', 0, 0),
+(313, 'WS_WINQ_S', 'mainController', 'saveInquiry', '', '网上服务-询价保存', 0, 0),
+(314, 'WS_WINQ_Q', 'mainController', 'queryInquiry', '', '网上服务-询价查询', 0, 0),
+(315, 'WS_LOGOUT', 'mainController', 'logout', '', '网上服务-退出登录', 0, 0),
+(316, 'WS_WCON_S', 'mainController', 'saveConsign', '', '网上服务-临时委托保存', 0, 0),
+(317, 'WS_WCON_Q', 'mainController', 'queryConsign', '', '网上服务-临时委托查询', 0, 0),
+(318, 'WS_CONS_X', 'mainController', 'complexQueryFConsign', '', '网上服务-真实委托复杂查询', 0, 0),
+(319, 'WS_VOYA_X', 'mainController', 'complexQueryVoyage', '', '网上服务-船期复杂查询', 0, 0),
+(320, 'WS_BL_X', 'mainController', 'complexQueryBl', '', '网上服务-提单复杂查询', 0, 0),
+(321, 'WS_BILL_X', 'mainController', 'complexQueryBill', '', '网上服务-对帐单复杂查询', 0, 0),
+(322, 'WS_BIIT_Q', 'mainController', 'queryBillItem', '', '网上服务-对帐单明细查询', 0, 0),
+(323, 'WS_TASK_Q', 'mainController', 'queryTask', '', '网上服务-任务查询', 0, 0),
+(324, 'WS_WBLM_S', 'mainController', 'saveBlM', '', '网上服务-提单修改申请保存', 0, 0),
+(325, 'WS_WBLM_Q', 'mainController', 'queryBlM', '', '网上服务-提单修改申请查询', 0, 0),
+(326, 'WBLM_S', 'wsController', 'saveBlM', '', '(网上服务)提单修改申请保存', 0, 0),
+(327, 'WBLM_Q', 'wsController', 'queryBlM', '', '(网上服务)提单修改申请查询', 0, 0),
+(328, 'BILL_U', 'FfseController', 'updateBillStatus', '', '对帐单状态更新', 0, 0),
+(329, 'USER_UA', 'SysController', 'updateUserPasswordByAdmin', '', '用户密码修改(管理员)', 0, 0),
+(330, 'REPT_BUDS', '', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)', 0, 0),
+(331, 'ATTACH_D', 'FfopController', 'downAttach', '', '下载文档', 0, 0),
+(332, 'ATTACH_U', 'FfopController', 'uploadAttach', '', '上传文档', 0, 0),
+(333, 'ATTACH_Q', 'FfopController', 'queryAttach', '', '查询文档', 0, 0),
+(334, 'ATTACH_R', 'FfopController', 'removeAttach', '', '删除文档', 0, 0),
+(335, 'CUSH_Q', 'SysController', 'queryCustomerShipper', '', '查询客户发货人', 0, 0),
+(336, 'CUSH_S', 'SysController', 'saveCustomerShipper', '', '保存客户发货人', 0, 0)
 ;
 
 --
