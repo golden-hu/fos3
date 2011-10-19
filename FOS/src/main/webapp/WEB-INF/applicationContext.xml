@@ -28,7 +28,7 @@
 	<bean id="serviceAspect" class="haitai.fw.aop.ServiceAspect"/>
 	<bean id="daoAspect" class="haitai.fw.aop.DaoAspect"/>
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-		  p:location="WEB-INF/fos.properties"/>
+		  p:location="/WEB-INF/fos.properties"/>
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
 		  p:host="${mail.host}" p:port="${mail.port}" p:username="${mail.username}" p:password="${mail.password}"
 		  p:javaMailProperties-ref="javaMailProperties">
