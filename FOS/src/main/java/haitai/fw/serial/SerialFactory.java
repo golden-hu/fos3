@@ -5,7 +5,7 @@ import haitai.fos.sys.entity.idao.IPSerialRuleDAO;
 import haitai.fos.sys.entity.table.PSerialRule;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.StringUtil;
 import haitai.fw.util.TimeUtil;
 import org.springframework.transaction.annotation.Transactional;
@@ -144,7 +144,7 @@ public class SerialFactory {
 	 */
 	@Transactional(readOnly=true)
 	private static PSerialRule getSerialRule(Map<String, Object> querymap) {
-		IPSerialRuleDAO dao = SpringContextUtil.getBean("PSerialRuleDAO");
+		IPSerialRuleDAO dao = SpringContextHolder.getBean("PSerialRuleDAO");
 		return dao.findByProperties(querymap).get(0);
 	}
 
@@ -178,7 +178,7 @@ public class SerialFactory {
 	 */
 	@Transactional
 	private static Long getNextNo(Map<String, Object> paramMap) {
-		IPSerialNoDAO dao = SpringContextUtil.getBean("PSerialNoDAO");
+		IPSerialNoDAO dao = SpringContextHolder.getBean("PSerialNoDAO");
 		return dao.getNextSerialNo(paramMap);
 	}
 
@@ -209,7 +209,7 @@ public class SerialFactory {
 	 */
 	@Transactional
 	public static void initSerial() {
-		IPSerialNoDAO dao = SpringContextUtil.getBean("PSerialNoDAO");
+		IPSerialNoDAO dao = SpringContextHolder.getBean("PSerialNoDAO");
 		dao.init();
 	}
 }

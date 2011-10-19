@@ -26,7 +26,7 @@ public class TestLicense {
 
 	@Test
 	public void generateTest() throws Exception {
-		Properties properties = SpringContextUtil.getBean("licenseProperties");
+		Properties properties = SpringContextHolder.getBean("licenseProperties");
 		String company = properties.getProperty("Company");
 		String ip = properties.getProperty("IP");
 		String mac = properties.getProperty("MAC");

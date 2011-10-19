@@ -9,7 +9,7 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.TimeUtil;
 
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class SExRateService {
 		}
 		
 		//获取币种
-		ApplicationContext ctx = SpringContextUtil.getContext();
+		ApplicationContext ctx = SpringContextHolder.getContext();
 		IGeneralService<GCurrency> currService = (IGeneralService<GCurrency>) ctx
 				.getBean("GCurrencyService");
 		List<GCurrency> currList = currService.query(queryMap);

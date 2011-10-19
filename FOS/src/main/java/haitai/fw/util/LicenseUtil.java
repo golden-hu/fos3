@@ -49,10 +49,10 @@ public class LicenseUtil implements ServletContextAware {
 			if (num == 0) {
 				status = true;
 			} else {
-				IPUserDAO dao = SpringContextUtil.getBean("PUserDAO");
+				IPUserDAO dao = SpringContextHolder.getBean("PUserDAO");
 				// SAAS version, get user license number from P_COMPANY
 				if ("1".equals(licenseSAAS)) {
-					IPCompanyDAO cdao = SpringContextUtil.getBean("PCompanyDAO");
+					IPCompanyDAO cdao = SpringContextHolder.getBean("PCompanyDAO");
 					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
 					if (list.size() == 1) {
 						num = list.get(0).getCompLicenseNumber();
@@ -150,10 +150,10 @@ public class LicenseUtil implements ServletContextAware {
 			if (num == 0) {
 				return true;
 			} else {
-				IPUserDAO dao = SpringContextUtil.getBean("PUserDAO");
+				IPUserDAO dao = SpringContextHolder.getBean("PUserDAO");
 				// SAAS version, get user license number from P_COMPANY
 				if ("1".equals(licenseSAAS)) {
-					IPCompanyDAO cdao = SpringContextUtil.getBean("PCompanyDAO");
+					IPCompanyDAO cdao = SpringContextHolder.getBean("PCompanyDAO");
 					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
 					if (list.size() == 1) {
 						num = list.get(0).getCompLicenseNumber();

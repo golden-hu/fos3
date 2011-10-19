@@ -15,7 +15,7 @@ import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ExceptionUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.ReportUtil;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.StringUtil;
 import haitai.fw.util.XstreamUtil;
 
@@ -322,7 +322,7 @@ public class MainServlet extends HttpServlet {
 	private void dispatch(String actName, FosRequest fosRequest, FosResponse fosResponse) throws Exception {
 		// get service class and action method
 		Action action = ActionManager.getAction(actName);
-		Object service = SpringContextUtil.getBean(action.getActClass());
+		Object service = SpringContextHolder.getBean(action.getActClass());
 		// convert request to parameter type of action method
 		Method[] methods = service.getClass().getMethods();
 		for (Method method : methods) {

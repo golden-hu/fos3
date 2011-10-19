@@ -3,7 +3,7 @@ package haitai.fw.platform;
 import haitai.fos.sys.entity.idao.IActionDAO;
 import haitai.fos.sys.entity.table.Action;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class ActionManager {
 
 	@Transactional(readOnly=true)
 	private static void load() {
-		IActionDAO dao = SpringContextUtil.getBean("ActionDAO");
+		IActionDAO dao = SpringContextHolder.getBean("ActionDAO");
 		List<Action> actList = dao.findAll();
 		for (Action action : actList) {
 			ACTION_PROFILE.put(action.getActName(), action);

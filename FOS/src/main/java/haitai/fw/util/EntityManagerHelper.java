@@ -17,7 +17,7 @@ public class EntityManagerHelper {
 	private static final Logger logger;
 	
 	static {
-		emf = SpringContextUtil.getBean("entityManagerFactory");
+		emf = SpringContextHolder.getBean("entityManagerFactory");
 		threadLocal = new ThreadLocal<EntityManager>();
 		logger = Logger.getLogger("FOSPU");
 		logger.setLevel(Level.ALL);

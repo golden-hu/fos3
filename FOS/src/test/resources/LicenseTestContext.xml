@@ -7,6 +7,6 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<bean id="SpringContextUtil" class="haitai.fw.util.SpringContextUtil"/>
+	<bean id="SpringContextUtil" class="haitai.fw.util.SpringContextHolder"/>
 	<util:properties id="licenseProperties" location="classpath:license"/>
 </beans>

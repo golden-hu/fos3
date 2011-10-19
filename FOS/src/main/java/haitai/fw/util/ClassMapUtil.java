@@ -29,7 +29,7 @@ public class ClassMapUtil {
 	}
 	
 	private static void init() {
-		EntityManagerFactory emf = SpringContextUtil
+		EntityManagerFactory emf = SpringContextHolder
 				.getBean("entityManagerFactory");
 		if (emf instanceof EntityManagerFactoryInfo) {
 			EntityManagerFactoryInfo emfi = (EntityManagerFactoryInfo) emf;

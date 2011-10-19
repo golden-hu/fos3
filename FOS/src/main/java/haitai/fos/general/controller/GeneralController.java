@@ -18,7 +18,7 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.CompanyConfigUtil;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.StringUtil;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class GeneralController<T> {
 				.getAttr(SessionKeyType.ACTNAME);
 		String serviceBeanName = ActionManager.getAction(actName)
 				.getActService();
-		IGeneralService<T> service = SpringContextUtil.getBean(serviceBeanName);
+		IGeneralService<T> service = SpringContextHolder.getBean(serviceBeanName);
 		return service.save(entityList);
 	}
 
@@ -47,7 +47,7 @@ public class GeneralController<T> {
 				.getAttr(SessionKeyType.ACTNAME);
 		String serviceBeanName = ActionManager.getAction(actName)
 				.getActService();
-		IGeneralService<T> service = SpringContextUtil.getBean(serviceBeanName);
+		IGeneralService<T> service = SpringContextHolder.getBean(serviceBeanName);
 		return service.query(queryMap);
 	}
 
@@ -58,20 +58,20 @@ public class GeneralController<T> {
 				.getAttr(SessionKeyType.ACTNAME);
 		String serviceBeanName = ActionManager.getAction(actName)
 				.getActService();
-		IGeneralService<T> service = SpringContextUtil.getBean(serviceBeanName);
+		IGeneralService<T> service = SpringContextHolder.getBean(serviceBeanName);
 		return service.complexQuery(conditions, queryMap);
 	}
 
 	@Transactional(readOnly = true)
 	public List<GVoyage> getVoyageByVessel(Map<String, Object> queryMap) {
-		IGeneralService<GVoyage> service = SpringContextUtil
+		IGeneralService<GVoyage> service = SpringContextHolder
 				.getBean("GVoyageService");
 		return service.query(queryMap);
 	}
 
 	@Transactional(readOnly = true)
 	public List<GPort> getPortByCountry(Map<String, Object> queryMap) {
-		IGeneralService<GPort> service = SpringContextUtil
+		IGeneralService<GPort> service = SpringContextHolder
 				.getBean("GPortService");
 		return service.query(queryMap);
 	}
@@ -79,7 +79,7 @@ public class GeneralController<T> {
 	@Transactional(readOnly = true)
 	public List<GVessel> complexQueryVessel(List<FosQuery> conditions,
 			Map<String, Object> queryMap) {
-		IGeneralService<GVessel> service = SpringContextUtil
+		IGeneralService<GVessel> service = SpringContextHolder
 				.getBean("GVesselService");
 		return service.complexQuery(conditions, queryMap);
 	}
@@ -87,7 +87,7 @@ public class GeneralController<T> {
 	@Transactional(readOnly = true)
 	public List<GPort> complexQueryPort(List<FosQuery> conditions,
 			Map<String, Object> queryMap) {
-		IGeneralService<GPort> service = SpringContextUtil
+		IGeneralService<GPort> service = SpringContextHolder
 				.getBean("GPortService");
 		return service.complexQuery(conditions, queryMap);
 	}
@@ -100,8 +100,8 @@ public class GeneralController<T> {
 	 */
 	@Transactional(readOnly = true)
 	public List<GUnit> queryUnitPlusContType(Map<String, Object> queryMap) {
-		IGUnitDAO dao = SpringContextUtil.getBean("GUnitDAO");
-		IGContainerTypeDAO containerTypeDao = SpringContextUtil
+		IGUnitDAO dao = SpringContextHolder.getBean("GUnitDAO");
+		IGContainerTypeDAO containerTypeDao = SpringContextHolder
 				.getBean("GContainerTypeDAO");
 
 		List<GUnit> retList = new ArrayList<GUnit>();
@@ -127,7 +127,7 @@ public class GeneralController<T> {
 				.getCompanyConfig("COMMISSION_CHAR_CNY");
 		String commissionUSD = CompanyConfigUtil
 				.getCompanyConfig("COMMISSION_CHAR_USD");
-		ApplicationContext ctx = SpringContextUtil.getContext();
+		ApplicationContext ctx = SpringContextHolder.getContext();
 		IGChargeDAO dao = (IGChargeDAO) ctx.getBean("GChargeDAO");
 		if (StringUtil.isNotBlank(commissionUSD)) {
 			GCharge usd = dao.findById(Integer.parseInt(commissionUSD));
@@ -150,7 +150,7 @@ public class GeneralController<T> {
 		String expeType = (String) queryMap.get("expeType");
 		List<GCharge> retList = new ArrayList<GCharge>();
 		List<GCharge> oriList = (List<GCharge>) query(queryMap);
-		SExpenseService expenseService = SpringContextUtil.getBean("SExpenseService");
+		SExpenseService expenseService = SpringContextHolder.getBean("SExpenseService");
 		Map<String, PUserExpePermission> permMap = expenseService.getExpePermissionMap();
 		String key = expeType + ConstUtil.USEP_CHCL_ALL;
 		if (permMap.containsKey(key) && isEdit(permMap.get(key))) {
