@@ -28,7 +28,7 @@
 <body id="docs">
 <div id="loading-mask" style=""></div>
   <div id="loading">
-    <div class="loading-indicator"><img src="js/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="middle"/>Loading...</div>
+    <div class="loading-indicator"><img src="js/ext/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="middle"/>Loading...</div>
 </div>
 <div id="west"></div>
 <div id="north">
