@@ -1,23 +1,20 @@
-/**
- *
- */
 package haitai.fw.util;
-
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.Map;
 
-/**
- * @author guo
- */
-public class XstreamUtil {
+@Component
+public class XstreamUtil implements InitializingBean {
 	private static XStream xstreamXML;
 	private static XStream xstreamJSON;
 
-	static {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		xstreamXML = new XStream();
 		xstreamJSON = new XStream(new JettisonMappedXmlDriver());
 		xstreamJSON.setMode(XStream.NO_REFERENCES);
@@ -75,4 +72,5 @@ public class XstreamUtil {
 	public static Object JSON2Entity(InputStream in) {
 		return xstreamJSON.fromXML(in);
 	}
+
 }
