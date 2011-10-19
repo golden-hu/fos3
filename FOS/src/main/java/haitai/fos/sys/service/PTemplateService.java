@@ -138,7 +138,8 @@ public class PTemplateService {
 			queryMap.put("tetyId", ptt.getTetyId());
 			Map<String, PTemplateMap> fieldMapping = getTemplateMap(queryMap);
 			// 获取该对象的类
-			Class entityClass = ClassMapUtil.getClass(ptt.getTetyChild());
+			JpaEntityMapper mapper = SpringContextHolder.getBean(JpaEntityMapper.class);
+			Class entityClass = mapper.getClass(ptt.getTetyChild());
 			for (FileItem item : fileItems) {
 				if(item.isFormField()) continue;
 				is = item.getInputStream();

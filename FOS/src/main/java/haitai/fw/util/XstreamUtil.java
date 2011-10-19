@@ -1,22 +1,22 @@
 /**
- * 
+ *
  */
 package haitai.fw.util;
 
 
-import java.io.InputStream;
-import java.util.Map;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
+import java.io.InputStream;
+import java.util.Map;
+
 /**
  * @author guo
- * 
  */
 public class XstreamUtil {
 	private static XStream xstreamXML;
 	private static XStream xstreamJSON;
+
 	static {
 		xstreamXML = new XStream();
 		xstreamJSON = new XStream(new JettisonMappedXmlDriver());
@@ -33,8 +33,9 @@ public class XstreamUtil {
 
 	@SuppressWarnings("unchecked")
 	private static void alias(XStream xstream) {
-        Map<String, Class> classMap = ClassMapUtil.getMap();
-        for (String clazzName : classMap.keySet()) {
+		JpaEntityMapper mapper = SpringContextHolder.getBean(JpaEntityMapper.class);
+		Map<String, Class<?>> classMap = mapper.getMapper();
+		for (String clazzName : classMap.keySet()) {
 			xstream.alias(clazzName, classMap.get(clazzName));
 		}
 		xstream.alias("FosRequest", haitai.fw.entity.FosRequest.class);
@@ -62,15 +63,15 @@ public class XstreamUtil {
 	public static Object XML2Entity(InputStream in) {
 		return xstreamXML.fromXML(in);
 	}
-	
+
 	public static String entity2JSON(Object srcObj) {
 		return xstreamJSON.toXML(srcObj);
 	}
-	
+
 	public static Object JSON2Entity(String xml) {
 		return xstreamJSON.fromXML(xml);
 	}
-	
+
 	public static Object JSON2Entity(InputStream in) {
 		return xstreamJSON.fromXML(in);
 	}
