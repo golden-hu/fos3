@@ -1,55 +1,40 @@
 package haitai.fos.sys.service;
 
-import haitai.fos.sys.entity.idao.IPCompanyDAO;
-import haitai.fos.sys.entity.idao.IPGroupDAO;
-import haitai.fos.sys.entity.idao.IPGroupUserDAO;
-import haitai.fos.sys.entity.idao.IPRoleDAO;
-import haitai.fos.sys.entity.idao.IPRoleFunctionDAO;
-import haitai.fos.sys.entity.idao.IPUserDAO;
-import haitai.fos.sys.entity.idao.IPUserRoleDAO;
-import haitai.fos.sys.entity.table.PGroup;
-import haitai.fos.sys.entity.table.PGroupUser;
-import haitai.fos.sys.entity.table.PRole;
-import haitai.fos.sys.entity.table.PRoleFunction;
-import haitai.fos.sys.entity.table.PUser;
-import haitai.fos.sys.entity.table.PUserRole;
+import haitai.fos.sys.entity.idao.*;
+import haitai.fos.sys.entity.table.*;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
-import haitai.fw.platform.AppConfig;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ActionLogUtil;
-import haitai.fw.util.CompanyConfigUtil;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.CryptoUtil;
-import haitai.fw.util.LicenseUtil;
-import haitai.fw.util.MessageUtil;
-import haitai.fw.util.NumberUtil;
-import haitai.fw.util.StringUtil;
-import haitai.fw.util.TimeUtil;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import haitai.fw.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class PUserService {
 	private static Map<Integer, Object[]> onlineMap = new ConcurrentHashMap<Integer, Object[]>();
-	private IPUserDAO dao = null;
-	private IPRoleDAO roleDao = null;
-	private IPGroupDAO groupDao = null;
-	private IPGroupUserDAO groupUserDao = null;
-	private IPUserRoleDAO userRoleDao = null;
-	private IPRoleFunctionDAO roleFunctionDao = null;
-	private IPCompanyDAO companyDao = null;
-	private LicenseUtil licenseUtil = null;
+	@Autowired
+	private IPUserDAO dao;
+	@Autowired
+	private IPRoleDAO roleDao;
+	@Autowired
+	private IPGroupDAO groupDao;
+	@Autowired
+	private IPGroupUserDAO groupUserDao;
+	@Autowired
+	private IPUserRoleDAO userRoleDao;
+	@Autowired
+	private IPRoleFunctionDAO roleFunctionDao;
+	@Autowired
+	private LicenseUtil licenseUtil;
+	@Autowired
+	@Qualifier(value = "appConfig")
+	private Properties appConfig;
 	private static FosLogger logger = new FosLogger(PUserService.class);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -269,7 +254,7 @@ public class PUserService {
 			if (ConstUtil.FalseShort.equals(user.getActive()))
 				throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_USER_DEACTIVED);
 			checkPasswordExpire(user);
-			if (ConstUtil.TrueStr.equals(AppConfig.getConfig(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
+			if (ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 				checkRepeatLogin(user);
 			}
 			SessionManager.setAttr(SessionKeyType.UID, user.getUserId());
@@ -281,10 +266,10 @@ public class PUserService {
 			licenseUtil.checkLicense();
 
 			List objList = dao.queryFuncCode();
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			for (Object obj : objList) {
 				if (obj instanceof String) {
-					sb.append((String) obj + ConstUtil.COMMA);
+					sb.append((String) obj).append(ConstUtil.COMMA);
 				}
 			}
 			user.setFuncCode(sb.toString());
@@ -324,7 +309,7 @@ public class PUserService {
 	}
 
 	/**
-	 * @param user
+	 * @param user the user
 	 */
 	private void checkPasswordExpire(PUser user) {
 		Date pwDate = user.getUserPasswordModifyDate();
@@ -343,10 +328,10 @@ public class PUserService {
 	public PUser queryCurrentUser() {
 		PUser user = dao.findById((Integer) SessionManager.getAttr(SessionKeyType.UID));
 		List objList = dao.queryFuncCode();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (Object obj : objList) {
 			if (obj instanceof String) {
-				sb.append((String) obj + ConstUtil.COMMA);
+				sb.append((String) obj).append(ConstUtil.COMMA);
 			}
 		}
 		user.setFuncCode(sb.toString());
@@ -390,10 +375,6 @@ public class PUserService {
 		killOnlineUser(userId);
 	}
 
-	public void killAllOnlineUser() {
-		onlineMap.clear();
-	}
-
 	public List<PUser> listOnlineUsers() {
 		List<PUser> list = new ArrayList<PUser>();
 		String compCode = SessionManager.getStringAttr(SessionKeyType.COMPCODE);
@@ -408,78 +389,6 @@ public class PUserService {
 			}
 		}
 		return list;
-	}
-
-	public IPUserDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IPUserDAO dao) {
-		this.dao = dao;
-	}
-
-	public IPRoleDAO getRoleDao() {
-		return roleDao;
-	}
-
-	@Autowired
-	public void setRoleDao(IPRoleDAO roleDao) {
-		this.roleDao = roleDao;
-	}
-
-	public IPGroupDAO getGroupDao() {
-		return groupDao;
-	}
-
-	@Autowired
-	public void setGroupDao(IPGroupDAO groupDao) {
-		this.groupDao = groupDao;
-	}
-
-	public IPGroupUserDAO getGroupUserDao() {
-		return groupUserDao;
-	}
-
-	@Autowired
-	public void setGroupUserDao(IPGroupUserDAO groupUserDao) {
-		this.groupUserDao = groupUserDao;
-	}
-
-	public IPUserRoleDAO getUserRoleDao() {
-		return userRoleDao;
-	}
-
-	@Autowired
-	public void setUserRoleDao(IPUserRoleDAO userRoleDao) {
-		this.userRoleDao = userRoleDao;
-	}
-
-	public IPRoleFunctionDAO getRoleFunctionDao() {
-		return roleFunctionDao;
-	}
-
-	@Autowired
-	public void setRoleFunctionDao(IPRoleFunctionDAO roleFunctionDao) {
-		this.roleFunctionDao = roleFunctionDao;
-	}
-
-	public IPCompanyDAO getCompanyDao() {
-		return companyDao;
-	}
-
-	@Autowired
-	public void setCompanyDao(IPCompanyDAO companyDao) {
-		this.companyDao = companyDao;
-	}
-
-	public LicenseUtil getLicenseUtil() {
-		return licenseUtil;
-	}
-
-	@Autowired
-	public void setLicenseUtil(LicenseUtil licenseUtil) {
-		this.licenseUtil = licenseUtil;
 	}
 
 }

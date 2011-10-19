@@ -10,26 +10,12 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ActionLogUtil;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.ExceptionUtil;
-import haitai.fw.util.MessageUtil;
-import haitai.fw.util.ReportUtil;
-import haitai.fw.util.SpringContextHolder;
-import haitai.fw.util.StringUtil;
-import haitai.fw.util.XstreamUtil;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import haitai.fw.util.*;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.OptimisticLockException;
@@ -37,12 +23,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.hibernate.exception.ConstraintViolationException;
+import java.io.*;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class MainServlet extends HttpServlet {
 
@@ -79,6 +62,7 @@ public class MainServlet extends HttpServlet {
 			inputStream = request.getInputStream();
 			outputStream = response.getOutputStream();
 			Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
+			Properties appConfig = SpringContextHolder.getBean("appConfig");
 			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName)
 					&& !ConstUtil.ACT_LOGOUT.equals(actName)) {
 				// 检查是否已经登录(UID为空, 而且不是正在登录)
@@ -89,15 +73,13 @@ public class MainServlet extends HttpServlet {
 					PUserService.killMe(uid);
 					SessionManager.logoutSession();
 				}
-				response.sendRedirect(AppConfig
-						.getConfig(ConstUtil.CONFIG_LOGIN_URL));
+				response.sendRedirect(appConfig.getProperty(ConstUtil.CONFIG_LOGIN_URL));
 			} else if (actName.startsWith(ConstUtil.ACT_REPORT_RUN)) {
 				// 报表
 				response.sendRedirect(ReportUtil.getUrl(request, paramMap,actName));
 			} else {
 				if (!actName.equals(ConstUtil.ACT_LOGIN)
-						&& ConstUtil.TrueStr.equals(AppConfig
-										.getConfig(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
+						&& ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 					PUserService.checkRepeatLogin(uid);
 				}
 				String xml = null;
@@ -501,7 +483,4 @@ public class MainServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	public void init() throws ServletException {
-		AppConfig.init(getServletContext());
-	}
 }
