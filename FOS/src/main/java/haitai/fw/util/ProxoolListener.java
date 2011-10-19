@@ -1,19 +1,18 @@
 package haitai.fw.util;
 
-import java.io.File;
-import java.util.Enumeration;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.ProxoolFacade;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 import org.logicalcobwebs.proxool.configuration.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.io.File;
+import java.util.Enumeration;
+import java.util.Properties;
 
 public class ProxoolListener implements ServletContextListener {
 	private static final Logger logger = LoggerFactory.getLogger(ProxoolListener.class);
@@ -64,7 +63,7 @@ public class ProxoolListener implements ServletContextListener {
 					logger.error("Problem configuring " + value, e);
 				}
 			} else if (name.equals(AUTO_SHUTDOWN_PROPERTY)) {
-				autoShutdown = Boolean.valueOf(value).booleanValue();
+				autoShutdown = Boolean.valueOf(value);
 			} else if (name.startsWith("jdbc")) {
 				properties.setProperty(name, value);
 			}
