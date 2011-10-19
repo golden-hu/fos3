@@ -22,13 +22,13 @@ public class FosQuery {
 	public boolean equals(Object obj) {
 		if (obj instanceof FosQuery) {
 			FosQuery q = (FosQuery) obj;
-			if (key.equals(q.getKey()) && op.equals(q.getOp())
-					&& value.equals(q.getValue())) {
+			if (key.equals(q.getKey()) && op.equals(q.getOp()) && value.equals(q.getValue())) {
 				return true;
 			}
 		}
 		return super.equals(obj);
 	}
+
 	private String key;
 	private String value;
 	private String op;

@@ -3,19 +3,17 @@ package haitai.fw.entity;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.DaoUtil;
 import haitai.fw.util.StringUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.orm.jpa.support.JpaDaoSupport;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public abstract class FosJpaDao extends JpaDaoSupport {
 	@SuppressWarnings("unchecked")
@@ -26,14 +24,13 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 				" t1 where ");
 		DaoUtil.buildSql(propertyMap, clazz, sb, false);
 		final String queryString = sb.toString();
-		List retList = getJpaTemplate().executeFind(new JpaCallback() {
+		return getJpaTemplate().executeFind(new JpaCallback() {
 			public Object doInJpa(EntityManager em) throws PersistenceException {
 				Query query = em.createQuery(queryString);
 				DaoUtil.setParameters(propertyMap, clazz, query, false);
 				return query.getResultList();
 			}
 		});
-		return retList;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -44,14 +41,13 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 				.append(" t1 where ");
 		DaoUtil.buildSql(propertyMap, clazz, sb, true);
 		final String queryString = sb.toString();
-		Long rowCount = (Long) getJpaTemplate().execute(new JpaCallback() {
+		return (Long) getJpaTemplate().execute(new JpaCallback() {
 			public Object doInJpa(EntityManager em) throws PersistenceException {
 				Query query = em.createQuery(queryString);
 				DaoUtil.setParameters(propertyMap, clazz, query, true);
 				return query.getSingleResult();
 			}
 		});
-		return rowCount;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -102,14 +98,13 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 		DaoUtil.buildSql(finalConditions, propertyMap, sb, false, clazz);
 
 		final String queryString = sb.toString();
-		List retList = getJpaTemplate().executeFind(new JpaCallback() {
+		return getJpaTemplate().executeFind(new JpaCallback() {
 			public Object doInJpa(EntityManager em) throws PersistenceException {
 				Query query = em.createQuery(queryString);
 				DaoUtil.setParameters(finalConditions, propertyMap, query, false, clazz);
 				return query.getResultList();
 			}
 		});
-		return retList;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -136,14 +131,13 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 		DaoUtil.buildSql(finalConditions, propertyMap, sb, true, clazz);
 
 		final String queryString = sb.toString();
-		Long rowCount = (Long) getJpaTemplate().execute(new JpaCallback() {
+		return (Long) getJpaTemplate().execute(new JpaCallback() {
 			public Object doInJpa(EntityManager em) throws PersistenceException {
 				Query query = em.createQuery(queryString);
 				DaoUtil.setParameters(finalConditions, propertyMap, query, true, clazz);
 				return query.getSingleResult();
 			}
 		});
-		return rowCount;
 	}
 
 	private List<FosQuery> plusMap2Conditions(final List<FosQuery> conditions,

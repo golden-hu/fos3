@@ -1,9 +1,9 @@
 package haitai.fw.log;
 
-import java.lang.reflect.Method;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
 
 public class FosLogger {
 	private Logger logger;
@@ -70,23 +70,22 @@ public class FosLogger {
 			Class tC = t.getClass();
 			Method mA[] = tC.getMethods();
 			Method nextThrowableMethod = null;
-			for (int i = 0; i < mA.length; i++) {
-				if ("getCause".equals(mA[i].getName())
-						|| "getRootCause".equals(mA[i].getName())
-						|| "getNextException".equals(mA[i].getName())
-						|| "getException".equals(mA[i].getName())) {
+			for (Method aMA : mA) {
+				if ("getCause".equals(aMA.getName())
+						|| "getRootCause".equals(aMA.getName())
+						|| "getNextException".equals(aMA.getName())
+						|| "getException".equals(aMA.getName())) {
 					// check param types
-					Class params[] = mA[i].getParameterTypes();
+					Class params[] = aMA.getParameterTypes();
 					if (params == null || params.length == 0) {
-						nextThrowableMethod = mA[i];
+						nextThrowableMethod = aMA;
 						break;
 					}
 				}
 			}
 
 			if (nextThrowableMethod != null) {
-				Throwable nextT = (Throwable) nextThrowableMethod.invoke(t,
-						new Object[0]);
+				Throwable nextT = (Throwable) nextThrowableMethod.invoke(t, new Object[0]);
 				if (nextT != null) {
 					this.logger.debug("Previous log CONTINUED: Please check log file for detail",
 							nextT);
