@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>fos-parent</artifactId>
 		<groupId>com.hitisoft</groupId>
@@ -33,6 +33,59 @@
 							<targetPath>WEB-INF/classes/META-INF</targetPath>
 						</resource>
 					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<nosuffix>true</nosuffix>
+					<force>true</force>
+					<encoding>UTF-8</encoding>
+					<disableOptimizations>false</disableOptimizations>
+					<aggregations>
+						<aggregation>
+							<removeIncluded>false</removeIncluded>
+							<insertNewLine>true</insertNewLine>
+							<output>${project.build.directory}/${project.build.finalName}/js/fos-all.js</output>
+							<includes>
+								<include>${basedir}/src/main/webapp/js/resource_Zh_Cn.js</include>
+								<include>${basedir}/src/main/webapp/js/version.js</include>
+								<include>${basedir}/src/main/webapp/js/constant.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-sys.js</include>
+								<include>${basedir}/src/main/webapp/js/store.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-gen.js</include>
+								<include>${basedir}/src/main/webapp/js/util.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-report.js</include>
+								<include>${basedir}/src/main/webapp/js/fos.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-cust.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-set.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-exp.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-imp.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-air.js</include>
+								<include>${basedir}/src/main/webapp/js/fos-ws.js</include>
+							</includes>
+							<excludes>
+								<exclude>**/ext/*</exclude>
+								<exclude>**/compressed/*</exclude>
+							</excludes>
+						</aggregation>
+					</aggregations>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceExcludes>**/toAggregateAndRemove/**</warSourceExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
