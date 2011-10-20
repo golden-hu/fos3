@@ -1,18 +1,11 @@
 package haitai.fos.ffse.entity.atable;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import haitai.fw.entity.BaseDomain;
 
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @MappedSuperclass
 public abstract class AbstractSVoucher extends BaseDomain {
@@ -41,7 +34,7 @@ public abstract class AbstractSVoucher extends BaseDomain {
 	private Double voucExRate;
 	private String voucBankReciptNo;
 	private Date voucBankReciptDate;
-	private Short voucPaymentType;
+	private Integer voucPaymentType;
 	private String voucInvoiceNo;
 	private String voucTaxInvoiceNo;
 	private Date voucInvoiceDate;
@@ -291,11 +284,11 @@ public abstract class AbstractSVoucher extends BaseDomain {
 	}
 
 	@Column(name = "VOUC_PAYMENT_TYPE")
-	public Short getVoucPaymentType() {
+	public Integer getVoucPaymentType() {
 		return this.voucPaymentType;
 	}
 
-	public void setVoucPaymentType(Short voucPaymentType) {
+	public void setVoucPaymentType(Integer voucPaymentType) {
 		this.voucPaymentType = voucPaymentType;
 	}
 
