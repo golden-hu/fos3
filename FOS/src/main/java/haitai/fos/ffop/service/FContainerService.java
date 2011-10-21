@@ -10,22 +10,20 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Service
 public class FContainerService {
-	private IFContainerDAO dao = null;
-	private IFContainerCargoDAO cargoDao = null;
-	private IFConsignDAO consignDao = null;
+	@Autowired
+	private IFContainerDAO dao;
+	@Autowired
+	private IFContainerCargoDAO cargoDao;
+	@Autowired
+	private IFConsignDAO consignDao;
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -34,27 +32,22 @@ public class FContainerService {
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 		Integer consId = null;
 		// handle parent first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FContainer) {
 				FContainer entity = (FContainer) obj;
 				Integer oldId = entity.getContId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setContId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					FContainer delEntity = dao.findById(entity.getContId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 				}
 				idMap.put(oldId, entity.getContId());
 				consId = entity.getConsId();
@@ -62,29 +55,22 @@ public class FContainerService {
 		}
 
 		// handle child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof FContainerCargo) {
 				FContainerCargo entity = (FContainerCargo) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setCocaId(null);
-					entity.setContId(NumberUtil.frontId2DbId(idMap, entity
-							.getContId()));
+					entity.setContId(NumberUtil.frontId2DbId(idMap, entity.getContId()));
 					cargoDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(cargoDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
-					FContainerCargo delEntity = cargoDao.findById(entity
-							.getCocaId());
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+					FContainerCargo delEntity = cargoDao.findById(entity.getCocaId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					cargoDao.update(delEntity);
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 				}
 			}
 		}
@@ -95,7 +81,7 @@ public class FContainerService {
 			queryMap.put("consId", consId);
 			queryMap.put("contPreFlag", "N");
 			List<FContainer> listCont = query(queryMap);
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			for (FContainer cont : listCont) {
 				sb.append(cont.getContNo()).append("/");
 			}
@@ -128,32 +114,4 @@ public class FContainerService {
 		return retList;
 	}
 
-
-	public IFContainerDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IFContainerDAO dao) {
-		this.dao = dao;
-	}
-
-	public IFContainerCargoDAO getCargoDao() {
-		return cargoDao;
-	}
-
-	@Autowired
-	public void setCargoDao(IFContainerCargoDAO cargoDao) {
-		this.cargoDao = cargoDao;
-	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-	
 }
