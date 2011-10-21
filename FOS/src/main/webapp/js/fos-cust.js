@@ -266,7 +266,7 @@ Fos.CustomerWin = function(p,store,wu){
             {fieldLabel:C_CNAME,id:'custNameCn',value:p.get('custNameCn'),allowBlank:false,anchor:'90%'},
             {fieldLabel:C_CSNAME,id:'custSnameCn',value:p.get('custSnameCn'),anchor:'90%'},           
             {fieldLabel:C_INDUSTRY,id:'custIndustry',value:p.get('custIndustry'),xtype:'combo',store:INDU_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-            {fieldLabel:C_SALES,name:'custSalesId',value:p.get('custSalesId'),store:getSALE_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+            {fieldLabel:C_SALES,name:'custSalesId',value:p.get('custSalesId'),store:getSALE_S(),xtype:'combo',displayField:'userName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
             	listeners:{scope:this,select:function(c,r,i){
             	p.set('custSalesId',r.get('userId'));p.set('custSalesName',r.get('userName'));}}}]},
             {columnWidth:.5,layout:'form',border:false,defaultType: 'textfield',
