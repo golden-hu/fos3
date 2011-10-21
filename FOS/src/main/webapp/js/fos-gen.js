@@ -601,7 +601,7 @@ var showG_CHAR = function() {
 	{header:C_CURR_DEFAULT,dataIndex: 'currCode',
 			editor:new Ext.form.ComboBox({displayField:'currCode',valueField:'currCode',triggerAction: 'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCURR_S()})},		
-	{header:C_UNIT_DEFAULT,dataIndex: 'unitId',
+	{header:C_UNIT_DEFAULT,dataIndex: 'unitId',renderer:getUNIT,
 			editor:new Ext.form.ComboBox({displayField:'unitName',valueField:'unitId',triggerAction: 'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_S()})},		
 	{header:C_CHCL,dataIndex:'chclId',renderer:getCHCL,

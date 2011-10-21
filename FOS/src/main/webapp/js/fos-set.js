@@ -644,7 +644,7 @@ Fos.ExpenseTab = function(p,f){
 	}
 	else if(CUSER_ID==p.get('consSalesRepId')) bVC=false;
 	
-	if(p.get('rowAction')!='N')
+	if(p.get('rowAction')!='N' || !NR(m+M3_EXPE+S_AR+F_V))
 		this.store.load({params:{consId:p.get('consId')},callback:function(){
 			var a=this.store.getRange();
 			for(var i=0;i<a.length;i++){
@@ -835,7 +835,7 @@ Fos.ExpenseTab2 = function(p,f){
 		PRc.setValue(round2(this.sumRcR-this.sumRcP));		
 	};
 	
-	if(p.get('rowAction')!='N')
+	if(p.get('rowAction')!='N'  || !NR(m+M3_EXPE+S_AR+F_V))
 		this.store.load({params:{consId:p.get('consId')},callback:function(){
 			var a=this.store.getRange();
 			for(var i=0;i<a.length;i++){
@@ -1070,15 +1070,32 @@ var showInvoice= function(p){
 	T_MAIN.setActiveTab(tab);tab.doLayout();}
 };
 Fos.InvoiceGrid = function(t) {
+	/*var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'xml',A:'INVO_X'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'id'},SInvoice),
+		remoteSort:true,sortInfo:{field:'id', direction:'DESC'}});		
+	var a=[];
+	a[0]= new QParam({key:'invoType',value:t,op:EQ});
+	a[1]= new QParam({key:'invoStatus',value:2,op:NE});
+	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+    store.load({params:{start:0,limit:C_PS}});
+    this.reset=function(){
+    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+    	store.load({params:{start:0,limit:C_PS}});
+    };
+    */
+    
 	var store = GS('INVO_X','SInvoice',SInvoice,'invoDate','DESC','invoDate','S_INVO','id',true);
 	var a=[];
 	a[0]={key:'invoType',value:t,op:EQ};
 	a[1]={key:'invoStatus',value:2,op:NE};
 	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-    store.load({params:{start:0,limit:C_PS}});
+    store.load({params:{start:0,limit:C_PS}});    
     this.reset=function(){
     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-    	store.reload({params:{start:0,limit:C_PS}});};
+    	store.reload({params:{start:0,limit:C_PS}});
+    };
+    	
+    	
 	this.search = function(){
     	var win = new Fos.InvoLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
