@@ -20,7 +20,7 @@ public class ActionLogUtil {
 	PTableInfoService tableInfoService;
 
 	public static void log() {
-		ActionLogUtil actLogUtil = SpringContextUtil.getBean("actionLogUtil");
+		ActionLogUtil actLogUtil = SpringContextHolder.getBean("actionLogUtil");
 		actLogUtil.saveActLog();
 	}
 

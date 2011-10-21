@@ -5,32 +5,31 @@ import haitai.fw.platform.ActionManager;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import static haitai.fw.util.ConstUtil.XML_ENCODING_UTF8;
 
 public class ReportUtil {
-	public static String getUrl(HttpServletRequest request,
-			Map<String, String> paramMap, String actName)
+	public static String getUrl(HttpServletRequest request, Map<String, String> paramMap, String actName)
 			throws UnsupportedEncodingException {
 		Action action = ActionManager.getAction(actName);
-		
-		String company_name = CompanyConfigUtil.getCompanyConfig("COMPANY_NAME");		
-		company_name = URLEncoder.encode(company_name, ConstUtil.XML_ENCODING_UTF8);
 
-		String basePath = request.getScheme() + "://"
-				+ request.getServerName() + ":"
-				+ request.getServerPort() + "/FosReport";
+		String company_name = CompanyConfigUtil.getCompanyConfig("COMPANY_NAME");
+		company_name = URLEncoder.encode(company_name, XML_ENCODING_UTF8);
+
+		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
+				"/FosReport";
 		String url = basePath + "/preview?__report=reports/";
 		url += action.getActService();
 		url += "&__locale=zh_CN&__navigationbar=false&__showtitle=false";
-		url += "&__title=" + URLEncoder.encode("海钛报表", ConstUtil.XML_ENCODING_UTF8);
-		if(paramMap.containsKey("format")){
-			url +="&__format=" + paramMap.get("format");
+		url += "&__title=" + URLEncoder.encode("海钛报表", XML_ENCODING_UTF8);
+		if (paramMap.containsKey("format")) {
+			url += "&__format=" + paramMap.get("format");
 			paramMap.remove("format");
-		}else{
+		} else {
 			url += "&__format=html";
 		}
 		for (String param : paramMap.keySet()) {
@@ -39,4 +38,4 @@ public class ReportUtil {
 		url += "&compCode=" + SessionManager.getStringAttr(SessionKeyType.COMPCODE);
 		return url;
 	}
- }
+}

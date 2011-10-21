@@ -34,9 +34,9 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="" />
+        <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="FOSPU" />
+          <factory-entry name="FOSPU" value="b6e72edb-fb3b-4406-af25-9eb28c4515ab" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/java/META-INF/persistence.xml" />
       </configuration>
@@ -97,8 +97,8 @@
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache-core:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jettison:jettison:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:0.9.29" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:0.9.29" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:0.9.30" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:0.9.30" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:log4j-over-slf4j:1.6.2" level="project" />

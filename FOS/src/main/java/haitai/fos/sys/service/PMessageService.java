@@ -6,11 +6,11 @@ import haitai.fos.sys.entity.table.*;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.message.MailManager;
-import haitai.fw.platform.AppConfig;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +36,9 @@ public class PMessageService {
 	private PTableInfoService tableInfoService;
 	@Autowired
 	private PTemplateService templateService;
+	@Autowired
+	@Qualifier(value = "appConfig")
+	private Properties appConfig;
 	private FosLogger logger = new FosLogger(PMessageService.class);
 	private Map<String, List<PMessageTopic>> topicMap = new ConcurrentHashMap<String, List<PMessageTopic>>();
 	private Map<Integer, List<PMessageSubscribe>> subscMap = new ConcurrentHashMap<Integer,
@@ -58,8 +61,7 @@ public class PMessageService {
 					if (StringUtil.isNotBlank(user.getUserEmail())) {
 						entity.setMessFrom(user.getUserEmail());
 					} else {
-						String sender = AppConfig
-								.getConfig(ConstUtil.CONFIG_DEFAULT_EMAIL_SENDER);
+						String sender = appConfig.getProperty(ConstUtil.CONFIG_DEFAULT_EMAIL_SENDER);
 						if (StringUtil.isBlank(sender)) {
 							sender = "fos2008";
 						}
@@ -67,8 +69,7 @@ public class PMessageService {
 					}
 					//传真收件人=传真号码<传真邮件账号>
 					if (entity.getMessType() == ConstUtil.MESS_TYPE_FAX) {
-						String sender = AppConfig
-								.getConfig(ConstUtil.CONFIG_FAX_SENDER);
+						String sender = appConfig.getProperty(ConstUtil.CONFIG_FAX_SENDER);
 						sender = entity.getMessTo() + "<" + sender + ">";
 						entity.setMessTo(sender);
 					}

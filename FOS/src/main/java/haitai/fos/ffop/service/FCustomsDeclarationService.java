@@ -15,7 +15,7 @@ import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.StringUtil;
 
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class FCustomsDeclarationService {
 					entity.setCudeReleaseDate(new Date());
 
 					// 还要更新委托状态
-					IFConsignDAO consDao = SpringContextUtil
+					IFConsignDAO consDao = SpringContextHolder
 							.getBean("FConsignDAO");
 					FConsign consign = consDao.findById(consId);
 					consign.setConsStatusDocs(cudeDocStatus);

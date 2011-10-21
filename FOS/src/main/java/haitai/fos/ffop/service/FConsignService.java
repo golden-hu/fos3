@@ -742,7 +742,7 @@ public class FConsignService {
 	public void updateSailDate(Map<String, Object> queryMap){
 		Integer voyaId = Integer.valueOf((String) queryMap.get("voyaId"));
 		String strVoyaSailDate = (String) queryMap.get("voyaSailDate");
-		IGVoyageDAO voyageDao = SpringContextUtil.getBean("GVoyageDAO");
+		IGVoyageDAO voyageDao = SpringContextHolder.getBean("GVoyageDAO");
 		//更新航次的开船日期和开船标志
 		GVoyage voyage = voyageDao.findById(voyaId);
 		Date voyaSailDate = null;

@@ -138,7 +138,8 @@ public class PTemplateService {
 			queryMap.put("tetyId", ptt.getTetyId());
 			Map<String, PTemplateMap> fieldMapping = getTemplateMap(queryMap);
 			// 获取该对象的类
-			Class entityClass = ClassMapUtil.getClass(ptt.getTetyChild());
+			JpaEntityMapper mapper = SpringContextHolder.getBean(JpaEntityMapper.class);
+			Class entityClass = mapper.getClass(ptt.getTetyChild());
 			for (FileItem item : fileItems) {
 				if(item.isFormField()) continue;
 				is = item.getInputStream();
@@ -592,7 +593,7 @@ public class PTemplateService {
 	}
 
 	private String executeConverter(PTemplateMap ptm, String newValue) {
-		MappingConverterUtil converter = SpringContextUtil.getBean("mappingConverterUtil");
+		MappingConverterUtil converter = SpringContextHolder.getBean("mappingConverterUtil");
 		if (StringUtil.isNotBlank(ptm.getTemaConverter())) {
 			logger.info("before converter " + ptm.getTemaConverter() + ":" + newValue);
 			Method convertMethod;
@@ -678,7 +679,7 @@ public class PTemplateService {
 	 * @return
 	 */
 	private Map<String, String> getSysConfig(Map<String, Object> queryMap) {
-		IPCompanyConfigDAO configDao = SpringContextUtil
+		IPCompanyConfigDAO configDao = SpringContextHolder
 				.getBean("PCompanyConfigDAO");
 		Map<String, String> sysConfigMap = new HashMap<String, String>();
 		queryMap.put(ConstUtil.CompCode, SessionManager
@@ -784,7 +785,7 @@ public class PTemplateService {
 		String queryActionName = ptt.getTetyAction();
 		SessionManager.setAttr(SessionKeyType.ACTNAME, queryActionName);
 		Action action = ActionManager.getAction(queryActionName);
-		Object service = SpringContextUtil.getBean(action.getActClass());
+		Object service = SpringContextHolder.getBean(action.getActClass());
 		Method[] methods = service.getClass().getMethods();
 		List entityList = null;
 		for (Method method : methods) {

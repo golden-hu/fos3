@@ -7,8 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends
-		FosJpaDao {
+public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends FosJpaDao {
 	protected final FosLogger logger = new FosLogger(getClass());
 	private Class<T> persistentClass;
 
@@ -24,19 +23,15 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends
 	@SuppressWarnings("unchecked")
 	public List<T> findByProperties(final Map<String, Object> propertyMap) {
 		List retList = query(propertyMap, this.persistentClass);
-		String rowCount = String.valueOf(querySize(propertyMap,
-				this.persistentClass));
+		String rowCount = String.valueOf(querySize(propertyMap, this.persistentClass));
 		propertyMap.put(HttpHeader.ROWCOUNT, rowCount);
 		return retList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<T> complexQuery(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap) {
-		List retList = complexQuery(conditions, propertyMap,
-				this.persistentClass);
-		String rowCount = String.valueOf(complexQuerySize(conditions,
-				propertyMap, this.persistentClass));
+	public List<T> complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
+		List retList = complexQuery(conditions, propertyMap, this.persistentClass);
+		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, this.persistentClass));
 		propertyMap.put(HttpHeader.ROWCOUNT, rowCount);
 		return retList;
 	}
@@ -44,8 +39,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends
 	public T findById(PK id) {
 		T entity = getJpaTemplate().find(this.persistentClass, id);
 		if (entity == null) {
-			String msg = "Uh oh, '" + this.persistentClass
-					+ "' object with id '" + id + "' not found...";
+			String msg = "Uh oh, '" + this.persistentClass + "' object with id '" + id + "' not found...";
 			logger.warn(msg);
 			throw new BusinessException(msg);
 		}

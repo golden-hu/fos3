@@ -4,41 +4,20 @@ import haitai.fos.sys.entity.idao.IPCompanyDAO;
 import haitai.fos.sys.entity.idao.IPUserDAO;
 import haitai.fos.sys.entity.table.PCompany;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.log.FosLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.ServletContextAware;
 
-import javax.servlet.ServletContext;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 @Component
-public class LicenseUtil implements ServletContextAware {
-	private Properties licenseProps = new Properties();
-	private static final FosLogger logger = new FosLogger(LicenseUtil.class);
-	private ServletContext sc;
-
-	public void load() {
-		InputStream is = null;
-		try {
-			is = sc.getResourceAsStream("/WEB-INF/license");
-			licenseProps.load(is);
-		} catch (IOException e) {
-			logger.error(MessageUtil.getMessage(MessageUtil.FW_ERROR_LICENSE_LOAD), e);
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (Exception e) {
-					logger.error(MessageUtil.getMessage(MessageUtil.FW_ERROR_LICENSE_LOAD), e);
-				}
-			}
-		}
-	}
+public class LicenseUtil {
+	@Autowired
+	@Qualifier(value = "licenseProps")
+	private Properties licenseProps;
 
 	public void checkUserAvailable() {
 		boolean status = false;
@@ -49,10 +28,10 @@ public class LicenseUtil implements ServletContextAware {
 			if (num == 0) {
 				status = true;
 			} else {
-				IPUserDAO dao = SpringContextUtil.getBean("PUserDAO");
+				IPUserDAO dao = SpringContextHolder.getBean("PUserDAO");
 				// SAAS version, get user license number from P_COMPANY
 				if ("1".equals(licenseSAAS)) {
-					IPCompanyDAO cdao = SpringContextUtil.getBean("PCompanyDAO");
+					IPCompanyDAO cdao = SpringContextHolder.getBean("PCompanyDAO");
 					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
 					if (list.size() == 1) {
 						num = list.get(0).getCompLicenseNumber();
@@ -150,10 +129,10 @@ public class LicenseUtil implements ServletContextAware {
 			if (num == 0) {
 				return true;
 			} else {
-				IPUserDAO dao = SpringContextUtil.getBean("PUserDAO");
+				IPUserDAO dao = SpringContextHolder.getBean("PUserDAO");
 				// SAAS version, get user license number from P_COMPANY
 				if ("1".equals(licenseSAAS)) {
-					IPCompanyDAO cdao = SpringContextUtil.getBean("PCompanyDAO");
+					IPCompanyDAO cdao = SpringContextHolder.getBean("PCompanyDAO");
 					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
 					if (list.size() == 1) {
 						num = list.get(0).getCompLicenseNumber();
@@ -195,11 +174,5 @@ public class LicenseUtil implements ServletContextAware {
 				+ licenseUsers + ConstUtil.COMMA + licenseSAAS + ConstUtil.COMMA + expire + ConstUtil.COMMA
 				+ Long.MAX_VALUE;
 		return CryptoUtil.MD5Encode(x);
-	}
-
-	@Override
-	public void setServletContext(ServletContext servletContext) {
-		this.sc = servletContext;
-		load();
 	}
 }

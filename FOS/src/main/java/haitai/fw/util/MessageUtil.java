@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MessageUtil {
-	private static MessageSource ms = SpringContextUtil.getContext();
+	private static MessageSource ms = SpringContextHolder.getContext();
 
 	public static String getMessage(String code) {
 		return ms.getMessage(code, null, ConstUtil.LOCALE_DEFAULT);
