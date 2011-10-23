@@ -91,6 +91,8 @@ public class TExportHistoryService {
 					item.setInvoUploadFlag(ConstUtil.TrueShort);
 					realInvoDao.update(item);
 				}
+			} else {
+				throw new BusinessException(MessageUtil.EXT_NO_DATA);
 			}
 		} else {
 			prepareVoucherConditions(type, dateF, dateT, conditions);
@@ -104,6 +106,8 @@ public class TExportHistoryService {
 					item.setVoucUploadFlag(ConstUtil.TrueShort);
 					realVoucDao.update(item);
 				}
+			} else {
+				throw new BusinessException(MessageUtil.EXT_NO_DATA);
 			}
 		}
 		return history;
