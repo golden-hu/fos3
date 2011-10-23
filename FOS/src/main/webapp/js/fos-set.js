@@ -648,17 +648,29 @@ Fos.ExpenseTab = function(p,f){
 		this.store.load({params:{consId:p.get('consId')},callback:function(){
 			var a=this.store.getRange();
 			for(var i=0;i<a.length;i++){
-				if(a[i].get('expeType')=='R') this.rs.add(a[i]);
+				if(a[i].get('expeType')=='R') {
+					if(!NR(m+S_AR+F_V))
+						this.rs.add(a[i]);
+				}					
 				else{
-					if(a[i].get('charId')==rC||a[i].get('charId')==uC) this.cs.add(a[i]);
+					if(a[i].get('charId')==rC||a[i].get('charId')==uC) 
+						this.cs.add(a[i]);
 					else{
 						if(CUSER_ID==p.get('consOperatorId')&&CUSER_ID!=p.get('consSalesRepId'))
 						{
-							if(a[i].get('createBy')==CUSER_ID) this.ps.add(a[i]);
-							else this.ps.add(a[i]);
+							if(a[i].get('createBy')==CUSER_ID){
+								if(!NR(m+S_AP+F_V))
+									this.ps.add(a[i]);
+							}
+							else {
+								if(!NR(m+S_AP+F_V))
+									this.ps.add(a[i]);
+							}								
 						}
-						else
-							this.ps.add(a[i]);
+						else{
+							if(!NR(m+S_AP+F_V))
+								this.ps.add(a[i]);
+						}
 					}
 				}
 			}
@@ -796,7 +808,8 @@ Fos.ExpenseTab2 = function(p,f){
 		sumRcR.setValue(round2(this.sumRcR));
 	};
 	this.rg=new Fos.ExGrid(p,'R',this,this.rs);
-	var pR=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',title:C_EXPE_R,collapsible:true,autoscroll:true,border:false,items:[this.rg],
+	var pR=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',
+			title:C_EXPE_R,collapsible:true,autoscroll:true,border:false,items:[this.rg],
 		bbar:NR(m+S_AP+F_CV)?[]:[cT,sumCnyR,'-',uT,sumUsdR,'-',lT,sumLocR,'-',rT,sumRcR]
 	});		
 	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
@@ -826,7 +839,7 @@ Fos.ExpenseTab2 = function(p,f){
 	var pP=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',
 		title:C_EXPE_P,collapsible:true,border:false,items:[this.pg],
 		bbar:NR(m+S_AP+F_CV)?[]:[cT,sumCnyP,'-',uT,sumUsdP,'-',lT,sumLocP,'-',rT,sumRcP]
-	});	
+	});
 	
 	this.reCalculate = function(){		
 		PCny.setValue(round2(this.sumCnyR-this.sumCnyP));
@@ -835,14 +848,20 @@ Fos.ExpenseTab2 = function(p,f){
 		PRc.setValue(round2(this.sumRcR-this.sumRcP));		
 	};
 	
-	if(p.get('rowAction')!='N'  || !NR(m+M3_EXPE+S_AR+F_V))
+	if(p.get('rowAction')!='N')
 		this.store.load({params:{consId:p.get('consId')},callback:function(){
-			var a=this.store.getRange();
+			var a=this.store.getRange();			
 			for(var i=0;i<a.length;i++){
-				if(a[i].get('expeType')=='R') this.rs.add(a[i]);
-				else this.ps.add(a[i]);
+				if(a[i].get('expeType')=='R'){
+					if(!NR(m+S_AR+F_V))
+						this.rs.add(a[i]);
+				}
+				else if(!NR(m+S_AP+F_V))
+					this.ps.add(a[i]);
 			}
-			this.calcR();this.calcP();this.reCalculate();			
+			this.calcR();
+			this.calcP();
+			this.reCalculate();			
 		},scope:this});
 	
 	this.UN=new Ext.data.SimpleStore({id:0,fields:['U','N'],data:getUN(p)});	
@@ -875,7 +894,7 @@ Fos.ExpenseTab2 = function(p,f){
 			if(!bR) 
 			this.rg.setHeight(400);
 		}
-		else{this.rg.setHeight(2500);this.pg.setHeight(250);}
+		else{this.rg.setHeight(250);this.pg.setHeight(250);}
 	};
 	//pR.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
 	//pP.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
@@ -890,7 +909,7 @@ Fos.ExpenseTab2 = function(p,f){
 	id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'?'(F3)':('-'+p.get("consNo"))),header:false,autoScroll:true,closable:f=='C'?false:true,
 	height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
 	items: [pBiz,pR,pP],
-		tbar:NR(m+S_AP+F_CV)?[]:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
+		tbar:NR(m+S_AP+F_CV)?[tb1,'-',tb2]:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
 	});
 };
 Ext.extend(Fos.ExpenseTab2, Ext.Panel);

@@ -840,9 +840,10 @@ function checkContainerNo(n){
     var s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
     var r=s%11;
     if(r!=a[10]) return false;
-    return true;};
-function round2(v){return (Math.round(v*100)/100)};
-function round4(v){return (Math.round(v*10000)/10000)};
+    return true;
+};
+function round2(v){return (Math.round(v*100)/100);};
+function round4(v){return (Math.round(v*10000)/10000);};
 
 function N2W(dValue,maxDec){
     dValue = dValue.toString().replace(/,/g, "");  

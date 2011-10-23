@@ -2167,7 +2167,7 @@ Fos.ContainerTab = function(p) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,scope:this,listeners:re});	
 	var soc = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CONT_NO,dataIndex:'contNo',width:80,validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，前四位应为字母，后七位为数字，请重新输入！'})},
+	{header:C_CONT_NO,dataIndex:'contNo',width:80,validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，请重新输入！'})},
 	{header:C_SEAL_NO,dataIndex:'contSealNo',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_COTY,dataIndex:'cotyId',width:60,renderer:getCOTY,
 			editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyId',triggerAction:'all',
@@ -2299,19 +2299,30 @@ Fos.ContainerTab = function(p) {
 		this.cargoGrid.stopEditing();
 		var a =this.store.getModifiedRecords();
 		if(a.length){
+			for(var i=0;i<a.length;i++){
+				if(checkContainerNo(a[i].get('contNo')) == false){
+					XMG.alert(SYS,'集装箱编码格式不正确，请重新输入！');
+					return;
+				}
+			}
 			var xml = ATX(a,'FContainer',FContainer);
-		}
-		var cc=getDirty(this.cargoStore);
-		if(cc.length>0){var x = ATX(cc,'FContainerCargo',FContainerCargo);xml=xml+x;};		
-		if(xml!=''){
-		 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONT_S'},
-			success: function(res){				
-				var a = XTRA(res.responseXML,'FContainerCargo',FContainerCargo);FOSU(this.cargoStore,a,FContainerCargo);
-				var b = XTRA(res.responseXML,'FContainer',FContainer);FOSU(this.store,b,FContainer);
-				XMG.alert(SYS,M_S);
-			},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
-			xmlData:FOSX(xml)});
+			var cc=getDirty(this.cargoStore);
+			if(cc.length>0){
+				var x = ATX(cc,'FContainerCargo',FContainerCargo);
+				xml = xml+x;
+			};		
+			if(xml!=''){
+			 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONT_S'},
+				success: function(res){				
+					var a = XTRA(res.responseXML,'FContainerCargo',FContainerCargo);
+					FOSU(this.cargoStore,a,FContainerCargo);
+					var b = XTRA(res.responseXML,'FContainer',FContainer);
+					FOSU(this.store,b,FContainer);
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+				xmlData:FOSX(xml)});
+			}
 		}
 		else XMG.alert(SYS,M_NC);
 	};
