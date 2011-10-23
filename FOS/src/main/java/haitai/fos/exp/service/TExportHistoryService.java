@@ -47,23 +47,7 @@ public class TExportHistoryService {
 
 	@Transactional
 	public List<TExportHistory> save(List<TExportHistory> entityList) {
-		List<TExportHistory> retList = new ArrayList<TExportHistory>();
-		for (TExportHistory entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
-				entity.setExhiId(null);
-				dao.save(entity);
-				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
-				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
-				TExportHistory delEntity = dao.findById(entity.getExhiId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
-				dao.update(delEntity);
-			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
-			}
-		}
-		return retList;
+		return dao.saveByRowAction(entityList);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -75,7 +59,7 @@ public class TExportHistoryService {
 		String dateT = (String) queryMap.get("exhiCheckDateT");
 		queryMap.remove(dateF);
 		queryMap.remove(dateT);
-		TExportHistory history = null;
+		TExportHistory history;
 
 		List<FosQuery> conditions = new ArrayList<FosQuery>();
 		//根据查询条件,查询需要导入的发票或核销单

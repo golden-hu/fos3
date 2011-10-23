@@ -2,8 +2,14 @@ package haitai.fw.entity;
 
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
+import haitai.fw.util.ConstUtil;
+import haitai.fw.util.MessageUtil;
+import haitai.fw.util.MethodUtil;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,5 +67,43 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 
 	public void delete(PK id) {
 		getJpaTemplate().remove(this.findById(id));
+	}
+
+	public List<T> saveByRowAction(List<T> entityList) {
+		List<T> retList = new ArrayList<T>();
+		if (entityList != null) {
+			for (T entity : entityList) {
+				T newEntity = saveByRowAction(entity);
+				if (newEntity != null) {
+					retList.add(newEntity);
+				}
+			}
+		}
+		return retList;
+	}
+
+	public T saveByRowAction(T entity) {
+		Method pkMethod = MethodUtil.getPkMethod(entity);
+		T retEntity = null;
+		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			save(entity);
+			retEntity = entity;
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			retEntity = update(entity);
+		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			T delEntity;
+			try {
+				delEntity = findById((PK) pkMethod.invoke(entity));
+			} catch (IllegalAccessException e) {
+				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+			} catch (InvocationTargetException e) {
+				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+			}
+			delEntity.setRowAction(ConstUtil.ROW_R);
+			update(delEntity);
+		} else {
+			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+		}
+		return retEntity;
 	}
 }

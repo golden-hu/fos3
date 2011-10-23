@@ -1,13 +1,15 @@
 package haitai.fos.exp.entity.idao;
 
-import java.util.Map;
-
 import haitai.fos.exp.entity.table.TExportHistory;
 import haitai.fw.entity.FosQuery;
+
 import java.util.List;
+import java.util.Map;
 
 public interface ITExportHistoryDAO {
 	public void save(TExportHistory entity);
+
+	public List<TExportHistory> saveByRowAction(List<TExportHistory> entityList);
 
 	public void delete(Integer id);
 
@@ -19,6 +21,6 @@ public interface ITExportHistoryDAO {
 			final Map<String, Object> propertyMap);
 
 	public List<TExportHistory> complexQuery(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap);
+											 final Map<String, Object> propertyMap);
 
 }

@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TInvoiceDAO extends GenericDAO<TInvoice, Integer> implements
-		ITInvoiceDAO {
+public class TInvoiceDAO extends GenericDAO<TInvoice, Integer> implements ITInvoiceDAO {
 
 	public TInvoiceDAO() {
 		super(TInvoice.class);

@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TVoucherItemDAO extends GenericDAO<TVoucherItem, Integer>
-		implements ITVoucherItemDAO {
+public class TVoucherItemDAO extends GenericDAO<TVoucherItem, Integer> implements ITVoucherItemDAO {
 
 	public TVoucherItemDAO() {
 		super(TVoucherItem.class);

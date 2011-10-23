@@ -17,11 +17,9 @@ import java.util.Map;
 
 public abstract class FosJpaDao extends JpaDaoSupport {
 	@SuppressWarnings("unchecked")
-	protected List query(final Map<String, Object> propertyMap,
-			final Class clazz) {
+	protected List query(final Map<String, Object> propertyMap, final Class clazz) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select t1 from ").append(clazz.getSimpleName()).append(
-				" t1 where ");
+		sb.append("select t1 from ").append(clazz.getSimpleName()).append(" t1 where ");
 		DaoUtil.buildSql(propertyMap, clazz, sb, false);
 		final String queryString = sb.toString();
 		return getJpaTemplate().executeFind(new JpaCallback() {
@@ -32,13 +30,11 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected Long querySize(final Map<String, Object> propertyMap,
-			final Class clazz) {
+	protected Long querySize(final Map<String, Object> propertyMap, final Class clazz) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select count(t1) from ").append(clazz.getSimpleName())
-				.append(" t1 where ");
+		sb.append("select count(t1) from ").append(clazz.getSimpleName()).append(" t1 where ");
 		DaoUtil.buildSql(propertyMap, clazz, sb, true);
 		final String queryString = sb.toString();
 		return (Long) getJpaTemplate().execute(new JpaCallback() {
@@ -51,41 +47,40 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List complexQuery(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap, final Class clazz) {
+	protected List complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
+								final Class clazz) {
 		return complexQuery(conditions, propertyMap, "t1", "", clazz);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected Long complexQuerySize(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap, final Class clazz) {
+	protected Long complexQuerySize(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
+									final Class clazz) {
 		return complexQuerySize(conditions, propertyMap, "t1", "", clazz);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List complexQuery(final Map<String, Object> propertyMap,
-			String fieldSql, String joinSql, final Class... clazz) {
+	protected List complexQuery(final Map<String, Object> propertyMap, String fieldSql, String joinSql,
+								final Class... clazz) {
 		return complexQuery(null, propertyMap, fieldSql, joinSql, clazz);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected Long complexQuerySize(final Map<String, Object> propertyMap,
-			String fieldSql, String joinSql, final Class... clazz) {
+	protected Long complexQuerySize(final Map<String, Object> propertyMap, String fieldSql, String joinSql,
+									final Class... clazz) {
 		return complexQuerySize(null, propertyMap, fieldSql, joinSql, clazz);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List complexQuery(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap, String fieldSql,
-			String joinSql, final Class... clazz) {
+	protected List complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
+								String fieldSql, String joinSql, final Class... clazz) {
 		final List<FosQuery> finalConditions;
 		finalConditions = plusMap2Conditions(conditions, propertyMap);
 		StringBuffer sb = new StringBuffer();
 		int i = 1;
-		if(StringUtil.isBlank(fieldSql)) {
+		if (StringUtil.isBlank(fieldSql)) {
 			fieldSql = "t1";
 		}
-		if(joinSql == null) {
+		if (joinSql == null) {
 			joinSql = "";
 		}
 		sb.append("select ").append(fieldSql).append(" from ");
@@ -93,7 +88,7 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 			sb.append(t.getSimpleName()).append(" t").append(i).append(",");
 			i++;
 		}
-		sb.deleteCharAt(sb.length() -1);
+		sb.deleteCharAt(sb.length() - 1);
 		sb.append(" where ").append(joinSql);
 		DaoUtil.buildSql(finalConditions, propertyMap, sb, false, clazz);
 
@@ -106,19 +101,18 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected Long complexQuerySize(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap, String fieldSql,
-			String joinSql, final Class... clazz) {
+	protected Long complexQuerySize(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
+									String fieldSql, String joinSql, final Class... clazz) {
 		final List<FosQuery> finalConditions;
 		finalConditions = plusMap2Conditions(conditions, propertyMap);
 		StringBuffer sb = new StringBuffer();
 		int i = 1;
-		if(StringUtil.isBlank(fieldSql)) {
+		if (StringUtil.isBlank(fieldSql)) {
 			fieldSql = "t1";
 		}
-		if(joinSql == null) {
+		if (joinSql == null) {
 			fieldSql = "";
 		}
 		sb.append("select count(").append(fieldSql).append(") from ");
@@ -126,7 +120,7 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 			sb.append(t.getSimpleName()).append(" t").append(i).append(",");
 			i++;
 		}
-		sb.deleteCharAt(sb.length() -1);
+		sb.deleteCharAt(sb.length() - 1);
 		sb.append(" where ").append(joinSql);
 		DaoUtil.buildSql(finalConditions, propertyMap, sb, true, clazz);
 
@@ -140,19 +134,19 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 		});
 	}
 
-	private List<FosQuery> plusMap2Conditions(final List<FosQuery> conditions,
-			final Map<String, Object> propertyMap) {
+	private List<FosQuery> plusMap2Conditions(final List<FosQuery> conditions, final Map<String,
+			Object> propertyMap) {
 		final List<FosQuery> finalConditions;
-		if(conditions == null){
+		if (conditions == null) {
 			finalConditions = new ArrayList<FosQuery>();
-		}else{
+		} else {
 			finalConditions = conditions;
 		}
-		if(propertyMap != null){
+		if (propertyMap != null) {
 			for (String key : propertyMap.keySet()) {
 				FosQuery field = new FosQuery(key, ConstUtil.SQL_OP_EQUAL, propertyMap
 						.get(key).toString());
-				if(!finalConditions.contains(field)) {
+				if (!finalConditions.contains(field)) {
 					finalConditions.add(field);
 				}
 			}
@@ -161,7 +155,7 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 	}
 
 	@Autowired
-	public void setEmf(EntityManagerFactory emf){
+	public void setEmf(EntityManagerFactory emf) {
 		setEntityManagerFactory(emf);
 	}
 }
