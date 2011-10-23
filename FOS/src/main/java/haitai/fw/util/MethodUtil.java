@@ -59,7 +59,7 @@ public class MethodUtil {
 		if (getIdMethod == null) {
 			Set<Method> f = getMethods(clazz);
 			for (Method m : f) {
-				if (m.getAnnotation(Id.class) != null && m.getName().startsWith("get")) {
+				if (m.isAnnotationPresent(Id.class) && m.getName().startsWith("get")) {
 					getIdMethod = m;
 					pkMethodCache.put(clazz.getSimpleName(), getIdMethod);
 					break;
