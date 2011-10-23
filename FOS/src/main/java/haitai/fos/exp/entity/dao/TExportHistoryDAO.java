@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TExportHistoryDAO extends GenericDAO<TExportHistory, Integer>
-		implements ITExportHistoryDAO {
+public class TExportHistoryDAO extends GenericDAO<TExportHistory, Integer> implements ITExportHistoryDAO {
 
 	public TExportHistoryDAO() {
 		super(TExportHistory.class);

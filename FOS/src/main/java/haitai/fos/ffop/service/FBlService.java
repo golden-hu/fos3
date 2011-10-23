@@ -8,29 +8,22 @@ import haitai.fos.ffop.entity.table.FConsign;
 import haitai.fos.ffop.entity.table.FContract;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
-import haitai.fw.util.NumberUtil;
-import haitai.fw.util.ObjectUtil;
-import haitai.fw.util.StringUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import haitai.fw.util.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Service
 public class FBlService {
-	private IFBlDAO dao = null;
-	private IFConsignDAO consignDao = null;
-	private IFContractDAO contractDao = null;
+	@Autowired
+	private IFBlDAO dao;
+	@Autowired
+	private IFConsignDAO consignDao;
+	@Autowired
+	private IFContractDAO contractDao;
 
 	@Transactional
 	public List<FBl> save(List<FBl> consignList) {
@@ -40,18 +33,15 @@ public class FBlService {
 		Set<Integer> masterIdSet = new HashSet<Integer>();
 		Set<Integer> fconIdSet = new HashSet<Integer>();
 		for (FBl entity : consignList) {
-			if (ConstUtil.ROW_N
-					.equalsIgnoreCase(entity.getRowAction())) {
+			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 				entity.setBlId(null);
 				checkBlNoDuplicated(entity);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 				checkBlNoDuplicated(entity);
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 				FBl delEntity = dao.findById(entity.getBlId());
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
@@ -145,10 +135,10 @@ public class FBlService {
 		List<FBl> retList = new ArrayList<FBl>();
 		FBl master = new FBl();
 		String blNo = null;
-		Integer packages = new Integer(0);
-		Double grossWeight = new Double(0);
-		Double netWeight = new Double(0);
-		Double measurement = new Double(0);
+		Integer packages = 0;
+		Double grossWeight = (double) 0;
+		Double netWeight = (double) 0;
+		Double measurement = (double) 0;
 		for (FBl bl : entityList) {
 			if (StringUtil.isBlank(blNo)
 					|| bl.getBlNo().compareTo(master.getBlNo()) < 0) {
@@ -213,10 +203,10 @@ public class FBlService {
 			queryMap.put("fconId", fconId);
 			queryMap.put("blMasterFlag", ConstUtil.TrueShort);
 			List<FBl> blList = dao.findByProperties(queryMap);
-			Integer packages = new Integer(0);
-			Double grossWeight = new Double(0);
-			Double netWeight = new Double(0);
-			Double measurement = new Double(0);
+			Integer packages = 0;
+			Double grossWeight = (double) 0;
+			Double netWeight = (double) 0;
+			Double measurement = (double) 0;
 			for (FBl bl : blList) {
 				if (bl.getCargPackages() != null) {
 					packages += bl.getCargPackages();
@@ -250,10 +240,10 @@ public class FBlService {
 			queryMap.put("consMasterId", consId);
 			queryMap.put("blMasterFlag", ConstUtil.TrueShort);
 			List<FBl> blList = dao.findByProperties(queryMap);
-			Integer packages = new Integer(0);
-			Double grossWeight = new Double(0);
-			Double netWeight = new Double(0);
-			Double measurement = new Double(0);
+			Integer packages = 0;
+			Double grossWeight = (double) 0;
+			Double netWeight = (double) 0;
+			Double measurement = (double) 0;
 			for (FBl bl : blList) {
 				if (bl.getCargPackages() != null) {
 					packages += bl.getCargPackages();
@@ -287,10 +277,10 @@ public class FBlService {
 			queryMap.put("consId", consId);
 			queryMap.put("blMasterFlag", ConstUtil.TrueShort);
 			List<FBl> blList = dao.findByProperties(queryMap);
-			Integer packages = new Integer(0);
-			Double grossWeight = new Double(0);
-			Double netWeight = new Double(0);
-			Double measurement = new Double(0);
+			Integer packages = 0;
+			Double grossWeight = (double) 0;
+			Double netWeight = (double) 0;
+			Double measurement = (double) 0;
 			for (FBl bl : blList) {
 				if (bl.getCargPackages() != null) {
 					packages += bl.getCargPackages();
@@ -326,10 +316,10 @@ public class FBlService {
 			queryMap.put("blMBlId", blId);
 			queryMap.put("blMasterFlag", ConstUtil.FalseShort);
 			List<FBl> blList = dao.findByProperties(queryMap);
-			Integer packages = new Integer(0);
-			Double grossWeight = new Double(0);
-			Double netWeight = new Double(0);
-			Double measurement = new Double(0);
+			Integer packages = 0;
+			Double grossWeight = (double) 0;
+			Double netWeight = (double) 0;
+			Double measurement = (double) 0;
 			for (FBl bl : blList) {
 				if (bl.getCargPackages() != null) {
 					packages += bl.getCargPackages();
@@ -377,11 +367,8 @@ public class FBlService {
 		List<FBl> list = query(queryMap);
 		//如果>1, 说明肯定重复了
 		//如果=1, 而且主键不等, 说明有另外一个对象有同样的号
-		if (list.size() > 1
-				|| (list.size() == 1 
-						&& !list.get(0).getBlId().equals(entity.getBlId()))) {
-			throw new BusinessException(
-					MessageUtil.FFSE_BL_NO_DUPLICATED);
+		if (list.size() > 1 || (list.size() == 1 && !list.get(0).getBlId().equals(entity.getBlId()))) {
+			throw new BusinessException(MessageUtil.FFSE_BL_NO_DUPLICATED);
 		}
 	}
 
@@ -390,32 +377,5 @@ public class FBlService {
 	public List<FBl> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		return dao.complexQuery(conditions, queryMap);
 	}
-
-	public IFBlDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IFBlDAO dao) {
-		this.dao = dao;
-	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-
-	public IFContractDAO getContractDao() {
-		return contractDao;
-	}
-
-	@Autowired
-	public void setContractDao(IFContractDAO contractDao) {
-		this.contractDao = contractDao;
-	}	
 
 }

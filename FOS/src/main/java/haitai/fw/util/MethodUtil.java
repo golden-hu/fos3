@@ -10,8 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MethodUtil {
 	private static Map<String, Set<String>> methodNameCache = new ConcurrentHashMap<String, Set<String>>();
 	private static Map<String, Set<Method>> methodCache = new ConcurrentHashMap<String, Set<Method>>();
-	private static Map<String, Map<String, Method>> methodSetCache =
-			new ConcurrentHashMap<String, Map<String, Method>>();
+	private static Map<String, Map<String, Method>> methodSetCache
+			= new ConcurrentHashMap<String, Map<String, Method>>();
+	private static Map<String, Method> pkMethodCache = new ConcurrentHashMap<String, Method>();
 	private static FosLogger logger = new FosLogger(MethodUtil.class);
 
 	private static Set<String> getMethodsName(Object obj) {
@@ -47,19 +48,22 @@ public class MethodUtil {
 
 	@SuppressWarnings("unchecked")
 	public static Method getPkMethod(Object ret) {
-		Method getIdMethod = null;
+		Method getIdMethod;
 		Class<?> clazz;
 		if (ret instanceof List) {
 			clazz = ((List<Object>) ret).get(0).getClass();
 		} else {
 			clazz = ret.getClass();
 		}
-		Set<Method> f = getMethods(clazz);
-		for (Method m : f) {
-			if (m.getAnnotation(Id.class) != null
-					&& m.getName().startsWith("get")) {
-				getIdMethod = m;
-				break;
+		getIdMethod = pkMethodCache.get(clazz.getSimpleName());
+		if (getIdMethod == null) {
+			Set<Method> f = getMethods(clazz);
+			for (Method m : f) {
+				if (m.isAnnotationPresent(Id.class) && m.getName().startsWith("get")) {
+					getIdMethod = m;
+					pkMethodCache.put(clazz.getSimpleName(), getIdMethod);
+					break;
+				}
 			}
 		}
 		return getIdMethod;

@@ -464,7 +464,7 @@ public class FConsignService {
 	 * @param entity
 	 */
 	private void sumSomeField(FConsign masterEntity, FConsign entity) {
-		Integer totalPackages = new Integer(0);
+		Integer totalPackages = 0;
 		if(entity.getConsTotalPackages() != null) {
 			totalPackages += entity.getConsTotalPackages();
 		}
@@ -473,7 +473,7 @@ public class FConsignService {
 		}
 		masterEntity.setConsTotalPackages(totalPackages);
 		
-		Double totalGrossWeight = new Double(0);
+		Double totalGrossWeight = (double) 0;
 		if(entity.getConsTotalGrossWeight() != null) {
 			totalGrossWeight += entity.getConsTotalGrossWeight();
 		}
@@ -482,7 +482,7 @@ public class FConsignService {
 		}
 		masterEntity.setConsTotalGrossWeight(totalGrossWeight);
 		
-		Double totalNetWeight = new Double(0);
+		Double totalNetWeight = (double) 0;
 		if(entity.getConsTotalNetWeight() != null) {
 			totalNetWeight += entity.getConsTotalNetWeight();
 		}
@@ -491,7 +491,7 @@ public class FConsignService {
 		}
 		masterEntity.setConsTotalNetWeight(totalNetWeight);
 		
-		Double totalMeasurement = new Double(0);
+		Double totalMeasurement = (double) 0;
 		if(entity.getConsTotalMeasurement() != null) {
 			totalMeasurement += entity.getConsTotalMeasurement();
 		}
@@ -822,8 +822,7 @@ public class FConsignService {
 		//如果>1, 说明肯定重复了
 		//如果=1, 而且主键不等, 说明有另外一个对象有同样的号
 		if (list.size() > 1 || (list.size() == 1 && !list.get(0).getConsId().equals(entity.getConsId()))) {
-			throw new BusinessException(
-					MessageUtil.FFSE_BL_NO_DUPLICATED);
+			throw new BusinessException(MessageUtil.FFSE_BL_NO_DUPLICATED);
 		}
 	}
 	
