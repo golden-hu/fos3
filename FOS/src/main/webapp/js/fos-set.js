@@ -1089,122 +1089,152 @@ var showInvoice= function(p){
 	T_MAIN.setActiveTab(tab);tab.doLayout();}
 };
 Fos.InvoiceGrid = function(t) {
-	/*var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'xml',A:'INVO_X'},
-		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'id'},SInvoice),
-		remoteSort:true,sortInfo:{field:'id', direction:'DESC'}});		
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=INVO_X',baseParams:{mt:'xml',invoType:t},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'invoId'},SInvoice),
+		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'},groupField:'invoDate'});		
 	var a=[];
 	a[0]= new QParam({key:'invoType',value:t,op:EQ});
 	a[1]= new QParam({key:'invoStatus',value:2,op:NE});
-	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
     store.load({params:{start:0,limit:C_PS}});
     this.reset=function(){
-    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+    	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
     	store.load({params:{start:0,limit:C_PS}});
     };
-    */
-    
-	var store = GS('INVO_X','SInvoice',SInvoice,'invoDate','DESC','invoDate','S_INVO','id',true);
-	var a=[];
-	a[0]={key:'invoType',value:t,op:EQ};
-	a[1]={key:'invoStatus',value:2,op:NE};
-	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-    store.load({params:{start:0,limit:C_PS}});    
-    this.reset=function(){
-    	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-    	store.reload({params:{start:0,limit:C_PS}});
-    };
-    	
-    	
-	this.search = function(){
+    this.search = function(){
     	var win = new Fos.InvoLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
         	var tab = Fos.InvoLookupWin.superclass.findById.call(win,'T_INVO_LOOK');
         	var at = tab.getActiveTab();
-        	var a=[];var op=EQ;
-        	a[0]={key:'invoType',value:t,op:EQ};
+        	var a=[];
+        	var op=EQ;        	
+        	a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});        	
         	if(at.getId()=='T_INVO_LOOK_1'){
-        		a[a.length]={key:'invoStatus',value:2,op:NE};
+        		
         		var invoNo=at.find('name','invoNo')[0].getValue();
         		var invoNoM=at.find('name','invoNoM')[0].getValue();        		
         		var c=invoNo.indexOf(',');
         		var b=invoNo.indexOf('..');
         		if(c>=0){
-        			a[1]={key:'invoNo',value:invoNo,op:IN};
+        			a[a.length]=new QParam({key:'invoNo',value:invoNo,op:IN});
         		}
         		else if(b>=0){
         			var ra=invoNo.split('..');
-        			a[1]={key:'invoNo',value:ra[0],op:GE};
-        			a[2]={key:'invoNo',value:ra[1],op:LE};
+        			a[a.length]=new QParam({key:'invoNo',value:ra[0],op:GE});
+        			a[a.length]=new QParam({key:'invoNo',value:ra[1],op:LE});
         		}
-        		else if(invoNoM){a[1]={key:'invoNo',value:invoNo,op:LI};}
+        		else if(invoNoM){
+        			a[a.length]=new QParam({key:'invoNo',value:invoNo,op:LI});
+        		}
         	}
         	else if(at.getId()=='T_INVO_LOOK_2'){
-        		a[a.length]={key:'invoStatus',value:2,op:NE};
         		var invoTaxNo=at.find('name','invoTaxNo')[0].getValue();
         		var invoTaxNoM=at.find('name','invoTaxNoM')[0].getValue();
         		var c=invoTaxNo.indexOf(',');
         		var b=invoTaxNo.indexOf('..');
-        		if(c>=0){a[1]={key:'invoTaxNo',value:invoTaxNo,op:IN};}
+        		if(c>=0){a[a.length]={key:'invoTaxNo',value:invoTaxNo,op:IN};}
         		else if(b>=0){
         			var ra=invoTaxNo.split('..');
-        			a[1]={key:'invoTaxNo',value:ra[0],op:GE};
-        			a[2]={key:'invoTaxNo',value:ra[1],op:LE};
+        			a[a.length]=new QParam({key:'invoTaxNo',value:ra[0],op:GE});
+        			a[a.length]=new QParam({key:'invoTaxNo',value:ra[1],op:LE});
         		}
-        		else if(invoTaxNoM){a[1]={key:'invoTaxNo',value:invoTaxNo,op:LI};}
+        		else if(invoTaxNoM){
+        			a[a.length]=new QParam({key:'invoTaxNo',value:invoTaxNo,op:LI});
+        		}
         	}
         	else if(at.getId()=='T_INVO_LOOK_3'){
         		var custId=at.find('name','custId')[0].getValue();
-        		if(custId) a[a.length]={key:'custId',value:custId,op:EQ};
+        		if(custId) 
+        			a[a.length]=new QParam({key:'custId',value:custId,op:EQ});
         		var currCode=at.find('name','currCode')[0].getValue();        		
-        		if(currCode) a[a.length]={key:'currCode',value:currCode,op:EQ};
+        		if(currCode) 
+        			a[a.length]=new QParam({key:'currCode',value:currCode,op:EQ});
         		var invoStatus=at.find('name','invoStatus')[0].getValue();        		
-        		if(invoStatus) a[a.length]={key:'invoStatus',value:invoStatus,op:EQ};
-        		else a[a.length]={key:'invoStatus',value:2,op:NE};
+        		if(invoStatus) 
+        			a[a.length]=new QParam({key:'invoStatus',value:invoStatus,op:EQ});
+        		else 
+        			a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});
         		var invoWriteOffStatus=at.find('name','invoWriteOffStatus')[0].getValue();        
-        		if(invoWriteOffStatus) a[a.length]={key:'invoWriteOffStatus',value:invoWriteOffStatus,op:EQ};
+        		if(invoWriteOffStatus) 
+        			a[a.length]=new QParam({key:'invoWriteOffStatus',value:invoWriteOffStatus,op:EQ});
         		var consNo=at.find('name','consNo')[0].getValue();        		
-        		if(consNo) a[a.length]={key:'consNo',value:consNo,op:EQ};
+        		if(consNo) 
+        			a[a.length]=new QParam({key:'consNo',value:consNo,op:EQ});
         		var consMblNo=at.find('name','consMblNo')[0].getValue();        		
-        		if(consMblNo) a[a.length]={key:'consMblNo',value:consMblNo,op:EQ};
+        		if(consMblNo) 
+        			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:EQ});
         		var vessName=at.find('name','vessName')[0].getValue();        		
-        		if(vessName) a[a.length]={key:'vessName',value:vessName,op:EQ};
+        		if(vessName) 
+        			a[a.length]=new QParam({key:'vessName',value:vessName,op:EQ});
         		var voyaName=at.find('name','voyaName')[0].getValue();        		
-        		if(voyaName) a[a.length]={key:'voyaName',value:voyaName,op:EQ};        		
+        		if(voyaName) 
+        			a[a.length]=new QParam({key:'voyaName',value:voyaName,op:EQ});        		
         		var invoDate=at.find('name','invoDate')[0].getValue();
         		var invoDate2=at.find('name','invoDate2')[0].getValue();
         		if(invoDate && invoDate2){
-        			a[a.length]={key:'invoDate',value:invoDate.format('Y-m-d H:i:s'),op:GE};
-        			a[a.length]={key:'invoDate',value:invoDate2.format('Y-m-d H:i:s'),op:LE};
+        			a[a.length]=new QParam({key:'invoDate',value:invoDate.format('Y-m-d H:i:s'),op:GE});
+        			a[a.length]=new QParam({key:'invoDate',value:invoDate2.format('Y-m-d H:i:s'),op:LE});
         		}
-        		else if(invoDate) a[a.length]={key:'invoDate',value:invoDate,op:EQ};
+        		else if(invoDate) 
+        			a[a.length]=new QParam({key:'invoDate',value:invoDate,op:EQ});
         		var invoDueDate=at.find('name','invoDueDate')[0].getValue();
         		var invoDueDate2=at.find('name','invoDueDate2')[0].getValue();
         		if(invoDueDate && invoDueDate2){
-        			a[a.length]={key:'invoDueDate',value:invoDueDate.format('Y-m-d H:i:s'),op:GE};
-        			a[a.length]={key:'invoDueDate',value:invoDueDate2.format('Y-m-d H:i:s'),op:LE};
+        			a[a.length]=new QParam({key:'invoDueDate',value:invoDueDate.format('Y-m-d H:i:s'),op:GE});
+        			a[a.length]=new QParam({key:'invoDueDate',value:invoDueDate2.format('Y-m-d H:i:s'),op:LE});
         		}
-        		else if(invoDueDate) a[a.length]={key:'invoDueDate',value:invoDueDate,op:EQ};
+        		else if(invoDueDate) 
+        			a[a.length]=new QParam({key:'invoDueDate',value:invoDueDate,op:EQ});
         		var consSailDate=at.find('name','consSailDate')[0].getValue();
         		var consSailDate2=at.find('name','consSailDate2')[0].getValue();
         		if(consSailDate && consSailDate2){
-        			a[a.length]={key:'consSailDate',value:consSailDate.format('Y-m-d H:i:s'),op:GE};
-        			a[a.length]={key:'consSailDate',value:consSailDate2.format('Y-m-d H:i:s'),op:LE};
+        			a[a.length]=new QParam({key:'consSailDate',value:consSailDate.format('Y-m-d H:i:s'),op:GE});
+        			a[a.length]=new QParam({key:'consSailDate',value:consSailDate2.format('Y-m-d H:i:s'),op:LE});
         		}
-        		else if(consSailDate) a[a.length]={key:'consSailDate',value:consSailDate,op:EQ};
+        		else if(consSailDate) 
+        			a[a.length]=new QParam({key:'consSailDate',value:consSailDate,op:EQ});
         		var invoAmount=at.find('name','invoAmount')[0].getValue();
         		var invoAmount2=at.find('name','invoAmount2')[0].getValue();
         		if(invoAmount && invoAmount2){
-        			a[a.length]={key:'invoAmount',value:invoAmount,op:GE};
-        			a[a.length]={key:'invoAmount',value:invoAmount2,op:LE};
+        			a[a.length]=new QParam({key:'invoAmount',value:invoAmount,op:GE});
+        			a[a.length]=new QParam({key:'invoAmount',value:invoAmount2,op:LE});
         		}
-        		else if(invoAmount) a[a.length]={key:'invoAmount',value:invoAmount,op:EQ};
+        		else if(invoAmount) 
+        			a[a.length]=new QParam({key:'invoAmount',value:invoAmount,op:EQ});
         	}
-        	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-     		store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});win.close();
+        	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
+     		store.reload({params:{start:0,limit:C_PS},
+     			callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});win.close();
 		}},this);
 		win.addButton({text:C_CANCEL,handler : function(){win.close();}},this);
 		win.show();
-    };    
+    };
+    var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
+    this.fastSearch=function(){
+        var invoTaxNo=kw.getValue();
+        if(!invoTaxNo){
+        	XMG.alert(SYS,M_INPUT_TAX_NO,function(b){kw.focus();});
+        	return;
+        };
+        var a=[];        
+        var c=invoTaxNo.indexOf(',');
+        var b=invoTaxNo.indexOf('..');
+        if(c>=0){
+            a[a.length]=new QParam({key:'invoTaxNo',value:invoTaxNo,op:IN});
+        }
+        else if(b>=0){
+            var ra=invoTaxNo.split('..');
+            a[a.length]=new QParam({key:'invoTaxNo',value:ra[0],op:GE});
+            a[a.length]=new QParam({key:'invoTaxNo',value:ra[1],op:LE});
+        }
+        a[a.length]=new QParam({key:'invoTaxNo',value:invoTaxNo,op:LI});
+        
+        a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});
+        store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
+        store.reload({params:{start:0,limit:C_PS},
+        	callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+    };
+    
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
@@ -1283,27 +1313,7 @@ Fos.InvoiceGrid = function(t) {
 				}
 		 	}
 		},stopEvent:true,scope:this});
-	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
-    this.fastSearch=function(){
-        var invoTaxNo=kw.getValue();
-        if(!invoTaxNo){XMG.alert(SYS,M_INPUT_TAX_NO,function(b){kw.focus();});return;};
-        var a=[];        
-        var c=invoTaxNo.indexOf(',');
-        var b=invoTaxNo.indexOf('..');
-        if(c>=0){
-            a[a.length]={key:'invoTaxNo',value:invoTaxNo,op:IN};
-        }
-        else if(b>=0){
-            var ra=invoTaxNo.split('..');
-            a[a.length]={key:'invoTaxNo',value:ra[0],op:GE};
-            a[a.length]={key:'invoTaxNo',value:ra[1],op:LE};
-        }
-        a[a.length]={key:'invoTaxNo',value:invoTaxNo,op:LI};
-        a[a.length]={key:'invoType',value:t,op:EQ};
-        a[a.length]={key:'invoStatus',value:2,op:NE};
-        store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-        store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
-    };
+    
     var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
     new Ext.KeyMap(Ext.getDoc(), {key:[116],
