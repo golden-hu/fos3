@@ -14,9 +14,7 @@ import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -645,6 +643,9 @@ public class TExportHistoryService {
 	}
 
 	private void fillSheet(Sheet sheet, List<Object[]> rowList) {
+		CreationHelper createHelper = sheet.getWorkbook().getCreationHelper();
+		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy-mm-dd"));
 		int i = 0;
 		for (Object[] r : rowList) {
 			Row row = sheet.createRow(i);
@@ -655,10 +656,11 @@ public class TExportHistoryService {
 				} else if (value instanceof String) {
 					row.createCell(j).setCellValue((String) value);
 				} else if (value instanceof Date) {
-					row.createCell(j).setCellValue((Date) value);
+					Cell cell = row.createCell(j);
+					cell.setCellValue((Date) value);
+					cell.setCellStyle(cellStyle);
 				} else if (value instanceof Number) {
-					row.createCell(j).setCellValue(
-							((Number) value).doubleValue());
+					row.createCell(j).setCellValue(((Number) value).doubleValue());
 				} else {
 					row.createCell(j).setCellValue(value.toString());
 				}
