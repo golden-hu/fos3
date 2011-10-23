@@ -92,7 +92,7 @@ public class TExportHistoryService {
 					realInvoDao.update(item);
 				}
 			} else {
-				throw new BusinessException(MessageUtil.EXT_NO_DATA);
+				throw new BusinessException(MessageUtil.EXP_NO_DATA);
 			}
 		} else {
 			prepareVoucherConditions(type, dateF, dateT, conditions);
@@ -107,7 +107,7 @@ public class TExportHistoryService {
 					realVoucDao.update(item);
 				}
 			} else {
-				throw new BusinessException(MessageUtil.EXT_NO_DATA);
+				throw new BusinessException(MessageUtil.EXP_NO_DATA);
 			}
 		}
 		return history;

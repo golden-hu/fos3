@@ -40,7 +40,7 @@ public class MessageUtil {
 	public static final String SYS_FILE_NOT_EXIST="sys.file_not_exist";
 	public static final String SYS_USEP_FEE_ALL = "sys.usep.fee_all";
 	public static final String FFOP_FCON_CANT_DELETE = "ffop.fcon.cant_delete";
-	public static final String EXT_NO_DATA = "ext.no_data";
+	public static final String EXP_NO_DATA = "exp.no_data";
 	public static final Set<String> msgSet = new HashSet<String>();
 	static {
 		msgSet.add(FW_SUCCESS);
@@ -70,6 +70,6 @@ public class MessageUtil {
 		msgSet.add(SYS_TEMPLATE_FILE_NOT_EXIST);
 		msgSet.add(SYS_FILE_NOT_EXIST);
 		msgSet.add(FFOP_FCON_CANT_DELETE);
-		msgSet.add(EXT_NO_DATA);
+		msgSet.add(EXP_NO_DATA);
 	}
 }
