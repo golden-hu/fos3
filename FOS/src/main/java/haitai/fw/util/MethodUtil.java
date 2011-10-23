@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MethodUtil {
 	private static Map<String, Set<String>> methodNameCache = new ConcurrentHashMap<String, Set<String>>();
 	private static Map<String, Set<Method>> methodCache = new ConcurrentHashMap<String, Set<Method>>();
-	private static Map<String, Map<String, Method>> methodSetCache =
-			new ConcurrentHashMap<String, Map<String, Method>>();
+	private static Map<String, Map<String, Method>> methodSetCache
+			= new ConcurrentHashMap<String, Map<String, Method>>();
 	private static FosLogger logger = new FosLogger(MethodUtil.class);
 
 	private static Set<String> getMethodsName(Object obj) {
@@ -56,8 +56,7 @@ public class MethodUtil {
 		}
 		Set<Method> f = getMethods(clazz);
 		for (Method m : f) {
-			if (m.getAnnotation(Id.class) != null
-					&& m.getName().startsWith("get")) {
+			if (m.getAnnotation(Id.class) != null && m.getName().startsWith("get")) {
 				getIdMethod = m;
 				break;
 			}

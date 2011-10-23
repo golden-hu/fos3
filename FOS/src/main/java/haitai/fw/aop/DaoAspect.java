@@ -5,22 +5,17 @@ import haitai.fw.entity.FosQuery;
 import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MethodUtil;
-import haitai.fw.util.QueryUtil;
-import haitai.fw.util.StringUtil;
-import haitai.fw.util.TimeUtil;
+import haitai.fw.util.*;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class DaoAspect {
@@ -258,8 +253,7 @@ public class DaoAspect {
 	public Object aroundOther(ProceedingJoinPoint jp) throws Throwable {
 		String methodName = null;
 		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
 			logger.info(methodName + " starting");
 			Object retObj = jp.proceed();
 			logger.info(methodName + " success");
@@ -288,8 +282,7 @@ public class DaoAspect {
 								}								
 								if (getPk != null) {
 									Object uuid = getPk.invoke(item);
-									MethodUtil.doSetMethod(item, "Id",
-											String.class, String.valueOf(uuid));
+									MethodUtil.doSetMethod(item, "Id", String.class, String.valueOf(uuid));
 								}
 							}
 						}
@@ -310,8 +303,7 @@ public class DaoAspect {
 				if (getIdMethod != null) {
 					// 把前台的uuid再传回去
 					Object uuid = getIdMethod.invoke(entity);
-					MethodUtil.doSetMethod(entity, "Id", String.class, String
-							.valueOf(uuid));
+					MethodUtil.doSetMethod(entity, "Id", String.class, String.valueOf(uuid));
 				}
 			}
 		}
