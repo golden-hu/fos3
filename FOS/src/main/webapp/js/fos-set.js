@@ -3373,7 +3373,7 @@ Fos.ExhiGrid = function() {
 			var exhiCheckDateT = w.findById('exhiCheckDateT').getValue().format(DATEF);	
 			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXHI_E',
 				exhiType:exhiType,exhiCheckDateF:exhiCheckDateF,exhiCheckDateT:exhiCheckDateT},
-				success: function(r){XMG.alert(SYS,M_S);store.reLoad({params:{start:0,limit:C_PS}});},
+				success: function(r){XMG.alert(SYS,M_S);store.reload({params:{start:0,limit:C_PS}});},
 				failure: function(r){XMG.alert(SYS,M_F+r.responseText);}
 			});
 			w.close();
