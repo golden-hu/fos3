@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PUserSettingDAO extends GenericDAO<PUserSetting, Integer>
-		implements IPUserSettingDAO {
+public class PUserSettingDAO extends GenericDAO<PUserSetting, Integer> implements IPUserSettingDAO {
 
 	public PUserSettingDAO() {
 		super(PUserSetting.class);

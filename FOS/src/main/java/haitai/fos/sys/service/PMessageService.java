@@ -45,12 +45,10 @@ public class PMessageService {
 			List<PMessageSubscribe>>();
 
 	@Transactional
-	public List<PMessage> save(List<PMessage> entityList,
-							   Map<String, String> queryMap) throws Exception {
+	public List<PMessage> save(List<PMessage> entityList, Map<String, String> queryMap) throws Exception {
 		List<PMessage> retList = new ArrayList<PMessage>();
 		for (PMessage entity : entityList) {
-			if (ConstUtil.ROW_N
-					.equalsIgnoreCase(entity.getRowAction())) {
+			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 				entity.setMessId(null);
 				entity.setMessCreateTime(new Date());
 				if (entity.getMessType() == ConstUtil.MESS_TYPE_EMAIL
@@ -85,17 +83,14 @@ public class PMessageService {
 				}
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 				PMessage delEntity = dao.findById(entity.getMessId());
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(
-						MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 			}
 		}
 		return retList;
@@ -183,9 +178,9 @@ public class PMessageService {
 	/**
 	 * 配船通知
 	 *
-	 * @param topic
-	 * @param mailList
-	 * @param entity
+	 * @param topic the message topic
+	 * @param mailList the email list
+	 * @param entity the business object
 	 */
 	@Transactional
 	public void buildMsg(PMessageTopic topic, List<PMessageSubscribe> mailList, Object entity) {
@@ -263,8 +258,7 @@ public class PMessageService {
 		} else if (id == ConstUtil.ROLE_DISPATCHER) {
 			fieldType = ConstUtil.TABLE_FIELD_TYPE_DISPATCHER;
 		}
-		String fieldName = tableInfoService.getFieldName(clazz, fieldType);
-		return fieldName;
+		return tableInfoService.getFieldName(clazz, fieldType);
 	}
 
 	private void buildMsg(String subject, String template, String messTo,
@@ -369,9 +363,9 @@ public class PMessageService {
 		} else if (retObj instanceof String) {
 			strObj = (String) retObj;
 		} else if (retObj instanceof Short) {
-			strObj = "" + (Short) retObj;
+			strObj = "" + retObj;
 		} else if (retObj instanceof Integer) {
-			strObj = "" + (Integer) retObj;
+			strObj = "" + retObj;
 		} else if (retObj instanceof Date) {
 			strObj = StringUtil.date2String((Date) retObj);
 		} else {

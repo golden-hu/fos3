@@ -2,11 +2,13 @@ package haitai.fos.sys.entity.idao;
 
 import haitai.fos.sys.entity.table.CCustomerContact;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public interface ICCustomerContactDAO {
 	public void save(CCustomerContact entity);
+
+	public List<CCustomerContact> saveByRowAction(List<CCustomerContact> entityList);
 
 	public void delete(Integer id);
 

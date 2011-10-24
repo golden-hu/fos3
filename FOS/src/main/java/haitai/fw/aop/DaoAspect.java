@@ -23,26 +23,67 @@ public class DaoAspect {
 	FosLogger logger = new FosLogger(DaoAspect.class);
 
 	@SuppressWarnings("unused")
+	@Pointcut(value = "(execution(* haitai.fos.*.entity.dao.*DAO.saveSingleByRowAction(..)) " +
+			"|| execution(* haitai.fw.entity.GenericDAO.saveSingleByRowAction(..))) && args(entity)")
+	private void saveSingleByRowAction(Object entity) {
+	}
+
+	@Around(value = "saveSingleByRowAction(entity)")
+	public void aroundSaveSingleByRowAction(ProceedingJoinPoint jp, Object entity) throws Throwable {
+		prepareSaveField(entity);
+		Object uuid = MethodUtil.doGetMethod(entity, "Id");
+		String methodName = null;
+		try {
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
+			logger.info(methodName + " starting");
+			jp.proceed(new Object[]{entity});
+			logger.info(methodName + " success");
+			MethodUtil.doSetMethod(entity, "RowAction", String.class, ConstUtil.ROW_O);
+			MethodUtil.doSetMethod(entity, "Id", String.class, uuid);
+		} catch (RuntimeException e) {
+			logger.info(methodName + " failed");
+			throw e;
+		}
+	}
+
+	@SuppressWarnings("unused")
 	@Pointcut("(execution(* haitai.fos.*.entity.dao.*DAO.save(..)) "
 			+ "|| execution(* haitai.fw.entity.GenericDAO.save(..))) "
 			+ "&& args(entity)")
 	private void save(Object entity) {
 	}
 
-	@Around("save(entity)")
-	public void aroundSave(ProceedingJoinPoint jp, Object entity)
-			throws Throwable {
+	@Around(value = "save(entity)", argNames = "jp, entity")
+	public void aroundSave(ProceedingJoinPoint jp, Object entity) throws Throwable {
+		prepareSaveField(entity);
+		//把前台的uuid再传回去
+		Object uuid = MethodUtil.doGetMethod(entity, "Id");
+		String methodName = null;
+		try {
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
+			logger.info(methodName + " starting");
+			jp.proceed(new Object[]{entity});
+			logger.info(methodName + " success");
+			MethodUtil.doSetMethod(entity, "RowAction", String.class, ConstUtil.ROW_O);
+			MethodUtil.doSetMethod(entity, "Id", String.class, uuid);
+		} catch (RuntimeException e) {
+			logger.info(methodName + " failed");
+			throw e;
+		}
+	}
+
+	private void prepareSaveField(Object entity) {
 		Integer userId = (Integer) SessionManager.getAttr(SessionKeyType.UID);
-		String userName =  SessionManager.getStringAttr(SessionKeyType.USERNAME);
+		String userName = SessionManager.getStringAttr(SessionKeyType.USERNAME);
 		Integer grouId = (Integer) SessionManager.getAttr(SessionKeyType.GID);
 		String compCode = SessionManager.getStringAttr(SessionKeyType.COMPCODE);
 		MethodUtil.doSetMethod(entity, "Removed", Short.class, ConstUtil.FalseShort);
 		MethodUtil.doSetMethod(entity, "CompCode", String.class, compCode);
-		if(!"USER_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
-				&& !"USEP_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))){
+		if (!"USER_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
+				&& !"USEP_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))) {
 			MethodUtil.doSetMethod(entity, "UserId", Integer.class, userId);
 		}
-		if(!"GROU_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))){
+		if (!"GROU_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))) {
 			MethodUtil.doSetMethod(entity, "GrouId", Integer.class, grouId);
 		}
 		MethodUtil.doSetMethod(entity, "CreateBy", Integer.class, userId);
@@ -52,22 +93,6 @@ public class DaoAspect {
 		MethodUtil.doSetMethod(entity, "ModifyByName", String.class, userName);
 		MethodUtil.doSetMethod(entity, "ModifyTime", Date.class, TimeUtil.getNow());
 		MethodUtil.doSetMethod(entity, "version", Integer.class, ConstUtil.FalseInt);
-		//把前台的uuid再传回去
-		Object uuid = MethodUtil.doGetMethod(entity, "Id");
-		String methodName = null;
-		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
-			logger.info(methodName + " starting");
-			jp.proceed(new Object[] { entity });
-			logger.info(methodName + " success");
-			MethodUtil.doSetMethod(entity, "RowAction", String.class,
-					ConstUtil.ROW_O);
-			MethodUtil.doSetMethod(entity, "Id", String.class, uuid);
-		} catch (RuntimeException e) {
-			logger.info(methodName + " failed");
-			throw e;
-		}
 	}
 
 	@SuppressWarnings("unused")
@@ -77,9 +102,27 @@ public class DaoAspect {
 	private void update(Object entity) {
 	}
 
-	@Around("update(entity)")
-	public Object aroundUpdate(ProceedingJoinPoint jp, Object entity)
-			throws Throwable {
+	@Around(value = "update(entity)", argNames = "jp,entity")
+	public Object aroundUpdate(ProceedingJoinPoint jp, Object entity) throws Throwable {
+		prepareUpdateField(entity);
+		//把前台的uuid再传回去
+		Object uuid = MethodUtil.doGetMethod(entity, "Id");
+		String methodName = null;
+		try {
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
+			logger.info(methodName + " starting");
+			Object retObj = jp.proceed(new Object[]{entity});
+			logger.info(methodName + " success");
+			MethodUtil.doSetMethod(retObj, "RowAction", String.class, ConstUtil.ROW_O);
+			MethodUtil.doSetMethod(retObj, "Id", String.class, uuid);
+			return retObj;
+		} catch (RuntimeException e) {
+			logger.info(methodName + " failed");
+			throw e;
+		}
+	}
+
+	private void prepareUpdateField(Object entity) {
 		String rowAction = (String) MethodUtil.doGetMethod(entity, "RowAction");
 		if (ConstUtil.ROW_R.equalsIgnoreCase(rowAction)) {
 			MethodUtil.doSetMethod(entity, "Removed", Short.class, ConstUtil.TrueShort);
@@ -87,31 +130,14 @@ public class DaoAspect {
 			MethodUtil.doSetMethod(entity, "Removed", Short.class, ConstUtil.FalseShort);
 		}
 		//如果是新增, 要把version字段初始化成0
-		if(ConstUtil.ROW_N.equalsIgnoreCase(rowAction)){
+		if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
 			MethodUtil.doSetMethod(entity, "version", Integer.class, ConstUtil.FalseInt);
 		}
 		Integer userId = (Integer) SessionManager.getAttr(SessionKeyType.UID);
-		String userName =  SessionManager.getStringAttr(SessionKeyType.USERNAME);
+		String userName = SessionManager.getStringAttr(SessionKeyType.USERNAME);
 		MethodUtil.doSetMethod(entity, "ModifyBy", Integer.class, userId);
 		MethodUtil.doSetMethod(entity, "ModifyByName", String.class, userName);
 		MethodUtil.doSetMethod(entity, "ModifyTime", Date.class, TimeUtil.getNow());
-		//把前台的uuid再传回去
-		Object uuid = MethodUtil.doGetMethod(entity, "Id");
-		String methodName = null;
-		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
-			logger.info(methodName + " starting");
-			Object retObj = jp.proceed(new Object[] { entity });
-			logger.info(methodName + " success");
-			MethodUtil.doSetMethod(retObj, "RowAction", String.class,
-					ConstUtil.ROW_O);
-			MethodUtil.doSetMethod(retObj, "Id", String.class, uuid);
-			return retObj;
-		} catch (RuntimeException e) {
-			logger.info(methodName + " failed");
-			throw e;
-		}
 	}
 
 	@SuppressWarnings("unused")
@@ -124,8 +150,7 @@ public class DaoAspect {
 	public void aroundDelete(ProceedingJoinPoint jp) throws Throwable {
 		String methodName = null;
 		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
 			logger.info(methodName + " starting");
 			jp.proceed();
 			logger.info(methodName + " success");
@@ -133,7 +158,6 @@ public class DaoAspect {
 			logger.info(methodName + " failed");
 			throw e;
 		}
-
 	}
 
 	@SuppressWarnings("unused")
@@ -143,15 +167,13 @@ public class DaoAspect {
 	private void queryById(Number id) {
 	}
 
-	@Around("queryById(id)")
-	public Object aroundQueryById(ProceedingJoinPoint jp, Number id)
-			throws Throwable {
+	@Around(value = "queryById(id)", argNames = "jp,id")
+	public Object aroundQueryById(ProceedingJoinPoint jp, Number id) throws Throwable {
 		String methodName = null;
 		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
 			logger.info(methodName + " starting with id = " + id.longValue());
-			Object retObj = jp.proceed(new Object[] { id });
+			Object retObj = jp.proceed(new Object[]{id});
 			copyId2uuid(retObj);
 			logger.info(methodName + " success");
 			return retObj;
@@ -169,26 +191,18 @@ public class DaoAspect {
 	private void query(Map<String, Object> propertyMap) {
 	}
 
-	@Around("query(propertyMap)")
-	public Object aroundQuery(ProceedingJoinPoint jp,
-			Map<String, Object> propertyMap)
-			throws Throwable {
+	@Around(value = "query(propertyMap)", argNames = "jp,propertyMap")
+	public Object aroundQuery(ProceedingJoinPoint jp, Map<String, Object> propertyMap) throws Throwable {
 		String methodName = null;
 		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
-			logger.info(methodName + " starting with property Map = "
-					+ propertyMap);
-			if (!ConstUtil.ACT_LOGIN.equalsIgnoreCase(SessionManager
-					.getStringAttr(SessionKeyType.ACTNAME))
-					&& StringUtil.isNotBlank(SessionManager
-							.getStringAttr(SessionKeyType.COMPCODE))) {
-				propertyMap.put(ConstUtil.CompCode, SessionManager
-						.getStringAttr(SessionKeyType.COMPCODE));
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
+			logger.info(methodName + " starting with property Map = " + propertyMap);
+			if (!ConstUtil.ACT_LOGIN.equalsIgnoreCase(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
+					&& StringUtil.isNotBlank(SessionManager.getStringAttr(SessionKeyType.COMPCODE))) {
+				propertyMap.put(ConstUtil.CompCode, SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 			}
 			propertyMap.put(ConstUtil.Removed, ConstUtil.FalseShort);
-			Object retObj = jp.proceed(new Object[] { propertyMap,
-					 });
+			Object retObj = jp.proceed(new Object[]{propertyMap});
 			copyId2uuid(retObj);
 			logger.info(methodName + " success");
 			return retObj;
@@ -200,39 +214,32 @@ public class DaoAspect {
 	}
 
 	@SuppressWarnings("unused")
-	@Pointcut("(execution(* haitai.fos.*.entity.dao.*DAO.complexQuery*(..)) "
+	@Pointcut(value = "(execution(* haitai.fos.*.entity.dao.*DAO.complexQuery*(..)) "
 			+ "|| execution(* haitai.fw.entity.GenericDAO.complexQuery(..))) "
-			+ "&& args(conditions, propertyMap)")
-	private void complexQuery(List<FosQuery> conditions,
-			Map<String, Object> propertyMap) {
+			+ "&& args(conditions, propertyMap)", argNames = "conditions,propertyMap")
+	private void complexQuery(List<FosQuery> conditions, Map<String, Object> propertyMap) {
 	}
 
-	@Around("complexQuery(conditions, propertyMap)")
-	public Object aroundComplexQuery(ProceedingJoinPoint jp,
-			List<FosQuery> conditions, Map<String, Object> propertyMap)
-			throws Throwable {
+	@Around(value = "complexQuery(conditions, propertyMap)", argNames = "jp,conditions,propertyMap")
+	public Object aroundComplexQuery(ProceedingJoinPoint jp, List<FosQuery> conditions,
+									 Map<String, Object> propertyMap) throws Throwable {
 		String methodName = null;
 		try {
-			methodName = jp.getTarget().getClass().getSimpleName() + "."
-					+ jp.getSignature().getName();
-			logger.info(methodName + " starting with conditions List = "
-					+ conditions + ", property Map = " + propertyMap);
-			String compCode = SessionManager
-					.getStringAttr(SessionKeyType.COMPCODE);
+			methodName = jp.getTarget().getClass().getSimpleName() + "." + jp.getSignature().getName();
+			logger.info(methodName + " starting with conditions List = " + conditions + ", " +
+					"property Map = " + propertyMap);
+			String compCode = SessionManager.getStringAttr(SessionKeyType.COMPCODE);
 			if (conditions != null) {
 				if (!conditions.contains(QueryUtil.removedCondition()))
 					conditions.add(QueryUtil.removedCondition());
-				if (!conditions.contains(QueryUtil.compCodeCondition())
-						&& StringUtil.isNotBlank(compCode))
+				if (!conditions.contains(QueryUtil.compCodeCondition()) && StringUtil.isNotBlank(compCode))
 					conditions.add(QueryUtil.compCodeCondition());
 			} else if (propertyMap != null) {
 				propertyMap.put(ConstUtil.Removed, ConstUtil.FalseShort);
 				if (!StringUtil.isNotBlank(compCode))
-					propertyMap.put(ConstUtil.CompCode, SessionManager
-							.getStringAttr(SessionKeyType.COMPCODE));
+					propertyMap.put(ConstUtil.CompCode, SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 			}
-			Object retObj = jp
-					.proceed(new Object[] { conditions, propertyMap });
+			Object retObj = jp.proceed(new Object[]{conditions, propertyMap});
 			copyId2uuid(retObj);
 			logger.info(methodName + " success");
 			return retObj;
@@ -277,9 +284,9 @@ public class DaoAspect {
 							Object[] objArr = (Object[]) object;
 							for (Object item : objArr) {
 								Method getPk = null;
-								if(item instanceof BaseDomain) {
+								if (item instanceof BaseDomain) {
 									getPk = MethodUtil.getPkMethod(item);
-								}								
+								}
 								if (getPk != null) {
 									Object uuid = getPk.invoke(item);
 									MethodUtil.doSetMethod(item, "Id", String.class, String.valueOf(uuid));

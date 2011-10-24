@@ -4,17 +4,15 @@ import haitai.fos.sys.entity.idao.ICCustomerDAO;
 import haitai.fos.sys.entity.table.CCustomer;
 import haitai.fw.entity.GenericDAO;
 import haitai.fw.log.FosLogger;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.stereotype.Component;
-
 @Component
-public class CCustomerDAO extends GenericDAO<CCustomer, Integer> implements
-		ICCustomerDAO {
+public class CCustomerDAO extends GenericDAO<CCustomer, Integer> implements ICCustomerDAO {
 	FosLogger log = new FosLogger(CCustomerDAO.class);
 	public CCustomerDAO() {
 		super(CCustomer.class);

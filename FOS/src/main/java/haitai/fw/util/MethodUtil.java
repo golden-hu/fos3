@@ -83,6 +83,25 @@ public class MethodUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public static void doSetMethodNull(Object entity, String fieldName) {
+		Set<String> methodSet = getMethodsName(entity);
+		String methodName = "set" + StringUtil.capitalize(fieldName);
+		if (methodSet.contains(methodName)) {
+			try {
+				Method[] methods = entity.getClass().getMethods();
+				for (Method method : methods) {
+					if (methodName.equals(method.getName())) {
+						method.invoke(entity, new Object[]{null});
+						return;
+					}
+				}
+			} catch (Exception e) {
+				logger.error("do set method " + fieldName + " to null", e);
+			}
+		}
+	}
+
 	public static Object doGetMethod(Object entity, String fieldName) {
 		Object ret = null;
 		Set<String> methodSet = getMethodsName(entity);

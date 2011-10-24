@@ -1,13 +1,15 @@
 package haitai.fos.sys.entity.idao;
 
-import java.util.Map;
-
 import haitai.fos.sys.entity.table.PMessageSubscribe;
 import haitai.fw.entity.FosQuery;
+
 import java.util.List;
+import java.util.Map;
 
 public interface IPMessageSubscribeDAO {
 	public void save(PMessageSubscribe entity);
+
+	public List<PMessageSubscribe> saveByRowAction(List<PMessageSubscribe> entityList);
 
 	public void delete(Integer id);
 

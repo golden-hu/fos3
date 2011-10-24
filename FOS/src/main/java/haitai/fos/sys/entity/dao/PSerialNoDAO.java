@@ -4,17 +4,15 @@ import haitai.fos.sys.entity.idao.IPSerialNoDAO;
 import haitai.fos.sys.entity.table.PSerialNo;
 import haitai.fw.entity.GenericDAO;
 import haitai.fw.util.DaoUtil;
-
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.stereotype.Component;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
 
 @Component("PSerialNoDAO")
 public class PSerialNoDAO extends GenericDAO<PSerialNo, Integer> implements

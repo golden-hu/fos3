@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PTableInfoDAO extends GenericDAO<PTableInfo, Integer> implements
-		IPTableInfoDAO {
+public class PTableInfoDAO extends GenericDAO<PTableInfo, Integer> implements IPTableInfoDAO {
 
 	public PTableInfoDAO() {
 		super(PTableInfo.class);

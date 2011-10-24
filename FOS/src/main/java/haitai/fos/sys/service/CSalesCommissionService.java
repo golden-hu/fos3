@@ -1,50 +1,27 @@
 package haitai.fos.sys.service;
 
 import haitai.fos.ffop.entity.table.FConsign;
-import haitai.fos.sys.entity.idao.ICCommissionDAO;
 import haitai.fos.sys.entity.idao.ICCommissionItemDAO;
 import haitai.fos.sys.entity.idao.ICSalesCommissionDAO;
 import haitai.fos.sys.entity.table.CCommissionItem;
 import haitai.fos.sys.entity.table.CSalesCommission;
-import haitai.fw.util.ConstUtil;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 @Service
 public class CSalesCommissionService {
-	private ICSalesCommissionDAO dao = null;
-	private ICCommissionDAO commissionDao = null;
-	private ICCommissionItemDAO commissionItemDao = null;
+	@Autowired
+	private ICSalesCommissionDAO dao;
+	@Autowired
+	private ICCommissionItemDAO commissionItemDao;
 
 	@Transactional
 	public List<CSalesCommission> save(List<CSalesCommission> vedCatList) {
-
-		List<CSalesCommission> retList = new ArrayList<CSalesCommission>();
-
-		for (CSalesCommission entity : vedCatList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
-				entity.setSacoId(null);
-				dao.save(entity);
-				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
-				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
-				CSalesCommission delEntity = dao.findById(entity.getSacoId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
-				dao.update(delEntity);
-			}
-		}
-		return retList;
+		return dao.saveByRowAction(vedCatList);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -55,11 +32,12 @@ public class CSalesCommissionService {
 
 	/**
 	 * 业务员提成统计明细
-	 * @param queryMap
-	 * @return
+	 *
+	 * @param queryMap the query conditions
+	 * @return the objects
 	 */
 	@SuppressWarnings("unchecked")
-	public List<FConsign> querySalesCommissionDetail(Map<String, Object> queryMap){
+	public List<FConsign> querySalesCommissionDetail(Map<String, Object> queryMap) {
 		List<Object[]> objList = dao.queryCommissionDetail(queryMap);
 		Map<Integer, FConsign> consignMap = new HashMap<Integer, FConsign>();
 		for (Object obj : objList) {
@@ -67,24 +45,25 @@ public class CSalesCommissionService {
 				Object[] objArray = (Object[]) obj;
 				Integer consId = (Integer) objArray[0];
 				FConsign consign = new FConsign();
-					consign.setConsId(consId);
-					consign.setConsNo((String) objArray[1]);
-					consign.setCustSname((String) objArray[2]);
-					consign.setConsSailDate((Date) objArray[3]);
-					Double amount = ((BigDecimal) objArray[4]).doubleValue();
-					consign.setGrossProfit(amount);
-					consignMap.put(consId, consign);
+				consign.setConsId(consId);
+				consign.setConsNo((String) objArray[1]);
+				consign.setCustSname((String) objArray[2]);
+				consign.setConsSailDate((Date) objArray[3]);
+				Double amount = ((BigDecimal) objArray[4]).doubleValue();
+				consign.setGrossProfit(amount);
+				consignMap.put(consId, consign);
 			}
 		}
 		List<FConsign> retList = new ArrayList<FConsign>();
 		retList.addAll(consignMap.values());
 		return retList;
 	}
-	
+
 	/**
 	 * 业务员提成统计
-	 * @param queryMap
-	 * @return
+	 *
+	 * @param queryMap the query conditions
+	 * @return the objects
 	 */
 	public List<CSalesCommission> calculate(Map<String, Object> queryMap) {
 		// 方案明细
@@ -94,7 +73,7 @@ public class CSalesCommissionService {
 		// 对于每一个业务员方案配置, 根据方案明细计算
 		for (CSalesCommission sales : salesList) {
 			List<CCommissionItem> itemList = itemMap.get(sales.getCommId());
-			Double commission = new Double(0);
+			Double commission = (double) 0;
 			if (itemList != null && itemList.size() > 0) {
 				Double baseAmount = sales.getBaseAmount();
 				for (CCommissionItem item : itemList) {
@@ -114,8 +93,9 @@ public class CSalesCommissionService {
 
 	/**
 	 * 把业务员业绩并入业务员方案配置
-	 * @param amountList
-	 * @return
+	 *
+	 * @param queryMap the query conditions
+	 * @return the objects
 	 */
 	private List<CSalesCommission> getSalesCommission(Map<String, Object> queryMap) {
 		Map<Integer, Double> amountList = getTotalAmount(queryMap);
@@ -123,7 +103,7 @@ public class CSalesCommissionService {
 		List<CSalesCommission> salesList = dao.findByProperties(map);
 		for (CSalesCommission salesCommission : salesList) {
 			Double amount = amountList.get(salesCommission.getSacoSalesId());
-			if(amount == null) amount = new Double(0);
+			if (amount == null) amount = (double) 0;
 			salesCommission.setBaseAmount(amount);
 		}
 		return salesList;
@@ -131,8 +111,9 @@ public class CSalesCommissionService {
 
 	/**
 	 * 当月业务员业绩, 并预处理成userId -> amount
-	 * @param queryMap
-	 * @return
+	 *
+	 * @param queryMap the query conditions
+	 * @return the objects
 	 */
 	@SuppressWarnings("unchecked")
 	private Map<Integer, Double> getTotalAmount(Map<String, Object> queryMap) {
@@ -153,7 +134,8 @@ public class CSalesCommissionService {
 
 	/**
 	 * 业务员分成方案明细, 按照方案分组, 并排序
-	 * @return
+	 *
+	 * @return the group
 	 */
 	private Map<Integer, List<CCommissionItem>> sortCommissionItem() {
 		Map<Integer, List<CCommissionItem>> itemMap = new HashMap<Integer, List<CCommissionItem>>();
@@ -172,32 +154,4 @@ public class CSalesCommissionService {
 		}
 		return itemMap;
 	}
-	
-	public ICSalesCommissionDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(ICSalesCommissionDAO dao) {
-		this.dao = dao;
-	}
-
-	public ICCommissionDAO getCommissionDao() {
-		return commissionDao;
-	}
-
-	@Autowired
-	public void setCommissionDao(ICCommissionDAO commissionDao) {
-		this.commissionDao = commissionDao;
-	}
-
-	public ICCommissionItemDAO getCommissionItemDao() {
-		return commissionItemDao;
-	}
-
-	@Autowired
-	public void setCommissionItemDao(ICCommissionItemDAO commissionItemDao) {
-		this.commissionItemDao = commissionItemDao;
-	}
-	
 }

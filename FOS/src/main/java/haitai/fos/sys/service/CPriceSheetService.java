@@ -12,23 +12,20 @@ import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.StringUtil;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Service
 public class CPriceSheetService {
-	private ICPriceSheetDAO dao = null;
-	private ICPriceLineDAO lineDao = null;
-	private ICPriceRecordDAO recordDao = null;
+	@Autowired
+	private ICPriceSheetDAO dao;
+	@Autowired
+	private ICPriceLineDAO lineDao;
+	@Autowired
+	private ICPriceRecordDAO recordDao;
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -37,87 +34,69 @@ public class CPriceSheetService {
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 		Map<Integer, Integer> idMap2 = new HashMap<Integer, Integer>();
 		// handle parent first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof CPriceSheet) {
 				CPriceSheet entity = (CPriceSheet) obj;
 				Integer oldId = entity.getPrshId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setPrshId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					CPriceSheet delEntity = dao.findById(entity.getPrshId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 				}
 				idMap.put(oldId, entity.getPrshId());
 			}
 		}
 
 		// handle child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof CPriceLine) {
 				CPriceLine entity = (CPriceLine) obj;
 				Integer oldId = entity.getPrliId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setPrliId(null);
-					entity.setPrshId(NumberUtil.frontId2DbId(idMap, entity
-							.getPrshId()));
+					entity.setPrshId(NumberUtil.frontId2DbId(idMap, entity.getPrshId()));
 					lineDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(lineDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					CPriceLine delEntity = lineDao.findById(entity.getPrliId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					lineDao.update(delEntity);
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
-				}			
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				}
 				idMap2.put(oldId, entity.getPrliId());
 			}
 		}
-		
+
 		// handle child's child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof CPriceRecord) {
 				CPriceRecord entity = (CPriceRecord) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setPrreId(null);
-					entity.setPrshId(NumberUtil.frontId2DbId(idMap, entity
-							.getPrshId()));
-					entity.setPrliId(NumberUtil.frontId2DbId(idMap2, entity
-							.getPrliId()));
+					entity.setPrshId(NumberUtil.frontId2DbId(idMap, entity.getPrshId()));
+					entity.setPrliId(NumberUtil.frontId2DbId(idMap2, entity.getPrliId()));
 					recordDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(recordDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					CPriceRecord delEntity = recordDao.findById(entity.getPrreId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					recordDao.update(delEntity);
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
-				}			
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				}
 			}
 		}
 		return retList;
@@ -150,10 +129,10 @@ public class CPriceSheetService {
 				record.setShliName(sheet.getShliName());
 				record.setVessName(sheet.getVessName());
 				record.setVoyaName(sheet.getVoyaName());
-				if(sheet.getPrshStartDate() != null){
+				if (sheet.getPrshStartDate() != null) {
 					record.setPrshStartDate((Date) sheet.getPrshStartDate().clone());
 				}
-				if(sheet.getPrshEndDate() != null){
+				if (sheet.getPrshEndDate() != null) {
 					record.setPrshEndDate((Date) sheet.getPrshEndDate().clone());
 				}
 				record.setPrshRemarks(sheet.getPrshRemarks());
@@ -170,50 +149,23 @@ public class CPriceSheetService {
 				record.setPrliCompositeFlag(line.getPrliCompositeFlag());
 				record.setPrliDuration(line.getPrliDuration());
 				record.setPrliRemarks(line.getPrliRemarks());
-								
+
 				retList.add(record);
 			}
 		}
 		return retList;
-	}	
-	
-	public void updateStatus(Map<String, Object> queryMap){
+	}
+
+	public void updateStatus(Map<String, Object> queryMap) {
 		String ids = (String) queryMap.get("prshId");
 		String[] idArray = ids.split(",");
 		Short status = Short.valueOf((String) queryMap.get("prshStatus"));
 		for (String id : idArray) {
-			if(StringUtil.isNotBlank(id)){
+			if (StringUtil.isNotBlank(id)) {
 				CPriceSheet sheet = dao.findById(Integer.parseInt(id));
 				sheet.setPrshStatus(status);
 				dao.update(sheet);
 			}
-		}		
-	}
-	
-	public ICPriceSheetDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(ICPriceSheetDAO dao) {
-		this.dao = dao;
-	}
-
-	public ICPriceLineDAO getLineDao() {
-		return lineDao;
-	}
-
-	@Autowired
-	public void setLineDao(ICPriceLineDAO lineDao) {
-		this.lineDao = lineDao;
-	}
-
-	public ICPriceRecordDAO getRecordDao() {
-		return recordDao;
-	}
-
-	@Autowired
-	public void setRecordDao(ICPriceRecordDAO recordDao) {
-		this.recordDao = recordDao;
+		}
 	}
 }

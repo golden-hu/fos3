@@ -75,7 +75,7 @@ public class ServiceAspect {
 			} else if (ConstUtil.ROW_M.equalsIgnoreCase(rowAction)) {
 				Object uuid = MethodUtil.doGetMethod(entity, "Id");
 				idMap.put(getObjKey(entity), (String) uuid);
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(rowAction) && tableInfoService.constains(className)) {
+			} else if (ConstUtil.ROW_R.equalsIgnoreCase(rowAction) && tableInfoService.contain(className)) {
 				actLogUtil.saveActionLog(entity);
 			}
 		}
@@ -89,7 +89,7 @@ public class ServiceAspect {
 				List<Object> retList = (List<Object>) retObj;
 				for (Object entity : retList) {
 					String className = entity.getClass().getSimpleName();
-					if (tableInfoService.constains(className)) {
+					if (tableInfoService.contain(className)) {
 						actLogUtil.saveActionLog(entity);
 					}
 					if (idMap.containsKey(entity)) {
