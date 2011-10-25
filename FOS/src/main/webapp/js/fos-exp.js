@@ -45,7 +45,7 @@ Fos.showConsignTabs = function(p){
 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 	if(p.get('rowAction')!='N'){
 		if(!tc.getComponent('T_DOC_'+p.get('id'))){tc.add(new Fos.ConsDocGrid(p));};
-		if(!tc.getComponent('T_EXPE_'+p.get('id'))){tc.add(VERSION==1?(new Fos.ExpenseTab2(p,'C')):(new Fos.ExpenseTab(p,'C')));};
+		if(!tc.getComponent('T_EXPE_'+p.get('id'))){tc.add(VERSION==1?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C')));};
 	}
 	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){tc.add(new Fos.TransTab(p));};	
 	if(!tc.getComponent('T_WARE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_WARE)!=-1){tc.add(new Fos.WarehouseTab(p));};	
@@ -306,7 +306,7 @@ Fos.ConsignTab = function(p){
 	items[0]=new Fos.BookTab(p);
 	if(p.get('rowAction')!='N'){
 		items[items.length]= new Fos.ConsDocGrid(p);
-		items[items.length]= VERSION==1?(new Fos.ExpenseTab2(p,'C')):(new Fos.ExpenseTab(p,'C'));
+		items[items.length]= VERSION==1?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
 		items[items.length] = new Fos.AttachTab(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
