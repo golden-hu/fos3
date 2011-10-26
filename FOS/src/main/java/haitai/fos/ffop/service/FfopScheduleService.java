@@ -137,7 +137,7 @@ public class FfopScheduleService {
 	private List<FDoc> getNeedAlertDocs() {
 		String ccId = CompanyConfigUtil.getCompanyConfig(ConstUtil.COMCF_FDOC_CC);
 		List<FosQuery> conditions = new ArrayList<FosQuery>();
-		conditions.add(new FosQuery("dotyId", ConstUtil.SQL_OP_EQUAL, ccId));
+		conditions.add(new FosQuery("dotyId", ConstUtil.SQL_OP_IN, ccId));
 		conditions.add(new FosQuery("fdocBackFlag", ConstUtil.SQL_OP_EQUAL, ConstUtil.FalseStr));
 		conditions.add(new FosQuery("consSailDate", ConstUtil.SQL_OP_LESSEQUAL, TimeUtil.addDate(-30)));
 		return docDao.complexQueryNeedAlert(conditions, null);
