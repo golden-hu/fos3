@@ -13,8 +13,8 @@
 	var x=S_AR;
 	if(t=='P') x=S_AP; else if(t=='R')  x=S_AR; else x=S_AC;
 	if(frm.f=='C') m=m+M3_EXPE+x; else m=M1_S+S_EXPE+x;
-	var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'left',
-			editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
+	var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'left',
+			editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
             mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
             invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
             store:getCS(),enableKeyEvents:true,
@@ -23,6 +23,7 @@
 				var b =this.getSelectionModel().getSelected();
             	b.set('custId',r.get('custId'));
             	b.set('custName',r.get('custNameCn'));
+            	b.set('custSame',r.get('custCode'));
             	},
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
     var t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',

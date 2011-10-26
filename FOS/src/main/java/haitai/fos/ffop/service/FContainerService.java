@@ -90,7 +90,7 @@ public class FContainerService {
 			}
 			FConsign consign = consignDao.findById(consId);
 			consign.setConsContainerNo(sb.toString());
-			consignDao.update(consign);
+			retList.add(consignDao.update(consign));
 		}
 		return retList;
 	}

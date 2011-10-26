@@ -1969,7 +1969,6 @@ Fos.WarehouseTab = function(p) {
 					var b =this.wareGrid.getSelectionModel().getSelected();
 					if(b){
 						wn.setValue(b.get('wareNo'));
-						alert(b.get('wareNo'));
 					}
 				}
 				
@@ -2313,7 +2312,13 @@ Fos.ContainerTab = function(p) {
 			};		
 			if(xml!=''){
 			 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONT_S'},
-				success: function(res){				
+				success: function(res){	
+					var c = XTR(res.responseXML,'FConsign',FConsign);
+					var f = FConsign.prototype.fields;
+					p.beginEdit();
+	   				for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];p.set(fn,c.get(fn));};
+					p.endEdit();
+					
 					var a = XTRA(res.responseXML,'FContainerCargo',FContainerCargo);
 					FOSU(this.cargoStore,a,FContainerCargo);
 					var b = XTRA(res.responseXML,'FContainer',FContainer);

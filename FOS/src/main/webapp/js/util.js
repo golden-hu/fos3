@@ -820,16 +820,47 @@ Ext.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
 });
 Ext.reg('fileuploadfield', Ext.form.FileUploadField);
 
-function checkContainerNo(n){
-	if(n.length!=11) return false;
-	var exp=/^[A-Za-z]...{4}d...{7}$/g;
-	if (!exp.test(n)) return false;
+function getContMap(k){
+	if(k='A') return 10;
+	else if(k=='B') return 12;
+	else if(k=='C') return 13;
+	else if(k=='D') return 14;
+	else if(k=='E') return 15;
+	else if(k=='F') return 16;
+	else if(k=='G') return 17;
+	else if(k=='H') return 18;
+	else if(k=='I') return 19;
+	else if(k=='J') return 20;
+	else if(k=='K') return 21;
+	else if(k=='L') return 23;
+	else if(k=='M') return 24;
+	else if(k=='N') return 25;
+	else if(k=='O') return 26;
+	else if(k=='P') return 27;
+	else if(k=='Q') return 28;
+	else if(k=='R') return 29;
+	else if(k=='S') return 30;
+	else if(k=='T') return 31;
+	else if(k=='U') return 32;
+	else if(k=='V') return 34;
+	else if(k=='W') return 35;
+	else if(k=='X') return 36;
+	else if(k=='Y') return 37;
+	else if(k=='Z') return 38;
+	else return 0;
+};
+
+function checkContainerNo(n){	 
+	if(n.length!=11) return false;	
 	var a = new Array(11);
-	var CONT_NO_MAP = {A:10,B:12,C:13,D:14,E:15,F:16,G:17,H:18,I:19,J:20,K:21,L:23,M:24,N:25,O:26,P:27,Q:28,R:29,S:30,T:31,U:32,V:34,W:35,X:36,Y:37,Z:38};
-	a[0]=CONT_NO_MAP.get(n.substr(0,1));
-    a[1]=CONT_NO_MAP.get(n.substr(1,1));
-    a[2]=CONT_NO_MAP.get(n.substr(2,1));
-    a[3]=CONT_NO_MAP.get(n.substr(3,1));
+	
+	a[0]=getContMap(n.substr(0,1));
+    a[1]=getContMap(n.substr(1,1));
+    a[2]=getContMap(n.substr(2,1));
+    a[3]=getContMap(n.substr(3,1));
+    
+    if(a[0] == 0 || a[1] == 0 ||a[2] == 0 ||a[3] == 0) return false;
+    
     a[4]=n.substr(4,1);
     a[5]=n.substr(5,1);
     a[6]=n.substr(6,1);
@@ -837,9 +868,11 @@ function checkContainerNo(n){
     a[8]=n.substr(8,1);
     a[9]=n.substr(9,1);
     a[10]=n.substr(10,1);
+    
     var s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
     var r=s%11;
-    if(r!=a[10]) return false;
+    alert(a[4]);
+    if(r!=a[0]) return false;
     return true;
 };
 function round2(v){return (Math.round(v*100)/100);};
