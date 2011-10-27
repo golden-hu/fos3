@@ -45,7 +45,7 @@ Fos.showConsignTabs = function(p){
 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 	if(p.get('rowAction')!='N'){
 		if(!tc.getComponent('T_DOC_'+p.get('id'))){tc.add(new Fos.ConsDocGrid(p));};
-		if(!tc.getComponent('T_EXPE_'+p.get('id'))){tc.add(VERSION==1?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C')));};
+		if(!tc.getComponent('T_EXPE_'+p.get('id'))){tc.add(VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C')));};
 	}
 	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){tc.add(new Fos.TransTab(p));};	
 	if(!tc.getComponent('T_WARE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_WARE)!=-1){tc.add(new Fos.WarehouseTab(p));};	
@@ -306,8 +306,9 @@ Fos.ConsignTab = function(p){
 	items[0]=new Fos.BookTab(p);
 	if(p.get('rowAction')!='N'){
 		items[items.length]= new Fos.ConsDocGrid(p);
-		items[items.length]= VERSION==1?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
+		items[items.length]= VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
 		items[items.length] = new Fos.AttachTab(p);
+		items[items.length] = new Fos.TaskPanel(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
 	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) items[items.length]=new Fos.WarehouseTab(p);
@@ -319,6 +320,7 @@ Fos.ConsignTab = function(p){
 	if(p.get('consServiceRequired').indexOf(SR_SESH)!=-1) items[items.length]=new Fos.SecondShipTab(p);
 	if(p.get('consServiceRequired').indexOf(SR_RABL)!=-1) items[items.length]=new Fos.RailwayBlTab(p);
 	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) items[items.length]=new Fos.SplitTab(p);
+	
 	new Ext.KeyMap(Ext.getDoc(), {
 		key:[112,113,114,115,116,117,118,119,120,121,122,123],
 		handler: function(k, e) {
@@ -2166,8 +2168,8 @@ Fos.ContainerTab = function(p) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,scope:this,listeners:re});	
 	var soc = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CONT_NO,dataIndex:'contNo',width:80,validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，请重新输入！'})},
-	{header:C_SEAL_NO,dataIndex:'contSealNo',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_CONT_NO,dataIndex:'contNo',width:100,validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，请重新输入！'})},
+	{header:C_SEAL_NO,dataIndex:'contSealNo',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_COTY,dataIndex:'cotyId',width:60,renderer:getCOTY,
 			editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyId',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S()})},

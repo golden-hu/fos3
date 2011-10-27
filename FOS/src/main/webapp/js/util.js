@@ -871,7 +871,7 @@ function checkContainerNo(n){
     
     var s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
     var r=s%11;
-    alert(a[4]);
+    
     if(r!=a[0]) return false;
     return true;
 };
