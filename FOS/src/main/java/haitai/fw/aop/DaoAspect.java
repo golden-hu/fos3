@@ -14,6 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +26,17 @@ public class DaoAspect {
 	@SuppressWarnings("unused")
 	@Pointcut(value = "(execution(* haitai.fos.*.entity.dao.*DAO.saveSingleByRowAction(..)) " +
 			"|| execution(* haitai.fw.entity.GenericDAO.saveSingleByRowAction(..))) && args(entity)")
-	private void saveSingleByRowAction(Object entity) {
+	private void saveSingleByRowAction(BaseDomain entity) {
 	}
 
 	@Around(value = "saveSingleByRowAction(entity)")
-	public void aroundSaveSingleByRowAction(ProceedingJoinPoint jp, Object entity) throws Throwable {
-		prepareSaveField(entity);
+	public void aroundSaveSingleByRowAction(ProceedingJoinPoint jp, BaseDomain entity) throws Throwable {
+		String rowAction = entity.getRowAction();
+		if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
+			prepareSaveField(entity);
+		} else if (ConstUtil.ROW_M.equalsIgnoreCase(rowAction)) {
+			prepareUpdateField(entity);
+		}
 		Object uuid = MethodUtil.doGetMethod(entity, "Id");
 		String methodName = null;
 		try {
@@ -43,6 +49,31 @@ public class DaoAspect {
 		} catch (RuntimeException e) {
 			logger.info(methodName + " failed");
 			throw e;
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Pointcut(value = "(execution(* haitai.fos.*.entity.dao.*DAO.saveByRowAction(..)) " +
+			"|| execution(* haitai.fw.entity.GenericDAO.saveByRowAction(..))) && args(entityList)")
+	private void saveByRowAction(List<BaseDomain> entityList) {
+	}
+
+	@Around(value = "saveByRowAction(entityList)")
+	public void aroundSaveByRowAction(ProceedingJoinPoint jp, List<BaseDomain> entityList) throws Throwable {
+		Map<BaseDomain, String> idMap = new HashMap<BaseDomain, String>();
+		for (BaseDomain entity : entityList) {
+			String rowAction = entity.getRowAction();
+			if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
+				prepareSaveField(entity);
+			} else if (ConstUtil.ROW_M.equalsIgnoreCase(rowAction)) {
+				prepareUpdateField(entity);
+			}
+			idMap.put(entity, entity.getId());
+		}
+		List<BaseDomain> retList= (List<BaseDomain>) jp.proceed(new Object[]{entityList});
+		for (BaseDomain entity : retList) {
+			entity.setRowAction(ConstUtil.ROW_O);
+			entity.setId(idMap.get(entity));
 		}
 	}
 
