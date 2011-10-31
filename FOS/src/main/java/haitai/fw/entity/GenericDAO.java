@@ -82,6 +82,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 		return retList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public T saveSingleByRowAction(T entity) {
 		Method getPkMethod = MethodUtil.getPkMethod(entity);
 		T retEntity = null;
@@ -101,6 +102,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
 			}
 			delEntity.setRowAction(ConstUtil.ROW_R);
+			MethodUtil.doSetMethod(delEntity, "Removed", Short.class, ConstUtil.TrueShort);
 			update(delEntity);
 		} else {
 			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);

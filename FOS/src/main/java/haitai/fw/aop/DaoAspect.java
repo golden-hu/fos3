@@ -34,7 +34,7 @@ public class DaoAspect {
 		String rowAction = entity.getRowAction();
 		if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
 			prepareSaveField(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(rowAction)) {
+		} else {
 			prepareUpdateField(entity);
 		}
 		Object uuid = MethodUtil.doGetMethod(entity, "Id");
@@ -58,6 +58,7 @@ public class DaoAspect {
 	private void saveByRowAction(List<BaseDomain> entityList) {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Around(value = "saveByRowAction(entityList)")
 	public void aroundSaveByRowAction(ProceedingJoinPoint jp, List<BaseDomain> entityList) throws Throwable {
 		Map<BaseDomain, String> idMap = new HashMap<BaseDomain, String>();
@@ -65,12 +66,12 @@ public class DaoAspect {
 			String rowAction = entity.getRowAction();
 			if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
 				prepareSaveField(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(rowAction)) {
+			} else {
 				prepareUpdateField(entity);
 			}
 			idMap.put(entity, entity.getId());
 		}
-		List<BaseDomain> retList= (List<BaseDomain>) jp.proceed(new Object[]{entityList});
+		List<BaseDomain> retList = (List<BaseDomain>) jp.proceed(new Object[]{entityList});
 		for (BaseDomain entity : retList) {
 			entity.setRowAction(ConstUtil.ROW_O);
 			entity.setId(idMap.get(entity));
