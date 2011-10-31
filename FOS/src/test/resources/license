@@ -1,8 +1,8 @@
-Company=LY
-IP=0
+Company=YXSD
+IP=192.168.0.55
 MAC=0
 MB=0
 HD=0
-Users=5
+Users=4
 SAAS=0
 ExpireDays=30000

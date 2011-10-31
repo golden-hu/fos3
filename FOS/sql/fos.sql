@@ -4183,7 +4183,7 @@ CREATE TABLE IF NOT EXISTS `S_VOUCHER` (
   `VOUC_EX_RATE` decimal(9,2) default NULL,
   `VOUC_BANK_RECIPT_NO` varchar(32) collate utf8_unicode_ci default NULL,
   `VOUC_BANK_RECIPT_DATE` date default NULL,
-  `VOUC_PAYMENT_TYPE` tinyint(4) default NULL,
+  `VOUC_PAYMENT_TYPE` INT(11) NULL DEFAULT NULL,
   `VOUC_INVOICE_NO` varchar(500) collate utf8_unicode_ci default NULL,
   `VOUC_TAX_INVOICE_NO` varchar(500) collate utf8_unicode_ci default NULL,
   `VOUC_INVOICE_DATE` date default NULL,
@@ -6126,7 +6126,6 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (323, 19, '委托单位', 'FConsign', 'custName', NULL),
 (324, 19, '客户业务号', 'FConsign', 'consRefNo', NULL),
 (325, 19, '承运人', 'FConsign', 'consCarrierName', NULL),
-(1881, 19, '订舱代理', 'FConsign', 'consBookingAgencyName', NULL),
 (326, 19, '船名', 'FConsign', 'vessName', NULL),
 (327, 19, '航次', 'FConsign', 'voyaName', NULL),
 (328, 19, '提单号', 'FConsign', 'consMblNo', NULL),
@@ -6486,9 +6485,6 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (1134, 33, '卸货港', 'FLoadingList', 'fconPodEn', NULL),
 (1135, 33, '货物描述', 'FLoadingList', 'fconCargoDesc', NULL),
 (1136, 33, '备注', 'FLoadingList', 'loliRemarks', NULL),
-(1878, 26, '业务号', 'FConsign', 'consNo', NULL),
-(1879, 26, '承运人', 'FConsign', 'consCarrierName', NULL),
-(1880, 26, '订舱代理', 'FConsign', 'consBookingAgencyName', NULL),
 (1166, 26, '发货人', 'FConsign', 'consShipper', NULL),
 (1167, 26, '收货人', 'FConsign', 'consConsignee', NULL),
 (1168, 26, '通知人', 'FConsign', 'consNotifyParty', NULL),
@@ -6887,6 +6883,10 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (2010, 37, '卸货港', 'FConsign', 'consPodEn', NULL),
 (2011, 37, '船公司条款', 'FConsign', 'tranCodeCarrier', NULL);
 INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(1878, 26, '业务号', 'FConsign', 'consNo', NULL),
+(1879, 26, '承运人', 'FConsign', 'consCarrierName', NULL),
+(1880, 26, '订舱代理', 'FConsign', 'consBookingAgencyName', NULL),
+(1881, 19, '订舱代理', 'FConsign', 'consBookingAgencyName', NULL),
 (2012, 37, '客户条款', 'FConsign', 'tranCode', NULL),
 (2013, 37, '注意事项', 'FConsign', 'consServiceSpec', NULL),
 (2014, 37, '备注', 'FConsign', 'consRemarks', NULL),
@@ -6899,7 +6899,14 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (2021, 26, '单票号', 'FConsign', 'consNo', NULL),
 (2022, 26, '合同号', 'FConsign', 'consContractNo', NULL),
 (2023, 34, '客户联系人', 'FConsign', 'custTel', NULL),
-(2024, 34, '客户传真', 'FConsign', 'custFax', NULL)
+(2024, 34, '客户传真', 'FConsign', 'custFax', NULL),
+(2025, 22, '承运人', 'FConsign', 'consCarrierName', NULL),
+(2026, 22, '件数', 'FConsign', 'consTotalPackages', NULL),
+(2027, 22, '包装', 'FConsign', 'packName', NULL),
+(2028, 22, '毛重', 'FConsign', 'consTotalGrossWeight', NULL),
+(2029, 22, '体积', 'FConsign', 'consTotalMeasurement', NULL),
+(2030, 22, '业务号', 'FConsign', 'consNo', NULL),
+(2031, 22, '起运日期', 'FConsign', 'consSailDate', NULL)
 ;
 
 --
