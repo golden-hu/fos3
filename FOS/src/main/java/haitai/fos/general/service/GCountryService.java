@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GCountryService implements IGeneralService<GCountry> {
+public class GCountryService {
 	@Autowired
 	private IGCountryDAO dao;
 

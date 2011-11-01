@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GPackageService implements IGeneralService<GPackage> {
+public class GPackageService {
 	@Autowired
 	private IGPackageDAO dao;
 

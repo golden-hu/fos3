@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GVoyageService implements IGeneralService<GVoyage> {
+public class GVoyageService {
 	@Autowired
 	private IGVoyageDAO dao;
 	@Autowired

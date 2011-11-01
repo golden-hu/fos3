@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GTradeTypeService implements IGeneralService<GTradeType> {
+public class GTradeTypeService {
 	@Autowired
 	private IGTradeTypeDAO dao;
 

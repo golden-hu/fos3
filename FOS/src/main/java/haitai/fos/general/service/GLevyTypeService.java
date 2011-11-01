@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GLevyTypeService implements IGeneralService<GLevyType> {
+public class GLevyTypeService {
 	@Autowired
 	private IGLevyTypeDAO dao;
 

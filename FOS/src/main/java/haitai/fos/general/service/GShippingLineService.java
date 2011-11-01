@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GShippingLineService implements IGeneralService<GShippingLine> {
+public class GShippingLineService {
 	@Autowired
 	private IGShippingLineDAO dao;
 

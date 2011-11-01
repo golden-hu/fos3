@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GChargeClassService implements IGeneralService<GChargeClass> {
+public class GChargeClassService {
 	@Autowired
 	private IGChargeClassDAO dao;
 

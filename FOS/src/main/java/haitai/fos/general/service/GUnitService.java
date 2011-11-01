@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GUnitService implements IGeneralService<GUnit> {
+public class GUnitService {
 	@Autowired
 	private IGUnitDAO dao;
 	@Autowired

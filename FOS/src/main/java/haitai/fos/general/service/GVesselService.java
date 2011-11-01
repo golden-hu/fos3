@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GVesselService implements IGeneralService<GVessel> {
+public class GVesselService {
 	@Autowired
 	private IGVesselDAO dao;
 	@Autowired

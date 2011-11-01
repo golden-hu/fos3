@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GPlaceService implements IGeneralService<GPlace> {
+public class GPlaceService {
 	@Autowired
 	private IGPlaceDAO dao;
 

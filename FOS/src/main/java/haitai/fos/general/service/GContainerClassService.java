@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GContainerClassService implements IGeneralService<GContainerClass> {
+public class GContainerClassService {
 	@Autowired
 	private IGContainerClassDAO dao;
 

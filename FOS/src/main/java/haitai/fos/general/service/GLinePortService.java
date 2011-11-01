@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GLinePortService implements IGeneralService<GLinePort> {
+public class GLinePortService {
 	@Autowired
 	private IGLinePortDAO dao;
 

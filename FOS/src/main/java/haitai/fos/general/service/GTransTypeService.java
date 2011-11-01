@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GTransTypeService implements IGeneralService<GTransType> {
+public class GTransTypeService {
 	@Autowired
 	private IGTransTypeDAO dao;
 

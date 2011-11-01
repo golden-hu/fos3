@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GIssueTypeService implements IGeneralService<GIssueType> {
+public class GIssueTypeService {
 	@Autowired
 	private IGIssueTypeDAO dao;
 

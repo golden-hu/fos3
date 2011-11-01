@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GUsageService implements IGeneralService<GUsage> {
+public class GUsageService {
 	@Autowired
 	private IGUsageDAO dao;
 

@@ -3,7 +3,7 @@ package haitai.fos.ffse.service;
 import haitai.fos.ffse.entity.idao.ISExRateDAO;
 import haitai.fos.ffse.entity.table.SExRate;
 import haitai.fos.general.entity.table.GCurrency;
-import haitai.fos.general.service.IGeneralService;
+import haitai.fos.general.service.GCurrencyService;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
@@ -87,7 +87,7 @@ public class SExRateService {
 
 		//获取币种
 		ApplicationContext ctx = SpringContextHolder.getContext();
-		IGeneralService<GCurrency> currService = (IGeneralService<GCurrency>) ctx.getBean("GCurrencyService");
+		GCurrencyService currService = (GCurrencyService) ctx.getBean("GCurrencyService");
 		List<GCurrency> currList = currService.query(queryMap);
 
 		//其他币种和本位币排列组合, -1是因为要去掉本位币(人民币)
