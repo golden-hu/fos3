@@ -60,7 +60,7 @@ public class DaoAspect {
 
 	@SuppressWarnings("unchecked")
 	@Around(value = "saveByRowAction(entityList)")
-	public void aroundSaveByRowAction(ProceedingJoinPoint jp, List<BaseDomain> entityList) throws Throwable {
+	public Object aroundSaveByRowAction(ProceedingJoinPoint jp, List<BaseDomain> entityList) throws Throwable {
 		Map<BaseDomain, String> idMap = new HashMap<BaseDomain, String>();
 		for (BaseDomain entity : entityList) {
 			String rowAction = entity.getRowAction();
@@ -76,6 +76,7 @@ public class DaoAspect {
 			entity.setRowAction(ConstUtil.ROW_O);
 			entity.setId(idMap.get(entity));
 		}
+		return retList;
 	}
 
 	@SuppressWarnings("unused")
