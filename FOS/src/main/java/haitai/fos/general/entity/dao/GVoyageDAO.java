@@ -1,28 +1,25 @@
 package haitai.fos.general.entity.dao;
 
+import haitai.fos.general.entity.idao.IGVoyageDAO;
+import haitai.fos.general.entity.table.GVoyage;
+import haitai.fw.entity.GenericDAO;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import haitai.fos.general.entity.idao.IGVoyageDAO;
-import haitai.fos.general.entity.table.GVoyage;
-import haitai.fw.entity.GenericDAO;
-
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.stereotype.Component;
-
 @Component
-public class GVoyageDAO extends GenericDAO<GVoyage, Integer> implements
-		IGVoyageDAO {
+public class GVoyageDAO extends GenericDAO<GVoyage, Integer> implements IGVoyageDAO {
 
 	public GVoyageDAO() {
 		super(GVoyage.class);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public void updateVessName(final Integer vessId, final String vessName,
-			final String vessNameCn) {
-		StringBuffer sb = new StringBuffer();
+	public void updateVessName(final Integer vessId, final String vessName, final String vessNameCn) {
+		StringBuilder sb = new StringBuilder();
 		sb.append("update GVoyage t1 set t1.vessName = ?, t1.vessNameCn = ?, t1.version = t1.version + 1 ");
 		sb.append("where t1.vessId = ? and t1.removed = 0");
 		final String queryString = sb.toString();

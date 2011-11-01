@@ -4,19 +4,18 @@ import haitai.fos.ws.entity.idao.IWInquiryDAO;
 import haitai.fos.ws.entity.table.WInquiry;
 import haitai.fos.ws.entity.table.WUser;
 import haitai.fw.entity.FosQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 @Service
 public class WInquiryService {
-	private IWInquiryDAO dao = null;
-	
+	@Autowired
+	private IWInquiryDAO dao;
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -38,14 +37,5 @@ public class WInquiryService {
 			}
 		}
 		return retList;
-	}
-
-	public IWInquiryDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IWInquiryDAO dao) {
-		this.dao = dao;
 	}
 }

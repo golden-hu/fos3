@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GVehicleTypeDAO extends GenericDAO<GVehicleType, Integer>
-		implements IGVehicleTypeDAO {
+public class GVehicleTypeDAO extends GenericDAO<GVehicleType, Integer> implements IGVehicleTypeDAO {
 
 	public GVehicleTypeDAO() {
 		super(GVehicleType.class);

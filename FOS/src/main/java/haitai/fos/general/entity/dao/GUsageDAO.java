@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GUsageDAO extends GenericDAO<GUsage, Integer> implements
-		IGUsageDAO {
+public class GUsageDAO extends GenericDAO<GUsage, Integer> implements IGUsageDAO {
 
 	public GUsageDAO() {
 		super(GUsage.class);

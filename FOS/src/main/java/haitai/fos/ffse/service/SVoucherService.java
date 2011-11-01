@@ -2,18 +2,8 @@ package haitai.fos.ffse.service;
 
 import haitai.fos.ffop.entity.idao.IFConsignDAO;
 import haitai.fos.ffop.entity.table.FConsign;
-import haitai.fos.ffse.entity.idao.ISBalanceDAO;
-import haitai.fos.ffse.entity.idao.ISExpenseDAO;
-import haitai.fos.ffse.entity.idao.ISInvoiceDAO;
-import haitai.fos.ffse.entity.idao.ISInvoiceItemDAO;
-import haitai.fos.ffse.entity.idao.ISVoucherDAO;
-import haitai.fos.ffse.entity.idao.ISVoucherItemDAO;
-import haitai.fos.ffse.entity.table.SBalance;
-import haitai.fos.ffse.entity.table.SExpense;
-import haitai.fos.ffse.entity.table.SInvoice;
-import haitai.fos.ffse.entity.table.SInvoiceItem;
-import haitai.fos.ffse.entity.table.SVoucher;
-import haitai.fos.ffse.entity.table.SVoucherItem;
+import haitai.fos.ffse.entity.idao.*;
+import haitai.fos.ffse.entity.table.*;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
@@ -23,30 +13,28 @@ import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.TimeUtil;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Service
 public class SVoucherService {
-
-	private ISVoucherDAO dao = null;
-	private ISVoucherItemDAO itemDao = null;
-	private ISInvoiceDAO invoiceDao = null;
-	private ISInvoiceItemDAO invoiceItemDao = null;
-	private ISExpenseDAO expenseDao = null;
-	private IFConsignDAO consignDao = null;
-	private ISBalanceDAO balanceDao = null;
+	@Autowired
+	private ISVoucherDAO dao;
+	@Autowired
+	private ISVoucherItemDAO itemDao;
+	@Autowired
+	private ISInvoiceDAO invoiceDao;
+	@Autowired
+	private ISInvoiceItemDAO invoiceItemDao;
+	@Autowired
+	private ISExpenseDAO expenseDao;
+	@Autowired
+	private IFConsignDAO consignDao;
+	@Autowired
+	private ISBalanceDAO balanceDao;
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -59,12 +47,10 @@ public class SVoucherService {
 		Set<Integer> expenseSet = new HashSet<Integer>();
 		Set<Integer> consignSet = new HashSet<Integer>();
 		// handle parent first
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof SVoucher) {
 				SVoucher entity = (SVoucher) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setVoucId(null);
 					Map<String, String> paramMap = new HashMap<String, String>();
 					paramMap.put(SerialFactory.RULE_RP, entity.getVoucType());
@@ -72,11 +58,9 @@ public class SVoucherService {
 					entity.setVoucNo(no);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					SVoucher delEntity = dao.findById(entity.getVoucId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
@@ -94,8 +78,7 @@ public class SVoucherService {
 //					//删除核销单, 要恢复发票和费用的状态
 //					cancelVoucher(entity.getVoucId());
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 				}
 				parentId = entity.getVoucId();
 				voucNo = entity.getVoucNo();
@@ -104,29 +87,23 @@ public class SVoucherService {
 		}
 
 		// handle child
-		for (Iterator iter = entityList.iterator(); iter.hasNext();) {
-			Object obj = (Object) iter.next();
+		for (Object obj : entityList) {
 			if (obj instanceof SVoucherItem) {
 				SVoucherItem entity = (SVoucherItem) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity
-						.getRowAction())) {
+				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 					entity.setVoitId(null);
 					entity.setVoucId(parentId);
 					entity.setVoucNo(voucNo);
 					itemDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 					retList.add(itemDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-						.getRowAction())) {
-					SVoucherItem delEntity = itemDao.findById(entity
-							.getVoitId());
+				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+					SVoucherItem delEntity = itemDao.findById(entity.getVoitId());
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					itemDao.update(delEntity);
 				} else {
-					throw new BusinessException(
-							MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 				}
 				//需要更新的发票明细
 				invoiceItemSet.add(entity.getInitId());
@@ -157,7 +134,7 @@ public class SVoucherService {
 			syncConsign(consign);
 			consignDao.update(consign);
 		}
-		if(parentId != null) {
+		if (parentId != null) {
 			SVoucher voucher = dao.findById(parentId);
 			sumBalance(voucher);
 		}
@@ -170,12 +147,11 @@ public class SVoucherService {
 		queryMap.put("currCode", voucher.getCurrCode());
 		List<SBalance> list = balanceDao.findByProperties(queryMap);
 		List<FosQuery> conditions = new ArrayList<FosQuery>();
-		FosQuery fq = new FosQuery("voucStatus",
-				ConstUtil.SQL_OP_NOT_EQUAL, String
-						.valueOf(ConstUtil.INVOICE_STATUS_CANCELLED));
+		FosQuery fq = new FosQuery("voucStatus", ConstUtil.SQL_OP_NOT_EQUAL,
+				String.valueOf(ConstUtil.INVOICE_STATUS_CANCELLED));
 		conditions.add(fq);
 		Double fixAmount = dao.getBalance(conditions, queryMap);
-		if(list.size() == 1) {
+		if (list.size() == 1) {
 			SBalance balance = list.get(0);
 			balance.setBalaAmount(fixAmount);
 			balanceDao.update(balance);
@@ -192,9 +168,10 @@ public class SVoucherService {
 
 	/**
 	 * 计算核销状态
-	 * @param amount
-	 * @param amountWriteOff
-	 * @return
+	 *
+	 * @param amount		 the amount
+	 * @param amountWriteOff the write off amount
+	 * @return the status
 	 */
 	private Short caclWriteOffStatus(Double amount, Double amountWriteOff) {
 		Short status;
@@ -210,7 +187,8 @@ public class SVoucherService {
 
 	/**
 	 * 核销, 需要更新费用的核销金额, 核销状态
-	 * @param expense
+	 *
+	 * @param expense the expense
 	 */
 	@Transactional
 	private void syncExpense(SExpense expense) {
@@ -218,54 +196,50 @@ public class SVoucherService {
 		queryMap.put("expeId", expense.getExpeId());
 		queryMap.put("voitCancelFlag", ConstUtil.FalseShort);
 		List<SVoucherItem> list = itemDao.findByProperties(queryMap);
-		Double writeOffAmount = new Double(0);
-		Double writeOffRcAmount = new Double(0);
+		Double writeOffAmount = (double) 0;
+		Double writeOffRcAmount = (double) 0;
 		for (SVoucherItem item : list) {
 			if (item.getVoitAmountOriW() != null) {
 				writeOffAmount += item.getVoitAmountOriW();
 			}
-			if (item.getVoitAmountW() != null && item.getInitExRate() != null){
+			if (item.getVoitAmountW() != null && item.getInitExRate() != null) {
 				writeOffRcAmount += item.getVoitAmountW() * item.getInitExRate();
 			}
 		}
 		expense.setExpeWriteOffAmount(writeOffAmount);
-		Short status = caclWriteOffStatus(expense.getExpeTotalAmount(),
-				writeOffAmount);
+		Short status = caclWriteOffStatus(expense.getExpeTotalAmount(), writeOffAmount);
 		expense.setExpeWriteoffStatus(status);
 		expense.setExpeWriteOffRcAmount(writeOffRcAmount);
 		expense.setExpeWriteOffDate(TimeUtil.getNow());
-		expense.setExpeWriteOffBy(SessionManager
-				.getStringAttr(SessionKeyType.USERNAME));
+		expense.setExpeWriteOffBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
 	}
 
 	/**
 	 * 核销, 需要更新发票的核销金额, 核销状态, 核销单号等字段
-	 * @param invoice
+	 *
+	 * @param invoice the invoice
 	 */
 	@Transactional
 	private void syncInvoice(SInvoice invoice) {
 		//更新发票的核销单号, 核销金额
-		invoice.setInvoWriteOffBy((Integer) SessionManager
-				.getAttr(SessionKeyType.UID));
+		invoice.setInvoWriteOffBy((Integer) SessionManager.getAttr(SessionKeyType.UID));
 		invoice.setInvoWriteOffDate(TimeUtil.getNow());
-		
+
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("invoId", invoice.getInvoId());
 		queryMap.put("initCancelFlag", ConstUtil.FalseShort);
 		List<SInvoiceItem> list = invoiceItemDao.findByProperties(queryMap);
 		String vouc = "";
 		String writeOffNo = "";
-		Double writeOffAmount = new Double(0);
+		Double writeOffAmount = (double) 0;
 		Set<String> voucNoSet = new HashSet<String>();
 		Set<String> writeOffNoSet = new HashSet<String>();
 		for (SInvoiceItem invoiceItem : list) {
-			if (invoiceItem.getVoucNo() != null
-					&& !voucNoSet.contains(invoiceItem.getVoucNo())) {
+			if (invoiceItem.getVoucNo() != null && !voucNoSet.contains(invoiceItem.getVoucNo())) {
 				vouc += invoiceItem.getVoucNo() + ConstUtil.COMMA;
 				voucNoSet.add(invoiceItem.getVoucNo());
 			}
-			if (invoiceItem.getInitWriteOffNo() != null
-					&& !writeOffNoSet.contains(invoiceItem.getInitWriteOffNo())) {
+			if (invoiceItem.getInitWriteOffNo() != null && !writeOffNoSet.contains(invoiceItem.getInitWriteOffNo())) {
 				writeOffNo += invoiceItem.getInitWriteOffNo() + ConstUtil.COMMA;
 				writeOffNoSet.add(invoiceItem.getInitWriteOffNo());
 			}
@@ -273,10 +247,10 @@ public class SVoucherService {
 				writeOffAmount += invoiceItem.getInitInvoiceAmountW();
 			}
 		}
-		if(vouc.endsWith(ConstUtil.COMMA)){
+		if (vouc.endsWith(ConstUtil.COMMA)) {
 			vouc = vouc.substring(0, vouc.length() - 1);
 		}
-		if(writeOffNo.endsWith(ConstUtil.COMMA)){
+		if (writeOffNo.endsWith(ConstUtil.COMMA)) {
 			writeOffNo = writeOffNo.substring(0, writeOffNo.length() - 1);
 		}
 		invoice.setVoucNo(vouc);
@@ -289,48 +263,46 @@ public class SVoucherService {
 
 	/**
 	 * 核销, 需要更新发票明细的核销号, 核销单号, 核销金额等字段
-	 * @param entity
+	 *
+	 * @param invoiceItem the invoice item
 	 */
 	@Transactional
 	private void syncInvoiceItem(SInvoiceItem invoiceItem) {
-		invoiceItem.setInitWriteOffBy((Integer) SessionManager
-				.getAttr(SessionKeyType.UID));
+		invoiceItem.setInitWriteOffBy((Integer) SessionManager.getAttr(SessionKeyType.UID));
 		invoiceItem.setInitWriteOffDate(TimeUtil.getNow());
-		
+
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("initId", invoiceItem.getInitId());
 		queryMap.put("voitCancelFlag", ConstUtil.FalseShort);
 		List<SVoucherItem> list = itemDao.findByProperties(queryMap);
 		String writeOffNo = "";
 		String voucNo = "";
-		Double amountOriW = new Double(0);
-		Double amountW = new Double(0);
+		Double amountOriW = (double) 0;
+		Double amountW = (double) 0;
 		Set<String> voucNoSet = new HashSet<String>();
 		Set<String> writeOffNoSet = new HashSet<String>();
 		for (SVoucherItem voucherItem : list) {
 			//拼多个核销号和核销单号
-			if(voucherItem.getVoitWriteOffNo() != null
-					&& !writeOffNoSet.contains(voucherItem.getVoitWriteOffNo())){
+			if (voucherItem.getVoitWriteOffNo() != null && !writeOffNoSet.contains(voucherItem.getVoitWriteOffNo())) {
 				writeOffNo += voucherItem.getVoitWriteOffNo() + ConstUtil.COMMA;
 				writeOffNoSet.add(voucherItem.getVoitWriteOffNo());
 			}
-			if(voucherItem.getVoucNo() != null
-					&& !voucNoSet.contains(voucherItem.getVoucNo())){
+			if (voucherItem.getVoucNo() != null && !voucNoSet.contains(voucherItem.getVoucNo())) {
 				voucNo += voucherItem.getVoucNo() + ConstUtil.COMMA;
 				voucNoSet.add(voucherItem.getVoucNo());
 			}
 			//累加核销金额
-			if(voucherItem.getVoitAmountOriW() != null){
+			if (voucherItem.getVoitAmountOriW() != null) {
 				amountOriW += voucherItem.getVoitAmountOriW();
 			}
-			if(voucherItem.getVoitAmountW() != null){
+			if (voucherItem.getVoitAmountW() != null) {
 				amountW += voucherItem.getVoitAmountW();
 			}
 		}
-		if(voucNo.endsWith(ConstUtil.COMMA)){
+		if (voucNo.endsWith(ConstUtil.COMMA)) {
 			voucNo = voucNo.substring(0, voucNo.length() - 1);
 		}
-		if(writeOffNo.endsWith(ConstUtil.COMMA)){
+		if (writeOffNo.endsWith(ConstUtil.COMMA)) {
 			writeOffNo = writeOffNo.substring(0, writeOffNo.length() - 1);
 		}
 		invoiceItem.setVoucNo(voucNo);
@@ -344,7 +316,8 @@ public class SVoucherService {
 
 	/**
 	 * 核销, 需要更新委托的核销状态和核销时间
-	 * @param consign
+	 *
+	 * @param consign the consign
 	 */
 	@Transactional
 	private void syncConsign(FConsign consign) {
@@ -355,18 +328,16 @@ public class SVoucherService {
 		Short statusAp = ConstUtil.EXPENSE_INVOICE_STATUS_NONE;
 		Date dateAr = null;
 		Date dateAp = null;
-		
+
 		boolean hasCheckedAr = false;
 		boolean hasNotCheckedAr = false;
 		boolean hasCheckedAp = false;
 		boolean hasNotCheckedAp = false;
 		for (SExpense expense : expenseList) {
-			if(ConstUtil.PR_TYPE_RECEIVE.equals(expense.getExpeType())){
-				if (ConstUtil.EXPENSE_INVOICE_STATUS_FULL.equals(expense
-						.getExpeWriteoffStatus())) {
+			if (ConstUtil.PR_TYPE_RECEIVE.equals(expense.getExpeType())) {
+				if (ConstUtil.EXPENSE_INVOICE_STATUS_FULL.equals(expense.getExpeWriteoffStatus())) {
 					hasCheckedAr = true;
-				} else if (ConstUtil.EXPENSE_INVOICE_STATUS_PART.equals(expense
-						.getExpeWriteoffStatus())) {
+				} else if (ConstUtil.EXPENSE_INVOICE_STATUS_PART.equals(expense.getExpeWriteoffStatus())) {
 					hasCheckedAr = true;
 					hasNotCheckedAr = true;
 					break;
@@ -376,12 +347,10 @@ public class SVoucherService {
 			}
 		}
 		for (SExpense expense : expenseList) {
-			if(ConstUtil.PR_TYPE_PAY.equals(expense.getExpeType())){
-				if (ConstUtil.EXPENSE_INVOICE_STATUS_FULL.equals(expense
-						.getExpeWriteoffStatus())) {
+			if (ConstUtil.PR_TYPE_PAY.equals(expense.getExpeType())) {
+				if (ConstUtil.EXPENSE_INVOICE_STATUS_FULL.equals(expense.getExpeWriteoffStatus())) {
 					hasCheckedAp = true;
-				} else if (ConstUtil.EXPENSE_INVOICE_STATUS_PART.equals(expense
-						.getExpeWriteoffStatus())) {
+				} else if (ConstUtil.EXPENSE_INVOICE_STATUS_PART.equals(expense.getExpeWriteoffStatus())) {
 					hasCheckedAp = true;
 					hasNotCheckedAp = true;
 					break;
@@ -393,20 +362,20 @@ public class SVoucherService {
 		//有核销 + 有未核销 = 部分核销
 		//有核销 + 无未核销 = 全部核销
 		//其他 = 未核销
-		if(hasCheckedAr && hasNotCheckedAr){
+		if (hasCheckedAr && hasNotCheckedAr) {
 			statusAr = ConstUtil.EXPENSE_INVOICE_STATUS_PART;
 			dateAr = TimeUtil.getNow();
-		}else if(hasCheckedAr && !hasNotCheckedAr){
+		} else if (hasCheckedAr && !hasNotCheckedAr) {
 			statusAr = ConstUtil.EXPENSE_INVOICE_STATUS_FULL;
 			dateAr = TimeUtil.getNow();
 		}
 		consign.setConsStatusAr(statusAr);
 		consign.setConsArWriteOffDate(dateAr);
-		
-		if(hasCheckedAp && hasNotCheckedAp){
+
+		if (hasCheckedAp && hasNotCheckedAp) {
 			statusAp = ConstUtil.EXPENSE_INVOICE_STATUS_PART;
 			dateAp = TimeUtil.getNow();
-		}else if(hasCheckedAp && !hasNotCheckedAp){
+		} else if (hasCheckedAp && !hasNotCheckedAp) {
 			statusAp = ConstUtil.EXPENSE_INVOICE_STATUS_FULL;
 			dateAp = TimeUtil.getNow();
 		}
@@ -421,9 +390,8 @@ public class SVoucherService {
 		SVoucher entity = dao.findById(id);
 		if (entity != null) {
 			entity.setVoucStatus(status);
-			if(ConstUtil.INVOICE_STATUS_CHECKED.equals(status)) {
-				entity.setVoucChecker((Integer) SessionManager
-						.getAttr(SessionKeyType.UID));
+			if (ConstUtil.INVOICE_STATUS_CHECKED.equals(status)) {
+				entity.setVoucChecker((Integer) SessionManager.getAttr(SessionKeyType.UID));
 				entity.setVoucCheckDate(TimeUtil.getNow());
 			}
 			dao.update(entity);
@@ -431,8 +399,7 @@ public class SVoucherService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<SVoucher> complexQuery(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
+	public List<SVoucher> complexQuery(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		return dao.complexQuery(conditions, queryMap);
 	}
 
@@ -441,7 +408,7 @@ public class SVoucherService {
 	public List query(Map queryMap) {
 		List retList = new ArrayList();
 		retList.addAll(dao.findByProperties(queryMap));
-		if(queryMap.containsKey(ConstUtil.PARAM_EAGER)){
+		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
 			retList.addAll(itemDao.findByProperties(queryMap));
 		}
 		return retList;
@@ -454,7 +421,7 @@ public class SVoucherService {
 	}
 
 	@Transactional
-	public void cancelVoucher(Map<String, Object> queryMap){
+	public void cancelVoucher(Map<String, Object> queryMap) {
 		Integer voucId = Integer.valueOf((String) queryMap.get("voucId"));
 		cancelVoucher(voucId);
 	}
@@ -494,68 +461,4 @@ public class SVoucherService {
 			expenseDao.update(expense);
 		}
 	}
-	
-	public ISVoucherDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(ISVoucherDAO dao) {
-		this.dao = dao;
-	}
-
-	public ISExpenseDAO getExpenseDao() {
-		return expenseDao;
-	}
-
-	@Autowired
-	public void setExpenseDao(ISExpenseDAO expenseDao) {
-		this.expenseDao = expenseDao;
-	}
-
-	public ISInvoiceDAO getInvoiceDao() {
-		return invoiceDao;
-	}
-
-	@Autowired
-	public void setInvoiceDao(ISInvoiceDAO invoiceDao) {
-		this.invoiceDao = invoiceDao;
-	}
-
-	public ISVoucherItemDAO getItemDao() {
-		return itemDao;
-	}
-
-	@Autowired
-	public void setItemDao(ISVoucherItemDAO itemDao) {
-		this.itemDao = itemDao;
-	}
-
-	public ISInvoiceItemDAO getInvoiceItemDao() {
-		return invoiceItemDao;
-	}
-
-	@Autowired
-	public void setInvoiceItemDao(ISInvoiceItemDAO invoiceItemDao) {
-		this.invoiceItemDao = invoiceItemDao;
-	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-
-	public ISBalanceDAO getBalanceDao() {
-		return balanceDao;
-	}
-
-	@Autowired
-	public void setBalanceDao(ISBalanceDAO balanceDao) {
-		this.balanceDao = balanceDao;
-	}
-
 }

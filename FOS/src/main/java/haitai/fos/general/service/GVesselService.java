@@ -11,24 +11,30 @@ import haitai.fos.sys.entity.idao.ICPriceSheetDAO;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ObjectUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 @Service
 public class GVesselService implements IGeneralService<GVessel> {
-	private IGVesselDAO dao = null;
-	private IGVoyageDAO voyageDao = null;
-	private IFPackingListDAO packingListDao = null;
-	private IFLoadingListDAO loadingListDao = null;
-	private IFConsignDAO consignDao = null;
-	private ICPriceSheetDAO priceSheetDao = null;
-	private FContractService contractService = null;
+	@Autowired
+	private IGVesselDAO dao;
+	@Autowired
+	private IGVoyageDAO voyageDao;
+	@Autowired
+	private IFPackingListDAO packingListDao;
+	@Autowired
+	private IFLoadingListDAO loadingListDao;
+	@Autowired
+	private IFConsignDAO consignDao;
+	@Autowired
+	private ICPriceSheetDAO priceSheetDao;
+	@Autowired
+	private FContractService contractService;
 
 	@Transactional
 	public List<GVessel> save(List<GVessel> itemList) {
@@ -73,72 +79,7 @@ public class GVesselService implements IGeneralService<GVessel> {
 	}
 
 	@Transactional(readOnly = true)
-	public List<GVessel> complexQuery(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
+	public List<GVessel> complexQuery(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		return dao.complexQuery(conditions, queryMap);
 	}
-
-	public IGVesselDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IGVesselDAO dao) {
-		this.dao = dao;
-	}
-
-	public IGVoyageDAO getVoyageDao() {
-		return voyageDao;
-	}
-
-	@Autowired
-	public void setVoyageDao(IGVoyageDAO voyageDao) {
-		this.voyageDao = voyageDao;
-	}
-
-	public IFPackingListDAO getPackingListDao() {
-		return packingListDao;
-	}
-
-	@Autowired
-	public void setPackingListDao(IFPackingListDAO packingListDao) {
-		this.packingListDao = packingListDao;
-	}
-
-	public IFLoadingListDAO getLoadingListDao() {
-		return loadingListDao;
-	}
-
-	@Autowired
-	public void setLoadingListDao(IFLoadingListDAO loadingListDao) {
-		this.loadingListDao = loadingListDao;
-	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-
-	public ICPriceSheetDAO getPriceSheetDao() {
-		return priceSheetDao;
-	}
-
-	@Autowired
-	public void setPriceSheetDao(ICPriceSheetDAO priceSheetDao) {
-		this.priceSheetDao = priceSheetDao;
-	}
-
-	public FContractService getContractService() {
-		return contractService;
-	}
-
-	@Autowired
-	public void setContractService(FContractService contractService) {
-		this.contractService = contractService;
-	}
-	
 }

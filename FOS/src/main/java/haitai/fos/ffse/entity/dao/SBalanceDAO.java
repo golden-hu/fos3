@@ -6,9 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SBalanceDAO extends GenericDAO<SBalance, Integer> implements
-		ISBalanceDAO {
-
+public class SBalanceDAO extends GenericDAO<SBalance, Integer> implements ISBalanceDAO {
 	public SBalanceDAO() {
 		super(SBalance.class);
 	}

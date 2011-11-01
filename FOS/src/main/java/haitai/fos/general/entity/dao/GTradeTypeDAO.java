@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GTradeTypeDAO extends GenericDAO<GTradeType, Integer> implements
-		IGTradeTypeDAO {
+public class GTradeTypeDAO extends GenericDAO<GTradeType, Integer> implements IGTradeTypeDAO {
 
 	public GTradeTypeDAO() {
 		super(GTradeType.class);

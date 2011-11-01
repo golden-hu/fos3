@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GIssueTypeDAO extends GenericDAO<GIssueType, Integer> implements
-		IGIssueTypeDAO {
+public class GIssueTypeDAO extends GenericDAO<GIssueType, Integer> implements IGIssueTypeDAO {
 
 	public GIssueTypeDAO() {
 		super(GIssueType.class);

@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PRoleFunctionDAO extends GenericDAO<PRoleFunction, Integer>
-		implements IPRoleFunctionDAO {
+public class PRoleFunctionDAO extends GenericDAO<PRoleFunction, Integer> implements IPRoleFunctionDAO {
 
 	public PRoleFunctionDAO() {
 		super(PRoleFunction.class);

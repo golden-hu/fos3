@@ -11,25 +11,31 @@ import haitai.fos.sys.entity.idao.ICPriceSheetDAO;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ObjectUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 @Service
 public class GVoyageService implements IGeneralService<GVoyage> {
-	private IGVoyageDAO dao = null;
-	private IFPackingListDAO packingListDao = null;
-	private IFLoadingListDAO loadingListDao = null;
-	private IFConsignDAO consignDao = null;
-	private ICPriceSheetDAO priceSheetDao = null;
-	private IFContractDAO contractDao = null;
-	private FContractService contractService = null;
+	@Autowired
+	private IGVoyageDAO dao;
+	@Autowired
+	private IFPackingListDAO packingListDao;
+	@Autowired
+	private IFLoadingListDAO loadingListDao;
+	@Autowired
+	private IFConsignDAO consignDao;
+	@Autowired
+	private ICPriceSheetDAO priceSheetDao;
+	@Autowired
+	private IFContractDAO contractDao;
+	@Autowired
+	private FContractService contractService;
 
 	@Transactional
 	public List<GVoyage> save(List<GVoyage> itemList) {
@@ -77,8 +83,7 @@ public class GVoyageService implements IGeneralService<GVoyage> {
 				if (ObjectUtil.isNotEqual(voyaSailedFlag, newVoyaSailedFlag)) {
 					packingListDao.updateSailedFlag(voyaId, newEntity.getVoyaSailedFlag());
 				}
-				if (ConstUtil.FalseShort.equals(voyaSailedFlag)
-						&& ConstUtil.TrueShort.equals(newVoyaSailedFlag)) {
+				if (ConstUtil.FalseShort.equals(voyaSailedFlag) && ConstUtil.TrueShort.equals(newVoyaSailedFlag)) {
 					contractDao.updateSailedFlag(voyaId, ConstUtil.TrueShort);
 				}
 				if (ObjectUtil.isNotEqual(voyaId, newVessId)) {
@@ -103,71 +108,7 @@ public class GVoyageService implements IGeneralService<GVoyage> {
 		return dao.findByProperties(queryMap);
 	}
 
-	public IGVoyageDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IGVoyageDAO dao) {
-		this.dao = dao;
-	}
-
 	public List<GVoyage> complexQuery(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		return dao.complexQuery(conditions, queryMap);
 	}
-
-	public IFPackingListDAO getPackingListDao() {
-		return packingListDao;
-	}
-
-	@Autowired
-	public void setPackingListDao(IFPackingListDAO packingListDao) {
-		this.packingListDao = packingListDao;
-	}
-
-	public IFLoadingListDAO getLoadingListDao() {
-		return loadingListDao;
-	}
-
-	@Autowired
-	public void setLoadingListDao(IFLoadingListDAO loadingListDao) {
-		this.loadingListDao = loadingListDao;
-	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-
-	public ICPriceSheetDAO getPriceSheetDao() {
-		return priceSheetDao;
-	}
-
-	@Autowired
-	public void setPriceSheetDao(ICPriceSheetDAO priceSheetDao) {
-		this.priceSheetDao = priceSheetDao;
-	}
-
-	public IFContractDAO getContractDao() {
-		return contractDao;
-	}
-
-	@Autowired
-	public void setContractDao(IFContractDAO contractDao) {
-		this.contractDao = contractDao;
-	}
-
-	public FContractService getContractService() {
-		return contractService;
-	}
-
-	@Autowired
-	public void setContractService(FContractService contractService) {
-		this.contractService = contractService;
-	}
-
 }

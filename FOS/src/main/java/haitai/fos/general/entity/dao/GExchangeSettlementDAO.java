@@ -7,9 +7,8 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GExchangeSettlementDAO extends
-		GenericDAO<GExchangeSettlement, Integer> implements
-		IGExchangeSettlementDAO {
+public class GExchangeSettlementDAO extends GenericDAO<GExchangeSettlement, Integer>
+		implements IGExchangeSettlementDAO {
 
 	public GExchangeSettlementDAO() {
 		super(GExchangeSettlement.class);

@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WBlMDAO extends GenericDAO<WBlM, Integer> implements
-		IWBlMDAO {
+public class WBlMDAO extends GenericDAO<WBlM, Integer> implements IWBlMDAO {
 
 	public WBlMDAO() {
 		super(WBlM.class);

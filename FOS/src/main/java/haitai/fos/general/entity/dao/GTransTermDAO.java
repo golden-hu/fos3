@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GTransTermDAO extends GenericDAO<GTransTerm, Integer> implements
-		IGTransTermDAO {
+public class GTransTermDAO extends GenericDAO<GTransTerm, Integer> implements IGTransTermDAO {
 
 	public GTransTermDAO() {
 		super(GTransTerm.class);

@@ -28,8 +28,8 @@ public class FBlService {
 	@Transactional
 	public List<FBl> save(List<FBl> consignList) {
 		List<FBl> retList = new ArrayList<FBl>();
-		Set<Integer> blIdSet = new HashSet<Integer>(); 
-		Set<Integer> consIdSet = new HashSet<Integer>(); 
+		Set<Integer> blIdSet = new HashSet<Integer>();
+		Set<Integer> consIdSet = new HashSet<Integer>();
 		Set<Integer> masterIdSet = new HashSet<Integer>();
 		Set<Integer> fconIdSet = new HashSet<Integer>();
 		for (FBl entity : consignList) {
@@ -46,17 +46,17 @@ public class FBlService {
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 				entity = delEntity;
-			} else{
+			} else {
 				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 			}
-			if(entity.getBlMBlId() != null){
+			if (entity.getBlMBlId() != null) {
 				blIdSet.add(entity.getBlMBlId());
 			}
 			consIdSet.add(entity.getConsId());
-			if(entity.getConsMasterId() != null){
+			if (entity.getConsMasterId() != null) {
 				masterIdSet.add(entity.getConsMasterId());
 			}
-			if(entity.getFconId() != null){
+			if (entity.getFconId() != null) {
 				fconIdSet.add(entity.getFconId());
 			}
 		}
@@ -72,10 +72,11 @@ public class FBlService {
 	public List<FBl> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
-	
+
 	/**
 	 * 撤销拆单
-	 * @param queryMap
+	 *
+	 * @param queryMap the query map
 	 */
 	@Transactional
 	public void cancelSplit(Map<String, Object> queryMap) {
@@ -102,7 +103,8 @@ public class FBlService {
 
 	/**
 	 * 撤销并单
-	 * @param queryMap
+	 *
+	 * @param queryMap the query map
 	 */
 	@Transactional
 	public void cancelMerge(Map<String, Object> queryMap) {
@@ -124,11 +126,12 @@ public class FBlService {
 			dao.update(bl);
 		}
 	}
-	
+
 	/**
 	 * 并单
-	 * @param entityList
-	 * @return
+	 *
+	 * @param entityList the entity list
+	 * @return the return list
 	 */
 	@Transactional
 	public List<FBl> merge(List<FBl> entityList) {
@@ -194,9 +197,10 @@ public class FBlService {
 
 	/**
 	 * 把主提单上的统计信息累加到合同上
-	 * @param fconIdSet
+	 *
+	 * @param fconIdSet theid set
 	 */
-	private void syncContract(Set<Integer> fconIdSet){
+	private void syncContract(Set<Integer> fconIdSet) {
 		for (Integer fconId : fconIdSet) {
 			FContract contract = contractDao.findById(fconId);
 			Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -228,10 +232,11 @@ public class FBlService {
 			contractDao.update(contract);
 		}
 	}
-	
+
 	/**
 	 * 把分委托上的主提单的统计信息, 累加到主委托上
-	 * @param consIdSet
+	 *
+	 * @param consIdSet the id set
 	 */
 	private void syncMasterConsign(Set<Integer> consIdSet) {
 		for (Integer consId : consIdSet) {
@@ -265,10 +270,11 @@ public class FBlService {
 			consignDao.update(master);
 		}
 	}
-	
+
 	/**
 	 * 把主提单上的统计信息累加到委托上
-	 * @param consIdSet
+	 *
+	 * @param consIdSet the id set
 	 */
 	private void syncConsign(Set<Integer> consIdSet) {
 		for (Integer consId : consIdSet) {
@@ -302,16 +308,17 @@ public class FBlService {
 			consignDao.update(consign);
 		}
 	}
-	
+
 	/**
 	 * 把分提单上的统计信息累加到主提单上
-	 * @param blIdSet
+	 *
+	 * @param blIdSet the id set
 	 */
 	private void syncMasterBl(Set<Integer> blIdSet) {
 		for (Integer blId : blIdSet) {
 			FBl master = dao.findById(blId);
 			//已经删除的主单,跳过统计
-			if(ConstUtil.TrueShort.equals(master.getRemoved())) continue;
+			if (ConstUtil.TrueShort.equals(master.getRemoved())) continue;
 			Map<String, Object> queryMap = new HashMap<String, Object>();
 			queryMap.put("blMBlId", blId);
 			queryMap.put("blMasterFlag", ConstUtil.FalseShort);
@@ -343,12 +350,12 @@ public class FBlService {
 	}
 
 	@Transactional
-	public void updateStatusById(Map<String, Object> queryMap){
+	public void updateStatusById(Map<String, Object> queryMap) {
 		String ids = (String) queryMap.get("blId");
 		String[] idArray = ids.split(",");
 		Short blStatus = Short.valueOf((String) queryMap.get("blStatus"));
 		for (String id : idArray) {
-			if(StringUtil.isNotBlank(id)){
+			if (StringUtil.isNotBlank(id)) {
 				dao.updateStatusById(Integer.valueOf(id), blStatus);
 			}
 		}
@@ -356,10 +363,10 @@ public class FBlService {
 
 	private void checkBlNoDuplicated(FBl entity) {
 		//散货不检查提单号的唯一性
-		if(ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())){
+		if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())) {
 			return;
 		}
-		if(StringUtil.isBlank(entity.getBlNo())){
+		if (StringUtil.isBlank(entity.getBlNo())) {
 			return;
 		}
 		Map<String, Object> queryMap = new HashMap<String, Object>();

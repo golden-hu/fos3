@@ -4,18 +4,18 @@ import haitai.fos.general.entity.idao.IGCountryDAO;
 import haitai.fos.general.entity.table.GCountry;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.util.ConstUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 @Service
 public class GCountryService implements IGeneralService<GCountry> {
-	private IGCountryDAO dao = null;
+	@Autowired
+	private IGCountryDAO dao;
 
 	@Transactional
 	public List<GCountry> save(List<GCountry> itemList) {
@@ -40,18 +40,7 @@ public class GCountryService implements IGeneralService<GCountry> {
 		return dao.findByProperties(queryMap);
 	}
 
-	public IGCountryDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IGCountryDAO dao) {
-		this.dao = dao;
-	}
-
-	public List<GCountry> complexQuery(List<FosQuery> conditions,
-			Map<String, Object> queryMap) {
-		// TODO Auto-generated method stub
+	public List<GCountry> complexQuery(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		return null;
 	}
 }

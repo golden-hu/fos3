@@ -9,6 +9,8 @@ import java.util.Map;
 public interface IFCargoDAO {
 	public void save(FCargo entity);
 
+	public List<FCargo> saveByRowAction(List<FCargo> entityList);
+
 	public void delete(Integer id);
 
 	public FCargo update(FCargo entity);
@@ -17,6 +19,5 @@ public interface IFCargoDAO {
 
 	public List<FCargo> findByProperties(final Map<String, Object> propertyMap);
 
-	public abstract List<FCargo> complexQuery(final List<FosQuery> conditions, 
-			final Map<String, Object> propertyMap);
+	public abstract List<FCargo> complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap);
 }
