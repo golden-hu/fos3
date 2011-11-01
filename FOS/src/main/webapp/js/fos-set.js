@@ -23,7 +23,7 @@
 				var b =this.getSelectionModel().getSelected();
             	b.set('custId',r.get('custId'));
             	b.set('custName',r.get('custNameCn'));
-            	b.set('custSame',r.get('custCode'));
+            	b.set('custSname',r.get('custCode'));
             	},
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
     var t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',

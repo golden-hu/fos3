@@ -1,7 +1,9 @@
 package haitai.fw.util;
 
+import haitai.fos.general.entity.idao.IGContainerTypeDAO;
 import haitai.fos.general.entity.idao.IGPaymentTermDAO;
 import haitai.fos.general.entity.idao.IGTransTermDAO;
+import haitai.fos.general.entity.table.GContainerType;
 import haitai.fos.general.entity.table.GPaymentTerm;
 import haitai.fos.general.entity.table.GTransTerm;
 import haitai.fos.sys.entity.idao.IPUserDAO;
@@ -21,6 +23,8 @@ public class MappingConverterUtil {
 	private IGTransTermDAO transTermDao;
 	@Autowired
 	private IGPaymentTermDAO paymentTermDao;
+	@Autowired
+	private IGContainerTypeDAO cotyDao;
 	@Autowired
 	private IPUserDAO userDao;
 	
@@ -83,6 +87,42 @@ public class MappingConverterUtil {
 		Integer id = Integer.parseInt(strId);
 		GTransTerm entity = transTermDao.findById(id);
 		return entity.getTranCode();
+	}
+	
+	public String getCotyCode(String strId){
+		if(StringUtil.isBlank(strId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(strId);
+		GContainerType entity = cotyDao.findById(id);
+		return entity.getCotyCode();
+	}
+	
+	public String getCotyLength(String strId){
+		if(StringUtil.isBlank(strId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(strId);
+		GContainerType entity = cotyDao.findById(id);
+		return entity.getCotyLength();
+	}
+	
+	public String getCoclCode(String strId){
+		if(StringUtil.isBlank(strId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(strId);
+		GContainerType entity = cotyDao.findById(id);
+		return entity.getCoclCode();
+	}
+	
+	public String getCotyIsoCode(String strId){
+		if(StringUtil.isBlank(strId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(strId);
+		GContainerType entity = cotyDao.findById(id);
+		return entity.getCotyIsoCode();
 	}
 	
 	public String getPateName(String strId){

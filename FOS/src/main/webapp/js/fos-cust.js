@@ -1389,7 +1389,7 @@ Fos.InvoLookupWin = function(t) {
 	             	items:[
 	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
 	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t='R'?'custArFlag':'custApFlag');},buffer:500}}},
+	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
 	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
         			{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'90%'},
         			{fieldLabel:C_BL_NO,name:'consMblNo',xtype:'textfield',anchor:'90%'},
@@ -1446,7 +1446,7 @@ Fos.PrLookupWin = function(t) {
 	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
 	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
 	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
-						keydown:{fn:function(f,e){LC(f,e,t='R'?'custArFlag':'custApFlag');},buffer:500}}},
+						keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
 	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	             	{fieldLabel:C_SEWA,tabIndex:3,name:'prPaymentType',store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	             	{fieldLabel:C_STATUS,tabIndex:3,name:'prStatus',store:t=='R'?ERST_S:PRST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}]},
@@ -1493,7 +1493,7 @@ Fos.VoucLookupWin = function(t) {
 	             	items:[
 	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
 	             		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-	             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t='R'?'custArFlag':'custApFlag');},buffer:500}}},
+	             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
 	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	             	{fieldLabel:C_SEWA,tabIndex:7,name:'voucPaymentType',store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
 	             	{fieldLabel:C_CHECK_NO,tabIndex:10,name:'voucCheckNo',xtype:'textfield',format:DATEF,anchor:'90%'},
@@ -1624,7 +1624,7 @@ Fos.ExSearchWin = function(c,t) {
     this.store.load({params:{custId:c,expeType:t,expeBillStatus:'0'}});
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_SETTLE_OBJECT,width:100,dataIndex:"custSname"},
+		{header:C_SETTLE_OBJECT,width:100,dataIndex:"custName"},
 		{header:C_CONS_NO,width:80,dataIndex:"consNo"},
 		{header:C_MBL_NO,width:80,dataIndex:"consMblNo"},
 		{header:C_HBL_NO,width:80,dataIndex:"consHblNo"},
@@ -1701,7 +1701,7 @@ Fos.ExSearchWin = function(c,t) {
 				items:[{columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[
 	            	{fieldLabel:C_BOOKER,tabIndex:1,name:'consCustId',store:getCS(),enableKeyEvents:true,
 	            	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead: true,mode: 'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
-	            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t='R'?'custArFlag':'custApFlag');},buffer:500}}},
+	            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
      				{fieldLabel:C_CHAR,tabIndex:5,name:'charId',store:getCHAR_S(),xtype:'combo',displayField:'charName',valueField:'charId',typeAhead: true,tpl:charTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
      				{fieldLabel:C_VESS,tabIndex:9,name:'vessId',store:getVES(),enableKeyEvents:true,
      					xtype:'combo',displayField:'vessNameEn',valueField:'vessId',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
@@ -1712,7 +1712,7 @@ Fos.ExSearchWin = function(c,t) {
 	        	{columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[
 	            	{fieldLabel:C_SETTLE_OBJECT,tabIndex:2,name:'custId',store:getCS(),enableKeyEvents:true,
 	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t='R'?'custArFlag':'custApFlag');},buffer:500}}},
+	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
 					{fieldLabel:C_BIZ_TYPE,tabIndex:7,name:'consBizType',store:BT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	            	{fieldLabel:C_VOYA,tabIndex:10,name:'consVoyage',xtype:'textfield',anchor:'90%'},	            	
                 	{fieldLabel:C_TO,tabIndex:18,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},

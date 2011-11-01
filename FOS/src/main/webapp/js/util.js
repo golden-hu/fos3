@@ -821,7 +821,7 @@ Ext.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
 Ext.reg('fileuploadfield', Ext.form.FileUploadField);
 
 function getContMap(k){
-	if(k='A') return 10;
+	if(k=='A') return 10;
 	else if(k=='B') return 12;
 	else if(k=='C') return 13;
 	else if(k=='D') return 14;
@@ -872,7 +872,7 @@ function checkContainerNo(n){
     var s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
     var r=s%11;
     
-    if(r!=a[0]) return false;
+    if(r!=a[10]) return false;
     return true;
 };
 function round2(v){return (Math.round(v*100)/100);};

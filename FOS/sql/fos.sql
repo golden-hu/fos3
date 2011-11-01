@@ -6348,9 +6348,9 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (784, 8, '航次', 'FContainer', 'contVoyage', NULL),
 (785, 8, '箱号', 'FContainer', 'contNo', NULL),
 (786, 8, '封号', 'FContainer', 'contSealNo', NULL),
-(787, 8, '箱型', 'FContainer', 'cotyId', NULL),
-(788, 8, '箱类', 'FContainer', 'cotyId', NULL),
-(789, 8, 'ISO', 'FContainer', 'cotyId', NULL),
+(787, 8, '箱型', 'FContainer', 'cotyId', 'getCotyLength'),
+(788, 8, '箱类', 'FContainer', 'cotyId', 'getCoclCode'),
+(789, 8, 'ISO', 'FContainer', 'cotyId', 'getCotyCode'),
 (790, 8, '装港', 'FContainer', 'contPol', NULL),
 (791, 8, '卸港', 'FContainer', 'contPod', NULL),
 (792, 8, '交货地', 'FContainer', 'contDeliveryPlace', NULL),
@@ -6906,7 +6906,16 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (2028, 22, '毛重', 'FConsign', 'consTotalGrossWeight', NULL),
 (2029, 22, '体积', 'FConsign', 'consTotalMeasurement', NULL),
 (2030, 22, '业务号', 'FConsign', 'consNo', NULL),
-(2031, 22, '起运日期', 'FConsign', 'consSailDate', NULL)
+(2031, 22, '起运日期', 'FConsign', 'consSailDate', NULL),
+(2032, 18, '装货港', 'FConsign', 'consPolEn', NULL),
+(2033, 18, '卸货港', 'FConsign', 'consPodEn', NULL),
+(2034, 18, '业务号', 'FConsign', 'consNo', NULL),
+(2035, 26, '车队', 'FConsign', 'consTrackVendorName', NULL),
+(2036, 26, '报关行', 'FConsign', 'consCustomVendorName', NULL),
+(2037, 26, '港区', 'FConsign', 'consHarbour', NULL),
+(2038, 26, '截关日期', 'FConsign', 'consExpiryDate', NULL),
+(2039, 26, '装箱日期', 'FConsign', 'consContainerLoadDate', NULL),
+(2040, 26, '客户', 'FConsign', 'custName', NULL)
 ;
 
 --
