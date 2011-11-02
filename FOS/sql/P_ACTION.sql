@@ -140,6 +140,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('SACO_S', 'CSalesCommissionService', 'save', '业务员提成方案设置保存'),
 ('SACO_R', 'CSalesCommissionService', 'calculate', '业务员提成统计'),
 ('SACO_D_R', 'CSalesCommissionService', 'querySalesCommissionDetail', '业务员提成明细查询'),
+('CUSH_Q', 'CCustomerShipperService', 'query', '查询客户发货人'),
+('CUSH_S', 'CCustomerShipperService', 'save', '保存客户发货人'),
 
 ('CONS_S', 'FConsignService', 'save', '委托保存'),
 ('CONS_Q', 'FConsignService', 'query', '委托查询'),
@@ -217,6 +219,10 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('TRLI_Q', 'FTransListService', 'query', '发货转运清单查询'),
 ('TASK_S', 'FTaskService', 'save', '任务保存'),
 ('TASK_Q', 'FTaskService', 'query', '任务查询'),
+('ATTACH_D', 'FAttachService', 'downAttach', '下载文档'),
+('ATTACH_U', 'FAttachService', 'uploadAttach', '上传文档'),
+('ATTACH_Q', 'FAttachService', 'queryAttach', '查询文档'),
+('ATTACH_R', 'FAttachService', 'removeAttach', '删除文档'),
 
 ('EXPE_S', 'SExpenseService', 'save', '费用保存'),
 ('EXPE_Q', 'SExpenseService', 'query', '费用查询'),
