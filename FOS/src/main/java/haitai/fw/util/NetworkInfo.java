@@ -40,16 +40,16 @@ import java.text.ParseException;
 import java.util.StringTokenizer;
 
 public final class NetworkInfo {
-	public final static String getMacAddress() {
+	public static String getMacAddress() {
 		String os = System.getProperty("os.name");
 
 		try {
 			if (os.startsWith("Windows")) {
 				return windowsParseMacAddress(windowsRunIpConfigCommand());
 			} else if (os.startsWith("Linux")) {
-				return linuxParseMacAddress(linuxRunIfConfigCommand(),"HWaddr");
-            } else if (os.startsWith("Mac")) {
-                return linuxParseMacAddress(linuxRunIfConfigCommand(),"ether");
+				return linuxParseMacAddress(linuxRunIfConfigCommand(), "HWaddr");
+			} else if (os.startsWith("Mac")) {
+				return linuxParseMacAddress(linuxRunIfConfigCommand(), "ether");
 			} else {
 				throw new BusinessException("unknown operating system: " + os);
 			}
@@ -59,7 +59,7 @@ public final class NetworkInfo {
 		}
 	}
 
-	public final static String getIpAddress() {
+	public static String getIpAddress() {
 		String os = System.getProperty("os.name");
 
 		try {
@@ -82,9 +82,9 @@ public final class NetworkInfo {
 	/*
 	 * Linux stuff
 	 */
-	private final static String linuxParseMacAddress(String ipConfigResponse, String key)
+	private static String linuxParseMacAddress(String ipConfigResponse, String key)
 			throws ParseException {
-		String localHost = null;
+		String localHost;
 		try {
 			localHost = InetAddress.getLocalHost().getHostAddress();
 		} catch (java.net.UnknownHostException ex) {
@@ -112,13 +112,12 @@ public final class NetworkInfo {
 			String macAddressCandidate = line.substring(macAddressPosition + key.length()).trim();
 			if (linuxIsMacAddress(macAddressCandidate)) {
 				lastMacAddress = macAddressCandidate;
-				continue;
 			}
 		}
-        //for mac os x, lo isn't the last one
-        if(key.equals("ether")){
-            return lastMacAddress;
-        }
+		//for mac os x, lo isn't the last one
+		if (key.equals("ether")) {
+			return lastMacAddress;
+		}
 		ParseException ex = new ParseException("cannot read MAC address for "
 				+ localHost + " from [" + ipConfigResponse + "]", 0);
 		ex.printStackTrace();
@@ -128,9 +127,8 @@ public final class NetworkInfo {
 	/*
 	 * Linux stuff
 	 */
-	private final static String linuxParseIpAddress(String ipConfigResponse)
-			throws ParseException {
-		String localHost = null;
+	private static String linuxParseIpAddress(String ipConfigResponse) throws ParseException {
+		String localHost;
 		try {
 			localHost = InetAddress.getLocalHost().getHostAddress();
 		} catch (java.net.UnknownHostException ex) {
@@ -144,7 +142,6 @@ public final class NetworkInfo {
 		while (tokenizer.hasMoreTokens()) {
 			String line = tokenizer.nextToken().trim();
 			boolean containsLocalHost = StringUtil.contains(line, localHost);
-			;
 
 			// see if line contains IP address
 			if (containsLocalHost && lastIpAddress != null) {
@@ -160,7 +157,6 @@ public final class NetworkInfo {
 					line.indexOf("Bcast:")).trim();
 			if (linuxIsIpAddress(ipAddressCandidate)) {
 				lastIpAddress = ipAddressCandidate;
-				continue;
 			}
 		}
 
@@ -170,28 +166,24 @@ public final class NetworkInfo {
 		throw ex;
 	}
 
-	private final static boolean linuxIsMacAddress(String macAddressCandidate) {
-		if (macAddressCandidate.length() != 17)
-			return false;
-		return true;
+	private static boolean linuxIsMacAddress(String macAddressCandidate) {
+		return macAddressCandidate.length() == 17;
 	}
 
-	private final static boolean linuxIsIpAddress(String ipAddressCandidate) {
-		if (ipAddressCandidate.split(".").length == 4)
-			return false;
-		return true;
+	private static boolean linuxIsIpAddress(String ipAddressCandidate) {
+		return ipAddressCandidate.split(".").length != 4;
 	}
 
-	private final static String linuxRunIfConfigCommand() {
+	private static String linuxRunIfConfigCommand() {
 		Process p;
-		String outputText = null;
+		String outputText;
 		try {
 			p = Runtime.getRuntime().exec("/sbin/ifconfig");
 			InputStream stdoutStream = new BufferedInputStream(p
 					.getInputStream());
 
-			StringBuffer buffer = new StringBuffer();
-			for (;;) {
+			StringBuilder buffer = new StringBuilder();
+			for (; ; ) {
 				int c = stdoutStream.read();
 				if (c == -1)
 					break;
@@ -210,9 +202,8 @@ public final class NetworkInfo {
 	/*
 	 * Windows stuff
 	 */
-	private final static String windowsParseMacAddress(String ipConfigResponse)
-			throws ParseException {
-		String localHost = null;
+	private static String windowsParseMacAddress(String ipConfigResponse) throws ParseException {
+		String localHost;
 		try {
 			localHost = InetAddress.getLocalHost().getHostAddress();
 		} catch (java.net.UnknownHostException ex) {
@@ -227,7 +218,7 @@ public final class NetworkInfo {
 			String line = tokenizer.nextToken().trim();
 
 			// see if line contains IP address
-			if (line.endsWith(localHost) && lastMacAddress != null) {
+			if (line.contains(localHost) && lastMacAddress != null) {
 				return lastMacAddress;
 			}
 
@@ -236,11 +227,9 @@ public final class NetworkInfo {
 			if (macAddressPosition <= 0)
 				continue;
 
-			String macAddressCandidate = line.substring(macAddressPosition + 1)
-					.trim();
+			String macAddressCandidate = line.substring(macAddressPosition + 1).trim();
 			if (windowsIsMacAddress(macAddressCandidate)) {
 				lastMacAddress = macAddressCandidate;
-				continue;
 			}
 		}
 
@@ -250,21 +239,19 @@ public final class NetworkInfo {
 		throw ex;
 	}
 
-	private final static boolean windowsIsMacAddress(String macAddressCandidate) {
-		if (macAddressCandidate.length() != 17)
-			return false;
-		return true;
+	private static boolean windowsIsMacAddress(String macAddressCandidate) {
+		return macAddressCandidate.length() == 17;
 	}
 
-	private final static String windowsRunIpConfigCommand() {
+	private static String windowsRunIpConfigCommand() {
 		Process p;
-		String outputText = null;
+		String outputText;
 		try {
 			p = Runtime.getRuntime().exec("ipconfig /all");
 			InputStream stdoutStream = new BufferedInputStream(p.getInputStream());
 
-			StringBuffer buffer = new StringBuffer();
-			for (;;) {
+			StringBuilder buffer = new StringBuilder();
+			for (; ; ) {
 				int c = stdoutStream.read();
 				if (c == -1)
 					break;
@@ -282,15 +269,13 @@ public final class NetworkInfo {
 	/*
 	 * Main
 	 */
-	public final static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
 			System.out.println("Network infos");
-			System.out.println("  Operating System: "
-					+ System.getProperty("os.name"));
+			System.out.println("  Operating System: " + System.getProperty("os.name"));
 			System.out.println("  IP/Localhost: " + getIpAddress());
 			System.out.println("  MAC Address: " + getMacAddress());
-			System.out.println("  md5: "
-					+ CryptoUtil.MD5Encode(getMacAddress()));
+			System.out.println("  md5: " + CryptoUtil.MD5Encode(getMacAddress()));
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
