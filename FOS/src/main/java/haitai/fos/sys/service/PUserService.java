@@ -280,7 +280,7 @@ public class PUserService {
 		}
 	}
 
-	public static void checkRepeatLogin(Integer userId) {
+	public static void checkRepeatLogin() {
 		PUser user = (PUser) SessionManager.getAttr(SessionKeyType.USER);
 		checkRepeatLogin(user);
 	}

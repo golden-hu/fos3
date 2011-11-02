@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SBulkExpenseDAO extends GenericDAO<SBulkExpense, Integer>
-		implements ISBulkExpenseDAO {
+public class SBulkExpenseDAO extends GenericDAO<SBulkExpense, Integer> implements ISBulkExpenseDAO {
 
 	public SBulkExpenseDAO() {
 		super(SBulkExpense.class);

@@ -2,11 +2,13 @@ package haitai.fos.ffop.entity.idao;
 
 import haitai.fos.ffop.entity.table.FAttach;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public interface IFAttachDAO {
 	public void save(FAttach entity);
+
+	public List<FAttach> saveByRowAction(List<FAttach> entityList);
 
 	public void delete(Integer id);
 

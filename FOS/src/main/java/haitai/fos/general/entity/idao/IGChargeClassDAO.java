@@ -2,11 +2,13 @@ package haitai.fos.general.entity.idao;
 
 import haitai.fos.general.entity.table.GChargeClass;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public interface IGChargeClassDAO {
 	public void save(GChargeClass entity);
+
+	public List<GChargeClass> saveByRowAction(List<GChargeClass> entityList);
 
 	public void delete(Integer id);
 
@@ -14,6 +16,5 @@ public interface IGChargeClassDAO {
 
 	public GChargeClass findById(Integer id);
 
-	public List<GChargeClass> findByProperties(
-			final Map<String, Object> propertyMap);
+	public List<GChargeClass> findByProperties(final Map<String, Object> propertyMap);
 }

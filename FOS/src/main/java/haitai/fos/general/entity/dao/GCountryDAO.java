@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GCountryDAO extends GenericDAO<GCountry, Integer> implements
-		IGCountryDAO {
+public class GCountryDAO extends GenericDAO<GCountry, Integer> implements IGCountryDAO {
 
 	public GCountryDAO() {
 		super(GCountry.class);

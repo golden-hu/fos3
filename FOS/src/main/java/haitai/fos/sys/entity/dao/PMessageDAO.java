@@ -1,8 +1,5 @@
 package haitai.fos.sys.entity.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import haitai.fos.sys.entity.idao.IPMessageDAO;
 import haitai.fos.sys.entity.table.PMessage;
 import haitai.fw.entity.GenericDAO;
@@ -10,13 +7,14 @@ import haitai.fw.entity.HttpHeader;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.StringUtil;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
-public class PMessageDAO extends GenericDAO<PMessage, Long> implements
-		IPMessageDAO {
+public class PMessageDAO extends GenericDAO<PMessage, Long> implements IPMessageDAO {
 
 	public PMessageDAO() {
 		super(PMessage.class);

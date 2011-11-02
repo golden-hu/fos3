@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GPackageDAO extends GenericDAO<GPackage, Integer> implements
-		IGPackageDAO {
+public class GPackageDAO extends GenericDAO<GPackage, Integer> implements IGPackageDAO {
 
 	public GPackageDAO() {
 		super(GPackage.class);

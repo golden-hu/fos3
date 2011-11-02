@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PCompanyDAO extends GenericDAO<PCompany, Integer> implements
-		IPCompanyDAO {
+public class PCompanyDAO extends GenericDAO<PCompany, Integer> implements IPCompanyDAO {
 
 	public PCompanyDAO() {
 		super(PCompany.class);

@@ -7,20 +7,17 @@ import haitai.fos.sys.entity.table.CPriceSheet;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.entity.GenericDAO;
 import haitai.fw.entity.HttpHeader;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.stereotype.Component;
+import java.util.List;
+import java.util.Map;
 
 @Component
-public class CPriceSheetDAO extends GenericDAO<CPriceSheet, Integer> implements
-		ICPriceSheetDAO {
+public class CPriceSheetDAO extends GenericDAO<CPriceSheet, Integer> implements ICPriceSheetDAO {
 
 	public CPriceSheetDAO() {
 		super(CPriceSheet.class);

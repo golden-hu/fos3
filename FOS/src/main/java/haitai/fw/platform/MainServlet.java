@@ -63,8 +63,7 @@ public class MainServlet extends HttpServlet {
 			outputStream = response.getOutputStream();
 			Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
 			Properties appConfig = SpringContextHolder.getBean("appConfig");
-			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName)
-					&& !ConstUtil.ACT_LOGOUT.equals(actName)) {
+			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName) && !ConstUtil.ACT_LOGOUT.equals(actName)) {
 				// 检查是否已经登录(UID为空, 而且不是正在登录)
 				throw new BusinessException(MessageUtil.FW_ERROR_SESSION_EXPIRED);
 			} else if (ConstUtil.ACT_LOGOUT.equals(actName)) {
@@ -80,7 +79,7 @@ public class MainServlet extends HttpServlet {
 			} else {
 				if (!actName.equals(ConstUtil.ACT_LOGIN)
 						&& ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
-					PUserService.checkRepeatLogin(uid);
+					PUserService.checkRepeatLogin();
 				}
 				String xml = null;
 				if (paramMap.containsKey(HttpHeader.UPLOADFILE)) {

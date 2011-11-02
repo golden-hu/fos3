@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GSettlementWayDAO extends GenericDAO<GSettlementWay, Integer>
-		implements IGSettlementWayDAO {
+public class GSettlementWayDAO extends GenericDAO<GSettlementWay, Integer> implements IGSettlementWayDAO {
 
 	public GSettlementWayDAO() {
 		super(GSettlementWay.class);

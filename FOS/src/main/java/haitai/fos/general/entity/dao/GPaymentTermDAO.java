@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GPaymentTermDAO extends GenericDAO<GPaymentTerm, Integer>
-		implements IGPaymentTermDAO {
+public class GPaymentTermDAO extends GenericDAO<GPaymentTerm, Integer> implements IGPaymentTermDAO {
 
 	public GPaymentTermDAO() {
 		super(GPaymentTerm.class);

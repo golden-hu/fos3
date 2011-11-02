@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GCurrencyDAO extends GenericDAO<GCurrency, Integer> implements
-		IGCurrencyDAO {
+public class GCurrencyDAO extends GenericDAO<GCurrency, Integer> implements IGCurrencyDAO {
 
 	public GCurrencyDAO() {
 		super(GCurrency.class);

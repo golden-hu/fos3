@@ -3,20 +3,17 @@ package haitai.fos.sys.entity.dao;
 import haitai.fos.sys.entity.idao.ICSalesCommissionDAO;
 import haitai.fos.sys.entity.table.CSalesCommission;
 import haitai.fw.entity.GenericDAO;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.stereotype.Component;
+import java.util.List;
+import java.util.Map;
 
 @Component
-public class CSalesCommissionDAO extends GenericDAO<CSalesCommission, Integer>
-		implements ICSalesCommissionDAO {
+public class CSalesCommissionDAO extends GenericDAO<CSalesCommission, Integer> implements ICSalesCommissionDAO {
 
 	public CSalesCommissionDAO() {
 		super(CSalesCommission.class);

@@ -15,7 +15,6 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.*;
@@ -33,12 +32,14 @@ import java.util.regex.Matcher;
 
 @Service
 public class PTemplateService {
-	
-	private IPTemplateDAO dao = null;
-	private IPTemplateTypeDAO typeDao = null;
-	private IPTemplateMapDAO mapDao = null;
+	@Autowired
+	private IPTemplateDAO dao;
+	@Autowired
+	private IPTemplateTypeDAO typeDao;
+	@Autowired
+	private IPTemplateMapDAO mapDao;
 	private static FosLogger logger = new FosLogger(PTemplateService.class);
-	
+
 	@Transactional
 	public List<PTemplate> save(List<PTemplate> entityList) {
 		List<PTemplate> retList = new ArrayList<PTemplate>();
@@ -50,8 +51,7 @@ public class PTemplateService {
 			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 				//如果模板的名字改了, 模板文件的名字也要改
 				PTemplate dbEntity = dao.findById(entity.getTempId());
-				if (dbEntity != null
-						&& !entity.getTempName().equals(dbEntity.getTempName())) {
+				if (dbEntity != null && !entity.getTempName().equals(dbEntity.getTempName())) {
 					String oldName = ConfigUtil.getRealTemplateDir()
 							+ ConstUtil.DIR_SEP + dbEntity.getTempName()
 							+ ConstUtil.STRING_DOT
@@ -62,7 +62,7 @@ public class PTemplateService {
 							+ ConstUtil.TEMP_SUFFIX_EXCEL;
 					File oldFile = new File(oldName);
 					File newFile = new File(newName);
-					if(oldFile.exists()){
+					if (oldFile.exists()) {
 						oldFile.renameTo(newFile);
 					}
 				}
@@ -72,13 +72,12 @@ public class PTemplateService {
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(
-						MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 			}
 		}
 		return retList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void uploadTemplate(Map<String, String> paramMap) {
 		String uploadDir = ConfigUtil.getRealTemplateDir();
@@ -88,14 +87,10 @@ public class PTemplateService {
 		}
 
 		List<FileItem> items = SessionManager.getFileItems();
-		Iterator iter = items.iterator();
-		while (iter.hasNext()) {
-			FileItem item = (FileItem) iter.next();
-			Integer id = Integer.parseInt((String) paramMap
-					.get(ConstUtil.TEMP_PARAM_ID));
+		for (FileItem item : items) {
+			Integer id = Integer.parseInt(paramMap.get(ConstUtil.TEMP_PARAM_ID));
 			PTemplate pt = dao.findById(id);
-			String filename = pt.getTempName() + ConstUtil.STRING_DOT
-					+ pt.getTempType();
+			String filename = pt.getTempName() + ConstUtil.STRING_DOT + pt.getTempType();
 			try {
 				item.write(new File(uploadDir + ConstUtil.DIR_SEP + filename));
 			} catch (Exception e) {
@@ -107,33 +102,30 @@ public class PTemplateService {
 
 	public void downTemplate(Map<String, String> paramMap) {
 		PTemplate pt = getTemplate(paramMap);
-		String filename = pt.getTempName() + ConstUtil.STRING_DOT
-				+ pt.getTempType();
-		File f = new File(ConfigUtil.getRealTemplateDir()
-				+ ConstUtil.DIR_SEP + filename);
+		String filename = pt.getTempName() + ConstUtil.STRING_DOT + pt.getTempType();
+		File f = new File(ConfigUtil.getRealTemplateDir() + ConstUtil.DIR_SEP + filename);
 		if (!f.exists()) {
 			throw new BusinessException(MessageUtil.SYS_TEMPLATE_FILE_NOT_EXIST);
 		}
-		filename = ConfigUtil.getTemplateDir() + ConstUtil.DIR_SEP
-				+ StringUtil.utf82ascii(filename);
-		paramMap.put(ConstUtil.REDIRECT_URL, filename);		
+		filename = ConfigUtil.getTemplateDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(filename);
+		paramMap.put(ConstUtil.REDIRECT_URL, filename);
 	}
-	   
-    /**
-     * 导入数据
-     * @param paramMap
-     */
+
+	/**
+	 * 导入数据
+	 *
+	 * @param paramMap query conditions
+	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public void importTemplate(Map<String, String> paramMap) {
-		List<FileItem> fileItems = null;
+		List<FileItem> fileItems;
 		InputStream is = null;
-		POIFSFileSystem fs = null;
+		POIFSFileSystem fs;
 		try {
 			fileItems = SessionManager.getFileItems();
 			Map<String, Object> queryMap = new HashMap<String, Object>();
-			queryMap.put(ConstUtil.TEMP_PARAM_CODE, (String) paramMap
-					.get(ConstUtil.TEMP_PARAM_CODE));
+			queryMap.put(ConstUtil.TEMP_PARAM_CODE, paramMap.get(ConstUtil.TEMP_PARAM_CODE));
 			PTemplateType ptt = typeDao.findByProperties(queryMap).get(0);
 			queryMap.put("tetyId", ptt.getTetyId());
 			Map<String, PTemplateMap> fieldMapping = getTemplateMap(queryMap);
@@ -141,7 +133,9 @@ public class PTemplateService {
 			JpaEntityMapper mapper = SpringContextHolder.getBean(JpaEntityMapper.class);
 			Class entityClass = mapper.getClass(ptt.getTetyChild());
 			for (FileItem item : fileItems) {
-				if(item.isFormField()) continue;
+				if (item.isFormField()) {
+					continue;
+				}
 				is = item.getInputStream();
 				fs = new POIFSFileSystem(is);
 				Workbook wb = new HSSFWorkbook(fs);
@@ -150,9 +144,8 @@ public class PTemplateService {
 				Row firstRow = sheet.getRow(0);
 				List<String> fieldList = getVarLocation(fieldMapping, firstRow);
 				//读取内容
-				if(fieldList.size() > 0) {
-					List<Map<String, String>> recordList = parseExcel2Map(sheet,
-							fieldList);
+				if (fieldList.size() > 0) {
+					List<Map<String, String>> recordList = parseExcel2Map(sheet, fieldList);
 					//循环构建对象,插入数据库
 					List entityList = new ArrayList();
 					paramMap.put("rowAction", ConstUtil.ROW_N);
@@ -169,8 +162,8 @@ public class PTemplateService {
 			}
 		} catch (Exception e) {
 			throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
-		}finally {
-			if(is != null) {
+		} finally {
+			if (is != null) {
 				try {
 					is.close();
 				} catch (IOException e) {
@@ -185,20 +178,20 @@ public class PTemplateService {
 	 * 3.循环excel,找到所有的变量位置 4.根据action和查询条件, 获取到对象列表
 	 * 5.根据templateMap中的字段映射信息,循环调用对象的对应get方法, 替换excel中的变量
 	 * 6.把变量替换后的excel文件保存到临时目录 7.返回临时文件名
-	 * 
-	 * @param paramMap
-	 * @return
+	 *
+	 * @param conditions the query conditions
+	 * @param paramMap the query map
+	 * @return the file name
 	 */
-	@SuppressWarnings( { "unchecked" })
-	public String exportTemplate(List<FosQuery> conditions,
-			Map<String, String> paramMap) {
+	@SuppressWarnings({"unchecked"})
+	public String exportTemplate(List<FosQuery> conditions, Map<String, String> paramMap) {
 		String tempFileName = null;
 		logger.info("export template with param: " + paramMap);
-		if(conditions == null) {
+		if (conditions == null) {
 			conditions = new ArrayList<FosQuery>();
 		}
-		conditions.addAll(parseXml4Report(paramMap, ConstUtil.JSON
-				.equalsIgnoreCase(paramMap.get(HttpHeader.TEXT_TYPE))));
+		conditions.addAll(parseXml4Report(paramMap,
+				ConstUtil.JSON.equalsIgnoreCase(paramMap.get(HttpHeader.TEXT_TYPE))));
 		PTemplate pt = getTemplate(paramMap);
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("tetyId", pt.getTetyId());
@@ -214,15 +207,14 @@ public class PTemplateService {
 		for (Object item : entityList) {
 			if (item.getClass().getSimpleName().equalsIgnoreCase(parent)) {
 				parentEntity = item;
-			}else if (item.getClass().getSimpleName().equalsIgnoreCase(child)) {
+			} else if (item.getClass().getSimpleName().equalsIgnoreCase(child)) {
 				childList.add(item);
 			}
 		}
-		if(!ConstUtil.TEMP_SUFFIX_EXCEL.equalsIgnoreCase(pt.getTempType())){
+		if (!ConstUtil.TEMP_SUFFIX_EXCEL.equalsIgnoreCase(pt.getTempType())) {
 			tempFileName = handleDoc(pt, fieldMap, parentEntity);
-		}else{
-			String realName = ConfigUtil.getRealTemplateDir()
-					+ ConstUtil.DIR_SEP + pt.getTempName()
+		} else {
+			String realName = ConfigUtil.getRealTemplateDir() + ConstUtil.DIR_SEP + pt.getTempName()
 					+ ConstUtil.STRING_DOT + pt.getTempType();
 			try {
 				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(realName));
@@ -237,16 +229,13 @@ public class PTemplateService {
 				if (StringUtil.isNotBlank(child) && childList.size() > 0) {
 					handleChild(ptt, fieldMap, childList, sheet, varMap);
 				}
-				FormulaEvaluator evaluator = wb.getCreationHelper()
-						.createFormulaEvaluator();
+				FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
 				reCalcFormula(sheet, evaluator);
-				tempFileName = pt.getTempName() + ConstUtil.STRING_UNDERLINE
-						+ System.currentTimeMillis() + ConstUtil.STRING_DOT
-						+ ConstUtil.TEMP_SUFFIX_EXCEL;
+				tempFileName = pt.getTempName() + ConstUtil.STRING_UNDERLINE + System.currentTimeMillis() +
+						ConstUtil.STRING_DOT + ConstUtil.TEMP_SUFFIX_EXCEL;
 				FileUtil.createDirs(ConfigUtil.getRealTempDir());
-				FileOutputStream fileOut = new FileOutputStream(ConfigUtil
-						.getRealTempDir()
-						+ ConstUtil.DIR_SEP + tempFileName);
+				FileOutputStream fileOut = new FileOutputStream(ConfigUtil.getRealTempDir() + ConstUtil.DIR_SEP +
+						tempFileName);
 				wb.write(fileOut);
 				fileOut.close();
 				tempFileName = StringUtil.utf82ascii(tempFileName);
@@ -256,15 +245,13 @@ public class PTemplateService {
 		}
 		// 文件名encoding
 		if (StringUtil.isNotBlank(tempFileName)) {
-			String f = ConfigUtil.getTempDir() + ConstUtil.DIR_SEP
-					+ tempFileName;
+			String f = ConfigUtil.getTempDir() + ConstUtil.DIR_SEP + tempFileName;
 			paramMap.put(ConstUtil.REDIRECT_URL, f);
 		}
 		return tempFileName;
 	}
 
-	private List<String> getVarLocation(
-			Map<String, PTemplateMap> fieldMapping, Row firstRow) {
+	private List<String> getVarLocation(Map<String, PTemplateMap> fieldMapping, Row firstRow) {
 		List<String> fieldList = new ArrayList<String>();
 		for (Cell cell : firstRow) {
 			String value = cell.getStringCellValue();
@@ -279,10 +266,9 @@ public class PTemplateService {
 		return fieldList;
 	}
 
-	private List<Map<String, String>> parseExcel2Map(Sheet sheet,
-			List<String> fieldList) {
+	private List<Map<String, String>> parseExcel2Map(Sheet sheet, List<String> fieldList) {
 		boolean isFirstRow = true;
-		boolean isRowBlank = true;
+		boolean isRowBlank;
 		List<Map<String, String>> recordList = new ArrayList<Map<String, String>>();
 		for (Row row : sheet) {
 			if (isFirstRow) {
@@ -295,26 +281,26 @@ public class PTemplateService {
 			for (String key : fieldList) {
 				Cell cell = row.getCell(i);
 				String value = null;
-				if(cell != null) {
+				if (cell != null) {
 					switch (cell.getCellType()) {
-					case Cell.CELL_TYPE_NUMERIC:
-						if(DateUtil.isCellDateFormatted(cell)) {
-							value = StringUtil.date2String(cell.getDateCellValue());
-						}else {
-							value = NumberUtil.removeDot(cell.getNumericCellValue());
-						}
-						break;
-					case Cell.CELL_TYPE_STRING:
-						value = cell.getRichStringCellValue().getString();
-						break;
-					case Cell.CELL_TYPE_FORMULA:
-						value = cell.getCellFormula();
-						break;
-					default:
-						value = cell.toString();
-						break;
+						case Cell.CELL_TYPE_NUMERIC:
+							if (DateUtil.isCellDateFormatted(cell)) {
+								value = StringUtil.date2String(cell.getDateCellValue());
+							} else {
+								value = NumberUtil.removeDot(cell.getNumericCellValue());
+							}
+							break;
+						case Cell.CELL_TYPE_STRING:
+							value = cell.getRichStringCellValue().getString();
+							break;
+						case Cell.CELL_TYPE_FORMULA:
+							value = cell.getCellFormula();
+							break;
+						default:
+							value = cell.toString();
+							break;
 					}
-					if(StringUtil.isNotBlank(value)) {
+					if (StringUtil.isNotBlank(value)) {
 						isRowBlank = false;
 					}
 				}
@@ -334,12 +320,10 @@ public class PTemplateService {
 	private void fillEntity(Object entity, Map<String, String> paramMap) {
 		Map<String, Method> setMethodMap = MethodUtil.getSetMethods(entity);
 		for (String key : paramMap.keySet()) {
-			if (setMethodMap.containsKey(key)
-					&& StringUtil.isNotBlank(paramMap.get(key))) {
+			if (setMethodMap.containsKey(key) && StringUtil.isNotBlank(paramMap.get(key))) {
 				Method thisMethod = setMethodMap.get(key);
 				Class[] paramClass = thisMethod.getParameterTypes();
-				Object objValue = StringUtil.parseValue(paramClass[0], paramMap
-						.get(key));
+				Object objValue = StringUtil.parseValue(paramClass[0], paramMap.get(key));
 				try {
 					thisMethod.invoke(entity, objValue);
 				} catch (Exception e) {
@@ -350,33 +334,33 @@ public class PTemplateService {
 	}
 
 	/**
-	 * 导出EXCEL报表, 需要传递查询参数, 
+	 * 导出EXCEL报表, 需要传递查询参数,
 	 * 这些查询参数是放在xml这个参数中, 需要解析成FosQuery列表
 	 * 根据需要解析成XML或者JSON
-	 * @param paramMap
-	 * @param isJSON
-	 * @return
+	 *
+	 * @param paramMap the query conditions
+	 * @param isJSON   is json
+	 * @return the parsed query objects
 	 */
 	@SuppressWarnings("unchecked")
-	private List<FosQuery> parseXml4Report(Map<String, String> paramMap,
-			boolean isJSON) {
-		List<FosQuery> conditions = null;
+	private List<FosQuery> parseXml4Report(Map<String, String> paramMap, boolean isJSON) {
+		List<FosQuery> conditions;
 		String xml = paramMap.get(ConstUtil.XML);
 		paramMap.remove(ConstUtil.XML);
-		if(StringUtil.isNotBlank(xml) && !xml.equals("null")) {
+		if (StringUtil.isNotBlank(xml) && !xml.equals("null")) {
 			logger.debug(xml);
-			FosRequest fosRequest = null;
-			if(isJSON) {
+			FosRequest fosRequest;
+			if (isJSON) {
 				xml = xml.replaceAll("\\\\", "");
-				if(xml.startsWith("\"")) {
+				if (xml.startsWith("\"")) {
 					xml = xml.substring(1, xml.length() - 1);
 				}
 				fosRequest = (FosRequest) XstreamUtil.JSON2Entity(xml);
-			}else {
+			} else {
 				fosRequest = (FosRequest) XstreamUtil.XML2Entity(xml);
 			}
 			conditions = fosRequest.getData();
-		}else{
+		} else {
 			conditions = new ArrayList<FosQuery>();
 		}
 		return conditions;
@@ -385,16 +369,14 @@ public class PTemplateService {
 	private PTemplate getTemplate(Map<String, String> paramMap) {
 		PTemplate pt;
 		if (paramMap.get(ConstUtil.TEMP_PARAM_TYPE) != null
-				&& paramMap.get(ConstUtil.TEMP_PARAM_TYPE)
-						.equalsIgnoreCase(ConstUtil.TEMP_PARAM_TYPE_CODE)) {
-			String code = (String) paramMap.get(ConstUtil.TEMP_PARAM_ID);
+				&& paramMap.get(ConstUtil.TEMP_PARAM_TYPE).equalsIgnoreCase(ConstUtil.TEMP_PARAM_TYPE_CODE)) {
+			String code = paramMap.get(ConstUtil.TEMP_PARAM_ID);
 			Map<String, Object> queryMap = new HashMap<String, Object>();
 			queryMap.put(ConstUtil.TEMP_PARAM_CODE, code);
 			List<PTemplate> ptList = dao.findByProperties(queryMap);
 			pt = ptList.get(0);
 		} else {
-			Integer id = Integer.parseInt((String) paramMap
-					.get(ConstUtil.TEMP_PARAM_ID));
+			Integer id = Integer.parseInt(paramMap.get(ConstUtil.TEMP_PARAM_ID));
 			pt = dao.findById(id);
 		}
 		return pt;
@@ -412,17 +394,14 @@ public class PTemplateService {
 		}
 		return fieldMap;
 	}
-	
-	private void handleChild(PTemplateType ptt,
-			Map<String, PTemplateMap> fieldMap, List<Object> entityList,
-			Sheet sheet, Map<String, List<List<Integer>>> varMap) {
+
+	private void handleChild(PTemplateType ptt, Map<String, PTemplateMap> fieldMap, List<Object> entityList,
+							 Sheet sheet, Map<String, List<List<Integer>>> varMap) {
 		String child = ptt.getTetyChild();
 		// 先找到子表变量所在行
-		List<List<Integer>> childFirstVarList = varMap
-				.get(getChildFirstVar(child, varMap, fieldMap));
+		List<List<Integer>> childFirstVarList = varMap.get(getChildFirstVar(child, varMap, fieldMap));
 		int startRowIndex = childFirstVarList.get(0).get(0);
-		CellStyle childStyle = sheet.getRow(startRowIndex).getCell(
-				childFirstVarList.get(0).get(1)).getCellStyle();
+		CellStyle childStyle = sheet.getRow(startRowIndex).getCell(childFirstVarList.get(0).get(1)).getCellStyle();
 		childStyle.setWrapText(true);
 		// 如果子表有合并行, 判定几行并成一行
 		int rowSpan = getChildRowSpan(childFirstVarList, sheet, startRowIndex);
@@ -442,10 +421,8 @@ public class PTemplateService {
 				PTemplateMap ptm = fieldMap.get(varName);
 				if (ptm == null) {
 					logger.info(varName + " can't find mapping record!");
-				} else if (entity.getClass().getSimpleName().equalsIgnoreCase(
-						ptm.getTemaTable())) {
-					Object obj = MethodUtil.doGetMethod(entity, ptm
-							.getTemaField());
+				} else if (entity.getClass().getSimpleName().equalsIgnoreCase(ptm.getTemaTable())) {
+					Object obj = MethodUtil.doGetMethod(entity, ptm.getTemaField());
 					String newValue = executeConverter(ptm, toString(obj));
 					List<List<Integer>> posList = varMap.get(varName);
 					for (List<Integer> pos : posList) {
@@ -463,9 +440,8 @@ public class PTemplateService {
 			i += rowSpan;
 		}
 	}
-	
-	private void copyChildVar(List<Object> entityList, Sheet sheet,
-			int startRowIndex, int rowSpan) {
+
+	private void copyChildVar(List<Object> entityList, Sheet sheet, int startRowIndex, int rowSpan) {
 		Row firstRow = sheet.getRow(startRowIndex);
 		for (int i = rowSpan; i < entityList.size() * rowSpan; i += rowSpan) {
 			Row currentRow = sheet.getRow(startRowIndex + i);
@@ -473,8 +449,7 @@ public class PTemplateService {
 				currentRow = sheet.createRow(startRowIndex + i);
 			}
 			for (Cell cell : firstRow) {
-				Cell currentCell = currentRow
-						.getCell(cell.getColumnIndex());
+				Cell currentCell = currentRow.getCell(cell.getColumnIndex());
 				if (currentCell == null) {
 					currentCell = currentRow.createCell(cell.getColumnIndex());
 				}
@@ -485,14 +460,13 @@ public class PTemplateService {
 		}
 	}
 
-	private void handleParent(Map<String, PTemplateMap> fieldMap,
-			Object entity, Sheet sheet, Map<String, List<List<Integer>>> varMap){
+	private void handleParent(Map<String, PTemplateMap> fieldMap, Object entity, Sheet sheet,
+							  Map<String, List<List<Integer>>> varMap) {
 		for (String varName : varMap.keySet()) {
 			PTemplateMap ptm = fieldMap.get(varName);
 			if (ptm == null) {
 				logger.info(varName + " can't find mapping record!");
-			} else if (entity.getClass().getSimpleName().equalsIgnoreCase(
-					ptm.getTemaTable())) {
+			} else if (entity.getClass().getSimpleName().equalsIgnoreCase(ptm.getTemaTable())) {
 				Object obj = MethodUtil.doGetMethod(entity, ptm.getTemaField());
 				String newValue = executeConverter(ptm, toString(obj));
 				List<List<Integer>> posList = varMap.get(varName);
@@ -513,16 +487,13 @@ public class PTemplateService {
 		for (Row row : sheet) {
 			for (Cell cell : row) {
 				if (cell.getCellType() == Cell.CELL_TYPE_STRING
-						&& StringUtil.contains(cell.getStringCellValue(),
-								ConstUtil.STRING_LEFT_BRACE)) {
+						&& StringUtil.contains(cell.getStringCellValue(), ConstUtil.STRING_LEFT_BRACE)) {
 					String value = cell.getStringCellValue();
-					int prefix = 0;
-					int suffix = 0;
+					int prefix;
+					int suffix;
 					do {
-						prefix = value
-								.indexOf(ConstUtil.STRING_LEFT_BRACE);
-						suffix = value
-								.indexOf(ConstUtil.STRING_RIGHT_BRACE);
+						prefix = value.indexOf(ConstUtil.STRING_LEFT_BRACE);
+						suffix = value.indexOf(ConstUtil.STRING_RIGHT_BRACE);
 						String key = value.substring(prefix + 1, suffix);
 						List<List<Integer>> pos = cellMap.get(key);
 						if (pos == null) {
@@ -541,14 +512,11 @@ public class PTemplateService {
 		return cellMap;
 	}
 
-	private String handleDoc(PTemplate pt,
-			Map<String, PTemplateMap> fieldMap, Object entity) {
+	private String handleDoc(PTemplate pt, Map<String, PTemplateMap> fieldMap, Object entity) {
 		String tempDir = ConfigUtil.getRealTempDir();
 		FileUtil.createDirs(tempDir);
-		String filename = pt.getTempName() + ConstUtil.STRING_DOT
-				+ pt.getTempType();
-		String realName = ConfigUtil.getRealTemplateDir()
-				+ ConstUtil.DIR_SEP + filename;
+		String filename = pt.getTempName() + ConstUtil.STRING_DOT + pt.getTempType();
+		String realName = ConfigUtil.getRealTemplateDir() + ConstUtil.DIR_SEP + filename;
 		StringBuffer sb = new StringBuffer();
 		InputStream is = null;
 		try {
@@ -563,11 +531,9 @@ public class PTemplateService {
 					PTemplateMap ptm = fieldMap.get(varName);
 					if (ptm == null) {
 						logger.info(varName + " can't find mapping record!");
-					} else if (entity.getClass().getSimpleName()
-							.equalsIgnoreCase(ptm.getTemaTable())
-							&& StringUtil.contains(content,
-									ConstUtil.STRING_LEFT_BRACE + varName
-											+ ConstUtil.STRING_RIGHT_BRACE)) {
+					} else if (entity.getClass().getSimpleName().equalsIgnoreCase(ptm.getTemaTable())
+							&& StringUtil.contains(content, ConstUtil.STRING_LEFT_BRACE + varName
+							+ ConstUtil.STRING_RIGHT_BRACE)) {
 						Object obj = MethodUtil.doGetMethod(entity, ptm.getTemaField());
 						String newValue = executeConverter(ptm, toString(obj));
 						content = replace(content, varName, newValue);
@@ -581,8 +547,8 @@ public class PTemplateService {
 			return tempFileName;
 		} catch (Exception e) {
 			throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
-		}finally {
-			if(is != null) {
+		} finally {
+			if (is != null) {
 				try {
 					is.close();
 				} catch (IOException e) {
@@ -598,8 +564,7 @@ public class PTemplateService {
 			logger.info("before converter " + ptm.getTemaConverter() + ":" + newValue);
 			Method convertMethod;
 			try {
-				convertMethod = converter.getClass().getMethod(
-						ptm.getTemaConverter(), String.class);
+				convertMethod = converter.getClass().getMethod(ptm.getTemaConverter(), String.class);
 				newValue = (String) convertMethod.invoke(converter, newValue);
 			} catch (Exception e) {
 				logger.error("execute converter error", e);
@@ -612,15 +577,12 @@ public class PTemplateService {
 		return newValue;
 	}
 
-	private String writeDocTempFile(PTemplate pt, String tempDir,
-			String content) {
-		String tempFileName = pt.getTempName() + ConstUtil.STRING_UNDERLINE
-				+ System.currentTimeMillis() + ConstUtil.STRING_DOT
-				+ ConstUtil.TEMP_SUFFIX_WORD;
+	private String writeDocTempFile(PTemplate pt, String tempDir, String content) {
+		String tempFileName = pt.getTempName() + ConstUtil.STRING_UNDERLINE + System.currentTimeMillis() +
+				ConstUtil.STRING_DOT + ConstUtil.TEMP_SUFFIX_WORD;
 		FileOutputStream fileOut = null;
 		try {
-			fileOut = new FileOutputStream(tempDir + ConstUtil.DIR_SEP
-					+ tempFileName);
+			fileOut = new FileOutputStream(tempDir + ConstUtil.DIR_SEP + tempFileName);
 			writeFromBuffer(content, fileOut);
 			fileOut.close();
 		} catch (Exception e) {
@@ -641,16 +603,15 @@ public class PTemplateService {
 		Map<String, List<Integer>> sysMap = new HashMap<String, List<Integer>>();
 		for (Row row : sheet) {
 			for (Cell cell : row) {
-				if (cell.getCellType() == Cell.CELL_TYPE_STRING
-						&& StringUtil.contains(cell.getStringCellValue(),
-								ConstUtil.STRING_SHARP)) {
+				if (cell.getCellType() == Cell.CELL_TYPE_STRING && StringUtil.contains(cell.getStringCellValue(),
+						ConstUtil.STRING_SHARP)) {
 					String value = cell.getStringCellValue();
 					int prefix = value.indexOf(ConstUtil.STRING_SHARP);
 					int suffix = value.indexOf(ConstUtil.STRING_SHARP, prefix + 1);
 					while (prefix > -1) {
 						String key = value.substring(prefix + 1, suffix);
 						List<Integer> pos = sysMap.get(key);
-						if(pos == null){
+						if (pos == null) {
 							pos = new ArrayList<Integer>();
 							sysMap.put(key, pos);
 						}
@@ -675,20 +636,17 @@ public class PTemplateService {
 	}
 
 	/**
-	 * @param queryMap
-	 * @return
+	 * @param queryMap the query conditions
+	 * @return the system config map
 	 */
 	private Map<String, String> getSysConfig(Map<String, Object> queryMap) {
-		IPCompanyConfigDAO configDao = SpringContextHolder
-				.getBean("PCompanyConfigDAO");
+		IPCompanyConfigDAO configDao = SpringContextHolder.getBean("PCompanyConfigDAO");
 		Map<String, String> sysConfigMap = new HashMap<String, String>();
-		queryMap.put(ConstUtil.CompCode, SessionManager
-				.getStringAttr(SessionKeyType.COMPCODE));
+		queryMap.put(ConstUtil.CompCode, SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 		queryMap.put(ConstUtil.Removed, ConstUtil.FalseShort);
 		List<PCompanyConfig> configList = configDao.findByProperties(queryMap);
 		for (PCompanyConfig companyConfig : configList) {
-			sysConfigMap.put(companyConfig.getCocoCode(), companyConfig
-					.getCocoValue());
+			sysConfigMap.put(companyConfig.getCocoCode(), companyConfig.getCocoValue());
 		}
 		sysConfigMap.put("YY", TimeUtil.getYear());
 		sysConfigMap.put("MM", TimeUtil.getMonth());
@@ -697,7 +655,7 @@ public class PTemplateService {
 	}
 
 	private String getChildFirstVar(String child, Map<String, List<List<Integer>>> cellMap,
-			Map<String, PTemplateMap> fieldMap) {
+									Map<String, PTemplateMap> fieldMap) {
 		String oneChildVar = null;
 		for (String varName : cellMap.keySet()) {
 			PTemplateMap ptm = fieldMap.get(varName);
@@ -710,18 +668,14 @@ public class PTemplateService {
 		}
 		return oneChildVar;
 	}
-	
-	private int getChildRowSpan(
-			List<List<Integer>> varList, Sheet sheet,
-			int startRow) {
+
+	private int getChildRowSpan(List<List<Integer>> varList, Sheet sheet, int startRow) {
 		int rowSpan = 1;
 		for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
-			CellRangeAddress region = ((HSSFSheet) sheet).getMergedRegion(i);
+			CellRangeAddress region = sheet.getMergedRegion(i);
 			int thisColumn = varList.get(0).get(1);
-			if (startRow >= region.getFirstRow()
-					&& startRow <= region.getLastRow()
-					&& thisColumn >= region.getFirstColumn()
-					&& thisColumn <= region.getLastColumn()) {
+			if (startRow >= region.getFirstRow() && startRow <= region.getLastRow()
+					&& thisColumn >= region.getFirstColumn() && thisColumn <= region.getLastColumn()) {
 				rowSpan = region.getLastRow() - region.getFirstRow() + 1;
 				break;
 			}
@@ -729,19 +683,17 @@ public class PTemplateService {
 		return rowSpan;
 	}
 
-	private void shiftRowsDown(PTemplateType ptt, List<Object> entityList,
-			Sheet sheet, List<List<Integer>> varList) {
+	private void shiftRowsDown(PTemplateType ptt, List<Object> entityList, Sheet sheet, List<List<Integer>> varList) {
 		int startRow = varList.get(0).get(0);
 		if (ConstUtil.FalseShort.equals(ptt.getTetyFormFlag())) {
 			if (entityList.size() > 1) {
-				sheet.shiftRows(startRow + 1, sheet.getLastRowNum(), entityList
-						.size() - 1, true, true);
+				sheet.shiftRows(startRow + 1, sheet.getLastRowNum(), entityList.size() - 1, true, true);
 				//复制行
 				Row first = sheet.getRow(startRow);
 				int end = first.getLastCellNum();
 				for (int i = startRow + 1; i < startRow + entityList.size(); i++) {
 					Row row = sheet.getRow(i);
-					if (row != null){
+					if (row != null) {
 						for (int j = 0; j <= end; j++) {
 							Cell cell = row.getCell(j);
 							if (cell == null)
@@ -760,10 +712,8 @@ public class PTemplateService {
 				}
 				//合并单元格
 				for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
-					CellRangeAddress region = ((HSSFSheet) sheet)
-							.getMergedRegion(i);
-					if (startRow >= region.getFirstRow()
-							&& startRow <= region.getLastRow()){
+					CellRangeAddress region = sheet.getMergedRegion(i);
+					if (startRow >= region.getFirstRow() && startRow <= region.getLastRow()) {
 						for (int j = 1; j < entityList.size(); j++) {
 							CellRangeAddress newRegion = region.copy();
 							int left = region.getFirstColumn();
@@ -771,9 +721,9 @@ public class PTemplateService {
 							newRegion.setFirstColumn(left);
 							newRegion.setLastColumn(right);
 							newRegion.setFirstRow(startRow + j);
-							newRegion.setLastRow(startRow + j);						
+							newRegion.setLastRow(startRow + j);
 							sheet.addMergedRegion(newRegion);
-						}						
+						}
 					}
 				}
 			}
@@ -809,22 +759,22 @@ public class PTemplateService {
 		int cellType = getCellTypeByComment(cell);
 		if (StringUtil.isNotBlank(value)) {
 			switch (cellType) {
-			case Cell.CELL_TYPE_NUMERIC:
-				cell.setCellValue(Double.parseDouble(value));
-				break;
-			case Cell.CELL_TYPE_BOOLEAN:
-				cell.setCellValue(Boolean.parseBoolean(value));
-				break;
-			case Cell.CELL_TYPE_BLANK:
-				break;
-			case Cell.CELL_TYPE_ERROR:
-				break;
-			default:
-				cell.setCellValue(value);
-				break;
+				case Cell.CELL_TYPE_NUMERIC:
+					cell.setCellValue(Double.parseDouble(value));
+					break;
+				case Cell.CELL_TYPE_BOOLEAN:
+					cell.setCellValue(Boolean.parseBoolean(value));
+					break;
+				case Cell.CELL_TYPE_BLANK:
+					break;
+				case Cell.CELL_TYPE_ERROR:
+					break;
+				default:
+					cell.setCellValue(value);
+					break;
 			}
 			cell.setCellType(cellType);
-		}else {
+		} else {
 			cell.setCellValue(value);
 		}
 	}
@@ -855,18 +805,16 @@ public class PTemplateService {
 			}
 		}
 	}
-	
-    private void readToBuffer(StringBuffer buffer, InputStream is)
-			throws IOException {
+
+	private void readToBuffer(StringBuffer buffer, InputStream is) throws IOException {
 		InputStream bis = new BufferedInputStream(is);
 		byte[] bf = new byte[bis.available()];
 		bis.read(bf);
 		bis.close();
 		buffer.append(new String(bf));
-		bf = null;
 	}
-    
-    private void writeFromBuffer(String str, OutputStream os) {
+
+	private void writeFromBuffer(String str, OutputStream os) {
 		PrintStream ps = new PrintStream(os);
 		ps.print(str);
 	}
@@ -878,48 +826,48 @@ public class PTemplateService {
 		String s = null;
 		if (obj instanceof String) {
 			s = (String) obj;
-		} else if (obj instanceof Double || obj instanceof Float
-				|| obj instanceof BigDecimal) {
+		} else if (obj instanceof Double || obj instanceof Float || obj instanceof BigDecimal) {
 			s = NumberUtil.numberFormat2(((Number) obj).doubleValue());
-		} else if (obj instanceof Integer || obj instanceof Long
-				|| obj instanceof BigInteger || obj instanceof Short) {
+		} else if (obj instanceof Integer || obj instanceof Long || obj instanceof BigInteger
+				|| obj instanceof Short) {
 			s = String.valueOf(((Number) obj).longValue());
 		} else if (obj instanceof Date) {
-			s = ((Date) obj).toString();
+			s = obj.toString();
 		}
 		return s;
 	}
 
 	/**
 	 * 把字符串s中的变量v替换成r, 如果s为空, 直接返回r
-	 * 
-	 * @param s
-	 * @param v
-	 * @param r
-	 * @return
+	 *
+	 * @param s the searching string
+	 * @param v the pattern
+	 * @param r the replace
+	 * @return the replaced string
 	 */
 	private String replace(String s, String v, String r) {
 		if (StringUtil.isBlank(s)) {
 			return r;
 		}
-		s = s.replaceAll("\\" + ConstUtil.STRING_LEFT_BRACE + v + "\\"
-				+ ConstUtil.STRING_RIGHT_BRACE, Matcher.quoteReplacement(r));
+		s = s.replaceAll("\\" + ConstUtil.STRING_LEFT_BRACE + v + "\\" + ConstUtil.STRING_RIGHT_BRACE,
+				Matcher.quoteReplacement(r));
 		return s;
 	}
-	
+
 	/**
 	 * 把字符串s中的变量#v#替换成r, 如果s为空, 直接返回r
-	 * 
-	 * @param s
-	 * @param v
-	 * @param r
-	 * @return
+	 *
+	 * @param s the searching string
+	 * @param v the pattern
+	 * @param r the replace
+	 * @return the replaced string
 	 */
 	private String replaceSharp(String s, String v, String r) {
-		if(r == null) r = "";
-		if (StringUtil.isBlank(s)) return r;
-		s = s.replaceAll("\\" + ConstUtil.STRING_SHARP + v + "\\"
-				+ ConstUtil.STRING_SHARP, r);
+		if (r == null)
+			r = "";
+		if (StringUtil.isBlank(s))
+			return r;
+		s = s.replaceAll("\\" + ConstUtil.STRING_SHARP + v + "\\" + ConstUtil.STRING_SHARP, r);
 		return s;
 	}
 
@@ -927,33 +875,5 @@ public class PTemplateService {
 	@Transactional(readOnly = true)
 	public List<PTemplate> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
-	}	
-
-	public IPTemplateDAO getDao() {
-		return dao;
 	}
-
-	@Autowired
-	public void setDao(IPTemplateDAO dao) {
-		this.dao = dao;
-	}
-
-	public IPTemplateTypeDAO getTypeDao() {
-		return typeDao;
-	}
-
-	@Autowired
-	public void setTypeDao(IPTemplateTypeDAO typeDao) {
-		this.typeDao = typeDao;
-	}
-
-	public IPTemplateMapDAO getMapDao() {
-		return mapDao;
-	}
-
-	@Autowired
-	public void setMapDao(IPTemplateMapDAO mapDao) {
-		this.mapDao = mapDao;
-	}
-	
 }

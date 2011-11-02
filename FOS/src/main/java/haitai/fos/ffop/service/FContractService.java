@@ -10,24 +10,22 @@ import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Service
 public class FContractService {
-	private IFContractDAO dao = null;
-	private IFLoadingListDAO loadingListDao = null;
-	private IFPackingListDAO packingListDao = null;
-	private IGPlaceDAO placeDao = null;
+	@Autowired
+	private IFContractDAO dao;
+	@Autowired
+	private IFLoadingListDAO loadingListDao;
+	@Autowired
+	private IFPackingListDAO packingListDao;
+	@Autowired
+	private IGPlaceDAO placeDao;
 
 	@Transactional
 	public List<FContract> save(List<FContract> consignList) {
@@ -144,10 +142,10 @@ public class FContractService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<FContract> complexQuery(List<FosQuery> conditions, Map queryMap) {
-		List<FContract> list = null;
+		List<FContract> list;
 		list = dao.complexQuery(conditions, queryMap);
 		for (FContract fContract : list) {
-			Double remainQuantity = new Double(0);
+			Double remainQuantity = (double) 0;
 			if (fContract.getFconForcastQuantity() != null) {
 				remainQuantity += fContract.getFconForcastQuantity();
 			}
@@ -155,7 +153,7 @@ public class FContractService {
 				remainQuantity -= fContract.getFconShippedQuantity();
 			}
 			fContract.setFconRemainQuantity(remainQuantity);
-			Double remainCbm = new Double(0);
+			Double remainCbm = (double) 0;
 			if (fContract.getFconForcastCbm() != null) {
 				remainCbm += fContract.getFconForcastCbm();
 			}
@@ -175,42 +173,6 @@ public class FContractService {
 		retList.addAll(dao.complexQuery(conditions, queryMap));
 		retList.add(placeDao.findById(Integer.parseInt(placId)));
 		return retList;
-	}
-
-	public IFContractDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IFContractDAO dao) {
-		this.dao = dao;
-	}
-
-	public IFLoadingListDAO getLoadingListDao() {
-		return loadingListDao;
-	}
-
-	@Autowired
-	public void setLoadingListDao(IFLoadingListDAO loadingListDao) {
-		this.loadingListDao = loadingListDao;
-	}
-
-	public IFPackingListDAO getPackingListDao() {
-		return packingListDao;
-	}
-
-	@Autowired
-	public void setPackingListDao(IFPackingListDAO packingListDao) {
-		this.packingListDao = packingListDao;
-	}
-
-	public IGPlaceDAO getPlaceDao() {
-		return placeDao;
-	}
-
-	@Autowired
-	public void setPlaceDao(IGPlaceDAO placeDao) {
-		this.placeDao = placeDao;
 	}
 
 }

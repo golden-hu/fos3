@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GLevyTypeDAO extends GenericDAO<GLevyType, Integer> implements
-		IGLevyTypeDAO {
+public class GLevyTypeDAO extends GenericDAO<GLevyType, Integer> implements IGLevyTypeDAO {
 
 	public GLevyTypeDAO() {
 		super(GLevyType.class);

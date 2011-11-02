@@ -73,7 +73,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 		List<T> retList = new ArrayList<T>();
 		if (entityList != null) {
 			for (T entity : entityList) {
-				T newEntity = saveByRowAction(entity);
+				T newEntity = saveSingleByRowAction(entity);
 				if (newEntity != null) {
 					retList.add(newEntity);
 				}
@@ -82,10 +82,12 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 		return retList;
 	}
 
-	public T saveByRowAction(T entity) {
-		Method pkMethod = MethodUtil.getPkMethod(entity);
+	@SuppressWarnings("unchecked")
+	public T saveSingleByRowAction(T entity) {
+		Method getPkMethod = MethodUtil.getPkMethod(entity);
 		T retEntity = null;
 		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			MethodUtil.doSetMethodNull(entity, getPkMethod.getName().substring(3));
 			save(entity);
 			retEntity = entity;
 		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
@@ -93,13 +95,14 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 			T delEntity;
 			try {
-				delEntity = findById((PK) pkMethod.invoke(entity));
+				delEntity = findById((PK) getPkMethod.invoke(entity));
 			} catch (IllegalAccessException e) {
 				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
 			} catch (InvocationTargetException e) {
 				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
 			}
 			delEntity.setRowAction(ConstUtil.ROW_R);
+			MethodUtil.doSetMethod(delEntity, "Removed", Short.class, ConstUtil.TrueShort);
 			update(delEntity);
 		} else {
 			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);

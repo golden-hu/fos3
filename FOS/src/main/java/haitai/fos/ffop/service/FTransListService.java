@@ -7,44 +7,36 @@ import haitai.fos.ffop.entity.table.FTransList;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Service
 public class FTransListService {
-	private IFTransListDAO dao = null;
-	private IFPackingListDAO packingListDao = null;
+	@Autowired
+	private IFTransListDAO dao;
+	@Autowired
+	private IFPackingListDAO packingListDao;
 
 	@Transactional
 	public List<FTransList> save(List<FTransList> consignList) {
 		List<FTransList> retList = new ArrayList<FTransList>();
 		Set<Integer> idSet = new HashSet<Integer>();
 		for (FTransList entity : consignList) {
-			if (ConstUtil.ROW_N
-					.equalsIgnoreCase(entity.getRowAction())) {
+			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
 				entity.setTrliId(null);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 				FTransList delEntity = dao.findById(entity.getTrliId());
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(
-						MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
 			}
 			idSet.add(entity.getPaliId());
 		}
@@ -56,7 +48,8 @@ public class FTransListService {
 
 	/**
 	 * 把最后的转运港和地点回写到PackingList上
-	 * @param id
+	 *
+	 * @param id the id
 	 */
 	@Transactional
 	private void syncPackingList(Integer id) {
@@ -64,15 +57,15 @@ public class FTransListService {
 		queryMap.put("paliId", "" + id);
 		List<FTransList> list = dao.findByProperties(queryMap);
 		FTransList lastItem = null;
-		if(list.size() > 0) {
+		if (list.size() > 0) {
 			lastItem = list.get(0);
-		}
-		for (FTransList item : list) {
-			if(item.getTrliId() > lastItem.getTrliId()) {
-				lastItem = item;
+			for (FTransList item : list) {
+				if (item.getTrliId().compareTo(lastItem.getTrliId()) > 0) {
+					lastItem = item;
+				}
 			}
 		}
-		if(lastItem != null) {
+		if (lastItem != null) {
 			FPackingList packingList = packingListDao.findById(id);
 			packingList.setPaliStationIdNow(lastItem.getTrliStationId());
 			packingList.setPaliStationNameNow(lastItem.getTrliStationName());
@@ -87,23 +80,5 @@ public class FTransListService {
 	@Transactional(readOnly = true)
 	public List<FTransList> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
-	}
-
-	public IFTransListDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IFTransListDAO dao) {
-		this.dao = dao;
-	}
-
-	public IFPackingListDAO getPackingListDao() {
-		return packingListDao;
-	}
-
-	@Autowired
-	public void setPackingListDao(IFPackingListDAO packingListDao) {
-		this.packingListDao = packingListDao;
 	}
 }

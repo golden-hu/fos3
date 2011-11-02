@@ -2,11 +2,13 @@ package haitai.fos.sys.entity.idao;
 
 import haitai.fos.sys.entity.table.PCompanyBankAccount;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public interface IPCompanyBankAccountDAO {
 	public void save(PCompanyBankAccount entity);
+
+	public List<PCompanyBankAccount> saveByRowAction(List<PCompanyBankAccount> entityList);
 
 	public void delete(Integer id);
 
@@ -14,6 +16,5 @@ public interface IPCompanyBankAccountDAO {
 
 	public PCompanyBankAccount findById(Integer id);
 
-	public List<PCompanyBankAccount> findByProperties(
-			final Map<String, Object> propertyMap);
+	public List<PCompanyBankAccount> findByProperties(final Map<String, Object> propertyMap);
 }

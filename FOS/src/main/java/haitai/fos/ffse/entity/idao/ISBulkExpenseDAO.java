@@ -2,11 +2,13 @@ package haitai.fos.ffse.entity.idao;
 
 import haitai.fos.ffse.entity.table.SBulkExpense;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public interface ISBulkExpenseDAO {
 	public void save(SBulkExpense entity);
+
+	public List<SBulkExpense> saveByRowAction(List<SBulkExpense> entityList);
 
 	public void delete(Integer id);
 
@@ -14,6 +16,5 @@ public interface ISBulkExpenseDAO {
 
 	public SBulkExpense findById(Integer id);
 
-	public List<SBulkExpense> findByProperties(
-			final Map<String, Object> propertyMap);
+	public List<SBulkExpense> findByProperties(final Map<String, Object> propertyMap);
 }

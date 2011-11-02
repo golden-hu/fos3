@@ -2,11 +2,13 @@ package haitai.fos.ws.entity.idao;
 
 import haitai.fos.ws.entity.table.WBlM;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public interface IWBlMDAO {
 	public void save(WBlM entity);
+
+	public List<WBlM> saveByRowAction(List<WBlM> entityList);
 
 	public void delete(Integer id);
 
@@ -14,6 +16,5 @@ public interface IWBlMDAO {
 
 	public WBlM findById(Integer id);
 
-	public List<WBlM> findByProperties(
-			final Map<String, Object> propertyMap);
+	public List<WBlM> findByProperties(final Map<String, Object> propertyMap);
 }

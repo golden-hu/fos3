@@ -7,8 +7,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GVesselDAO extends GenericDAO<GVessel, Integer> implements
-		IGVesselDAO {
+public class GVesselDAO extends GenericDAO<GVessel, Integer> implements IGVesselDAO {
 
 	public GVesselDAO() {
 		super(GVessel.class);

@@ -7,25 +7,25 @@ import haitai.fos.ws.entity.table.WConsign;
 import haitai.fos.ws.entity.table.WUser;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.util.ConstUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class WConsignService {
-	private IWConsignDAO dao = null;
-	private FConsignService consignService = null;
+	@Autowired
+	private IWConsignDAO dao;
+	@Autowired
+	private FConsignService consignService;
 
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<FConsign> saveRealConsign(List<FConsign> entityList,
-			Map<String, Object> queryMap) {
+	public List<FConsign> saveRealConsign(List<FConsign> entityList, Map<String, Object> queryMap) {
 		Integer wconId = null;
 		if (entityList != null && entityList.size() > 0)
 			wconId = entityList.get(0).getWconId();
@@ -57,23 +57,4 @@ public class WConsignService {
 		}
 		return retList;
 	}
-
-	public IWConsignDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IWConsignDAO dao) {
-		this.dao = dao;
-	}
-
-	public FConsignService getConsignService() {
-		return consignService;
-	}
-
-	@Autowired
-	public void setConsignService(FConsignService consignService) {
-		this.consignService = consignService;
-	}
-
 }

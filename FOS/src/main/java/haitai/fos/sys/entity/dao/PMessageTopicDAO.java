@@ -6,8 +6,7 @@ import haitai.fw.entity.GenericDAO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PMessageTopicDAO extends GenericDAO<PMessageTopic, Integer>
-		implements IPMessageTopicDAO {
+public class PMessageTopicDAO extends GenericDAO<PMessageTopic, Integer> implements IPMessageTopicDAO {
 
 	public PMessageTopicDAO() {
 		super(PMessageTopic.class);
