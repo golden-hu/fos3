@@ -735,7 +735,7 @@ public class PTemplateService {
 		String queryActionName = ptt.getTetyAction();
 		SessionManager.setAttr(SessionKeyType.ACTNAME, queryActionName);
 		Action action = ActionManager.getAction(queryActionName);
-		Object service = SpringContextHolder.getBean(action.getActClass());
+		Object service = SpringContextHolder.getBean(action.getActService());
 		Method[] methods = service.getClass().getMethods();
 		List entityList = null;
 		for (Method method : methods) {

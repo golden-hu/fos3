@@ -303,7 +303,7 @@ public class MainServlet extends HttpServlet {
 	private void dispatch(String actName, FosRequest fosRequest, FosResponse fosResponse) throws Exception {
 		// get service class and action method
 		Action action = ActionManager.getAction(actName);
-		Object service = SpringContextHolder.getBean(action.getActClass());
+		Object service = SpringContextHolder.getBean(action.getActService());
 		// convert request to parameter type of action method
 		Method[] methods = service.getClass().getMethods();
 		for (Method method : methods) {

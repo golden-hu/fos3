@@ -24,6 +24,8 @@ public class FBlService {
 	private IFConsignDAO consignDao;
 	@Autowired
 	private IFContractDAO contractDao;
+	@Autowired
+	private FConsignService consignService;
 
 	@Transactional
 	public List<FBl> save(List<FBl> consignList) {
@@ -358,6 +360,12 @@ public class FBlService {
 			if (StringUtil.isNotBlank(id)) {
 				dao.updateStatusById(Integer.valueOf(id), blStatus);
 			}
+		}
+		String blType = (String) queryMap.get("blType");
+		if("M/BL".equalsIgnoreCase(blType)){
+			consignService.updateMblStatusById(queryMap);
+		}else if("F/BL".equalsIgnoreCase(blType)){
+			consignService.updateFblStatusById(queryMap);
 		}
 	}
 

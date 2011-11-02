@@ -23,7 +23,7 @@ public class ReportUtil {
 		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
 				"/FosReport";
 		String url = basePath + "/preview?__report=reports/";
-		url += action.getActService();
+		url += action.getActMethod();
 		url += "&__locale=zh_CN&__navigationbar=false&__showtitle=false";
 		url += "&__title=" + URLEncoder.encode("海钛报表", XML_ENCODING_UTF8);
 		if (paramMap.containsKey("format")) {

@@ -19,7 +19,6 @@ public class Action extends BaseDomain {
 	private static final long serialVersionUID = -8656366731371432446L;
 	private Integer actId;
 	private String actName;
-	private String actClass;
 	private String actMethod;
 	private String actService;
 	private String actRemark;
@@ -43,15 +42,6 @@ public class Action extends BaseDomain {
 
 	public void setActName(String actName) {
 		this.actName = actName;
-	}
-
-	@Column(name = "ACT_CLASS", unique = false, nullable = false, insertable = true, updatable = true, length = 50)
-	public String getActClass() {
-		return this.actClass;
-	}
-
-	public void setActClass(String actClass) {
-		this.actClass = actClass;
 	}
 
 	@Column(name = "ACT_METHOD", unique = false, nullable = false, insertable = true, updatable = true, length = 32)
