@@ -1349,9 +1349,7 @@ Fos.InvoiceGrid = function(t) {
 	bbar:PTB(store,C_PS)});
 };
 Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
-Fos.ExpenseLookupWin = function(c,t) {
-	var store = GS('EXPE_INV_Q','SExpense',SExpense,'expeId','DESC','','','id',true);
-    store.load({params:{custId:c,expeType:t,pateCode:'P',expeAllocatedFlag:0}});
+Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_SETTLE_OBJECT,width:100,dataIndex:"custSname"},
@@ -1377,11 +1375,11 @@ Fos.ExpenseLookupWin = function(c,t) {
 		    {type: 'string',  dataIndex: 'charName'},
 		    {type: 'string',  dataIndex: 'currCode'},
 		    {type: 'numeric', dataIndex: 'expeTotalAmount'}]});
-    var g = new Ext.grid.GridPanel({ 
-    id:'G_EXPE_LOOKUP',header:false,height:400,width:800,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
+    this.grid = new Ext.grid.GridPanel({ 
+    header:false,height:400,width:800,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
+   
     Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:800,minWidth:300,
-        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:[{layout:'fit',border:false,
-        items: [g]}]}); 
+        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
 };
 Ext.extend(Fos.ExpenseLookupWin,Ext.Window);
 Fos.InvoItemGrid = function(p,frm){
@@ -1414,9 +1412,20 @@ Fos.InvoItemGrid = function(p,frm){
 	};
 	this.add=function(){
 		if(p.get('custId')){
-    		var win = new Fos.ExpenseLookupWin(p.get('custId'),p.get('invoType'));
+			var eStore = new Ext.data.Store({url:SERVICE_URL+'?A=EXPE_INV_Q',
+				baseParams:{mt:'xml',custId:p.get('custId'),pateCode:'P',expeAllocatedFlag:0,
+					expeType:p.get('invoType')},
+				reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:'expeId'},SExpense),
+				remoteSort:true,sortInfo:{field:'expeId', direction:'DESC'}});	
+				
+			/*evar eStore = GS('EXPE_INV_Q','SExpense',SExpense,'expeId','DESC','','',false);
+			Store.baseParams={mt:'JSON',custId:p.get('custId'),pateCode:'P',expeAllocatedFlag:0,expeType:p.get('invoType')};
+			*/
+			eStore.load();	
+			
+			var win = new Fos.ExpenseLookupWin(eStore);
 			win.addButton({text:C_OK,scope:this,handler:function(){
-				var g = win.findById('G_EXPE_LOOKUP');
+				var g = win.grid;
 				var r = g.getSelectionModel().getSelections();
 				if(r){
 					var rn = store.getCount();
