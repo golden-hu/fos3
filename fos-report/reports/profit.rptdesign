@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <property name="units">in</property>
     <list-property name="propertyBindings">
         <structure>
@@ -154,7 +154,7 @@
 if(params["type"].value == "1"){
 	rt = row["CONS_CARRIER_NAME"];
 }else if(params["type"].value == "2"){
-	rt = row["CUST_SNAME"];
+	rt = row["CUST_NAME"];
 }else if(params["type"].value == "3"){
 	rt = (row["USER_NAME"] == null ? "" : row["USER_NAME"]);
 }else if(params["type"].value == "4"){
@@ -168,48 +168,6 @@ if(params["type"].value == "1"){
 }
 rt;</expression>
                     <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">CONS_BIZ_CLASS</property>
-                    <property name="alias">CONS_BIZ_CLASS</property>
-                </structure>
-                <structure>
-                    <property name="columnName">CONS_BIZ_TYPE</property>
-                    <property name="alias">CONS_BIZ_TYPE</property>
-                </structure>
-                <structure>
-                    <property name="columnName">CONS_SHIP_TYPE</property>
-                    <property name="alias">CONS_SHIP_TYPE</property>
-                </structure>
-                <structure>
-                    <property name="columnName">CONS_CARRIER_NAME</property>
-                    <property name="alias">CONS_CARRIER_NAME</property>
-                </structure>
-                <structure>
-                    <property name="columnName">EXPE_TYPE</property>
-                    <property name="alias">EXPE_TYPE</property>
-                </structure>
-                <structure>
-                    <property name="columnName">EXPE_TOTAL_AMOUNT</property>
-                    <property name="alias">EXPE_TOTAL_AMOUNT</property>
-                </structure>
-                <structure>
-                    <property name="columnName">CUST_SNAME</property>
-                    <property name="alias">CUST_SNAME</property>
-                </structure>
-                <structure>
-                    <property name="columnName">USER_NAME</property>
-                    <property name="alias">USER_NAME</property>
-                </structure>
-                <structure>
-                    <property name="columnName">SHLI_NAME</property>
-                    <property name="alias">SHLI_NAME</property>
-                </structure>
-                <structure>
-                    <property name="columnName">groupBy</property>
-                    <property name="alias">groupBy</property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -260,7 +218,7 @@ rt;</expression>
                     <structure>
                         <property name="position">6</property>
                         <property name="name">EXPE_TOTAL_AMOUNT</property>
-                        <property name="dataType">decimal</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
@@ -269,16 +227,21 @@ rt;</expression>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">USER_NAME</property>
+                        <property name="name">CUST_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">SHLI_NAME</property>
+                        <property name="name">USER_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
+                        <property name="name">SHLI_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
                         <property name="name">groupBy</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -329,7 +292,7 @@ this.queryText = sql;]]></method>
                     <property name="position">6</property>
                     <property name="name">EXPE_TOTAL_AMOUNT</property>
                     <property name="nativeName">EXPE_TOTAL_AMOUNT</property>
-                    <property name="dataType">decimal</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
@@ -339,12 +302,18 @@ this.queryText = sql;]]></method>
                 </structure>
                 <structure>
                     <property name="position">8</property>
+                    <property name="name">CUST_NAME</property>
+                    <property name="nativeName">CUST_NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
                     <property name="name">USER_NAME</property>
                     <property name="nativeName">USER_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">SHLI_NAME</property>
                     <property name="nativeName">SHLI_NAME</property>
                     <property name="dataType">string</property>
@@ -358,6 +327,7 @@ c.CONS_CARRIER_NAME,
 e.EXPE_TYPE, 
 e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE as EXPE_TOTAL_AMOUNT,
 c.CUST_SNAME, 
+c.CUST_NAME,
 u.USER_NAME, 
 l.SHLI_NAME
 from 

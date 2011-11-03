@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -129,97 +129,97 @@ rt;</expression>
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">cust_name</property>
+                        <property name="name">CUST_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">cons_no</property>
+                        <property name="name">CONS_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">cons_mbl_no</property>
+                        <property name="name">CONS_MBL_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">cons_sail_date</property>
+                        <property name="name">CONS_SAIL_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">char_name</property>
+                        <property name="name">CHAR_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">init_invoice_amount</property>
+                        <property name="name">INIT_INVOICE_AMOUNT</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">invo_curr_code</property>
+                        <property name="name">INVO_CURR_CODE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">invo_ex_rate</property>
+                        <property name="name">INVO_EX_RATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">voit_amount_w</property>
+                        <property name="name">VOIT_AMOUNT_W</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
-                        <property name="name">vouc_curr_code</property>
+                        <property name="name">VOUC_CURR_CODE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">vouc_ex_rate</property>
+                        <property name="name">VOUC_EX_RATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">voit_amount_vouc_w</property>
+                        <property name="name">VOIT_AMOUNT_VOUC_W</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">vouc_no</property>
+                        <property name="name">VOUC_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">voit_write_off_no</property>
+                        <property name="name">VOIT_WRITE_OFF_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">15</property>
-                        <property name="name">invo_no</property>
+                        <property name="name">INVO_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">16</property>
-                        <property name="name">invo_tax_no</property>
+                        <property name="name">INVO_TAX_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">17</property>
-                        <property name="name">vouc_date</property>
+                        <property name="name">VOUC_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">18</property>
-                        <property name="name">voit_id</property>
+                        <property name="name">VOIT_ID</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
-                        <property name="name">cust_sname_cn</property>
+                        <property name="name">CUST_SNAME_CN</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -678,7 +678,6 @@ where COMP_CODE = ?]]></xml-property>
                                 <text-property name="displayName">VOIT_AMOUNT_VOUC_W</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["VOIT_AMOUNT_VOUC_W"] * dataSetRow["VOUC_EX_RATE"]</expression>
                                 <property name="dataType">decimal</property>
-                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">VOUC_NO</property>
@@ -746,7 +745,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME_CN</property>
-                                <expression name="expression">dataSetRow["CUST_SNAME_CN"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["CUST_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>

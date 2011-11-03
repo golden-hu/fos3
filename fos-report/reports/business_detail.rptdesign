@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="comments">Copyright (c) 2008 &lt;&lt;海钛软件>></property>
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
@@ -389,7 +389,6 @@ rt;</expression>
                     <text-property name="displayName">CONS_ID</text-property>
                     <text-property name="heading">CONS_ID</text-property>
                     <property name="displayLength">11</property>
-                    <property name="horizontalAlign">justify</property>
                     <property name="wordWrap">false</property>
                 </structure>
                 <structure>
@@ -397,7 +396,6 @@ rt;</expression>
                     <text-property name="displayName">SHLI_NAME</text-property>
                     <text-property name="heading">SHLI_NAME</text-property>
                     <property name="displayLength">32</property>
-                    <property name="horizontalAlign">justify</property>
                     <property name="wordWrap">false</property>
                 </structure>
                 <structure>
@@ -405,7 +403,6 @@ rt;</expression>
                     <text-property name="displayName">VOYA_NAME</text-property>
                     <text-property name="heading">VOYA_NAME</text-property>
                     <property name="displayLength">97</property>
-                    <property name="horizontalAlign">justify</property>
                     <property name="wordWrap">false</property>
                 </structure>
                 <structure>
@@ -413,7 +410,6 @@ rt;</expression>
                     <text-property name="displayName">CONS_POD_EN</text-property>
                     <text-property name="heading">CONS_POD_EN</text-property>
                     <property name="displayLength">64</property>
-                    <property name="horizontalAlign">justify</property>
                     <property name="wordWrap">false</property>
                 </structure>
                 <structure>
@@ -421,7 +417,6 @@ rt;</expression>
                     <text-property name="displayName">CONS_CARRIER_NAME</text-property>
                     <text-property name="heading">CONS_CARRIER_NAME</text-property>
                     <property name="displayLength">64</property>
-                    <property name="horizontalAlign">justify</property>
                     <property name="wordWrap">false</property>
                 </structure>
                 <structure>
@@ -429,144 +424,97 @@ rt;</expression>
                     <text-property name="displayName">CUST_SNAME</text-property>
                     <text-property name="heading">CUST_SNAME</text-property>
                     <property name="displayLength">64</property>
-                    <property name="horizontalAlign">justify</property>
                     <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_NAME</property>
+                    <text-property name="displayName">CUST_NAME</text-property>
+                    <text-property name="heading">CUST_NAME</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_SALES_REP_NAME</property>
                     <text-property name="displayName">CONS_SALES_REP_NAME</text-property>
                     <text-property name="heading">CONS_SALES_REP_NAME</text-property>
-                    <property name="displayLength">32</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_OPERATOR_NAME</property>
                     <text-property name="displayName">CONS_OPERATOR_NAME</text-property>
                     <text-property name="heading">CONS_OPERATOR_NAME</text-property>
-                    <property name="displayLength">32</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_CONTAINERS_TEU</property>
                     <text-property name="displayName">CONS_CONTAINERS_TEU</text-property>
                     <text-property name="heading">CONS_CONTAINERS_TEU</text-property>
-                    <property name="displayLength">11</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_TOTAL_GROSS_WEIGHT</property>
                     <text-property name="displayName">CONS_TOTAL_GROSS_WEIGHT</text-property>
                     <text-property name="heading">CONS_TOTAL_GROSS_WEIGHT</text-property>
-                    <property name="displayLength">16</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">RECEIVE</property>
                     <text-property name="displayName">RECEIVE</text-property>
                     <text-property name="heading">RECEIVE</text-property>
-                    <property name="displayLength">45</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">PAY</property>
                     <text-property name="displayName">PAY</text-property>
                     <text-property name="heading">PAY</text-property>
-                    <property name="displayLength">45</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">RECEIVE_CNY</property>
                     <text-property name="displayName">RECEIVE_CNY</text-property>
                     <text-property name="heading">RECEIVE_CNY</text-property>
-                    <property name="displayLength">36</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">PAY_CNY</property>
                     <text-property name="displayName">PAY_CNY</text-property>
                     <text-property name="heading">PAY_CNY</text-property>
-                    <property name="displayLength">36</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">RECEIVE_USD</property>
                     <text-property name="displayName">RECEIVE_USD</text-property>
                     <text-property name="heading">RECEIVE_USD</text-property>
-                    <property name="displayLength">36</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">PAY_USD</property>
                     <text-property name="displayName">PAY_USD</text-property>
                     <text-property name="heading">PAY_USD</text-property>
-                    <property name="displayLength">36</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">RECEIVE_EUR</property>
                     <text-property name="displayName">RECEIVE_EUR</text-property>
                     <text-property name="heading">RECEIVE_EUR</text-property>
-                    <property name="displayLength">36</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">PAY_EUR</property>
                     <text-property name="displayName">PAY_EUR</text-property>
                     <text-property name="heading">PAY_EUR</text-property>
-                    <property name="displayLength">36</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_CONTAINERS_INFO</property>
                     <text-property name="displayName">CONS_CONTAINERS_INFO</text-property>
                     <text-property name="heading">CONS_CONTAINERS_INFO</text-property>
-                    <property name="displayLength">500</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_SAIL_DATE</property>
                     <text-property name="displayName">CONS_SAIL_DATE</text-property>
                     <text-property name="heading">CONS_SAIL_DATE</text-property>
-                    <property name="displayLength">10</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_DATE</property>
                     <text-property name="displayName">CONS_DATE</text-property>
                     <text-property name="heading">CONS_DATE</text-property>
-                    <property name="displayLength">10</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">GROU_NAME</property>
                     <text-property name="displayName">GROU_NAME</text-property>
                     <text-property name="heading">GROU_NAME</text-property>
-                    <property name="displayLength">32</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_NO</property>
                     <text-property name="displayName">CONS_NO</text-property>
                     <text-property name="heading">CONS_NO</text-property>
-                    <property name="displayLength">32</property>
-                    <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -603,101 +551,106 @@ rt;</expression>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">CONS_SALES_REP_NAME</property>
+                        <property name="name">CUST_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">CONS_OPERATOR_NAME</property>
+                        <property name="name">CONS_SALES_REP_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
+                        <property name="name">CONS_OPERATOR_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
                         <property name="name">CONS_CONTAINERS_TEU</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
-                        <property name="name">CONS_TOTAL_GROSS_WEIGHT</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
                         <property name="position">11</property>
-                        <property name="name">RECEIVE</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">CONS_TOTAL_GROSS_WEIGHT</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">PAY</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">RECEIVE</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">RECEIVE_CNY</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">PAY</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">PAY_CNY</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">RECEIVE_CNY</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">15</property>
-                        <property name="name">RECEIVE_USD</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">PAY_CNY</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">16</property>
-                        <property name="name">PAY_USD</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">RECEIVE_USD</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">17</property>
-                        <property name="name">RECEIVE_EUR</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">PAY_USD</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">18</property>
-                        <property name="name">PAY_EUR</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">RECEIVE_EUR</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
+                        <property name="name">PAY_EUR</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
                         <property name="name">CONS_CONTAINERS_INFO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">21</property>
                         <property name="name">CONS_SAIL_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">21</property>
+                        <property name="position">22</property>
                         <property name="name">CONS_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">22</property>
+                        <property name="position">23</property>
                         <property name="name">GROU_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">23</property>
+                        <property name="position">24</property>
                         <property name="name">CONS_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">24</property>
+                        <property name="position">25</property>
                         <property name="name">GROSS_PROFIT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">25</property>
+                        <property name="position">26</property>
                         <property name="name">GROSS_PROFIT_RATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">26</property>
+                        <property name="position">27</property>
                         <property name="name">groupBy</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -798,102 +751,108 @@ this.queryText = sql;]]></method>
                 </structure>
                 <structure>
                     <property name="position">7</property>
+                    <property name="name">CUST_NAME</property>
+                    <property name="nativeName">CUST_NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
                     <property name="name">CONS_SALES_REP_NAME</property>
                     <property name="nativeName">CONS_SALES_REP_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">CONS_OPERATOR_NAME</property>
                     <property name="nativeName">CONS_OPERATOR_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">CONS_CONTAINERS_TEU</property>
                     <property name="nativeName">CONS_CONTAINERS_TEU</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">CONS_TOTAL_GROSS_WEIGHT</property>
                     <property name="nativeName">CONS_TOTAL_GROSS_WEIGHT</property>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">RECEIVE</property>
-                    <property name="nativeName">RECEIVE</property>
-                    <property name="dataType">decimal</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">PAY</property>
-                    <property name="nativeName">PAY</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">RECEIVE</property>
+                    <property name="nativeName">RECEIVE</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">RECEIVE_CNY</property>
-                    <property name="nativeName">RECEIVE_CNY</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">PAY</property>
+                    <property name="nativeName">PAY</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">PAY_CNY</property>
-                    <property name="nativeName">PAY_CNY</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">RECEIVE_CNY</property>
+                    <property name="nativeName">RECEIVE_CNY</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">RECEIVE_USD</property>
-                    <property name="nativeName">RECEIVE_USD</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">PAY_CNY</property>
+                    <property name="nativeName">PAY_CNY</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
-                    <property name="name">PAY_USD</property>
-                    <property name="nativeName">PAY_USD</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">RECEIVE_USD</property>
+                    <property name="nativeName">RECEIVE_USD</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">17</property>
-                    <property name="name">RECEIVE_EUR</property>
-                    <property name="nativeName">RECEIVE_EUR</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">PAY_USD</property>
+                    <property name="nativeName">PAY_USD</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">18</property>
-                    <property name="name">PAY_EUR</property>
-                    <property name="nativeName">PAY_EUR</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">RECEIVE_EUR</property>
+                    <property name="nativeName">RECEIVE_EUR</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">19</property>
+                    <property name="name">PAY_EUR</property>
+                    <property name="nativeName">PAY_EUR</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
                     <property name="name">CONS_CONTAINERS_INFO</property>
                     <property name="nativeName">CONS_CONTAINERS_INFO</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">20</property>
+                    <property name="position">21</property>
                     <property name="name">CONS_SAIL_DATE</property>
                     <property name="nativeName">CONS_SAIL_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">21</property>
+                    <property name="position">22</property>
                     <property name="name">CONS_DATE</property>
                     <property name="nativeName">CONS_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">22</property>
+                    <property name="position">23</property>
                     <property name="name">GROU_NAME</property>
                     <property name="nativeName">GROU_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">23</property>
+                    <property name="position">24</property>
                     <property name="name">CONS_NO</property>
                     <property name="nativeName">CONS_NO</property>
                     <property name="dataType">string</property>
@@ -901,7 +860,7 @@ this.queryText = sql;]]></method>
             </list-property>
             <xml-property name="queryText"><![CDATA[select c.CONS_ID, l.SHLI_NAME, 
 CONCAT(c.VESS_NAME, " ", c.VOYA_NAME) as VOYA_NAME,
-c.CONS_POD_EN, c.CONS_CARRIER_NAME, c.CUST_SNAME, 
+c.CONS_POD_EN, c.CONS_CARRIER_NAME, c.CUST_SNAME, c.CUST_NAME,
 c.CONS_SALES_REP_NAME, c.CONS_OPERATOR_NAME,
 c.CONS_CONTAINERS_TEU, c.CONS_TOTAL_GROSS_WEIGHT,
 (select sum(e.EXPE_TOTAL_AMOUNT*e.EXPE_EX_RATE) from S_EXPENSE e 
@@ -1289,7 +1248,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">CUST_SNAME</property>
-                                <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["CUST_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>

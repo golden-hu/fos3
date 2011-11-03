@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -288,7 +288,7 @@
                     <property name="name">groupBy</property>
                     <expression name="expression">var rt;
 if(params["g"] == "1"){
-  rt = row["CUST_CODE"];
+  rt = row["CUST_NAME_CN"];
 }else if (params["g"] == "2"){
   rt = row["USER_NAME"];
 }else if (params["g"] == "3"){
@@ -312,6 +312,11 @@ rt;</expression>
                     <property name="columnName">CUST_CODE</property>
                     <text-property name="displayName">cust_code</text-property>
                     <text-property name="heading">cust_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_NAME_CN</property>
+                    <text-property name="displayName">cust_name_cn</text-property>
+                    <text-property name="heading">cust_name_cn</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">EXPE_TOTAL_AMOUNT</property>
@@ -378,61 +383,66 @@ rt;</expression>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">EXPE_TOTAL_AMOUNT</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">CUST_NAME_CN</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
+                        <property name="name">EXPE_TOTAL_AMOUNT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
                         <property name="name">EXPE_EX_RATE</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">5</property>
+                        <property name="position">6</property>
                         <property name="name">CURR_CODE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">7</property>
                         <property name="name">EXPE_INVOICE_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">8</property>
                         <property name="name">CONS_SAIL_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">CONS_POD_EN</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">USER_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">11</property>
                         <property name="name">GROU_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">12</property>
                         <property name="name">EXPE_TYPE</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">CONS_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">LOCAL_AMOUNT</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">groupBy</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -496,66 +506,72 @@ this.queryText = sql;]]></method>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">EXPE_TOTAL_AMOUNT</property>
-                    <property name="nativeName">EXPE_TOTAL_AMOUNT</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">CUST_NAME_CN</property>
+                    <property name="nativeName">CUST_NAME_CN</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
+                    <property name="name">EXPE_TOTAL_AMOUNT</property>
+                    <property name="nativeName">EXPE_TOTAL_AMOUNT</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
                     <property name="name">EXPE_EX_RATE</property>
                     <property name="nativeName">EXPE_EX_RATE</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">CURR_CODE</property>
                     <property name="nativeName">CURR_CODE</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">EXPE_INVOICE_DATE</property>
                     <property name="nativeName">EXPE_INVOICE_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">CONS_SAIL_DATE</property>
                     <property name="nativeName">CONS_SAIL_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">CONS_POD_EN</property>
                     <property name="nativeName">CONS_POD_EN</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">USER_NAME</property>
                     <property name="nativeName">USER_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">GROU_NAME</property>
                     <property name="nativeName">GROU_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">12</property>
                     <property name="name">EXPE_TYPE</property>
                     <property name="nativeName">EXPE_TYPE</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
+                    <property name="position">13</property>
                     <property name="name">CONS_DATE</property>
                     <property name="nativeName">CONS_DATE</property>
                     <property name="dataType">date</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[SELECT e.expe_id, m.cust_code, 
+            <xml-property name="queryText"><![CDATA[SELECT e.expe_id, m.cust_code, m.cust_name_cn, 
 e.expe_total_amount, e.expe_ex_rate, 
 e.curr_code, e.expe_invoice_date, 
 c.cons_sail_date, c.cons_pod_en, 
