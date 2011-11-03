@@ -2964,8 +2964,6 @@ CREATE TABLE IF NOT EXISTS `P_ACTION` (
   `ACT_SERVICE` varchar(50) collate utf8_unicode_ci default NULL,
   `ACT_METHOD` varchar(32) collate utf8_unicode_ci NOT NULL,
   `ACT_REMARK` varchar(100) collate utf8_unicode_ci default NULL,
-  `ACT_DAEMON_FLAG` tinyint(1) NOT NULL default '0',
-  `ACT_SINGLETON_FLAG` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`ACT_ID`),
   UNIQUE KEY `ACT_NAME` (`ACT_NAME`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

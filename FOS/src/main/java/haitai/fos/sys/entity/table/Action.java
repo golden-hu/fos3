@@ -1,15 +1,10 @@
 package haitai.fos.sys.entity.table;
 
 import haitai.fw.entity.BaseDomain;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "P_ACTION", uniqueConstraints = { @UniqueConstraint(columnNames = { "ACT_NAME" }) })
@@ -22,8 +17,6 @@ public class Action extends BaseDomain {
 	private String actMethod;
 	private String actService;
 	private String actRemark;
-	private boolean actDaemonFlag;
-	private boolean actSingletonFlag;
 
 	@Id
 	@Column(name = "ACT_ID", unique = true, nullable = false, insertable = true, updatable = true)
@@ -70,23 +63,4 @@ public class Action extends BaseDomain {
 	public void setActRemark(String actRemark) {
 		this.actRemark = actRemark;
 	}
-
-	@Column(name = "ACT_DAEMON_FLAG", unique = false, nullable = false, insertable = true, updatable = true)
-	public boolean getActDaemonFlag() {
-		return this.actDaemonFlag;
-	}
-
-	public void setActDaemonFlag(boolean actDaemonFlag) {
-		this.actDaemonFlag = actDaemonFlag;
-	}
-
-	@Column(name = "ACT_SINGLETON_FLAG", unique = false, nullable = false, insertable = true, updatable = true)
-	public boolean getActSingletonFlag() {
-		return this.actSingletonFlag;
-	}
-
-	public void setActSingletonFlag(boolean actSingletonFlag) {
-		this.actSingletonFlag = actSingletonFlag;
-	}
-
 }
