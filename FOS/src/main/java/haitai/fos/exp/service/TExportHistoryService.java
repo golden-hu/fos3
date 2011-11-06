@@ -262,11 +262,13 @@ public class TExportHistoryService {
 		Sheet sheet = wb.createSheet("Invoices");
 		List<Object[]> rowList = new ArrayList<Object[]>();
 		Object[] rowData = new Object[]{"CNTBTCH", "CNTITEM", "IDCUST",
-				"CODECURN", "BASETAX1", "AMTTAXTOT", "INVCDESC"};
+				"CODECURN", "BASETAX1", "AMTTAXTOT", "INVCDESC",
+				"IDINVC", "DATEINVC", "EXCHRATEHC", "TEXTTRX", "AMTTAX1"};
 		rowList.add(rowData);
 		for (TInvoice item : invoiceList) {
 			rowData = new Object[]{item.getExhiId(), item.getInvoId(), item.getCustId(),
-					item.getCurrCode(), item.getInvoAmount(), "0", item.getInvoBlNo()};
+					item.getCurrCode(), item.getInvoAmount(), "0", item.getInvoBlNo(),
+					item.getInvoNo(), item.getInvoDate(), item.getInvoExRate(), "1", 0};
 			rowList.add(rowData);
 		}
 		fillSheet(sheet, rowList);
@@ -450,7 +452,7 @@ public class TExportHistoryService {
 		for (TVoucherItem item : voitList) {
 			rowData = new Object[]{"CA", item.getExhiId(), item.getVoucId(),
 					item.getExhiLine(), item.getCustId(),
-					item.getVoitAmountVoucW(), "0", "", "",
+					item.getInvoNo(), "0", "", "",
 					item.getVoucExRate(), item.getVoucDate(),
 					item.getVoitAmountVoucW() * item.getVoucExRate()};
 			rowList.add(rowData);
@@ -554,9 +556,19 @@ public class TExportHistoryService {
 				"AMTPAYMHC", "AMTDISCHC", "AMTADJHC", "RTGAMTHC", "APVERSION"};
 		rowList.clear();
 		rowList.add(rowData);
+		Map<String, Integer> invoiceNoMap = new HashMap<String, Integer>();
 		for (TVoucherItem item : voitList) {
-			rowData = new Object[]{"PY", item.getExhiId(), item.getInvoId(),
-					item.getExhiLine(), item.getCustId(), item.getInvoTaxNo(),
+			String invoTaxNo = item.getInvoTaxNo();
+			if(invoTaxNo != null){
+				int count = 1;
+				if (invoiceNoMap.containsKey(invoTaxNo)) {
+					count = invoiceNoMap.get(invoTaxNo) + 1;
+				}
+				invoiceNoMap.put(invoTaxNo, count);
+				invoTaxNo += "_" + count;
+			}
+			rowData = new Object[]{"PY", item.getExhiId(), item.getVoucId(),
+					item.getExhiLine(), item.getCustId(), invoTaxNo,
 					"1", "51", "03", item.getVoitAmountVoucW(),
 					item.getConsNo(), item.getVoitWriteOffNo(),
 					item.getVoitAmountVoucW(), "0", item.getVoucCurrCode(),
