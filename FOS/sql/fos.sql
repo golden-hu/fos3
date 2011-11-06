@@ -4927,7 +4927,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('EXRA_Q', 'SExRateService', 'query', '汇率查询'),
 ('VOUC_S', 'SVoucherService', 'save', '收款单保存'),
 ('VOUC_Q', 'SVoucherService', 'query', '收款单查询'),
-('VOUC_X', 'SVoucherService', 'complex', '收款单综合查询'),
+('VOUC_X', 'SVoucherService', 'complexQuery', '收款单综合查询'),
 ('VOUC_U', 'SVoucherService', 'updateStatus', '收款单状态修改'),
 ('VOIT_Q', 'SVoucherService', 'queryItem', '核销单明细查询'),
 ('VOUC_C', 'SVoucherService', 'cancelVoucher', '作废核销单'),
@@ -5027,6 +5027,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('REPT_BUSI_SALES', '', 'business_sales.rptdesign', '业务员业务量汇总表'),
 ('REPT_BUDS', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)')
 ;
+
 
 --
 -- 转存表中的数据 `P_FUNCTION`
