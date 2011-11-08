@@ -3395,7 +3395,7 @@ Fos.ExhiWin = function() {
 };
 Ext.extend(Fos.ExhiWin,Ext.Window);
 Fos.ExhiGrid = function() {
-	var store = GS('EXHI_Q','TExportHistory',TExportHistory,'exhiId','DESC','','','',false);
+	var store = GS('EXHI_Q','TExportHistory',TExportHistory,'exhiId','DESC','','','',true);
 	store.load({params:{start:0,limit:C_PS}});
 	var cm=new Ext.grid.ColumnModel({columns:[new Ext.grid.RowNumberer(),
 	{header:C_BATCH_NO,dataIndex:'exhiId',width:50},

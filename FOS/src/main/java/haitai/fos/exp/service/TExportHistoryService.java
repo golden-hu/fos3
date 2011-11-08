@@ -111,8 +111,8 @@ public class TExportHistoryService {
 	private void prepareInvoiceConditions(Short type, String dateF, String dateT, List<FosQuery> conditions) {
 		conditions.add(new FosQuery("invoStatus", ConstUtil.SQL_OP_EQUAL, "1"));
 		conditions.add(new FosQuery("invoUploadFlag", ConstUtil.SQL_OP_EQUAL, "0"));
-		conditions.add(new FosQuery("invoCheckDate", ConstUtil.SQL_OP_MOREEQUAL, dateF));
-		conditions.add(new FosQuery("invoCheckDate", ConstUtil.SQL_OP_LESSEQUAL, dateT));
+		conditions.add(new FosQuery("invoSailDate", ConstUtil.SQL_OP_MOREEQUAL, dateF));
+		conditions.add(new FosQuery("invoSailDate", ConstUtil.SQL_OP_LESSEQUAL, dateT));
 		if (type == ConstUtil.HIST_TYPE_AR_INVOICE) {
 			conditions.add(new FosQuery("invoType", ConstUtil.SQL_OP_EQUAL, "R"));
 		} else {
