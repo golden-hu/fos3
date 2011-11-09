@@ -47,15 +47,16 @@
             	var rec=frm.UN.getById(r.get('unitCode'));
             	b.set('expeNum',rec?rec.get('N'):1);}}})};
     var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:expenseNumRender,
-			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
+			editor:new Ext.form.NumberField({decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
 	var t5={header:C_UNIT_PRICE,width:80,dataIndex:"expeUnitPrice",renderer:expenseNumRender,
-			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
+			editor:new Ext.form.NumberField({decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
 	var t6={header:C_CURR,dataIndex:'currCode',width:50,align:'center',
 			editor:new Ext.form.ComboBox({displayField:'currCode',valueField:'currCode',triggerAction: 'all',
             allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCURR_S()})};
 	var t7={header:C_EX_RATE,width:60,dataIndex:"expeExRate",renderer:rateRender};	
 	var t8={header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender};	
-	var t9={header:C_COST_PRICE,width:80,dataIndex:"expeInnerPrice",renderer:rateRender,editor:new Ext.form.NumberField({disabled:NR(m+F_CM),decimalPrecision:4,allowBlank:false,blankText:''})};
+	var t9={header:C_COST_PRICE,width:80,dataIndex:"expeInnerPrice",renderer:rateRender,
+			editor:new Ext.form.NumberField({disabled:NR(m+F_CM),decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:''})};
 	var t10={header:C_COST_TOTAL,width:80,dataIndex:"expeInnerAmount",renderer:numRender};	
 	var t11={header:C_PPCC,dataIndex:'pateCode',width:40,align:'center',
 			editor:new Ext.form.ComboBox({displayField:'pateCode',valueField:'pateCode',triggerAction: 'all',
@@ -72,9 +73,9 @@
     var t19={header:C_CREATE_TIME,renderer:formatDateTime,dataIndex:"createTime"};
     var t20={header:C_MODIFY_TIME,renderer:formatDateTime,dataIndex:"modifyTime"};
     var t21={header:C_COMMISION_RATE,width:60,dataIndex:"expeCommissionRate",renderer:rateRender,
-			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
+			editor:new Ext.form.NumberField({decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
 	var t22={header:C_COMMISION,width:60,dataIndex:"expeCommission",renderer:numRender,
-			editor:new Ext.form.NumberField({decimalPrecision:2,allowBlank:false,blankText:'',invalidText:''})};
+			editor:new Ext.form.NumberField({decimalPrecision:2,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
 	 var t23={header:C_CREATE_BY,renderer:getUSER,dataIndex:"createBy"};
 	 var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
 	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
@@ -198,6 +199,8 @@
 					e.set(fn,r.get(fn));
 				}
 				
+				e.set('expeType',t=='R'?'P':'R');
+						
 				e.set('custId',t=='P'?p.get('custId'):'');
 				e.set('custName',t=='P'?p.get('custName'):'');
 				e.set('custSname',t=='P'?p.get('custSname'):'');
@@ -206,7 +209,7 @@
 			    		
 				e.set('expeDate',new Date());e.set('id',id);e.set('expeId',id);
 				e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
-				e.set('expeUnitPrice','');e.set('expeNum','');e.set('expeNum2','');
+				e.set('expeUnitPrice','');
 				e.set('expeInnerPrice','');e.set('expeInnerAmount','');e.set('expeTotalAmount','');
 				e.set('expeCommission','');e.set('expeCommissionRate','');e.set('expeRcAmount','');
 				e.set('expeWriteOffDate','');

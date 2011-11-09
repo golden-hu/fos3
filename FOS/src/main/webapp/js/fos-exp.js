@@ -832,10 +832,10 @@ Fos.BookTab = function(p) {
 
     function saveShipper(shipperT){
     	var cushName = '';
-    	if(shipperT==1) cushName = Ext.getCmp('CONS_SHIPPER').getValue();
-    	else if(shipperT==2) cushName = Ext.getCmp('CONS_CONSIGNEE').getValue();
-    	else if(shipperT==3) cushName = Ext.getCmp('CONS_NOTIFY_PARTY').getValue();
-    	else if(shipperT==4) cushName = Ext.getCmp('CONS_NOTIFY_PARTY2').getValue();
+    	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').getValue();
+    	else if(shipperT==2) cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').getValue();
+    	else if(shipperT==3) cushName = Ext.getCmp(p.get('consId')+'CONS_NOTIFY_PARTY').getValue();
+    	else if(shipperT==4) cushName = Ext.getCmp(p.get('consId')+'CONS_NOTIFY_PARTY2').getValue();
     	    	
     	if(!p.get('custId')){
     		XMG.alert(SYS,M_SELECT_CUST_FIRST);
@@ -864,10 +864,10 @@ Fos.BookTab = function(p) {
     }
     
     function updateShipper(shipperT,cushName){
-    	if(shipperT==1) cushName = Ext.getCmp('CONS_SHIPPER').setValue(cushName);
-    	else if(shipperT==2) cushName = Ext.getCmp('CONS_CONSIGNEE').setValue(cushName);
-    	else if(shipperT==3) cushName = Ext.getCmp('CONS_NOTIFY_PARTY').setValue(cushName);
-    	else if(shipperT==4) cushName = Ext.getCmp('CONS_NOTIFY_PARTY2').setValue(cushName);
+    	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').setValue(cushName);
+    	else if(shipperT==2) cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').setValue(cushName);
+    	else if(shipperT==3) cushName = Ext.getCmp(p.get('consId')+'CONS_NOTIFY_PARTY').setValue(cushName);
+    	else if(shipperT==4) cushName = Ext.getCmp(p.get('consId')+'CONS_NOTIFY_PARTY2').setValue(cushName);
     };
     
     var bSaveShipper = new Ext.Button({text:'保存',handler:function(){saveShipper(1);}});
@@ -881,19 +881,19 @@ Fos.BookTab = function(p) {
     
     var t14={layout:'column',title:C_SHIPPER_INFO,collapsible:true,items:
 			[{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_SHIPPER,id:'CONS_SHIPPER',tabIndex:65,name:'consShipper',value:p.get('consShipper'),
+				items:[{fieldLabel:C_SHIPPER,id:p.get('consId')+'CONS_SHIPPER',tabIndex:65,name:'consShipper',value:p.get('consShipper'),
 				    	xtype:'textarea',height:100,anchor:'99%'}]},
 			{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
 			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_CONSIGNEE,id:'CONS_CONSIGNEE',tabIndex:66,name:'consConsignee',value:p.get('consConsignee'),
+				items:[{fieldLabel:C_CONSIGNEE,id:p.get('consId')+'CONS_CONSIGNEE',tabIndex:66,name:'consConsignee',value:p.get('consConsignee'),
 					xtype:'textarea',height:100,anchor:'99%'}]},
 			{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
 			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_NOTIFIER,id:'CONS_NOTIFY_PARTY',tabIndex:67,name:'consNotifyParty',value:p.get('consNotifyParty'),
+				items:[{fieldLabel:C_NOTIFIER,id:p.get('consId')+'CONS_NOTIFY_PARTY',tabIndex:67,name:'consNotifyParty',value:p.get('consNotifyParty'),
 					xtype:'textarea',height:100,anchor:'99%'}]},
 			{columnWidth:.05,border:false,items:[bSaveNotifyParty,bSearchNotifyParty]},
 			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_OVERSEA_AGENCY,id:'CONS_NOTIFY_PARTY2',tabIndex:68,name:'consNotifyParty2',value:p.get('consNotifyParty2'),
+				items:[{fieldLabel:C_OVERSEA_AGENCY,id:p.get('consId')+'CONS_NOTIFY_PARTY2',tabIndex:68,name:'consNotifyParty2',value:p.get('consNotifyParty2'),
 					xtype:'textarea',height:100,anchor:'99%'}]},
 			{columnWidth:.05,border:false,items:[bSaveNotifyParty2,bSearchNotifyParty2]}
 					
