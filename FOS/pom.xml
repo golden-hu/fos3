@@ -51,41 +51,14 @@
 					<force>true</force>
 					<encoding>UTF-8</encoding>
 					<disableOptimizations>false</disableOptimizations>
-					<aggregations>
-						<aggregation>
-							<removeIncluded>false</removeIncluded>
-							<insertNewLine>true</insertNewLine>
-							<output>${project.build.directory}/${project.build.finalName}/js/fos-all.js</output>
-							<includes>
-								<include>${basedir}/src/main/webapp/js/resource_Zh_Cn.js</include>
-								<include>${basedir}/src/main/webapp/js/version.js</include>
-								<include>${basedir}/src/main/webapp/js/constant.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-sys.js</include>
-								<include>${basedir}/src/main/webapp/js/store.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-gen.js</include>
-								<include>${basedir}/src/main/webapp/js/util.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-report.js</include>
-								<include>${basedir}/src/main/webapp/js/fos.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-cust.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-set.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-exp.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-imp.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-air.js</include>
-								<include>${basedir}/src/main/webapp/js/fos-ws.js</include>
-							</includes>
-							<excludes>
-								<exclude>**/ext/*</exclude>
-								<exclude>**/compressed/*</exclude>
-							</excludes>
-						</aggregation>
-					</aggregations>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<warSourceExcludes>**/toAggregateAndRemove/**</warSourceExcludes>
+					<nomunge>false</nomunge>
+					<excludes>
+						<exclude>**/ext/**/*</exclude>
+						<exclude>**/compressed/*</exclude>
+						<exclude>**/ext-all.js</exclude>
+						<exclude>**/ext-core.js</exclude>
+						<exclude>**/ext2.js</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
