@@ -12,11 +12,9 @@ import haitai.fos.sys.entity.table.PMessageSubscribe;
 import haitai.fos.sys.entity.table.PMessageTopic;
 import haitai.fos.sys.service.PMessageService;
 import haitai.fw.entity.FosQuery;
-import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
@@ -39,24 +37,8 @@ public class FDocService {
 	private PMessageService messageService;
 	
 	@Transactional
-	public List<FDoc> save(List<FDoc> consignList) {
-		List<FDoc> retList = new ArrayList<FDoc>();
-		for (FDoc entity : consignList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
-				entity.setFdocId(null);
-				dao.save(entity);
-				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
-				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
-				FDoc delEntity = dao.findById(entity.getFdocId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
-				dao.update(delEntity);
-			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
-			}
-		}
-		return retList;
+	public List<FDoc> save(List<FDoc> entityList) {
+		return dao.saveByRowAction(entityList);
 	}
 
 	@SuppressWarnings("unchecked")
