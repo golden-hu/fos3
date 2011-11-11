@@ -108,7 +108,7 @@
 	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'right'}});
 	cm.defaultSortable=true;cm.defaultWidth=100;			
 	this.add=function(){
-		var unit='EACH';var n=1;var rid=GGUID();
+		var unit='EACH';var rid=GGUID();
 		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consSailDate:p.get('consSailDate'),
     		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
     		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
@@ -290,8 +290,6 @@
 	if(t=='R') sS='(S)'; else if(t=='P') sS='(P)'; else sS='(O)';
 	var sC='(C)';
 	if(t=='R') sC='(C)'; else if(t=='P') sC='(B)'; else sC='(Y)';
-	var sF='(F)';
-	if(t=='P') sF='(F)'; else sF='(T)';
 	
 	var b1={itemId:'TB_A',text:C_ADD+sN,iconCls:'add',disabled:NR(m+F_M)||locked,scope:this,handler:this.add};
 	var b2={itemId:'TB_B',text:C_REMOVE+sR,iconCls:'remove',disabled:NR(m+F_R)||locked,scope:this,handler:this.removeExp};
@@ -934,7 +932,7 @@ Fos.ConsignAuditGrid = function() {
 		new Ext.grid.RowNumberer(),sm,
 		{header:C_AUDIT_STATUS,width:60,dataIndex:"consStatusAud",renderer:getAUST},
 		{header:C_CONS_STATUS,dataIndex:"consStatus",renderer:getCOST},
-		{header:C_CONS_NO,dataIndex:"consNo"},
+		{header:C_CONS_NO,dataIndex:"consNo",renderer:consRender},
 		{header:"F/L",width:40,dataIndex:"consShipType"},
 		{header:"P/C",width:40,dataIndex:"pateId",renderer:getPATE},
 		{header:C_BOOKER,width:200,dataIndex:"custName"},
@@ -1368,6 +1366,7 @@ Fos.ExpenseLookupWin = function(store) {
 		{header:C_WRITEOFFED_AMOUNT,width:100,renderer:numRender,dataIndex:"expeWriteOffAmount"},
 		{header:C_MBL_NO,width:80,dataIndex:"consMblNo"},
 		{header:C_HBL_NO,width:80,dataIndex:"consHblNo"},
+		{header:C_SAIL_DATE,dataIndex:"consSailDate",renderer:formatDate},
 		{header:C_VESS,width:80,dataIndex:"consVessel"},
 		{header:C_VOYA,width:80,dataIndex:"consVoyage"},
 		{header:C_INVO_NO,width:100,dataIndex:"expeInvoiceNo"},
@@ -1377,6 +1376,7 @@ Fos.ExpenseLookupWin = function(store) {
 		  filters:[{type: 'string',  dataIndex: 'consNo'},
 		    {type: 'string',  dataIndex: 'charName'},
 		    {type: 'string',  dataIndex: 'currCode'},
+		    {type: 'date',  dataIndex: 'consSailDate'},
 		    {type: 'numeric', dataIndex: 'expeTotalAmount'}]});
     this.grid = new Ext.grid.GridPanel({ 
     header:false,height:400,width:800,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
@@ -1401,7 +1401,7 @@ Fos.InvoItemGrid = function(p,frm){
 		{header:C_INVO_EX_RATE,dataIndex:'initExRate',renderer:rateRender,css:'background: #f4f090;',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
 		{header:C_EX_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount',css:'background: #ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_WRITEOFFED_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountOriW'},
-		{header:C_CONS_NO,width:80,dataIndex:"consNo"},
+		{header:C_CONS_NO,width:80,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,width:80,dataIndex:"consVessel"},
 		{header:C_VOYA,width:80,dataIndex:"consVoyage"},
 		{header:C_MBL_NO,width:80,dataIndex:"consMblNo"},
@@ -2137,7 +2137,7 @@ Fos.InitLookupWin = function(c,t) {
 		{header:C_INVO_NO,width:80,dataIndex:"invoNo"},
 		{header:C_TAX_NO,width:80,dataIndex:"invoTaxNo"},
 		{header:C_SETTLE_OBJECT,dataIndex:"custSname"},
-		{header:C_CONS_NO,width:80,dataIndex:"consNo"},
+		{header:C_CONS_NO,width:80,dataIndex:"consNo",renderer:consRender},
 		{header:C_CHAR,width:80,dataIndex:"charName"},
 		{header:C_CURR_BASE,dataIndex:'expeCurrCode',width:60},	
 		{header:C_ORI_AMOUNT,width:80,dataIndex:"expeTotalAmount"},
@@ -2181,7 +2181,7 @@ Fos.VoucItemGrid = function(p,store){
 		{header:C_QUANTITY,width:60,dataIndex:'expeNum'},
 		{header:C_VESS,width:80,dataIndex:'consVessel'},
 		{header:C_VOYA,width:80,dataIndex:'consVoyage'},
-		{header:C_CONS_NO,width:80,dataIndex:"consNo"},
+		{header:C_CONS_NO,width:80,dataIndex:"consNo",renderer:consRender},
 		{header:C_HBL_NO,width:80,dataIndex:"consHblNo"},
 		{header:C_MBL_NO,width:80,dataIndex:'consMblNo'},
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
@@ -3147,7 +3147,7 @@ Fos.BillTab = function(p){
 		{header:C_CURR,width:60,dataIndex:'currCode'},
 		{header:C_EX_RATE,width:60,dataIndex:'expeExRate'},
 		{header:C_EX_AMOUNT,width:60,align:'right',renderer:numRender,dataIndex:'biitAmount'},
-		{header:C_CONS_NO,dataIndex:"consNo"},
+		{header:C_CONS_NO,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,dataIndex:"consVessel"},
 		{header:C_VOYA,dataIndex:"consVoyage"},
 		{header:C_MBL_NO,dataIndex:"consMblNo"},
@@ -3480,7 +3480,7 @@ Ext.extend(Fos.BaliWin,Ext.Window);
 Fos.ExalWin = function(store,p) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[
-			{header:C_CONS_NO,width:120,dataIndex:"consNo"},
+			{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
           {header:C_SETTLE_OBJECT,width:120,dataIndex:"custSname"},
           {header:C_CHAR,dataIndex:"charName"},
           {header:C_UNIT,dataIndex:"unitName"},
@@ -3500,7 +3500,7 @@ Fos.ExalWin = function(store,p) {
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign)});
 	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm2=new Ext.grid.ColumnModel({columns:[sm,
- 		{header:C_CONS_NO,width:120,dataIndex:"consNo"},
+ 		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
  		{header:C_BOOKER,width:200,dataIndex:"custSname"},
  		{header:C_CONS_DATE,dataIndex:"consDate",renderer:formatDate},	
  		{header:C_PACKAGES,width:60,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'},
@@ -3665,7 +3665,7 @@ Fos.ExalWin = function(store,p) {
  	var exalS=GS('EXPE_Q','SExpense',SExpense,'expeId','DESC','','','',false);
  	var sm3=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm3=new Ext.grid.ColumnModel({columns:[sm,
-	       {header:C_CONS_NO,width:120,dataIndex:"consNo"},
+	       {header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
           {header:C_SETTLE_OBJECT,width:100,dataIndex:"custSname"},
           {header:C_CHAR,width:80,dataIndex:"charName"},
           {header:C_UNIT,dataIndex:"unitName"},
