@@ -11,7 +11,7 @@ public class ConstUtil {
 	public static final Short TrueShort = new Short(TrueStr);
 	public static final Integer FalseInt = new Integer(FalseStr);
 	public static final Integer TrueInt = new Integer(TrueStr);
-	public static final Double DoubleZero = new Double(0);
+	public static final Double DoubleZero = (double) 0;
 	
 	public static final String CONS_BIZ_CLASS_EXP = "E";
 	public static final String CONS_BIZ_CLASS_IMP = "I";
