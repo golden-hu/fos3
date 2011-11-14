@@ -32,6 +32,7 @@ public class SInvoiceNoService {
 	 *
 	 * @param queryMap the query map
 	 */
+	@Transactional
 	public void updateActiveFlag(Map<String, Object> queryMap) {
 		Integer id = Integer.parseInt((String) queryMap.get("innoId"));
 		queryMap.clear();
