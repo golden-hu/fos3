@@ -45,6 +45,9 @@ public class SInvoiceNoService {
 		SInvoiceNo entity = dao.findById(id);
 		entity.setActive(ConstUtil.TrueShort);
 		entity.setInnoStartDate(TimeUtil.getNow());
+		if (entity.getInnoNextNo() == null) {
+			entity.setInnoNextNo(entity.getInnoStartNo());
+		}
 		dao.update(entity);
 	}
 }
