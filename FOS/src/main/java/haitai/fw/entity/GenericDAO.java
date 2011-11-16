@@ -4,6 +4,7 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MethodUtil;
+import haitai.fw.util.RowAction;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -85,13 +86,13 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 	public T saveSingleByRowAction(T entity) {
 		Method getPkMethod = MethodUtil.getPkMethod(entity);
 		T retEntity = null;
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+		if (entity.getRowAction() == RowAction.N) {
 			MethodUtil.doSetMethodNull(entity, getPkMethod.getName().substring(3));
 			save(entity);
 			retEntity = entity;
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.M) {
 			retEntity = update(entity);
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.R) {
 			T delEntity;
 			try {
 				delEntity = findById((PK) getPkMethod.invoke(entity));
@@ -100,7 +101,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 			} catch (InvocationTargetException e) {
 				throw new BusinessException("fw.unknown", e);
 			}
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			MethodUtil.doSetMethod(delEntity, "Removed", Short.class, ConstUtil.TrueShort);
 			update(delEntity);
 		} else {

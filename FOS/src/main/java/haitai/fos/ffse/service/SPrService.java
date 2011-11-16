@@ -12,11 +12,15 @@ import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SPrService {
@@ -38,7 +42,7 @@ public class SPrService {
 		for (Object obj : entityList) {
 			if (obj instanceof SPr) {
 				SPr entity = (SPr) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setPrId(null);
 					Map<String, String> paramMap = new HashMap<String, String>();
 					paramMap.put(SerialFactory.RULE_RP, entity.getPrType());
@@ -47,11 +51,11 @@ public class SPrService {
 					entity.setPrNo(no);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SPr delEntity = dao.findById(entity.getPrId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 
 					//级联删除, 更新为removed, 清除子表关联字段
@@ -61,7 +65,7 @@ public class SPrService {
 					List<SPrItem> itemList = itemDao.findByProperties(queryMap);
 					for (SPrItem prItem : itemList) {
 						resetInvoiceStatus(prItem);
-						prItem.setRowAction(ConstUtil.ROW_R);
+						prItem.setRowAction(RowAction.R);
 						itemDao.update(prItem);
 					}
 				} else {
@@ -77,7 +81,7 @@ public class SPrService {
 		for (Object obj : entityList) {
 			if (obj instanceof SPrItem) {
 				SPrItem entity = (SPrItem) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setPritId(null);
 					entity.setPrId(parentId);
 					itemDao.save(entity);
@@ -87,11 +91,11 @@ public class SPrService {
 					invoice.setInvoPrFlag(ConstUtil.TrueShort);
 					invoice.setInvoEntrustNo(prNo);
 					invoiceDao.update(invoice);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(itemDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SPrItem delEntity = itemDao.findById(entity.getPritId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					itemDao.update(delEntity);
 					//更新对应的发票状态为已审核
 					resetInvoiceStatus(entity);

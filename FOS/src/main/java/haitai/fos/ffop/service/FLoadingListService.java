@@ -12,6 +12,7 @@ import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,16 +36,16 @@ public class FLoadingListService {
 		Set<Integer> contractSet = new HashSet<Integer>();
 		Set<Integer> voyageSet = new HashSet<Integer>();
 		for (FLoadingList entity : consignList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setLoliId(null);
 				dao.save(entity);
 				retList.add(entity);
 				syncPackingList(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				FLoadingList delEntity = dao.findById(entity.getLoliId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 				Integer id = entity.getLoliId();
 				clearPackingList(id);

@@ -12,11 +12,15 @@ import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SBillService {
@@ -38,7 +42,7 @@ public class SBillService {
 		for (Object obj : entityList) {
 			if (obj instanceof SBill) {
 				SBill entity = (SBill) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setBillId(null);
 					Map<String, String> paramMap = new HashMap<String, String>();
 					paramMap.put(SerialFactory.RULE_RP, entity.getBillType());
@@ -47,11 +51,11 @@ public class SBillService {
 					parentNo = no;
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SBill delEntity = dao.findById(entity.getBillId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 
 					Map queryMap = new HashMap<String, Object>();
@@ -64,7 +68,7 @@ public class SBillService {
 						expense.setExpeBillNo(null);
 						expense.setExpeBillStatus(ConstUtil.BILL_STATUS_NONE);
 						expenseDao.update(expense);
-						billItem.setRowAction(ConstUtil.ROW_R);
+						billItem.setRowAction(RowAction.R);
 						itemDao.update(billItem);
 					}
 				} else {
@@ -79,7 +83,7 @@ public class SBillService {
 		for (Object obj : entityList) {
 			if (obj instanceof SBillItem) {
 				SBillItem entity = (SBillItem) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setBiitId(null);
 					entity.setBillId(parentId);
 					itemDao.save(entity);
@@ -90,16 +94,16 @@ public class SBillService {
 					expense.setExpeBillNo(parentNo);
 					expense.setExpeBillStatus(ConstUtil.BILL_STATUS_CHECKED);
 					expenseDao.update(expense);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(itemDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SExpense expense = expenseDao.findById(entity.getExpeId());
 					expense.setExpeBillNo(null);
 					expense.setExpeBillStatus(ConstUtil.BILL_STATUS_NONE);
 					expenseDao.update(expense);
 
 					SBillItem delEntity = itemDao.findById(entity.getBiitId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					itemDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

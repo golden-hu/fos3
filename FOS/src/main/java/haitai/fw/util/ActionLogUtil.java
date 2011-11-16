@@ -41,7 +41,7 @@ public class ActionLogUtil {
 		actLog.setAcloUserName(SessionManager.getStringAttr(SessionKeyType.USERNAME));
 		actLog.setCompCode(SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 		actLog.setCreateTime(TimeUtil.getNow());
-		actLog.setRowAction(ConstUtil.ROW_N);
+		actLog.setRowAction(RowAction.N);
 		logDao.save(actLog);
 	}
 

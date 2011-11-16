@@ -7,6 +7,7 @@ import haitai.fos.ffop.entity.table.FPackingList;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,17 +27,17 @@ public class FPackingListService {
 		List<FPackingList> retList = new ArrayList<FPackingList>();
 		Set<Integer> contractSet = new HashSet<Integer>();
 		for (FPackingList entity : consignList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setPaliId(null);
 				updateStatusByStation(entity);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				updateStatusByStation(entity);
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				FPackingList delEntity = dao.findById(entity.getPaliId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");

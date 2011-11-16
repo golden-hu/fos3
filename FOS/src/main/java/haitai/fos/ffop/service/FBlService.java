@@ -35,17 +35,17 @@ public class FBlService {
 		Set<Integer> masterIdSet = new HashSet<Integer>();
 		Set<Integer> fconIdSet = new HashSet<Integer>();
 		for (FBl entity : consignList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setBlId(null);
 				checkBlNoDuplicated(entity);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				checkBlNoDuplicated(entity);
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				FBl delEntity = dao.findById(entity.getBlId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 				entity = delEntity;
 			} else {
@@ -90,7 +90,7 @@ public class FBlService {
 		map.put("blSplitFlag", ConstUtil.TrueShort);
 		List<FBl> blList = dao.findByProperties(map);
 		for (FBl bl : blList) {
-			bl.setRowAction(ConstUtil.ROW_R);
+			bl.setRowAction(RowAction.R);
 			dao.update(bl);
 		}
 		//把主单状态恢复
@@ -113,7 +113,7 @@ public class FBlService {
 		String id = (String) queryMap.get("blId");
 		//把主单删除
 		FBl master = dao.findById(Integer.parseInt(id));
-		master.setRowAction(ConstUtil.ROW_R);
+		master.setRowAction(RowAction.R);
 		dao.update(master);
 		//把分单状态恢复
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -165,7 +165,7 @@ public class FBlService {
 			}
 		}
 		master.setBlId(null);
-		master.setRowAction(ConstUtil.ROW_N);
+		master.setRowAction(RowAction.N);
 		master.setBlMergeFlag(ConstUtil.TrueShort);
 		master.setCargPackages(packages);
 		master.setCargGrossWeight(grossWeight);

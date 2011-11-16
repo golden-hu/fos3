@@ -4,7 +4,7 @@ import haitai.fos.sys.entity.idao.IPUserSettingDAO;
 import haitai.fos.sys.entity.table.PUserSetting;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,12 +30,12 @@ public class PUserSettingService {
 			if (list.size() == 1) {
 				PUserSetting dbItem = list.get(0);
 				dbItem.setUsseValue(entity.getUsseValue());
-				dbItem.setRowAction(ConstUtil.ROW_M);
+				dbItem.setRowAction(RowAction.M);
 				retList.add(dao.update(dbItem));
 			} else {
 				entity.setUsseId(null);
 				entity.setUserId((Integer) SessionManager.getAttr(SessionKeyType.UID));
-				entity.setRowAction(ConstUtil.ROW_N);
+				entity.setRowAction(RowAction.N);
 				dao.save(entity);
 				retList.add(entity);
 			}

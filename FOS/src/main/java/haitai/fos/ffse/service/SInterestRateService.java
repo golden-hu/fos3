@@ -4,6 +4,7 @@ import haitai.fos.ffse.entity.idao.ISInterestRateDAO;
 import haitai.fos.ffse.entity.table.SInterestRate;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class SInterestRateService {
 	public List<SInterestRate> save(List<SInterestRate> entityList) {
 		List<SInterestRate> retList = new ArrayList<SInterestRate>();
 		for (SInterestRate entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				//查一下是否该汇率已经存在, 存在就update, 否则insert
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("inraCurrency", entity.getInraCurrency());
@@ -38,7 +39,7 @@ public class SInterestRateService {
 					dao.update(updateEntity);
 					retList.add(updateEntity);
 				}
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				//备份老记录
 				SInterestRate delEntity = dao.findById(entity.getInraId());
 				delEntity.setInraEndDate(new Date());
@@ -49,9 +50,9 @@ public class SInterestRateService {
 				entity.setActive(ConstUtil.TrueShort);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				SInterestRate delEntity = dao.findById(entity.getInraId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");

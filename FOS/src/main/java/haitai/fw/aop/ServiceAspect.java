@@ -5,10 +5,7 @@ import haitai.fw.entity.FosQuery;
 import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
-import haitai.fw.util.ActionLogUtil;
-import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MethodUtil;
-import haitai.fw.util.QueryUtil;
+import haitai.fw.util.*;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -67,15 +64,15 @@ public class ServiceAspect {
 	public Object aroundSave(ProceedingJoinPoint jp, List<Object> entityList) throws Throwable {
 		Map<Object, String> idMap = new HashMap<Object, String>();
 		for (Object entity : entityList) {
-			String rowAction = (String) MethodUtil.doGetMethod(entity, "RowAction");
+			RowAction rowAction = (RowAction) MethodUtil.doGetMethod(entity, "RowAction");
 			String className = entity.getClass().getSimpleName();
-			if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
+			if (rowAction == RowAction.N) {
 				Object uuid = MethodUtil.doGetMethod(entity, "Id");
 				idMap.put(entity, (String) uuid);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(rowAction)) {
+			} else if (rowAction == RowAction.M) {
 				Object uuid = MethodUtil.doGetMethod(entity, "Id");
 				idMap.put(getObjKey(entity), (String) uuid);
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(rowAction) && tableInfoService.contain(className)) {
+			} else if (rowAction == RowAction.R && tableInfoService.contain(className)) {
 				actLogUtil.saveActionLog(entity);
 			}
 		}

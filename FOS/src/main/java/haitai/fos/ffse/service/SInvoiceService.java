@@ -45,7 +45,7 @@ public class SInvoiceService {
 		for (Object obj : entityList) {
 			if (obj instanceof SInvoice) {
 				SInvoice entity = (SInvoice) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setInvoId(null);
 					Map<String, String> paramMap = new HashMap<String, String>();
 					paramMap.put(SerialFactory.RULE_RP, entity.getInvoType());
@@ -61,7 +61,7 @@ public class SInvoiceService {
 					entity.setInvoIssueDate(TimeUtil.getNow());
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					invoTaxNo = entity.getInvoTaxNo();
 					checkTaxNoDuplicated(entity);
 					SInvoice dbInvoice = dao.findById(entity.getInvoId());
@@ -70,10 +70,10 @@ public class SInvoiceService {
 					}
 					retInvoice = dao.update(entity);
 					retList.add(retInvoice);
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					cancelInvoice(entity.getInvoId());
 					SInvoice delEntity = dao.findById(entity.getInvoId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 					isInvoDelFlag = true;
 				} else {
@@ -92,23 +92,23 @@ public class SInvoiceService {
 		for (Object obj : entityList) {
 			if (obj instanceof SInvoiceEntry) {
 				SInvoiceEntry entity = (SInvoiceEntry) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setInenId(null);
 					entity.setInvoId(parentId);
 					entryDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(entryDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SInvoiceEntry delEntity = entryDao.findById(entity.getInenId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					entryDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
 				}
 			} else if (obj instanceof SInvoiceItem) {
 				SInvoiceItem entity = (SInvoiceItem) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setInvoId(parentId);
 					entity.setInvoNo(invoNo);
 					entity.setInvoTaxNo(invoTaxNo);
@@ -116,13 +116,13 @@ public class SInvoiceService {
 					itemDao.save(entity);
 					retList.add(entity);
 
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					entity.setInvoNo(invoNo);
 					entity.setInvoTaxNo(invoTaxNo);
 					retList.add(itemDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SInvoiceItem delEntity = itemDao.findById(entity.getInitId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					itemDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

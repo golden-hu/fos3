@@ -8,13 +8,16 @@ import haitai.fos.ffop.entity.table.FTransCargo;
 import haitai.fos.ffop.entity.table.FTransTask;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
-import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class FTransService {
@@ -36,17 +39,17 @@ public class FTransService {
 				FTrans entity = (FTrans) obj;
 				//保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getTranId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					String no = SerialFactory.getSerial("tran_no");
 					entity.setTranId(null);
 					entity.setTranNo(no);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FTrans delEntity = dao.findById(entity.getTranId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -60,34 +63,34 @@ public class FTransService {
 		for (Object obj : entityList) {
 			if (obj instanceof FTransTask) {
 				FTransTask entity = (FTransTask) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setTrtaId(null);
 					//前台传的id(负数)->后台生成id
 					entity.setTranId(NumberUtil.frontId2DbId(idMap, entity.getTranId()));
 					taskDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(taskDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FTransTask delEntity = taskDao.findById(entity.getTrtaId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					taskDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
 				}
 			} else if (obj instanceof FTransCargo) {
 				FTransCargo entity = (FTransCargo) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setTrcaId(null);
 					// 前台传的id(负数)->后台生成id
 					entity.setTranId(NumberUtil.frontId2DbId(idMap, entity.getTranId()));
 					cargoDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(cargoDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FTransCargo delEntity = cargoDao.findById(entity.getTrcaId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					cargoDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

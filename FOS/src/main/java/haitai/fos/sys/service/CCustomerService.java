@@ -8,12 +8,16 @@ import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CCustomerService {
@@ -31,15 +35,15 @@ public class CCustomerService {
 			if (obj instanceof CCustomer) {
 				CCustomer entity = (CCustomer) obj;
 				Integer oldId = entity.getCustId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setCustId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					CCustomer delEntity = dao.findById(entity.getCustId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -51,17 +55,16 @@ public class CCustomerService {
 		for (Object obj : entityList) {
 			if (obj instanceof CCustomerContact) {
 				CCustomerContact entity = (CCustomerContact) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setCucoId(null);
 					entity.setCustId(NumberUtil.frontId2DbId(idMap, entity.getCustId()));
 					contactDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-						.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(contactDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					CCustomerContact delEntity = contactDao.findById(entity.getCucoId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					contactDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -130,7 +133,7 @@ public class CCustomerService {
 
 	private void mergeCust(Integer fromId, Integer toId) {
 		CCustomer delEntity = dao.findById(fromId);
-		delEntity.setRowAction(ConstUtil.ROW_R);
+		delEntity.setRowAction(RowAction.R);
 		dao.update(delEntity);
 		dao.mergeCust(fromId, toId);
 	}

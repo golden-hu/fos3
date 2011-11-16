@@ -3,7 +3,7 @@ package haitai.fos.sys.service;
 import haitai.fos.sys.entity.idao.IPFunctionDAO;
 import haitai.fos.sys.entity.table.PFunction;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +21,10 @@ public class PFunctionService {
 	public List<PFunction> save(List<PFunction> entityList) {
 		List<PFunction> retList = new ArrayList<PFunction>();
 		for (PFunction entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				retList.add(dao.update(entity));
 			} else {
 				throw new BusinessException("fw.row_action_null");

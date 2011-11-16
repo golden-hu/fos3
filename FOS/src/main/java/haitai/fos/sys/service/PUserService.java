@@ -49,21 +49,21 @@ public class PUserService {
 				PUser entity = (PUser) obj;
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getUserId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					licenseUtil.checkUserAvailable();
 					entity.setUserId(null);
 					entity.setUserPassword(CryptoUtil.MD5Encode(entity.getUserPassword()));
 					entity.setUserPasswordModifyDate(TimeUtil.getNow());
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					PUser retEntity = dao.findById(entity.getUserId());
 					// 不修改密码, 有单独修改密码服务
 					entity.setUserPassword(retEntity.getUserPassword());
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					PUser delEntity = dao.findById(entity.getUserId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -77,15 +77,15 @@ public class PUserService {
 		for (Object obj : entityList) {
 			if (obj instanceof PUserRole) {
 				PUserRole entity = (PUserRole) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setUsroId(null);
 					// 前台传的id(负数)->后台生成id
 					entity.setUserId(NumberUtil.frontId2DbId(idMap, entity.getUserId()));
 					userRoleDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(userRoleDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					userRoleDao.delete(entity.getUsroId());
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -108,15 +108,15 @@ public class PUserService {
 				entity.setCompCode(SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getGrouId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setGrouId(null);
 					groupDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(groupDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					PGroup delEntity = groupDao.findById(entity.getGrouId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					groupDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -130,15 +130,15 @@ public class PUserService {
 		for (Object obj : entityList) {
 			if (obj instanceof PGroupUser) {
 				PGroupUser entity = (PGroupUser) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setGrusId(null);
 					// 前台传的id(负数)->后台生成id
 					entity.setGrouId(NumberUtil.frontId2DbId(idMap, entity.getGrouId()));
 					groupUserDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(groupUserDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					groupUserDao.delete(entity.getGrusId());
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -160,15 +160,15 @@ public class PUserService {
 				PRole entity = (PRole) obj;
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getRoleId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setRoleId(null);
 					roleDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(roleDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					PRole delEntity = roleDao.findById(entity.getRoleId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					roleDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -182,15 +182,15 @@ public class PUserService {
 		for (Object obj : entityList) {
 			if (obj instanceof PRoleFunction) {
 				PRoleFunction entity = (PRoleFunction) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setRofuId(null);
 					// 前台传的id(负数)->后台生成id
 					entity.setRoleId(NumberUtil.frontId2DbId(idMap, entity.getRoleId()));
 					roleFunctionDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(roleFunctionDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					roleFunctionDao.delete(entity.getRofuId());
 				} else {
 					throw new BusinessException("fw.row_action_null");

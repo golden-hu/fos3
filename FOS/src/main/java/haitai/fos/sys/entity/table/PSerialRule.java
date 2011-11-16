@@ -2,13 +2,9 @@ package haitai.fos.sys.entity.table;
 
 import haitai.fw.entity.BaseDomain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import static javax.persistence.GenerationType.IDENTITY;
-import javax.persistence.Transient;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "P_SERIAL_RULE" )
@@ -96,16 +92,5 @@ public class PSerialRule extends BaseDomain {
 
 	public void setSeruLoopPeriod(Short seruLoopPeriod) {
 		this.seruLoopPeriod = seruLoopPeriod;
-	}
-
-	private String rowAction;
-
-	@Transient
-	public String getRowAction() {
-		return rowAction;
-	}
-
-	public void setRowAction(String rowAction) {
-		this.rowAction = rowAction;
 	}
 }

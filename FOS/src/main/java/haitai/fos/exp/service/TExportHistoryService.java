@@ -124,7 +124,7 @@ public class TExportHistoryService {
 		TExportHistory history;
 		history = new TExportHistory();
 		history.setExhiType(type);
-		history.setRowAction(ConstUtil.ROW_N);
+		history.setRowAction(RowAction.N);
 		history.setExhiCheckDateF(StringUtil.string2Date(dateF));
 		history.setExhiCheckDateT(StringUtil.string2Date(dateT));
 		history.setExhiFileName("");

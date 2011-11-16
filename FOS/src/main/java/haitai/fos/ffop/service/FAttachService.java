@@ -7,6 +7,7 @@ import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.StringUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class FAttachService {
 	public void removeAttach(List<FAttach> entityList) {
 		for (FAttach entity : entityList) {
 			FAttach delEntity = dao.findById(entity.getAttachId());
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			dao.update(delEntity);
 		}
 	}
@@ -61,7 +62,7 @@ public class FAttachService {
 			//int beginIdex = oriFileName.lastIndexOf(".");			
 			//String extName = oriFileName.substring(beginIdex);			
 			FAttach fa = new FAttach();
-			fa.setRowAction(ConstUtil.ROW_N);
+			fa.setRowAction(RowAction.N);
 			fa.setAttachFileName(oriFileName);
 			fa.setConsId(Integer.parseInt(consId));
 			fa.setConsNo(consNo);

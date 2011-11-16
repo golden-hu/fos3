@@ -37,11 +37,6 @@ public class ConstUtil {
 	public static final String JSON = "json";
 	public static final String REDIRECT_URL = "reurl";
 	
-	public static final String ROW_N = "N";
-	public static final String ROW_M = "M";
-	public static final String ROW_R = "R";
-	public static final String ROW_O = "";
-	
 	public static final String CONFIG_DATA_DIR = "DataDir";
 	public static final String CONFIG_ATTACH_DIR = "AttachDir";
 	public static final String CONFIG_TEMPLATE_DIR = "TemplateDir";

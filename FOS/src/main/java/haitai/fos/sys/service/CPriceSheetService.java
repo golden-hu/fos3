@@ -8,8 +8,8 @@ import haitai.fos.sys.entity.table.CPriceRecord;
 import haitai.fos.sys.entity.table.CPriceSheet;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,15 +37,15 @@ public class CPriceSheetService {
 			if (obj instanceof CPriceSheet) {
 				CPriceSheet entity = (CPriceSheet) obj;
 				Integer oldId = entity.getPrshId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setPrshId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					CPriceSheet delEntity = dao.findById(entity.getPrshId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -59,16 +59,16 @@ public class CPriceSheetService {
 			if (obj instanceof CPriceLine) {
 				CPriceLine entity = (CPriceLine) obj;
 				Integer oldId = entity.getPrliId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setPrliId(null);
 					entity.setPrshId(NumberUtil.frontId2DbId(idMap, entity.getPrshId()));
 					lineDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(lineDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					CPriceLine delEntity = lineDao.findById(entity.getPrliId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					lineDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -81,17 +81,17 @@ public class CPriceSheetService {
 		for (Object obj : entityList) {
 			if (obj instanceof CPriceRecord) {
 				CPriceRecord entity = (CPriceRecord) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setPrreId(null);
 					entity.setPrshId(NumberUtil.frontId2DbId(idMap, entity.getPrshId()));
 					entity.setPrliId(NumberUtil.frontId2DbId(idMap2, entity.getPrliId()));
 					recordDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(recordDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					CPriceRecord delEntity = recordDao.findById(entity.getPrreId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					recordDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

@@ -9,8 +9,8 @@ import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GVessel;
 import haitai.fos.sys.entity.idao.ICPriceSheetDAO;
 import haitai.fw.entity.FosQuery;
-import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ObjectUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +40,11 @@ public class GVesselService {
 	public List<GVessel> save(List<GVessel> itemList) {
 		List<GVessel> retList = new ArrayList<GVessel>();
 		for (GVessel entity : itemList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setVessId(null);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				Integer vessId = entity.getVessId();
 				GVessel oldEntity = dao.findById(vessId);
 				String vessName = oldEntity.getVessNameEn();
@@ -63,9 +63,9 @@ public class GVesselService {
 					contractService.updateVessName(vessId);
 				}
 				retList.add(entity);
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				GVessel delEntity = dao.findById(entity.getVessId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			}
 		}

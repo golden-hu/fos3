@@ -1,19 +1,11 @@
 package haitai.fos.sys.entity.table;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import haitai.fw.entity.BaseDomain;
 
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "P_SERIAL_NO" )
@@ -92,16 +84,5 @@ public class PSerialNo extends BaseDomain {
 
 	public void setSenoExpire(Date senoExpire) {
 		this.senoExpire = senoExpire;
-	}
-
-	private String rowAction;
-
-	@Transient
-	public String getRowAction() {
-		return rowAction;
-	}
-
-	public void setRowAction(String rowAction) {
-		this.rowAction = rowAction;
 	}
 }

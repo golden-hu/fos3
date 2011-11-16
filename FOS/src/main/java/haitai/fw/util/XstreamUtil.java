@@ -26,10 +26,10 @@ public class XstreamUtil implements InitializingBean {
 		xstreamJSON.registerConverter(new FosDateConverter());
 		xstreamJSON.registerConverter(new FosTimeConverter());
 		xstreamJSON.registerConverter(new DoubleConverter());
+		xstreamJSON.registerConverter(new RowActionConverter());
 	}
 
-	@SuppressWarnings("unchecked")
-	private static void alias(XStream xstream) {
+	private void alias(XStream xstream) {
 		JpaEntityMapper mapper = SpringContextHolder.getBean(JpaEntityMapper.class);
 		Map<String, Class<?>> classMap = mapper.getMapper();
 		for (String clazzName : classMap.keySet()) {
@@ -41,12 +41,7 @@ public class XstreamUtil implements InitializingBean {
 		xstream.alias("date", java.sql.Date.class);
 		xstream.alias("date", java.sql.Time.class);
 		xstream.alias("date", java.sql.Timestamp.class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static void addAlias(String name, Class clazz) {
-		xstreamXML.alias(name, clazz);
-		xstreamJSON.alias(name, clazz);
+		xstream.alias("rowAction", RowAction.class);
 	}
 
 	public static String entity2XML(Object srcObj) {

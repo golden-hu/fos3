@@ -107,17 +107,17 @@ public class FConsignService {
 	}
 
 	private void saveDo(FDo entity, List<Object> retList, Integer newId, String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+		if (entity.getRowAction() == RowAction.N) {
 			entity.setDoId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			doDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.M) {
 			retList.add(doDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.R) {
 			FDo delEntity = doDao.findById(entity.getDoId());
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			doDao.update(delEntity);
 		} else {
 			throw new BusinessException("fw.row_action_null");
@@ -125,17 +125,17 @@ public class FConsignService {
 	}
 
 	private void saveBl(FBl entity, List<Object> retList, Integer newId, String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+		if (entity.getRowAction() == RowAction.N) {
 			entity.setBlId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			blDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.M) {
 			retList.add(blDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.R) {
 			FBl delEntity = blDao.findById(entity.getBlId());
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			blDao.update(delEntity);
 		} else {
 			throw new BusinessException("fw.row_action_null");
@@ -144,17 +144,17 @@ public class FConsignService {
 
 	private void saveCargo(FCargo entity, List<Object> retList, Integer newId,
 						   String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+		if (entity.getRowAction() == RowAction.N) {
 			entity.setCargId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			cargoDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.M) {
 			retList.add(cargoDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.R) {
 			FCargo delEntity = cargoDao.findById(entity.getCargId());
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			cargoDao.update(delEntity);
 		} else {
 			throw new BusinessException("fw.row_action_null");
@@ -162,17 +162,17 @@ public class FConsignService {
 	}
 
 	private void saveContainer(FContainer entity, List<Object> retList, Integer newId, String consNo) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+		if (entity.getRowAction() == RowAction.N) {
 			entity.setContId(null);
 			entity.setConsId(newId);
 			entity.setConsNo(consNo);
 			containerDao.save(entity);
 			retList.add(entity);
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.M) {
 			retList.add(containerDao.update(entity));
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.R) {
 			FContainer delEntity = containerDao.findById(entity.getContId());
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			containerDao.update(delEntity);
 		} else {
 			throw new BusinessException("fw.row_action_null");
@@ -180,7 +180,7 @@ public class FConsignService {
 	}
 
 	private void saveConsign(FConsign entity, List<Object> retList) {
-		if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);
 			checkBlNoDuplicated(entity);
 			if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType()) && entity.getVoyaId() != null) {
@@ -266,7 +266,7 @@ public class FConsignService {
 				syncPackingList(entity);
 				updateFactQuantity(entity, false);
 			}
-		} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.M) {
 			checkBlNoDuplicated(entity);
 			syncTask(entity);
 			syncExp(entity);
@@ -278,9 +278,9 @@ public class FConsignService {
 				syncPackingList(entity);
 				updateFactQuantity(retEntity, false);
 			}
-		} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+		} else if (entity.getRowAction() == RowAction.R) {
 			FConsign delEntity = dao.findById(entity.getConsId());
-			delEntity.setRowAction(ConstUtil.ROW_R);
+			delEntity.setRowAction(RowAction.R);
 			dao.update(delEntity);
 			if (delEntity.getLoliId() != null && delEntity.getLoliId() > 0) {
 				updateFactQuantity(delEntity, true);

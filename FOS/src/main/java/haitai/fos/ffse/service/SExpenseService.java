@@ -13,6 +13,7 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,20 +43,20 @@ public class SExpenseService {
 		for (SExpense entity : entityList) {
 			entity.setExpeUpdateBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
 			entity.setExpeUpdateTime(TimeUtil.getNow());
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setExpeId(null);
 				dao.save(entity);
 				entity.setEditable(ConstUtil.TrueShort);
 				retList.add(entity);
 				backupExpense(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				SExpense retEntity = dao.update(entity);
 				retEntity.setEditable(ConstUtil.TrueShort);
 				backupExpense(retEntity);
 				retList.add(retEntity);
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				SExpense delEntity = dao.findById(entity.getExpeId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 				backupExpense(delEntity);
 				//被分摊的费用, 在删除的时候, 同时要删除分摊的费用
@@ -65,7 +66,7 @@ public class SExpenseService {
 					queryMap.put("expeAllocatedFlag", ConstUtil.TrueShort);
 					List<SExpense> allocatedList = dao.findByProperties(queryMap);
 					for (SExpense expense : allocatedList) {
-						expense.setRowAction(ConstUtil.ROW_R);
+						expense.setRowAction(RowAction.R);
 						dao.update(expense);
 						backupExpense(expense);
 					}

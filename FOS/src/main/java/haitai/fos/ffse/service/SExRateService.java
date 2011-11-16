@@ -8,6 +8,7 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class SExRateService {
 	public List<SExRate> save(List<SExRate> entityList) {
 		List<SExRate> retList = new ArrayList<SExRate>();
 		for (SExRate entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				//查一下是否该汇率已经存在, 存在就update, 否则insert
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("exraBaseCurrency", entity.getExraBaseCurrency());
@@ -46,7 +47,7 @@ public class SExRateService {
 					dao.update(updateEntity);
 					retList.add(updateEntity);
 				}
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				//备份老记录
 				SExRate delEntity = dao.findById(entity.getExraId());
 				delEntity.setExraEndDate(TimeUtil.getNow());
@@ -58,9 +59,9 @@ public class SExRateService {
 				entity.setActive(ConstUtil.TrueShort);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				SExRate delEntity = dao.findById(entity.getExraId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");
@@ -115,7 +116,7 @@ public class SExRateService {
 				rate.setExraExCurrency(aCurrArray[2]);
 				rate.setExraStartDate(new Date());
 				rate.setRemoved(ConstUtil.FalseShort);
-				rate.setRowAction(ConstUtil.ROW_N);
+				rate.setRowAction(RowAction.N);
 				rate.setVersion(0);
 				rateMap.put(key, rate);
 			}

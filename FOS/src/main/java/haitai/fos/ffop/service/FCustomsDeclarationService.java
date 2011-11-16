@@ -38,15 +38,15 @@ public class FCustomsDeclarationService {
 			if (obj instanceof FCustomsDeclaration) {
 				FCustomsDeclaration entity = (FCustomsDeclaration) obj;
 				Integer oldId = entity.getCudeId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setCudeId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FCustomsDeclaration delEntity = dao.findById(entity.getCudeId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -59,16 +59,16 @@ public class FCustomsDeclarationService {
 		for (Object obj : entityList) {
 			if (obj instanceof FCustomsDoc) {
 				FCustomsDoc entity = (FCustomsDoc) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setCudoId(null);
 					entity.setCudeId(NumberUtil.frontId2DbId(idMap, entity.getCudeId()));
 					docDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(docDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FCustomsDoc delEntity = docDao.findById(entity.getCudoId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					docDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -76,16 +76,16 @@ public class FCustomsDeclarationService {
 
 			} else if (obj instanceof FCustomsEntry) {
 				FCustomsEntry entity = (FCustomsEntry) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setCuenId(null);
 					entity.setCudeId(NumberUtil.frontId2DbId(idMap, entity.getCudeId()));
 					entDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(entDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FCustomsEntry delEntity = entDao.findById(entity.getCuenId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					entDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

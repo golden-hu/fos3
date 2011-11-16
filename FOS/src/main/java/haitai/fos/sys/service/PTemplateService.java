@@ -44,11 +44,11 @@ public class PTemplateService {
 	public List<PTemplate> save(List<PTemplate> entityList) {
 		List<PTemplate> retList = new ArrayList<PTemplate>();
 		for (PTemplate entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setTempId(null);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				//如果模板的名字改了, 模板文件的名字也要改
 				PTemplate dbEntity = dao.findById(entity.getTempId());
 				if (dbEntity != null && !entity.getTempName().equals(dbEntity.getTempName())) {
@@ -67,9 +67,9 @@ public class PTemplateService {
 					}
 				}
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				PTemplate delEntity = dao.findById(entity.getTempId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");
@@ -148,7 +148,7 @@ public class PTemplateService {
 					List<Map<String, String>> recordList = parseExcel2Map(sheet, fieldList);
 					//循环构建对象,插入数据库
 					List entityList = new ArrayList();
-					paramMap.put("rowAction", ConstUtil.ROW_N);
+					paramMap.put("rowAction", RowAction.N.name());
 					for (Map<String, String> valueMap : recordList) {
 						Object entity = entityClass.newInstance();
 						//先把前台传过来的一些父表的数据, Set到子表中

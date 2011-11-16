@@ -31,8 +31,8 @@ public class DaoAspect {
 
 	@Around(value = "saveSingleByRowAction(entity)")
 	public void aroundSaveSingleByRowAction(ProceedingJoinPoint jp, BaseDomain entity) throws Throwable {
-		String rowAction = entity.getRowAction();
-		if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
+		RowAction rowAction = entity.getRowAction();
+		if (rowAction == rowAction.N) {
 			prepareSaveField(entity);
 		} else {
 			prepareUpdateField(entity);
@@ -44,7 +44,7 @@ public class DaoAspect {
 			logger.info(methodName + " starting");
 			jp.proceed(new Object[]{entity});
 			logger.info(methodName + " success");
-			MethodUtil.doSetMethod(entity, "RowAction", String.class, ConstUtil.ROW_O);
+			MethodUtil.doSetMethod(entity, "RowAction", RowAction.class, RowAction.O);
 			MethodUtil.doSetMethod(entity, "Id", String.class, uuid);
 		} catch (RuntimeException e) {
 			logger.info(methodName + " failed");
@@ -63,8 +63,8 @@ public class DaoAspect {
 	public Object aroundSaveByRowAction(ProceedingJoinPoint jp, List<BaseDomain> entityList) throws Throwable {
 		Map<BaseDomain, String> idMap = new HashMap<BaseDomain, String>();
 		for (BaseDomain entity : entityList) {
-			String rowAction = entity.getRowAction();
-			if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
+			RowAction rowAction = entity.getRowAction();
+			if (rowAction == RowAction.N) {
 				prepareSaveField(entity);
 			} else {
 				prepareUpdateField(entity);
@@ -73,7 +73,7 @@ public class DaoAspect {
 		}
 		List<BaseDomain> retList = (List<BaseDomain>) jp.proceed(new Object[]{entityList});
 		for (BaseDomain entity : retList) {
-			entity.setRowAction(ConstUtil.ROW_O);
+			entity.setRowAction(RowAction.O);
 			entity.setId(idMap.get(entity));
 		}
 		return retList;
@@ -97,7 +97,7 @@ public class DaoAspect {
 			logger.info(methodName + " starting");
 			jp.proceed(new Object[]{entity});
 			logger.info(methodName + " success");
-			MethodUtil.doSetMethod(entity, "RowAction", String.class, ConstUtil.ROW_O);
+			MethodUtil.doSetMethod(entity, "RowAction", RowAction.class, RowAction.O);
 			MethodUtil.doSetMethod(entity, "Id", String.class, uuid);
 		} catch (RuntimeException e) {
 			logger.info(methodName + " failed");
@@ -146,7 +146,7 @@ public class DaoAspect {
 			logger.info(methodName + " starting");
 			Object retObj = jp.proceed(new Object[]{entity});
 			logger.info(methodName + " success");
-			MethodUtil.doSetMethod(retObj, "RowAction", String.class, ConstUtil.ROW_O);
+			MethodUtil.doSetMethod(retObj, "RowAction", RowAction.class, RowAction.O);
 			MethodUtil.doSetMethod(retObj, "Id", String.class, uuid);
 			return retObj;
 		} catch (RuntimeException e) {
@@ -156,14 +156,14 @@ public class DaoAspect {
 	}
 
 	private void prepareUpdateField(Object entity) {
-		String rowAction = (String) MethodUtil.doGetMethod(entity, "RowAction");
-		if (ConstUtil.ROW_R.equalsIgnoreCase(rowAction)) {
+		RowAction rowAction = (RowAction) MethodUtil.doGetMethod(entity, "RowAction");
+		if (rowAction == RowAction.R) {
 			MethodUtil.doSetMethod(entity, "Removed", Short.class, ConstUtil.TrueShort);
 		} else {
 			MethodUtil.doSetMethod(entity, "Removed", Short.class, ConstUtil.FalseShort);
 		}
 		//如果是新增, 要把version字段初始化成0
-		if (ConstUtil.ROW_N.equalsIgnoreCase(rowAction)) {
+		if (rowAction == RowAction.N) {
 			MethodUtil.doSetMethod(entity, "version", Integer.class, ConstUtil.FalseInt);
 		}
 		Integer userId = (Integer) SessionManager.getAttr(SessionKeyType.UID);

@@ -5,7 +5,7 @@ import haitai.fos.ffop.entity.idao.IFTransListDAO;
 import haitai.fos.ffop.entity.table.FPackingList;
 import haitai.fos.ffop.entity.table.FTransList;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,15 +24,15 @@ public class FTransListService {
 		List<FTransList> retList = new ArrayList<FTransList>();
 		Set<Integer> idSet = new HashSet<Integer>();
 		for (FTransList entity : consignList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setTrliId(null);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				FTransList delEntity = dao.findById(entity.getTrliId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");

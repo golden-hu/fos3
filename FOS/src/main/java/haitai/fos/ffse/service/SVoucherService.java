@@ -11,6 +11,7 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class SVoucherService {
 		for (Object obj : entityList) {
 			if (obj instanceof SVoucher) {
 				SVoucher entity = (SVoucher) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setVoucId(null);
 					Map<String, String> paramMap = new HashMap<String, String>();
 					paramMap.put(SerialFactory.RULE_RP, entity.getVoucType());
@@ -57,17 +58,17 @@ public class SVoucherService {
 					entity.setVoucNo(no);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SVoucher delEntity = dao.findById(entity.getVoucId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 					Map<String, Object> queryMap = new HashMap<String, Object>();
 					queryMap.put("voucId", entity.getVoucId());
 					List<SVoucherItem> list = itemDao.findByProperties(queryMap);
 					for (SVoucherItem voucherItem : list) {
-						voucherItem.setRowAction(ConstUtil.ROW_R);
+						voucherItem.setRowAction(RowAction.R);
 						itemDao.update(voucherItem);
 						invoiceItemSet.add(voucherItem.getInitId());
 						invoiceSet.add(voucherItem.getInvoId());
@@ -89,17 +90,17 @@ public class SVoucherService {
 		for (Object obj : entityList) {
 			if (obj instanceof SVoucherItem) {
 				SVoucherItem entity = (SVoucherItem) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setVoitId(null);
 					entity.setVoucId(parentId);
 					entity.setVoucNo(voucNo);
 					itemDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(itemDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					SVoucherItem delEntity = itemDao.findById(entity.getVoitId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					itemDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

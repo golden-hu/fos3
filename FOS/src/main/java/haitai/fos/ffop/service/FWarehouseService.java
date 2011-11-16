@@ -6,13 +6,16 @@ import haitai.fos.ffop.entity.table.FWarehouse;
 import haitai.fos.ffop.entity.table.FWarehouseCargo;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
-import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class FWarehouseService {
@@ -32,17 +35,17 @@ public class FWarehouseService {
 				FWarehouse entity = (FWarehouse) obj;
 				//保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getWareId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setWareId(null);
 					String no = SerialFactory.getSerial("ware_no");
 					entity.setWareNo(no);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FWarehouse delEntity = dao.findById(entity.getWareId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException(
@@ -57,16 +60,16 @@ public class FWarehouseService {
 		for (Object obj : entityList) {
 			if (obj instanceof FWarehouseCargo) {
 				FWarehouseCargo entity = (FWarehouseCargo) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setWacaId(null);
 					entity.setWareId(NumberUtil.frontId2DbId(idMap, entity.getWareId()));
 					cargoDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(cargoDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FWarehouseCargo delEntity = cargoDao.findById(entity.getWacaId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					cargoDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

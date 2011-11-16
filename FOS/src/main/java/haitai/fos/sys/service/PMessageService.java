@@ -48,7 +48,7 @@ public class PMessageService {
 	public List<PMessage> save(List<PMessage> entityList, Map<String, String> queryMap) throws Exception {
 		List<PMessage> retList = new ArrayList<PMessage>();
 		for (PMessage entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setMessId(null);
 				entity.setMessCreateTime(new Date());
 				if (entity.getMessType() == ConstUtil.MESS_TYPE_EMAIL
@@ -83,11 +83,11 @@ public class PMessageService {
 				}
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				PMessage delEntity = dao.findById(entity.getMessId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");
@@ -178,9 +178,9 @@ public class PMessageService {
 	/**
 	 * 配船通知
 	 *
-	 * @param topic the message topic
+	 * @param topic	the message topic
 	 * @param mailList the email list
-	 * @param entity the business object
+	 * @param entity   the business object
 	 */
 	@Transactional
 	public void buildMsg(PMessageTopic topic, List<PMessageSubscribe> mailList, Object entity) {

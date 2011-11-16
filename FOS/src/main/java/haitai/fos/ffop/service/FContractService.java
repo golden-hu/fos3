@@ -8,7 +8,7 @@ import haitai.fos.ffop.entity.table.FLoadingList;
 import haitai.fos.general.entity.idao.IGPlaceDAO;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
-import haitai.fw.util.ConstUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +30,13 @@ public class FContractService {
 	public List<FContract> save(List<FContract> consignList) {
 		List<FContract> retList = new ArrayList<FContract>();
 		for (FContract entity : consignList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setFconId(null);
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				FContract delEntity = dao.findById(entity.getFconId());
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("fconId", entity.getFconId());
@@ -44,7 +44,7 @@ public class FContractService {
 						|| packingListDao.findByProperties(queryMap).size() > 0) {
 					throw new BusinessException("ffop.fcon.cant_delete");
 				}
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
 				throw new BusinessException("fw.row_action_null");

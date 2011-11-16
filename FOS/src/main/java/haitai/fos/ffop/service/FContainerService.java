@@ -9,11 +9,15 @@ import haitai.fos.ffop.entity.table.FContainerCargo;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class FContainerService {
@@ -35,15 +39,15 @@ public class FContainerService {
 			if (obj instanceof FContainer) {
 				FContainer entity = (FContainer) obj;
 				Integer oldId = entity.getContId();
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setContId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FContainer delEntity = dao.findById(entity.getContId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -57,16 +61,16 @@ public class FContainerService {
 		for (Object obj : entityList) {
 			if (obj instanceof FContainerCargo) {
 				FContainerCargo entity = (FContainerCargo) obj;
-				if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+				if (entity.getRowAction() == RowAction.N) {
 					entity.setCocaId(null);
 					entity.setContId(NumberUtil.frontId2DbId(idMap, entity.getContId()));
 					cargoDao.save(entity);
 					retList.add(entity);
-				} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.M) {
 					retList.add(cargoDao.update(entity));
-				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+				} else if (entity.getRowAction() == RowAction.R) {
 					FContainerCargo delEntity = cargoDao.findById(entity.getCocaId());
-					delEntity.setRowAction(ConstUtil.ROW_R);
+					delEntity.setRowAction(RowAction.R);
 					cargoDao.update(delEntity);
 				} else {
 					throw new BusinessException("fw.row_action_null");

@@ -1,19 +1,21 @@
 package haitai.fw.entity;
 
+import haitai.fw.util.RowAction;
+
 import javax.persistence.Transient;
 
 public abstract class BaseDomain implements java.io.Serializable {
 
 	private static final long serialVersionUID = -6152033119960533449L;
-	private String rowAction;
+	private RowAction rowAction;
 	private String id;
 
 	@Transient
-	public String getRowAction() {
+	public RowAction getRowAction() {
 		return rowAction;
 	}
 
-	public void setRowAction(String rowAction) {
+	public void setRowAction(RowAction rowAction) {
 		this.rowAction = rowAction;
 	}
 

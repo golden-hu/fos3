@@ -8,6 +8,7 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,7 +99,7 @@ public class PUserExpePermissionService {
 		entity.setCompCode(SessionManager.getStringAttr(SessionKeyType.COMPCODE));
 		entity.setVersion(ConstUtil.FalseInt);
 		entity.setRemoved(ConstUtil.FalseShort);
-		entity.setRowAction(ConstUtil.ROW_N);
+		entity.setRowAction(RowAction.N);
 		return entity;
 	}
 }

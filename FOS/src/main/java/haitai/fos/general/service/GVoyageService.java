@@ -11,6 +11,7 @@ import haitai.fos.sys.entity.idao.ICPriceSheetDAO;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ObjectUtil;
+import haitai.fw.util.RowAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,12 +42,12 @@ public class GVoyageService {
 	public List<GVoyage> save(List<GVoyage> itemList) {
 		List<GVoyage> retList = new ArrayList<GVoyage>();
 		for (GVoyage entity : itemList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (entity.getRowAction() == RowAction.N) {
 				entity.setVoyaId(null);
 				dao.save(entity);
 				retList.add(entity);
 				packingListDao.updateSailedFlag(entity.getVoyaId(), entity.getVoyaSailedFlag());
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.M) {
 				// 取得数据库中的对象, 记录几个可能修改的字段的旧值
 				Integer voyaId = entity.getVoyaId();
 				GVoyage oldEntity = dao.findById(voyaId);
@@ -93,9 +94,9 @@ public class GVoyageService {
 					loadingListDao.updateVessName(voyaId, newVessId, newVessName, newVessNameCn);
 					contractService.updateVessName(voyaId, newVessId);
 				}
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (entity.getRowAction() == RowAction.R) {
 				GVoyage delEntity = dao.findById(entity.getVoyaId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			}
 		}
