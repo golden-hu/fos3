@@ -11,7 +11,6 @@ import haitai.fos.general.entity.table.GVoyage;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +49,7 @@ public class FLoadingListService {
 				Integer id = entity.getLoliId();
 				clearPackingList(id);
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 			contractSet.add(entity.getFconId());
 			voyageSet.add(entity.getVoyaId());

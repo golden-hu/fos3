@@ -7,7 +7,6 @@ import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.StringUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +85,7 @@ public class FAttachService {
 
 			File f = new File(ConfigUtil.getRealAttachDir() + ConstUtil.DIR_SEP + oriFileName);
 			if (!f.exists()) {
-				throw new BusinessException(MessageUtil.SYS_FILE_NOT_EXIST);
+				throw new BusinessException("sys.file.not_exist");
 			}
 
 			String filename = ConfigUtil.getAttachDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(oriFileName);

@@ -77,7 +77,7 @@ public class SInvoiceService {
 					dao.update(delEntity);
 					isInvoDelFlag = true;
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				parentId = entity.getInvoId();
 				invoNo = entity.getInvoNo();
@@ -104,7 +104,7 @@ public class SInvoiceService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					entryDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			} else if (obj instanceof SInvoiceItem) {
 				SInvoiceItem entity = (SInvoiceItem) obj;
@@ -125,7 +125,7 @@ public class SInvoiceService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					itemDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				expenseSet.add(entity.getExpeId());
 				consignSet.add(entity.getConsId());
@@ -188,7 +188,7 @@ public class SInvoiceService {
 		//如果>1, 说明肯定重复了
 		//如果=1, 而且主键不等, 说明有另外一个对象有同样的号
 		if (list.size() > 1 || (list.size() == 1 && !list.get(0).getInvoId().equals(entity.getInvoId()))) {
-			throw new BusinessException(MessageUtil.FFSE_INVOICE_TAX_NO_DUPLICATED);
+			throw new BusinessException("ffse.invoice.tax_no_duplicated");
 		}
 	}
 

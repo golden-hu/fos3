@@ -120,7 +120,7 @@ public class FConsignService {
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			doDao.update(delEntity);
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException("fw.row_action_null");
 		}
 	}
 
@@ -138,7 +138,7 @@ public class FConsignService {
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			blDao.update(delEntity);
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException("fw.row_action_null");
 		}
 	}
 
@@ -157,7 +157,7 @@ public class FConsignService {
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			cargoDao.update(delEntity);
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException("fw.row_action_null");
 		}
 	}
 
@@ -175,7 +175,7 @@ public class FConsignService {
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			containerDao.update(delEntity);
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException("fw.row_action_null");
 		}
 	}
 
@@ -286,7 +286,7 @@ public class FConsignService {
 				updateFactQuantity(delEntity, true);
 			}
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException("fw.row_action_null");
 		}
 	}
 
@@ -827,7 +827,7 @@ public class FConsignService {
 		//如果>1, 说明肯定重复了
 		//如果=1, 而且主键不等, 说明有另外一个对象有同样的号
 		if (list.size() > 1 || (list.size() == 1 && !list.get(0).getConsId().equals(entity.getConsId()))) {
-			throw new BusinessException(MessageUtil.FFSE_BL_NO_DUPLICATED);
+			throw new BusinessException("ffse.bl.no_duplicated");
 		}
 	}
 

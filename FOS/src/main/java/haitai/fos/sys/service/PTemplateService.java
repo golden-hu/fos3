@@ -72,7 +72,7 @@ public class PTemplateService {
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;
@@ -105,7 +105,7 @@ public class PTemplateService {
 		String filename = pt.getTempName() + ConstUtil.STRING_DOT + pt.getTempType();
 		File f = new File(ConfigUtil.getRealTemplateDir() + ConstUtil.DIR_SEP + filename);
 		if (!f.exists()) {
-			throw new BusinessException(MessageUtil.SYS_TEMPLATE_FILE_NOT_EXIST);
+			throw new BusinessException("sys.template.file_not_exist");
 		}
 		filename = ConfigUtil.getTemplateDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(filename);
 		paramMap.put(ConstUtil.REDIRECT_URL, filename);
@@ -161,7 +161,7 @@ public class PTemplateService {
 				is.close();
 			}
 		} catch (Exception e) {
-			throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+			throw new BusinessException("fw.unknown", e);
 		} finally {
 			if (is != null) {
 				try {
@@ -546,7 +546,7 @@ public class PTemplateService {
 			tempFileName = StringUtil.utf82ascii(tempFileName);
 			return tempFileName;
 		} catch (Exception e) {
-			throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+			throw new BusinessException("fw.unknown", e);
 		} finally {
 			if (is != null) {
 				try {
@@ -586,7 +586,7 @@ public class PTemplateService {
 			writeFromBuffer(content, fileOut);
 			fileOut.close();
 		} catch (Exception e) {
-			throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+			throw new BusinessException("fw.unknown", e);
 		} finally {
 			if (fileOut != null) {
 				try {

@@ -9,7 +9,6 @@ import haitai.fos.ffop.entity.table.FTransTask;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +49,7 @@ public class FTransService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				//主子表关联的话, 需要前台传的id(负数)->后台生成id的一个映射关系
 				idMap.put(oldId, entity.getTranId());
@@ -74,7 +73,7 @@ public class FTransService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					taskDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			} else if (obj instanceof FTransCargo) {
 				FTransCargo entity = (FTransCargo) obj;
@@ -91,7 +90,7 @@ public class FTransService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					cargoDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

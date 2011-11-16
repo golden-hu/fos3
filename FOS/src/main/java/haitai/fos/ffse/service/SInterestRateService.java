@@ -4,7 +4,6 @@ import haitai.fos.ffse.entity.idao.ISInterestRateDAO;
 import haitai.fos.ffse.entity.table.SInterestRate;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +54,7 @@ public class SInterestRateService {
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;

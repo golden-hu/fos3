@@ -90,7 +90,7 @@ public class PMessageService {
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;

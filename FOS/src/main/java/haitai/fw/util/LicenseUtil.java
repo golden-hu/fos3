@@ -47,24 +47,24 @@ public class LicenseUtil {
 			}
 		}
 		if (!status)
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_USERS);
+			throw new BusinessException("fw.license.users");
 	}
 
 	public void checkLicense() {
 		if (!checkIp())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_IP);
+			throw new BusinessException("fw.license.ip");
 		if (!checkMac())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_MAC);
+			throw new BusinessException("fw.license.mac");
 		if (!checkMotherBoard())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_MB);
+			throw new BusinessException("fw.license.mb");
 		if (!checkHardDisk())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_HD);
+			throw new BusinessException("fw.license.hd");
 		if (!checkUsers())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_USERS);
+			throw new BusinessException("fw.license.users");
 		if (!checkExpire())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_EXPIRED);
+			throw new BusinessException("fw.license.expired");
 		if (!checkKey())
-			throw new BusinessException(MessageUtil.FW_ERROR_LICENSE_KEY);
+			throw new BusinessException("fw.license.key");
 	}
 
 	private boolean checkIp() {

@@ -65,7 +65,7 @@ public class MainServlet extends HttpServlet {
 			Properties appConfig = SpringContextHolder.getBean("appConfig");
 			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName) && !ConstUtil.ACT_LOGOUT.equals(actName)) {
 				// 检查是否已经登录(UID为空, 而且不是正在登录)
-				throw new BusinessException(MessageUtil.FW_ERROR_SESSION_EXPIRED);
+				throw new BusinessException("fw.session.expired");
 			} else if (ConstUtil.ACT_LOGOUT.equals(actName)) {
 				ActionLogUtil.log();
 				if (uid != null) {
@@ -149,13 +149,13 @@ public class MainServlet extends HttpServlet {
 				byteResult = strResult.getBytes(ConstUtil.XML_ENCODING_UTF8);
 				bufferedWrite(outputStream, byteResult);
 			} catch (Exception e1) {
-				logger.error(MessageUtil.getMessage(MessageUtil.FW_ERROR_UNKNOWN),e1);
+				logger.error(MessageUtil.getMessage("fw.unknown"),e1);
 			}
 		} finally {
 			try {
 				closeStream(inputStream, outputStream);
 			} catch (IOException e) {
-				logger.error(MessageUtil.getMessage(MessageUtil.FW_ERROR_UNKNOWN));
+				logger.error(MessageUtil.getMessage("fw.unknown"));
 			}
 			SessionManager.unregSession();
 		}
@@ -328,7 +328,7 @@ public class MainServlet extends HttpServlet {
 					fosResponse.addData(retObj);
 				}
 				fosResponse.setCode(0);
-				fosResponse.setMsg(MessageUtil.getMessage(MessageUtil.FW_SUCCESS));
+				fosResponse.setMsg(MessageUtil.getMessage("fw.success"));
 			}
 		}
 	}
@@ -398,7 +398,7 @@ public class MainServlet extends HttpServlet {
 	 */
 	private FosResponse buildErrorResponse(Exception e) {
 		int errCode = -1;
-		if (MessageUtil.FW_ERROR_SESSION_EXPIRED.equals(e.getMessage()))
+		if ("fw.session.expired".equals(e.getMessage()))
 			errCode = -2;
 		String msg = buildErrorMessage(e);
 		FosResponse fosResponse = new FosResponse();
@@ -433,21 +433,21 @@ public class MainServlet extends HttpServlet {
 	private String buildErrorMessage(Exception e) {
 		String msg;
 		if (ExceptionUtil.contains(EntityExistsException.class, e)) {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_ENTITY_EXIST);
+			msg = MessageUtil.getMessage("fw.db.entity_exist");
 		} else if (ExceptionUtil.contains(OptimisticLockException.class, e)) {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_OPTIMISTIC_LOCK);
+			msg = MessageUtil.getMessage("fw.db.optimistic_lock");
 		} else if (ExceptionUtil.contains(
 				ConstraintViolationException.class, e)) {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_CONSTRAINT_VIOLATION);
+			msg = MessageUtil.getMessage("fw.db.constraint_violation");
 		} else if (ExceptionUtil.contains(BusinessException.class, e)) {
 			Throwable b = ExceptionUtil.getTypeException(BusinessException.class, e);
-			if (b != null && MessageUtil.msgSet.contains(b.getMessage())) {
+			if (b != null) {
 				msg = MessageUtil.getMessage(b.getMessage());
 			} else {
 				msg = e.getMessage();
 			}
 		} else {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_UNKNOWN);
+			msg = MessageUtil.getMessage("fw.unknown");
 		}
 		return msg;
 	}

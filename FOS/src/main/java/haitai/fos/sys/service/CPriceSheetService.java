@@ -9,7 +9,6 @@ import haitai.fos.sys.entity.table.CPriceSheet;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class CPriceSheetService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				idMap.put(oldId, entity.getPrshId());
 			}
@@ -72,7 +71,7 @@ public class CPriceSheetService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					lineDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				idMap2.put(oldId, entity.getPrliId());
 			}
@@ -95,7 +94,7 @@ public class CPriceSheetService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					recordDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

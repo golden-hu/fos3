@@ -66,7 +66,7 @@ public class PUserService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				// 主子表关联的话, 需要前台传的id(负数)->后台生成id的一个映射关系
 				idMap.put(oldId, entity.getUserId());
@@ -88,7 +88,7 @@ public class PUserService {
 				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					userRoleDao.delete(entity.getUsroId());
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}
@@ -119,7 +119,7 @@ public class PUserService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					groupDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				// 主子表关联的话, 需要前台传的id(负数)->后台生成id的一个映射关系
 				idMap.put(oldId, entity.getGrouId());
@@ -141,7 +141,7 @@ public class PUserService {
 				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					groupUserDao.delete(entity.getGrusId());
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}
@@ -171,7 +171,7 @@ public class PUserService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					roleDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				// 主子表关联的话, 需要前台传的id(负数)->后台生成id的一个映射关系
 				idMap.put(oldId, entity.getRoleId());
@@ -193,7 +193,7 @@ public class PUserService {
 				} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
 					roleFunctionDao.delete(entity.getRofuId());
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}
@@ -245,14 +245,14 @@ public class PUserService {
 		String userLoginName = (String) queryMap.get("userLoginName");
 		String userPassword = (String) queryMap.get("userPassword");
 		if (StringUtil.isBlank(userLoginName) || StringUtil.isBlank(userPassword)) {
-			throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_FAIL);
+			throw new BusinessException("fw.login.fail");
 		}
 		userPassword = CryptoUtil.MD5Encode(userPassword);
 		List<PUser> userList = dao.queryByNameOrEmail(userLoginName, userPassword);
 		if (userList != null && userList.size() == 1) {
 			PUser user = userList.get(0);
 			if (ConstUtil.FalseShort.equals(user.getActive()))
-				throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_USER_DEACTIVED);
+				throw new BusinessException("fw.login.user_deactived");
 			checkPasswordExpire(user);
 			if (ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 				checkRepeatLogin(user);
@@ -276,7 +276,7 @@ public class PUserService {
 			ActionLogUtil.log();
 			return user;
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_FAIL);
+			throw new BusinessException("fw.login.fail");
 		}
 	}
 
@@ -291,7 +291,7 @@ public class PUserService {
 		if (!onlineMap.containsKey(id)) {
 			onlineMap.put(id, new Object[] { user.getUserName(), ip, TimeUtil.getMillis(),user.getCompCode() });
 		} else if (!((String) onlineMap.get(id)[1]).equalsIgnoreCase(ip)) {
-			throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_REPEAT);
+			throw new BusinessException("fw.login.repeat");
 		} else {
 			onlineMap.get(id)[2] = TimeUtil.getMillis();
 			logger.info(onlineMap.get(id)[2]);
@@ -320,7 +320,7 @@ public class PUserService {
 		}
 		if (pwDate != null && intExpireDays > 0
 				&& TimeUtil.getDiffDays(pwDate, TimeUtil.getNow()) >= intExpireDays) {
-			throw new BusinessException(MessageUtil.FW_ERROR_PASSWORD_EXPIRE);
+			throw new BusinessException("fw.login.password_expire");
 		}
 	}
 

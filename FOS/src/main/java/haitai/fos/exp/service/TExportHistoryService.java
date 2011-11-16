@@ -75,7 +75,7 @@ public class TExportHistoryService {
 					realInvoDao.update(item);
 				}
 			} else {
-				throw new BusinessException(MessageUtil.EXP_NO_DATA);
+				throw new BusinessException("exp.no_data");
 			}
 		} else {
 			prepareVoucherConditions(type, dateF, dateT, conditions);
@@ -90,7 +90,7 @@ public class TExportHistoryService {
 					realVoucDao.update(item);
 				}
 			} else {
-				throw new BusinessException(MessageUtil.EXP_NO_DATA);
+				throw new BusinessException("exp.no_data");
 			}
 		}
 		return history;
@@ -242,7 +242,7 @@ public class TExportHistoryService {
 			wb.write(f);
 			f.close();
 		} catch (Exception e) {
-			throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+			throw new BusinessException("fw.unknown", e);
 		}
 
 		tempFileName = ConfigUtil.getExportDir() + ConstUtil.DIR_SEP + tempFileName;

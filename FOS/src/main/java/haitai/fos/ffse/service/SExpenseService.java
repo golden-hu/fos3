@@ -13,7 +13,6 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,7 @@ public class SExpenseService {
 					}
 				}
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;

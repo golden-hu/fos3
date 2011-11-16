@@ -7,7 +7,6 @@ import haitai.fos.sys.entity.table.CCustomerContact;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class CCustomerService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				idMap.put(oldId, entity.getCustId());
 			}
@@ -65,7 +64,7 @@ public class CCustomerService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					contactDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

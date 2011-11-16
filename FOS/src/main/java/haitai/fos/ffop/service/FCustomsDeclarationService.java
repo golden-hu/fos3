@@ -49,7 +49,7 @@ public class FCustomsDeclarationService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				idMap.put(oldId, entity.getCudeId());
 			}
@@ -71,7 +71,7 @@ public class FCustomsDeclarationService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					docDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 
 			} else if (obj instanceof FCustomsEntry) {
@@ -88,7 +88,7 @@ public class FCustomsDeclarationService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					entDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

@@ -3,7 +3,6 @@ package haitai.fw.entity;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.MethodUtil;
 
 import java.io.Serializable;
@@ -97,15 +96,15 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 			try {
 				delEntity = findById((PK) getPkMethod.invoke(entity));
 			} catch (IllegalAccessException e) {
-				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+				throw new BusinessException("fw.unknown", e);
 			} catch (InvocationTargetException e) {
-				throw new BusinessException(MessageUtil.FW_ERROR_UNKNOWN, e);
+				throw new BusinessException("fw.unknown", e);
 			}
 			delEntity.setRowAction(ConstUtil.ROW_R);
 			MethodUtil.doSetMethod(delEntity, "Removed", Short.class, ConstUtil.TrueShort);
 			update(delEntity);
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+			throw new BusinessException("fw.row_action_null");
 		}
 		return retEntity;
 	}

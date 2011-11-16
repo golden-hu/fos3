@@ -12,7 +12,6 @@ import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +68,7 @@ public class SBillService {
 						itemDao.update(billItem);
 					}
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				parentId = entity.getBillId();
 				break;
@@ -103,7 +102,7 @@ public class SBillService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					itemDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

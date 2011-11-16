@@ -12,7 +12,6 @@ import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +65,7 @@ public class SPrService {
 						itemDao.update(prItem);
 					}
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				parentId = entity.getPrId();
 				prNo = entity.getPrNo();
@@ -97,7 +96,7 @@ public class SPrService {
 					//更新对应的发票状态为已审核
 					resetInvoiceStatus(entity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

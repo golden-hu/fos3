@@ -6,7 +6,6 @@ import haitai.fos.ffop.entity.table.FPackingList;
 import haitai.fos.ffop.entity.table.FTransList;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,7 @@ public class FTransListService {
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 			idSet.add(entity.getPaliId());
 		}

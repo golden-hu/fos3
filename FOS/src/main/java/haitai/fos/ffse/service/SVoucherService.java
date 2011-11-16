@@ -10,7 +10,6 @@ import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +77,7 @@ public class SVoucherService {
 //					//删除核销单, 要恢复发票和费用的状态
 //					cancelVoucher(entity.getVoucId());
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				parentId = entity.getVoucId();
 				voucNo = entity.getVoucNo();
@@ -103,7 +102,7 @@ public class SVoucherService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					itemDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				//需要更新的发票明细
 				invoiceItemSet.add(entity.getInitId());

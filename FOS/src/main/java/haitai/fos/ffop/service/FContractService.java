@@ -9,7 +9,6 @@ import haitai.fos.general.entity.idao.IGPlaceDAO;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,12 +42,12 @@ public class FContractService {
 				queryMap.put("fconId", entity.getFconId());
 				if (loadingListDao.findByProperties(queryMap).size() > 0
 						|| packingListDao.findByProperties(queryMap).size() > 0) {
-					throw new BusinessException(MessageUtil.FFOP_FCON_CANT_DELETE);
+					throw new BusinessException("ffop.fcon.cant_delete");
 				}
 				delEntity.setRowAction(ConstUtil.ROW_R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;

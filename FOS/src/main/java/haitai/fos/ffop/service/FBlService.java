@@ -49,7 +49,7 @@ public class FBlService {
 				dao.update(delEntity);
 				entity = delEntity;
 			} else {
-				throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 			if (entity.getBlMBlId() != null) {
 				blIdSet.add(entity.getBlMBlId());
@@ -383,7 +383,7 @@ public class FBlService {
 		//如果>1, 说明肯定重复了
 		//如果=1, 而且主键不等, 说明有另外一个对象有同样的号
 		if (list.size() > 1 || (list.size() == 1 && !list.get(0).getBlId().equals(entity.getBlId()))) {
-			throw new BusinessException(MessageUtil.FFSE_BL_NO_DUPLICATED);
+			throw new BusinessException("ffse.bl.no_duplicated");
 		}
 	}
 

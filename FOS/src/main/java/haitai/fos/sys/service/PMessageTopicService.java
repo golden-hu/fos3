@@ -6,7 +6,6 @@ import haitai.fos.sys.entity.table.PMessageSubscribe;
 import haitai.fos.sys.entity.table.PMessageTopic;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +45,7 @@ public class PMessageTopicService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				idMap.put(oldId, entity.getMetoId());
 			}
@@ -67,7 +66,7 @@ public class PMessageTopicService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					subscribeDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

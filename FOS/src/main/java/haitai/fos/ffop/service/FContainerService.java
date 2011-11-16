@@ -8,7 +8,6 @@ import haitai.fos.ffop.entity.table.FContainer;
 import haitai.fos.ffop.entity.table.FContainerCargo;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.MessageUtil;
 import haitai.fw.util.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ public class FContainerService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					dao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 				idMap.put(oldId, entity.getContId());
 				consId = entity.getConsId();
@@ -70,7 +69,7 @@ public class FContainerService {
 					delEntity.setRowAction(ConstUtil.ROW_R);
 					cargoDao.update(delEntity);
 				} else {
-					throw new BusinessException(MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+					throw new BusinessException("fw.row_action_null");
 				}
 			}
 		}

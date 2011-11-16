@@ -68,14 +68,14 @@ public class PUserExpePermissionService {
 		//ID=0的单条记录，表示所有费用，要同样判断
 		//应收
 		if (!chclSet.contains(ConstUtil.PR_TYPE_RECEIVE + "0")) {
-			PUserExpePermission entity = newPermission(0, MessageUtil.getMessage(MessageUtil.SYS_USEP_FEE_ALL));
+			PUserExpePermission entity = newPermission(0, MessageUtil.getMessage("sys.usep.fee_all"));
 			entity.setUserId(Integer.parseInt(userId));
 			entity.setExpeType(ConstUtil.PR_TYPE_RECEIVE);
 			retList.add(entity);
 		}
 		//应付
 		if (!chclSet.contains(ConstUtil.PR_TYPE_PAY + "0")) {
-			PUserExpePermission entity = newPermission(0, MessageUtil.getMessage(MessageUtil.SYS_USEP_FEE_ALL));
+			PUserExpePermission entity = newPermission(0, MessageUtil.getMessage("sys.usep.fee_all"));
 			entity.setUserId(Integer.parseInt(userId));
 			entity.setExpeType(ConstUtil.PR_TYPE_PAY);
 			retList.add(entity);
