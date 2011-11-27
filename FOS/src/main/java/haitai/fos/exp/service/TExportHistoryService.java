@@ -178,8 +178,7 @@ public class TExportHistoryService {
 
 	private void saveExpVoit(List<FosQuery> conditions, Map<String, Object> queryMap, TExportHistory history,
 							 List<TVoucherItem> childList) {
-		List<SVoucherItem> itemList = realVoitDao.complexQueryByParent(
-				conditions, queryMap);
+		List<SVoucherItem> itemList = realVoitDao.complexQueryByParent(conditions, queryMap);
 		Map<Integer, Integer> lineNoMap = new HashMap<Integer, Integer>();
 		for (SVoucherItem realItem : itemList) {
 			TVoucherItem expItem = new TVoucherItem();
