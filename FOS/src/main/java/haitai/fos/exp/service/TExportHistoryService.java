@@ -187,11 +187,11 @@ public class TExportHistoryService {
 			expItem.setExhiId(history.getExhiId());
 			expItem.setExhiFlag(ConstUtil.TrueShort);
 			int currentNo = 20;
-			if (lineNoMap.containsKey(realItem.getInvoId())) {
-				currentNo = lineNoMap.get(realItem.getInvoId());
+			if (lineNoMap.containsKey(realItem.getVoucId())) {
+				currentNo = lineNoMap.get(realItem.getVoucId());
 				currentNo += 20;
 			}
-			lineNoMap.put(realItem.getInvoId(), currentNo);
+			lineNoMap.put(realItem.getVoucId(), currentNo);
 			expItem.setExhiLine(currentNo);
 			expVoitDao.save(expItem);
 			childList.add(expItem);
@@ -569,7 +569,7 @@ public class TExportHistoryService {
 			}
 			rowData = new Object[]{"PY", item.getExhiId(), item.getVoucId(),
 					item.getExhiLine(), item.getCustId(), invoTaxNo,
-					"1", "51", "03", item.getVoitAmountVoucW(),
+					item.getVoucNo(), "51", "03", item.getVoitAmountVoucW(),
 					item.getConsNo(), item.getVoitWriteOffNo(),
 					item.getVoitAmountVoucW(), "0", item.getVoucCurrCode(),
 					item.getVoucDate(), "1", "1", "0", "0", "", "0", "1",
