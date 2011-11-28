@@ -3263,9 +3263,12 @@ Fos.BillTab = function(p){
 			xmlData:FOSX(xml)
 		});
     };
-    var updateStatus=function(s){
+    this.updateStatus=function(s){
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'BILL_U',billId:p.get('billId'),billStatus:s},
-			success: function(r){p.set('billStatus',s);updateToolBar(s);XMG.alert(SYS,M_S);},
+			success: function(r){
+				p.set('billStatus',s);
+				this.updateToolBar(s);
+				XMG.alert(SYS,M_S);},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}
 		});
 	};
@@ -3278,9 +3281,9 @@ Fos.BillTab = function(p){
     	tb.getComponent('TB_E').setDisabled(NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_F)||s!='1');
     	tb.getComponent('TB_M').setText(C_STATUS_C+getBIST(p.get('billStatus')));
     };
-    this.check=function(){updateStatus('1');};
-    this.renew=function(){updateStatus('0');};
-    this.cancel=function(){updateStatus('2');};
+    this.check=function(){this.updateStatus('1');};
+    this.renew=function(){this.updateStatus('0');};
+    this.cancel=function(){this.updateStatus('2');};
     this.expBillExcel=function(){EXPC('BILL','&aggressive=1&billId='+p.get('billId'));};
     this.expBillExEmail=function(){EXPM('','','','','BILL','&aggressive=1&billId='+p.get('billId'));};
     new Ext.KeyMap(Ext.getDoc(), {
