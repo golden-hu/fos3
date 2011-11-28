@@ -46,6 +46,7 @@ public class FAttachService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public void uploadAttach(Map<String, String> paramMap) {
 		String uploadDir = ConfigUtil.getRealAttachDir();
 		String consId = paramMap.get("consId");

@@ -4904,7 +4904,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('TASK_Q', 'FTaskService', 'query', '任务查询'),
 ('ATTACH_D', 'FAttachService', 'downAttach', '下载文档'),
 ('ATTACH_U', 'FAttachService', 'uploadAttach', '上传文档'),
-('ATTACH_Q', 'FAttachService', 'queryAttach', '查询文档'),
+('ATTACH_Q', 'FAttachService', 'query', '查询文档'),
 ('ATTACH_R', 'FAttachService', 'removeAttach', '删除文档'),
 
 ('EXPE_S', 'SExpenseService', 'save', '费用保存'),
