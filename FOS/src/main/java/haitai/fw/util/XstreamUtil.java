@@ -23,6 +23,7 @@ public class XstreamUtil implements InitializingBean {
 		xstreamXML.registerConverter(new FosDateConverter());
 		xstreamXML.registerConverter(new FosTimeConverter());
 		xstreamXML.registerConverter(new DoubleConverter());
+		xstreamXML.registerConverter(new RowActionConverter());
 		xstreamJSON.registerConverter(new FosDateConverter());
 		xstreamJSON.registerConverter(new FosTimeConverter());
 		xstreamJSON.registerConverter(new DoubleConverter());
