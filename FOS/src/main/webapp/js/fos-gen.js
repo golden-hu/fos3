@@ -633,8 +633,6 @@ var showG_CHAR = function() {
         {text:C_SAVE,disabled:NR(M1_J+G_CHAR+F_M),iconCls:'save',handler:function(){
         	FOS_POST(store,'GCharge',GCharge,'CHAR_S');
         	getCHAR_S().reload();
-        	getCHAR_PERM_R_S().reload();
-        	getCHAR_PERM_P_S().reload();
         }},'-',
         st,kw,{text:C_SEARCH,iconCls:'search',handler:this.search},
         '->',new Ext.PagingToolbar({pageSize:100,store:store})]

@@ -572,7 +572,12 @@ var FOS_POST = function(store,t,rt,action){
 
 var FOS_REMOVE=function(sm,store){
 	var r = sm.getSelections();
-	if(r.length){for(var i=0;i<r.length;i++){r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');store.remove(r[i]);}}
+	if(r.length){
+		for(var i=0;i<r.length;i++){
+			r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');
+			store.remove(r[i]);
+			}
+		}
 	else XMG.alert(SYS,M_R_P);
 };
 var FOS_REMOVE_A=function(a,store){

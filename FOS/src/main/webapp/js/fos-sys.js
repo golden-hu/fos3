@@ -683,13 +683,16 @@ Fos.UserTab = function() {
 		if(b){var w=new Fos.UsepWin(b);w.show();}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	var tbItems = [{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_USER+F_M),iconCls:'add',scope:this,handler:this.addUser}, '-', 		
+	       		{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_USER+F_R),iconCls:'remove',handler:this.removeUser},	'-', 		
+	    		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.save},'-', 	
+	    		{itemId:'TB_P',text:C_RESET_PASS+'(P)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.reset}];
+	if(VERSION==0)
+		tbItems[tbItems.length] = {itemId:'TB_E',text:C_EXPE_PERMISSIOM+'(E)',disabled:NR(M1_P+A_USER+F_M),iconCls:'key',scope:this,handler:this.expePer};
+	
 	var ug = new Ext.grid.EditorGridPanel({
 		id:'G_USER',title:C_USER_LIST,plugins:[sales,operator,va,ea,active],clicksToEdit:1,border:true,height:475,store:store,sm:sm,cm:cm,
-		tbar:[{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_USER+F_M),iconCls:'add',scope:this,handler:this.addUser}, '-', 		
-		{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_USER+F_R),iconCls:'remove',handler:this.removeUser},	'-', 		
-		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.save},'-', 	
-		{itemId:'TB_P',text:C_RESET_PASS+'(P)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.reset},'-', 	
-		{itemId:'TB_E',text:C_EXPE_PERMISSIOM+'(E)',disabled:NR(M1_P+A_USER+F_M),iconCls:'key',scope:this,handler:this.expePer}]
+		tbar:tbItems
 	});
 	new Ext.KeyMap(Ext.getDoc(),{
 		key:'nrspe',ctrl:true,

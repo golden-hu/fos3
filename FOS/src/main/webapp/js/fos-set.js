@@ -26,19 +26,39 @@
             	b.set('custSname',r.get('custCode'));
             	},
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
-    var t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
-			editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
-            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
-            store:t=='C'?getCCHAR_S():(t=='R'?getCHAR_PERM_R_S():getCHAR_PERM_P_S()),
-            listeners:{scope:this,select:function(c,r,i){
-            	var b =this.getSelectionModel().getSelected();
-            	b.set('charId',r.get('charId'));
-            	b.set('chclId',r.get('chclId'));
-            	b.set('charNameEn',r.get('charNameEn'));
-            	b.set('currCode',r.get('currCode'));
-            	b.set('unitId',r.get('unitId'));
-            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
-            	this.reCalculate();}}})};
+    
+	
+	if( VERSION==1){
+		t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
+				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
+	            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+	            store:getCHAR_S(),
+	            listeners:{scope:this,select:function(c,r,i){
+	            	var b =this.getSelectionModel().getSelected();
+	            	b.set('charId',r.get('charId'));
+	            	b.set('chclId',r.get('chclId'));
+	            	b.set('charNameEn',r.get('charNameEn'));
+	            	b.set('currCode',r.get('currCode'));
+	            	b.set('unitId',r.get('unitId'));
+	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
+	            	this.reCalculate();}}})};
+	}
+	else{
+		var t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
+				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
+	            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+	            store:t=='C'?getCCHAR_S():(t=='R'?getCHAR_PERM_R_S():getCHAR_PERM_P_S()),
+	            listeners:{scope:this,select:function(c,r,i){
+	            	var b =this.getSelectionModel().getSelected();
+	            	b.set('charId',r.get('charId'));
+	            	b.set('chclId',r.get('chclId'));
+	            	b.set('charNameEn',r.get('charNameEn'));
+	            	b.set('currCode',r.get('currCode'));
+	            	b.set('unitId',r.get('unitId'));
+	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
+	            	this.reCalculate();}}})};
+	}
+	
     var t3={header:C_UNIT,width:60,dataIndex:"unitName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'unitCode',valueField:'unitCode',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_C(),listeners:{
