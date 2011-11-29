@@ -951,7 +951,7 @@ Fos.ConsignAuditGrid = function() {
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
 		{header:C_AUDIT_STATUS,width:60,dataIndex:"consStatusAud",renderer:getAUST},
-		{header:C_CONS_STATUS,dataIndex:"consStatus",renderer:getCOST},
+		{header:C_CONS_STATUS,dataIndex:"consStatus",renderer:getCONS_STATUS},
 		{header:C_CONS_NO,dataIndex:"consNo",renderer:consRender},
 		{header:"F/L",width:40,dataIndex:"consShipType"},
 		{header:"P/C",width:40,dataIndex:"pateId",renderer:getPATE},

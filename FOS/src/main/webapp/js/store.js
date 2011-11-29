@@ -675,39 +675,39 @@ FAttach = Ext.data.Record.create(['attachId','attachName','attachFileName','atta
 	'compCode','version','rowAction']);
 
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['CONS_DATE','委托生成日期'],['CONS_ETA','预计船到日期'],['CONS_SAIL_DATE','开船日期'],['BASE_TASK_D','依赖任务完成日']]});
-getDATY = function(v){if(v) return DATY_S.getById(v).get('NAME'); else return ''};
+getDATY = function(v){if(v) return DATY_S.getById(v).get('NAME'); else return '';};
 
 var ACTION_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCONS_S','租船合同保存'],['LOLI_S','配船保存'],['CONS_S','委托保存'],['CONS_U_1','订舱确认']]});
-getACTION = function(v){if(v) return ACTION_S.getById(v).get('NAME'); else return ''};
+getACTION = function(v){if(v) return ACTION_S.getById(v).get('NAME'); else return '';};
 
 var SHTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
-getSHTY = function(v){if(v) return SHTY_S.getById(v).get('NAME'); else return ''};
+getSHTY = function(v){if(v) return SHTY_S.getById(v).get('NAME'); else return '';};
 
 var TRACK_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','车皮'],[2,'驳船'],['3','卡车'],['4','不做码头']]});
-getTRACK_T = function(v){if(v) return TRACK_T_S.getById(v).get('NAME'); else return ''};
+getTRACK_T = function(v){if(v) return TRACK_T_S.getById(v).get('NAME'); else return '';};
 
 var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],['G','报关'],['I','报检'],['K','挂靠']]});
-getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return ''};
+getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return '';};
 
 var PLTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','省'],['2','市/县'],['3','港区']]});
-getPLTY = function(v){if(v) return PLTY_S.getById(v).get('NAME'); else return ''};
+getPLTY = function(v){if(v) return PLTY_S.getById(v).get('NAME'); else return '';};
 
 var BC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
-getBC = function(v){if(v) return BC_S.getById(v).get('NAME'); else return ''};
+getBC = function(v){if(v) return BC_S.getById(v).get('NAME'); else return '';};
 
 var SOUR_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','自揽货'],['1','同行货'],['2','船公司指定货'],['3','海外代理指定货']]});
 
 var INDU_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','化工'],['2','纺织服装'],['3','建筑建材'],['4','汽车'],['5','电子电器'],['6','农林牧副渔'],['7','轻工/日化'],['8','医药卫生'],['9','机械设备制造'],['10','矿冶能源'],['11','食品'],['12','零售流通'],['13','物流'],['14','交通运输企业'],['15','其它']]});	
-getINDU = function(v){if(v) return INDU_S.getById(v).get('NAME'); else return ''};
+getINDU = function(v){if(v) return INDU_S.getById(v).get('NAME'); else return '';};
 
 var COPR_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','国有'],['1','合作'],['2','合资'],['3','独资'],['4','集体'],['5','私营'],['6','个体工商户'],['7','其他']]});
-getCOPR = function(v){if(v) return COPR_S.getById(v).get('NAME'); else return ''};
+getCOPR = function(v){if(v) return COPR_S.getById(v).get('NAME'); else return '';};
 
 var DOCL_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['10','出口报检随附单据'],['11','出口报检需要证单'],['12','出口报关随附单据'],['20','进口报检需要证单'],['21','进口报检需要证单'],['22','进口报关随附单据'],['30','其他单']]});
-getDOCL = function(v){if(v) return DOCL_S.getById(v).get('NAME'); else return ''};
+getDOCL = function(v){if(v) return DOCL_S.getById(v).get('NAME'); else return '';};
 
 var ITTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','当面交接'],['1','快递'],['2','邮件']]});
-getITTY = function(v){if(v) return ITTY_S.getById(v).get('NAME'); else return ''};
+getITTY = function(v){if(v) return ITTY_S.getById(v).get('NAME'); else return '';};
 
 var TEUN_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['F','F'],['C','C']]});
 var USFU_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','全水'],['1','路桥']]});
@@ -715,9 +715,9 @@ var TROT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','提
 var TANT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','拖车'],['1','货车'],['2','水路'],['3','铁路']]});
 
 var FL_S=new Ext.data.SimpleStore({id:0,fields:['CODE'],data:[['FCL'],['LCL']]});
-getFL = function(v){if(v) return FL_S.getById(v).get('NAME'); else return ''};
+getFL = function(v){if(v) return FL_S.getById(v).get('NAME'); else return '';};
 var GEND_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['M','男'],['F','女']]});
-getGEND = function(v){if(v) return GEND_S.getById(v).get('NAME'); else return ''};
+getGEND = function(v){if(v) return GEND_S.getById(v).get('NAME'); else return '';};
 var TFTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['xls','xls'],['doc','doc']]});
 var DC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['R','红色'],['G','绿色'],['B','蓝色'],['W','白色']]});
 var BIZT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['A','海运货代'],['B','无船承运']]});
@@ -725,115 +725,125 @@ var COLE_S=new Ext.data.SimpleStore({id:0,fields:['CODE'],data:[['20'],['40'],['
 var SWIT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','无'],['1','商检换单'],['2','厂检换单']]});
 
 var VETY_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','集装箱船'],['2','散杂货船'],['3','驳船']]});
-getVETY = function(v){if(v) return VETY_S.getById(v).get('NAME'); else return ''};
+getVETY = function(v){if(v) return VETY_S.getById(v).get('NAME'); else return '';};
 
 var CTST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',S_SHIP_NOT],['1',S_SHIP_PARTY],['2',S_SHIP_ALL]]});
-getCTST = function(v){if(v>=0) return CTST_S.getById(v).get('NAME'); else return ''};
+getCTST = function(v){if(v>=0) return CTST_S.getById(v).get('NAME'); else return '';};
 
 var COST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未订舱'],['1','订舱已开始'],['2','订舱已确认'],['3','已退舱'],['4','已改装漏配'],['5','已退关退载'],['6','已作废'],['7','已完成']]});
-getCOST = function(v){if(v>=0) return COST_S.getById(v).get('NAME'); else return ''};
+getCOST = function(v){if(v>=0) return COST_S.getById(v).get('NAME'); else return '';};
 var CIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未到港'],['1','已到港'],['2','已换单'],['3','已放行'],['4','已送货'],['6','已作废'],['7','已完成']]});
-getCIST = function(v){if(v>=0) return CIST_S.getById(v).get('NAME'); else return ''};
+getCIST = function(v){if(v>=0) return CIST_S.getById(v).get('NAME'); else return '';};
 
-var BOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','订舱未开始'],['1','订舱已开始'],['2','已生成配舱回单'],['3','已发送ESI'],['4','订舱失败'],['5','订舱已确认'],['6','已退舱'],['7','已改装漏配']]});
-getBOST = function(v){if(v>=0) return BOST_S.getById(v).get('NAME'); else return ''};
+getCONS_STATUS = function(v,m,r){
+	if(v>=0) {
+		if(r.get('consBizClass') == BC_I)
+			return CIST_S.getById(v).get('NAME'); 
+		else
+			 return COST_S.getById(v).get('NAME');
+	}
+	else return '';
+};
+
+var BOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未订舱'],['1','订舱已开始'],['2','已生成配舱回单'],['3','已发送ESI'],['4','订舱失败'],['5','订舱已确认'],['6','已退舱'],['7','已改装漏配']]});
+getBOST = function(v){if(v>=0) return BOST_S.getById(v).get('NAME'); else return '';};
 
 var BLST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','未确认'],['2','已确认'],['3','已出正本'],['4','可放单'],['5','已放单']]});
-getBLST = function(v){if(v>=0) return BLST_S.getById(v).get('NAME'); else return ''};
+getBLST = function(v){if(v>=0) return BLST_S.getById(v).get('NAME'); else return '';};
 
 var TRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未开始'],['1','已开始'],['2','已完成']]});
-getTRST = function(v){if(v>=0) return TRST_S.getById(v).get('NAME'); else return ''};
+getTRST = function(v){if(v>=0) return TRST_S.getById(v).get('NAME'); else return '';};
 
 var SPST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未开始'],['1','已生成分拨申请'],['2','已回执通过'],['3','已形式清关']]});
-getSPST = function(v){if(v>=0) return SPST_S.getById(v).get('NAME'); else return ''};
+getSPST = function(v){if(v>=0) return SPST_S.getById(v).get('NAME'); else return '';};
 
 var WAST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未受理'],['1','已受理'],['2','已完成']]});
-getWAST = function(v){if(v>=0) return WAST_S.getById(v).get('NAME'); else return ''};
+getWAST = function(v){if(v>=0) return WAST_S.getById(v).get('NAME'); else return '';};
 
 var WATY_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['I','入库通知单'],['O','出库通知单']]});
-getWATY = function(v){if(v) return WATY_S.getById(v).get('NAME'); else return ''};
+getWATY = function(v){if(v) return WATY_S.getById(v).get('NAME'); else return '';};
 
 
 var INSPST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未申报'],['1','已申报'],['2','已完成']]});
-getINSPST = function(v){if(v>=0) return INSPST_S.getById(v).get('NAME'); else return ''};
+getINSPST = function(v){if(v>=0) return INSPST_S.getById(v).get('NAME'); else return '';};
 
 var CDST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未制单'],['1','已制单'],['2','已申报'],['3','已通关'],['4','已退关']]});
-getCDST = function(v){if(v>=0) return CDST_S.getById(v).get('NAME'); else return ''};
+getCDST = function(v){if(v>=0) return CDST_S.getById(v).get('NAME'); else return '';};
 
 var DOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未接收'],['1','已接收'],['2','已报送'],['3','已退回'],['4','已退还']]});
-getDOST = function(v){if(v>=0) return DOST_S.getById(v).get('NAME'); else return ''};
+getDOST = function(v){if(v>=0) return DOST_S.getById(v).get('NAME'); else return '';};
 
 var DRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','不可放'],['1','可放']]});
-getDRST = function(v){if(v>=0) return DRST_S.getById(v).get('NAME'); else return ''};
+getDRST = function(v){if(v>=0) return DRST_S.getById(v).get('NAME'); else return '';};
 
 var IDST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未接收'],['3','已回单'],['4','已退单']]});
-getIDST = function(v){if(v>=0) return IDST_S.getById(v).get('NAME'); else return ''};
+getIDST = function(v){if(v>=0) return IDST_S.getById(v).get('NAME'); else return '';};
 
 
 var IVST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已审核'],['2','已作废']]});
-getIVST = function(v){if(v>=0) return IVST_S.getById(v).get('NAME'); else return ''};
+getIVST = function(v){if(v>=0) return IVST_S.getById(v).get('NAME'); else return '';};
 
 var VOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已审核'],['2','已作废']]});
-getVOST = function(v){if(v>=0) return VOST_S.getById(v).get('NAME'); else return ''};
+getVOST = function(v){if(v>=0) return VOST_S.getById(v).get('NAME'); else return '';};
 
 var RCAT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','预收款'],['1','其它应收款']]});
-getRCAT = function(v){if(v>=0) return RCAT_S.getById(v).get('NAME'); else return ''};
+getRCAT = function(v){if(v>=0) return RCAT_S.getById(v).get('NAME'); else return '';};
 
 var PCAT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','预付款'],['1','其它应付款']]});
-getPCAT = function(v){if(v>=0) return PCAT_S.getById(v).get('NAME'); else return ''};
+getPCAT = function(v){if(v>=0) return PCAT_S.getById(v).get('NAME'); else return '';};
 
 var PRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未提交'],['1','已提交'],['2','已财务审核'],['3','已经理审核'],['4','已付款'],['5','已作废']]});
-getPRST = function(v){if(v>=0) return PRST_S.getById(v).get('NAME'); else return ''};
+getPRST = function(v){if(v>=0) return PRST_S.getById(v).get('NAME'); else return '';};
 
 var ERST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未托收'],['1','已托收'],['2','已回单'],['3','已到帐'],['4','托收失败'],['5','已作废']]});
-getERST = function(v){if(v>=0) return ERST_S.getById(v).get('NAME'); else return ''};
+getERST = function(v){if(v>=0) return ERST_S.getById(v).get('NAME'); else return '';};
 
 var AUST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已财务审核'],['2','已经理审核']]});
-getAUST = function(v){if(v>=0) return AUST_S.getById(v).get('NAME'); else return ''};
+getAUST = function(v){if(v>=0) return AUST_S.getById(v).get('NAME'); else return '';};
 
 
 var EXST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认'],['2','已开票'],['3','已核销']]});
-getEXST = function(v){if(v>=0) return EXST_S.getById(v).get('NAME'); else return ''};
+getEXST = function(v){if(v>=0) return EXST_S.getById(v).get('NAME'); else return '';};
 
 var BIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未对账'],['1','已对账'],['2','已作废']]});
-getBIST = function(v){if(v>=0) return BIST_S.getById(v).get('NAME'); else return ''};
+getBIST = function(v){if(v>=0) return BIST_S.getById(v).get('NAME'); else return '';};
 
 var WRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['1','部分核销'],['2','已核销']]});
-getWRST = function(v){if(v>=0) return WRST_S.getById(v).get('NAME'); else return ''};
+getWRST = function(v){if(v>=0) return WRST_S.getById(v).get('NAME'); else return '';};
 var WRSN_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['2','已核销']]});
-getWRSN = function(v){if(v>=0) return WRSN_S.getById(v).get('NAME'); else return ''};
+getWRSN = function(v){if(v>=0) return WRSN_S.getById(v).get('NAME'); else return '';};
 var INST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未开账单'],['1','部分开账单'],['2','已开账单']]});
-getINST = function(v){if(v>=0) return INST_S.getById(v).get('NAME'); else return ''};
+getINST = function(v){if(v>=0) return INST_S.getById(v).get('NAME'); else return '';};
 var EXPC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认']]});
-getEXPC = function(v){if(v>=0) return EXPC_S.getById(v).get('NAME'); else return ''};
+getEXPC = function(v){if(v>=0) return EXPC_S.getById(v).get('NAME'); else return '';};
 
 var EXHI_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','应收账单'],['1','应付帐单'],['2','收款核销'],['3','付款核销']]});
-getEXHI_T = function(v){if(v>=0) return EXHI_T_S.getById(v).get('NAME'); else return ''};
+getEXHI_T = function(v){if(v>=0) return EXHI_T_S.getById(v).get('NAME'); else return '';};
 var MESU_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','内部用户'],['2','客户供应商'],['3','系统角色']]});
-getMESU_T = function(v){if(v>=0) return MESU_T_S.getById(v).get('NAME'); else return ''};
+getMESU_T = function(v){if(v>=0) return MESU_T_S.getById(v).get('NAME'); else return '';};
 
 var ROLE_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','操作员'],['2','业务员'],['3','调度']]});
-getROLE_T = function(v){if(v>=0) return ROLE_T_S.getById(v).get('NAME'); else return ''};
+getROLE_T = function(v){if(v>=0) return ROLE_T_S.getById(v).get('NAME'); else return '';};
 
 var CUST_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','订舱客户'],['2','租船人'],['3','订舱代理'],['4','承运人'],['5','报关公司'],['6','拖车公司'],['7','仓库']]});
-getCUST_T = function(v){if(v>=0) return CUST_T_S.getById(v).get('NAME'); else return ''};
+getCUST_T = function(v){if(v>=0) return CUST_T_S.getById(v).get('NAME'); else return '';};
 
 
 var PSST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未生效'],['1','已生效'],['2','已失效']]});
-getPSST = function(v){if(v>=0) return PSST_S.getById(v).get('NAME'); else return ''};
+getPSST = function(v){if(v>=0) return PSST_S.getById(v).get('NAME'); else return '';};
 
 var TECL_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['A','普通'],['B','套打']]});
-getTECL = function(v){if(v) return TECL_S.getById(v).get('NAME'); else return ''};
+getTECL = function(v){if(v) return TECL_S.getById(v).get('NAME'); else return '';};
 
 var EXTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['R','应收'],['P','应付']]});
-getEXTY = function(v){if(v) return EXTY_S.getById(v).get('NAME'); else return ''};
+getEXTY = function(v){if(v) return EXTY_S.getById(v).get('NAME'); else return '';};
 var LCLT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['A','内部拼箱'],['B','外部拼箱'],['C','客户自拼']]});
-getLCLT = function(v){if(v) return LCLT_S.getById(v).get('NAME'); else return ''};
+getLCLT = function(v){if(v) return LCLT_S.getById(v).get('NAME'); else return '';};
 var CUTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','属地'],['2','口岸']]});
-getCUTY = function(v){if(v) return CUTY_S.getById(v).get('NAME'); else return ''};
+getCUTY = function(v){if(v) return CUTY_S.getById(v).get('NAME'); else return '';};
 
 var IRTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','三月期'],['2','六月期'],['3','一年期']]});
-getIRTY = function(v){if(v) return IRTY_S.getById(v).get('NAME'); else return ''};
+getIRTY = function(v){if(v) return IRTY_S.getById(v).get('NAME'); else return '';};
 
 var YY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['2008','2008年'],['2009','2009年'],['2010','2010年'],['2011','2011年'],['2012','2012年'],['2013','2013年'],['2014','2014年'],['2015','2015年']]});
 var MM_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['01','一月'],['02','二月'],['03','三月'],['04','四月'],['05','五月'],['06','六月'],['07','七月'],['08','八月'],['09','九月'],['10','十月'],['11','十一月'],['12','十二月']]});
@@ -841,26 +851,26 @@ var MM_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['01','一�
 var CONF_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME']});
 
 var ACLO_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FConsign','委托'],['FBl','提单'],['FContract','租船合同'],['SExpense','费用'],['SInvoice','账单'],['SVoucher','收、付款单'],['SPr','付款申请']]});
-getACLO = function(v){if(v) return ACLO_S.getById(v).get('NAME'); else return ''};
+getACLO = function(v){if(v) return ACLO_S.getById(v).get('NAME'); else return '';};
 
 var getGStore=function(c,r,o,s,d,id){
 	if(Ext.StoreMgr.containsKey(c+'_S')){return Ext.StoreMgr.get(c+'_S');}
 	else {var store = GS(c+'_Q',r,o,s,d,'',c+'_S',id?id:s);store.load({params:{active:'1'}});return store;}
 };
 var getCACL_S = function(){return getGStore('CACL','GCargoClass',GCargoClass,'caclId','DESC','');};
-getCACL = function(v){var _cs=getCACL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('caclNameCn'):v; else return ''}; 
+getCACL = function(v){var _cs=getCACL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('caclNameCn'):v; else return '';}; 
 
 var getVEHT_S = function(){return getGStore('VEHT','GVehicleType',GVehicleType,'vehtId','ASC','');};	
-getVEHT = function(v){var _cs= getVEHT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('vehtName'):v; else return ''}; 
+getVEHT = function(v){var _cs= getVEHT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('vehtName'):v; else return '';}; 
 
 var getSEWA_S = function(){return getGStore('SEWA','GSettlementWay',GSettlementWay,'sewaId','ASC','');};
-getSEWA = function(v){var _cs= getSEWA_S();if(v) return _cs.getById(v)?_cs.getById(v).get('sewaName'):v; else return ''}; 
+getSEWA = function(v){var _cs= getSEWA_S();if(v) return _cs.getById(v)?_cs.getById(v).get('sewaName'):v; else return '';}; 
 
 var getISTY_S = function(){return getGStore('ISTY','GIssueType',GIssueType,'istyId','ASC','');};
-getISTY = function(v){var _cs= getISTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('istyName'):v; else return ''};
+getISTY = function(v){var _cs= getISTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('istyName'):v; else return '';};
 
 var getTRAN_S = function(){return getGStore('TTER','GTransTerm',GTransTerm,'tranId','ASC','');};
-getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return ''};
+getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return '';};
 
 var getTTB_S = function(){
 	var s=GS('TTER','GTransTerm',GTransTerm,'tranId','ASC','');
@@ -880,43 +890,43 @@ var getTTC_S = function(){
 };
 
 var getPATE_S = function(){return getGStore('PATE','GPaymentTerm',GPaymentTerm,'pateId','ASC','');};
-getPATE = function(v){var _cs= getPATE_S();if(v) return _cs.getById(v)?_cs.getById(v).get('pateCode'):v; else return ''};
+getPATE = function(v){var _cs= getPATE_S();if(v) return _cs.getById(v)?_cs.getById(v).get('pateCode'):v; else return '';};
 
 var getUNIT_S = function(){
 	if(Ext.StoreMgr.containsKey('S_UNIT')){return Ext.StoreMgr.get('S_UNIT');}
 	else {s = GS('UNIT_Q','GUnit',GUnit,'','','','S_UNIT');s.load({params:{active:'1'}});return s;}    
 };
-getUNIT = function(v,m,r){var _cs= getUNIT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('unitName'):v; else return ''}; 
+getUNIT = function(v,m,r){var _cs= getUNIT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('unitName'):v; else return '';}; 
 
 var getUNIT_C = function(){
 	if(Ext.StoreMgr.containsKey('S_UNIT_C')){return Ext.StoreMgr.get('S_UNIT_C');}
 	else {s = GS('UNIT_C','GUnit',GUnit,'','','','S_UNIT_C');s.load({params:{active:'1'}});return s;}    
 };
-getUNIT = function(v,m,r){var _cs= getUNIT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('unitName'):v; else return ''}; 
+getUNIT = function(v,m,r){var _cs= getUNIT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('unitName'):v; else return '';}; 
 
 var getCURR_S = function(){return getGStore('CURR','GCurrency',GCurrency,'currCode','ASC','');};
-getCURR = function(v,m,r){var _cs= getCURR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('currName'):v; else return ''}; 
+getCURR = function(v,m,r){var _cs= getCURR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('currName'):v; else return '';}; 
 
 var getCUCA_S = function(){return getGStore('CUCA','CCustomerCategory',CCustomerCategory,'cucaId','ASC','');};
-getCUCA = function(v,m,r){var _cs= getCUCA_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cucaName'):v; else return ''}; 
+getCUCA = function(v,m,r){var _cs= getCUCA_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cucaName'):v; else return '';}; 
 
 var getCOCL_S = function(){return getGStore('COCL','GContainerClass',GContainerClass,'coclId','ASC','');};
-getCOCL = function(v,m,r){var _cs= getCOCL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('coclName'):v; else return ''}; 
+getCOCL = function(v,m,r){var _cs= getCOCL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('coclName'):v; else return '';}; 
 
 var getUSAG_S = function(){return getGStore('USAG','GUsage',GUsage,'usagId','ASC','');};
-getUSAG = function(v,m,r){var _cs= getUSAG_S();if(v) return _cs.getById(v)?_cs.getById(v).get('usagName'):v; else return ''}; 
+getUSAG = function(v,m,r){var _cs= getUSAG_S();if(v) return _cs.getById(v)?_cs.getById(v).get('usagName'):v; else return '';}; 
 
 var getCOUN_S = function(){return getGStore('COUN','GCountry',GCountry,'counCode','ASC','');};
-getCOUN = function(v,m,r){var _cs= getCOUN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('counNameCn'):v; else return ''}; 
+getCOUN = function(v,m,r){var _cs= getCOUN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('counNameCn'):v; else return '';}; 
 
 var getPLAC_S = function(){return getGStore('PLAC','GPlace',GPlace,'shliId','ASC','');};
-getPLAC = function(v,m,r){var _cs= getPLAC_S();if(v) return _cs.getById(v)?_cs.getById(v).get('placName'):v; else return ''}; 
+getPLAC = function(v,m,r){var _cs= getPLAC_S();if(v) return _cs.getById(v)?_cs.getById(v).get('placName'):v; else return '';}; 
 
 var getSHLI_S = function(){return getGStore('SHLI','GShippingLine',GShippingLine,'shliId','ASC','');};
-getSHLI = function(v,m,r){var _cs= getSHLI_S();if(v) return _cs.getById(v)?_cs.getById(v).get('shliName'):v; else return ''}; 
+getSHLI = function(v,m,r){var _cs= getSHLI_S();if(v) return _cs.getById(v)?_cs.getById(v).get('shliName'):v; else return '';}; 
 
 var getVESS_S = function(){return getGStore('VESS','GVessel',GVessel,'vessId','ASC','');};
-getVESS = function(v,m,r){var _cs= getVESS_S();if(v) return _cs.getById(v)?_cs.getById(v).get('vessNameEn'):v; else return ''}; 
+getVESS = function(v,m,r){var _cs= getVESS_S();if(v) return _cs.getById(v)?_cs.getById(v).get('vessNameEn'):v; else return '';}; 
 
 var getPOL_S = function(){
 	if(Ext.StoreMgr.containsKey('S_POL')){return Ext.StoreMgr.get('S_POL');}
@@ -937,18 +947,18 @@ var getPROV_S = function(){
     	s.load({params:{placType:'1',active:'1'}});return s;}
 };
 var getPACK_S = function(){return getGStore('PACK','GPackage',GPackage,'packId','ASC','');};
-getPACK = function(v){var _cs= getPACK_S();if(v) return _cs.getById(v)?_cs.getById(v).get('packName'):v; else return ''}; 
+getPACK = function(v){var _cs= getPACK_S();if(v) return _cs.getById(v)?_cs.getById(v).get('packName'):v; else return '';}; 
 
 var getCOTY_S = function(){return getGStore('COTY','GContainerType',GContainerType,'cotyCode','ASC','cotyId');};
-getCOTY = function(v){var _cs= getCOTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cotyCode'):v; else return ''};
-getCLCODE=function(v){var _cs= getCOTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('coclCode'):v; else return ''};
-getCTEU = function(v){var _cs= getCOTY_S();if(v) return _cs.getById(v)?(_cs.getById(v).get('cotyTeu')?_cs.getById(v).get('cotyTeu'):1):1; else return 1}; 
+getCOTY = function(v){var _cs= getCOTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cotyCode'):v; else return '';};
+getCLCODE=function(v){var _cs= getCOTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('coclCode'):v; else return '';};
+getCTEU = function(v){var _cs= getCOTY_S();if(v) return _cs.getById(v)?(_cs.getById(v).get('cotyTeu')?_cs.getById(v).get('cotyTeu'):1):1; else return 1;}; 
 
 var getCHCL_S = function(){return getGStore('CHCL','GChargeClass',GChargeClass,'chclId','ASC','chclId');};
-getCHCL = function(v){var _cs= getCHCL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('chclName'):v; else return ''}; 
+getCHCL = function(v){var _cs= getCHCL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('chclName'):v; else return '';}; 
 
 var getDOTY_S = function(){return getGStore('DOTY','GDocumentType',GDocumentType,'dotyId','ASC','dotyId');};
-getDOTY = function(v){var _cs= getDOTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('dotyName'):v; else return ''}; 
+getDOTY = function(v){var _cs= getDOTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('dotyName'):v; else return '';}; 
 
 var getTRTY_S = function(){return getGStore('TRTY','GTradeType',GTradeType,'trtyId','ASC','trtyId');};
 var getTRAT_S = function(){return getGStore('TRAT','GTransType',GTransType,'tratId','ASC','tratId');};
@@ -973,11 +983,11 @@ getExRate = function(cs,ct){
 var getCOBA_S = function(){return getGStore('COBA','PCompanyBankAccount',PCompanyBankAccount,'cobaId','ASC','cobaId');};
 var getFUNC_S = function(){return getGStore('FUNC','PFunction',PFunction,'funcCode','ASC','');};
 var getROLE_S = function(){return getGStore('ROLE','PRole',PRole,'roleId','DESC','');};
-getROLE = function(v){if(v){var _cs= getROLE_S();return _cs.getById(v)?_cs.getById(v).get('roleName'):v; } else return ''}; 
+getROLE = function(v){if(v){var _cs= getROLE_S();return _cs.getById(v)?_cs.getById(v).get('roleName'):v; } else return '';}; 
 var getUSER_S = function(){return getGStore('USER','PUser',PUser,'userId','DESC','');};
-getUSER = function(v){if(v){var _cs= getUSER_S();return _cs.getById(v)?_cs.getById(v).get('userName'):v; } else return ''}; 
+getUSER = function(v){if(v){var _cs= getUSER_S();return _cs.getById(v)?_cs.getById(v).get('userName'):v; } else return '';}; 
 var getGROU_S = function(){return getGStore('GROU','PGroup',PGroup,'grouId','DESC','');};
-getGROU = function(v){if(v){var _cs= getGROU_S();return _cs.getById(v)?_cs.getById(v).get('grouName'):v; } else return ''}; 
+getGROU = function(v){if(v){var _cs= getGROU_S();return _cs.getById(v)?_cs.getById(v).get('grouName'):v; } else return '';}; 
 
 var getCOCO_S = function(){
 	if(Ext.StoreMgr.containsKey('COCO_S')){return Ext.StoreMgr.get('COCO_S');}
@@ -1004,7 +1014,7 @@ var getBP=function(){
 };
 
 var getCHAR_S = function(){return getGStore('CHAR','GCharge',GCharge,'charId','ASC','');};
-getCHAR = function(v,m,r){var _cs= getCHAR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('charName'):v; else return ''};
+getCHAR = function(v,m,r){var _cs= getCHAR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('charName'):v; else return '';};
 
 var getCCHAR_S=function(){	
 	if(Ext.StoreMgr.containsKey('CCHAR_S')){return Ext.StoreMgr.get('CCHAR_S');}
@@ -1060,7 +1070,7 @@ var getOP_S=function(){
     }
 };
 var getTETY_S = function(){return getGStore('TETY','PTemplateType',PTemplateType,'tetyId','DESC','');};
-getTETY = function(v){var _cs=getTETY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tetyName'):v; else return ''}; 
+getTETY = function(v){var _cs=getTETY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tetyName'):v; else return '';}; 
 
 var getTEMP_S = function(){return getGStore('TEMP','PTemplate',PTemplate,'tempId','DESC','');};
 
@@ -1070,7 +1080,7 @@ var getTemplates = function(t){
 	return new Ext.data.SimpleStore({id:0,fields:['tempId','tempName'],data:c});
 };
 
-function UUID(){var guid='';for (var i=0;i<10;i++){guid += Math.floor(Math.random()*6).toString()};return guid;};
+function UUID(){var guid='';for (var i=0;i<10;i++){guid += Math.floor(Math.random()*6).toString();};return guid;};
 
 function iniStore(){
 	Ext.MessageBox.show({title:'Please wait',msg:'初始化数据...',progressText:'Loading...',width:300,progress:true,closable:false});
@@ -1080,7 +1090,15 @@ function iniStore(){
 	if(!NR(M1_P+A_ROLE+F_V)) getFUNC_S();getTEMP_S();getCHCL_S();
 	getCOCO_S();getGROU_S();getROLE_S();getUSER_S();getSALE_S();getOP_S();
 	getCCHAR_S();getCHAR_PERM_R_S();getCHAR_PERM_P_S();
-	var f = function(v){return function(){if(v == 12){Ext.MessageBox.hide();} else {var i = v/11;Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');}}};
+	var f = function(v){
+		return function(){
+			if(v == 12){
+				Ext.MessageBox.hide();} 
+			else {
+				var i = v/11;Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+			}
+		};
+	};
 	for(var i=1;i<13;i++){setTimeout(f(i),i*300);}
 };
 

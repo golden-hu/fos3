@@ -78,7 +78,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
                if(v==1) return '<div class="locked"></div>'; else return '';
          }};
     var c3={header:C_M_CONS,width:30,hidden:shipType!=ST_L,dataIndex:"consMasterFlag",renderer:boolRender};
-    var c4={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:bizClass==BC_E?getCOST:getCIST};
+    var c4={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS};
     var c5={header:C_CONS_NO,width:120,dataIndex:"consNo"};
     var c6={header:bizType==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
     var c7={header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate};
