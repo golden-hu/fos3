@@ -1292,6 +1292,7 @@ var C_PHOTO='照片';
 var C_MATES_RECEIPT='大副收据';
 
 var C_TASK_CFG='任务配置';
+var C_TASK_ORDER='序号';
 var C_TASK_NAME='任务名称';
 var C_TASK_DESC='任务描述';
 var C_TASK_DATE_TYPE='时间节点';

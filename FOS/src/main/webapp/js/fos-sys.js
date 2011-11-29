@@ -1152,7 +1152,7 @@ Ext.extend(Fos.TaskWin, Ext.Window);
 
 Fos.TaskPanel = function(p) {	
 	var store = GS('TASK_Q','FTask',FTask,'tatyOrder','ASC','','','',true);
-	store.load({params:{consId:p.get('consMasterId')},scope:this});
+	store.load({params:{consId:p.get('consId')},scope:this});
 	var ad=new Ext.form.DateField({value:p.get('consEta'),format:DATEF,width:120,disabled:false});
 	var sd=new Ext.form.DateField({value:p.get('consSailDate'),format:DATEF,width:120,disabled:false});
 	var saveT=function(r){
@@ -1177,6 +1177,7 @@ Fos.TaskPanel = function(p) {
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);
 	ff.on('click',function(c,e,r){
 		r.set('taskFinishedDate',r.get('taskFinishedFlag')==1?(new Date()):'');
+		r.set('rowAction','N');
 		saveT(r);
 	},this);
 	var cm=new Ext.grid.ColumnModel({columns:[sm,c1,c2,ff,c3],defaults:{sortable:true,width:100}});
@@ -1184,6 +1185,7 @@ Fos.TaskPanel = function(p) {
 		p.beginEdit();
 		p.set('consEta',ad.getValue());
 		p.set('consSailDate',sd.getValue());
+		p.set('rowAction','M');
 		p.endEdit();
 		var x = RTX(p,'FConsign',FConsign);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
@@ -1211,7 +1213,7 @@ Fos.TaskPanel = function(p) {
 	    listeners:{scope:this,afteredit:this.saveTask},
 	    tbar:[{xtype:'tbtext',text:C_ETA_V},ad,'-',
 			{xtype:'tbtext',text:C_SAIL_DATE},sd,'-',
-			{text:C_SAVE,iconCls:'save',scope:this,handler:this.save},'-'
+			{text:C_SAVE,iconCls:'save',scope:this,handler:this.saveTask},'-'
 			]
 	}); 
 };
@@ -1234,6 +1236,7 @@ Fos.TatyGrid = function(t,bt,bc) {
 		ss.insert(0,r);
 	}});
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	var c0={header:C_TASK_ORDER,width:50,dataIndex:"tatyOrder",editor:new Ext.form.NumberField()};
 	var c1={header:C_TASK_NAME,width:100,dataIndex:"tatyName",editor:new Ext.form.TextField()};
 	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'tatyDateType',renderer:getDATY,editor:new Ext.form.ComboBox({xtype:'combo',store:DATY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true})};
 	var c3={header:C_TASK_DATE_ESTIMATED,dataIndex:"tatyDateEstimated",align:'right',editor:new Ext.form.NumberField()};
@@ -1243,11 +1246,11 @@ Fos.TatyGrid = function(t,bt,bc) {
 	            	if(b){b.set('tatyDId',r.get('tatyId'));}}}
 				})};
 	var ac=ACTIVE();
-	var cm=new Ext.grid.ColumnModel({columns:[sm,c1,c2,c3,c4,ac],defaults:{sortable:true,width:60}});
+	var cm=new Ext.grid.ColumnModel({columns:[sm,c0,c1,c2,c3,c4,ac],defaults:{sortable:true,width:60}});
 	this.add=function(){
 		var id=GGUID();
-		var e = new PTaskType({id:id,tatyId:id,tatyDateType:'',tatyDateEstimated:'',
-    		tatyName:'',tatyDesc:'',tatyAction:'',tatyClass:'',tatyProperty:'',tatyDefaultOwner:'',
+		var e = new PTaskType({id:id,tatyId:id,tatyDateType:'',tatyDateEstimated:'',tatyOrder:'',
+    		tatyName:'',tatyDesc:'',tatyAction:'CONS_S',tatyClass:'',tatyProperty:'',tatyDefaultOwner:'',
     		tatyBizType:bt,tatyBizClass:bc,active:'1',version:'0'});
     	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
 	};
