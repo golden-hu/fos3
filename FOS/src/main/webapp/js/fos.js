@@ -312,10 +312,10 @@ function createGMTree(){
 		var port = CreateNode(C_PORT,'PORT',M1_J+G_PORT,function(){return showG_PORT('0');});
 		biz.appendChild(port);
 	}
-	if(!NR(M1_J+G_AIRP)){
+	/*if(!NR(M1_J+G_AIRP)){
 		var airp = CreateNode(C_AIRP,'AIRP',M1_J+G_AIRP,function(){return showG_PORT('1');});
 		biz.appendChild(airp);
-	}
+	}*/
 	if(!NR(M1_J+G_PLAC)){
 		var plac = CreateNode(C_PLAC,'PLAC',M1_J+G_PLAC,showG_PLAC);
 		biz.appendChild(plac);

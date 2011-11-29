@@ -630,7 +630,12 @@ var showG_CHAR = function() {
 			var p = new GCharge({id:GGUID(),charId:'0',charCode:'',charName:'',currCode:'CNY',unitId:'',chclId:'',active:1,version:'0',rowAction:'N'});            
         	grid.stopEditing();store.insert(0,p);grid.startEditing(0,1);}},'-',
         {text:C_REMOVE,disabled:NR(M1_J+G_CHAR+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}}, '-', 
-        {text:C_SAVE,disabled:NR(M1_J+G_CHAR+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GCharge',GCharge,'CHAR_S');getCHAR_S();}},'-',
+        {text:C_SAVE,disabled:NR(M1_J+G_CHAR+F_M),iconCls:'save',handler:function(){
+        	FOS_POST(store,'GCharge',GCharge,'CHAR_S');
+        	getCHAR_S().reload();
+        	getCHAR_PERM_R_S().reload();
+        	getCHAR_PERM_P_S().reload();
+        }},'-',
         st,kw,{text:C_SEARCH,iconCls:'search',handler:this.search},
         '->',new Ext.PagingToolbar({pageSize:100,store:store})]
     }); 

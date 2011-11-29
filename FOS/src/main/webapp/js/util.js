@@ -411,7 +411,8 @@ var ATX = function(a,t,rt){
 	for(var j=0;j<a.length;j++)
 	{
 		var r=a[j];
-		if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
+		if(r.get('rowAction') == ''||r.get('rowAction') == undefined) 
+			r.set('rowAction','M');
 		if(r.get('rowAction')!='D'){
 			x=x+"<"+t+">\n";
 			for(var i=0;i<f.length;i++){
