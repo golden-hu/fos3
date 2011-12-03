@@ -4938,6 +4938,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('PR_X', 'SPrService', 'complexQuery', '托收单/付款申请综合查询'),
 ('BILL_S', 'SBillService', 'save', '对帐单保存'),
 ('BILL_Q', 'SBillService', 'query', '对帐单查询'),
+('BILL_EQ', 'SBillService', 'queryForExport', '对帐单导出查询'),
 ('BILL_X', 'SBillService', 'complexQuery', '对帐单复杂查询'),
 ('BILL_U', 'SBillService', 'updateStatus', '对帐单状态更新'),
 ('BIIT_Q', 'SBillService', 'queryItem', '对帐单明细查询'),
@@ -6912,7 +6913,17 @@ INSERT INTO `P_TEMPLATE_MAP` (`TEMA_ID`, `TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `
 (2028, 22, '毛重', 'FConsign', 'consTotalGrossWeight', NULL),
 (2029, 22, '体积', 'FConsign', 'consTotalMeasurement', NULL),
 (2030, 22, '业务号', 'FConsign', 'consNo', NULL),
-(2031, 22, '起运日期', 'FConsign', 'consSailDate', NULL)
+(2031, 22, '起运日期', 'FConsign', 'consSailDate', NULL),
+(2032, 17, '装货港', 'SBillItem', 'consPodEn', NULL),
+(2033, 17, '卸货港', 'SBillItem', 'consPolEn', NULL),
+(2034, 17, '品名', 'SBillItem', 'consCargoNameCn', NULL),
+(2035, 17, '包装', 'SBillItem', 'consPackName', NULL),
+(2036, 17, '件数', 'SBillItem', 'consTotalPackages', NULL),
+(2037, 17, '毛重', 'SBillItem', 'consTotalGrossWeight', NULL),
+(2038, 17, '净重', 'SBillItem', 'consTotalNetWeight', NULL),
+(2039, 17, '体积', 'SBillItem', 'consTotalMeasurement', NULL),
+(2040, 17, '箱型箱量', 'SBillItem', 'consContainersInfo', NULL),
+(2041, 17, '开航日期', 'SBillItem', 'consSailDate', NULL)
 ;
 
 --
@@ -6934,7 +6945,7 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (14, '基础数据-港口', 'PORT', NULL, 'PORT_Q', NULL, 'GPort', 'A', 'P', 1, 1, 0, 0),
 (15, '委托列表', 'CONS_LIST', '委托列表导出模板', 'CONS_X', NULL, 'FConsign', 'A', 'P', 1, 1, 1, 0),
 (16, '单票审核', 'CONS_AUDIT', '单票审核导出模板', 'CONS_CHECK_Q', NULL, 'FConsign', 'A', 'P', 1, 1, 1, 0),
-(17, '对账单', 'BILL', NULL, 'BILL_Q', 'SBill', 'SBillItem', 'B', 'P', 1, 1, 1, 0),
+(17, '对账单', 'BILL', NULL, 'BILL_EQ', 'SBill', 'SBillItem', 'B', 'P', 1, 1, 1, 0),
 (18, '装箱通知单', 'WARE_INFO', NULL, 'CONS_Q', 'FConsign', NULL, 'B', 'P', 1, 1, 0, 0),
 (19, '订舱确认书', 'BOOK_C', NULL, 'CONS_Q', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0),
 (20, '代运联系单', 'TRAN', NULL, 'TRAN_Q', 'FTrans', 'FTransCargo', 'B', 'P', 1, 1, 0, 0),

@@ -1,5 +1,8 @@
 package haitai.fos.ffse.service;
 
+import haitai.fos.ffop.entity.idao.IFConsignDAO;
+import haitai.fos.ffop.entity.table.FBl;
+import haitai.fos.ffop.entity.table.FConsign;
 import haitai.fos.ffse.entity.idao.ISBillDAO;
 import haitai.fos.ffse.entity.idao.ISBillItemDAO;
 import haitai.fos.ffse.entity.idao.ISExpenseDAO;
@@ -30,7 +33,9 @@ public class SBillService {
 	private ISBillItemDAO itemDao;
 	@Autowired
 	private ISExpenseDAO expenseDao;
-
+	@Autowired
+	private IFConsignDAO consDao;
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List save(List entityList) {
@@ -124,6 +129,43 @@ public class SBillService {
 		return retList;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List queryForExport(Map queryMap) {
+		List retList = new ArrayList();
+		
+		String billId = (String) queryMap.get("billId");
+		SBill bill = dao.findById(Integer.parseInt(billId));				
+		retList.add(bill);
+		List<SBillItem> items = itemDao.findByProperties(queryMap);
+		for(SBillItem item : items){
+			String consNo = item.getConsNo();
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("consNo", consNo);
+			List<FConsign> consList = consDao.findByProperties(map);
+			if(consList.size()==1){
+				FConsign c = consList.get(0);
+				item.setConsCargoNameCn(c.getConsCargoNameCn());
+				item.setConsPackName(c.getPackName());				
+				item.setConsContainersInfo(c.getConsContainersInfo());
+				item.setConsPodEn(c.getConsPodEn());
+				item.setConsPolEn(c.getConsPolEn());
+				item.setConsSailDate(c.getConsSailDate());
+				item.setConsTotalPackages(c.getConsTotalPackages());
+				item.setConsTotalGrossWeight(c.getConsTotalGrossWeight());
+				item.setConsTotalNetWeight(c.getConsTotalNetWeight());
+				item.setConsTotalMeasurement(c.getConsTotalMeasurement());
+				item.setConsMblNo(c.getConsMblNo());
+				item.setConsHblNo(c.getConsHblNo());
+				item.setConsVessel(c.getVessName());
+				item.setConsVoyage(c.getVoyaName());
+			}
+		}
+		retList.addAll(items);
+		return retList;
+	}
+	
+	
 	@Transactional
 	public void updateStatus(Map<String, Object> queryMap) {
 		Integer id = Integer.valueOf((String) queryMap.get("billId"));
