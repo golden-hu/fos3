@@ -18,15 +18,32 @@ function NaviMenu(t,c,f){
 };
 function getContPanel(){
 	var items=[];
-	if(!NR(M1_C+M2_A)) items[items.length]=NaviMenu(C_IMP_A,'G_CONS_I_C',function(){return new Fos.ConsignGrid('I','C','');});
+	if(VERSION==0&&!NR(M1_C+M2_A)) items[items.length]=NaviMenu(C_IMP_A,'G_CONS_I_C',function(){return new Fos.ConsignGrid('I','C','');});
 	if(!NR(M1_C+M2_F)) items[items.length]=NaviMenu(C_IMP_F,'G_CONS_I_C_FCL',function(){return new Fos.ConsignGrid('I','C','FCL');});
 	if(!NR(M1_C+M2_L)) items[items.length]=NaviMenu(C_IMP_L,'G_CONS_I_C_LCL',function(){return new Fos.ConsignGrid('I','C','LCL');});
-	if(!NR(M1_C+M2_AE)) items[items.length]=NaviMenu(C_EXP_A,'G_CONS_E_C',function(){return new Fos.ConsignGrid('E','C','');});
+	if(VERSION==0&&!NR(M1_C+M2_AE)) items[items.length]=NaviMenu(C_EXP_A,'G_CONS_E_C',function(){return new Fos.ConsignGrid('E','C','');});
 	if(!NR(M1_C+M2_FE)) items[items.length]=NaviMenu(C_EXP_F,'G_CONS_E_C_FCL',function(){return new Fos.ConsignGrid('E','C','FCL');});
 	if(!NR(M1_C+M2_LE)) items[items.length]=NaviMenu(C_EXP_L,'G_CONS_E_C_LCL',function(){return new Fos.ConsignGrid('E','C','LCL');});
 	return new Ext.Panel({title:C_CONT+'(1)',collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
+function getBulkPanel(){
+	if(VERSION==0){
+		return createBulkTree();
+	}
+	else{
+		var items=[];
+		if(!NR(M1_B+M2_E))
+			items[items.length]=NaviMenu(C_EXP_BULK,'CONS_E_B',function(){return new Fos.ConsignGrid('E','B','');});
+		if(!NR(M1_C+M2_F)) 
+			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('E','B','');});
+		
+		return new Ext.Panel({title:C_BULK+'(2)',collapsible:true,layout:'fit',
+			items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+	}
+};
+
 function getAirPanel(){
 	var items=[];
 	if(!NR(M1_A+M2_I)) items[items.length]=NaviMenu(C_IMP_AIR,'G_CONS_I_A',function(){return new Fos.ConsignGrid('I','A','');});
@@ -129,7 +146,7 @@ function getSysPanel(){
 function getPMenu(){
 	var items=[];
 	if(!NR(M1_C)) items[items.length]=getContPanel();
-	if(!NR(M1_B)) items[items.length]=createBulkTree();
+	if(!NR(M1_B)) items[items.length]=getBulkPanel();
 	if(!NR(M1_A)) items[items.length]=getAirPanel();
 	if(!NR(M1_G)) items[items.length]=getCudePanel();
 	if(!NR(M1_I)) items[items.length]=getInspPanel();
