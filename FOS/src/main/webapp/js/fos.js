@@ -36,8 +36,8 @@ function getBulkPanel(){
 		var items=[];
 		if(!NR(M1_B+M2_E))
 			items[items.length]=NaviMenu(C_EXP_BULK,'CONS_E_B',function(){return new Fos.ConsignGrid('E','B','');});
-		if(!NR(M1_C+M2_F)) 
-			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('E','B','');});
+		if(!NR(M1_B+M2_I)) 
+			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('I','B','');});
 		
 		return new Ext.Panel({title:C_BULK+'(2)',collapsible:true,layout:'fit',
 			items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
