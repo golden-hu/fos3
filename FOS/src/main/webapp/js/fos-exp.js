@@ -2848,12 +2848,14 @@ Fos.AttachTab = function(p) {
 	{header:C_MODIFY_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"}
 	],defaults:{sortable:true,width:100}});
 	
+    var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;
+    
 	Fos.AttachTab.superclass.constructor.call(this, {id:'G_ATTACH'+p.get('consId'),title:C_ATTACH,header:false,
 	closable:false,store:this.store,sm:sm,cm:cm,
 	tbar:[
-	      {itemId:'TB_U',text:C_ATTACH_UPLOAD+'(U)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'up',scope:this,handler:this.upload},'-',
-	    {itemId:'TB_D',text:C_ATTACH_DOWNLOAD+'(D)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'down',scope:this,handler:this.download},'-',
-        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_TEMP+F_R),iconCls:'remove',scope:this,handler:this.removeAttach}
+	      {itemId:'TB_U',text:C_ATTACH_UPLOAD+'(U)',disabled:NR(m+F_M),iconCls:'up',scope:this,handler:this.upload},'-',
+	    {itemId:'TB_D',text:C_ATTACH_DOWNLOAD+'(D)',disabled:NR(m+F_M),iconCls:'down',scope:this,handler:this.download},'-',
+        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(m+F_R),iconCls:'remove',scope:this,handler:this.removeAttach}
         ]
     });   
 };
