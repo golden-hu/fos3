@@ -13,7 +13,8 @@
 	var x=S_AR;
 	if(t=='P') x=S_AP; else if(t=='R')  x=S_AR; else x=S_AC;
 	if(frm.f=='C') m=m+M3_EXPE+x; else m=M1_S+S_EXPE+x;
-	var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'left',
+	if( VERSION==1){
+		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'left',
 			editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
             mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
             invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
@@ -26,7 +27,22 @@
             	b.set('custSname',r.get('custCode'));
             	},
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
-    
+	}
+	else{
+		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'left',
+				editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
+	            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
+	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+	            store:getCS(),enableKeyEvents:true,
+	            listeners:{scope:this,
+	            	select:function(c,r,i){
+					var b =this.getSelectionModel().getSelected();
+	            	b.set('custId',r.get('custId'));
+	            	b.set('custName',r.get('custNameCn'));
+	            	b.set('custSname',r.get('custCode'));
+	            	},
+	           		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
+	}
 	
 	if( VERSION==1){
 		t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
@@ -141,7 +157,7 @@
     		expeCommissionRate:'',expeCommission:'',expeInnerPrice:'',expeExRate:'1.0000',expeRemarks:'',expeDate:new Date(),
     		expeAllocationFlag:'0',expeAllocatedFlag:'0',
     		expeInvoiceAmount:'0',expeWriteOffAmount:'0',expeWriteOffRcAmount:'0',expeInnerAmount:'0',expeRcAmount:'0',
-    		expeTotalAmount:'0',expeNum:'',version:'0'});
+    		expeTotalAmount:'0',expeNum:'1',version:'0'});
     	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
 	};
 	this.removeExp=function(){
@@ -301,7 +317,9 @@
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
 	var locked=p.get('consStatusExp')==1||p.get('consStatusAud')!=0;
-	this.expConfirm=function(){EXPC('EXPE_CONFIRM','&aggressive=1&expeType=R&consId='+p.get('consId'));};
+	this.expConfirm=function(){
+		EXPC('EXPE_CONFIRM','&aggressive=1&expeType='+t+'&consId='+p.get('consId'));
+	};
 	var sN='(N)';
 	if(t=='R') sN='(N)'; else if(t=='P') sN='(M)'; else sN='(A)';
 	var sR='(R)';
@@ -315,7 +333,7 @@
 	var b2={itemId:'TB_B',text:C_REMOVE+sR,iconCls:'remove',disabled:NR(m+F_R)||locked,scope:this,handler:this.removeExp};
 	var b3={itemId:'TB_C',text:C_SAVE+sS,iconCls:'save',disabled:NR(m+F_M)||locked,scope:this,handler:this.save};
 	var b4={itemId:'TB_D',text:C_COPY_FROM+sC,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.cp};
-    var b5={text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(m+F_M)||locked,scope:this,menu: {items: [
+    var b5={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_M)||locked,scope:this,menu: {items: [
            {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}]}};
     var b6={itemId:'TB_F'+'F',text:C_ALLOCATION,iconCls:'broken',disabled:NR(m+F_M)||locked,scope:this,handler:this.allocate};
     
@@ -341,8 +359,6 @@
 							if(!tb.getComponent('TB_C').disabled) this.save();break;
 						case Ext.EventObject.C:
 							if(!tb.getComponent('TB_D').disabled) this.cp();break;
-						case Ext.EventObject.E:
-							if(!tb.getComponent('TB_E').disabled) this.expConfirm();break;	
 						}
 				 	}
 			 	}
@@ -449,7 +465,7 @@
 			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
 			this.reCalculate();}
     }},
-    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b5]:[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b6]});
+    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b5]:[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b6,'-',b5]});
 };
 Ext.extend(Fos.ExGrid, Ext.grid.EditorGridPanel);
 
@@ -1116,7 +1132,7 @@ Fos.InvoiceGrid = function(t) {
 		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'},groupField:'invoDate'});		
 	var a=[];
 	a[0]= new QParam({key:'invoType',value:t,op:EQ});
-	a[1]= new QParam({key:'invoStatus',value:2,op:NE});
+	//a[1]= new QParam({key:'invoStatus',value:2,op:NE});
 	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
     store.load({params:{start:0,limit:C_PS}});
     this.reset=function(){
@@ -1130,7 +1146,7 @@ Fos.InvoiceGrid = function(t) {
         	var at = tab.getActiveTab();
         	var a=[];
         	var op=EQ;        	
-        	a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});        	
+        	//a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});        	
         	if(at.getId()=='T_INVO_LOOK_1'){
         		
         		var invoNo=at.find('name','invoNo')[0].getValue();
@@ -1251,7 +1267,7 @@ Fos.InvoiceGrid = function(t) {
         }
         a[a.length]=new QParam({key:'invoTaxNo',value:invoTaxNo,op:LI});
         
-        a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});
+       // a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});
         store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
         store.reload({params:{start:0,limit:C_PS},
         	callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
@@ -1264,7 +1280,7 @@ Fos.InvoiceGrid = function(t) {
 		{header:C_WRITEOFF_STATUS,width:60,dataIndex:"invoWriteOffStatus",renderer:getWRST},
 		{header:C_INVO_NO,width:100,dataIndex:"invoNo"},
 		{header:C_TAX_NO,width:100,dataIndex:"invoTaxNo"},
-		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname"},		
+		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},		
 		{header:C_CURR,width:40,dataIndex:"currCode"},
 		{header:C_INVO_AMOUNT,align:'right',renderer:numRender,dataIndex:"invoAmount"},	
 		{header:C_INVO_DATE,dataIndex:"invoDate",renderer:formatDate},
@@ -1331,7 +1347,7 @@ Fos.InvoiceGrid = function(t) {
 		 		case Ext.EventObject.M: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M)) this.edit();break;
 		 		case Ext.EventObject.D: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R)) this.removeInvo();break;			 		
 		 		case Ext.EventObject.F: this.search();break;
-				case Ext.EventObject.E: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E)) EXP('C','INVO_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml));break;
+				case Ext.EventObject.E: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E)) EXP('C','INVO_LIST','&mt=xml&xml='+Ext.util.JSON.encode(store.baseParams.xml));break;
 				}
 		 	}
 		},stopEvent:true,scope:this});
@@ -1365,7 +1381,7 @@ Fos.InvoiceGrid = function(t) {
 		{text:C_EDIT+'(M)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'option',handler:this.edit},'-',
 		{text:C_REMOVE+'(D)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R),iconCls:'remove',handler:this.removeInvo},'-',
 		{text:C_SEARCH+'(F)',iconCls:'search',handler:this.search},'-',
-		{text:C_EXPORT+'(E)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:function(){EXP('C','INVO_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml));}},'-',
+		{text:C_EXPORT+'(E)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:function(){EXP('C','INVO_LIST','&mt=xml&xml='+store.baseParams.xml);}},'-',
         kw,b8,'-',b9,'-'],
 	bbar:PTB(store,C_PS)});
 };
@@ -1373,7 +1389,7 @@ Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
 Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_SETTLE_OBJECT,width:100,dataIndex:"custSname"},
+		{header:C_SETTLE_OBJECT,width:100,dataIndex:"custName"},
 		{header:C_CONS_NO,width:80,dataIndex:"consNo"},		
 		{header:C_CHAR,width:80,dataIndex:"charName"},
 		{header:C_UNIT,width:80,dataIndex:"unitName"},
@@ -1827,8 +1843,8 @@ Fos.InvoiceTab = function(p) {
 	var b8={itemId:'TB_M',disabled:true,text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))};
 	var b9={itemId:'TB_G',text:C_ADD+'(N)',iconCls:'add',scope:this,handler:this.addInvoice};
 	
-	var c1={fieldLabel:HL(C_SETTLE_OBJECT),tabIndex:1,name:'custSname',value:p.get('custSname'),store:getCS(),enableKeyEvents:true,
-    		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,triggerAction:'all',selectOnFocus:true,anchor:'95%',
+	var c1={fieldLabel:HL(C_SETTLE_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+    		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,triggerAction:'all',selectOnFocus:true,anchor:'95%',
    		 mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
    		 select:function(c,r,i){
 			if(p.get('invoType')=='R'){
@@ -1842,7 +1858,8 @@ Fos.InvoiceTab = function(p) {
 			else{
 				p.set('invoTitle',r.get('custNameCn'));				
 			}
-			p.set('custId',r.get('custId'));p.set('custName',r.get('custNameCn'));			
+			p.set('custId',r.get('custId'));
+			p.set('custSname',r.get('custCode'));			
 		},
 		keydown:{fn:function(f,e){LC(f,e,p.get('invoType')=='R'?'custArFlag':'custApFlag');},buffer:500}}};
 	var c2={fieldLabel:HL(C_INVO_TITLE),tabIndex:2,name:'invoTitle',allowBlank:false,value:p.get('invoTitle'),xtype:'textfield',anchor:'95%'};
@@ -2059,7 +2076,7 @@ Fos.VoucherGrid = function(t){
 		{header:C_STATUS,width:60,dataIndex:"voucStatus",renderer:getVOST},
 		{header:C_WRITEOFF_STATUS,width:60,dataIndex:"voucWriteOffStatus",renderer:getWRST},
 		{header:t=='R'?C_VOUC_NO_R:C_VOUC_NO_P,width:100,dataIndex:"voucNo"},		
-		{header:C_SETTLE_OBJECT,width:180,dataIndex:"custSname"},		
+		{header:C_SETTLE_OBJECT,width:180,dataIndex:"custName"},		
 		{header:C_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:"voucAmount"},
 		{header:C_WRITEOFFED_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:"voucWriteOffAmount"},
 		{header:C_CURR,width:60,dataIndex:"currCode"},
@@ -2156,7 +2173,7 @@ Fos.InitLookupWin = function(c,t) {
 		{header:C_EXPE_TYPE,width:40,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
 		{header:C_INVO_NO,width:80,dataIndex:"invoNo"},
 		{header:C_TAX_NO,width:80,dataIndex:"invoTaxNo"},
-		{header:C_SETTLE_OBJECT,dataIndex:"custSname"},
+		{header:C_SETTLE_OBJECT,dataIndex:"custName"},
 		{header:C_CONS_NO,width:80,dataIndex:"consNo",renderer:consRender},
 		{header:C_CHAR,width:80,dataIndex:"charName"},
 		{header:C_CURR_BASE,dataIndex:'expeCurrCode',width:60},	
@@ -2182,7 +2199,7 @@ Ext.extend(Fos.InitLookupWin,Ext.Window);
 Fos.VoucItemGrid = function(p,store){
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_EXPE_TYPE,width:40,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
+		{header:C_EXPE_TYPE,width:60,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
 		{header:C_INVO_NO,width:90,dataIndex:'invoNo'},
 		{header:C_TAX_NO,width:90,dataIndex:'invoTaxNo'},
 		{header:C_CHAR,width:80,dataIndex:'charName'},
@@ -2192,16 +2209,16 @@ Fos.VoucItemGrid = function(p,store){
 		{header:C_INVO_EX_RATE,width:60,align:'right',renderer:rateRender,dataIndex:'initExRate'},	
 		{header:C_INVO_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount'},
 		{header:C_WRITEOFFED_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountW'},
-		{header:C_WRITEOFFED_AMOUNT_C,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountW',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
-		{header:C_VOUC_EX_RATE,width:60,align:'right',renderer:rateRender,dataIndex:'voitExRate',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
+		{header:C_WRITEOFFED_AMOUNT_C,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountW',css:'background: #ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_VOUC_EX_RATE,width:60,align:'right',renderer:rateRender,dataIndex:'voitExRate',css:'background: #ffaa66;',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
 		{header:C_EX_AMOUNT,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountVoucW'},
 		{header:C_EX_AMOUNT_ORI,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountOriW'},
 		{header:C_UNIT,hidden:true,width:60,dataIndex:'unitName'},
 		{header:C_UNIT_PRICE,width:60,align:'right',renderer:rateRender,dataIndex:'expeUnitPrice'},
 		{header:C_QUANTITY,width:60,dataIndex:'expeNum'},
+		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,width:80,dataIndex:'consVessel'},
-		{header:C_VOYA,width:80,dataIndex:'consVoyage'},
-		{header:C_CONS_NO,width:80,dataIndex:"consNo",renderer:consRender},
+		{header:C_VOYA,width:80,dataIndex:'consVoyage'},		
 		{header:C_HBL_NO,width:80,dataIndex:"consHblNo"},
 		{header:C_MBL_NO,width:80,dataIndex:'consMblNo'},
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
@@ -2455,11 +2472,11 @@ Fos.VoucherTab = function(p,prId) {
 	items: [{region:'north',height:200,layout:'column',layoutConfig:{columns:4},deferredRender:false,title:p.get('voucType')=='R'?C_VOUC_R_INFO:C_VOUC_P_INFO,collapsible:true,
     	items:[{columnWidth:.25,layout:'form',border:false,
         	items:[{fieldLabel:p.get('voucType')=='R'?C_VOUC_NO_R:C_VOUC_NO_P,tabIndex:1,name:'voucNo',disabled:true,value:p.get('voucNo'),xtype:'textfield',anchor:'95%'},
-        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:5,name:'custSname',value:p.get('custSname'),store:getCS(),enableKeyEvents:true,
-            		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:5,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+            		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){						
 						p.set('custId',r.get('custId'));
-						p.set('custName',r.get('custNameCn'));
+						p.set('custSame',r.get('custCode'));
 					},
 					keydown:{fn:function(f,e){LC(f,e,p.get('voucType')=='R'?'custArFlag':'custApFlag');},buffer:500}}},
                 {fieldLabel:p.get('voucType')=='R'?C_VOUC_R_AMOUNT:C_VOUC_P_AMOUNT,itemCls:'required',tabIndex:9,name:'voucAmount',value:p.get('voucAmount'),xtype:'numberfield',anchor:'95%',
@@ -2639,7 +2656,7 @@ Fos.PrGrid = function(t){
 		new Ext.grid.RowNumberer(),sm,
 		{header:C_STATUS,dataIndex:"prStatus",renderer:t=='R'?getERST:getPRST},
 		{header:t=='R'?C_PR_NO_R:C_PR_NO_P,width:100,dataIndex:"prNo"},
-		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname"},		
+		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},		
 		{header:C_AMOUNT,align:'right',width:80,renderer:numRender,dataIndex:"prAmount"},
 		{header:C_CURR,dataIndex:"currCode"},
 		{header:t=='R'?C_PR_DATE_R:C_PR_DATE_P,width:80,dataIndex:"prDate",renderer:formatDate},
@@ -2988,11 +3005,11 @@ Fos.PrTab = function(p) {
 	items: [{region:'north',height:180,layout:'column',layoutConfig:{columns:4},
 			bodyStyle:'padding:5px 0px 0px 0px',title:p.get('prType')=='R'?C_PR_R_INFO:C_PR_P_INFO,collapsible:true,
     	items:[{columnWidth:.5,layout:'form',border:false,items:[        	
-        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:1,name:'custSname',value:p.get('custSname'),store:getCS(),enableKeyEvents:true,
-           		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+           		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
            		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){						
 					p.set('custId',r.get('custId'));
-					p.set('custName',r.get('custNameCn'));
+					p.set('custSname',r.get('custCode'));
 					p.set('custBankCny',r.get('custBankCny'));
 					p.set('custAccountCny',r.get('custAccountCny'));
 					p.set('custBankUsd',r.get('custBankUsd'));
@@ -3048,7 +3065,7 @@ Fos.BillGrid = function(t) {
 		new Ext.grid.RowNumberer(),sm,
 		{header:C_STATUS,dataIndex:"billStatus",renderer:getBIST},
 		{header:C_BILL_NO,width:100,dataIndex:"billNo"},
-		{header:C_BILL_OBJECT,width:200,dataIndex:"custSname"},	
+		{header:C_BILL_OBJECT,width:200,dataIndex:"custName"},	
 		{header:C_AMOUNT,align:'right',renderer:numRender,dataIndex:"billAmount"},	
 		{header:C_CURR,width:40,dataIndex:"currCode"},
 		{header:C_BILL_DATE,dataIndex:"billDate",renderer:formatDate},
@@ -3347,10 +3364,11 @@ Fos.BillTab = function(p){
 	items: [{region:'north',height:80,layout:'column',layoutConfig:{columns:4},deferredRender:false,title:C_BILL_INFO,collapsible:true,
     	items:[{columnWidth:.25,layout:'form',border:false,
         	items:[
-        	{fieldLabel:HL(C_BILL_OBJECT),tabIndex:1,name:'custSname',value:p.get('custSname'),store:getCS(),enableKeyEvents:true,
-            		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+        	{fieldLabel:HL(C_BILL_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+            		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){
-						p.set('custId',r.get('custId'));p.set('custName',r.get('custNameCn'));
+						p.set('custId',r.get('custId'));
+						p.set('custSname',r.get('custCode'));
 					},
 					keydown:{fn:function(f,e){LC(f,e,p.get('billType')=='R'?'custArFlag':'custApFlag');},buffer:BF}}},
                 {fieldLabel:HL(C_BILL_DATE),tabIndex:3,name:'billDate',value:p.get('billDate'),xtype:'datefield',format:DATEF,anchor:'95%'}]
