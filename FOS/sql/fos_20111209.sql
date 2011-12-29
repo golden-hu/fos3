@@ -92,5 +92,40 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00150304', '业务确认', 'F', 1);
 
 INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`, `TETY_ACTION`, `TETY_PARENT`, `TETY_CHILD`, `TETY_CLASS`, `TETY_TYPE`, `TETY_FORM_FLAG`, `ACTIVE`, `VERSION`, `REMOVED`) VALUES
-(46, '减免税统计表', 'RELIEF_TAX_STAT', '减免税统计表', 'CONS_X', 'FConsign', NULL, 'B', 'M', 1, 1, 0, 0)
+(46, '减免税统计表', 'RELIEF_TAX_STAT', '减免税统计表', 'CONS_X', NULL,'FConsign',  'B', 'M', 1, 1, 0, 0)
 ;
+INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`, `TETY_ACTION`, `TETY_PARENT`, `TETY_CHILD`, `TETY_CLASS`, `TETY_TYPE`, `TETY_FORM_FLAG`, `ACTIVE`, `VERSION`, `REMOVED`) VALUES
+(47, '加工贸易催核表', 'TRADE_STAT', '加工贸易催核表', 'CONS_X', NULL, 'FConsign', 'B', 'M', 1, 1, 0, 0)
+;
+
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(46, '业务号', 'FConsign', 'consNo', NULL),
+(46, '委托单位', 'FConsign', 'custName', NULL),
+(46, '委托日期', 'FConsign', 'consDate', NULL),
+(46, '合同号', 'FConsign', 'consDate', NULL),
+(46, '免表号', 'FConsign', 'consFreeTableNo', NULL),
+(46, '项目号', 'FConsign', 'consCustomRegNo', NULL),
+(46, '经营单位', 'FConsign', 'consCompany', NULL),
+(46, '品名', 'FConsign', 'consCargoNameCn', NULL),
+(46, '数量', 'FConsign', 'consTotalPackages', NULL),
+(46, '金额', 'FConsign', 'consTax', NULL),
+(46, '市审结日期', 'FConsign', 'consAuditDate', NULL),
+(46, '省审结日期', 'FConsign', 'consAuditDate2', NULL)
+;
+
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(47, '业务号', 'FConsign', 'consNo', NULL),
+(47, '委托单位', 'FConsign', 'custName', NULL),
+(47, '委托日期', 'FConsign', 'consDate', NULL),
+(47, '结单日期', 'FConsign', 'consCloseDate', NULL),
+(47, '合同号', 'FConsign', 'consDate', NULL),
+(47, '手册号', 'FConsign', 'consManualNo', NULL),
+(47, '手册有效期', 'FConsign', 'consManualExpirationDate', NULL),
+(47, '扩展字段1', 'FConsign', 'attr1', NULL),
+(47, '扩展字段2', 'FConsign', 'attr2', NULL),
+(47, '扩展字段3', 'FConsign', 'attr3', NULL),
+(47, '扩展字段4', 'FConsign', 'attr4', NULL),
+(47, '经营单位', 'FConsign', 'consCompany', NULL),
+(47, '保证金', 'FConsign', 'consCargoNameCn', NULL)
+;
+

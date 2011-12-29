@@ -115,16 +115,17 @@ Fos.TradeGrid = function() {
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
-	this.exp=function(){EXP('C','CONS_LIST',
-			store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');
+	this.exp=function(){
+		EXPC('TRADE_STAT',store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');
 	};
-  	     
+	
 	var m=M1_M+M3_CONS;
 	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',handler:this.newConsign};	
 	var b3={text:C_EDIT,disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b4={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
-	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',handler:this.exp};	
+	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',scope:this,menu: 
+	{items: [{text:C_TRADE_STAT,scope:this,handler:this.exp}]}};	
 	var b7={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};	
 	var b8={text:C_RESET,iconCls:'refresh',handler:this.reset};
 			
@@ -584,7 +585,10 @@ Fos.ReliefTaxGrid = function() {
 	var b3={text:C_EDIT,disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b4={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
-	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',handler:this.exp};	
+	
+	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',scope:this,menu: 
+		{items: [{text:C_RELIEF_TARIFF_STAT,scope:this,handler:this.exp}]}};	
+	
 	var b7={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};	
 	var b8={text:C_RESET,iconCls:'refresh',handler:this.reset};
 			
