@@ -6,7 +6,18 @@ var BF=500;var C_LW=400;var EQ=1;var LT=2;var LE=3;var GT=4;var GE=5;var NE=6;va
 var PPID=1;
 var CY=1;
 var CFS=9;
-var BT_C='C';var BT_B='B';var BT_A='A';var BT_G='G';var BT_I='I';var BT_K='K';
+
+var BT_C='C';
+var BT_B='B';
+var BT_A='A';
+var BT_G='G';
+var BT_I='I';
+var BT_K='K';
+
+var BT_M = 'M'; //加工贸易
+var BT_F = 'F'; //减免税
+var BT_R = 'R'; //企业注册
+
 var ST_F='FCL';var ST_L='LCL';
 var BC_I='I';var BC_E='E';
 var XMG = Ext.MessageBox;
@@ -858,7 +869,7 @@ function getContMap(k){
 
 function checkContainerNo(n){	 
 	if(n.length!=11) return false;	
-	var a = new Array(11);
+	/*var a = new Array(11);
 	
 	a[0]=getContMap(n.substr(0,1));
     a[1]=getContMap(n.substr(1,1));
@@ -878,7 +889,7 @@ function checkContainerNo(n){
     var s=a[0]+a[1]*2+a[2]*4+a[3]*8+a[4]*16+a[5]*32+a[6]*64+a[7]*128+a[8]*256+a[9]*512;
     var r=s%11;
     
-    if(r!=a[10]) return false;
+    if(r!=a[10]) return false;*/
     return true;
 };
 function round2(v){return (Math.round(v*100)/100);};

@@ -109,6 +109,8 @@ html, body {
 .remove {background-image:url(./images/delete.gif) !important;}
 .save {background-image:url(./images/save.gif) !important;}
 .print {background-image:url(./images/print.gif) !important;}
+.doc {background-image:url(./images/Doc.png) !important;}
+.attach {background-image:url(./images/Attach.png) !important;}
 .grid {background-image:url(./images/grid.png) !important;}
 .class {background-image:url(./images/class.gif) !important;}
 .gen {background-image:url(./images/cog.png) !important;}

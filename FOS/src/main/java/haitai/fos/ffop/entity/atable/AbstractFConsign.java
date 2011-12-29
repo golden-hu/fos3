@@ -327,6 +327,28 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String attr9;
 	private String attr10;
 
+	private String consCompany;
+	private String consVerificationNo;
+	private String consManualNo;	
+	private String consCustomRegNo;
+	private String consFreeTableNo;
+	private String cargHsCode;
+	private Double consTax;
+	private Double consReliefTariff;
+	private Double consReliefVat;
+	private Double consMargin;
+	
+	private Date consCloseDate;
+	private Date consManualExpirationDate;
+	private Date consAuditDate;
+	private Date consAuditDate2;	
+	private Date consCustomRegDate;
+	private Date consBusinessLicenseDate;
+	private Date consOrgDate;
+	
+	private Short consEportReg;
+	private Short consInspReg;
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "CONS_ID", unique = true, nullable = false)
@@ -3145,6 +3167,184 @@ public abstract class AbstractFConsign extends BaseDomain {
 
 	public void setAttr10(String attr10) {
 		this.attr10 = attr10;
+	}
+
+	@Column(name = "CONS_COMPANY", length = 64)
+	public String getConsCompany() {
+		return consCompany;
+	}
+
+	public void setConsCompany(String consCompany) {
+		this.consCompany = consCompany;
+	}
+
+	@Column(name = "CONS_VERIFICATION_NO", length = 32)
+	public String getConsVerificationNo() {
+		return consVerificationNo;
+	}
+
+	public void setConsVerificationNo(String consVerificationNo) {
+		this.consVerificationNo = consVerificationNo;
+	}
+
+	@Column(name = "CONS_MANUAL_NO", length = 32)
+	public String getConsManualNo() {
+		return consManualNo;
+	}
+
+	public void setConsManualNo(String consManualNo) {
+		this.consManualNo = consManualNo;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_CLOSE_DATE", length = 10)
+	public Date getConsCloseDate() {
+		return consCloseDate;
+	}
+
+	public void setConsCloseDate(Date consCloseDate) {
+		this.consCloseDate = consCloseDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_MANUAL_EXPIRATION_DATE", length = 10)
+	public Date getConsManualExpirationDate() {
+		return consManualExpirationDate;
+	}
+
+	public void setConsManualExpirationDate(Date consManualExpirationDate) {
+		this.consManualExpirationDate = consManualExpirationDate;
+	}
+
+	@Column(name = "CONS_FREE_TABLE_NO", length = 32)
+	public String getConsFreeTableNo() {
+		return consFreeTableNo;
+	}
+
+	@Column(name = "CARG_HS_CODE", length = 32)
+	public String getCargHsCode() {
+		return cargHsCode;
+	}
+
+	public void setCargHsCode(String cargHsCode) {
+		this.cargHsCode = cargHsCode;
+	}
+	
+	public void setConsFreeTableNo(String consFreeTableNo) {
+		this.consFreeTableNo = consFreeTableNo;
+	}
+
+	@Column(name = "CONS_TAX", precision = 9)
+	public Double getConsTax() {
+		return consTax;
+	}
+
+	public void setConsTax(Double consTax) {
+		this.consTax = consTax;
+	}
+
+	@Column(name = "CONS_RELIEF_TARIFF", precision = 9)
+	public Double getConsReliefTariff() {
+		return consReliefTariff;
+	}
+
+	public void setConsReliefTariff(Double consReliefTariff) {
+		this.consReliefTariff = consReliefTariff;
+	}
+
+	@Column(name = "CONS_RELIEF_VAT", precision = 9)
+	public Double getConsReliefVat() {
+		return consReliefVat;
+	}
+
+	public void setConsReliefVat(Double consReliefVat) {
+		this.consReliefVat = consReliefVat;
+	}
+
+	@Column(name = "CONS_MARGIN", precision = 9)
+	public Double getConsMargin() {
+		return consMargin;
+	}
+
+	public void setConsMargin(Double consMargin) {
+		this.consMargin = consMargin;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_AUDIT_DATE", length = 10)
+	public Date getConsAuditDate() {
+		return consAuditDate;
+	}
+
+	public void setConsAuditDate(Date consAuditDate) {
+		this.consAuditDate = consAuditDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_AUDIT_DATE2", length = 10)
+	public Date getConsAuditDate2() {
+		return consAuditDate2;
+	}
+
+	public void setConsAuditDate2(Date consAuditDate2) {
+		this.consAuditDate2 = consAuditDate2;
+	}
+
+	@Column(name = "CONS_CUSTOM_REG_NO", length = 32)
+	public String getConsCustomRegNo() {
+		return consCustomRegNo;
+	}
+
+	public void setConsCustomRegNo(String consCustomRegNo) {
+		this.consCustomRegNo = consCustomRegNo;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_CUSTOM_REG_DATE", length = 10)
+	public Date getConsCustomRegDate() {
+		return consCustomRegDate;
+	}
+
+	public void setConsCustomRegDate(Date consCustomRegDate) {
+		this.consCustomRegDate = consCustomRegDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_BUSINESS_LICENSE_DATE", length = 10)
+	public Date getConsBusinessLicenseDate() {
+		return consBusinessLicenseDate;
+	}
+
+	public void setConsBusinessLicenseDate(Date consBusinessLicenseDate) {
+		this.consBusinessLicenseDate = consBusinessLicenseDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_ORG_DATE", length = 10)
+	public Date getConsOrgDate() {
+		return consOrgDate;
+	}
+
+	public void setConsOrgDate(Date consOrgDate) {
+		this.consOrgDate = consOrgDate;
+	}
+
+	@Column(name = "CONS_EPORT_REG")
+	public Short getConsEportReg() {
+		return consEportReg;
+	}
+
+	public void setConsEportReg(Short consEportReg) {
+		this.consEportReg = consEportReg;
+	}
+
+	@Column(name = "CONS_INSP_REG")
+	public Short getConsInspReg() {
+		return consInspReg;
+	}
+
+	public void setConsInspReg(Short consInspReg) {
+		this.consInspReg = consInspReg;
 	}
 
 }

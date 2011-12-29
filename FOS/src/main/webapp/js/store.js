@@ -90,6 +90,20 @@
 	{name:'consApWriteoffDate',type:'date',dateFormat:DATEF},
 	'consStatusInvoR','consStatusInvoP',{name:'consInvoRDate',type:'date',dateFormat:DATEF},
 	{name:'consInvoPDate',type:'date',dateFormat:DATEF},'consExternalFlag','consCudeType','consWsFlag','consWsAcceptFlag',
+	{name:'consCloseDate',type:'date',dateFormat:DATEF},
+	{name:'consManualExpirationDate',type:'date',dateFormat:DATEF},
+	{name:'consAuditDate',type:'date',dateFormat:DATEF},
+	{name:'consAuditDate2',type:'date',dateFormat:DATEF},
+	{name:'consCustomRegDate',type:'date',dateFormat:DATEF},
+	{name:'consBusinessLicenseDate',type:'date',dateFormat:DATEF},
+	{name:'consOrgDate',type:'date',dateFormat:DATEF},
+	'consCompany','consVerificationNo','consManualNo','consCustomRegNo','consFreeTableNo','cargHsCode',
+	{name:'consTax',type:'float'},
+	{name:'consReliefTariff',type:'float'},
+	{name:'consReliefVat',type:'float'},
+	{name:'consMargin',type:'float'},
+	{name:'consEportReg',type:'boolean',convert:function(v){return v==1;}},
+	{name:'consInspReg',type:'boolean',convert:function(v){return v==1;}},
 	'deptId','userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction','attr1','attr2','attr3','attr4','attr5','attr6','attr7','attr8','attr9','attr10',
 	'sumR','sumP','grossProfit','grossProfitRate','sumRUsd','sumRUsdInvoice','sumRUsdWriteOff','sumRCny',
@@ -686,7 +700,7 @@ getSHTY = function(v){if(v) return SHTY_S.getById(v).get('NAME'); else return ''
 var TRACK_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','车皮'],[2,'驳船'],['3','卡车'],['4','不做码头']]});
 getTRACK_T = function(v){if(v) return TRACK_T_S.getById(v).get('NAME'); else return '';};
 
-var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],['G','报关'],['I','报检'],['K','挂靠']]});
+var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册']]});
 getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return '';};
 
 var PLTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','省'],['2','市/县'],['3','港区']]});
@@ -735,12 +749,17 @@ getCOST = function(v){if(v>=0) return COST_S.getById(v).get('NAME'); else return
 var CIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未到港'],['1','已到港'],['2','已换单'],['3','已放行'],['4','已送货'],['6','已作废'],['7','已完成']]});
 getCIST = function(v){if(v>=0) return CIST_S.getById(v).get('NAME'); else return '';};
 
+var TRADE_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认'],['2','已完成']]});
+getTRADE_S = function(v){if(v>=0) return TRADE_S.getById(v).get('NAME'); else return '';};
+
 getCONS_STATUS = function(v,m,r){
 	if(v>=0) {
 		if(r.get('consBizClass') == BC_I)
 			return CIST_S.getById(v).get('NAME'); 
-		else
+		else if(r.get('consBizClass') == BC_E)
 			 return COST_S.getById(v).get('NAME');
+		else
+			return TRADE_S.getById(v).get('NAME');
 	}
 	else return '';
 };
@@ -1116,7 +1135,10 @@ function getCUCOS(){return new Ext.data.Store({url: SERVICE_URL+'?A=CUCO_Q',read
 function getCS(){return  new Ext.data.Store({url: SERVICE_URL+'?A='+'CUST_X',reader: new Ext.data.XmlReader({id:'custId',record:'CCustomer'},CCustomer),sortInfo:{field:'custId', direction:'DESC'}});};
 function getRM(bizClass,bizType,shipType){
 	var m1='',m2='';
-	if(bizClass=='E') m2=M2_E; else if(bizClass=='I') m2=M2_I;	
+	if(bizClass=='E') 
+		m2=M2_E; 
+	else if(bizClass=='I') 
+		m2=M2_I;
 	if(bizType=='C'){
 		if(shipType=='FCL' && bizClass=='I') m2='02';
 		else if(shipType=='LCL' && bizClass=='I') m2='03';
@@ -1124,6 +1146,7 @@ function getRM(bizClass,bizType,shipType){
 		else if(shipType=='LCL' && bizClass=='E') m2='06';
 	}
 	m1=eval('M1_'+bizType);
+	
 	return m1+m2;
 };
 var F_V='01';
@@ -1141,34 +1164,37 @@ var F_SH='12';
 var F_UL='13';
 var F_MERGE='05';
 
-var M1_C='0001';
-var M1_B='0002';
-var M1_A='0003';
-var M1_G='0004';
-var M1_I='0005';
-var M1_D='0006';
-var M1_S='0007';
-var M1_T='0008';
-var M1_V='0009';
-var M1_J='0010';
-var M1_P='0011';
-var M1_W='0012';
+var M1_C='0001';//集装箱
+var M1_B='0002';//散货
+var M1_A='0003';//空运
+var M1_G='0004';//报关
+var M1_I='0005';//报检
+var M1_D='0006';//单证
+var M1_S='0007';//结算
+var M1_T='0008';//统计
+var M1_V='0009';//客户供应商
+var M1_J='0010';//基础数据
+var M1_P='0011';//系统管理
+var M1_W='0012';//网上服务
+var M1_M='0013';//加工贸易
+var M1_F='0014';//减免税
+var M1_R='0014';//企业注册
 
-var M2_A='01';
-var M2_AE='04';
+var M2_A='01'; //进口全部
+var M2_AE='04';//出口全部
 
-var M2_F='02';
-var M2_L='03';
-var M2_FE='05';
-var M2_LE='06';
+var M2_F='02'; //整箱
+var M2_L='03'; //拼箱
+var M2_FE='05';//出口整箱
+var M2_LE='06';//出口拼箱
 
-var M2_BV='04';
-var M2_BC='05';
-var M2_BP='06';
+var M2_BV='04';//散货船期
+var M2_BC='05';//散货租船合同
+var M2_BP='06';//散货装货清单
 var M2_V='04';
 var M2_R='05';
-var M2_I='02';
-var M2_E='03';
+var M2_I='02'; //进口
+var M2_E='03'; //出口
 
 var M3_CONS='01';
 var M3_DOC='02';
@@ -1183,6 +1209,7 @@ var M3_BBOOK='10';
 var M3_SESH='11';
 var M3_RABL='12';
 var M3_DO='13';
+var M3_ATTACH='14';
 
 var G_VESS='01';
 var G_COUN='02';

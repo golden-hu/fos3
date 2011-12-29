@@ -2341,9 +2341,17 @@ Fos.ConsDocGrid = function(p) {
 };
 Ext.extend(Fos.ConsDocGrid,Ext.grid.EditorGridPanel);
 
+Fos.DocWin = function(p) {
+	var panel = new Fos.ConsDocGrid(p);
+	Fos.DocWin.superclass.constructor.call(this, {title:p.get('consNo')+C_DOC,modal:true,width:900,
+        height:565,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
+};
+Ext.extend(Fos.DocWin,Ext.Window);
+
+
 Fos.DocGrid = function(s) {
 	var title=C_DOC_ALL;
-	var a=[];
+	/*var a=[];
 	if(s=='B'){title=C_DOC_NOT_RETURN;a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};}
 	else if(s=='C'){title=C_DOC_RETURN_NOT_BACK;
 		a[a.length]={key:'fdocReturnFlag',value:'1',op:EQ};
@@ -2355,9 +2363,39 @@ Fos.DocGrid = function(s) {
 		baseParams:bp,
 		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FDoc'}, FDoc),
 		groupField:'fdocRecvDate',sortInfo:{field:'fdocId', direction:'DESC'},remoteSort:true});
-	store.load({params:{start:0,limit:C_PS}});
-	this.reset=function(){store.baseParams=bp;store.reload({params:{start:0,limit:C_PS}});};
-	this.search = function(){var w=new Fos.FDocLookupWin(store,s);w.show();};
+	store.load({params:{start:0,limit:C_PS}});*/
+	
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=FDOC_X',
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FDoc',idProperty:'fdocId'},FDoc),
+		remoteSort:true,sortInfo:{field:'fdocId', direction:'DESC'},groupField:'fdocRecvDate'});		
+	var a=[];
+	if(s=='B'){
+		title=C_DOC_NOT_RETURN;
+		a[a.length]=new QParam({key:'fdocReturnFlag',value:'0',op:EQ});
+	}
+	else if(s=='C'){
+		title=C_DOC_RETURN_NOT_BACK;
+		a[a.length]=new QParam({key:'fdocReturnFlag',value:'1',op:EQ});
+		a[a.length]=new QParam({key:'fdocBackFlag',value:'0',op:EQ});
+	}
+	else if(s=='D'){
+		title=C_DOC_BACK;
+		a[a.length]=new QParam({key:'fdocBackFlag',value:'1',op:EQ});
+	}	
+	
+	var bp=a.length?{mt:'xml',xml:FOSX(QTX(a))}:{mt:'xml'};
+	
+	store.baseParams=bp;
+    store.load({params:{start:0,limit:C_PS}});
+    
+	this.reset=function(){
+		store.baseParams=bp;
+		store.reload({params:{start:0,limit:C_PS}});
+	};
+	this.search = function(){
+		var w=new Fos.FDocLookupWin(store,s);
+		w.show();
+	};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var releasableFlag=CHKCLM(C_DOC_RELEASABLE_FLAG,'fdocReleasableFlag');	
 	var returnFlag =CHKCLM(C_DOC_RETURN,'fdocReturnFlag');
@@ -2403,17 +2441,46 @@ Fos.DocGrid = function(s) {
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
 	this.fastSearch=function(){
         var consNo=kw.getValue();
-        if(!consNo){XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});return;};
+        if(!consNo){
+        	XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+        	return;
+        };
         var a=[];
-        if(s=='B'){a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};}
+       /* if(s=='B'){
+        	a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};
+        }
         else if(s=='C'){
             a[a.length]={key:'fdocReturnFlag',value:'1',op:EQ};
             a[a.length]={key:'fdocBackFlag',value:'0',op:EQ};
         }
-        else if(s=='D'){a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};}       
+        else if(s=='D'){
+        	a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};
+        }       
         a[a.length]={key:'consNo',value:consNo,op:LI};        
         store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-        store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+        store.reload({params:{start:0,limit:C_PS},
+        	callback:function(r){
+        		if(r.length==0) 
+        			XMG.alert(SYS,M_NOT_FOUND);
+        	}});*/
+        
+        if(s=='B'){
+    		a[a.length]=new QParam({key:'fdocReturnFlag',value:'0',op:EQ});
+    	}
+    	else if(s=='C'){
+    		a[a.length]=new QParam({key:'fdocReturnFlag',value:'1',op:EQ});
+    		a[a.length]=new QParam({key:'fdocBackFlag',value:'0',op:EQ});
+    	}
+    	else if(s=='D'){
+    		a[a.length]=new QParam({key:'fdocBackFlag',value:'1',op:EQ});
+    	}	
+        a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});        
+        store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+        store.reload({params:{start:0,limit:C_PS},
+        	callback:function(r){
+        		if(r.length==0) 
+        			XMG.alert(SYS,M_NOT_FOUND);
+        	}});
     };
 	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};    
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
@@ -2426,7 +2493,7 @@ Fos.DocGrid = function(s) {
 				case Ext.EventObject.F:
 					if(!NR(M1_D+F_M)) this.search();break;
 				case Ext.EventObject.E:
-					if(!NR(M1_D+F_E)) EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');break;
+					if(!NR(M1_D+F_E)) EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');break;
 				case Ext.EventObject.S:
 					if(!NR(M1_D+F_M)) FOS_POST(store,'FDoc',FDoc,'FDOC_S');;break;
 				}
@@ -2457,11 +2524,14 @@ Fos.DocGrid = function(s) {
 	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
 		view:new Ext.grid.GroupingView(vc),
-		tbar:[{text:C_SAVE+'(S)',disabled:NR(M1_D+F_M),iconCls:'save',disabled:NR(M1_D+F_M),handler:function(){FOS_POST(store,'FDoc',FDoc,'FDOC_S');}},'-',
+		tbar:[{text:C_SAVE+'(S)',disabled:NR(M1_D+F_M),iconCls:'save',disabled:NR(M1_D+F_M),
+					handler:function(){
+						FOS_POST(store,'FDoc',FDoc,'FDOC_S');
+					}},'-',
 		      {text:C_SEARCH+'(F)',disabled:NR(M1_D+F_M),iconCls:'search',disabled:NR(M1_D+F_V),handler:this.search},'-',
-    		kw,b8,'-',b9,'-',
-    		{text:C_EXPORT+'(E)',disabled:NR(M1_D+F_E),iconCls:'print',disabled:NR(M1_D+F_E),scope:this,handler:function(){
-    			EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');
+		      kw,b8,'-',b9,'-',
+		      {text:C_EXPORT+'(E)',disabled:NR(M1_D+F_E),iconCls:'print',disabled:NR(M1_D+F_E),scope:this,handler:function(){
+		    	  EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');
     		}},'-'],
 		bbar:PTB(store,C_PS)});
 };
@@ -2547,135 +2617,140 @@ Fos.FDocLookupWin = function(store,s){
 	this.reload=function(){
      	var at = t.getActiveTab();
      	var a=[];
-     	if(s=='B') a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};
+     	if(s=='B') 
+     		a[a.length]=new QParam({key:'fdocReturnFlag',value:'0',op:EQ});
 		else if(s=='C'){
-			a[a.length]={key:'fdocReturnFlag',value:'1',op:EQ};
-			a[a.length]={key:'fdocBackFlag',value:'0',op:EQ};
+			a[a.length]=new QParam({key:'fdocReturnFlag',value:'1',op:EQ});
+			a[a.length]=new QParam({key:'fdocBackFlag',value:'0',op:EQ});
 		}
-		else if(s=='D'){a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};}     	
+		else if(s=='D'){
+			a[a.length]=new QParam({key:'fdocBackFlag',value:'1',op:EQ});
+		}     	
      	if(at.getId()=='T_CONS_LOOK_1'){
      		var consNo=at.find('name','consNo')[0].getValue();
      		var consNoM=at.find('name','consNoM')[0].getValue();
      		var c=consNo.indexOf(',');
     		var b=consNo.indexOf('..');
-    		if(c>=0){a[a.length]={key:'consNo',value:consNo,op:IN};}
+    		if(c>=0){
+    			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
+    		}
     		else if(b>=0){
     			var ra=consNo.split('..');
-    			a[a.length]={key:'consNo',value:ra[0],op:GE};
-    			a[a.length]={key:'consNo',value:ra[1],op:LE};
+    			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+    			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
     		}
-    		else a[a.length]={key:'consNo',value:consNo,op:consNoM?LI:EQ};
+    		else a[a.length]=new QParam({key:'consNo',value:consNo,op:consNoM?LI:EQ});
      	}     	
      	else if(at.getId()=='T_CONS_LOOK_2'){
      		var consMblNo=at.find('name','consMblNo')[0].getValue();
      		var consMblNoM=at.find('name','consMblNoM')[0].getValue();
-     		a[a.length]={key:'consMblNo',value:consMblNo,op:consMblNoM?LI:EQ};
+     		a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:consMblNoM?LI:EQ});
      	}
      	else if(at.getId()=='T_CONS_LOOK_3'){
      		var consHblNo=at.find('name','consHblNo')[0].getValue();
      		var consHblNoM=at.find('name','consHblNoM')[0].getValue();
-     		a[a.length]={key:'consHblNo',value:consHblNo,op:consHblNoM?LI:EQ};
+     		a[a.length]=new QParam({key:'consHblNo',value:consHblNo,op:consHblNoM?LI:EQ});
      	}
      	else if(at.getId()=='T_CONS_LOOK_4'){
      		var dotyId=at.find('name','dotyId')[0].getValue();
-     		if(dotyId) a[a.length]={key:'dotyId',value:dotyId,op:EQ};
+     		if(dotyId) a[a.length]=new QParam({key:'dotyId',value:dotyId,op:EQ});
      		var fdocStatus=at.find('name','fdocStatus')[0].getValue();
-     		if(fdocStatus) a[a.length]={key:'fdocStatus',value:fdocStatus,op:EQ};
+     		if(fdocStatus) a[a.length]=new QParam({key:'fdocStatus',value:fdocStatus,op:EQ});
      		var fdocNo=at.find('name','fdocNo')[0].getValue();
-     		if(fdocNo) a[a.length]={key:'fdocNo',value:fdocNo,op:EQ};
+     		if(fdocNo) a[a.length]=new QParam({key:'fdocNo',value:fdocNo,op:EQ});
      		var vessId=at.find('name','vessId')[0].getValue();
      		var voyaName=at.find('name','voyaName')[0].getValue();
-     		if(vessId) a[a.length]={key:'vessId',value:vessId,op:EQ};
-     		if(voyaName) a[a.length]={key:'voyaName',value:voyaName,op:EQ};
+     		if(vessId) a[a.length]=new QParam({key:'vessId',value:vessId,op:EQ});
+     		if(voyaName) a[a.length]=new QParam({key:'voyaName',value:voyaName,op:EQ});
      		var custId=at.find('name','custId')[0].getValue();
-     		if(custId) a[a.length]={key:'custId',value:custId,op:EQ};
+     		if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:EQ});
      		var consBizType=at.find('name','consBizType')[0].getValue();        		
-     		if(consBizType) a[a.length]={key:'consBizType',value:consBizType,op:EQ};
+     		if(consBizType) a[a.length]=new QParam({key:'consBizType',value:consBizType,op:EQ});
      		var consPol=at.find('name','consPol')[0].getValue();        		
-     		if(consPol) a[a.length]={key:'consPol',value:consPol,op:EQ};
+     		if(consPol) a[a.length]=new QParam({key:'consPol',value:consPol,op:EQ});
      		var consSalesRepId=at.find('name','consSalesRepId')[0].getValue();        		
-     		if(consSalesRepId) a[a.length]={key:'consSalesRepId',value:consSalesRepId,op:EQ};
+     		if(consSalesRepId) a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:EQ});
      		var consTradeContractNo=at.find('name','consTradeContractNo')[0].getValue();        		
-     		if(consTradeContractNo) a[a.length]={key:'consTradeContractNo',value:consTradeContractNo,op:EQ};
+     		if(consTradeContractNo) a[a.length]=new QParam({key:'consTradeContractNo',value:consTradeContractNo,op:EQ});
      		var consShipType=at.find('name','consShipType')[0].getValue();        		
-     		if(consShipType) a[a.length]={key:'consShipType',value:consShipType,op:EQ};     		
+     		if(consShipType) a[a.length]=new QParam({key:'consShipType',value:consShipType,op:EQ});     		
      		var consDate=at.find('name','consDate')[0].getValue();
      		var consDate2=at.find('name','consDate2')[0].getValue();
      		if(consDate && consDate2){
-     			a[a.length]={key:'consDate',value:consDate.format('Y-m-d H:i:s'),op:GE};
-     			a[a.length]={key:'consDate',value:consDate2.format('Y-m-d H:i:s'),op:LE};
+     			a[a.length]=new QParam({key:'consDate',value:consDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'consDate',value:consDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(consDate) a[a.length]={key:'consDate',value:consDate,op:EQ};
+     		else if(consDate) a[a.length]=new QParam({key:'consDate',value:consDate,op:EQ});
      		var consEtd=at.find('name','consEtd')[0].getValue();
      		var consEtd2=at.find('name','consEtd2')[0].getValue();
      		if(consEtd && consEtd2){
-     			a[a.length]={key:'consEtd',value:consEtd.format('Y-m-d H:i:s'),op:GE};
-     			a[a.length]={key:'consEtd',value:consEtd2.format('Y-m-d H:i:s'),op:LE};
+     			a[a.length]=new QParam({key:'consEtd',value:consEtd.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'consEtd',value:consEtd2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(consEtd) a[a.length]={key:'consEtd',value:consEtd,op:EQ};
+     		else if(consEtd) a[a.length]=new QParam({key:'consEtd',value:consEtd,op:EQ});
      		var consTradeCountry=at.find('name','consTradeCountry')[0].getValue();        		
-     		if(consTradeCountry) a[a.length]={key:'consTradeCountry',value:consTradeCountry,op:EQ};
+     		if(consTradeCountry) a[a.length]=new QParam({key:'consTradeCountry',value:consTradeCountry,op:EQ});
      		var consOperatorId=at.find('name','consOperatorId')[0].getValue();        		
-     		if(consOperatorId) a[a.length]={key:'consOperatorId',value:consOperatorId,op:EQ};
+     		if(consOperatorId) a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:EQ});
      		var consContractNo=at.find('name','consContractNo')[0].getValue();        		
-     		if(consContractNo) a[a.length]={key:'consContractNo',value:consContractNo,op:EQ};
+     		if(consContractNo) a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:EQ});
      		var consPod=at.find('name','consPod')[0].getValue();        		
-     		if(consPod) a[a.length]={key:'consPod',value:consPod,op:EQ};
+     		if(consPod) a[a.length]=new QParam({key:'consPod',value:consPod,op:EQ});
      		var consSource=at.find('name','consSource')[0].getValue();        		
-     		if(consSource) a[a.length]={key:'consSource',value:consSource,op:EQ};
+     		if(consSource) a[a.length]=new QParam({key:'consSource',value:consSource,op:EQ});
      		var consRefNo=at.find('name','consRefNo')[0].getValue();        		
-     		if(consRefNo) a[a.length]={key:'consRefNo',value:consRefNo,op:EQ};
+     		if(consRefNo) a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:EQ});
      		var consSoNo=at.find('name','consSoNo')[0].getValue();        		
-     		if(consSoNo) a[a.length]={key:'consSoNo',value:consSoNo,op:EQ};
+     		if(consSoNo) a[a.length]=new QParam({key:'consSoNo',value:consSoNo,op:EQ});
      		var consCarrier=at.find('name','consCarrier')[0].getValue();        		
-     		if(consCarrier) a[a.length]={key:'consCarrier',value:consCarrier,op:EQ};
+     		if(consCarrier) a[a.length]=new QParam({key:'consCarrier',value:consCarrier,op:EQ});
      		var fdocSendTo=at.find('name','fdocSendTo')[0].getValue();        		
-     		if(fdocSendTo) a[a.length]={key:'fdocSendTo',value:fdocSendTo,op:EQ};
+     		if(fdocSendTo) a[a.length]=new QParam({key:'fdocSendTo',value:fdocSendTo,op:EQ});
      		var consBookingAgency=at.find('name','consBookingAgency')[0].getValue();        		
-     		if(consBookingAgency) a[a.length]={key:'consBookingAgency',value:consBookingAgency,op:EQ};
+     		if(consBookingAgency) a[a.length]=new QParam({key:'consBookingAgency',value:consBookingAgency,op:EQ});
      		var consContainerCompany=at.find('name','consContainerCompany')[0].getValue();        		
-     		if(consContainerCompany) a[a.length]={key:'consContainerCompany',value:consContainerCompany,op:EQ};
+     		if(consContainerCompany) a[a.length]=new QParam({key:'consContainerCompany',value:consContainerCompany,op:EQ});
      	}
      	else if(at.getId()=='T_CONS_LOOK_5'){
      		var fdocNo=at.find('name','fdocNo')[0].getValue();
      		var fdocNoM=at.find('name','fdocNoM')[0].getValue();
-     		a[a.length]={key:'fdocNo',value:fdocNo,op:fdocNoM?LI:EQ};
+     		a[a.length]=new QParam({key:'fdocNo',value:fdocNo,op:fdocNoM?LI:EQ});
      	}
      	else if(at.getId()=='T_CONS_LOOK_6'){
      		var dotyId=at.find('name','dotyId')[0].getValue();
-     		if(dotyId) a[a.length]={key:'dotyId',value:dotyId,op:EQ};
+     		if(dotyId) a[a.length]=new QParam({key:'dotyId',value:dotyId,op:EQ});
      		var fdocStatus=at.find('name','fdocStatus')[0].getValue();
-     		if(fdocStatus) a[a.length]={key:'fdocStatus',value:fdocStatus,op:EQ};
+     		if(fdocStatus) a[a.length]=new QParam({key:'fdocStatus',value:fdocStatus,op:EQ});
      		var recvDate=at.find('name','recvDate')[0].getValue();
      		var recvDate2=at.find('name','recvDate2')[0].getValue();
      		if(recvDate && recvDate2){
-     			a[a.length]={key:'recvDate',value:recvDate.format('Y-m-d H:i:s'),op:GE};
-     			a[a.length]={key:'recvDate',value:recvDate2.format('Y-m-d H:i:s'),op:LE};
+     			a[a.length]=new QParam({key:'recvDate',value:recvDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'recvDate',value:recvDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(recvDate) a[a.length]={key:'recvDate',value:recvDate,op:EQ};
+     		else if(recvDate) a[a.length]=new QParam({key:'recvDate',value:recvDate,op:EQ});
      		var sendDate=at.find('name','sendDate')[0].getValue();
      		var sendDate2=at.find('name','sendDate2')[0].getValue();
      		if(sendDate && sendDate2){
-     			a[a.length]={key:'sendDate',value:sendDate.format('Y-m-d H:i:s'),op:GE};
-     			a[a.length]={key:'sendDate',value:sendDate2.format('Y-m-d H:i:s'),op:LE};
+     			a[a.length]=new QParam({key:'sendDate',value:sendDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'sendDate',value:sendDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(sendDate) a[a.length]={key:'sendDate',value:sendDate,op:EQ};
+     		else if(sendDate) a[a.length]=new QParam({key:'sendDate',value:sendDate,op:EQ});
      		var returnDate=at.find('name','returnDate')[0].getValue();
      		var returnDate2=at.find('name','returnDate2')[0].getValue();
      		if(returnDate && returnDate2){
-     			a[a.length]={key:'returnDate',value:returnDate.format('Y-m-d H:i:s'),op:GE};
-     			a[a.length]={key:'returnDate',value:returnDate2.format('Y-m-d H:i:s'),op:LE};
+     			a[a.length]=new QParam({key:'returnDate',value:returnDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'returnDate',value:returnDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(returnDate) a[a.length]={key:'returnDate',value:returnDate,op:EQ};
+     		else if(returnDate) a[a.length]=new QParam({key:'returnDate',value:returnDate,op:EQ});
      		var backDate=at.find('name','backDate')[0].getValue();
      		var backDate2=at.find('name','backDate2')[0].getValue();
      		if(backDate && backDate2){
-     			a[a.length]={key:'backDate',value:backDate.format('Y-m-d H:i:s'),op:LE};
-     			a[a.length]={key:'backDate',value:backDate2.format('Y-m-d H:i:s'),op:LE};
+     			a[a.length]=new QParam({key:'backDate',value:backDate.format('Y-m-d H:i:s'),op:LE});
+     			a[a.length]=new QParam({key:'backDate',value:backDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(backDate) a[a.length]={key:'backDate',value:backDate,op:EQ};
+     		else if(backDate) a[a.length]=new QParam({key:'backDate',value:backDate,op:EQ});
      	}
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
 	};
 	var t = new Ext.TabPanel({id:'T_DOC_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:340,

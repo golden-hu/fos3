@@ -1,8 +1,8 @@
-Company=YXSD
-IP=192.168.0.55
+Company=BJQC
+IP=192.168.0.103
 MAC=0
 MB=0
 HD=0
-Users=4
+Users=5
 SAAS=0
 ExpireDays=30000

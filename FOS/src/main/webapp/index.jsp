@@ -23,6 +23,7 @@
 <script type="text/javascript" src="js/fos-exp.js"></script>
 <script type="text/javascript" src="js/fos-imp.js"></script>
 <script type="text/javascript" src="js/fos-air.js"></script>
+<script type="text/javascript" src="js/fos-customs.js"></script>
 <script type="text/javascript" src="js/fos-ws.js"></script>
 </head>
 <body id="docs">

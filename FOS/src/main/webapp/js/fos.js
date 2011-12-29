@@ -53,11 +53,28 @@ function getAirPanel(){
 };
 function getCudePanel(){
 	var items=[];
-	if(!NR(M1_G+M2_I)) items[items.length]=NaviMenu(C_IMP_CUDE,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','');});
-	if(VERSION==0&&!NR(M1_G+M2_I)) items[items.length]=NaviMenu(C_IMP_CUDE_E,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','',1);});
-	if(!NR(M1_G+M2_E)) items[items.length]=NaviMenu(C_EXP_CUDE,'G_CONS_E_G',function(){return new Fos.ConsignGrid('E','G','');});
-	if(VERSION==0&&!NR(M1_G+M2_E)) items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});
-	return new Ext.Panel({title:C_SR_CUDE+'(4)',collapsible:true,layout:'fit',
+	if(!NR(M1_G+M2_I)) 
+		items[items.length]=NaviMenu(C_IMP_CUDE,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','');});
+	if(VERSION==0&&!NR(M1_G+M2_I)) 
+		items[items.length]=NaviMenu(C_IMP_CUDE_E,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','',1);});
+	if(!NR(M1_G+M2_E)) 
+		items[items.length]=NaviMenu(C_EXP_CUDE,'G_CONS_E_G',function(){return new Fos.ConsignGrid('E','G','');});
+	if(VERSION==0&&!NR(M1_G+M2_E)) 
+		items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});
+	
+	if(!NR(M1_I+M2_I)) 
+		items[items.length]=NaviMenu(C_IMP_INSP,'G_CONS_I_I',function(){return new Fos.ConsignGrid('I','I','');});
+	if(!NR(M1_I+M2_E)) 
+		items[items.length]=NaviMenu(C_EXP_INSP,'G_CONS_E_I',function(){return new Fos.ConsignGrid('E','I','');});
+
+	if(!NR(M1_M)) 
+		items[items.length]=NaviMenu(C_TRADE,'G_CONS_H_M',function(){return new Fos.TradeGrid();});
+	if(!NR(M1_F)) 
+		items[items.length]=NaviMenu(C_RELIEF_TAX,'G_CONS_H_F',function(){return new Fos.ReliefTaxGrid();});
+	if(!NR(M1_R)) 
+		items[items.length]=NaviMenu(C_ENT_REG,'G_CONS_H_R',function(){return new Fos.EntRegGrid();});
+	
+	return new Ext.Panel({title:C_BIZ_CUSTOMS+'(4)',collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
 function getInspPanel(){
@@ -149,7 +166,7 @@ function getPMenu(){
 	if(!NR(M1_B)) items[items.length]=getBulkPanel();
 	if(!NR(M1_A)) items[items.length]=getAirPanel();
 	if(!NR(M1_G)) items[items.length]=getCudePanel();
-	if(!NR(M1_I)) items[items.length]=getInspPanel();
+	//if(!NR(M1_I)) items[items.length]=getInspPanel();
 	if(!NR(M1_D)) items[items.length]=getDocPanel();
 	if(!NR(M1_S)) items[items.length]=createSMTree();
 	if(!NR(M1_T)) items[items.length]=getStaPanel();

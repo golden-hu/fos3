@@ -416,7 +416,7 @@ Fos.RoleTab = function() {
 		 	}
 		},stopEvent:true,scope:this});
 	Fos.RoleTab.superclass.constructor.call(this,{id:'T_ROLE',title:C_ROLE_MGT,iconCls:'gen',header:false,deferredRender:false,
-		autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,
+		autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,layout:'fit',
 		items:[this.grid]});
 };
 Ext.extend(Fos.RoleTab, Ext.Panel);
@@ -687,7 +687,7 @@ Fos.UserTab = function() {
 	       		{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_USER+F_R),iconCls:'remove',handler:this.removeUser},	'-', 		
 	    		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.save},'-', 	
 	    		{itemId:'TB_P',text:C_RESET_PASS+'(P)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.reset}];
-	if(VERSION==0)
+	//if(VERSION==0)
 		tbItems[tbItems.length] = {itemId:'TB_E',text:C_EXPE_PERMISSIOM+'(E)',disabled:NR(M1_P+A_USER+F_M),iconCls:'key',scope:this,handler:this.expePer};
 	
 	var ug = new Ext.grid.EditorGridPanel({
