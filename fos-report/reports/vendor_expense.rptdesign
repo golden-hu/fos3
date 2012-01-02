@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
@@ -1106,7 +1106,7 @@ where COMP_CODE = ?]]></xml-property>
                                 <list-property name="arguments">
                                     <structure>
                                         <property name="name">Expression</property>
-                                        <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                        <expression name="value">row["NOT_WRITE_OFF_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
                                 <expression name="filterExpr">row["CURR_CODE"] == "USD"</expression>
