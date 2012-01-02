@@ -1040,10 +1040,18 @@ Fos.BookTab = function(p) {
 				p.set('consWarehouse',r.get('custId'));
 				p.set('consWarehouseFax',r.get('custFax'));},
 			keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}}}]};
-	var r10={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_WARE_CONTACT,tabIndex:10,name:'consWarehouseContact',value:p.get('consWarehouseContact'),xtype:'textfield',anchor:'95%'}]};
-	var r11={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_WARE_TEL,tabIndex:11,name:'consWarehouseTel',value:p.get('consWarehouseTel'),xtype:'textfield',anchor:'95%'}]};
-	var r12={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizType')==BT_B?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'95%'}]};
-	var r13={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizType')==BT_B?C_WARE_ADDRESS:(p.get('consBizClass')==BC_E?C_CONT_LOAD_ADDRESS:C_CONT_DISCHARGE_ADDRESS),tabIndex:13,name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'95%'}]};
+	var r10={columnWidth:.25,layout:'form',border:false,items:[
+	                {fieldLabel:C_WARE_CONTACT,tabIndex:10,name:'consWarehouseContact',value:p.get('consWarehouseContact'),
+	        		xtype:'textfield',anchor:'95%'}]};
+	var r11={columnWidth:.25,layout:'form',border:false,items:[
+	                {fieldLabel:C_WARE_TEL,tabIndex:11,name:'consWarehouseTel',value:p.get('consWarehouseTel'),
+	                	xtype:'textfield',anchor:'95%'}]};
+	var r12={columnWidth:.5,layout:'form',border:false,items:[
+	                {fieldLabel:p.get('consBizType')==BT_B?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
+	                		tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'95%'}]};
+	var r13={columnWidth:.5,layout:'form',border:false,items:[
+	               {fieldLabel:p.get('consBizType')==BT_B?C_WARE_ADDRESS:(p.get('consBizClass')==BC_E?C_CONT_LOAD_ADDRESS:C_CONT_DISCHARGE_ADDRESS),tabIndex:13,
+	            		   name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'95%'}]};
 	var r14={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizType')==BT_B?C_WARE_DATE:(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),xtype:'datefield',format:DATEF,anchor:'50%'}]};
 	var r15={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),store:getCS(),enableKeyEvents:true,
     		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',

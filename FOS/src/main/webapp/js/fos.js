@@ -53,19 +53,15 @@ function getAirPanel(){
 };
 function getCudePanel(){
 	var items=[];
-	if(!NR(M1_G+M2_I)) 
-		items[items.length]=NaviMenu(C_IMP_CUDE,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','');});
+	if(!NR(M1_G)) 
+		items[items.length]=NaviMenu(C_CUSTOMS,'G_CONS_G',function(){return new Fos.CustomsGrid();});
 	if(VERSION==0&&!NR(M1_G+M2_I)) 
 		items[items.length]=NaviMenu(C_IMP_CUDE_E,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','',1);});
-	if(!NR(M1_G+M2_E)) 
-		items[items.length]=NaviMenu(C_EXP_CUDE,'G_CONS_E_G',function(){return new Fos.ConsignGrid('E','G','');});
 	if(VERSION==0&&!NR(M1_G+M2_E)) 
 		items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});
 	
-	if(!NR(M1_I+M2_I)) 
-		items[items.length]=NaviMenu(C_IMP_INSP,'G_CONS_I_I',function(){return new Fos.ConsignGrid('I','I','');});
-	if(!NR(M1_I+M2_E)) 
-		items[items.length]=NaviMenu(C_EXP_INSP,'G_CONS_E_I',function(){return new Fos.ConsignGrid('E','I','');});
+	if(!NR(M1_I)) 
+		items[items.length]=NaviMenu(C_INSPECTION,'G_CONS_I',function(){return new Fos.InspectionGrid();});
 
 	if(!NR(M1_M)) 
 		items[items.length]=NaviMenu(C_TRADE,'G_CONS_H_M',function(){return new Fos.TradeGrid();});

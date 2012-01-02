@@ -345,9 +345,14 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Date consCustomRegDate;
 	private Date consBusinessLicenseDate;
 	private Date consOrgDate;
+	private Date consCustomsDeclearDate;
 	
 	private Short consEportReg;
 	private Short consInspReg;
+	
+	private String consCustomsDeclearationNo;
+	private Short consRequireVerification;
+	private Short consRequireRelief;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -3347,4 +3352,41 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consInspReg = consInspReg;
 	}
 
+	@Column(name = "CONS_CUSTOMS_DECLEARATION_NO", length = 32)
+	public String getConsCustomsDeclearationNo() {
+		return consCustomsDeclearationNo;
+	}
+
+	public void setConsCustomsDeclearationNo(String consCustomsDeclearationNo) {
+		this.consCustomsDeclearationNo = consCustomsDeclearationNo;
+	}
+	
+	@Column(name = "CONS_REQUIRE_VERIFICATION")
+	public Short getConsRequireVerification() {
+		return consRequireVerification;
+	}
+
+	public void setConsRequireVerification(Short consRequireVerification) {
+		this.consRequireVerification = consRequireVerification;
+	}
+	
+	@Column(name = "CONS_REQUIRE_RELIEF")
+	public Short getConsRequireRelief() {
+		return consRequireRelief;
+	}
+
+	public void setConsRequireRelief(Short consRequireRelief) {
+		this.consRequireRelief = consRequireRelief;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CONS_CUSTOMS_DECLEAR_DATE", length = 10)
+	public Date getConsCustomsDeclearDate() {
+		return consCustomsDeclearDate;
+	}
+
+	public void setConsCustomsDeclearDate(Date consCustomsDeclearDate) {
+		this.consCustomsDeclearDate = consCustomsDeclearDate;
+	}
+		
 }

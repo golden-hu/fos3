@@ -21,7 +21,15 @@ var BT_R = 'R'; //企业注册
 var ST_F='FCL';var ST_L='LCL';
 var BC_I='I';var BC_E='E';
 var XMG = Ext.MessageBox;
-var SR_TRAN='B';var SR_WARE='E';var SR_CONT='H';var SR_BL='I';var SR_INSP='D';var SR_CUDE='C';var SR_BBOOK='L';var SR_RABL='M';var SR_SESH='N';
+var SR_TRAN='B';
+var SR_WARE='E';
+var SR_CONT='H';
+var SR_BL='I';
+var SR_INSP='D';
+var SR_CUDE='C';
+var SR_BBOOK='L';
+var SR_RABL='M';
+var SR_SESH='N';
 var groupViewCfg = {forceFit:false,groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'};
 var formatDate = function(v){return v ? v.dateFormat(DATEF) : '';};
 var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
@@ -52,18 +60,22 @@ var exhiRender  = function(v){
 	var fn=v.substr(idx+1,v.length);
 	return "<a href=\"javascript:OW('"+SERVER_URL+v+"');\">"+fn+"</a>";
 };
-var HL=function(c){return '<font color=#ff0000>'+c+'</font>'};
-var GL=function(c){return '<font color=#00EE00>'+c+'</font>'};
-var FOSFS=function(c){return '<font size=12px>'+c+'</font>'};
+var HL=function(c){return '<font color=#ff0000>'+c+'</font>';};
+var GL=function(c){return '<font color=#00EE00>'+c+'</font>';};
+var FOSFS=function(c){return '<font size=12px>'+c+'</font>';};
 var TODAY = (new Date()).format(DATEF);
-var custTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{custCode}</span>&nbsp;&nbsp;&nbsp;&nbsp;{custNameCn}</h3></div></tpl>');
+var custTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{custCode}</span>&nbsp;&nbsp;{custNameCn}</h3></div></tpl>');
 var charTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{charCode}</span>{charName}</h3></div></tpl>');
 var dotyTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{dotyCode}</span>{dotyName}</h3></div></tpl>');
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
 var counTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{counCode}</span>{counNameCn}</h3></div></tpl>');
 var vessTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{vessNameEn}</span>&nbsp;&nbsp;&nbsp;&nbsp;{vessNameCn}</h3></div></tpl>');
 var getElapsed=function(d){if(!d) return -1;return Math.abs((new Date()).getTime()-d.getTime());};
-var showProgress=function(v){return function(){var i = v/11;Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');}};
+var showProgress=function(v){
+	return function(){
+		var i = v/11;Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+		};
+	};
 var loliTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3>{vessName}/{voyaName}</h3></div></tpl>');
 var getSessionData=function(k){
 	var d='';
