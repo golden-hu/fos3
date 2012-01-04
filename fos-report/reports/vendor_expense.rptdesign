@@ -361,7 +361,7 @@
                     <property name="name">groupBy</property>
                     <expression name="expression">var rt;
 if(params["g"] == "1"){
-  rt = row["CUST_SNAME"];
+  rt = row["CUST_NAME"];
 }else if (params["g"] == "2"){
   rt = row["VESSEL_VOYAGE"];
 }else if (params["g"] == "3"){
@@ -390,7 +390,7 @@ rt;</expression>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">CUST_SNAME</property>
+                        <property name="name">CUST_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -552,8 +552,8 @@ this.queryText = sql;]]></method>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">CUST_SNAME</property>
-                    <property name="nativeName">CUST_SNAME</property>
+                    <property name="name">CUST_NAME</property>
+                    <property name="nativeName">CUST_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -653,7 +653,7 @@ this.queryText = sql;]]></method>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select e.EXPE_ID, e.CUST_SNAME, 
+            <xml-property name="queryText"><![CDATA[select e.EXPE_ID, e.CUST_NAME, 
 CONCAT(e.CONS_VESSEL, ' ', e.CONS_VOYAGE) as VESSEL_VOYAGE,
 e.CONS_NO, c.CONS_REF_NO, e.CHAR_NAME, 
 e.CURR_CODE, e.EXPE_TOTAL_AMOUNT,
@@ -844,8 +844,8 @@ where COMP_CODE = ?]]></xml-property>
                                 <property name="dataType">integer</property>
                             </structure>
                             <structure>
-                                <property name="name">CUST_SNAME</property>
-                                <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
+                                <property name="name">CUST_NAME</property>
+                                <expression name="expression">dataSetRow["CUST_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -972,9 +972,9 @@ where COMP_CODE = ?]]></xml-property>
                                 <property name="dataType">integer</property>
                             </structure>
                             <structure>
-                                <property name="name">CUST_SNAME</property>
+                                <property name="name">CUST_NAME</property>
                                 <text-property name="displayName">名称</text-property>
-                                <expression name="expression">dataSetRow["CUST_SNAME"]</expression>
+                                <expression name="expression">dataSetRow["CUST_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -1510,7 +1510,7 @@ title + ": " + (row["groupBy"] == null ? "" : row["groupBy"])</expression>
                                 <cell id="924"/>
                                 <cell id="62">
                                     <data id="63">
-                                        <property name="resultSetColumn">CUST_SNAME</property>
+                                        <property name="resultSetColumn">CUST_NAME</property>
                                     </data>
                                 </cell>
                                 <cell id="66">
