@@ -5035,7 +5035,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 --
 
 INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUES
-('00', 'FOS2008', 'M', 1),
+('00', 'FOS', 'M', 1),
 ('0001', '集装箱', 'M', 1),
 ('000101', '查看进口全部委托', 'F', 1),
 ('000102', '进口整箱', 'M', 1),

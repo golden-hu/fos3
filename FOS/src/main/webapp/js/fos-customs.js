@@ -37,7 +37,7 @@ Fos.InspectionGrid = function() {
     		T_MAIN.setActiveTab(t);
     	} 
     	else{
-    		t = new Fos.InspectionTab(p,store);
+    		t = new Fos.InspectionDeclTab(p,store);
     		T_MAIN.add(t);
     		T_MAIN.setActiveTab(t);
     	}
@@ -148,7 +148,7 @@ Fos.InspectionGrid = function() {
 };
 Ext.extend(Fos.InspectionGrid, Ext.grid.GridPanel);
 
-Fos.InspectionTab = function(p,store) {
+Fos.InspectionDeclTab = function(p,store) {
     this.save = function(){
     	if(this.find('name','custName')[0].getValue()==''){
 			XMG.alert(SYS,M_CUST_REQIRED,function(){this.find('name','custName')[0].focus();},this);return;};	
@@ -256,7 +256,7 @@ Fos.InspectionTab = function(p,store) {
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
    
-	Fos.InspectionTab.superclass.constructor.call(this, { 
+	Fos.InspectionDeclTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		bodyStyle:'padding:2px 10px 10px 2px',
 		border:false,labelAlign:'right',layout:'column',
@@ -360,7 +360,7 @@ Fos.InspectionTab = function(p,store) {
 		     ]
 	});
 };
-Ext.extend(Fos.InspectionTab,Ext.FormPanel);
+Ext.extend(Fos.InspectionDeclTab,Ext.FormPanel);
 
 //报关
 Fos.CustomsGrid = function() {
@@ -401,7 +401,7 @@ Fos.CustomsGrid = function() {
     		T_MAIN.setActiveTab(t);
     	} 
     	else{
-    		t = new Fos.CustomsTab(p,store);
+    		t = new Fos.CustomsDeclearTab(p,store);
     		T_MAIN.add(t);
     		T_MAIN.setActiveTab(t);
     	}
@@ -513,7 +513,7 @@ Fos.CustomsGrid = function() {
 };
 Ext.extend(Fos.CustomsGrid, Ext.grid.GridPanel);
 
-Fos.CustomsTab = function(p,store) {
+Fos.CustomsDeclearTab = function(p,store) {
     this.save = function(){
     	if(this.find('name','custName')[0].getValue()==''){
 			XMG.alert(SYS,M_CUST_REQIRED,function(){this.find('name','custName')[0].focus();},this);return;};	
@@ -620,7 +620,7 @@ Fos.CustomsTab = function(p,store) {
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
    
-	Fos.CustomsTab.superclass.constructor.call(this, { 
+	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		bodyStyle:'padding:2px 10px 10px 2px',
 		border:false,labelAlign:'right',layout:'column',
@@ -732,7 +732,7 @@ Fos.CustomsTab = function(p,store) {
 		     ]
 	});
 };
-Ext.extend(Fos.CustomsTab,Ext.FormPanel);
+Ext.extend(Fos.CustomsDeclearTab,Ext.FormPanel);
 
 Fos.CustomsConsLookupWin = function(store){    
 	this.reload=function(){

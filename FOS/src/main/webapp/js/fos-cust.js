@@ -14,6 +14,7 @@
     }); 
     return grid;
 };
+
 Fos.CustomerGrid = function() {	
     var store = GS('CUST_X','CCustomer',CCustomer,'custId','DESC','',true);
     store.load({params:{start:0,limit:C_PS100}});
@@ -1646,6 +1647,8 @@ Fos.ExSearchWin = function(c,t) {
     this.grid = new Ext.grid.GridPanel({height:340,autoScroll:true,store:this.store,sm:sm,cm:cm,loadMask:true});	
 	this.search=function(){
       	var a=[];var op=1;      	
+      		a[a.length]={key:'expeType',value:t,op:op};
+      		a[a.length]={key:'expeBillStatus',value:'0',op:op};
     		var custId=this.find('name','custId')[0].getValue();
     		if(custId) a[a.length]={key:'t2.custId',value:custId,op:op};
     		var consCustId=this.find('name','consCustId')[0].getValue();
@@ -1693,7 +1696,7 @@ Fos.ExSearchWin = function(c,t) {
     		var pateId=this.find('name','pateId')[0].getValue();        		
     		if(pateId) a[a.length]={key:'pateId',value:pateId,op:op};
    		this.store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-     	this.store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+     	this.store.load({callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
 	};
 	this.clear=function(){this.form.getForm().reset();};
 	this.form = new Ext.FormPanel({title:C_FILTER_BY,layout:'column',name:'sf',xtype:'form',height:160,

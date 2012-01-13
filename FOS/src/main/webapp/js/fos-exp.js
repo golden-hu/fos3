@@ -767,18 +767,27 @@ Fos.BookTab = function(p) {
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
-            	select:function(c,r,i){p.set('consPol',r.get('portId'));
-            	if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
-            	if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));},
+            	select:function(c,r,i){
+            		p.set('consPol',r.get('portId'));
+            		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) 
+            			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+            		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) 
+            			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
+            	},
              	keydown:{fn:LP,buffer:BF}}};
 	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',value:p.get('consPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
 		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
-        	select:function(c,r,i){p.set('consPod',r.get('portId'));
-            	if(this.find('name','consTradeCountry')[0]) this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
-            	if(this.find('name','consDeliveryPlace')[0]) this.find('name','consDeliveryPlace')[0].setValue(r.get('portNameEn'));
-            	if(this.find('name','consDestination')[0]) this.find('name','consDestination')[0].setValue(r.get('portNameEn'));},
+        	select:function(c,r,i){
+        		p.set('consPod',r.get('portId'));
+            	if(p.get('consBizClass')==BC_E&&this.find('name','consTradeCountry')[0]) 
+            		this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+            	if(this.find('name','consDeliveryPlace')[0]) 
+            		this.find('name','consDeliveryPlace')[0].setValue(r.get('portNameEn'));
+            	if(this.find('name','consDestination')[0]) 
+            		this.find('name','consDestination')[0].setValue(r.get('portNameEn'));
+            	},
          	keydown:{fn:LP,buffer:BF}}};
     var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',value:p.get('consPotEn'),xtype:'textfield',anchor:'95%'};
     var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'95%'};
