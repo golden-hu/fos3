@@ -144,14 +144,14 @@
 					for(var i=0;i<r.length;i++){r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');store.remove(r[i]);}
 					this.reCalculate();
 				}}},'-',
-			{text:C_GEN_BL,iconCls:'gen',scope:this,
+			{text:C_GEN_BL,iconCls:'gen',scope:this,hidden:p.get('consBizClass')==BC_E,
 			   	menu: new Ext.menu.Menu({items: [
 			   		{text:p.get('consBizType')==BT_A?'MAWB':'MB/L',scope:this,handler:this.addMBl},
 			   		{text:p.get('consBizType')==BT_A?'HAWB':'HB/L',scope:this,handler:this.addHBl}]})
-				},'-',
+				},
 			{text:C_GEN_CUDE,iconCls:'gen',scope:this,handler:this.addCude},'-',
 			{text:C_EXP_CONS,iconCls:'gen',scope:this,handler:this.genCons},'-',
-			{text:C_PACKING_LIST,iconCls:'grid',disabled:false,scope:this,handler:this.showPali}
+			{text:C_PACKING_LIST,iconCls:'grid',hidden:true,disabled:false,scope:this,handler:this.showPali}
 			]
 	});
 };

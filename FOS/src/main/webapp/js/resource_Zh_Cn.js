@@ -610,7 +610,7 @@ var C_M_CONS_NO='主单号';
 var C_CONS_NO='业务号';
 var C_CUST_CONS_NO='客户业务号';
 var C_BOOKING_NO='订舱号';
-var C_REF_NO='参考号';
+var C_REF_NO='客户业务号';
 var C_CONS_LIST='单票列表';
 var C_CONS_DATE='委托日期';
 var C_SAIL_DATE='开航日期';
@@ -1098,6 +1098,7 @@ var C_VOUC_DATE_R='收款日期';
 var C_VOUC_DATE_P='付款日期';
 var C_CHECK_NO='支票号';
 var C_FIX_LIST='余额明细';
+var C_GEN_INVOICE='生成账单';
 
 var C_WRITEOFF_DATE='核销日期';
 var C_BANK_RECEIPT_NO='银行水单号';

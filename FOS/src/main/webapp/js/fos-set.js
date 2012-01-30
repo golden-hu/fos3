@@ -1306,8 +1306,7 @@ Fos.InvoiceGrid = function(t) {
 		win.addButton({text:C_OK,handler:function(){
         	var tab = Fos.InvoLookupWin.superclass.findById.call(win,'T_INVO_LOOK');
         	var at = tab.getActiveTab();
-        	var a=[];
-        	var op=EQ;        	
+        	var a=[];     	
         	//a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});  
         	a[a.length]= new QParam({key:'invoType',value:t,op:EQ});
         	if(at.getId()=='T_INVO_LOOK_1'){
@@ -1586,9 +1585,41 @@ Fos.ExpenseLookupWin = function(store) {
         minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
 };
 Ext.extend(Fos.ExpenseLookupWin,Ext.Window);
-Fos.InvoItemGrid = function(p,frm){
+Fos.InvoItemGrid = function(p,frm,billNo){
 	var store = GS('INIT_Q','SInvoiceItem',SInvoiceItem,'initId','Desc','','',false);
-	if(p.get('rowAction')!='N') store.load({params:{invoId:p.get('invoId')}});
+	if(billNo){
+		Ext.Ajax.request({url:SERVICE_URL,method:'POST',
+			params:{A:'EXPE_INV_Q',expeBillNo:billNo},scope:this,
+			success: function(res,o){
+				var r = XTRA(res.responseXML,'SExpense',SExpense);
+				var sum=0;
+				for(var i=0;i<r.length;i++){
+					var ex=r[i].get('currCode')==p.get('currCode')?p.get('invoExRate'):getExRate(r[i].get('currCode'),'CNY');
+					var invoAmountOri = round2(r[i].get('expeTotalAmount')-r[i].get('expeInvoiceAmount'));
+					var invoAmount = round2(invoAmountOri*ex/p.get('invoExRate'));
+					var it = new SInvoiceItem({id:GGUID(),initId:'0',invoId:p.get('invoId'),invoDate:p.get('invoDate'),expeId:r[i].get('expeId'),expeType:r[i].get('expeType'),
+					consId:r[i].get('consId'),consNo:r[i].get('consNo'),custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
+					consVessel:r[i].get('consVessel'),consVoyage:r[i].get('consVoyage'),consSailDate:r[i].get('consSailDate'),
+					consMblNo:r[i].get('consMblNo'),consHblNo:r[i].get('consHblNo'),
+					charName:r[i].get('charName'),charNameEn:r[i].get('charNameEn'),
+					unitName:r[i].get('unitName'),expeCurrCode:r[i].get('currCode'),
+					expeUnitPrice:r[i].get('expeUnitPrice'),expeNum:r[i].get('expeNum'),expeExRate:r[i].get('expeExRate'),
+					expeCommission:r[i].get('expeCommission'),expeCommissionRate:r[i].get('expeCommissionRate'),
+					expeTotalAmount:r[i].get('expeTotalAmount'),expeInvoiceAmount:r[i].get('expeInvoiceAmount'),
+					expeRemarks:r[i].get('expeRemarks'),initInvoiceAmountOri:invoAmountOri,initInvoiceAmount:invoAmount,
+					initInvoiceAmountOriW:'0',initInvoiceAmountW:'0',initCancelFlag:'0',
+					initWriteOffStatus:'0',invoCurrCode:p.get('currCode'),
+					initExRate:ex,invoExRate:p.get('invoExRate'),rowAction:'',version:'0'});
+					store.insert(0,it);
+					it.set('rowAction','N');
+					sum = sum + invoAmount;
+				};
+				frm.find('name','invoAmount')[0].setValue(sum);
+			}});
+	}
+	else if(p.get('rowAction')!='N') 
+		store.load({params:{invoId:p.get('invoId')}});
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,		
 		{header:C_CHAR,width:80,dataIndex:'charName'},
@@ -1610,9 +1641,13 @@ Fos.InvoItemGrid = function(p,frm){
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
 		],defaults:{sortable:true,width:60}});
 	this.reCalculate = function(){
-		var sum=0;var d=store.getRange();
-		for(var i=0;i<d.length;i++){sum = round2(sum + parseFloat(d[i].get('initInvoiceAmount')));}
-		p.set('invoAmount',sum);frm.find('name','invoAmount')[0].setValue(sum);
+		var sum=0;
+		var d=store.getRange();
+		for(var i=0;i<d.length;i++){
+			sum = round2(sum + parseFloat(d[i].get('initInvoiceAmount')));
+		}
+		p.set('invoAmount',sum);
+		frm.find('name','invoAmount')[0].setValue(sum);
 	};
 	this.add=function(){
 		if(p.get('custId')){
@@ -1677,8 +1712,7 @@ Fos.InvoItemGrid = function(p,frm){
 		 	var tc = T_MAIN.getComponent('T_INVO_'+p.get('id'));
 		 	if(tc&&tc==T_MAIN.getActiveTab())			 	{
 		 		var ti=tc.getComponent('T_INV_T_'+p.get('id'));
-		 		var te=ti.getComponent('T_INV_EN_'+p.get('id'));
-		 		var tl=ti.getComponent('T_INV_LI_'+p.get('id'));
+		 		var te=ti.getComponent('T_INV_EN_'+p.get('id'));		 		
 		 		if(te==ti.getActiveTab()){		 			
 		 			var tb=this.getTopToolbar();
 		 			switch(k) {
@@ -1876,10 +1910,14 @@ Fos.InvoEntryGrid = function(p,frm) {
 		{itemId:'TB_D',text:C_REFRESH+'(X)',iconCls:'refresh',disabled:p.get('invoStatus')!='0',scope:this,handler:this.refresh}]});
 };    
 Ext.extend(Fos.InvoEntryGrid, Ext.grid.EditorGridPanel);
-Fos.InvoiceTab = function(p) {
-    this.itemGrid=new Fos.InvoItemGrid(p,this);
-    this.entryGrid=new Fos.InvoEntryGrid(p,this);    
-    this.editTax=function(){var tn=this.find('name','invoTaxNo')[0];tn.enable();tn.focus();};
+Fos.InvoiceTab = function(p,billNo) {
+    this.itemGrid = new Fos.InvoItemGrid(p,this,billNo);
+    this.entryGrid = new Fos.InvoEntryGrid(p,this);
+    this.editTax=function(){
+    	var tn=this.find('name','invoTaxNo')[0];
+    	tn.enable();
+    	tn.focus();
+    };
     this.save=function(){
     	if(p.get('invoType')=='R' && this.find('name','invoTitle')[0].getValue()==''){
 			XMG.alert(SYS,M_INVO_TITLE_REQIRED);this.find('name','invoTitle')[0].focus();return;};		
@@ -2108,12 +2146,14 @@ Ext.extend(Fos.InvoiceTab, Ext.FormPanel);
     
 Fos.VoucherGrid = function(t){
 	var store = GS('VOUC_X','SVoucher',SVoucher,'voucDate','DESC','voucDate','S_VOUC','id',true);
-	var a=[];var op=1;a[0]={key:'voucType',value:t,op:1};
+	var a=[];a[0]={key:'voucType',value:t,op:1};
 	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
 	store.baseParams=bp;
     store.load({params:{start:0,limit:C_PS}});
-    this.reset=function(){store.baseParams=bp;store.reload({params:{start:0,limit:C_PS}});};
-	var id=0;
+    this.reset=function(){
+    	store.baseParams=bp;
+    	store.reload({params:{start:0,limit:C_PS}});
+    };
 	var showVoucher= function(p){
 		var tab = T_MAIN.getComponent("T_VOUC_"+p.get("id"));
 		if(tab) {T_MAIN.setActiveTab(t);}
@@ -2153,7 +2193,6 @@ Fos.VoucherGrid = function(t){
 	this.search = function(){
     	var win = new Fos.VoucLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
-			var xml = '';			
         	var tab = Fos.VoucLookupWin.superclass.findById.call(win,'T_VOUC_LOOK');
         	var at = tab.getActiveTab();
         	var a=[];var op=1;a[0]={key:'voucType',value:t,op:1};
@@ -2329,7 +2368,8 @@ Fos.VoucherGrid = function(t){
 Ext.extend(Fos.VoucherGrid, Ext.grid.GridPanel);
 Fos.InitLookupWin = function(c,t) {	
 	var store = GS('INIT_X','SInvoiceItem',SInvoiceItem,'invoId','DESC','invoNo','S_INIT','id',false);
-	var a=[];var op=1;a[0]={key:'custId',value:c,op:1};
+	var a=[];
+	a[0]={key:'custId',value:c,op:1};
 	a[1]={key:'initCancelFlag',value:0,op:EQ};
 	a[2]={key:'initWriteOffStatus',value:2,op:NE};
 	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
@@ -2528,9 +2568,11 @@ Fos.VoucherTab = function(p,prId) {
 					sum = sum + voitAmountVoucW;
 				};
 				this.find('name','voucWriteOffAmount')[0].setValue(sum);
-			}});			
+			}});
 	}
-	else if(p.get('rowAction')!='N') store.load({params:{voucId:p.get('voucId')}});
+	else if(p.get('rowAction')!='N') 
+		store.load({params:{voucId:p.get('voucId')}});
+    
     this.grid=new Fos.VoucItemGrid(p,store);
     this.save=function(){    	
     	p.beginEdit();this.getForm().updateRecord(p);p.endEdit();
@@ -2701,11 +2743,15 @@ Fos.VoucherTab = function(p,prId) {
 Ext.extend(Fos.VoucherTab,Ext.FormPanel);
 Fos.PrGrid = function(t){
     var store = GS('PR_X','SPr',SPr,'prDate','DESC','prDate','S_PR','id',true);
-	var a=[];var op=1;a[0]={key:'prType',value:t,op:1};
+	var a=[];
+	a[0]={key:'prType',value:t,op:1};
 	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
 	store.baseParams=bp;
 	store.load({params:{start:0,limit:C_PS}});
-	this.reset=function(){store.baseParams=bp;store.reload({params:{start:0,limit:C_PS}});};
+	this.reset=function(){
+		store.baseParams=bp;
+		store.reload({params:{start:0,limit:C_PS}});
+	};
 	var showPr= function(p){
 		var tab = T_MAIN.getComponent("T_PR_"+ p.get("id"));
 		if(tab) {T_MAIN.setActiveTab(t);}
@@ -2743,7 +2789,6 @@ Fos.PrGrid = function(t){
 	this.search = function(){
     	var win = new Fos.PrLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
-			var xml = '';			
         	var tab = Fos.PrLookupWin.superclass.findById.call(win,'T_PR_LOOK');
         	var at = tab.getActiveTab();
         	var a=[];var op=1;a[0]={key:'prType',value:t,op:1};
@@ -2856,7 +2901,10 @@ Fos.PrGrid = function(t){
         }
         a[a.length]={key:'prNo',value:prNo,op:LI};
         store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-        store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+        store.reload({params:{start:0,limit:C_PS},callback:function(r){
+        	if(r.length==0) 
+        		XMG.alert(SYS,M_NOT_FOUND);
+        	}});
     };
     var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
@@ -2954,14 +3002,19 @@ Fos.PrItemGrid = function(p){
 				if(r){
 					var rn = store.getCount();
 					for(var i=0;i<r.length;i++){
-						if(rn==0 || store.findBy(function(rec,id){return rec.get('invoId')==r[i].get('invoId');})==-1){
-							var amount = round2(r[i].get('invoAmount'));var rid=GGUID();						
-							var item = new SPrItem({id:rid,pritId:rid,prId:r[i].get('prId'),invoId:r[i].get('invoId'),
-							invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),invoDate:r[i].get('invoDate'),
+						if(rn==0 || store.findBy(function(rec,id){
+							return rec.get('invoId')==r[i].get('invoId');})==-1){
+							var rid=GGUID();						
+							var item = new SPrItem({id:rid,pritId:rid,prId:r[i].get('prId'),
+							invoId:r[i].get('invoId'),
+							invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),
+							invoDate:r[i].get('invoDate'),
 							invoDueDate:r[i].get('invoDueDate'),invoAmount:r[i].get('invoAmount'),
-							invoAmountWriteOff:r[i].get('invoAmountWriteOff'),prAmount:r[i].get('invoAmount')-r[i].get('invoAmountWriteOff'),
+							invoAmountWriteOff:r[i].get('invoAmountWriteOff'),
+							prAmount:r[i].get('invoAmount')-r[i].get('invoAmountWriteOff'),
 							currCode:r[i].get('currCode'),invoExRate:r[i].get('invoExRate'),
-							custName:r[i].get('custName'),custSname:r[i].get('custSname'),invoIssuer:r[i].get('invoIssuer'),invoIssueDate:r[i].get('invoIssueDate'),
+							custName:r[i].get('custName'),custSname:r[i].get('custSname'),
+							invoIssuer:r[i].get('invoIssuer'),invoIssueDate:r[i].get('invoIssueDate'),
 							invoChecker:r[i].get('invoChecker'),invoCheckDate:r[i].get('invoCheckDate')
 							});
 							store.insert(0,item);
@@ -3213,13 +3266,18 @@ Fos.PrTab = function(p) {
         ]});
 };
 Ext.extend(Fos.PrTab, Ext.FormPanel);
+
 Fos.BillGrid = function(t) {
 	var store = GS('BILL_X','SBill',SBill,'billDate','DESC','billDate','S_BILL','id',true);
-	var a=[];var op=1;a[0]={key:'billType',value:t,op:1};
+	var a=[];
+	a[0]={key:'billType',value:t,op:1};
 	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
 	store.baseParams=bp;
     store.load({params:{start:0,limit:C_PS}});
-    this.reset=function(){store.baseParams=bp;store.reload({params:{start:0,limit:C_PS}});};
+    this.reset=function(){
+    	store.baseParams=bp;
+    	store.reload({params:{start:0,limit:C_PS}});
+    };
 	var showBill= function(p){
 		var tab = T_MAIN.getComponent("T_BILL_" + p.get("id"));
 		if(tab) {T_MAIN.setActiveTab(tab);}
@@ -3233,8 +3291,9 @@ Fos.BillGrid = function(t) {
 		{header:C_STATUS,dataIndex:"billStatus",renderer:getBIST},
 		{header:C_BILL_NO,width:100,dataIndex:"billNo"},
 		{header:C_BILL_OBJECT,width:200,dataIndex:"custName"},	
-		{header:C_AMOUNT,align:'right',renderer:numRender,dataIndex:"billAmount"},	
-		{header:C_CURR,width:40,dataIndex:"currCode"},
+		{header:C_SUM_LOC,align:'right',renderer:numRender,dataIndex:"billAmount"},	
+		{header:C_SUM_USD,align:'right',renderer:numRender,dataIndex:"billAmountUsd"},	
+		{header:C_SUM_CNY,align:'right',renderer:numRender,dataIndex:"billAmountCny"},
 		{header:C_BILL_DATE,dataIndex:"billDate",renderer:formatDate},
 		{header:C_VESS,width:120,dataIndex:"billVessel"},
 		{header:C_VOYA,dataIndex:"billVoyage"},
@@ -3337,9 +3396,11 @@ Fos.BillGrid = function(t) {
 	bbar:PTB(store,C_PS)});
 };    
 Ext.extend(Fos.BillGrid,Ext.grid.GridPanel);
+
 Fos.BillTab = function(p){
     var store = GS('BIIT_Q','SBillItem',SBillItem,'biitId','DESC','','','id',false);
-	if(p.get('rowAction')!='N') store.load({params:{billId:p.get('billId')}});
+	if(p.get('rowAction')!='N') 
+		store.load({params:{billId:p.get('billId')}});
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_SETTLE_OBJECT,dataIndex:'custSname'},
@@ -3350,7 +3411,6 @@ Fos.BillTab = function(p){
 		{header:C_AMOUNT,hidden:true,width:60,align:'right',renderer:numRender,dataIndex:'expeTotalAmount'},
 		{header:C_CURR,width:60,dataIndex:'currCode'},
 		{header:C_EX_RATE,width:60,dataIndex:'expeExRate'},
-		{header:C_EX_AMOUNT,width:60,align:'right',renderer:numRender,dataIndex:'biitAmount'},
 		{header:C_CONS_NO,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,dataIndex:"consVessel"},
 		{header:C_VOYA,dataIndex:"consVoyage"},
@@ -3360,13 +3420,17 @@ Fos.BillTab = function(p){
 		],defaults:{sortable:true}});
 	cm.defaultSortable = true;cm.defaultWidth=100;
     this.recalculate=function(){
-    	var cny=0;var usd=0;var sum=0;
-    	var curr=p.get('currCode');
-    	var cny=0;var usd=0;var loc=0;
+    	var sum=0;
+    	var cny=0;
+    	var usd=0;
 		var d=store.getRange();
 		for(var i=0;i<d.length;i++){
-			if(d[i].get('currCode')=='CNY'){cny=cny+parseFloat(d[i].get('expeTotalAmount'));}
-			else if(d[i].get('currCode')=='USD'){usd=usd+parseFloat(d[i].get('expeTotalAmount'));}			
+			if(d[i].get('currCode')=='CNY'){
+				cny=cny+parseFloat(d[i].get('expeTotalAmount'));
+			}
+			else if(d[i].get('currCode')=='USD'){
+				usd=usd+parseFloat(d[i].get('expeTotalAmount'));
+			}			
 			sum=sum+parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
 		};
 		this.find('name','billAmount')[0].setValue(sum);
@@ -3421,8 +3485,8 @@ Fos.BillTab = function(p){
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
     this.grid = new Ext.grid.EditorGridPanel({autoScroll:true,clicksToEdit:1,store:store,sm:sm,cm:cm,height:400,
-    tbar:[{text:C_ADD+'(A)',iconCls:'add',disabled:p.get('billStatus')!='0',scope:this,handler:this.addExp}, '-', 		
-		{text:C_REMOVE+'(D)',iconCls:'remove',disabled:p.get('billStatus')!='0',scope:this,handler:this.del}]});
+    			tbar:[{text:C_ADD+'(A)',iconCls:'add',disabled:p.get('billStatus')!='0',scope:this,handler:this.addExp}, '-', 		
+    			      {text:C_REMOVE+'(D)',iconCls:'remove',disabled:p.get('billStatus')!='0',scope:this,handler:this.del}]});
     this.save=function(){
     	if(p.get('custId')==''){
 			XMG.alert(SYS,M_BILL_OBJECT_REQIRED);return;};
@@ -3483,6 +3547,7 @@ Fos.BillTab = function(p){
     	tb.getComponent('TB_C').setDisabled(NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_M)||s!='0');
     	tb.getComponent('TB_D').setDisabled(NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_M)||s!='1');
     	tb.getComponent('TB_E').setDisabled(NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_F)||s!='1');
+    	tb.getComponent('TB_F').setDisabled(NR(M1_S+(p.get('billType')=='R'?S_INVO_R:S_INVO_P)+F_F)||s!='1');
     	tb.getComponent('TB_M').setText(C_STATUS_C+getBIST(p.get('billStatus')));
     };
     this.check=function(){this.updateStatus('1');};
@@ -3506,6 +3571,48 @@ Fos.BillTab = function(p){
 				}
 		 	}
 		},stopEvent:true,scope:this});
+    
+    this.genInvoice=function(){
+    	var a = store.getRange();
+    	if(a.length>0){
+    		var currCode=a[0].get('currCode');
+    		for(var i=0;i<a.lenth;i++){
+    			if(a[i].get('currCode')!=currCode){
+    				currCode = a[i].get('currCode');
+    				break;
+    			}
+    		}
+    		if(currCode != a[0].get('currCode')){
+    			var w=new Fos.CurrencyWin();
+        		w.addButton({text:C_OK,scope:this,handler:function(){
+        			currCode = w.findById('currCode').getValue();
+        			w.close();
+        			var id=GGUID();
+        			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
+        				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
+        				currCode:currCode,
+        				invoType:p.get('billType'),invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
+        				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+        			var tab = T_MAIN.add(new Fos.InvoiceTab(e,p.get('billNo')));
+        			T_MAIN.setActiveTab(tab);
+        		}},this);
+        		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);
+        		w.show();
+    		}
+    		else{
+    			var id=GGUID();
+    			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
+    				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
+    				currCode:currCode,
+    				invoType:p.get('billType'),invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
+    				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+    			var tab = T_MAIN.add(new Fos.InvoiceTab(e,p.get('billNo')));
+    			T_MAIN.setActiveTab(tab);
+    		}
+    	}
+    	
+    };
+    
 	Fos.BillTab.superclass.constructor.call(this, { 
 	id: 'T_BILL_' + p.get('id'),title:(p.get('billType')=='R'?C_BILL_R:C_BILL_P)+'-'+p.get('billNo'),layout:'border',
 	autoScroll:true,labelAlign:'right',closable:true,labelWidth:70,bodyStyle:'padding:0px 0px 20px 0px',border : false,width:800,
@@ -3514,6 +3621,7 @@ Fos.BillTab = function(p){
 	{itemId:'TB_C',text:C_BILL_CHECK+'(C)',iconCls:'check',disabled:NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_M)||p.get('billStatus')!='0',scope:this,handler:this.check},'-',
 	{itemId:'TB_D',text:C_BILL_CHECK_CANCEL+'(U)',iconCls:'renew',disabled:NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_M)||p.get('billStatus')!='1',scope:this,handler:this.renew},'-',
 	{itemId:'TB_E',text:C_INVALID+'(F)',iconCls:'cancel',disabled:NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_F)||p.get('billStatus')!='1',scope:this,handler:this.cancel},'-',
+	{itemId:'TB_F',text:C_GEN_INVOICE,iconCls:'save',disabled:NR(M1_S+(p.get('billType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('billStatus')!='1',scope:this,handler:this.genInvoice},'-',
 	{text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(M1_S+(p.get('billType')=='R'?S_BILL_R:S_BILL_P)+F_E),scope:this,
 		menu: {items: [
 		   		{text:C_BILL,menu:{items:[{text:'Excel',scope:this,handler:this.expBillExcel},
@@ -3559,6 +3667,7 @@ Fos.BillTab = function(p){
 	]});
 };
 Ext.extend(Fos.BillTab, Ext.FormPanel);
+
 Fos.InvoNoGrid = function() {
 	var store = GS('INNO_Q','SInvoiceNo',SInvoiceNo,'innoId','DESC','','S_INNO','id',false);
 	store.load();
@@ -3659,6 +3768,7 @@ Fos.BalaGrid = function() {
 	bbar:PTB(store,C_PS)});
 };
 Ext.extend(Fos.BalaGrid, Ext.grid.GridPanel);
+
 Fos.BaliWin = function(b){
     var store = GS('VOUC_X','SVoucher',SVoucher,'voucDate','DESC','voucDate','S_VOUC','id',true);
     var a=[];
@@ -3729,7 +3839,7 @@ Fos.ExalWin = function(store,p) {
  	this.impChild=function(){
 		var s = new Ext.data.Store({url: SERVICE_URL+'?A=CONS_X',baseParams:{mt:'JSON'},
 	    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign)});
-		s.load({params:{consMasterFlag:0,consMasterId:p.get('consId')},scope:this,callback:function(r){
+		s.load({params:{consMasterId:p.get('consId')},scope:this,callback:function(r){
 			if(r.length){
 				for(var i=0;i<r.length;i++){
 					if(store.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId');})==-1&&consS.findBy(function(rec,id){return rec.get('consId')==r[i].get('consId');})==-1){

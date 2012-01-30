@@ -180,7 +180,8 @@ public class SBillService {
 		List<SBillItem> itemList = itemDao.findByProperties(queryMap);
 		for (SBillItem billItem : itemList) {
 			SExpense expense = expenseDao.findById(billItem.getExpeId());
-			expense.setExpeBillNo(null);
+			if(ConstUtil.BILL_STATUS_NONE.equals(status))
+				expense.setExpeBillNo(null);
 			expense.setExpeBillStatus(status);
 			expenseDao.update(expense);
 		}
