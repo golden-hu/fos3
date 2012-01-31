@@ -2005,10 +2005,22 @@ Fos.InvoiceTab = function(p,billNo) {
     	tb.getComponent('TB_C').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     	tb.getComponent('TB_D').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0');
     	tb.getComponent('TB_E').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0');
-    	if(p.get('invoType')=='R') tb.getComponent('TB_F').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
+    	if(p.get('invoType')=='R') 
+    		tb.getComponent('TB_F').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     	tb.getComponent('TB_M').setText(C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus')));
+    	tb.getComponent('TB_H').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     };
     this.expInvo=function(){EXPC('INVO','&invoId='+p.get('invoId'));};
+    this.genVoucher=function(){
+		var rid=GGUID();
+		var e = new SVoucher({id:rid,voucId:rid,voucNo:'N'+rid,currCode:p.get('currCode'),
+			voucType:p.get('invoType'),voucDate:new Date(),voucExRate:getExRate(p.get('currCode'),'CNY'),
+			custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),
+			voucAmount:p.get('invoAmount'),voucWriteOffAmount:p.get('invoAmount'),voucFixAmount:0,
+			voucUploadFlag:'0',voucStatus:'0',voucWriteOffStatus:'0',version:'0',rowAction:'N'});
+			var t = T_MAIN.add(new Fos.VoucherTab(e,'',p.get('invoId')));
+			T_MAIN.setActiveTab(t);
+	};	
     new Ext.KeyMap(Ext.getDoc(), {
 		key:'srcufmea',ctrl:true,
 		handler: function(k, e) {
@@ -2038,6 +2050,8 @@ Fos.InvoiceTab = function(p,billNo) {
 			 	}
 		 	}
 		},stopEvent:true,scope:this});
+    
+    
     var b1={itemId:'TB_A',text:C_SAVE+'(S)',iconCls:'save',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0',scope:this,handler:this.save};
     var b2={itemId:'TB_B',text:C_REMOVE+'(R)',iconCls:'remove',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removeInvo};
     var b3={itemId:'TB_C',text:C_AUDIT+'(C)',iconCls:'check',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.check};
@@ -2047,7 +2061,10 @@ Fos.InvoiceTab = function(p,billNo) {
     var b7={text:C_EXPORT+'(E)',iconCls:'print',disabled:p.get('invoWriteOffStatus')!='0',scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo}]}};
 	var b8={itemId:'TB_M',disabled:true,text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))};
 	var b9={itemId:'TB_G',text:C_ADD+'(N)',iconCls:'add',scope:this,handler:this.addInvoice};
-	
+	 var b10={itemId:'TB_H',text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,iconCls:'save',			 
+			 disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
+			 scope:this,handler:this.genVoucher};
+	 
 	var c1={fieldLabel:HL(C_SETTLE_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
     		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,triggerAction:'all',selectOnFocus:true,anchor:'95%',
    		 mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
@@ -2110,7 +2127,8 @@ Fos.InvoiceTab = function(p,billNo) {
 	Fos.InvoiceTab.superclass.constructor.call(this, { 
 	id: 'T_INVO_'+p.get('id'),title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),layout:'border',
 	autoScroll:true,labelAlign:'right',closable:true,labelWidth:70,bodyStyle:'padding:0px 0px 20px 0px',border:false,width:800,
-	tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'->','-',b8,'-']:[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b9,'->','-',b8,'-'],
+	tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
+								[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b9,'-',b10,'->','-',b8,'-'],
 	bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
 			{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
 			{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',
@@ -2537,9 +2555,40 @@ Fos.VoucItemGrid = function(p,store){
 };    
 Ext.extend(Fos.VoucItemGrid,Ext.grid.EditorGridPanel);
 
-Fos.VoucherTab = function(p,prId) {
+Fos.VoucherTab = function(p,prId,invoId) {
     var store = GS('VOIT_Q','SVoucherItem',SVoucherItem,'voitId','DESC','','','id',false);
-    if(prId){
+    if(invoId){
+    	Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'INIT_Q',invoId:invoId,initWriteOffStatus:0},scope:this,
+			success: function(res,o){
+				var r = XTRA(res.responseXML,'SInvoiceItem',SInvoiceItem);
+				var sum=0;
+				for(var i=0;i<r.length;i++){
+					var ex=r[i].get('invoCurrCode')==p.get('currCode')?p.get('voucExRate'):getExRate(r[i].get('invoCurrCode'),'CNY');
+					var voitAmountW = round2(r[i].get('initInvoiceAmount')-r[i].get('initInvoiceAmountW'));
+					var voitAmountOriW = round2(voitAmountW*r[i].get('invoExRate')/r[i].get('initExRate'));
+					var voitAmountVoucW = round2(voitAmountW*r[i].get('invoExRate')/p.get('voucExRate'));
+					var rid=GGUID();
+					var it = new SVoucherItem({id:rid,voitId:rid,initId:r[i].get('initId'),invoId:r[i].get('invoId'),invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),
+					expeId:r[i].get('expeId'),expeType:r[i].get('expeType'),
+					consId:r[i].get('consId'),consNo:r[i].get('consNo'),custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
+					consVessel:r[i].get('consVessel'),consVoyage:r[i].get('consVoyage'),consMblNo:r[i].get('consMblNo'),consHblNo:r[i].get('consHblNo'),
+					charName:r[i].get('charName'),unitName:r[i].get('unitName'),expeCurrCode:r[i].get('expeCurrCode'),
+					expeUnitPrice:r[i].get('expeUnitPrice'),expeNum:r[i].get('expeNum'),expeExRate:r[i].get('expeExRate'),
+					expeTotalAmount:r[i].get('expeTotalAmount'),initInvoiceAmount:r[i].get('initInvoiceAmount'),initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
+					initInvoiceAmountW:r[i].get('initInvoiceAmountW'),initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
+					invoCurrCode:r[i].get('invoCurrCode'),initExRate:r[i].get('initExRate'),invoExRate:r[i].get('invoExRate'),
+					voitExRate:ex,voucExRate:p.get('voucExRate'),
+					voitWriteOffNo:p.get('voucWriteOffNo'),voucId:p.get('voucId'),voucNo:p.get('voucNo'),voucDate:p.get('voucDate'),
+					voitAmountW:voitAmountW,voitAmountOriW:voitAmountOriW,voitAmountVoucW:voitAmountVoucW,voitRemarks:'',							
+					voitWriteOffStatus:'2',voitCancelFlag:0,rowAction:'',version:0});
+					store.insert(0,it);
+					it.set('rowAction','N');
+					sum = sum + voitAmountVoucW;
+				};
+				this.find('name','voucWriteOffAmount')[0].setValue(sum);
+			}});
+    }
+    else if(prId){
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'INIT_PR_X',prId:prId},scope:this,
 			success: function(res,o){
 				var r = XTRA(res.responseXML,'SInvoiceItem',SInvoiceItem);

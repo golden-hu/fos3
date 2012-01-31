@@ -705,8 +705,30 @@ Fos.RateTab = function(p) {
 	{header:C_EFFECT_DATE,dataIndex:"exraStartDate"},
 	{header:C_EXPIRY_DATE,dataIndex:"exraEndDate"}
 	],defaults:{sortable:true,width:100}});
+    
     var grid = new  Ext.grid.EditorGridPanel({clicksToEdit:1,store:store,sm:sm,cm:cm,border:false,
-    tbar:[{text:C_SAVE,iconCls:'save',handler:function(){FOS_POST(store,'SExRate',SExRate,'EXRA_S');}}]});    
+    tbar:[{text:C_SAVE,iconCls:'save',handler:function(){
+    	grid.stopEditing();
+    	var a =store.getModifiedRecords();
+    	if(a.length){
+    		var x = ATX(a,'SExRate',SExRate);
+    		if(x!='')
+    		{
+    			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXRA_S'},
+    				success: function(r){
+    					store.load({params:{active:1}}); 
+    					XMG.alert(SYS,M_S);
+    				},
+    				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+    				xmlData:FOSX(x)
+    			});
+    		}
+    	}
+    	else XMG.alert(SYS,M_NC);
+    	
+    	//FOS_POST(store,'SExRate',SExRate,'EXRA_S');
+    	}
+    }]});    
     var store2 = GS('EXRA_Q','SExRate',SExRate,'exraId','DESC','','','id');
     store2.load({params:{active:0}});
 	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
