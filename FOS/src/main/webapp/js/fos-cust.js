@@ -1241,13 +1241,14 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
 	if(action=='CONS_X'){tabs=(bizClass==BC_E)?[t1,t6,t2,t3,t4,t5]:[t1,t2,t3,t4,t5];}
 	else if(action=='CONS_CHECK_X'){tabs=[t1,t2,t3,t4,t5];}
 	this.reload=function(){
-     	var a=[];var op=1;
+     	var a=[];     	
+     	var op=1;     	
      	if(bizClass!='')
-     		a[a.length]={key:'consBizClass',value:bizClass,op:1};
+     		a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
      	if(bizType!='')
-     		a[a.length]={key:'consBizType',value:bizType,op:1};
+     		a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
      	if(shipType!='')
-     		a[a.length]={key:'consShipType',value:shipType,op:1};
+     		a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
      	var at = t.getActiveTab();
      	if(at.getId()=='T_CONS_LOOK_1'){
      		var consNo=at.find('name','consNo')[0].getValue();
@@ -1255,114 +1256,121 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
      		var c=consNo.indexOf(',');
     		var b=consNo.indexOf('..');
     		if(c>=0){
-    			a[a.length]={key:'consNo',value:consNo,op:IN};
+    			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
     		}
     		else if(b>=0){
     			var ra=consNo.split('..');
-    			a[a.length]={key:'consNo',value:ra[0],op:GE};
-    			a[a.length]={key:'consNo',value:ra[1],op:LE};
+    			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+    			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
     		}
     		else if(consNoM){
-     			a[a.length]={key:'consNo',value:consNo,op:LI};
+     			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
     		}
      	}     	
      	else if(at.getId()=='T_CONS_LOOK_2'){
      		var consMblNo=at.find('name','consMblNo')[0].getValue();
      		var consMblNoM=at.find('name','consMblNoM')[0].getValue();
      		if(consMblNoM) op=7;
-     		a[a.length]={key:'consMblNo',value:consMblNo,op:op};
+     		a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:op});
      	}
      	else if(at.getId()=='T_CONS_LOOK_3'){
      		var consHblNo=at.find('name','consHblNo')[0].getValue();
      		var consHblNoM=at.find('name','consHblNoM')[0].getValue();
      		if(consHblNoM) op=7;
-     		a[a.length]={key:'consHblNo',value:consHblNo,op:op};
+     		a[a.length]=new QParam({key:'consHblNo',value:consHblNo,op:op});
      	}
      	else if(at.getId()=='T_CONS_LOOK_4'){
      		var vessName=at.find('name','vessName')[0].getValue();
      		var voyaId=at.find('name','voyaName')[0].getValue();
-     		if(vessName) a[a.length]={key:'vessName',value:vessName,op:LI};
-     		if(voyaId) a[a.length]={key:'voyaName',value:voyaId,op:op};
+     		if(vessName) a[a.length]=new QParam({key:'vessName',value:vessName,op:LI});
+     		if(voyaId) a[a.length]=new QParam({key:'voyaName',value:voyaId,op:op});
      	}
      	else if(at.getId()=='T_CONS_LOOK_5'){
      		var custId=at.find('name','custId')[0].getValue();
-     		if(custId) a[a.length]={key:'custId',value:custId,op:op};
+     		if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:op});
      		var consBizType=at.find('name','consBizType')[0].getValue();        		
-     		if(consBizType) a[a.length]={key:'consBizType',value:consBizType,op:op};
+     		if(consBizType) a[a.length]=new QParam({key:'consBizType',value:consBizType,op:op});
      		var consPol=at.find('name','consPol')[0].getValue();        		
-     		if(consPol) a[a.length]={key:'consPol',value:consPol,op:op};
+     		if(consPol) a[a.length]=new QParam({key:'consPol',value:consPol,op:op});
      		var deptId=at.find('name','deptId')[0].getValue();        		
-     		if(deptId) a[a.length]={key:'deptId',value:deptId,op:op};
+     		if(deptId) a[a.length]=new QParam({key:'deptId',value:deptId,op:op});
      		var consSalesRepId=at.find('name','consSalesRepId')[0].getValue();        		
-     		if(consSalesRepId) a[a.length]={key:'consSalesRepId',value:consSalesRepId,op:op};
+     		if(consSalesRepId) a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
      		var consTradeContractNo=at.find('name','consTradeContractNo')[0].getValue();        		
-     		if(consTradeContractNo) a[a.length]={key:'consTradeContractNo',value:consTradeContractNo,op:op};
+     		if(consTradeContractNo) 
+     			a[a.length]=new QParam({key:'consTradeContractNo',value:consTradeContractNo,op:op});
      		
      		var consStatusAud=at.find('name','consStatusAud')[0].getValue();        		
-     		if(consStatusAud) a[a.length]={key:'consStatusAud',value:consStatusAud,op:op};
+     		if(consStatusAud) a[a.length]=new QParam({key:'consStatusAud',value:consStatusAud,op:op});
      		var consStatusAr=at.find('name','consStatusAr')[0].getValue();        		
-     		if(consStatusAr) a[a.length]={key:'consStatusAr',value:consStatusAr,op:op};
+     		if(consStatusAr) a[a.length]=new QParam({key:'consStatusAr',value:consStatusAr,op:op});
      		var consStatusAp=at.find('name','consStatusAp')[0].getValue();        		
-     		if(consStatusAp) a[a.length]={key:'consStatusAp',value:consStatusAp,op:op};
+     		if(consStatusAp) a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
      		var consStatusInvoR=at.find('name','consStatusInvoR')[0].getValue();        		
-     		if(consStatusInvoR) a[a.length]={key:'consStatusInvoR',value:consStatusInvoR,op:op};
+     		if(consStatusInvoR) a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
      		var consStatusInvoP=at.find('name','consStatusInvoP')[0].getValue();        		
-     		if(consStatusInvoP) a[a.length]={key:'consStatusInvoP',value:consStatusInvoP,op:op};
+     		if(consStatusInvoP) a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
      		var consStatusExp=at.find('name','consStatusExp')[0].getValue();        		
-     		if(consStatusExp) a[a.length]={key:'consStatusExp',value:consStatusExp,op:op};
+     		if(consStatusExp) a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
      		
      		var consDate=at.find('name','consDate')[0].getValue();
      		var consDate2=at.find('name','consDate2')[0].getValue();
      		if(consDate && consDate2){
-     			a[a.length]={key:'consDate',value:consDate.format(DATEF),op:5};
-     			a[a.length]={key:'consDate',value:consDate2.format(DATEF),op:3};
+     			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
+     			a[a.length]=new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
      		}
-     		else if(consDate) a[a.length]={key:'consDate',value:consDate,op:op};
+     		else if(consDate) a[a.length]=new QParam({key:'consDate',value:consDate,op:op});
      		var consEtd=at.find('name','consEtd')[0].getValue();
      		var consEtd2=at.find('name','consEtd2')[0].getValue();
      		if(consEtd && consEtd2){
-     			a[a.length]={key:'consEtd',value:consEtd.format(DATEF),op:5};
-     			a[a.length]={key:'consEtd',value:consEtd2.format(DATEF),op:3};
+     			a[a.length]=new QParam({key:'consEtd',value:consEtd.format(DATEF),op:5});
+     			a[a.length]=new QParam({key:'consEtd',value:consEtd2.format(DATEF),op:3});
      		}
-     		else if(consEtd) a[a.length]={key:'consEtd',value:consEtd,op:op};
+     		else if(consEtd) a[a.length]=new QParam({key:'consEtd',value:consEtd,op:op});
      		
      		var consEta=at.find('name','consEta')[0].getValue();
      		var consEta2=at.find('name','consEta2')[0].getValue();
      		if(consEta && consEta2){
-     			a[a.length]={key:'consEta',value:consEta.format(DATEF),op:5};
-     			a[a.length]={key:'consEta',value:consEta2.format(DATEF),op:3};
+     			a[a.length]=new QParam({key:'consEta',value:consEta.format(DATEF),op:5});
+     			a[a.length]=new QParam({key:'consEta',value:consEta2.format(DATEF),op:3});
      		}
-     		else if(consEta) a[a.length]={key:'consEta',value:consEta,op:op}; 
+     		else if(consEta) a[a.length]=new QParam({key:'consEta',value:consEta,op:op}); 
      		
      		var consOperatorId=at.find('name','consOperatorId')[0].getValue();        		
-     		if(consOperatorId) a[a.length]={key:'consOperatorId',value:consOperatorId,op:op};
+     		if(consOperatorId) a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:op});
      		var consContractNo=at.find('name','consContractNo')[0].getValue();        		
-     		if(consContractNo) a[a.length]={key:'consContractNo',value:consContractNo,op:op};
+     		if(consContractNo) a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:op});
      		var consPod=at.find('name','consPod')[0].getValue();        		
-     		if(consPod) a[a.length]={key:'consPod',value:consPod,op:op};
+     		if(consPod) a[a.length]=new QParam({key:'consPod',value:consPod,op:op});
      		var consSource=at.find('name','consSource')[0].getValue();        		
-     		if(consSource) a[a.length]={key:'consSource',value:consSource,op:op};
+     		if(consSource) a[a.length]=new QParam({key:'consSource',value:consSource,op:op});
      		var consRefNo=at.find('name','consRefNo')[0].getValue();        		
-     		if(consRefNo) a[a.length]={key:'consRefNo',value:consRefNo,op:op};
+     		if(consRefNo) a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:op});
      		var consSoNo=at.find('name','consSoNo')[0].getValue();
-     		if(consSoNo) a[a.length]={key:'consSoNo',value:consSoNo,op:op};
+     		if(consSoNo) a[a.length]=new QParam({key:'consSoNo',value:consSoNo,op:op});
      		var consCarrier=at.find('name','consCarrier')[0].getValue();        		
-     		if(consCarrier) a[a.length]={key:'consCarrier',value:consCarrier,op:op};
+     		if(consCarrier) a[a.length]=new QParam({key:'consCarrier',value:consCarrier,op:op});
      		var consOverseaAgency=at.find('name','consOverseaAgency')[0].getValue();        		
-     		if(consOverseaAgency) a[a.length]={key:'consOverseaAgency',value:consOverseaAgency,op:op};
+     		if(consOverseaAgency) a[a.length]=new QParam({key:'consOverseaAgency',value:consOverseaAgency,op:op});
      		var consBookingAgency=at.find('name','consBookingAgency')[0].getValue();        		
-     		if(consBookingAgency) a[a.length]={key:'consBookingAgency',value:consBookingAgency,op:op};
+     		if(consBookingAgency) a[a.length]=new QParam({key:'consBookingAgency',value:consBookingAgency,op:op});
      		var consContainerCompany=at.find('name','consContainerCompany')[0].getValue();        		
-     		if(consContainerCompany) a[a.length]={key:'consContainerCompany',value:consContainerCompany,op:op};
+     		if(consContainerCompany) a[a.length]=new QParam({key:'consContainerCompany',value:consContainerCompany,op:op});
      	}
      	else if(at.getId()=='T_CONS_LOOK_6'){
      		var consMblNo=at.find('name','contNo')[0].getValue();
      		var consMblNoM=at.find('name','contNoM')[0].getValue();
      		if(consMblNoM) op=7;action='CONS_CONTNO_X';
-     		a[a.length]={key:'consContainerNo',value:consMblNo,op:op};
+     		a[a.length]=new QParam({key:'consContainerNo',value:consMblNo,op:op});
      	}
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-     	store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+     	store.reload({params:{start:0,limit:C_PS},
+     		callback:function(r){
+     			if(r.length==0) 
+     				XMG.alert(SYS,M_NOT_FOUND);
+     			}
+     	});
+     	this.close();
 	};	
 	var t = new Ext.TabPanel({id:'T_CONS_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:340,
 		defaults:{bodyStyle:'padding:10px'},items:tabs});

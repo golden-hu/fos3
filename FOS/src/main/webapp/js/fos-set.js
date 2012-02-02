@@ -1101,17 +1101,18 @@ Fos.ExWin = function(p) {
 Ext.extend(Fos.ExWin,Ext.Window);
 
 Fos.ConsignAuditGrid = function() {
-	var bp={mt:'JSON',xml:''};
-	var store = new Ext.data.GroupingStore({
-    	url: SERVICE_URL+'?A=CONS_CHECK_X',baseParams:bp,
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign),
-    	sortInfo:{field:'consDate', direction:'DESC'},remoteSort:true,groupField:'consDate'
-	});
-	store.load({params:{start:0,limit:C_PS}});
-	this.reset=function(){
-		store.baseParams=bp;
-		store.reload({params:{start:0,limit:C_PS}});
-	};	
+	var bp={mt:'xml',xml:''};
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_CHECK_X',baseParams:bp,
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
+		sortInfo:{field:'consDate', direction:'DESC'},remoteSort:true
+	});	
+    store.load({params:{start:0,limit:C_PS}});
+	
+    this.reset=function(){
+    	store.baseParams=bp;
+    	store.reload({params:{start:0,limit:C_PS}});
+    };
+    
 	this.search = function(){
 		var win = new Fos.ConsLookupWin('','','','CONS_CHECK_X',store);
 		win.show();
@@ -1220,25 +1221,35 @@ Fos.ConsignAuditGrid = function() {
 	};
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
     this.fastSearch=function(){
-        var consNo=kw.getValue();
-        if(!consNo){
-        	XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
-        	return;
-        };
-        var a=[];        
-        var c=consNo.indexOf(',');
-        var b=consNo.indexOf('..');
-        if(c>=0){
-            a[a.length]={key:'consNo',value:consNo,op:IN};
-        }
-        else if(b>=0){
-            var ra=consNo.split('..');
-            a[a.length]={key:'consNo',value:ra[0],op:GE};
-            a[a.length]={key:'consNo',value:ra[1],op:LE};
-        }
-        a[a.length]={key:'consNo',value:consNo,op:LI};
-        store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-        store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+    	var consNo=kw.getValue();
+		if(!consNo){
+			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+			return;
+		};
+		
+     	var a=[];
+     	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+    	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+    	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+    	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+    	var c=consNo.indexOf(',');
+		var b=consNo.indexOf('..');
+     	if(c>=0){
+			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
+		}
+		else if(b>=0){
+			var ra=consNo.split('..');
+			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
+		}
+		else
+ 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+    	
+    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
+     	store.reload({params:{start:0,limit:C_PS},
+     		callback:function(r){
+     			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
+     		}});
     };
     new Ext.KeyMap(Ext.getDoc(), {
         key:'ycmfeuv',ctrl:true,

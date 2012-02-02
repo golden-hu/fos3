@@ -74,18 +74,26 @@ Fos.showConsignTabs = function(p){
 };
 
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
+	
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',baseParams:{mt:'xml'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
+		remoteSort:true,
+		sortInfo:{field:((bizClass==BC_E&&shipType==ST_L)||bizType==BT_B)?'consMasterNo':'consDate', direction:'DESC'}
+	});		
 	var a=[];
-	a[a.length]={key:'consBizClass',value:bizClass,op:1};
-	a[a.length]={key:'consBizType',value:bizType,op:1};
-	a[a.length]={key:'consExternalFlag',value:external?external:'0',op:1};
-	if(shipType!='') a[a.length]={key:'consShipType',value:shipType,op:1};
-	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-	var store = new Ext.data.GroupingStore({
-   		url: SERVICE_URL+'?A=CONS_X',
-   		baseParams:bp,
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign),remoteSort:true,
-    	sortInfo:{field:((bizClass==BC_E&&shipType==ST_L)||bizType==BT_B)?'consMasterNo':'consDate', direction:'DESC'}});    	
-	this.reset=function(){store.baseParams=bp;store.reload({params:{start:0,limit:C_PS}});};
+	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+	var bp={mt:'xml',xml:FOSX(QTX(a))};
+	store.baseParams=bp;
+    store.load({params:{start:0,limit:C_PS}});
+	
+    this.reset=function(){
+    	store.baseParams=bp;
+    	store.reload({params:{start:0,limit:C_PS}});
+    };
+    
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
 	var c1=new Ext.grid.RowNumberer();
 	var c2={header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
@@ -169,11 +177,18 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		c.set('consExternalFlag',external?external:'0');
 		Fos.showConsign(c);
 	};
-	this.editConsign = function(){var b=sm.getSelected();if(b) Fos.showConsign(b); else XMG.alert(SYS,M_NO_DATA_SELECTED);};
+	this.editConsign = function(){
+		var b=sm.getSelected();
+		if(b) Fos.showConsign(b); 
+		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
 	this.task = function(){
 		var b=sm.getSelected();
-		if(b){var w=new Fos.TaskWin(b);w.show();}
-		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+		if(b){
+			var w=new Fos.TaskWin(b);w.show();
+		}
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};	
 	this.removeConsign = function(){
 		var a =sm.getSelections();
@@ -194,7 +209,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		}
        	else XMG.alert(SYS,M_R_P);
     };
-	this.search = function(){var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store);w.show();};
+	this.search = function(){
+		var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store);
+		w.show();
+	};
 	var rowCtxEvents = {
 		rowdblclick: function(grid, rowIndex, event){
 			var c=grid.getSelectionModel().getSelected();if(c){Fos.showConsign(c);}},
@@ -225,28 +243,39 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			}); 
 		}
 	};	
-	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
+	var kw = new Ext.form.TextField({listeners:{scope:this,
+		specialkey:function(c,e){
+			if(e.getKey()==Ext.EventObject.ENTER) 
+				this.fastSearch();
+			}
+		}
+	});
 	this.fastSearch=function(){
 		var consNo=kw.getValue();
-		if(!consNo){XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});return;};
+		if(!consNo){
+			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+			return;
+		};
+		
      	var a=[];
-     	a[a.length]={key:'consBizClass',value:bizClass,op:EQ};
-     	a[a.length]={key:'consBizType',value:bizType,op:EQ};
-     	if(shipType!='') a[a.length]={key:'consShipType',value:shipType,op:EQ};
-     	a[a.length]={key:'consExternalFlag',value:external?external:'0',op:1};
-     	var c=consNo.indexOf(',');
+     	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+    	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+    	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+    	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+    	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
      	if(c>=0){
-			a[a.length]={key:'consNo',value:consNo,op:IN};
+			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
 		}
 		else if(b>=0){
 			var ra=consNo.split('..');
-			a[a.length]={key:'consNo',value:ra[0],op:GE};
-			a[a.length]={key:'consNo',value:ra[1],op:LE};
+			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
 		}
 		else
- 			a[a.length]={key:'consNo',value:consNo,op:LI};
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+ 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+    	
+    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
@@ -254,9 +283,13 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	};
 	this.exp=function(){EXP('C','CONS_LIST',
 			store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');};
-  	var title=getBT(bizType);title+=getBC(bizClass);
-  	     if(bizClass==BC_I&&shipType=='LCL') title+=C_SWITCH; else title+=getSHTY(shipType);
-  	     title+=C_CONS_LIST;
+  	var title=getBT(bizType);
+  	title+=getBC(bizClass);
+  	if(bizClass==BC_I&&shipType=='LCL') 
+  		title+=C_SWITCH; 
+  	else title+=getSHTY(shipType);
+  	title+=C_CONS_LIST;
+  	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
 	var b1={text:C_ADD+'(N)',disabled:NR(m+(bizType==BT_B?F_CM:F_M))||(bizType==BT_C&&shipType==''),iconCls:'add',handler:this.newConsign};
 	var b2={text:C_CONSOLIDATE+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
@@ -316,8 +349,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     store: store,title:title,header:false,loadMask:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,ddGroup:'consGridDDGroup',enableDragDrop:shipType=='LCL'?true:false,	
 	listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:tbs,bbar:PTB(store,C_PS)});
-    store.load({params:{start:0,limit:C_PS}});
+	tbar:tbs,bbar:PTB(store,C_PS)});    
 };
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
 
