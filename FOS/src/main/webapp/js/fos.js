@@ -53,8 +53,11 @@ function getAirPanel(){
 };
 function getCudePanel(){
 	var items=[];
-	if(!NR(M1_G)) 
-		items[items.length]=NaviMenu(C_CUSTOMS,'G_CONS_G',function(){return new Fos.CustomsGrid();});
+	if(!NR(M1_G)){
+		items[items.length]=NaviMenu(C_IMP_CUDE,'G_CONS_G_I',function(){return new Fos.CustomsGrid('I');});
+		items[items.length]=NaviMenu(C_EXP_CUDE,'G_CONS_G_E',function(){return new Fos.CustomsGrid('E');});
+	}
+	
 	if(VERSION==0&&!NR(M1_G+M2_I)) 
 		items[items.length]=NaviMenu(C_IMP_CUDE_E,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','',1);});
 	if(VERSION==0&&!NR(M1_G+M2_E)) 

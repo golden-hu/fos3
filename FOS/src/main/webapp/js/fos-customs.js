@@ -363,9 +363,10 @@ Fos.InspectionDeclTab = function(p,store) {
 Ext.extend(Fos.InspectionDeclTab,Ext.FormPanel);
 
 //报关
-Fos.CustomsGrid = function() {
+Fos.CustomsGrid = function(bizClass) {
 	var a=[];
 	a[a.length]={key:'consBizType',value:BT_G,op:1};
+	a[a.length]={key:'consBizClass',value:bizClass,op:1};
 	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
 	var store = new Ext.data.GroupingStore({
    		url: SERVICE_URL+'?A=CONS_X',baseParams:bp,
@@ -377,22 +378,22 @@ Fos.CustomsGrid = function() {
 		store.reload({params:{start:0,limit:C_PS}});
 	};
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
-	var c1=new Ext.grid.RowNumberer();
-	var c2={header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
-               if(v==1) return '<div class="locked"></div>'; else return '';
-         }};
-   
-    var c3={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS};
-    var c4={header:C_CONS_NO,width:120,dataIndex:"consNo"};
-    var c5={header:C_BOOKER,width:200,dataIndex:"custName"};
-    var c6={header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate};   
-    var c7={header:C_CONS_CLOSE_DATE,dataIndex:"consCloseDate",renderer:formatDate};
-    var c8={header:C_CONTRACT_NO,dataIndex:"consContractNo"};
-    var c9={header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"};
-    var c10={header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};  
-    var c11={header:C_SALES,width:80,dataIndex:"consSalesRepName"};
-    
-    var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11],
+	var c1=new Ext.grid.RowNumberer();    
+    var cm=new Ext.grid.ColumnModel({columns:[
+        c1,
+        {header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
+            if(v==1) return '<div class="locked"></div>'; else return '';
+        }},
+        {header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS},
+        {header:C_CONS_NO,width:120,dataIndex:"consNo"},
+        {header:C_BOOKER,width:200,dataIndex:"custName"},
+        {header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate},
+        {header:C_CONS_CLOSE_DATE,dataIndex:"consCloseDate",renderer:formatDate},
+        {header:C_CUSTOMS_DECLEARATION_NO,dataIndex:"consCustomsDeclearationNo"},
+        {header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"},
+        {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"},
+        {header:C_SALES,width:80,dataIndex:"consSalesRepName"}
+        ],
 		defaults: {sortable: true}});
 	
     showCustomsConsign = function(p){
@@ -407,7 +408,7 @@ Fos.CustomsGrid = function() {
     	}
     };
     
-	this.newConsign = function(bizClass){
+	this.newConsign = function(){
 		var c = Fos.newConsign(bizClass,BT_G,'');
 		showCustomsConsign(c);
 	};
@@ -483,12 +484,8 @@ Fos.CustomsGrid = function() {
 	};
 	
 	var m=M1_G+M3_CONS;
-	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,menu: 
-	{items: [
-	         {text:C_EXP_CUDE,scope:this,handler:function(){this.newConsign('E');}},
-	         {text:C_IMP_CUDE,scope:this,handler:function(){this.newConsign('I');}}
-	         ]}};
 	
+	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.newConsign};
 	var b3={text:C_EDIT,disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b4={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
@@ -500,8 +497,8 @@ Fos.CustomsGrid = function() {
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-'];
        
 	Fos.CustomsGrid.superclass.constructor.call(this, {
-    id:'G_CONS_G',iconCls:'grid',store: store,
-    title:C_CUSTOMS+C_CONS_LIST,header:false,loadMask:true,
+    id:'G_CONS_G_'+bizClass,iconCls:'grid',store: store,
+    title:(bizClass=='I'?C_IMP_CUDE:C_EXP_CUDE)+C_CONS_LIST,header:false,loadMask:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,
 	listeners:{rowdblclick: function(grid, rowIndex, event){
 			var c=grid.getSelectionModel().getSelected();
