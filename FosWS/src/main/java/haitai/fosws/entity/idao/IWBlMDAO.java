@@ -14,6 +14,7 @@ public interface IWBlMDAO {
 
 	public WBlM findById(Integer id);
 
-	public List<WBlM> findByProperties(
-			final Map<String, Object> propertyMap);
+	public List<WBlM> findByProperties(final Map<String, Object> propertyMap);
+	
+	public List<WBlM> saveByRowAction(List<WBlM> entityList);
 }

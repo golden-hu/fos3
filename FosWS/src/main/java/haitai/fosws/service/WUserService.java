@@ -6,9 +6,8 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ActionLogUtil;
-import haitai.fw.util.ConstUtil;
 import haitai.fw.util.CryptoUtil;
-import haitai.fw.util.MessageUtil;
+import haitai.fw.util.RowAction;
 import haitai.fw.util.StringUtil;
 
 import java.util.ArrayList;
@@ -21,13 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class WUserService {
-	private IWUserDAO dao = null;
+	@Autowired
+	private IWUserDAO dao;
 
 	@Transactional
 	public List<WUser> save(List<WUser> entityList) {
 		List<WUser> retList = new ArrayList<WUser>();
 		for (WUser entity : entityList) {
-			if (ConstUtil.ROW_N.equalsIgnoreCase(entity.getRowAction())) {
+			if (RowAction.N==entity.getRowAction()) {
 				entity.setWusrId(null);
 				entity.setWusrPassword(CryptoUtil.MD5Encode(entity
 						.getWusrPassword()));
@@ -35,18 +35,15 @@ public class WUserService {
 				dao.save(entity);
 				retList.add(entity);
 				setLoginInfo(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (RowAction.M==entity.getRowAction()) {
 				WUser retEntity = dao.findById(entity.getWusrId());
-				// 不修改密码, 有单独修改密码服务
-				entity.setWusrPassword(retEntity.getWusrPassword());
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity.getRowAction())) {
+			} else if (RowAction.R==entity.getRowAction()) {
 				WUser delEntity = dao.findById(entity.getWusrId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(
-						MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;
@@ -63,7 +60,7 @@ public class WUserService {
 		String wusrName = (String) queryMap.get("wusrName");
 		String wusrPassword = (String) queryMap.get("wusrPassword");
 		if (StringUtil.isBlank(wusrName) || StringUtil.isBlank(wusrPassword)) {
-			throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_FAIL);
+			throw new BusinessException("fw.login.fail");
 		}
 		wusrPassword = CryptoUtil.MD5Encode(wusrPassword);
 		queryMap.put("wusrPassword", wusrPassword);
@@ -73,7 +70,7 @@ public class WUserService {
 			setLoginInfo(user);
 			return user;
 		} else {
-			throw new BusinessException(MessageUtil.FW_ERROR_LOGIN_FAIL);
+			throw new BusinessException("fw.login.fail");
 		}
 	}
 
@@ -84,14 +81,4 @@ public class WUserService {
 		SessionManager.setAttr(SessionKeyType.USER, entity);
 		ActionLogUtil.log();
 	}
-
-	public IWUserDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IWUserDAO dao) {
-		this.dao = dao;
-	}
-
 }

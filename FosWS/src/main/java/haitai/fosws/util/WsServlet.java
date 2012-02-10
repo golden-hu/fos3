@@ -8,13 +8,12 @@ import haitai.fw.entity.HttpHeader;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.platform.ActionManager;
-import haitai.fw.platform.AppConfig;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.ExceptionUtil;
 import haitai.fw.util.MessageUtil;
-import haitai.fw.util.SpringContextUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.StringUtil;
 import haitai.fw.util.XstreamUtil;
 
@@ -34,7 +33,6 @@ import java.util.Set;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.OptimisticLockException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,8 +65,7 @@ public class WsServlet extends HttpServlet {
 			outputStream = response.getOutputStream();
 			Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
 			if (uid == null && !isPublic(actName)) {
-				throw new BusinessException(
-						MessageUtil.FW_ERROR_SESSION_EXPIRED);
+				throw new BusinessException("fw.session.expired");
 			} else {
 				String json = readJson(inputStream, paramMap);
 				logger.debug(json);
@@ -101,15 +98,13 @@ public class WsServlet extends HttpServlet {
 						ConstUtil.XML_ENCODING_UTF8);
 				bufferedWrite(outputStream, byteResult);
 			} catch (Exception e1) {
-				logger.error(MessageUtil
-						.getMessage(MessageUtil.FW_ERROR_UNKNOWN), e1);
+				logger.error(MessageUtil.getMessage("fw.unknown"),e1);
 			}
 		} finally {
 			try {
 				closeStream(inputStream, outputStream);
 			} catch (IOException e) {
-				logger.error(MessageUtil
-						.getMessage(MessageUtil.FW_ERROR_UNKNOWN));
+				logger.error(MessageUtil.getMessage("fw.unknown"),e);
 			}
 			SessionManager.unregSession();
 		}
@@ -119,7 +114,7 @@ public class WsServlet extends HttpServlet {
 			throws Exception {
 		FosResponse fosResponse = new FosResponse();
 		Action action = ActionManager.getAction(actName);
-		Object service = SpringContextUtil.getBean(action.getActClass());
+		Object service = SpringContextHolder.getBean(action.getActService());
 		Method[] methods = service.getClass().getMethods();
 		for (Method method : methods) {
 			if (method.getName().equalsIgnoreCase(action.getActMethod())) {
@@ -143,8 +138,7 @@ public class WsServlet extends HttpServlet {
 					fosResponse.addData(retObj);
 				}
 				fosResponse.setCode(0);
-				fosResponse.setMsg(MessageUtil
-						.getMessage(MessageUtil.FW_SUCCESS));
+				fosResponse.setMsg(MessageUtil.getMessage("fw.success"));
 				retObj = null;
 			}
 		}
@@ -243,7 +237,7 @@ public class WsServlet extends HttpServlet {
 
 	private FosResponse buildErrorResponse(Exception e) {
 		int errCode = -1;
-		if (MessageUtil.FW_ERROR_SESSION_EXPIRED.equals(e.getMessage()))
+		if ("fw.session.expired".equals(e.getMessage()))
 			errCode = -2;
 		String msg = buildErrorMessage(e);
 		FosResponse fosResponse = new FosResponse();
@@ -262,23 +256,21 @@ public class WsServlet extends HttpServlet {
 	private String buildErrorMessage(Exception e) {
 		String msg = null;
 		if (ExceptionUtil.contains(EntityExistsException.class, e)) {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_ENTITY_EXIST);
+			msg = MessageUtil.getMessage("fw.db.entity_exist");
 		} else if (ExceptionUtil.contains(OptimisticLockException.class, e)) {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_OPTIMISTIC_LOCK);
+			msg = MessageUtil.getMessage("fw.db.optimistic_lock");
 		} else if (ExceptionUtil
 				.contains(ConstraintViolationException.class, e)) {
-			msg = MessageUtil
-					.getMessage(MessageUtil.FW_ERROR_CONSTRAINT_VIOLATION);
-		} else if (ExceptionUtil.contains(BusinessException.class, e)) {
-			Throwable b = ExceptionUtil.getTypeException(
-					BusinessException.class, e);
-			if (b != null && MessageUtil.msgSet.contains(b.getMessage())) {
+			msg = MessageUtil.getMessage("fw.db.constraint_violation");
+		}  else if (ExceptionUtil.contains(BusinessException.class, e)) {
+			Throwable b = ExceptionUtil.getTypeException(BusinessException.class, e);
+			if (b != null) {
 				msg = MessageUtil.getMessage(b.getMessage());
 			} else {
 				msg = e.getMessage();
 			}
 		} else {
-			msg = MessageUtil.getMessage(MessageUtil.FW_ERROR_UNKNOWN);
+			msg = MessageUtil.getMessage("fw.unknown");
 		}
 		return msg;
 	}
@@ -312,7 +304,4 @@ public class WsServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void init() throws ServletException {
-		AppConfig.init(getServletContext());
-	}
 }

@@ -6,6 +6,7 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.MessageUtil;
+import haitai.fw.util.RowAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,29 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class WConsignService {
-	private IWConsignDAO dao = null;
+	@Autowired
+	private IWConsignDAO dao;
 	
 	@Transactional
 	public List<WConsign> save(List<WConsign> entityList) {
 		List<WConsign> retList = new ArrayList<WConsign>();
 		for (WConsign entity : entityList) {
-			if (ConstUtil.ROW_N
-					.equalsIgnoreCase(entity.getRowAction())) {
+			if (RowAction.N==entity.getRowAction()) {
 				entity.setWconId(null);
 				entity.setWconNo(getConsignNo());
 				dao.save(entity);
 				retList.add(entity);
-			} else if (ConstUtil.ROW_M.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (RowAction.M==entity.getRowAction()) {
 				retList.add(dao.update(entity));
-			} else if (ConstUtil.ROW_R.equalsIgnoreCase(entity
-					.getRowAction())) {
+			} else if (RowAction.R==entity.getRowAction()) {
 				WConsign delEntity = dao.findById(entity.getWconId());
-				delEntity.setRowAction(ConstUtil.ROW_R);
+				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
 			} else {
-				throw new BusinessException(
-						MessageUtil.FW_ERROR_ROW_ACTION_NULL);
+				throw new BusinessException("fw.row_action_null");
 			}
 		}
 		return retList;
@@ -58,12 +56,4 @@ public class WConsignService {
 		return no;
 	}
 
-	public IWConsignDAO getDao() {
-		return dao;
-	}
-
-	@Autowired
-	public void setDao(IWConsignDAO dao) {
-		this.dao = dao;
-	}
 }

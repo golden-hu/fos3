@@ -20,4 +20,6 @@ public interface IWConsignDAO {
 	@SuppressWarnings("unchecked")
 	public abstract List complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap);
+	
+	public List<WConsign> saveByRowAction(List<WConsign> entityList);
 }

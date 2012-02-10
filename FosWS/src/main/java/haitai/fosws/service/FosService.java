@@ -23,12 +23,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FosService {
-	private IFConsignDAO consignDao = null;
-	private IFBlDAO blDao = null;
-	private IGVoyageDAO voyageDao = null;
-	private ISBillDAO billDao = null;
-	private ISBillItemDAO billItemDao = null;
-	private IFTaskDAO taskDao = null;
+	@Autowired
+	private IFConsignDAO consignDao;
+	
+	@Autowired
+	private IFBlDAO blDao;
+	
+	@Autowired
+	private IGVoyageDAO voyageDao;
+	
+	@Autowired
+	private ISBillDAO billDao;
+	
+	@Autowired
+	private ISBillItemDAO billItemDao;
+	
+	@Autowired
+	private IFTaskDAO taskDao;
 
 	@Transactional(readOnly = true)
 	public List<FConsign> complexQueryConsign(List<FosQuery> conditions,
@@ -63,59 +74,4 @@ public class FosService {
 	public List<FTask> queryTask(Map<String, Object> queryMap) {
 		return taskDao.findByProperties(queryMap);
 	}
-
-	public IFConsignDAO getConsignDao() {
-		return consignDao;
-	}
-
-	@Autowired
-	public void setConsignDao(IFConsignDAO consignDao) {
-		this.consignDao = consignDao;
-	}
-
-	public IFBlDAO getBlDao() {
-		return blDao;
-	}
-
-	@Autowired
-	public void setBlDao(IFBlDAO blDao) {
-		this.blDao = blDao;
-	}
-
-	public IGVoyageDAO getVoyageDao() {
-		return voyageDao;
-	}
-
-	@Autowired
-	public void setVoyageDao(IGVoyageDAO voyageDao) {
-		this.voyageDao = voyageDao;
-	}
-
-	public ISBillDAO getBillDao() {
-		return billDao;
-	}
-
-	@Autowired
-	public void setBillDao(ISBillDAO billDao) {
-		this.billDao = billDao;
-	}
-
-	public ISBillItemDAO getBillItemDao() {
-		return billItemDao;
-	}
-
-	@Autowired
-	public void setBillItemDao(ISBillItemDAO billItemDao) {
-		this.billItemDao = billItemDao;
-	}
-
-	public IFTaskDAO getTaskDao() {
-		return taskDao;
-	}
-
-	@Autowired
-	public void setTaskDao(IFTaskDAO taskDao) {
-		this.taskDao = taskDao;
-	}
-
 }
