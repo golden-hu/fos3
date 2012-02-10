@@ -109,6 +109,7 @@
 	{name:'consInspReg',type:'boolean',convert:function(v){return v==1;}},
 	{name:'consRequireVerification',type:'boolean',convert:function(v){return v==1;}},
 	{name:'consRequireRelief',type:'boolean',convert:function(v){return v==1;}},
+	'consLoadFactory',
 	'deptId','userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction','attr1','attr2','attr3','attr4','attr5','attr6','attr7','attr8','attr9','attr10',
 	'sumR','sumP','grossProfit','grossProfitRate','sumRUsd','sumRUsdInvoice','sumRUsdWriteOff','sumRCny',

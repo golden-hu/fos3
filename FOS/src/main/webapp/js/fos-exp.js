@@ -1068,7 +1068,10 @@ Fos.BookTab = function(p) {
 	var r6={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,tabIndex:6,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textarea',anchor:'95%'}]};
 	var r7={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:7,name:'consTrackRemarks',value:p.get('consTrackRemarks'),xtype:'textarea',anchor:'95%'}]};
 	var r8={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,tabIndex:8,name:'consTrackLoadDate',value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'50%'}]};
-	var t42={title:C_TRAN_REQUIREMENT,layout:'column',labelWidth:70,collapsible:true,items:[r3,r4,r5,r6,r7,r8]};
+	var txtLoadFactory = {columnWidth:.5,layout:'form',hidden:p.get('consBizClass')!=BC_E,border:false,items:[
+	    	{fieldLabel:C_LOAD_FACTORY,name:'consLoadFactory',value:p.get('consLoadFactory'),xtype:'textfield',anchor:'95%'}]};
+	
+	var t42={title:C_TRAN_REQUIREMENT,layout:'column',labelWidth:70,collapsible:true,items:[r3,r4,r5,r6,r7,r8,txtLoadFactory]};
 			
 	var r9={columnWidth:.5,layout:'form',border:false,items:[
 		{fieldLabel:C_WAREHOUSE,tabIndex:9,name:'consWarehouseName',value:p.get('consWarehouseName'),store:getCS(),enableKeyEvents:true,
@@ -1100,7 +1103,7 @@ Fos.BookTab = function(p) {
          		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consCfs','');p.set('consCfsName','');}},
          		select:function(c,r,i){p.set('consCfs',r.get('custId'));},
 				keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}}]};
-						
+	
 	var t43={title:p.get('consBizType')==BT_B?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),layout:'column',collapsible:true,
 			labelWidth:70,items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14]:[r9,r10,r11,r12,r13,r14,r15]};
 	

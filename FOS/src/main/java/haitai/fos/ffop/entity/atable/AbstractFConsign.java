@@ -95,7 +95,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Date consTrackLoadDate;
 	private String consTrackLoadAddress;
 	private String consTrackRemarks;
-	private String consTrackTel;
+	private String consTrackTel;	
 	private Integer consDoAgency;
 	private String consDoAgencyName;
 	private Integer consBookingAgency;
@@ -353,6 +353,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consCustomsDeclearationNo;
 	private Short consRequireVerification;
 	private Short consRequireRelief;
+	
+	private String consLoadFactory;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -3389,4 +3391,13 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consCustomsDeclearDate = consCustomsDeclearDate;
 	}
 		
+	@Column(name = "CONS_LOAD_FACTORY", length = 64)
+	public String getConsLoadFactory() {
+		return this.consLoadFactory;
+	}
+
+	public void setConsLoadFactory(String consLoadFactory) {
+		this.consLoadFactory = consLoadFactory;
+	}
+	
 }
