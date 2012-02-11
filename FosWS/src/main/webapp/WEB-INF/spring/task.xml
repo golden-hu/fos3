@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<task:scheduled-tasks scheduler="poolTaskScheduler">
+		<task:scheduled ref="PMessageService" method="send" fixed-rate="300000"/>
+		<task:scheduled ref="PUserService" method="clearTimeoutUsers" fixed-rate="300000"/>
+		<task:scheduled ref="FDocService" method="updateReleasableFlag" cron="0 30 23 * * *"/>
+		<task:scheduled ref="FConsignService" method="autoUpdateStatusLock" cron="0 30 2 * * *"/>
+		<task:scheduled ref="ffopScheduleService" method="alertWriteOffDoc" cron="0 40 2 * * *"/>
+		<task:scheduled ref="ffopScheduleService" method="alertSalesOverdue" cron="0 45 2 * * *"/>
+	</task:scheduled-tasks>
+	<task:scheduler id="poolTaskScheduler" pool-size="10"/>
+</beans>
