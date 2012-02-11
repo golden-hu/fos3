@@ -1,8 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 	<persistence-unit name="foswspu" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>haitai.fosws.entity.table.WBlM</class>
+		<class>haitai.fosws.entity.table.WConsign</class>
+		<class>haitai.fosws.entity.table.WInquiry</class>
+		<class>haitai.fosws.entity.table.WUser</class>
+		<class>haitai.fosws.entity.atable.AbstractWBlM</class>
+		<class>haitai.fosws.entity.atable.AbstractWConsign</class>
+		<class>haitai.fosws.entity.atable.AbstractWInquiry</class>
+		<class>haitai.fosws.entity.atable.AbstractWUser</class>
+		<class>haitai.fos.sys.entity.table.PUserSetting</class>
+		<class>haitai.fos.sys.entity.table.PUserRole</class>
+		<class>haitai.fos.sys.entity.table.PUser</class>
+		<class>haitai.fos.sys.entity.table.PSerialRule</class>
+		<class>haitai.fos.sys.entity.table.PSerialNo</class>
+		<class>haitai.fos.sys.entity.table.PRoleFunction</class>
+		<class>haitai.fos.sys.entity.table.PRole</class>
+		<class>haitai.fos.sys.entity.table.PFunction</class>
+		<class>haitai.fos.sys.entity.table.PCompanyConfig</class>
+		<class>haitai.fos.sys.entity.table.PCompany</class>
+		<class>haitai.fos.sys.entity.table.PActionLog</class>
+		<class>haitai.fos.sys.entity.table.PTableInfo</class>
 		<class>haitai.fos.sys.entity.table.Action</class>
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>		
+		<class>haitai.fos.sys.entity.atable.AbstractPUserSetting</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPUserRole</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPUser</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPRoleFunction</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPRole</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPFunction</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPCompanyConfig</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPCompany</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPActionLog</class>
+		<class>haitai.fos.sys.entity.atable.AbstractPTableInfo</class>
+		<class>haitai.fos.general.entity.table.GPackage</class>
+		<class>haitai.fos.general.entity.table.GPaymentTerm</class>
+		<class>haitai.fos.general.entity.table.GPort</class>
+		<class>haitai.fos.general.entity.table.GShippingLine</class>
+		<class>haitai.fos.general.entity.table.GTransTerm</class>
+		<class>haitai.fos.general.entity.table.GVoyage</class>
+		<class>haitai.fos.general.entity.atable.AbstractGPackage</class>
+		<class>haitai.fos.general.entity.atable.AbstractGPaymentTerm</class>
+		<class>haitai.fos.general.entity.atable.AbstractGPort</class>
+		<class>haitai.fos.general.entity.atable.AbstractGShippingLine</class>
+		<class>haitai.fos.general.entity.atable.AbstractGTransTerm</class>
+		<class>haitai.fos.general.entity.atable.AbstractGVoyage</class>
+		<class>haitai.fos.ffop.entity.table.FConsign</class>
+		<class>haitai.fos.ffop.entity.table.FBl</class>
+		<class>haitai.fos.ffop.entity.table.FTask</class>
+		<class>haitai.fos.ffop.entity.atable.AbstractFConsign</class>
+		<class>haitai.fos.ffop.entity.atable.AbstractFBl</class>
+		<class>haitai.fos.ffop.entity.atable.AbstractFTask</class>
+		<class>haitai.fos.ffse.entity.table.SBill</class>
+		<class>haitai.fos.ffse.entity.table.SBillItem</class>
+		<class>haitai.fos.ffse.entity.atable.AbstractSBill</class>
+		<class>haitai.fos.ffse.entity.atable.AbstractSBillItem</class>
 		<properties>
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
