@@ -14,13 +14,13 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<bean id="springContextHolder" class="haitai.fw.util.SpringContextHolder"/>
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		  p:persistenceUnitName="FOSPU" p:dataSource-ref="dataSource"/>
+		  p:persistenceUnitName="foswspu" p:dataSource-ref="dataSource"/>
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
 		  p:entityManagerFactory-ref="entityManagerFactory"/>
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
 		  p:basename="classpath:exception" p:useCodeAsDefaultMessage="true"/>
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		  p:driverClassName="org.logicalcobwebs.proxool.ProxoolDriver" p:url="proxool.fosdb"/>
+		  p:driverClassName="org.logicalcobwebs.proxool.ProxoolDriver" p:url="proxool.foswsdb"/>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<context:component-scan base-package="haitai"/>
 	<aop:aspectj-autoproxy/>
@@ -28,7 +28,6 @@
 	<bean id="serviceAspect" class="haitai.fw.aop.ServiceAspect"/>
 	<bean id="daoAspect" class="haitai.fw.aop.DaoAspect"/>
 	<util:properties id="appConfig" location="/WEB-INF/fosws.properties"/>
-	<util:properties id="licenseProps" location="/WEB-INF/license"/>
 	<context:property-placeholder location="/WEB-INF/fosws.properties"/>
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
 		  p:host="${mail.host}" p:port="${mail.port}" p:username="${mail.username}" p:password="${mail.password}"
@@ -38,5 +37,5 @@
 		<entry key="mail.stmp.auth" value="true"/>
 		<entry key="mail.stmp.timeout" value="25000"/>
 	</util:map>
-	<import resource="task.xml"/>
+	<util:properties id="licenseProps" location="/WEB-INF/license"/>
 </beans>
