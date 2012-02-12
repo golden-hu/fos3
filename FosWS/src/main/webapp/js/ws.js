@@ -126,7 +126,7 @@ WInquiry = Ext.data.Record.create(['id','winqId','winqCargoDesc','winqCargoPacka
         'winqReceiptPlace','winqDeliveryPlace','winqPol','winqPolEn','winqPod','winqPodEn',
         'tranId','tranCode','pateId','pateName','winqBizType','winqRemarks',
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
-     	{name:'modiryTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+     	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	'winqStatus','wusrId','wusrFirstName','wusrMobile','wusrCompanyName','wusrTel','compCode','version','rowAction']);
 GTransTerm = Ext.data.Record.create(['id','tranId','tranCode','tranName','tranBulkFlag','tranContFlag','compCode','active','version','rowAction']);
 GPaymentTerm = Ext.data.Record.create(['id','pateId','pateCode','pateName','compCode','active','version','rowAction']);
@@ -267,27 +267,14 @@ var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return '
 var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return ''};
 var getWCON_ST=function(v){if(v==0) return C_WS_WCON_ACCEPTED; else return C_WS_WCON_NOT_ACCEPTED;};
 function CHKCLM(t,d,w){return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});};
-var QTX=function(a){
-	var x='';
-	for(var i=0;i<a.length;i++)
-	{
-		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n'
-	}
-	return x;
-};
-var QTJ=function(a){return {fosQuery:a};};
+
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
 function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
-
-var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
-var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.JsonReader({root:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
-var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.JsonReader({root:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
-
 var LP=function(f,e){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
-			var a=[];var op=1;
+			var a=[];
 			a[a.length]={key:'portNameEn',value:q+'%',op:LI};
 			f.store.baseParams=a.length>0?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
      		f.store.reload();f.expand();
@@ -297,28 +284,7 @@ var LP=function(f,e){
 };
 
 
-Ext.ux.TabCloseMenu = function(){
-    var tabs, menu, ctxItem;
-    this.init = function(tp){tabs = tp;tabs.on('contextmenu', onContextMenu);};
-    function onContextMenu(ts, item, e){
-        if(!menu){
-            menu = new Ext.menu.Menu([
-            {id: tabs.id + '-close',text: 'Close Tab',handler : function(){tabs.remove(ctxItem);}},
-            {id: tabs.id + '-close-others',text: 'Close Other Tabs',handler : function(){
-            	tabs.items.each(function(item){if(item.closable && item != ctxItem){tabs.remove(item);}});}
-            }]);
-        }
-        ctxItem = item;
-        var items = menu.items;
-        items.get(tabs.id + '-close').setDisabled(!item.closable);
-        var disableOthers = true;
-        tabs.items.each(function(){
-            if(this != item && this.closable){disableOthers = false;return false;}
-        });
-        items.get(tabs.id + '-close-others').setDisabled(disableOthers);
-        menu.showAt(e.getPoint());
-    }
-};
+
 var RTJ = function(r,rt){
 	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
@@ -343,6 +309,16 @@ var RTJ = function(r,rt){
 };
 var FOSJ=function(x){return {FosRequest:{data:x}}};
 
+var QTX=function(a){
+	var x='';
+	for(var i=0;i<a.length;i++)
+	{
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n'
+	}
+	return x;
+};
+var QTJ=function(a){return {fosQuery:a};};
+
 LoginWin = function() {
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',items:[
     	{fieldLabel:C_WS_USR_NAME,name:'wusrName',xtype:'textfield',anchor:'90%'},
@@ -360,7 +336,6 @@ LoginWin = function() {
 				sessionStorage.setItem("CUST_ID",user.WUser[0].custId);				
 				CUSER=user.WUser[0].wusrId;
 				CCUST=user.WUser[0].custId;
-				alert('登录成功！');
 				this.close();
 			},
 			failure: function(r){
@@ -373,7 +348,6 @@ LoginWin = function() {
 	this.reg=function(){
 		var w= new RegWin();
 		w.show();
-		//this.close();
 	};
     LoginWin.superclass.constructor.call(this, {title:'用户登录',modal:true,width:300,closable:false,
         height:130,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
@@ -417,7 +391,6 @@ RegWin = function() {
 				var user=Ext.util.JSON.decode(r.responseText);
 				sessionStorage.setItem("USER_ID",user.WUser[0].wusrId);
 				sessionStorage.setItem("CUST_ID",user.WUser[0].custId);
-				
 				CUSER=user.WUser[0].wusrId;
 				alert('注册成功！');
 			},
@@ -427,21 +400,33 @@ RegWin = function() {
 	};	
     RegWin.superclass.constructor.call(this, {title:'用户注册',modal:true,width:400,
         height:470,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
-        buttons:[{text:"注册",scope:this,handler:this.reg},{text:"取消",scope:this,handler:this.close}]
+        buttons:[{text:"注册",scope:this,handler:this.reg},
+                 {text:"取消",scope:this,handler:this.close}]
         }); 
 };
 Ext.extend(RegWin,Ext.Window);
+
 InquiryWin = function(p) {
+	var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',
+		reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),
+		sortInfo:{field:'tranId',direction:'ASC'}});
+	tranStore.load();
+	
 	var frm = new Ext.form.FormPanel({labelWidth:80,bodyStyle:'padding:5px',items:[    	
-    	{fieldLabel:C_POL,itemCls:'required',name:'winqPolEn',value:p.get('winqPolEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
+    	{fieldLabel:C_POL,itemCls:'required',name:'winqPolEn',value:p.get('winqPolEn'),
+    		store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',
+    		typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('winqPol','');}},
             	select:function(c,r,i){p.set('winqPol',r.get('portId'));
             	this.find('name','winqReceiptPlace')[0].setValue(r.get('portNameEn'));},
              	keydown:{fn:LP,buffer:BF}}},
-        {fieldLabel:'出发地',name:'winqReceiptPlace',value:p.get('winqReceiptPlace'),xtype:'textfield',anchor:'95%'},
-        {fieldLabel:C_POD,itemCls:'required',name:'winqPodEn',value:p.get('winqPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
+        {fieldLabel:'出发地',name:'winqReceiptPlace',value:p.get('winqReceiptPlace'),
+             xtype:'textfield',anchor:'95%'},
+        {fieldLabel:C_POD,itemCls:'required',name:'winqPodEn',value:p.get('winqPodEn'),
+             store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',
+             typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
 			tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
 			listeners:{scope:this,
 				blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('winqPod','');}},
@@ -449,19 +434,27 @@ InquiryWin = function(p) {
 	        		p.set('winqPod',r.get('portId'));
 	            	this.find('name','winqDeliveryPlace')[0].setValue(r.get('portNameEn'));},
 	         	keydown:{fn:LP,buffer:BF}}},
-    	{fieldLabel:'目的地',name:'winqDeliveryPlace',value:p.get('winqDeliveryPlace'),xtype:'textfield',anchor:'95%'},    		
-    	{fieldLabel:'运输条款',itemCls:'required',tabIndex:17,name:'tranId',value:p.get('tranId'),store:tranStore,xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+    	{fieldLabel:'目的地',name:'winqDeliveryPlace',value:p.get('winqDeliveryPlace'),
+	         xtype:'textfield',anchor:'95%'},    		
+    	{fieldLabel:'运输条款',itemCls:'required',tabIndex:17,name:'tranId',value:p.get('tranId'),
+    		store:tranStore,xtype:'combo',displayField:'tranCode',valueField:'tranId',
+    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranId','');}},
     		select:function(c,r,i){p.set('tranCode',r.get('tranCode'));}}},    	
-    	{fieldLabel:'货物描述',itemCls:'required',name:'winqCargoDesc',value:p.get('winqCargoDesc'),xtype:'textarea',height:100,anchor:'95%'},
-    	{fieldLabel:'货物毛重',itemCls:'required',name:'winqCargoGw',value:p.get('winqCargoGw'),xtype:'textfield',anchor:'95%'},
-    	{fieldLabel:'货物体积',name:'winqCargoMeasurement',value:p.get('winqCargoMeasurement'),xtype:'textfield',anchor:'95%'},
+    	{fieldLabel:'货物描述',itemCls:'required',name:'winqCargoDesc',value:p.get('winqCargoDesc'),
+    		xtype:'textarea',height:100,anchor:'95%'},
+    	{fieldLabel:'货物毛重',itemCls:'required',name:'winqCargoGw',value:p.get('winqCargoGw'),
+    		xtype:'textfield',anchor:'95%'},
+    	{fieldLabel:'货物体积',name:'winqCargoMeasurement',value:p.get('winqCargoMeasurement'),
+    		xtype:'textfield',anchor:'95%'},
     	{fieldLabel:'备注',name:'winqRemarks',value:p.get('tranId'),xtype:'textarea',height:100,anchor:'95%'}
     	]});
     	
 	this.save = function(){			
-		p.beginEdit();frm.getForm().updateRecord(p);p.endEdit();
+		p.beginEdit();
+		frm.getForm().updateRecord(p);
+		p.endEdit();
 		if(!p.get('winqPolEn')){alert('装货港不能为空');frm.find('name','winqPolEn')[0].focus();return;}
 		if(!p.get('winqPodEn')){alert('卸货港不能为空');frm.find('name','winqPodEn')[0].focus();return;}
 		if(!p.get('tranId')){alert('运输条款不能为空');frm.find('name','tranId')[0].focus();return;}
@@ -476,10 +469,11 @@ InquiryWin = function(p) {
 				var inq=res.WInquiry[0];
 				p.set('version',inq.version);
 				p.set('winqId',inq.prshId);
-				alert('操作成功！');
+				alert('保存成功！');
 			},
 			failure: function(r){
-				var res=Ext.util.JSON.decode(r.responseText);alert(res.FosResponse.msg);},
+				var res=Ext.util.JSON.decode(r.responseText);
+				alert(res.FosResponse.msg);},
 		jsonData:data});
 	};	
     InquiryWin.superclass.constructor.call(this, {title:'网上询价',modal:true,width:500,
@@ -489,7 +483,8 @@ InquiryWin = function(p) {
 };
 Ext.extend(InquiryWin,Ext.Window);
 
-var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',layoutOnTabChange:true,plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
+var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',
+	layoutOnTabChange:true,enableTabScroll:true,activeTab:0});
 
 InquiryGrid = function() {	
     var store = new Ext.data.Store({
@@ -514,15 +509,18 @@ InquiryGrid = function() {
 	cm.defaultSortable=true;
 	var re={rowdblclick:function(g,r,e){this.edit();}};   
     this.add = function(){
-    	var p = new WInquiry({winqId:0,winqPolEn:'',winqPodEn:'',winqDeliveryPlace:'',winqReceiptPlace:'',tranCode:'',pateName:'',
-		winqBizType:1,winqCargoGw:'',winqCargoMeasurement:'',compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
+    	var p = new WInquiry({winqId:0,winqBizType:1,compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
        	var win = new InquiryWin(p);    	
 		win.show();
     };
     this.edit = function(){
     	var p = sm.getSelected();
-    	if(p){var win = new InquiryWin(p);win.show();}
-    	else XMG.alert(SYS,M_NO_DATA_SELECTED);
+    	if(p){
+    		var win = new InquiryWin(p);
+    		win.show();
+    	}
+    	else 
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
 	this.remove=function(){
 		if (sm.getSelections().length > 0)
@@ -537,33 +535,18 @@ InquiryGrid = function() {
         	});
         else XMG.alert(SYS,M_R_P);
 	};
-	
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'nmrbf',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('G_CUST');
-		 	if(tc&&tc==T_MAIN.getActiveTab()){			 	
-			 		switch(k) {
-					case Ext.EventObject.N:
-						if(!NR(M1_V+V_CUST+F_M)) this.add();break;
-					case Ext.EventObject.R:
-						if(!NR(M1_V+V_CUST+F_R)) this.remove();break;
-					case Ext.EventObject.M:
-						if(!NR(M1_V+V_CUST+F_V)) this.edit();break;
-			 		}
-		 	}
-		},stopEvent:true,scope:this});
     InquiryGrid.superclass.constructor.call(this, {
     id:'G_WINQ',store: store,iconCls:'grid',width:600,height:300,title:'询价列表',header:false,closable:true,
     sm:sm,cm:cm,listeners:re,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
-	tbar:[{text:C_ADD+'(N)',iconCls:'add',handler:this.add}, '-', 
-		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit}, '-',
-		{text:C_REMOVE+'(R)',iconCls:'remove',handler:this.remove},'->',
+	tbar:[{text:C_ADD,iconCls:'add',handler:this.add}, '-', 
+		{text:C_EDIT,iconCls:'option',handler:this.edit}, '-',
+		{text:C_REMOVE,iconCls:'remove',handler:this.remove},'->',
 		new Ext.PagingToolbar({pageSize:20,store:store})]
     }); 
 };
 Ext.extend(InquiryGrid,Ext.grid.GridPanel);
+
 WconGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_WCON_Q',
@@ -588,7 +571,7 @@ WconGrid = function() {
 		{header:'货物毛重',dataIndex:'consTotalGrossWeight',width:100},
 		{header:'货物体积',dataIndex:'consTotalMeasurement',width:100}]);
 	cm.defaultSortable=true;
-	var re={rowdblclick:function(g,r,e){this.edit();}};   
+	var re={rowdblclick:function(g,r,e){this.edit();}};
     this.add = function(){
     	var rid=GGUID();
     	var p = new WConsign({wconId:rid,wconNo:'N'+rid,consDate:new Date(),consBizClass:'E',consShipType:'FCL',consServiceRequired:'',
@@ -627,6 +610,12 @@ WconGrid = function() {
 Ext.extend(WconGrid,Ext.grid.GridPanel);
 
 WconWin = function(p,store) {
+	var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
+	tranStore.load();
+	var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.JsonReader({root:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
+	pateStore.load();
+	var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.JsonReader({root:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
+	packStore.load();
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',layout:'column',border:false,items:[
 		{columnWidth:.6,layout:'form',border:false,defaultType:'textfield',items: [
 			{fieldLabel:C_SHIPPER,itemCls:'required',name:'consShipper',value:p.get('consShipper'),xtype:'textarea',height:100,anchor:'95%'},
@@ -1405,21 +1394,10 @@ Ext.onReady(function(){
 	var viewport = new Ext.Viewport({layout:'border',items:[tBar,menuPanel,T_MAIN]});
 	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));	
 	
-	viewport.doLayout();
-	
+	viewport.doLayout();	
 	if(!sessionStorage.getItem("USER_ID")){
 		var win= new LoginWin();
 		win.show();
-	}
-	else{
-		//tranStore.load();
-		//pateStore.load();
-		//packStore.load();
-	}
-	
+	}	
 });
-
-
-//
-
 
