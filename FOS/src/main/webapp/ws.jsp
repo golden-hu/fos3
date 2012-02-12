@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
-<script type="text/javascript" src="adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="ext-all.js"></script>
-<script type="text/javascript" src="ws.js"></script>
+<script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<script type="text/javascript" src="js/ws.js"></script>
 <head>
 <title>FOS3.0网上服务系统  上海海钛软件科技有限公司</title>
 <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />

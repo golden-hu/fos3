@@ -38,6 +38,8 @@ function getBulkPanel(){
 			items[items.length]=NaviMenu(C_EXP_BULK,'CONS_E_B',function(){return new Fos.ConsignGrid('E','B','');});
 		if(!NR(M1_B+M2_I)) 
 			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('I','B','');});
+		if(!NR(M1_B+M2_BV)) 
+			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return Fos.showG_VOYA();});
 		
 		return new Ext.Panel({title:C_BULK,collapsible:true,layout:'fit',
 			items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
@@ -129,9 +131,12 @@ function getCusPanel(){
 };
 function getWsPanel(){
 	var items=[];
-	if(!NR(M1_W+W_WUSR)) items[items.length]=NaviMenu(C_WS_USER,'G_WUSR',function(){return new Fos.WusrGrid();});
-	if(!NR(M1_W+W_WINQ)) items[items.length]=NaviMenu(C_WS_INQUIRY_LIST,'G_WINQ',function(){return new Fos.WinqGrid();});
-	if(!NR(M1_W+W_CONS)) items[items.length]=NaviMenu(C_WS_CONS_LIST,'G_WCON',function(){return new Fos.WconGrid();});
+	//if(!NR(M1_W+W_WUSR)) 
+		items[items.length]=NaviMenu(C_WS_USER,'G_WUSR',function(){return new Fos.WusrGrid();});
+	//if(!NR(M1_W+W_WINQ)) 
+		items[items.length]=NaviMenu(C_WS_INQUIRY_LIST,'G_WINQ',function(){return new Fos.WinqGrid();});
+	//if(!NR(M1_W+W_CONS)) 
+		items[items.length]=NaviMenu(C_WS_CONS_LIST,'G_WCON',function(){return new Fos.WconGrid();});
 	return   new Ext.Panel({title:C_WS,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -172,7 +177,8 @@ function getPMenu(){
 	if(!NR(M1_V)) items[items.length]=getCusPanel();
 	if(!NR(M1_J)) items[items.length]=createGMTree();
 	if(!NR(M1_P)) items[items.length]=getSysPanel();
-	if(VERSION==1&&!NR(M1_W)) items[items.length]=getWsPanel();
+	//if(VERSION==1&&!NR(M1_W)) 
+		items[items.length]=getWsPanel();
 	return new Ext.Panel({
 		id:'AP',title:C_SYSTEM_MENU,region:'west',split:true,collapsible: true,collapseMode: 'mini',
 		layout:'accordion',width:200,minWidth:150,maxSize: 400,
