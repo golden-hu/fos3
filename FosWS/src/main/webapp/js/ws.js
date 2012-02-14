@@ -4,7 +4,11 @@ SERVICE_URL=wl.substr(0,idx)+'/MainServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 
 var GUID=0;
-var GGUID=function(k){if(!k) GUID=GUID-1;return GUID;};
+var GGUID=function(k){
+	if(!k) 
+		GUID=GUID-1;
+	return GUID;
+};
 var CUSER=sessionStorage.getItem('USER_ID');
 var CCUST=sessionStorage.getItem('CUST_ID');
 
@@ -80,8 +84,6 @@ var C_HARBOUR='港区';
 var C_SHLI='航线';
 var C_BL_NO='提单号';
 var C_TO='至';
-var BIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未对账'],['1','已对账'],['2','已作废']]});
-getBIST = function(v){if(v>=0) return BIST_S.getById(v).get('NAME'); else return ''};
 var C_BILL_NO='对账单号';
 var C_BILL_OBJECT='对账单位';
 var C_AMOUNT='金额';
@@ -258,15 +260,47 @@ Ext.grid.CheckColumn = function(config){
 	this.renderer = this.renderer.createDelegate(this);
 };
 Ext.extend(Ext.grid.CheckColumn, Ext.util.Observable);
+
 var S_BC=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
 var S_ST=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
 var S_BT=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','海运'],['A','空运']]});
 
-var getWS_BC=function(v){if(v) return S_BC.getById(v).get('NAME'); else return ''};
-var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return ''};
-var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return ''};
-var getWCON_ST=function(v){if(v==0) return C_WS_WCON_ACCEPTED; else return C_WS_WCON_NOT_ACCEPTED;};
-function CHKCLM(t,d,w){return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});};
+var getWS_BC=function(v){
+	if(v) 
+		return S_BC.getById(v).get('NAME'); 
+	else 
+		return '';
+};
+
+var getWS_BT=function(v){
+	if(v) 
+		return S_BT.getById(v).get('NAME'); 
+	else return '';
+};
+var getWS_ST=function(v){
+	if(v) 
+		return S_ST.getById(v).get('NAME'); 
+	else 
+		return '';
+};
+
+var getWCON_ST=function(v){
+	if(v==0) 
+		return C_WS_WCON_NOT_ACCEPTED; 
+	else 
+		return C_WS_WCON_ACCEPTED;
+};
+
+function CHKCLM(t,d,w){
+	return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});
+};
+
+var BIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未对账'],['1','已对账'],['2','已作废']]});
+getBIST = function(v){
+	if(v>=0) 
+		return BIST_S.getById(v).get('NAME'); 
+	else return '';
+};
 
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
 function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
@@ -283,8 +317,6 @@ var LP=function(f,e){
 	}
 };
 
-
-
 var RTJ = function(r,rt){
 	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
@@ -294,10 +326,10 @@ var RTJ = function(r,rt){
 		var n = item.name;
 		var ty = item.type;		
 		if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){			
-			if(ty=='date'){
+			if(ty==Ext.data.Types.DATE){
 				v[n]=r.get(n)?r.get(n).format('Y-m-d H:i:s'):'';
 			}
-			else if(ty=='boolean'){
+			else if(ty==Ext.data.Types.BOOLEAN){
 				v[n]=r.get(n)?'1':'0';
 			}
 			else{
@@ -307,7 +339,10 @@ var RTJ = function(r,rt){
 	}
 	return v;
 };
-var FOSJ=function(x){return {FosRequest:{data:x}}};
+
+var FOSJ=function(x){
+	return {FosRequest:{data:x}};
+};
 
 var QTX=function(a){
 	var x='';
@@ -448,7 +483,7 @@ InquiryWin = function(p) {
     		xtype:'textfield',anchor:'95%'},
     	{fieldLabel:'货物体积',name:'winqCargoMeasurement',value:p.get('winqCargoMeasurement'),
     		xtype:'textfield',anchor:'95%'},
-    	{fieldLabel:'备注',name:'winqRemarks',value:p.get('tranId'),xtype:'textarea',height:100,anchor:'95%'}
+    	{fieldLabel:'备注',name:'winqRemarks',value:p.get('winqRemarks'),xtype:'textarea',height:100,anchor:'95%'}
     	]});
     	
 	this.save = function(){			
@@ -540,7 +575,7 @@ InquiryGrid = function() {
     sm:sm,cm:cm,listeners:re,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
 	tbar:[{text:C_ADD,iconCls:'add',handler:this.add}, '-', 
-		{text:C_EDIT,iconCls:'option',handler:this.edit}, '-',
+		{text:C_EDIT,iconCls:'edit',handler:this.edit}, '-',
 		{text:C_REMOVE,iconCls:'remove',handler:this.remove},'->',
 		new Ext.PagingToolbar({pageSize:20,store:store})]
     }); 
@@ -598,12 +633,12 @@ WconGrid = function() {
         else XMG.alert(SYS,M_R_P);
 	};	
     WconGrid.superclass.constructor.call(this, {
-    id:'G_WCON',store: store,iconCls:'grid',width:600,height:300,title:'网上订舱列表',header:false,closable:true,
+    id:'G_WCON',store: store,iconCls:'grid',width:600,title:'网上订舱列表',header:false,closable:true,
     sm:sm,cm:cm,listeners:re,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
-	tbar:[{text:C_ADD+'(N)',iconCls:'add',handler:this.add}, '-', 
-		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit}, '-',
-		{text:C_REMOVE+'(R)',iconCls:'remove',handler:this.remove},'->',
+	tbar:[{text:C_ADD,iconCls:'add',handler:this.add}, '-', 
+		{text:C_EDIT,iconCls:'edit',handler:this.edit}, '-',
+		{text:C_REMOVE,iconCls:'remove',handler:this.remove},'->',
 		new Ext.PagingToolbar({pageSize:20,store:store})]
     }); 
 };
@@ -716,7 +751,9 @@ Ext.extend(WconWin,Ext.Window);
 Ext.extend(WconGrid,Ext.grid.GridPanel);
 
 VoyaTab = function(){
-	var shliStore=new Ext.data.Store({url:SERVICE_URL+'?A=SHLI_Q',reader: new Ext.data.JsonReader({root:'GShippingLine'},GShippingLine),sortInfo:{field:'shliId',direction:'ASC'}});
+	var shliStore=new Ext.data.Store({url:SERVICE_URL+'?A=SHLI_Q',
+		reader: new Ext.data.JsonReader({root:'GShippingLine'},GShippingLine),
+		sortInfo:{field:'shliId',direction:'ASC'}});
 	shliStore.load();	
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_VOYA_X',
@@ -728,9 +765,9 @@ VoyaTab = function(){
 		{header:C_VESS,dataIndex:'vessName',width:120},
         {header:C_VESS_NAME_CN,dataIndex:'vessNameCn',width:80},
 		{header:C_VOYA,dataIndex:'voyaName',width:80},
-		{header:C_SHLI,dataIndex:'shliName',width:100},
-		{header:C_HARBOUR,dataIndex: 'voyaHarbourName',width:100},
-		{header:C_CARRIER,dataIndex: 'voyaCarrierName',width:100},
+		//{header:C_SHLI,dataIndex:'shliName',width:100},
+		//{header:C_HARBOUR,dataIndex: 'voyaHarbourName',width:100},
+		//{header:C_CARRIER,dataIndex: 'voyaCarrierName',width:100},
 		{header:C_ETA_V,dataIndex:'voyaEta',width:90,renderer:formatDate},
 		{header:C_ETA_T,dataIndex: 'voyaEtaT',width:90},
 		{header:C_ETD_V,dataIndex:'voyaEtd',width:90,renderer:formatDate},
@@ -793,7 +830,7 @@ VoyaTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	VoyaTab.superclass.constructor.call(this, {    
-    id:'T_VOYA',title:'船期查询',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+    id:'T_VOYA',title:'船期查询',iconCls:'grid',deferredRender:false,closable:true,autoScroll:true,
     items:[{layout:'column',name:'sf',xtype:'form',title:'船期查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,items:[	        	
     			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 					{fieldLabel:C_VESS,tabIndex:1,name:'vessName',xtype:'textfield',anchor:'95%'},
@@ -841,7 +878,7 @@ TaskWin = function(consId) {
 	var grid=new Ext.grid.GridPanel({id:'G_TASK',border:true,height:400,autoScroll:true,plugins:[ff],
 	    stripeRows:true,store:store,cm:cm, view:gv});	
 		
-	TaskWin.superclass.constructor.call(this,{iconCls:'task',title:'单票状态',modal:true,width:600,
+	TaskWin.superclass.constructor.call(this,{iconCls:'grid',title:'单票状态',modal:true,width:600,
        height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid}); 
 };
 Ext.extend(TaskWin, Ext.Window);
@@ -875,8 +912,10 @@ ConsTab = function(){
     	if(p){var win = new TaskWin(p.get('consId'));win.show();}
     	else alert(M_NO_DATA_SELECTED);
 	}};    
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:345,header:false,closable:true,cm:cm,sm:sm,loadMask:true,
-    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
+	var g=new Ext.grid.GridPanel({region:'center',store: store,iconCls:'grid',header:false,closable:true,
+		cm:cm,sm:sm,loadMask:true,listeners:re,
+    	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,
+    		displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
    		if(CCUST=='null') return;   		
@@ -918,8 +957,8 @@ ConsTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	ConsTab.superclass.constructor.call(this, {    
-    id:'T_CONS',title:'单票跟踪',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
-    items:[{layout:'column',name:'sf',xtype:'form',title:'单票查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,collapsible:true,collapsed:false,
+    id:'T_CONS',title:'单票跟踪',iconCls:'grid',layout:'border',deferredRender:false,closable:true,autoScroll:true,
+    items:[{region:'north',height:150,layout:'column',name:'sf',xtype:'form',title:'单票查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,collapsible:true,collapsed:false,
     		listeners:{scope:this,
 					collapse:function(p){g.setHeight(470);},
 					expand:function(p){g.setHeight(345);}},
@@ -944,7 +983,9 @@ ConsTab = function(){
 	            	buttons:[{text:C_SEARCH,scope:this,handler:this.search},{text:C_RESET,scope:this,handler:this.clear}]
 	            	}
 	    	]},
-	{layout:'fit',deferredRender:false,items:[g]}]});
+	    	g]
+	});
+	
 };
 Ext.extend(ConsTab, Ext.Panel);
 
@@ -978,7 +1019,7 @@ BLTab = function(){
     	else alert(M_NO_DATA_SELECTED);
 	}};  
 	
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:395,header:false,closable:true,cm:cm,sm:sm,loadMask:true,
+	var g=new Ext.grid.GridPanel({region:'center',store: store,iconCls:'grid',height:395,header:false,closable:true,cm:cm,sm:sm,loadMask:true,
     	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
@@ -1006,8 +1047,8 @@ BLTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	BLTab.superclass.constructor.call(this, {    
-    id:'T_BL',title:'提单确认',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
-    items:[{layout:'column',name:'sf',xtype:'form',title:'提单查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
+    id:'T_BL',title:'提单确认',iconCls:'grid',layout:'border',deferredRender:false,closable:true,autoScroll:true,
+    items:[{region:'north',height:120,layout:'column',name:'sf',xtype:'form',title:'提单查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
     		listeners:{scope:this,
 					collapse:function(p){g.setHeight(475);},
 					expand:function(p){g.setHeight(395);}},
@@ -1030,9 +1071,11 @@ BLTab = function(){
 	            	buttons:[{text:C_SEARCH,scope:this,handler:this.search},{text:C_RESET,scope:this,handler:this.clear}]
 	            	}
 	    	]},
-	{layout:'fit',deferredRender:false,items:[g]}]});
+	    	g]
+	});
 };
 Ext.extend(BLTab, Ext.Panel);
+
 BLPanel = function(p) {	
 	var html='<table cellspacing="1" cellpadding="0" border="1" width="100%">';
 		html+='<tr height="120" valign="top">';
@@ -1128,8 +1171,7 @@ BLPanel = function(p) {
 		{columnWidth:.15,layout:'form',labelAlign:'top',border:false,defaultType:'textfield',items: [
 			{fieldLabel:'MEASUREMENT',name:'blMeasurement',value:p.get('blMeasurement'),xtype:'textarea',height:100,anchor:'95%'}]}
       ]
-     });
-	
+     });	
 	
 	this.renew=function(){
     	if(p.get('blStatus')==1){
@@ -1143,7 +1185,8 @@ BLPanel = function(p) {
 	this.record=function(){
 		var win = new BLMGrid(p);win.show();    	
 	};
-    BLPanel.superclass.constructor.call(this, {id:'T_BL'+p.get('blId'),title:'提单'+p.get('blNo'),bodyStyle:'padding:5px',
+    BLPanel.superclass.constructor.call(this, {id:'T_BL'+p.get('blId'),
+    	title:'提单'+p.get('blNo'),bodyStyle:'padding:5px',iconCls:'grid',
     	autoScroll:true,closable:true,items:frm,
         tbar:[       	
         	{iconCls:'add',text:"提单确认",scope:this,handler:this.save},'-',
@@ -1183,7 +1226,7 @@ BLMGrid = function(p) {
 		{text:C_REMOVE+'(R)',iconCls:'remove',handler:this.remove},'-']
     }); 
 		
-	BLMGrid.superclass.constructor.call(this,{iconCls:'task',title:'改单申请',modal:true,width:800,
+	BLMGrid.superclass.constructor.call(this,{iconCls:'grid',title:'改单申请',modal:true,width:800,
        height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid}); 
 };
 Ext.extend(BLMGrid, Ext.Window);
@@ -1220,7 +1263,7 @@ BLMWin = function(b,p) {
 				var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
 		jsonData:data});
 	};	
-	BLMWin.superclass.constructor.call(this,{iconCls:'task',title:'提单修改'+p.get('blNo'),modal:true,width:600,
+	BLMWin.superclass.constructor.call(this,{iconCls:'grid',title:'提单修改'+p.get('blNo'),modal:true,width:600,
        height:420,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',
        items:frm,buttons:[
         	{text:"保存",scope:this,handler:this.save},
@@ -1232,7 +1275,8 @@ Ext.extend(BLMWin, Ext.Window);
 BillTab = function(){	
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_BILL_X',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'SBill'}, SBill),remoteSort:true,
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'SBill'}, SBill),
+    	remoteSort:true,
     	sortInfo:{field:'billId', direction:'DESC'}});
     store.load({params:{custId:CCUST,start:0,limit:20}});
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true}); 
@@ -1249,7 +1293,7 @@ BillTab = function(){
     	if(p){var win = new BillWin(p);win.show();}
     	else alert(M_NO_DATA_SELECTED);
 	}};	
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:395,header:false,closable:true,sm:sm,cm:cm,loadMask:true,
+	var g=new Ext.grid.GridPanel({region:'center',store:store,iconCls:'grid',header:false,closable:true,sm:sm,cm:cm,loadMask:true,
     	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
@@ -1275,9 +1319,11 @@ BillTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	BillTab.superclass.constructor.call(this, {    
-    id:'T_BL',title:'网上对账',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+    id:'T_BL',title:'网上对账',iconCls:'grid',layout:'border',deferredRender:false,closable:true,autoScroll:true,
     items:[
-    	{layout:'column',name:'sf',xtype:'form',title:'对账单查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
+    	{region:'north',height:130,layout:'column',name:'sf',xtype:'form',
+    		title:'对账单查询',layoutConfig:{columns:4},labelWidth:60,
+    		labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
     		listeners:{scope:this,
 					collapse:function(p){g.setHeight(475);},
 					expand:function(p){g.setHeight(395);}},
@@ -1294,7 +1340,7 @@ BillTab = function(){
            		{text:C_SEARCH,scope:this,handler:this.search},
            		{text:C_RESET,scope:this,handler:this.clear}]
 	      },
-		{layout:'fit',deferredRender:false,items:[g]}
+		g
 	]});
 };
 Ext.extend(BillTab, Ext.Panel);
@@ -1324,8 +1370,9 @@ BillWin = function(p) {
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
 		]);
 	cm.defaultSortable = true;cm.defaultWidth=100;
-	var grid = new Ext.grid.GridPanel({autoScroll:true,store:store,sm:sm,cm:cm,height:400});			
-	BillWin.superclass.constructor.call(this,{iconCls:'task',title:'对账单'+p.get('billNo'),modal:true,width:800,
+	var grid = new Ext.grid.GridPanel({autoScroll:true,store:store,sm:sm,cm:cm});
+	
+	BillWin.superclass.constructor.call(this,{iconCls:'grid',title:'对账单'+p.get('billNo'),modal:true,width:800,
        height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',
        items: [{region:'north',height:60,layout:'column',layoutConfig:{columns:4},frame:true,
     	items:[
@@ -1353,6 +1400,7 @@ BillWin = function(p) {
 	]}); 
 };
 Ext.extend(BillWin, Ext.Window);
+
 var checkLogin=function(fn){	
 	if(CUSER!='null'&&CUSER!=0)	return 1;
 	else{var w=new LoginWin(fn);w.show();return 0;}	

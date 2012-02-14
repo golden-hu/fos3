@@ -1192,19 +1192,19 @@ Fos.ConsignAuditGrid = function() {
 	this.updateTB=function(r){
 		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_2')) tb.getComponent('TB_2').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=0);
-    	if(tb.getComponent('TB_3')) tb.getComponent('TB_3').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=1);
+    	if(tb.getComponent('TB_3')) tb.getComponent('TB_3').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=1);
     	if(tb.getComponent('TB_6')) tb.getComponent('TB_6').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=1);
-    	if(tb.getComponent('TB_7')) tb.getComponent('TB_7').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=2);
+    	if(tb.getComponent('TB_7')) tb.getComponent('TB_7').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=2);
 	};
 	var b1={itemId:'TB_1',text:C_EXPE+'(Y)',disabled:NR(M1_S+S_EXPE),iconCls:'option',handler:this.showExpense};
 	var b2={itemId:'TB_2',text:C_FIN_CHECK+'(C)',disabled:NR(M1_S+S_COAU+F_A),iconCls:'check',scope:this,handler:function(){this.updateStatus('1');}};
-	var b3={itemId:'TB_3',text:C_MANAGER_CHECK+'(M)',disabled:NR(M1_S+S_COAU+F_A),iconCls:'check',scope:this,handler:function(){this.updateStatus('2');}};
+	var b3={itemId:'TB_3',text:C_MANAGER_CHECK+'(M)',disabled:NR(M1_S+S_COAU+F_A2),iconCls:'check',scope:this,handler:function(){this.updateStatus('2');}};
 	var b4={itemId:'TB_4',text:C_SEARCH+('(F)'),iconCls:'search',handler:this.search};
 	var b5={itemId:'TB_5',text:C_EXPORT+'(E)',disabled:NR(M1_S+S_COAU+F_E),iconCls:'print',scope:this,
 			handler:this.exp};
 				
 	var b6={itemId:'TB_6',text:'(U)',tooltip:C_FIN_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_COAU+F_A),scope:this,handler:function(){this.updateStatus('0');}};
-	var b7={itemId:'TB_7',text:'(V)',tooltip:C_MANAGER_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_COAU+F_A),scope:this,handler:function(){this.updateStatus('1');}};
+	var b7={itemId:'TB_7',text:'(V)',tooltip:C_MANAGER_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_COAU+F_A2),scope:this,handler:function(){this.updateStatus('1');}};
 	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',scope:this,handler:function(){this.fastSearch();}};
 	var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
 	var vc={forceFit:false,
