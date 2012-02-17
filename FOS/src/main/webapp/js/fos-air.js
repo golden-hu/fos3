@@ -2598,18 +2598,22 @@ Fos.FDocLookupWin = function(store,s){
 	       		listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custContainerFlag');},buffer:BF}
              	}}]}
 		]};	
+	
 	var t6={id:'T_CONS_LOOK_6',title:C_LOOK_BY_DOC_STATUS,layout:'column',
     	items:[
 	      	{columnWidth:.5,layout:'form',border:false,labelWidth:70,labelAlign:"right",
 	   		items:[
-            	{fieldLabel:C_DOC_NAME,tabIndex:4,name:'dotyId',store:getDOTY_S(),xtype:'combo',displayField:'dotyName',valueField:'dotyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-	   			{fieldLabel:C_DOC_RECEIVE_DATE,name:'recvDate',xtype:'datefield',format:DATEF,anchor:'95%'},
+            	//{fieldLabel:C_DOC_NAME,tabIndex:4,name:'dotyId',store:getDOTY_S(),xtype:'combo',displayField:'dotyName',valueField:'dotyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
+	   			{fieldLabel:C_DOC_RETURN,name:'fdocReturnFlag',xtype:'checkbox',value:0,anchor:'95%'},
+            	{fieldLabel:C_DOC_RECEIVE_DATE,name:'recvDate',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_DOC_SEND_DATE,name:'sendDate',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_DOC_RETURN_DATE,name:'returnDate',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_DOC_BACK_DATE,name:'backDate',xtype:'datefield',format:DATEF,anchor:'95%'}]},
 			{columnWidth:.5,layout:'form',border:false,labelWidth:70,labelAlign:"right",
-			items:[{fieldLabel:C_STATUS,tabIndex:4,name:'fdocStatus',store:DOST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-				{fieldLabel:C_TO,name:'recvDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
+			items:[
+			    //{fieldLabel:C_STATUS,tabIndex:4,name:'fdocStatus',store:DOST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
+				{fieldLabel:C_DOC_BACK,name:'fdocBackFlag',xtype:'checkbox',value:0,anchor:'95%'},
+			    {fieldLabel:C_TO,name:'recvDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_TO,name:'sendDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_TO,name:'returnDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_TO,name:'backDate2',xtype:'datefield',format:DATEF,anchor:'95%'}]}
@@ -2717,38 +2721,46 @@ Fos.FDocLookupWin = function(store,s){
      		a[a.length]=new QParam({key:'fdocNo',value:fdocNo,op:fdocNoM?LI:EQ});
      	}
      	else if(at.getId()=='T_CONS_LOOK_6'){
-     		var dotyId=at.find('name','dotyId')[0].getValue();
+     		/*var dotyId=at.find('name','dotyId')[0].getValue();
      		if(dotyId) a[a.length]=new QParam({key:'dotyId',value:dotyId,op:EQ});
      		var fdocStatus=at.find('name','fdocStatus')[0].getValue();
-     		if(fdocStatus) a[a.length]=new QParam({key:'fdocStatus',value:fdocStatus,op:EQ});
+     		if(fdocStatus) a[a.length]=new QParam({key:'fdocStatus',value:fdocStatus,op:EQ});*/
+     		
+     		var returnFlag = at.find('name','fdocReturnFlag')[0];
+     		if(returnFlag && returnFlag.getValue()) 
+     			a[a.length]=new QParam({key:'fdocReturnFlag',value:1,op:EQ});
+     		var backFlag = at.find('name','fdocBackFlag')[0];
+     		if(backFlag && backFlag.getValue()) 
+     			a[a.length]=new QParam({key:'fdocBackFlag',value:1,op:EQ});
+     		
      		var recvDate=at.find('name','recvDate')[0].getValue();
      		var recvDate2=at.find('name','recvDate2')[0].getValue();
      		if(recvDate && recvDate2){
-     			a[a.length]=new QParam({key:'recvDate',value:recvDate.format('Y-m-d H:i:s'),op:GE});
-     			a[a.length]=new QParam({key:'recvDate',value:recvDate2.format('Y-m-d H:i:s'),op:LE});
+     			a[a.length]=new QParam({key:'fdocRecvDate',value:recvDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'fdocRecvDate',value:recvDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(recvDate) a[a.length]=new QParam({key:'recvDate',value:recvDate,op:EQ});
+     		else if(recvDate) a[a.length]=new QParam({key:'fdocRecvDate',value:recvDate,op:EQ});
      		var sendDate=at.find('name','sendDate')[0].getValue();
      		var sendDate2=at.find('name','sendDate2')[0].getValue();
      		if(sendDate && sendDate2){
-     			a[a.length]=new QParam({key:'sendDate',value:sendDate.format('Y-m-d H:i:s'),op:GE});
-     			a[a.length]=new QParam({key:'sendDate',value:sendDate2.format('Y-m-d H:i:s'),op:LE});
+     			a[a.length]=new QParam({key:'fdocSendDate',value:sendDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'fdocSendDate',value:sendDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(sendDate) a[a.length]=new QParam({key:'sendDate',value:sendDate,op:EQ});
+     		else if(sendDate) a[a.length]=new QParam({key:'fdocSendDate',value:sendDate,op:EQ});
      		var returnDate=at.find('name','returnDate')[0].getValue();
      		var returnDate2=at.find('name','returnDate2')[0].getValue();
      		if(returnDate && returnDate2){
-     			a[a.length]=new QParam({key:'returnDate',value:returnDate.format('Y-m-d H:i:s'),op:GE});
-     			a[a.length]=new QParam({key:'returnDate',value:returnDate2.format('Y-m-d H:i:s'),op:LE});
+     			a[a.length]=new QParam({key:'fdocReturnDate',value:returnDate.format('Y-m-d H:i:s'),op:GE});
+     			a[a.length]=new QParam({key:'fdocReturnDate',value:returnDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(returnDate) a[a.length]=new QParam({key:'returnDate',value:returnDate,op:EQ});
+     		else if(returnDate) a[a.length]=new QParam({key:'fdocReturnDate',value:returnDate,op:EQ});
      		var backDate=at.find('name','backDate')[0].getValue();
      		var backDate2=at.find('name','backDate2')[0].getValue();
      		if(backDate && backDate2){
-     			a[a.length]=new QParam({key:'backDate',value:backDate.format('Y-m-d H:i:s'),op:LE});
-     			a[a.length]=new QParam({key:'backDate',value:backDate2.format('Y-m-d H:i:s'),op:LE});
+     			a[a.length]=new QParam({key:'fdocBackDate',value:backDate.format('Y-m-d H:i:s'),op:LE});
+     			a[a.length]=new QParam({key:'fdocBackDate',value:backDate2.format('Y-m-d H:i:s'),op:LE});
      		}
-     		else if(backDate) a[a.length]=new QParam({key:'backDate',value:backDate,op:EQ});
+     		else if(backDate) a[a.length]=new QParam({key:'fdocBackDate',value:backDate,op:EQ});
      	}
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
