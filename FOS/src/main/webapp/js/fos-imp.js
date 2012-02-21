@@ -160,7 +160,7 @@ Ext.extend(Fos.CargoGrid, Ext.grid.EditorGridPanel);
 Fos.ContainerGrid = function(p,store) {
 	var checkSOC = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
 	var checkPOF = new Ext.grid.CheckColumn({header: "Part Of",dataIndex:'contPartOfFlag',width:55});
-	var checkColumn = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var c1={header:C_COTY,dataIndex:'cotyId',width:60,renderer:getCOTY,
 			editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyId',triggerAction:'all',
@@ -184,14 +184,19 @@ Fos.ContainerGrid = function(p,store) {
 	var cm=new Ext.grid.ColumnModel({columns:p.get('consBizClass')==BC_I?[sm,c1,c2,c12,c13,c3,checkSOC,c5,c6,c7,c8,c9,c10,c11]:
 		[sm,c1,c2,c3,checkSOC,checkPOF,c4,c5,c6,c7,c8,c9,c10,c11],defaults:{sortable:true,width:100}});
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;	
+	
 	Fos.ContainerGrid.superclass.constructor.call(this, { 
 	id:'G_CONT_EXP'+p.get('id'),border:true,plugins:[checkSOC,checkPOF],autoScroll:true,clicksToEdit:1,height:400,
     store: store,sm:sm,cm:cm,
     tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
-			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,contNo:'',contSealNo:'',contSealNo2:'',contSealNo3:'',
-			contPreFlag:p.get('consBizClass')==BC_I?'N':'Y',consId:p.get('consId'),consNo:p.get('consNo'),
+			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,
+				contNo:'',contSealNo:'',contSealNo2:'',contSealNo3:'',
+			contPreFlag:p.get('consBizClass')==BC_I?'N':'Y',
+			consId:p.get('consId'),consNo:p.get('consNo'),
 			contMConsNo:'',contPackageNum:'',contGrossWeight:'',contMeasurement:'',
-			contCargoNameEn:'',contCargoNameCn:'',contRemarks:'',			
+			contCargoNameEn:p.get('consCargoNameEn'),
+			contCargoNameCn:p.get('consCargoNameCn'),
+			contRemarks:'',			
 			cotyId:'',contFl:p.get('consShipType')==ST_L?ST_L:ST_F,packId:'',contSocFlag:0,
 			contPartOfFlag:p.get('consShipType')==ST_L?1:0,version:'0',rowAction:'N'});
         		store.insert(0,c);this.startEditing(0, 1);}},'-',
@@ -222,9 +227,10 @@ Fos.ImpHblGrid = function(p,store) {
 	border:true,autoScroll:true,clicksToEdit:1,height:400,store: store,sm:sm,cm:cm,
     tbar:[{text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,handler:function(){
 			this.blId=this.blId-1;
-			var c = new FBl({id:GGUID(),blId:'0',consId:p.get('consId'),consNo:p.get('consNo'),blContainerNo:p.get('consContainerNo'),
+			var c = new FBl({id:GGUID(),blId:'0',consId:p.get('consId'),consNo:p.get('consNo'),
+			blContainerNo:p.get('consContainerNo'),
 			blNo:'',blType:'H/BL',blCargoDesc:p.get('consCargoDesc'),blPackages:p.get('consTotalPackages'),
-			packId:p.get('packId'),packName:p.get('packName'),blMarks:'',
+			packId:p.get('packId'),packName:p.get('packName'),blMarks:p.get('consCargoMarks'),
 			blGrossWeight:p.get('consTotalGrossWeight'),blNetWeight:p.get('consTotalNetWeight'),
 			blMeasurement:p.get('consTotalMeasurement'),blConsignee:p.get('consConsignee'),
 			version:'0',rowAction:'N'});
@@ -534,7 +540,7 @@ Fos.InspectionTab = function(p) {
 			inspPackages:p.get('consCargoPackages'),inspConveyance:p.get('vessName')+' '+p.get('voyaName'),
 			inspContractNo:p.get('consTradeContractNo'),inspShippingDate:p.get('consLoadDate'),
 			inspTradeCountry:getCOUN(p.get('consTradeCountry')),inspPol:p.get('consPolEn'),inspPod:p.get('consPodEn'),
-			inspContainerInfo:p.get('consContainerInfo'),inspMarks:p.get('consCargoMarks'),
+			inspContainerInfo:p.get('consContainersInfo'),inspMarks:p.get('consCargoMarks'),
 			inspStatus:'0',version:'0',rowAction:'N'});
       	this.store.insert(0,b);b.set('rowAction','N');
 		this.inspGrid.getSelectionModel().selectFirstRow();
@@ -1204,8 +1210,10 @@ Fos.BLTab = function(p){
 	],defaults:{sortable:true,width:80}});	
 	var newBl = function(t){
 		var rid=GGUID();
-		var bl = new FBl({id:rid,blId:rid,consId:p.get('consId'),consNo:p.get('consNo'),blType:t,blNo:p.get('consMblNo'),
-		consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),consShipType:p.get('consShipType'),custId:p.get('custId'),custName:p.get('custName'),
+		var bl = new FBl({id:rid,blId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
+		blType:t,blNo:t=='MB/L'?p.get('consMblNo'):p.get('consHblNo'),
+		consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),consShipType:p.get('consShipType'),
+		custId:p.get('custId'),custName:p.get('custName'),
 		consTradeContractNo:p.get('consTradeContractNo'),consChargeRemarks:p.get('consChargeRemarks'),
 		blShipper:p.get('consShipper'),blConsignee:p.get('consConsignee'),blNotifyParty:p.get('consNotifyParty'),
 		blNotifyParty2:p.get('consNotifyParty2'),blOverseaAgency:p.get('consNotifyParty2'),
@@ -1213,7 +1221,8 @@ Fos.BLTab = function(p){
 		blVoyage:p.get('voyaName'),blPol:p.get('consPolEn'),blPod:p.get('consPodEn')+','+p.get('consTradeCountry'),blPot:p.get('consPotEn'),
 		blLoadDate:p.get('consLoadDate'),blEtd:p.get('consEtd'),blEta:p.get('consEta'),
 		blReceiptPlace:p.get('consReceiptPlace'),blDeliveryPlace:p.get('consDeliveryPlace'),
-		blContainerNo:p.get('consCargoMarks'),blPackages:p.get('consCargoPackages'),
+		blContainerNo:p.get('consContainerNo'),
+		blPackages:p.get('consCargoPackages'),
 		consMasterId:p.get('consMasterId'),consMasterNo:p.get('consMasterNo'),
 		cargPackages:p.get('consTotalPackages'),cargGrossWeight:p.get('consTotalGrossWeight'),
 		cargNetWeigth:p.get('consTotalNetWeight'),cargMeasurement:p.get('consTotalMeasurement'),
@@ -1222,9 +1231,10 @@ Fos.BLTab = function(p){
 		packId:p.get('packId'),packName:p.get('packName'),
 		blMergeFlag:0,blSplitFlag:0,blMasterFlag:1,
 		blCargoDesc:p.get('consCargoDesc'),blGrossWeight:p.get('consCargoGrossWeight'),
-		blMeasurement:p.get('consCargoMeasurement'),blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' '+getPACK(p.get('packId'))+'ONLY',
+		blMeasurement:p.get('consCargoMeasurement'),
+		blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' '+getPACK(p.get('packId'))+' ONLY',
 		blPaymentTerm:p.get('pateName'),blPaidAt:p.get('consPaidAt'),blMarks:p.get('consCargoMarks'),
-		blTransTerm:getTRAN(p.get('tranId')),blContainerInfo:p.get('consContainerInfo'),istyId:p.get('istyId'),
+		blTransTerm:getTRAN(p.get('tranId')),blContainerInfo:p.get('consContainersInfo'),istyId:p.get('istyId'),
 		blOriginalNum:N2EW(p.get('consOriginalBlNum')),blStatus:'1',version:'0',rowAction:'N'});
 		return bl;
 	};
@@ -1364,8 +1374,7 @@ Fos.BLTab = function(p){
 	this.addBlByCargo = function(t,c){
 		var bl = newBl(t);
 		this.store.insert(0,bl);
-		bl.set('blNo','');
-		bl.set('blContainerNo',c.get('cargMarks'));
+		bl.set('blNo','');		
 		bl.set('blMarks',c.get('cargMarks'));
 		bl.set('blPackages',''+c.get('cargPackageNum')+c.get('packName'));
 		bl.set('blMeasurement',''+c.get('cargMeasurement')+'CBM');
@@ -1639,7 +1648,7 @@ Fos.BlWin = function(p,b,store) {
 			{columnWidth:.5,layout: 'form',border : false,labelAlign:'top',
                 items: [{fieldLabel:C_OVERSEA_AGENCY,name:'blOverseaAgency',value:b.get('blOverseaAgency'),tabIndex:20,xtype:'textarea',height:100,anchor:'95%'}]},			
 			{columnWidth:.3,layout: 'form',border :false,labelAlign:'top',
-                items: [{fieldLabel:C_MARKS,name:'blContainerNo',value:b.get('blContainerNo'),tabIndex:21,xtype:'textarea',height:100,anchor:'95%'}]},
+                items: [{fieldLabel:C_MARKS,name:'blMarks',value:b.get('blMarks'),tabIndex:21,xtype:'textarea',height:100,anchor:'95%'}]},
 			{columnWidth:.1,layout: 'form',border:false,labelAlign:'top',
                 items: [{fieldLabel:C_NUM_PACK,name:'blPackages',value:b.get('blPackages'),tabIndex:22,xtype:'textarea',height:100,anchor:'95%'}]},
 			{columnWidth:.4,layout: 'form',border:false,labelAlign:'top',
@@ -1649,7 +1658,9 @@ Fos.BlWin = function(p,b,store) {
             {columnWidth:.1,layout: 'form',border : false,labelAlign:'top',
                 items: [{fieldLabel:C_CBM_S,name:'blMeasurement',value:b.get('blMeasurement'),tabIndex:25,xtype:'textarea',height:100,anchor:'95%'}]},
             {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
-                items: [{fieldLabel:C_TOTAL_SAY,name:'blTotalSay',value:b.get('blTotalSay'),tabIndex:26,xtype:'textfield',anchor:'95%'}]}
+                items: [{fieldLabel:C_TOTAL_SAY,name:'blTotalSay',value:b.get('blTotalSay'),tabIndex:26,xtype:'textfield',anchor:'95%'}]},
+            {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
+                items: [{fieldLabel:C_CONTAINER_NO,name:'blContainerNo',value:b.get('blContainerNo'),tabIndex:27,xtype:'textfield',anchor:'95%'}]},
             ]};
 	var t3={layout:'column',title:C_ISSUE_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,height:200,
 			items: [

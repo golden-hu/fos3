@@ -355,6 +355,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Short consRequireRelief;
 	
 	private String consLoadFactory;
+	private String consLoadContact;
+	private String consLoadTel;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -3400,4 +3402,21 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consLoadFactory = consLoadFactory;
 	}
 	
+	@Column(name = "CONS_LOAD_CONTACT", length = 32)
+	public String getConsLoadContact() {
+		return this.consLoadContact;
+	}
+
+	public void setConsLoadContact(String consLoadContact) {
+		this.consLoadContact = consLoadContact;
+	}
+	
+	@Column(name = "CONS_LOAD_TEL", length = 32)
+	public String getConsLoadTel() {
+		return this.consLoadTel;
+	}
+
+	public void setConsLoadTel(String consLoadTel) {
+		this.consLoadTel = consLoadTel;
+	}
 }

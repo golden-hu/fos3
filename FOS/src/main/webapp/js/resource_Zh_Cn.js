@@ -775,12 +775,11 @@ var C_SERVICE_REQUIREMENT='服务要求';
 var C_BOOKING_REQUIREMENT='订舱服务要求';
 var C_TRAN_REQUIREMENT='陆运服务要求';
 var C_TRACK_VENDOR='拖车公司';
-var C_TRACK_CONTACT='装货联系人';
 var C_TRAN_CONTACT='拖车公司联系人';
 var C_TRAN_TEL='拖车公司电话';
 var C_TRAN_FAX='拖车公司传真';
-
-var C_TRACK_TEL='装货联系电话';
+var C_LOAD_CONTACT='装货联系人';
+var C_LOAD_TEL='装货联系电话';
 var C_LOAD_ADDRESS='装货地址';
 var C_LOAD_PLACE='装货地';
 var C_DRAW_CY='提箱堆场';
