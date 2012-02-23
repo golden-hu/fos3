@@ -1733,40 +1733,41 @@ Ext.extend(Fos.ShipTab, Ext.Panel);
 
 Fos.FConLW = function(p) {    
 	var a=[];
-	a[a.length]={key:'fconStatus',value:2,op:NE};
+	a[a.length]=new QParam({key:'fconStatus',value:2,op:NE});
 	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'FCON_X',
-		baseParams:{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))},
-		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FContract'}, FContract),
+		baseParams:{mt:'xml',xml:FOSX(QTX(a))},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FContract'}, FContract),
 		sortInfo:{field:'fconId', direction:'DESC'}});
     store.load();
     this.search=function(){
-		var xml = '';
       	var a=[];
    		var charterId=this.find('name','charterId')[0].getValue();
-   		if(charterId) a[a.length]={key:'charterId',value:charterId,op:EQ};
+   		if(charterId) a[a.length]=new QParam({key:'charterId',value:charterId,op:EQ});
    		var fconContractNo=this.find('name','fconContractNo')[0].getValue();
-   		if(fconContractNo) a[a.length]={key:'fconContractNo',value:fconContractNo,op:LI};
+   		if(fconContractNo) a[a.length]=new QParam({key:'fconContractNo',value:fconContractNo,op:LI});
    		var fconPol=this.find('name','fconPol')[0].getValue();        		
-   		if(fconPol) a[a.length]={key:'fconPol',value:fconPol,op:EQ};
+   		if(fconPol) a[a.length]=new QParam({key:'fconPol',value:fconPol,op:EQ});
    		var fconPod=this.find('name','fconPod')[0].getValue();        		
-   		if(fconPod) a[a.length]={key:'fconPod',value:fconPod,op:EQ};
+   		if(fconPod) a[a.length]=new QParam({key:'fconPod',value:fconPod,op:EQ});
    		    		
    		var fconForcastQuantity=this.find('name','fconForcastQuantity')[0].getValue();
      	var fconForcastQuantity2=this.find('name','fconForcastQuantity2')[0].getValue();
    		if(fconForcastQuantity && fconForcastQuantity2){
-   			a[a.length]={key:'fconForcastQuantity',value:fconForcastQuantity,op:GE};
-   			a[a.length]={key:'fconForcastQuantity',value:fconForcastQuantity2,op:LE};
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity,op:GE});
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity2,op:LE});
    		}
-   		else if(fconForcastQuantity) a[a.length]={key:'fconForcastQuantity',value:fconForcastQuantity,op:EQ};
+   		else if(fconForcastQuantity) 
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity,op:EQ});
 
    		var fconShipDateF=this.find('name','fconShipDateF')[0].getValue();
      	var fconShipDateT=this.find('name','fconShipDateT')[0].getValue();
    		if(fconShipDateF && fconShipDateT){
-   			a[a.length]={key:'fconShipDateF',value:fconShipDateF.format('Y-m-d H:i:s'),op:GE};
-   			a[a.length]={key:'fconShipDateT',value:fconShipDateT.format('Y-m-d H:i:s'),op:LE};
+   			a[a.length]=new QParam({key:'fconShipDateF',value:fconShipDateF.format('Y-m-d H:i:s'),op:GE});
+   			a[a.length]=new QParam({key:'fconShipDateT',value:fconShipDateT.format('Y-m-d H:i:s'),op:LE});
    		}
-   		else if(fconShipDateF) a[a.length]={key:'fconShipDateF',value:fconShipDateF.format('Y-m-d H:i:s'),op:GE};
-   		store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+   		else if(fconShipDateF) 
+   			a[a.length]=new QParam({key:'fconShipDateF',value:fconShipDateF.format('Y-m-d H:i:s'),op:GE});
+   		store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:25}});
 	};
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};	
@@ -1863,16 +1864,19 @@ Fos.ContractListTab = function(T){
 					}
 				}
 				e.stopPropagation();}}});}});
-	var a=[];a[a.length]={key:'fconStatus',value:2,op:T=='S'?EQ:NE};
+	var a=[];
+	a[a.length]=new QParam({key:'fconStatus',value:2,op:T=='S'?EQ:NE});
+	
 	var store = new Ext.data.GroupingStore({url: SERVICE_URL+'?A='+'FCON_X',
-			reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FContract'}, FContract),
-			baseParams:{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))},
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FContract'}, FContract),
+			baseParams:{mt:'xml',xml:FOSX(QTX(a))},
         	groupField:'custName',remoteSort:true,
         	sortInfo:{field:'fconId', direction:'DESC'}});
     store.load({params:{start:0,limit:25}});
     this.reset=function(){
-       var a=[];a[a.length]={key:'fconStatus',value:2,op:T=='S'?EQ:NE}; 
-        store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+        var a=[];
+        a[a.length]=new QParam({key:'fconStatus',value:2,op:T=='S'?EQ:NE}); 
+        store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
         store.reload({params:{start:0,limit:C_PS}});
     };
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});
@@ -1992,16 +1996,16 @@ Fos.ContractListTab = function(T){
      	var c=fconContractNo.indexOf(',');
         var b=fconContractNo.indexOf('..');
         if(c>=0){
-            a[a.length]={key:'fconContractNo',value:fconContractNo,op:IN};
+            a[a.length]=new QParam({key:'fconContractNo',value:fconContractNo,op:IN});
         }
         else if(b>=0){
             var ra=consNo.split('..');
-            a[a.length]={key:'fconContractNo',value:ra[0],op:GE};
-            a[a.length]={key:'fconContractNo',value:ra[1],op:LE};
+            a[a.length]=new QParam({key:'fconContractNo',value:ra[0],op:GE});
+            a[a.length]=new QParam({key:'fconContractNo',value:ra[1],op:LE});
         }
         else
-        	a[a.length]={key:'fconContractNo',value:fconContractNo,op:LI};
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+        	a[a.length]=new QParam({key:'fconContractNo',value:fconContractNo,op:LI});
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
 	};
 	var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};

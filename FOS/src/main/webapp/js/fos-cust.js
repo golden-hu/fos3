@@ -1067,66 +1067,70 @@ Fos.FConLookup = function(store,T){
 	this.reload=function(){
      	var a=[];
      	var custId=t.find('name','custId')[0].getValue();
-     	if(custId) a[a.length]={key:'custId',value:custId,op:EQ};     		
+     	if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:EQ});     		
      	var shliId=t.find('name','shliId')[0].getValue();
-     	if(shliId) a[a.length]={key:'shliId',value:shliId,op:EQ};
+     	if(shliId) a[a.length]=new QParam({key:'shliId',value:shliId,op:EQ});
      	var fconStatus=t.find('name','fconStatus')[0].getValue();
-     	if(fconStatus) a[a.length]={key:'fconStatus',value:fconStatus,op:EQ};
+     	if(fconStatus) a[a.length]=new QParam({key:'fconStatus',value:fconStatus,op:EQ});
      	var fconPol=t.find('name','fconPol')[0].getValue();        		
-     	if(fconPol) a[a.length]={key:'fconPol',value:fconPol,op:EQ};
+     	if(fconPol) a[a.length]=new QParam({key:'fconPol',value:fconPol,op:EQ});
      	var fconPod=t.find('name','fconPod')[0].getValue();        		
-     	if(fconPod) a[a.length]={key:'fconPod',value:fconPod,op:EQ};
+     	if(fconPod) a[a.length]=new QParam({key:'fconPod',value:fconPod,op:EQ});
      	var fconContractNo=t.find('name','fconContractNo')[0].getValue();        		
-     	if(fconContractNo) a[a.length]={key:'fconContractNo',value:fconContractNo,op:EQ};     	
+     	if(fconContractNo) a[a.length]=new QParam({key:'fconContractNo',value:fconContractNo,op:EQ});     	
      	var fconCarrier=t.find('name','fconCarrier')[0].getValue();        		
-     	if(fconCarrier) a[a.length]={key:'fconCarrier',value:fconCarrier,op:LI};
+     	if(fconCarrier) a[a.length]=new QParam({key:'fconCarrier',value:fconCarrier,op:LI});
      	var fconVesselVoyage=t.find('name','fconVesselVoyage')[0].getValue();        		
-     	if(fconVesselVoyage) a[a.length]={key:'fconVesselVoyage',value:fconVesselVoyage,op:LI};     	
+     	if(fconVesselVoyage) a[a.length]=new QParam({key:'fconVesselVoyage',value:fconVesselVoyage,op:LI});     	
      	var fconForcastQuantity=t.find('name','fconForcastQuantity')[0].getValue();
      	var fconForcastQuantity2=t.find('name','fconForcastQuantity2')[0].getValue();
    		if(fconForcastQuantity && fconForcastQuantity2){
-   			a[a.length]={key:'fconForcastQuantity',value:fconForcastQuantity,op:GE};
-   			a[a.length]={key:'fconForcastQuantity',value:fconForcastQuantity2,op:LE};
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity,op:GE});
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity2,op:LE});
    		}
-   		else if(fconForcastQuantity) a[a.length]={key:'fconForcastQuantity',value:fconForcastQuantity,op:EQ};
+   		else if(fconForcastQuantity) 
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity,op:EQ});
    		
      	var fconLoadDate=t.find('name','fconLoadDate')[0].getValue();
      	var fconLoadDate2=t.find('name','fconLoadDate2')[0].getValue();
    		if(fconLoadDate && fconLoadDate2){
-   			a[a.length]={key:'fconLoadDate',value:fconLoadDate.format(DATEF),op:GE};
-   			a[a.length]={key:'fconLoadDate',value:fconLoadDate2.format(DATEF),op:LE};
+   			a[a.length]=new QParam({key:'fconLoadDate',value:fconLoadDate.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'fconLoadDate',value:fconLoadDate2.format(DATEF),op:LE});
    		}
-   		else if(fconLoadDate) a[a.length]={key:'fconLoadDate',value:fconLoadDate.format(DATEF),op:EQ};
+   		else if(fconLoadDate) a[a.length]=new QParam({key:'fconLoadDate',value:fconLoadDate.format(DATEF),op:EQ});
      	
      	var fconShipDateF=t.find('name','fconShipDateF')[0].getValue();
      	var fconShipDateT=t.find('name','fconShipDateT')[0].getValue();
    		if(fconShipDateF && fconShipDateT){
-   			a[a.length]={key:'fconShipDateF',value:fconShipDateF.format(DATEF),op:GE};
-   			a[a.length]={key:'fconShipDateT',value:fconShipDateT.format(DATEF),op:LE};
+   			a[a.length]=new QParam({key:'fconShipDateF',value:fconShipDateF.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'fconShipDateT',value:fconShipDateT.format(DATEF),op:LE});
    		}
-   		else if(fconShipDateF) a[a.length]={key:'fconShipDateF',value:fconShipDateF.format(DATEF),op:EQ};
+   		else if(fconShipDateF) 
+   			a[a.length]=new QParam({key:'fconShipDateF',value:fconShipDateF.format(DATEF),op:EQ});
    		
    		var voyaShipDateF=t.find('name','voyaShipDateF')[0].getValue();
      	var voyaShipDateT=t.find('name','voyaShipDateT')[0].getValue();
    		if(voyaShipDateF && voyaShipDateT){
-   			a[a.length]={key:'voyaShipDateF',value:voyaShipDateF.format(DATEF),op:GE};
-   			a[a.length]={key:'voyaShipDateT',value:voyaShipDateT.format(DATEF),op:LE};
+   			a[a.length]=new QParam({key:'voyaShipDateF',value:voyaShipDateF.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'voyaShipDateT',value:voyaShipDateT.format(DATEF),op:LE});
    		}
-   		else if(voyaShipDateF) a[a.length]={key:'voyaShipDateF',value:voyaShipDateF.format(DATEF),op:EQ};
+   		else if(voyaShipDateF) 
+   			a[a.length]=new QParam({key:'voyaShipDateF',value:voyaShipDateF.format(DATEF),op:EQ});
    		
    		var voyaSailDate=t.find('name','voyaSailDate')[0].getValue();
      	var voyaSailDate2=t.find('name','voyaSailDate2')[0].getValue();
    		if(voyaSailDate && voyaSailDate2){
-   			a[a.length]={key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:GE};
-   			a[a.length]={key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:LE};
+   			a[a.length]=new QParam({key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:LE});
    		}
-   		else if(voyaSailDate) a[a.length]={key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:EQ};
+   		else if(voyaSailDate) 
+   			a[a.length]=new QParam({key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:EQ});
 
 		var voyaSailedFlag=t.find('name','voyaSailedFlag')[0].getValue();
-   		if(voyaSailedFlag) a[a.length]={key:'voyaSailedFlag',value:'0',op:EQ};
+   		if(voyaSailedFlag) a[a.length]=new QParam({key:'voyaSailedFlag',value:'0',op:EQ});
    		
-   		a[a.length]={key:'fconStatus',value:2,op:T=='S'?EQ:NE};
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+   		a[a.length]=new QParam({key:'fconStatus',value:2,op:T=='S'?EQ:NE});
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
 	};	
 	var t = new Ext.Panel({layout:'column',
