@@ -6086,7 +6086,8 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (44, '导出到站地点', 'PLAC_E', '导出到站地点', 'PLAC_E', 'GPlace', 'FContract', 'A', 'P', 0, 1, 0, 0),
 (45, '业务员超期提示', 'FCONSIGN_INFO', '业务员超期提示', NULL, 'FConsign', NULL, 'B', 'M', 1, 1, 0, 0),
 (46, '减免税统计表', 'RELIEF_TAX_STAT', '减免税统计表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
-(47, '加工贸易催核表', 'TRADE_STAT', '加工贸易催核表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0)
+(47, '加工贸易催核表', 'TRADE_STAT', '加工贸易催核表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
+(48, '退单申请表', 'CUSTOMS_DOC_STAT', '退单申请表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0)
 ;
 
 -- 提单
