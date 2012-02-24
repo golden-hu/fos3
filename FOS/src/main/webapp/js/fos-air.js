@@ -1790,7 +1790,8 @@ Fos.FConLW = function(p) {
 		{header:C_CARGO_DESC,width:120,dataIndex:"fconCargoDesc"}
 		]);
 	cm.defaultSortable = true;cm.defaultWidth=80;
-    var g = new Ext.grid.GridPanel({id:'G_FCON_LP',header:false,height:300,width:600,store:store,sm:sm,cm:cm,loadMask:true,autoScroll:true});	
+    var g = new Ext.grid.GridPanel({id:'G_FCON_LP',header:false,height:300,width:600,
+    	store:store,sm:sm,cm:cm,loadMask:true,autoScroll:true});	
 	this.form = new Ext.Panel({id:'F_COLP',bodyStyle:'padding:0px',
    		tbar:[
 		{text:C_SEARCH,iconCls:'refresh',scope:this,handler:this.search},'-',
