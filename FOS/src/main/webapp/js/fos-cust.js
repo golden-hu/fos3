@@ -1242,7 +1242,9 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
 			]}
 		]};
 	var tabs;
-	if(action=='CONS_X'){tabs=(bizClass==BC_E)?[t1,t6,t2,t3,t4,t5]:[t1,t2,t3,t4,t5];}
+	if(action=='CONS_X'){
+		tabs=(bizClass==BC_E)?[t1,t6,t2,t3,t4,t5]:[t1,t2,t3,t4,t5];
+	}
 	else if(action=='CONS_CHECK_X'){tabs=[t1,t2,t3,t4,t5];}
 	this.reload=function(){
      	var a=[];     	
