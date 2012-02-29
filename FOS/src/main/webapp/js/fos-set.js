@@ -1102,6 +1102,8 @@ Ext.extend(Fos.ExWin,Ext.Window);
 
 Fos.ConsignAuditGrid = function() {
 	var bp={mt:'xml',xml:''};
+	var queryParams = [];
+	
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_CHECK_X',baseParams:bp,
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
 		sortInfo:{field:'consDate', direction:'DESC'},remoteSort:true
@@ -1112,9 +1114,12 @@ Fos.ConsignAuditGrid = function() {
     	store.baseParams=bp;
     	store.reload({params:{start:0,limit:C_PS}});
     };
+    setQueryParams=function(a){
+    	queryParams = a;
+    };
     
 	this.search = function(){
-		var win = new Fos.ConsLookupWin('','','','CONS_CHECK_X',store);
+		var win = new Fos.ConsLookupWin('','','','CONS_CHECK_X',store,setQueryParams);
 		win.show();
 	};	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,listeners:{scope:this,rowselect:function(s,row,r){
@@ -1186,8 +1191,19 @@ Fos.ConsignAuditGrid = function() {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};	
-	this.exp=function(){EXP('C','CONS_AUDIT',
-			store.baseParams.xml?'&mt=JSON&xml='+store.baseParams.xml:'');};
+	this.exp=function(){
+		if(queryParams.length>0){
+			var a = queryParams;
+			var qa = [];
+			for(var i=0;i<a.length;i++){
+				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+			}
+			EXP('C','CONS_AUDIT','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+		}
+		else{
+			EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');
+		}
+	};
 			
 	this.updateTB=function(r){
 		var tb=this.getTopToolbar();
@@ -1228,10 +1244,10 @@ Fos.ConsignAuditGrid = function() {
 		};
 		
      	var a=[];
-     	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
-    	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
-    	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
-    	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+     	//a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+    	//a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+    	//a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+    	//if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
     	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
      	if(c>=0){
@@ -1244,7 +1260,7 @@ Fos.ConsignAuditGrid = function() {
 		}
 		else
  			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
-    	
+     	queryParams = a;
     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){

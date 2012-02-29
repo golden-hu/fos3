@@ -80,12 +80,13 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		remoteSort:true,
 		sortInfo:{field:((bizClass==BC_E&&shipType==ST_L)||bizType==BT_B)?'consMasterNo':'consDate', direction:'DESC'}
 	});		
-	var a=[];
-	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
-	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
-	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
-	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
-	var bp={mt:'xml',xml:FOSX(QTX(a))};
+	var queryParams=[];
+	queryParams[queryParams.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+	queryParams[queryParams.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+	queryParams[queryParams.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+	if(shipType!='') 
+		queryParams[queryParams.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
 	store.baseParams=bp;
     store.load({params:{start:0,limit:C_PS}});
 	
@@ -209,8 +210,11 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		}
        	else XMG.alert(SYS,M_R_P);
     };
+    setQueryParams=function(a){
+    	queryParams = a;
+    };
 	this.search = function(){
-		var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store);
+		var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store,setQueryParams);
 		w.show();
 	};
 	var rowCtxEvents = {
@@ -274,15 +278,26 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		}
 		else
  			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
-    	
+     	queryParams = a;
     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
-	this.exp=function(){EXP('C','CONS_LIST',
-			store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');};
+	this.exp=function(){
+		if(queryParams.length>0){
+			var a = queryParams;
+			var qa = [];
+			for(var i=0;i<a.length;i++){
+				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+			}
+			EXP('C','CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+		}
+		else{
+			EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');
+		}
+	};
   	var title=getBT(bizType);
   	title+=getBC(bizClass);
   	if(bizClass==BC_I&&shipType=='LCL') 

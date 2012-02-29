@@ -1737,7 +1737,7 @@ Fos.FConLW = function(p) {
 	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'FCON_X',
 		baseParams:{mt:'xml',xml:FOSX(QTX(a))},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FContract'}, FContract),
-		sortInfo:{field:'fconId', direction:'DESC'}});
+		sortInfo:{field:'createTime', direction:'DESC'}});
     store.load();
     this.search=function(){
       	var a=[];
@@ -1772,7 +1772,7 @@ Fos.FConLW = function(p) {
 	};
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
-	var cm=new Ext.grid.ColumnModel([sm,
+	var cm=new Ext.grid.ColumnModel({columns:[sm,	    
 		{header:C_CONTRACT_NO,dataIndex:"fconContractNo"},		
 		{header:C_STATUS,dataIndex:"fconStatus",renderer:getCTST},
 		{header:C_RENTER,width:120,dataIndex:"charterName"},
@@ -1787,9 +1787,10 @@ Fos.FConLW = function(p) {
 		{header:C_CONSIGNEE,dataIndex:"fconConsignee"},
 		{header:C_POL,dataIndex:"fconPolEn"},
 		{header:C_POD,dataIndex:"fconPodEn"},
+		{header:C_CREATE_TIME,dataIndex:"createTime"},		
 		{header:C_CARGO_DESC,width:120,dataIndex:"fconCargoDesc"}
-		]);
-	cm.defaultSortable = true;cm.defaultWidth=80;
+		],defaults:{sortable: true}});
+	cm.defaultWidth=80;
     var g = new Ext.grid.GridPanel({id:'G_FCON_LP',header:false,height:300,width:600,
     	store:store,sm:sm,cm:cm,loadMask:true,autoScroll:true});	
 	this.form = new Ext.Panel({id:'F_COLP',bodyStyle:'padding:0px',

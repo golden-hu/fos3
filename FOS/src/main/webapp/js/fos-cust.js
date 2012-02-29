@@ -1173,7 +1173,7 @@ Fos.FConLookup = function(store,T){
 };
 Ext.extend(Fos.FConLookup, Ext.Window);
 
-Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
+Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryParams){
 	var t1={id:'T_CONS_LOOK_1',title:C_LOOK_BY_NO,layout:'form',labelWidth:70,labelAlign:"right",
 		items:[{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textarea',anchor:'90%'},
     		{boxLabel:C_LOOK_SMART,name:'consNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}]};
@@ -1245,7 +1245,10 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
 	if(action=='CONS_X'){
 		tabs=(bizClass==BC_E)?[t1,t6,t2,t3,t4,t5]:[t1,t2,t3,t4,t5];
 	}
-	else if(action=='CONS_CHECK_X'){tabs=[t1,t2,t3,t4,t5];}
+	else if(action=='CONS_CHECK_X'){
+		tabs=[t1,t2,t3,t4,t5];
+	}
+	
 	this.reload=function(){
      	var a=[];     	
      	var op=1;     	
@@ -1369,6 +1372,7 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store){
      		if(consMblNoM) op=7;action='CONS_CONTNO_X';
      		a[a.length]=new QParam({key:'consContainerNo',value:consMblNo,op:op});
      	}
+     	setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){

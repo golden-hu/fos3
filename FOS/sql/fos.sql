@@ -6108,7 +6108,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '卸货港', 'FBl', 'blPod', NULL),
 (1, '交货地', 'FBl', 'blDeliveryPlace', NULL),
 (1, '标记唛码', 'FBl', 'blMarks', NULL),
-(1, '件数包装', 'FBl', 'blPackages', NULL),
+(1, '件数', 'FBl', 'blPackages', NULL),
+(1, '包装', 'FBl', 'packName', NULL),
 (1, '货物描述', 'FBl', 'blCargoDesc', NULL),
 (1, '毛重', 'FBl', 'blGrossWeight', NULL),
 (1, '体积', 'FBl', 'blMeasurement', NULL),
@@ -6126,7 +6127,9 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '箱号', 'FBl', 'blContainerNo', NULL),
 (1, '清洁提单', 'FBl', 'blCleanFlag', 'getCleanBL'),
 (1, '承运人', 'FBl', 'blCarrierName', NULL),
-(1, '备注', 'FBl', 'blRemarks', NULL);
+(1, '备注', 'FBl', 'blRemarks', NULL),
+(1, '装船日期', 'FBl', 'blLoadDate', NULL),
+(1, '到港日期', 'FBl', 'blEta', NULL);
 
 -- 报关单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
