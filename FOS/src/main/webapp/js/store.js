@@ -1165,8 +1165,10 @@ function getRM(bizClass,bizType,shipType){
 		else if(shipType=='LCL' && bizClass=='E') m2='06';
 	}
 	m1=eval('M1_'+bizType);
-	
-	return m1+m2;
+	if(bizType=='G'||bizType=='I')
+		return ""+m1;
+	else
+		return m1+m2;
 };
 var F_V='01';
 var F_M='02';
