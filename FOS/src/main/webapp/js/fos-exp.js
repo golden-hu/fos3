@@ -1033,27 +1033,27 @@ Fos.BookTab = function(p) {
 	var t31={layout:'column',layoutConfig: {columns:5},deferredRender:false,border:false,labelWidth:60,title:'货物小计',collapsible:true,items:
 			p.get('consBizType')==BT_A?[g1,g2,g30,g3,g4,g8,g5,g6,g7,g31,g10]:[g1,g2,g3,g4,g5,g6,g7,g8,g9,g10]};
 	
-	var g11={fieldLabel:C_DANAGER_CLASS,name:'cargDanagerClass',value:p.get('cargDanagerClass'),anchor:'90%'};
-	var g12={fieldLabel:C_IMDG_PAGE,name: 'cargImdgPage',value:p.get('cargImdgPage'),anchor:'90%'};
-	var g13={fieldLabel:C_UN_NO,name:'cargUnNo',value:p.get('cargUnNo'),anchor:'90%'};
-	var g14={fieldLabel:C_SUB_LABEL,name:'cargSubLabel',value:p.get('cargSubLabel'),anchor:'90%'};
-	var g15={fieldLabel:C_EMS_NO,name:'cargEmsNo',value:p.get('cargEmsNo'),anchor:'90%'};
-	var g16={fieldLabel:C_FLASH_POINT,name:'cargFlashPoint',value:p.get('cargFlashPoint'),anchor:'90%'};
-	var g17={fieldLabel:C_MFAG_NO,name:'cargMfagNo',value:p.get('cargMfagNo'),anchor:'90%'};
-	var g18={fieldLabel:C_PKG_GROUP,name:'cargPkgGroup',value:p.get('cargPkgGroup'),anchor:'90%'};
-	var g19={fieldLabel:C_DANAGER_PROPERTY,name:'cargDanagerProperty',value:p.get('cargDanagerProperty'),anchor:'90%'};
-	var g20={fieldLabel:C_POLLUTION_FLAG,name:'cargPollutionFlag',value:p.get('cargPollutionFlag'),xtype:'checkbox',anchor:'90%'};
+	var g11={fieldLabel:C_DANAGER_CLASS,name:'cargDanagerClass',value:p.get('cargDanagerClass'),anchor:'99%'};
+	var g12={fieldLabel:C_IMDG_PAGE,name: 'cargImdgPage',value:p.get('cargImdgPage'),anchor:'99%'};
+	var g13={fieldLabel:C_UN_NO,name:'cargUnNo',value:p.get('cargUnNo'),anchor:'99%'};
+	var g14={fieldLabel:C_SUB_LABEL,name:'cargSubLabel',value:p.get('cargSubLabel'),anchor:'99%'};
+	var g15={fieldLabel:C_EMS_NO,name:'cargEmsNo',value:p.get('cargEmsNo'),anchor:'99%'};
+	var g16={fieldLabel:C_FLASH_POINT,name:'cargFlashPoint',value:p.get('cargFlashPoint'),anchor:'99%'};
+	var g17={fieldLabel:C_MFAG_NO,name:'cargMfagNo',value:p.get('cargMfagNo'),anchor:'99%'};
+	var g18={fieldLabel:C_PKG_GROUP,name:'cargPkgGroup',value:p.get('cargPkgGroup'),anchor:'99%'};
+	var g19={fieldLabel:C_DANAGER_PROPERTY,name:'cargDanagerProperty',value:p.get('cargDanagerProperty'),anchor:'99%'};
+	var g20={fieldLabel:C_POLLUTION_FLAG,name:'cargPollutionFlag',value:p.get('cargPollutionFlag'),xtype:'checkbox',anchor:'99%'};
 	
-	var g21={fieldLabel:C_TEMPERATURE_UNIT,name:'cargTemperatureUnit',value:p.get('cargTemperatureUnit'),editable:false,store:TEUN_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'};
-	var g22={fieldLabel:C_TEMPERATURE,name:'cargTemperature',value:p.get('cargTemperature'),xtype:'numberfield',anchor:'90%'};
-	var g23={fieldLabel:C_TEMPERATURE_HIGH,name:'cargTemperatureHigh',value:p.get('cargTemperatureHigh'),xtype:'numberfield',anchor:'90%'};
-	var g24={fieldLabel:C_TEMPERATURE_LOW,name:'cargTemperatureLow',value:p.get('cargTemperatureLow'),xtype:'numberfield',anchor:'90%'};
-	var g25={fieldLabel: C_VENT_OUTLET,name:'cargVentOutlet',value:p.get('cargVentOutlet'),xtype:'textfield',anchor:'90%'};
-	var g26={fieldLabel: C_HUMIDITY,name:'cargHumidity',value:p.get('cargHumidity'),xtype:'numberfield',anchor:'90%'};
+	var g21={fieldLabel:C_TEMPERATURE_UNIT,name:'cargTemperatureUnit',value:p.get('cargTemperatureUnit'),editable:false,store:TEUN_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'};
+	var g22={fieldLabel:C_TEMPERATURE,name:'cargTemperature',value:p.get('cargTemperature'),xtype:'numberfield',anchor:'99%'};
+	var g23={fieldLabel:C_TEMPERATURE_HIGH,name:'cargTemperatureHigh',value:p.get('cargTemperatureHigh'),xtype:'numberfield',anchor:'99%'};
+	var g24={fieldLabel:C_TEMPERATURE_LOW,name:'cargTemperatureLow',value:p.get('cargTemperatureLow'),xtype:'numberfield',anchor:'99%'};
+	var g25={fieldLabel: C_VENT_OUTLET,name:'cargVentOutlet',value:p.get('cargVentOutlet'),xtype:'textfield',anchor:'99%'};
+	var g26={fieldLabel: C_HUMIDITY,name:'cargHumidity',value:p.get('cargHumidity'),xtype:'numberfield',anchor:'99%'};
 	
-	var g27={fieldLabel:C_LENGTH,name:'cargLength',value:p.get('cargLength'),xtype:'numberfield',anchor:'90%'};
-	var g28={fieldLabel: C_WIDTH,name:'cargWidth',value:p.get('cargWidth'),xtype:'numberfield',anchor:'90%'};
-	var g29={fieldLabel: C_HEIGH,name:'cargHigh',value:p.get('cargHigh'),xtype:'numberfield',anchor:'90%'};
+	var g27={fieldLabel:C_LENGTH,name:'cargLength',value:p.get('cargLength'),xtype:'numberfield',anchor:'99%'};
+	var g28={fieldLabel: C_WIDTH,name:'cargWidth',value:p.get('cargWidth'),xtype:'numberfield',anchor:'99%'};
+	var g29={fieldLabel: C_HEIGH,name:'cargHigh',value:p.get('cargHigh'),xtype:'numberfield',anchor:'99%'};
 	
 	var t32={layout:'column',layoutConfig: {columns:3},title:C_CARGO_SPECIAL_INFO,border:false,collapsible:true,items:
 	 		[{columnWidth:.33,border:false,items: 
@@ -1739,7 +1739,8 @@ Fos.TransTab = function(p) {
 	this.start=function(){this.updateStatus('1');};
 	this.end=function(){this.updateStatus('2');};
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_TRAN;	
-    var c1={fieldLabel:HL(C_TRACK_VENDOR),name:'tranVendorName',tabIndex:1,store:getCS(),enableKeyEvents:true,
+   
+	var c1={fieldLabel:HL(C_TRACK_VENDOR),name:'tranVendorName',tabIndex:1,store:getCS(),enableKeyEvents:true,
 			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 			listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranVendorId','');p.set('tranVendorName','');}},
@@ -1756,18 +1757,17 @@ Fos.TransTab = function(p) {
 				}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}};
-	var c3={fieldLabel:C_LOAD_TIME,name:'tranLoadDate',tabIndex:26,xtype:'datefield',format:DATEF,anchor:'99%'};
-	var c4={fieldLabel:C_LOAD_FACTORY,name:'tranLoadFactory',tabIndex:9,xtype:'textfield',anchor:'99%'};
-	var c5={fieldLabel:C_LOAD_ADDRESS,name:'tranLoadAddress',tabIndex:13,xtype:'textfield',anchor:'99%'};
-	var c6={fieldLabel:C_VESS,name:'tranVessel',tabIndex:21,xtype:'textfield',anchor:'99%'};
+	var txtLoadTime={fieldLabel:C_LOAD_TIME,name:'tranLoadTime',tabIndex:26,xtype:'textfield',anchor:'99%'};
+	var c4={fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_PLACE:C_DELIVERY_PLACE,name:'tranLoadFactory',tabIndex:9,xtype:'textfield',anchor:'99%'};
+	var txtLoadAddress={fieldLabel:C_LOAD_ADDRESS,name:'tranLoadAddress',tabIndex:13,xtype:'textfield',anchor:'99%'};
+	
 	var c7={fieldLabel:C_DRAW_CY,name:'tranCyDraw',tabIndex:25,xtype:'textfield',anchor:'99%'};
 	
 	var c8={fieldLabel:C_TRAN_CONTACT,name:'tranVendorContact',tabIndex:2,xtype:'textfield',anchor:'99%'};
 	var c9={fieldLabel:C_CONTRACT_NO,name:'tranContractNo',tabIndex:6,xtype:'textfield',anchor:'99%'};
 	var c10={fieldLabel:C_LOAD_CONTACT,name:'tranLoadContact',tabIndex:10,xtype:'textfield',anchor:'99%'};
-	var c11={fieldLabel:C_DELIVERY_ADDRESS,name:'tranDeliveryAddress',tabIndex:14,xtype:'textfield',anchor:'99%'};
+	
 	var c12={fieldLabel:C_OP_TYPE,name:'tranOperationType',tabIndex:17,store:TROT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
-	var c13={fieldLabel:C_VOYA,name:'tranVoyage',tabIndex:22,xtype:'textfield',anchor:'99%'};
 	var c14={fieldLabel:C_DRAW_DATE,name:'tranDrawDate',tabIndex:26,xtype:'datefield',format:DATEF,anchor:'99%'};
 	var c15={fieldLabel:C_TRAN_TEL,name:'tranVendorTel',tabIndex:3,xtype:'textfield',anchor:'99%'};
 	var c16={fieldLabel:C_CONS_DATE,name:'tranDate',tabIndex:7,xtype:'datefield',format:DATEF,anchor:'99%'};
@@ -1785,18 +1785,42 @@ Fos.TransTab = function(p) {
 	var c20={fieldLabel:p.get('consBizClass')==BC_E?C_POL:C_POD,tabIndex:23,name:'tranPol',xtype:'textfield',anchor:'99%'};
 	var c21={fieldLabel:C_BACK_CY,name:'tranCyBack',tabIndex:27,xtype:'textfield',anchor:'99%'};
 	
-	var c22={fieldLabel:C_TRAN_FAX,name:'tranVendorFax',tabIndex:4,xtype:'textfield',anchor:'90%'};
-	var c23={fieldLabel:C_TRAN_DATE,name:'tranStartDate',tabIndex:26,xtype:'datefield',format:DATEF,anchor:'90%'};
-	var c24={fieldLabel:C_LOAD_PLACE,name:'tranLoadPlace',tabIndex:12,xtype:'textfield',anchor:'90%'};
-	var c25={fieldLabel:C_CONT_INFO,name:'tranContainerInfo',tabIndex:16,xtype:'textfield',allowDecimals:false,anchor:'90%'};
-	var c26={fieldLabel:p.get('consBizClass')==BC_E?C_CUSTOM_EXPIRY_DATE:C_ETA,tabIndex:8,name:'tranExpiryDate',xtype:'datefield',format:DATEF,anchor:'90%'};
-	var c27={fieldLabel:p.get('consBizClass')==BC_E?'S/O No.':C_MBL_NO,name:'tranSoNo',tabIndex:24,xtype:'textfield',anchor:'90%'};
-	var c28={fieldLabel:C_BACK_DATE,name:'tranBackDate',tabIndex:28,xtype:'datefield',format:DATEF,anchor:'90%'};
+	var c22={fieldLabel:C_TRAN_FAX,name:'tranVendorFax',tabIndex:4,xtype:'textfield',anchor:'99%'};
+	var c23={fieldLabel:C_TRAN_DATE,name:'tranStartDate',tabIndex:26,xtype:'datefield',format:DATEF,anchor:'99%'};
+	
+	var c25={fieldLabel:C_CONT_INFO,name:'tranContainerInfo',tabIndex:16,xtype:'textfield',allowDecimals:false,anchor:'99%'};
+	var c26={fieldLabel:p.get('consBizClass')==BC_E?C_CUSTOM_EXPIRY_DATE:C_ETA,tabIndex:8,name:'tranExpiryDate',xtype:'datefield',format:DATEF,anchor:'99%'};
+	
+	var c28={fieldLabel:C_BACK_DATE,name:'tranBackDate',tabIndex:28,xtype:'datefield',format:DATEF,anchor:'99%'};
+	
+	
+	var txtDeliveryPlace={fieldLabel:C_DELIVERY_PLACE,name:'tranDeliveryPlace',
+			tabIndex:24,xtype:'textfield',anchor:'99%'};
+	var txtDeliveryAddress={fieldLabel:C_DELIVERY_ADDRESS,name:'tranDeliveryAddress',
+			tabIndex:14,xtype:'textfield',anchor:'99%'};
+	var txtDeliveryContact={fieldLabel:C_DELIVERY_CONTACT,name:'tranDeliveryContact',
+			tabIndex:24,xtype:'textfield',anchor:'99%'};
+	var txtDeliveryTel={fieldLabel:C_DELIVERY_TEL,name:'tranDeliveryTel',
+			tabIndex:24,xtype:'textfield',anchor:'99%'};
+	
 	var t2={layout:'column',title:C_TRAN_INFO,layoutConfig:{columns:4},deferredRender:false,collapsible:true,
-			items:[{columnWidth:.25,layout:'form',border:false,items:[c1,c3,c4,c5,c6,c7]},
-			{columnWidth:.25,layout:'form',border : false,labelWidth:90,items:[c8,c9,c10,c11,c12,c13,c14]},
-			{columnWidth:.25,layout:'form',border : false,items:[c15,c16,c17,c18,c19,c20,c21]},
-			{columnWidth:.25,layout:'form',border : false,items:[c22,c23,c24,c25,c26,c27,c28]}
+			items:[
+			{columnWidth:.25,layout:'form',border:false,items:
+				p.get('consBizType')==BT_C?[c1,c9,c4,txtDeliveryPlace,c20,c7]:
+					[c1,c9,c4,txtDeliveryPlace,c20]
+			},
+			{columnWidth:.25,layout:'form',border : false,labelWidth:90,items:
+				p.get('consBizType')==BT_C?[c8,c16,c10,txtDeliveryAddress,c12,c14]:
+					[c8,c16,c10,txtDeliveryAddress,c12]
+			},
+			{columnWidth:.25,layout:'form',border : false,items:
+				p.get('consBizType')==BT_C?[c15,c23,c17,c19,txtDeliveryContact,c18,c21]:
+					[c15,c23,c17,txtDeliveryContact,c19]
+			},
+			{columnWidth:.25,layout:'form',border : false,items:
+				p.get('consBizType')==BT_C?[c22,txtLoadTime,txtLoadAddress,c26,txtDeliveryTel,c25,c28]:
+					[c22,txtLoadTime,txtLoadAddress,txtDeliveryTel,c26]
+			}
             ]};
     
 	var f1={fieldLabel:C_CUSTOM_AGENCY,name:'tranCustomsBrokerName',tabIndex:17,store:getCS(),enableKeyEvents:true,
@@ -1812,29 +1836,38 @@ Fos.TransTab = function(p) {
 				if(b){b.set('tranCustomsBroker',r.get('custId'));}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}};
-	var f2={fieldLabel:C_CUSTOMS_CONTACT,name:'tranCustomsContact',tabIndex:18,xtype:'textfield',anchor:'90%'};
+	var f2={fieldLabel:C_CUSTOMS_CONTACT,name:'tranCustomsContact',tabIndex:18,xtype:'textfield',anchor:'99%'};
 	var f3={fieldLabel:C_CUSTOMS_ADDRESS,tabIndex:20,name:'tranCustomsAddress',xtype:'textfield',anchor:'99%'};
-	var f4={fieldLabel:C_CUSTOMS_TEL,name:'tranCustomsTel',tabIndex:19,xtype:'textfield',anchor:'90%'};
+	var f4={fieldLabel:C_CUSTOMS_TEL,name:'tranCustomsTel',tabIndex:19,xtype:'textfield',anchor:'99%'};
 	var t3={layout:'column',title:C_TRAN_CUSTOMS_INFO,layoutConfig:{columns:2},deferredRender:false,collapsible:true,
 			items:[{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f1]},
 			{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f2]},
 			{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f3]},
 			{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f4]}]};
 			
-	var f5={fieldLabel:C_TRAN_TYPE,name:'tranType',tabIndex:17,store:TANT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'};
+	var f5={fieldLabel:C_TRAN_TYPE,name:'tranType',tabIndex:17,store:TANT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var f6={fieldLabel:C_PRE_FLAG,name:'tranPreFlag',tabIndex:19,xtype:'checkbox',anchor:'60%'};
-	var f7={fieldLabel:C_VEHT,name:'tranVehicleType',tabIndex:17,store:getVEHT_S(),xtype:'combo',displayField:'vehtName',valueField:'vehtId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'};
+	var f7={fieldLabel:C_VEHT,name:'tranVehicleType',tabIndex:17,store:getVEHT_S(),xtype:'combo',displayField:'vehtName',valueField:'vehtId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var f8={fieldLabel:C_INSP_FLAG,name:'tranInspFlag',tabIndex:19,xtype:'checkbox',anchor:'60%'};
 	var f9={fieldLabel:C_IC_FLAG,name:'tranIcFlag',tabIndex:19,xtype:'checkbox',anchor:'60%'};
 	var f10={fieldLabel:C_REAL_FLAG,name:'tranRearFlag',tabIndex:19,xtype:'checkbox',anchor:'60%'};
-	var f11={fieldLabel:C_IC_DAYS,tabIndex:20,name:'tranIcDays',xtype:'numberfield',anchor:'90%'};
+	var f11={fieldLabel:C_IC_DAYS,tabIndex:20,name:'tranIcDays',xtype:'numberfield',anchor:'99%'};
 	var f12={fieldLabel:C_CONT_FLAG,name:'tranContFlag',tabIndex:19,xtype:'checkbox',anchor:'60%'};
+	
+	var txtVessel={fieldLabel:C_VESS,name:'tranVessel',tabIndex:21,xtype:'textfield',anchor:'99%'};
+	var txtVoyage={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,name:'tranVoyage',tabIndex:22,xtype:'textfield',anchor:'99%'};
+	var txtMbl={fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,name:'consMblNo',
+			tabIndex:24,xtype:'textfield',anchor:'99%'};
+	var txtHbl={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,name:'consHblNo',
+			tabIndex:24,xtype:'textfield',anchor:'99%'};
+	
+	
 	var t4={layout:'column',title:C_OTHER_INFO,layoutConfig:{columns:4},deferredRender:false,collapsible:true,
 			items:[
-				{columnWidth:.25,layout:'form',border : false,items:[f5,f6]},
-				{columnWidth:.25,layout:'form',border : false,items:[f7,f8]},
-				{columnWidth:.25,layout:'form',border : false,items:[f9,f10]},
-				{columnWidth:.25,layout:'form',border : false,items:[f11,f12]}
+				{columnWidth:.25,layout:'form',border : false,items:[txtVessel,f5,f6]},
+				{columnWidth:.25,layout:'form',border : false,items:[txtVoyage,f7,f8]},
+				{columnWidth:.25,layout:'form',border : false,items:[txtMbl,f9,f10]},
+				{columnWidth:.25,layout:'form',border : false,items:[txtHbl,f11,f12]}
 			]};
 
 	var menu=CREATE_E_MENU(C_TRANS_BILL,this.expExcelTR,this.expEmailTR,function(){},this);	
@@ -2208,10 +2241,10 @@ Fos.WarehouseTab = function(p) {
 				{fieldLabel:C_WARE_OPERATOR_TEL,name:'wareOperatorTel',tabIndex:11,xtype:'textfield',anchor:'99%'},	
 				{fieldLabel:C_BL_NO,name:'wareMblNo',tabIndex:5,xtype:'textfield',anchor:'99%'}]},				
 			{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_WARE_BOOK_DATE,name:'wareBookDate',tabIndex:4,xtype:'datefield',format:DATEF,anchor:'90%'},
-				{fieldLabel:C_WARE_FAX,name:'wareVendorFax',tabIndex:8,xtype:'textfield',anchor:'90%'},				
-				{fieldLabel:C_CUST_FAX,name:'wareCustomerFax',tabIndex:12,xtype:'textfield',anchor:'90%'},
-				{fieldLabel:C_WARE_OPERATOR_FAX,name:'wareOperatorFax',tabIndex:16,xtype:'textfield',anchor:'90%'},
+				{fieldLabel:C_WARE_BOOK_DATE,name:'wareBookDate',tabIndex:4,xtype:'datefield',format:DATEF,anchor:'99%'},
+				{fieldLabel:C_WARE_FAX,name:'wareVendorFax',tabIndex:8,xtype:'textfield',anchor:'99%'},				
+				{fieldLabel:C_CUST_FAX,name:'wareCustomerFax',tabIndex:12,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_WARE_OPERATOR_FAX,name:'wareOperatorFax',tabIndex:16,xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_WARE_LOAD_FLAG,name:'wareLoadFlag',tabIndex:20,xtype:'checkbox',anchor:'60%'}]},
           {columnWidth:.5,layout:'form',border : false,items:[
 				{fieldLabel:C_TRACK_VENDOR,name:'wareTransVendorName',tabIndex:17,store:getCS(),enableKeyEvents:true,
@@ -2224,11 +2257,11 @@ Fos.WarehouseTab = function(p) {
 					},
 					keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}}]},
 		  {columnWidth:.5,layout:'form',border : false,items:[
-				{fieldLabel:C_TRACK_NO,name:'wareTrackNo',tabIndex:18,xtype:'textfield',anchor:'90%'}]},				
+				{fieldLabel:C_TRACK_NO,name:'wareTrackNo',tabIndex:18,xtype:'textfield',anchor:'99%'}]},				
            {columnWidth:.5,layout:'form',border : false,items:[
 				{fieldLabel:C_CONT_NO,name:'wareContainerNo',tabIndex:19,xtype:'textarea',anchor:'99%'}]},
 			{columnWidth:.5,layout:'form',border : false,items:[
-				{fieldLabel:C_REMARKS,name:'wareRemarks',tabIndex:20,xtype:'textarea',anchor:'90%'}]}
+				{fieldLabel:C_REMARKS,name:'wareRemarks',tabIndex:20,xtype:'textarea',anchor:'99%'}]}
             ]},           
 			{layout:'fit',border:false,collapsible:true,title:C_CARGO_LIST,items:[this.cargoGrid]}]}
 		]
@@ -2602,21 +2635,21 @@ Fos.SecondShipTab = function(p) {
 	items: [{layout:'fit',border:false,items:[this.grid]},
             {layout:'column',title:C_SECOND_SHIP_INFO,layoutConfig: {columns:4},items:[
             {columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_BL_NO,name:'seshBlNo',tabIndex:1,xtype:'textfield',anchor:'90%'},
-                {fieldLabel:C_POT_AGENCY,name:'seshPotAgency',tabIndex:5,xtype:'textfield',anchor:'90%'},
-				{fieldLabel:C_TRANS_NO,name:'seshTransNo',tabIndex:9,xtype:'textfield',anchor:'90%'}]},
+				{fieldLabel:C_BL_NO,name:'seshBlNo',tabIndex:1,xtype:'textfield',anchor:'99%'},
+                {fieldLabel:C_POT_AGENCY,name:'seshPotAgency',tabIndex:5,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_TRANS_NO,name:'seshTransNo',tabIndex:9,xtype:'textfield',anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_SECOND_CARRIER,name:'seshCarrier',tabIndex:2,xtype:'textfield',anchor:'90%'},
-				{fieldLabel:C_POT,name:'seshPot',tabIndex:6,xtype:'textfield',anchor:'90%'},
-                {fieldLabel:C_CUSTOM_SNO,name:'seshSealNo',tabIndex:10,xtype:'textfield',anchor:'90%'}]},
+				{fieldLabel:C_SECOND_CARRIER,name:'seshCarrier',tabIndex:2,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_POT,name:'seshPot',tabIndex:6,xtype:'textfield',anchor:'99%'},
+                {fieldLabel:C_CUSTOM_SNO,name:'seshSealNo',tabIndex:10,xtype:'textfield',anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border : false,items:[
-            	{fieldLabel:C_SECOND_VESS,name:'seshVessel',tabIndex:3,xtype:'textfield',anchor:'90%'},
-                {fieldLabel:C_ETA,name:'seshEta',tabIndex:7,xtype:'datefield',format:DATEF,anchor:'90%'}]},
+            	{fieldLabel:C_SECOND_VESS,name:'seshVessel',tabIndex:3,xtype:'textfield',anchor:'99%'},
+                {fieldLabel:C_ETA,name:'seshEta',tabIndex:7,xtype:'datefield',format:DATEF,anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border : false,items:[
-                {fieldLabel:C_SECOND_VOYA,name:'seshVoyage',tabIndex:4,xtype:'textfield',anchor:'90%'},
-                 {fieldLabel:C_ETD,name:'seshEtd',tabIndex:8,xtype:'datefield',format:DATEF,anchor:'90%'}]},
+                {fieldLabel:C_SECOND_VOYA,name:'seshVoyage',tabIndex:4,xtype:'textfield',anchor:'99%'},
+                 {fieldLabel:C_ETD,name:'seshEtd',tabIndex:8,xtype:'datefield',format:DATEF,anchor:'99%'}]},
             {columnWidth:.5,layout:'form',border : false,items:[
-                {fieldLabel:C_REMARKS,name:'seshRemarks',tabIndex:11,xtype:'textfield',anchor:'90%'}]}
+                {fieldLabel:C_REMARKS,name:'seshRemarks',tabIndex:11,xtype:'textfield',anchor:'99%'}]}
 			]}
 		]
 	});
@@ -2871,55 +2904,55 @@ Fos.RailwayBlTab = function(p) {
 	items: [{layout:'fit',border:false,items:[this.grid]},
             {layout:'column',title:C_BASE_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,
 			items: [{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_RABL_NO,name:'rablNo',tabIndex:1,xtype:'textfield',anchor:'90%'},
-                {fieldLabel:C_CONT_NO,name:'rablContainerNo',tabIndex:5,xtype:'textfield',anchor:'90%'},
-				{fieldLabel:C_SEAL_NO+'1',name:'rablSealNo',tabIndex:9,xtype:'textfield',anchor:'90%'},
-				{fieldLabel:C_PACKAGES,name:'rablPackages',tabIndex:13,xtype:'numberfield',anchor:'90%'},
-				{fieldLabel:C_CONT_WEIGHT,name:'rablContainerWeight',tabIndex:17,xtype:'numberfield',anchor:'90%'},
-				{fieldLabel:C_CONT_BACK_PLACE,name:'rablReturnPlace',tabIndex:21,xtype:'textfield',anchor:'90%'}
+				{fieldLabel:C_RABL_NO,name:'rablNo',tabIndex:1,xtype:'textfield',anchor:'99%'},
+                {fieldLabel:C_CONT_NO,name:'rablContainerNo',tabIndex:5,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_SEAL_NO+'1',name:'rablSealNo',tabIndex:9,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_PACKAGES,name:'rablPackages',tabIndex:13,xtype:'numberfield',anchor:'99%'},
+				{fieldLabel:C_CONT_WEIGHT,name:'rablContainerWeight',tabIndex:17,xtype:'numberfield',anchor:'99%'},
+				{fieldLabel:C_CONT_BACK_PLACE,name:'rablReturnPlace',tabIndex:21,xtype:'textfield',anchor:'99%'}
 				]},				
 			{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_CONTRACT_NO,name:'rablContractNo',tabIndex:2,xtype:'textfield',anchor:'90%'},
+				{fieldLabel:C_CONTRACT_NO,name:'rablContractNo',tabIndex:2,xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_COTY,name:'rablContainerType',tabIndex:6,xtype:'combo',displayField:'cotyCode',valueField:'cotyId',triggerAction:'all',
-            		mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S(),anchor:'90%'},
-                {fieldLabel:C_SEAL_NO+'2',name:'rablSealNo2',tabIndex:10,xtype:'textfield',anchor:'90%'},
+            		mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S(),anchor:'99%'},
+                {fieldLabel:C_SEAL_NO+'2',name:'rablSealNo2',tabIndex:10,xtype:'textfield',anchor:'99%'},
                 {fieldLabel:C_PACK,name:'packId',tabIndex:14,xtype:'combo',displayField:'packName',valueField:'packId',triggerAction:'all',
-            		mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),anchor:'90%'},
-            	{fieldLabel:C_INVOICE_PRICE,name:'rablInvoicePrice',tabIndex:18,xtype:'numberfield',anchor:'90%'}
+            		mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),anchor:'99%'},
+            	{fieldLabel:C_INVOICE_PRICE,name:'rablInvoicePrice',tabIndex:18,xtype:'numberfield',anchor:'99%'}
                 ]},
 			{columnWidth:.25,layout:'form',border : false,items:[
-            	{fieldLabel:C_TRAN_DATE,name:'rablEtd',tabIndex:3,xtype:'datefield',format:DATEF,anchor:'90%'},
-                {fieldLabel:C_CONT_NO_ORI,name:'rablContainerNoO',tabIndex:7,xtype:'textfield',anchor:'90%'},
-                {fieldLabel:C_HS_CODE,name:'rablHsCode',tabIndex:11,xtype:'textfield',anchor:'90%'},
-                {fieldLabel:C_CARGO_WEIGHT,name:'rablGrossWeight',tabIndex:15,xtype:'numberfield',anchor:'90%'},
-                {fieldLabel:C_CURR,tabIndex:19,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
+            	{fieldLabel:C_TRAN_DATE,name:'rablEtd',tabIndex:3,xtype:'datefield',format:DATEF,anchor:'99%'},
+                {fieldLabel:C_CONT_NO_ORI,name:'rablContainerNoO',tabIndex:7,xtype:'textfield',anchor:'99%'},
+                {fieldLabel:C_HS_CODE,name:'rablHsCode',tabIndex:11,xtype:'textfield',anchor:'99%'},
+                {fieldLabel:C_CARGO_WEIGHT,name:'rablGrossWeight',tabIndex:15,xtype:'numberfield',anchor:'99%'},
+                {fieldLabel:C_CURR,tabIndex:19,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}
                 ]},
 			{columnWidth:.25,layout:'form',border : false,items:[
                 {fieldLabel:C_BULK_FLAG,name:'rablBulkFlag',tabIndex:4,xtype:'checkbox',anchor:'50%'},
                  {fieldLabel:C_SOC_FLAG,name:'rablSocFlag',tabIndex:8,xtype:'checkbox',anchor:'50%'},
-                 {fieldLabel:C_MARKS,name:'rablCargoMarks',tabIndex:12,xtype:'textfield',anchor:'90%'},
-                 {fieldLabel:C_CBM,name:'rablMeasurement',tabIndex:16,xtype:'numberfield',anchor:'90%'},
-                 {fieldLabel:C_CONT_AGENCY,name:'rablAgencyName',tabIndex:20,xtype:'textfield',anchor:'90%'}
+                 {fieldLabel:C_MARKS,name:'rablCargoMarks',tabIndex:12,xtype:'textfield',anchor:'99%'},
+                 {fieldLabel:C_CBM,name:'rablMeasurement',tabIndex:16,xtype:'numberfield',anchor:'99%'},
+                 {fieldLabel:C_CONT_AGENCY,name:'rablAgencyName',tabIndex:20,xtype:'textfield',anchor:'99%'}
                  ]}
 			]},
 			{layout:'column',title:C_RABL_INFO,layoutConfig:{columns:3},deferredRender:false,collapsible:true,labelAlign:'top',
 			items: [{columnWidth:.33,layout:'form',border : false,items:[
-				{fieldLabel:C_SHIPPER,name:'rablShipper',tabIndex:22,xtype:'textarea',anchor:'90%'},
-                {fieldLabel:C_SHIPPER_NOTES,name:'rablShipperNotes',tabIndex:25,xtype:'textarea',anchor:'90%'},
-				{fieldLabel:C_STATION_T,name:'rablStationT',tabIndex:28,xtype:'textarea',anchor:'90%'},
-				{fieldLabel:C_RA_CHARGE_REMARK,name:'rablChargeRemarks',tabIndex:31,xtype:'textarea',anchor:'90%'}
+				{fieldLabel:C_SHIPPER,name:'rablShipper',tabIndex:22,xtype:'textarea',anchor:'99%'},
+                {fieldLabel:C_SHIPPER_NOTES,name:'rablShipperNotes',tabIndex:25,xtype:'textarea',anchor:'99%'},
+				{fieldLabel:C_STATION_T,name:'rablStationT',tabIndex:28,xtype:'textarea',anchor:'99%'},
+				{fieldLabel:C_RA_CHARGE_REMARK,name:'rablChargeRemarks',tabIndex:31,xtype:'textarea',anchor:'99%'}
 				]},				
 			{columnWidth:.33,layout:'form',border : false,items:[
-				{fieldLabel:C_CONSIGNEE,name:'rablConsignee',tabIndex:23,xtype:'textarea',anchor:'90%'},
-				{fieldLabel:C_RA_NOTES,name:'rablRailwayNotes',tabIndex:26,xtype:'textarea',anchor:'90%'},
-                {fieldLabel:C_STATION_D,name:'rablStationD',tabIndex:29,xtype:'textarea',anchor:'90%'},
-            	{fieldLabel:C_CARGO_NAME_EN,name:'rablCargoNameEn',tabIndex:32,xtype:'textarea',anchor:'90%'}
+				{fieldLabel:C_CONSIGNEE,name:'rablConsignee',tabIndex:23,xtype:'textarea',anchor:'99%'},
+				{fieldLabel:C_RA_NOTES,name:'rablRailwayNotes',tabIndex:26,xtype:'textarea',anchor:'99%'},
+                {fieldLabel:C_STATION_D,name:'rablStationD',tabIndex:29,xtype:'textarea',anchor:'99%'},
+            	{fieldLabel:C_CARGO_NAME_EN,name:'rablCargoNameEn',tabIndex:32,xtype:'textarea',anchor:'99%'}
                 ]},
 			{columnWidth:.34,layout:'form',border : false,items:[
-            	{fieldLabel:C_NOTIFIER,name:'rablNotifyParty',tabIndex:24,xtype:'textarea',anchor:'90%'},
-                {fieldLabel:C_DELIVERY_STATION,name:'rablDeliveryPlace',tabIndex:27,xtype:'textarea',anchor:'90%'},
-                {fieldLabel:C_CONT_DESC,name:'rablContainerDesc',tabIndex:30,xtype:'textarea',anchor:'90%'},
-                {fieldLabel:C_CARGO_NAME_CN,name:'rablCargoNameCn',tabIndex:33,xtype:'textarea',anchor:'90%'}
+            	{fieldLabel:C_NOTIFIER,name:'rablNotifyParty',tabIndex:24,xtype:'textarea',anchor:'99%'},
+                {fieldLabel:C_DELIVERY_STATION,name:'rablDeliveryPlace',tabIndex:27,xtype:'textarea',anchor:'99%'},
+                {fieldLabel:C_CONT_DESC,name:'rablContainerDesc',tabIndex:30,xtype:'textarea',anchor:'99%'},
+                {fieldLabel:C_CARGO_NAME_CN,name:'rablCargoNameCn',tabIndex:33,xtype:'textarea',anchor:'99%'}
                 ]}
 			]}
 		]

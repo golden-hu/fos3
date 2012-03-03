@@ -719,9 +719,9 @@ public class FConsignService {
 		List retList = new ArrayList();
 		List objList = dao.complexQueryCheck(conditions, queryMap);
 		checkMergeStatistics(retList, objList);
-		/*if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
+		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
 			retList.addAll(expenseDao.findByProperties(queryMap));
-		}*/
+		}
 		return retList;
 	}
 

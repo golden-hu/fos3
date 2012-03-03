@@ -22,6 +22,8 @@ public abstract class AbstractFTrans extends BaseDomain {
 	private String tranNo;
 	private Integer consId;
 	private String consNo;
+	private String consMblNo;
+	private String consHblNo;
 	private String tranContractNo;
 	private Date tranDate;
 	private Integer tranVendorId;
@@ -46,8 +48,11 @@ public abstract class AbstractFTrans extends BaseDomain {
 	private String tranLoadAddress;
 	private Date tranStartDate;
 	private Date tranCompleteDate;
-	private Date tranLoadDate;
+	private String tranLoadTime;
 	private String tranDeliveryAddress;
+	private String tranDeliveryPlace;
+	private String tranDeliveryContact;
+	private String tranDeliveryTel;	
 	private Integer tranCustomsBroker;
 	private String tranCustomsBrokerName;
 	private String tranCustomsContact;
@@ -140,6 +145,24 @@ public abstract class AbstractFTrans extends BaseDomain {
 		this.consNo = consNo;
 	}
 
+	@Column(name = "CONS_MBL_NO", length = 32)
+	public String getConsMblNo() {
+		return this.consMblNo;
+	}
+
+	public void setConsMblNo(String consMblNo) {
+		this.consMblNo = consMblNo;
+	}
+	
+	@Column(name = "CONS_HBL_NO", length = 32)
+	public String getConsHblNo() {
+		return this.consHblNo;
+	}
+
+	public void setConsHblNo(String consHblNo) {
+		this.consHblNo = consHblNo;
+	}
+	
 	@Column(name = "TRAN_CONTRACT_NO", length = 32)
 	public String getTranContractNo() {
 		return this.tranContractNo;
@@ -360,14 +383,14 @@ public abstract class AbstractFTrans extends BaseDomain {
 		this.tranCompleteDate = tranCompleteDate;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "TRAN_LOAD_DATE", length = 10)
-	public Date getTranLoadDate() {
-		return this.tranLoadDate;
+	
+	@Column(name = "TRAN_LOAD_TIME", length = 10)
+	public String getTranLoadTime() {
+		return this.tranLoadTime;
 	}
 
-	public void setTranLoadDate(Date tranLoadDate) {
-		this.tranLoadDate = tranLoadDate;
+	public void setTranLoadTime(String tranLoadTime) {
+		this.tranLoadTime = tranLoadTime;
 	}
 
 	@Column(name = "TRAN_DELIVERY_ADDRESS", length = 200)
@@ -379,6 +402,33 @@ public abstract class AbstractFTrans extends BaseDomain {
 		this.tranDeliveryAddress = tranDeliveryAddress;
 	}
 
+	@Column(name = "TRAN_DELIVERY_PLACE")
+	public String getTranDeliveryPlace() {
+		return this.tranDeliveryPlace;
+	}
+
+	public void setTranDeliveryPlace(String tranDeliveryPlace) {
+		this.tranDeliveryPlace = tranDeliveryPlace;
+	}
+	
+	@Column(name = "TRAN_DELIVERY_CONTACT")
+	public String getTranDeliveryContact() {
+		return this.tranDeliveryContact;
+	}
+
+	public void setTranDeliveryContact(String tranDeliveryContact) {
+		this.tranDeliveryContact = tranDeliveryContact;
+	}
+	
+	@Column(name = "TRAN_DELIVERY_TEL")
+	public String getTranDeliveryTel() {
+		return this.tranDeliveryTel;
+	}
+
+	public void setTranDeliveryTel(String tranDeliveryTel) {
+		this.tranDeliveryTel = tranDeliveryTel;
+	}
+	
 	@Column(name = "TRAN_CUSTOMS_BROKER")
 	public Integer getTranCustomsBroker() {
 		return this.tranCustomsBroker;
