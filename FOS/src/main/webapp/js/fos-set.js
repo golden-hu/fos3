@@ -153,7 +153,8 @@
 	cm.defaultSortable=true;cm.defaultWidth=100;			
 	this.add=function(){
 		var unit='EACH';var rid=GGUID();
-		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consSailDate:p.get('consSailDate'),
+		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
+			section:'CONS',consSailDate:p.get('consSailDate'),
     		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
     		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
     		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',expeInvoiceStatus:'0',expeWriteOffStatus:'0',
@@ -241,16 +242,13 @@
 				for (var j=0;j<f.keys.length;j++){
 					var fn=''+f.keys[j];
 					e.set(fn,r.get(fn));
-				}
-				
-				e.set('expeType',t=='R'?'P':'R');
-						
+				}				
+				e.set('expeType',t=='R'?'P':'R');						
 				e.set('custId',t=='P'?p.get('custId'):'');
 				e.set('custName',t=='P'?p.get('custName'):'');
 				e.set('custSname',t=='P'?p.get('custSname'):'');
 				e.set('consCustId',e.get('custId'));
-				e.set('consCustName',e.get('custName'));
-			    		
+				e.set('consCustName',e.get('custName'));			    		
 				e.set('expeDate',new Date());e.set('id',id);e.set('expeId',id);
 				e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
 				e.set('expeUnitPrice','');
@@ -260,8 +258,7 @@
 				e.set('expeInvoiceAmount',0);e.set('expeWriteOffAmount',0);
 				e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
 				e.set('expeWriteoffStatus',0);e.set('expeAllocationFlag',0);e.set('expeAllocatedFlag',0);
-				e.set('consIdM','');e.set('consNoM','');
-								
+				e.set('consIdM','');e.set('consNoM','');								
 				if(t=='R')
 					frm.ps.add(e);
 				else
@@ -4085,3 +4082,185 @@ Fos.ExalWin = function(store,p) {
 		    ]}); 
 };
 Ext.extend(Fos.ExalWin, Ext.Window);
+
+Fos.SectionExGrid = function(p,section,parent) {
+	var store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	store.load({params:{consId:p.get('consId'),section:section}});
+	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
+	m=m+M3_EXPE+S_AP; 
+	var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'left',
+		editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
+        mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
+        invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+        store:getCS(),enableKeyEvents:true,
+        listeners:{scope:this,
+        	select:function(c,r,i){
+			var b =this.getSelectionModel().getSelected();
+        	b.set('custId',r.get('custId'));
+        	b.set('custName',r.get('custNameCn'));
+        	b.set('custSname',r.get('custCode'));
+        	},
+       		keydown:{fn:function(f,e){
+       			LC(f,e,'custApFlag',1);
+       		},buffer:500}
+        }})};
+	
+	t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
+			editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
+            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+            store:getCHAR_S(),
+            listeners:{scope:this,select:function(c,r,i){
+            	var b =this.getSelectionModel().getSelected();
+            	b.set('charId',r.get('charId'));
+            	b.set('chclId',r.get('chclId'));
+            	b.set('charNameEn',r.get('charNameEn'));
+            	b.set('currCode',r.get('currCode'));
+            	b.set('unitId',r.get('unitId'));
+            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
+            	}
+			}
+		})};	
+	
+    var t3={header:C_UNIT,width:80,dataIndex:"unitName",align:'center',
+			editor:new Ext.form.ComboBox({displayField:'unitCode',valueField:'unitCode',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_C(),listeners:{
+            scope:this,select:function(c,r,i){
+            	var b=this.getSelectionModel().getSelected();
+            	var rec=frm.UN.getById(r.get('unitCode'));
+            	b.set('expeNum',rec?rec.get('N'):1);}}})};
+    var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:expenseNumRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
+	var t5={header:C_UNIT_PRICE,width:80,dataIndex:"expeUnitPrice",renderer:expenseNumRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
+	var t6={header:C_CURR,dataIndex:'currCode',width:50,align:'center',
+			editor:new Ext.form.ComboBox({displayField:'currCode',valueField:'currCode',triggerAction: 'all',
+            allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCURR_S()})};
+	var t7={header:C_EX_RATE,width:60,dataIndex:"expeExRate",renderer:rateRender};	
+	var t8={header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender};	
+	var t11={header:C_PPCC,dataIndex:'pateCode',width:40,align:'center',
+			editor:new Ext.form.ComboBox({displayField:'pateCode',valueField:'pateCode',triggerAction: 'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPATE_S(),
+            listeners:{scope:this,select:function(c,r,i){this.getSelectionModel().getSelected().set('pateId',r.get('pateId'));}}})};
+    var t16={header:C_REMARKS,width:100,dataIndex:"expeRemarks",editor:new Ext.form.TextField({enableKeyEvents:true,
+    	listeners:{scope:this,keydown:function(c,e){k = e.getKey();if(k == e.ENTER) this.add();}}})};
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var cols=[sm,t1,t2,t3,t4,t5,t6,t7,t8,t11,t16];
+		
+	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'right'}});
+	cm.defaultSortable=true;cm.defaultWidth=100;			
+	this.add=function(){
+		var unit='EACH';var rid=GGUID();
+		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
+			section:section,consSailDate:p.get('consSailDate'),
+    		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
+    		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
+    		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',
+    		expeInvoiceStatus:'0',expeWriteOffStatus:'0',
+    		custId:parent.getVendorId(),
+    		custName:parent.getVendorName(),
+    		consCustId:p.get('custId'),consCustName:p.get('custName'),
+    		expeType:'P',pateId:PPID,pateCode:'P',unitName:unit,currCode:'CNY',expeUnitPrice:'',
+    		expeCommissionRate:'',expeCommission:'',expeInnerPrice:'',expeExRate:'1.0000',expeRemarks:'',expeDate:new Date(),
+    		expeAllocationFlag:'0',expeAllocatedFlag:'0',
+    		expeInvoiceAmount:'0',expeWriteOffAmount:'0',expeWriteOffRcAmount:'0',expeInnerAmount:'0',expeRcAmount:'0',
+    		expeTotalAmount:'0',expeNum:'1',version:'0'});
+    	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
+	};
+	this.removeExp=function(){
+		var r = sm.getSelections();
+		if(r.length){
+			for(var i=0;i<r.length;i++){
+				if(r[i].get('expeInvoiceStatus')>0) 
+					XMG.alert(SYS,M_REMOVE_EXP_INVOICED);
+				else{
+					r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');
+					store.remove(r[i]);
+				}
+			}
+		}
+		else XMG.alert(SYS,M_R_P);
+	};
+	this.save=function(){
+		var a = store.getModifiedRecords();
+		if(a.length){
+			for(var i=0;i<a.length;i++){
+				if(a[i].get('rowAction')!='R'&&a[i].get('rowAction')!='D'){
+					if(a[i].get('custId')==''){
+						XMG.alert(SYS,M_SETTLE_OBJECT_REQIRED);
+						return;
+					}
+					else if(a[i].get('charId')==''){
+						XMG.alert(SYS,M_CHAR_REQIRED);
+						return;
+					}
+					else if(a[i].get('expeNum')==''||a[i].get('expeNum')=='0'){
+						XMG.alert(SYS,M_QUANTITY_REQIRED);
+						return;
+					}
+					else if(a[i].get('expeUnitPrice')==''||a[i].get('expeUnitPrice')=='0'){
+						XMG.alert(SYS,M_UNIT_PRICE_REQIRED);
+						return;
+					}
+					else if(a[i].get('currCode')==''){
+						XMG.alert(SYS,M_CURR_PRICE_REQIRED);
+						return;
+					}
+					else if(a[i].get('pateId')==''){
+						XMG.alert(SYS,M_PPCC_REQIRED);
+						return;
+					}
+				}
+			}
+			var x = ATX(a,'SExpense',SExpense);
+			if(x!=''){								
+				var tb=this.getTopToolbar();
+				tb.getComponent('TB_C').setDisabled(true);
+				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXPE_S'},
+					success: function(res){
+						var a = XTRA(res.responseXML,'SExpense',SExpense);FOSU(store,a,SExpense);
+						XMG.alert(SYS,M_S);tb.getComponent('TB_C').setDisabled(false);},
+					failure: function(res){XMG.alert(SYS,M_F+res.responseText);tb.getComponent('TB_C').setDisabled(false);},
+					xmlData:FOSX(x)
+				});
+			}
+		}
+		else XMG.alert(SYS,M_NC);
+	};	
+	var locked=p.get('consStatusExp')==1||p.get('consStatusAud')!=0;
+		
+	var b1={itemId:'TB_A',text:C_ADD,iconCls:'add',disabled:NR(m+F_M)||locked,scope:this,handler:this.add};
+	var b2={itemId:'TB_B',text:C_REMOVE,iconCls:'remove',disabled:NR(m+F_R)||locked,scope:this,handler:this.removeExp};
+	var b3={itemId:'TB_C',text:C_SAVE,iconCls:'save',disabled:NR(m+F_M)||locked,scope:this,handler:this.save};
+	
+	Fos.SectionExGrid.superclass.constructor.call(this, {title:C_SECTION_AP,
+	border:true,autoScroll:true,clicksToEdit:1,height:200,
+    stripeRows:true,store:store,sm:sm,cm:cm,listeners:{scope:this,
+		beforeedit:function(e){
+			e.cancel = e.record.get('editable')==0||e.record.get('expeStatus')>0||e.record.get('expeInvoiceStatus')>0||e.record.get('expeWriteOffStatus')>0;
+		},
+    	afteredit:function(e){var f=e.field;var r=e.record;
+    	if(f=='expeNum'){
+    		r.set('expeNum',e.value);
+    		r.set('expeTotalAmount',round2(e.value*r.get('expeUnitPrice')-r.get('expeCommission')));
+    		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*e.value-r.get('expeCommission')));
+    		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+		}
+    	if(f=='unitName'){    		
+            r.set('expeTotalAmount',round2(r.get('expeNum')*r.get('expeUnitPrice')-r.get('expeCommission')));
+    		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-r.get('expeCommission')));
+    		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+		}
+		else if(f=='expeUnitPrice'){
+			r.set('expeTotalAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
+			r.set('expeInnerPrice',e.value);
+			r.set('expeInnerAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
+			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+		}		
+		else if(f=='currCode'){
+			r.set('expeExRate',getExRate(e.value,'CNY'));
+			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+		}		
+    }},
+    tbar:[b1, '-',b2,'-',b3]});
+};
+Ext.extend(Fos.SectionExGrid, Ext.grid.EditorGridPanel);

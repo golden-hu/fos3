@@ -487,7 +487,7 @@ var C_ACCOUNT_AR_CNY='人民币收入科目';
 var C_ACCOUNT_AP_CNY='人民币支出科目';
 var C_ACCOUNT_AR_USD='美元收入科目';
 var C_ACCOUNT_AP_USD='美元支出科目';
-
+var C_SECTION_AP='环节应付费用';
 var C_TEU='TEU';
 var C_CUSTOM_CODE='海关编码';
 var C_VESS_CODE='船号';
@@ -897,9 +897,9 @@ var C_INSP_BILL_NO='报检单号';
 var C_INSP_VENDOR_RN='报检单位登记号';
 var C_INSP_DATE='报检日期';
 
-var C_CUST_BILL='报关单';
-var C_CUST_INFO='报关单内容';
-var C_CUST_LIST='报关单列表';
+var C_CUSTOM_BILL='报关单';
+var C_CUSTOM_INFO='报关单内容';
+var C_CUSTOM_LIST='报关单列表';
 var C_ITEM_NO='项号';
 
 var C_BL_LIST='提单列表';

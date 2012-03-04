@@ -22,6 +22,7 @@ public abstract class AbstractSExpense extends BaseDomain {
 	private Integer version;
 	private Integer consId;
 	private String consNo;
+	private String section;
 	private String consMblNo;
 	private String consHblNo;
 	private String consVessel;
@@ -134,6 +135,15 @@ public abstract class AbstractSExpense extends BaseDomain {
 		this.consNo = consNo;
 	}
 
+	@Column(name = "SECTION", length = 16)
+	public String getSection() {
+		return this.section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+	
 	@Column(name = "CONS_MBL_NO", length = 32)
 	public String getConsMblNo() {
 		return this.consMblNo;

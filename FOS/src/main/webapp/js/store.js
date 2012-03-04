@@ -404,7 +404,7 @@ FRailwayBl = Ext.data.Record.create(['id',
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction','attr1','attr2','attr3','attr4','attr5','attr6','attr7','attr8','attr9','attr10']);
 SExpense = Ext.data.Record.create(['id',
-	'expeId','consId','consNo','consMblNo','consHblNo','consVessel','consVoyage','consBizClass','consBizType',
+	'expeId','consId','consNo','section','consMblNo','consHblNo','consVessel','consVoyage','consBizClass','consBizType',
 	'consShipType','consCustId','consCustName','chclId','charId','charName',
 	'charNameEn','unitId','unitName','currCode','custId','custName','custSname',
 	'expeType','pateId','pateCode',{name:'expeDate',type:'date',dateFormat:DATEF},
