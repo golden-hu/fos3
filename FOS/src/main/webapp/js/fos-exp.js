@@ -1823,7 +1823,7 @@ Fos.TransTab = function(p) {
 			}
             ]};
     
-	var f1={fieldLabel:C_CUSTOM_AGENCY,name:'tranCustomsBrokerName',tabIndex:17,store:getCS(),enableKeyEvents:true,
+	var txtComtomsBroker={fieldLabel:C_CUSTOM_AGENCY,name:'tranCustomsBrokerName',tabIndex:17,store:getCS(),enableKeyEvents:true,
 			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',
 			displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
 			listeners:{scope:this,
@@ -1836,14 +1836,10 @@ Fos.TransTab = function(p) {
 				if(b){b.set('tranCustomsBroker',r.get('custId'));}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}};
-	var f2={fieldLabel:C_CUSTOMS_CONTACT,name:'tranCustomsContact',tabIndex:18,xtype:'textfield',anchor:'99%'};
-	var f3={fieldLabel:C_CUSTOMS_ADDRESS,tabIndex:20,name:'tranCustomsAddress',xtype:'textfield',anchor:'99%'};
-	var f4={fieldLabel:C_CUSTOMS_TEL,name:'tranCustomsTel',tabIndex:19,xtype:'textfield',anchor:'99%'};
-	var t3={layout:'column',title:C_TRAN_CUSTOMS_INFO,layoutConfig:{columns:2},deferredRender:false,collapsible:true,
-			items:[{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f1]},
-			{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f2]},
-			{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f3]},
-			{columnWidth:.5,layout:'form',border:false,labelWidth:100,items:[f4]}]};
+	var txtCustomsContact={fieldLabel:C_CUSTOMS_CONTACT,name:'tranCustomsContact',tabIndex:18,xtype:'textfield',anchor:'99%'};
+	var txtCustomsAddress={fieldLabel:C_CUSTOMS_ADDRESS,tabIndex:20,name:'tranCustomsAddress',xtype:'textfield',anchor:'99%'};
+	var txtCustomsTel={fieldLabel:C_CUSTOMS_TEL,name:'tranCustomsTel',tabIndex:19,xtype:'textfield',anchor:'99%'};
+	
 			
 	var f5={fieldLabel:C_TRAN_TYPE,name:'tranType',tabIndex:17,store:TANT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var f6={fieldLabel:C_PRE_FLAG,name:'tranPreFlag',tabIndex:19,xtype:'checkbox',anchor:'60%'};
@@ -1864,10 +1860,11 @@ Fos.TransTab = function(p) {
 	
 	var t4={layout:'column',title:C_OTHER_INFO,layoutConfig:{columns:4},deferredRender:false,collapsible:true,
 			items:[
-				{columnWidth:.25,layout:'form',border : false,items:[txtVessel,f5,f6]},
-				{columnWidth:.25,layout:'form',border : false,items:[txtVoyage,f7,f8]},
-				{columnWidth:.25,layout:'form',border : false,items:[txtMbl,f9,f10]},
-				{columnWidth:.25,layout:'form',border : false,items:[txtHbl,f11,f12]}
+				{columnWidth:.25,layout:'form',border : false,
+					items:p.get('consBizType')=='A'?[f5,f6,txtComtomsBroker]:[f5,f6,txtComtomsBroker,txtVessel]},
+				{columnWidth:.25,layout:'form',border : false,items:[f7,f8,txtCustomsAddress,txtVoyage]},
+				{columnWidth:.25,layout:'form',border : false,items:[f9,f10,txtCustomsContact,txtMbl]},
+				{columnWidth:.25,layout:'form',border : false,items:[f11,f12,txtCustomsTel,txtHbl]}
 			]};
 
 	var menu=CREATE_E_MENU(C_TRANS_BILL,this.expExcelTR,this.expEmailTR,function(){},this);	
@@ -1909,7 +1906,7 @@ Fos.TransTab = function(p) {
 		}
     };
 	Fos.TransTab.superclass.constructor.call(this,{id:'T_TRAN_'+p.get('id'),title:C_SR_TRAN+'(F4)',header:false,autoScroll:true,	
-		labelAlign:'right',labelWidth:80,border:true,layout:'border',
+		labelAlign:'right',labelWidth:90,border:true,layout:'border',
 		tbar:[{text:C_ADD+'(N)',itemId:'TB_A',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addTrans},'-',
 			{text:C_REMOVE+'(R)',itemId:'TB_B',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeTrans},'-',
 			{text:C_SAVE+'(S)',itemId:'TB_C',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
@@ -1922,7 +1919,7 @@ Fos.TransTab = function(p) {
 		{xtype:'tabpanel',region:'center',plain:true,activeTab:0,defaults:{bodyStyle:'padding:0px'},autoScroll:true,
         	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}},
         	items:[
-            	{title:C_TRAN_INFO,tabIndex:1,autoScroll:true,items:p.get('consBizClass')==BC_E?[t2,t3,t4]:[t2,t4]},
+            	{title:C_TRAN_INFO,tabIndex:1,autoScroll:true,items:[t2,t4]},
             	{layout:'fit',border:false,title:C_TASK_LIST,items:[this.taskGrid]},
             	{layout:'fit',border:false,title:C_CARGO_LIST,items:[this.cargoGrid]}]
    	}]});            		
@@ -2227,13 +2224,13 @@ Fos.WarehouseTab = function(p) {
 					keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}}},
 				{fieldLabel:C_WARE_ACCEPT_STATUS,name:'wareAcceptStatus',tabIndex:17,store:WAST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_WARE_ACCEPT_TIME,name:'wareAcceptDate',tabIndex:14,xtype:'datefield',format:DATEF,anchor:'99%'},
-				{fieldLabel:C_VESS,name:'wareVessel',tabIndex:5,xtype:'textfield',anchor:'99%'}]},
+				{fieldLabel:C_VESS,hidden:p.get('consBizType')==BT_A,name:'wareVessel',tabIndex:5,xtype:'textfield',anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_WARE_TYPE,name:'wareType',tabIndex:2,xtype:'textfield',store:WATY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_WARE_CONTACT,name:'wareVendorContact',tabIndex:6,xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CUST_CONTACT,name:'wareCustomerContact',tabIndex:10,xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_WARE_OPERATOR,name:'wareOperator',tabIndex:13,store:getUSER_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_VOYA,name:'wareVoyage',tabIndex:5,xtype:'textfield',anchor:'99%'}]},				
+				{fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,name:'wareVoyage',tabIndex:5,xtype:'textfield',anchor:'99%'}]},				
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_WARE_DATE,name:'wareDate',tabIndex:3,xtype:'datefield',format:DATEF,anchor:'99%'},
 				{fieldLabel:C_WARE_TEL,name:'wareVendorTel',tabIndex:7,xtype:'textfield',anchor:'99%'},				
