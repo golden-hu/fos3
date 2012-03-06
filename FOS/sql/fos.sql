@@ -6286,7 +6286,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (8, '总体积', 'FContainer', 'contMeasurement', NULL),
 (8, '装箱日期', 'FContainer', 'contLoadDate', NULL);
 
--- 装箱单模板
+-- 发票模板
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (9, '账单号', 'SInvoice', 'invoNo', NULL),
 (9, '税务发票号', 'SInvoice', 'invoTaxNo', NULL),

@@ -251,11 +251,28 @@ var LC=function(f,e,t,s){
 		}
 	}
 };
+var listShipper=function(f,e){
+	if(e.getKey()!=e.ENTER){	
+		var q=f.getRawValue();
+		if(q.length>1 && !f.isExpanded()){
+			
+	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{_A:'FMS_QSHIPPER',_mt:'xml',shipperName:q},
+				success: function(r,o){
+					f.store.loadData(r.responseXML,false);
+					f.expand();
+				}
+			});
+		}
+		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
+	}
+};
+
 var LP=function(f,e){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
-			var a=[];var op=1;
+			var a=[];
+			var op=1;
 			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});			
 			var xml = QTX(a);
 	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'PORT_X',S:1}:{A:'PORT_X'},

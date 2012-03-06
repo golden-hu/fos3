@@ -4137,14 +4137,10 @@ Fos.SectionExGrid = function(p,section,parent) {
             allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCURR_S()})};
 	var t7={header:C_EX_RATE,width:60,dataIndex:"expeExRate",renderer:rateRender};	
 	var t8={header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender};	
-	var t11={header:C_PPCC,dataIndex:'pateCode',width:40,align:'center',
-			editor:new Ext.form.ComboBox({displayField:'pateCode',valueField:'pateCode',triggerAction: 'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPATE_S(),
-            listeners:{scope:this,select:function(c,r,i){this.getSelectionModel().getSelected().set('pateId',r.get('pateId'));}}})};
     var t16={header:C_REMARKS,width:100,dataIndex:"expeRemarks",editor:new Ext.form.TextField({enableKeyEvents:true,
     	listeners:{scope:this,keydown:function(c,e){k = e.getKey();if(k == e.ENTER) this.add();}}})};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
-	var cols=[sm,t1,t2,t3,t4,t5,t6,t7,t8,t11,t16];
+	var cols=[sm,t1,t2,t3,t4,t5,t6,t7,t8,t16];
 		
 	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'right'}});
 	cm.defaultSortable=true;cm.defaultWidth=100;			

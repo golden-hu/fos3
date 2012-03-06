@@ -810,7 +810,10 @@ Fos.BookTab = function(p) {
 				p.set('consBookingAgency',r.get('custId'));
 				p.set('consBookingAgencySname',r.get('custCode'));},
         	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
-    var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+    var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,
+    		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
+    		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
+    		triggerAction:'all',selectOnFocus:true,anchor:'99%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
