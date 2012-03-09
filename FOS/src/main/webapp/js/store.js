@@ -1061,14 +1061,32 @@ var getBP=function(){
 	}
 };
 
-var getCHAR_S = function(){return getGStore('CHAR','GCharge',GCharge,'charId','ASC','');};
-getCHAR = function(v,m,r){var _cs= getCHAR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('charName'):v; else return '';};
+var getCHAR_S = function(){
+	//return getGStore('CHAR','GCharge',GCharge,'charId','ASC','');
+	
+	if(Ext.StoreMgr.containsKey('CHAR_S')){return Ext.StoreMgr.get('CHAR_S');}
+	else {
+		var s=new Ext.data.Store({storeId:'CHAR_S',url:SERVICE_URL+'?A=CHAR_Q',baseParams:{mt:'xml'},
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
+			});
+		s.load();
+		return s;
+    }
+	
+};
+getCHAR = function(v,m,r){
+	var _cs= getCHAR_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('charName'):v; 
+	else 
+		return '';
+};
 
 var getCCHAR_S=function(){	
 	if(Ext.StoreMgr.containsKey('CCHAR_S')){return Ext.StoreMgr.get('CCHAR_S');}
 	else {
-		var s=new Ext.data.Store({storeId:'CCHAR_S',url:SERVICE_URL+'?A=CHAR_C',baseParams:{mt:'JSON'},
-			reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'GCharge',id:'charId'},GCharge)
+		var s=new Ext.data.Store({storeId:'CCHAR_S',url:SERVICE_URL+'?A=CHAR_C',baseParams:{mt:'xml'},
+			reader:new Ext.data.JsonReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
 			});
 		s.load();
 		return s;
@@ -1078,8 +1096,8 @@ var getCCHAR_S=function(){
 var getCHAR_PERM_R_S=function(){	
 	if(Ext.StoreMgr.containsKey('CHAR_PERM_R_S')){return Ext.StoreMgr.get('CHAR_PERM_R_S');}
 	else {
-		var s=new Ext.data.Store({storeId:'CHAR_PERM_R_S',url:SERVICE_URL+'?A=CHAR_PERM_Q&expeType=R',baseParams:{mt:'JSON'},
-			reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'GCharge',id:'charId'},GCharge)
+		var s=new Ext.data.Store({storeId:'CHAR_PERM_R_S',url:SERVICE_URL+'?A=CHAR_PERM_Q&expeType=R',baseParams:{mt:'xml'},
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
 			});
 		s.load();
 		return s;
@@ -1088,8 +1106,8 @@ var getCHAR_PERM_R_S=function(){
 var getCHAR_PERM_P_S=function(){	
 	if(Ext.StoreMgr.containsKey('CHAR_PERM_P_S')){return Ext.StoreMgr.get('CHAR_PERM_P_S');}
 	else {
-		var s=new Ext.data.Store({storeId:'CHAR_PERM_P_S',url:SERVICE_URL+'?A=CHAR_PERM_Q&expeType=P',baseParams:{mt:'JSON'},
-			reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'GCharge',id:'charId'},GCharge)
+		var s=new Ext.data.Store({storeId:'CHAR_PERM_P_S',url:SERVICE_URL+'?A=CHAR_PERM_Q&expeType=P',baseParams:{mt:'xml'},
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
 			});
 		s.load();
 		return s;

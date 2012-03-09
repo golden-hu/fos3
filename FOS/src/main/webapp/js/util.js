@@ -240,7 +240,7 @@ var LC=function(f,e,t,s){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
-			var a=[];var op=EQ;			
+			var a=[];			
 			a[0]=new QParam({key:'custCode',value:q+'%',op:LI});
 			if(t!='') a[1]=new QParam({key:t,value:'1',op:EQ});
 			var xml = QTX(a);
@@ -249,6 +249,7 @@ var LC=function(f,e,t,s){
 				xmlData:FOSX(xml)
 			});
 		}
+		
 	}
 };
 var listShipper=function(f,e){

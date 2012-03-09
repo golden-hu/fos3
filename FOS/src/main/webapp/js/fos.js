@@ -527,7 +527,7 @@ function loadMsg(){
 	}});
 };
 Ext.onReady(function(){
-	Ext.state.Manager.setProvider(new Fos.HttpProvider());
+	//Ext.state.Manager.setProvider(new Fos.HttpProvider());
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     var tBar=new Ext.BoxComponent({region:'north',el:'north',height:60});   

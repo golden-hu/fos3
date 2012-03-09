@@ -1464,8 +1464,8 @@ Fos.InvoiceGrid = function(t) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
-		{header:C_STATUS,width:60,dataIndex:"invoStatus",renderer:getIVST},
-		{header:C_WRITEOFF_STATUS,width:60,dataIndex:"invoWriteOffStatus",renderer:getWRST},
+		{header:C_STATUS,width:80,dataIndex:"invoStatus",renderer:getIVST},
+		{header:C_WRITEOFF_STATUS,width:80,dataIndex:"invoWriteOffStatus",renderer:getWRST},
 		{header:C_INVO_NO,width:100,dataIndex:"invoNo"},
 		{header:C_TAX_NO,width:100,dataIndex:"invoTaxNo"},
 		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},		
@@ -1487,7 +1487,7 @@ Fos.InvoiceGrid = function(t) {
 		{header:C_SIGNER,dataIndex:"invoSigner",renderer:getUSER},
 		{header:C_SIGN_DATE,dataIndex:"invoSignDate",renderer:formatDate},		
 		{header:C_REMARKS,dataIndex:"invoRemarks"}
-		],defaults:{sortable:true,width:80}});
+		],defaults:{sortable:true,width:90}});
 	var rowCtxEvents={rowdblclick:function(grid, rowIndex, event){var c= grid.getSelectionModel().getSelected();if(c){showInvoice(c);}}};
 	this.add=function(){
     	var currCode='CNY';var w=new Fos.CurrencyWin();
@@ -1577,13 +1577,13 @@ Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
 Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_SETTLE_OBJECT,width:100,dataIndex:"custName"},
-		{header:C_CONS_NO,width:80,dataIndex:"consNo"},		
+		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},
+		{header:C_CONS_NO,width:120,dataIndex:"consNo"},		
 		{header:C_CHAR,width:80,dataIndex:"charName"},
 		{header:C_UNIT,width:80,dataIndex:"unitName"},
 		{header:C_QUANTITY,width:60,renderer:rateRender,dataIndex:"expeNum"},
 		{header:C_UNIT_PRICE,width:80,renderer:rateRender,dataIndex:"expeUnitPrice"},		
-		{header:C_CURR,dataIndex:'currCode',width:100},	
+		{header:C_CURR,dataIndex:'currCode',width:60},	
 		{header:C_EX_RATE,width:80,renderer:rateRender,dataIndex:"expeExRate"},	
 		{header:C_TOTAL_AMOUNT,width:80,renderer:numRender,dataIndex:"expeTotalAmount"},	
 		{header:C_INVOICED_AMOUNT,width:100,renderer:numRender,dataIndex:"expeInvoiceAmount"},
@@ -1603,10 +1603,10 @@ Fos.ExpenseLookupWin = function(store) {
 		    {type: 'date',  dataIndex: 'consSailDate'},
 		    {type: 'numeric', dataIndex: 'expeTotalAmount'}]});
     this.grid = new Ext.grid.GridPanel({ 
-    header:false,height:400,width:800,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
+    header:false,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
    
-    Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:800,minWidth:300,
-        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
+    Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:1000,
+        height:800,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
 };
 Ext.extend(Fos.ExpenseLookupWin,Ext.Window);
 Fos.InvoItemGrid = function(p,frm,billNo){
@@ -1646,7 +1646,7 @@ Fos.InvoItemGrid = function(p,frm,billNo){
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,		
-		{header:C_CHAR,width:80,dataIndex:'charName'},
+		{header:C_CHAR,dataIndex:'charName'},
 		{header:C_UNIT,hidden:true,dataIndex:'unitName'},	
 		{header:C_UNIT_PRICE,align:'right',renderer:rateRender,dataIndex:'expeUnitPrice'},
 		{header:C_QUANTITY,renderer:rateRender,dataIndex:'expeNum'},
@@ -1657,13 +1657,13 @@ Fos.InvoItemGrid = function(p,frm,billNo){
 		{header:C_INVO_EX_RATE,dataIndex:'initExRate',renderer:rateRender,css:'background: #f4f090;',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
 		{header:C_EX_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount',css:'background: #ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_WRITEOFFED_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountOriW'},
-		{header:C_CONS_NO,width:80,dataIndex:"consNo",renderer:consRender},
+		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,width:80,dataIndex:"consVessel"},
 		{header:C_VOYA,width:80,dataIndex:"consVoyage"},
 		{header:C_MBL_NO,width:80,dataIndex:"consMblNo"},
 		{header:C_HBL_NO,width:80,dataIndex:"consHblNo"},
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
-		],defaults:{sortable:true,width:60}});
+		],defaults:{sortable:true,width:90}});
 	this.reCalculate = function(){
 		var sum=0;
 		var d=store.getRange();
