@@ -290,9 +290,19 @@ Fos.TransTab = function(p) {
    
 	var c1={fieldLabel:HL(C_TRACK_VENDOR),name:'tranVendorName',tabIndex:1,store:getCS(),enableKeyEvents:true,
 			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',
-			displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+			displayField:'custCode',valueField:'custCode',
+			typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 			listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranVendorId','');p.set('tranVendorName','');}},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					var b =this.tranGrid.getSelectionModel().getSelected();
+					if(b){
+						b.set('tranVendorId','');
+						b.set('tranVendorName','');
+					}
+				}
+			},
 			select:function(c,r,i){
 				this.find('name','tranVendorContact')[0].setValue(r.get('custContact'));
 				this.find('name','tranVendorTel')[0].setValue(r.get('custTel'));
@@ -303,6 +313,7 @@ Fos.TransTab = function(p) {
 					b.set('tranVendorName',r.get('custNameCn'));
 					b.set('tranVendorContact',r.get('custContact'));
 					b.set('tranVendorTel',r.get('custTel'));
+					c.setValue(r.get('custNameCn'));
 				}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}};
@@ -318,13 +329,20 @@ Fos.TransTab = function(p) {
 	var c15={fieldLabel:C_TRAN_TEL,name:'tranVendorTel',tabIndex:3,xtype:'textfield',anchor:'99%'};
 	var c16={fieldLabel:C_CONS_DATE,name:'tranDate',tabIndex:7,xtype:'datefield',format:DATEF,anchor:'99%'};
 	var c17={fieldLabel:C_LOAD_TEL,name:'tranLoadTel',tabIndex:11,xtype:'textfield',anchor:'99%'};
-	var c18={fieldLabel:C_CONTAINER,name:'tranContainerCompanyName',tabIndex:15,store:getCS(),enableKeyEvents:true,
-			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',
-			valueField:'custNameCn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	var c18={fieldLabel:C_CONTAINER,name:'tranContainerCompanyName',tabIndex:15,
+			store:getCS(),enableKeyEvents:true,
+			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+			xtype:'combo',displayField:'custCode',
+			valueField:'custCode',typeAhead: true,mode:'local',
+			triggerAction:'all',selectOnFocus:true,anchor:'99%',
 			listeners:{scope:this,
 				select:function(c,r,i){		
 					var b =this.tranGrid.getSelectionModel().getSelected();
-					if(b){b.set('tranContainerCompany',r.get('custId'));}
+					if(b){
+						b.set('tranContainerCompany',r.get('custId'));
+						b.set('tranContainerCompanyName',r.get('custNameCn'));
+						c.setValue(r.get('custNameCn'));
+					}
 				},
 				keydown:{fn:function(f,e){LC(f,e,'custContainerFlag');},buffer:BF}}};
 	var c19={fieldLabel:C_MILES,name:'tranHeavyMiles',tabIndex:27,xtype:'numberfield',anchor:'99%'};
@@ -364,17 +382,32 @@ Fos.TransTab = function(p) {
 			}
             ]};
     
-	var txtComtomsBroker={fieldLabel:C_CUSTOM_AGENCY,name:'tranCustomsBrokerName',tabIndex:17,store:getCS(),enableKeyEvents:true,
+	var txtComtomsBroker={fieldLabel:C_CUSTOM_AGENCY,name:'tranCustomsBrokerName',
+			tabIndex:17,store:getCS(),enableKeyEvents:true,
 			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',
-			displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+			displayField:'custCode',valueField:'custCode',typeAhead: true,
+			mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
 			listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranCustomsBroker','');p.set('tranCustomsBrokerName','');}},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					var b =this.tranGrid.getSelectionModel().getSelected();
+					if(b){
+						b.set('tranCustomsBroker','');
+						b.set('tranCustomsBrokerName','');
+					}
+				}
+			},
 			select:function(c,r,i){
 				this.find('name','tranCustomsContact')[0].setValue(r.get('custContact'));
 				this.find('name','tranCustomsTel')[0].setValue(r.get('custTel'));
 				this.find('name','tranCustomsAddress')[0].setValue(r.get('custAddress'));
 				var b =this.tranGrid.getSelectionModel().getSelected();
-				if(b){b.set('tranCustomsBroker',r.get('custId'));}
+				if(b){
+					b.set('tranCustomsBroker',r.get('custId'));
+					b.set('tranCustomsBrokerName',r.get('custNameCn'));
+					c.setValue(r.get('custNameCn'));
+				}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}};
 	var txtCustomsContact={fieldLabel:C_CUSTOMS_CONTACT,name:'tranCustomsContact',tabIndex:18,xtype:'textfield',anchor:'99%'};
@@ -798,11 +831,24 @@ Fos.WarehouseTab = function(p) {
             	items:[
             {layout:'column',title:C_WARE_INFO,tabIndex:1,layoutConfig:{columns:4},deferredRender:false,collapsible:true,
 			items:[{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_WARE_NO,id:'WG_WARE_NO',name:'wareNo',disabled:true,tabIndex:5,xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_WAREHOUSE,name:'wareVendorName',tabIndex:9,store:getCS(),enableKeyEvents:true,
-					tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+				{fieldLabel:C_WARE_NO,id:'WG_WARE_NO',name:'wareNo',disabled:true,
+					tabIndex:5,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_WAREHOUSE,name:'wareVendorName',tabIndex:9,
+					store:getCS(),enableKeyEvents:true,
+					tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+					xtype:'combo',displayField:'custCode',valueField:'custCode',
+					typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 					listeners:{scope:this,
-					blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('wareVendorId','');p.set('wareVendorName','');}},
+					blur:function(f){
+						if(f.getRawValue()==''){
+							f.clearValue();
+							var b =this.wareGrid.getSelectionModel().getSelected();
+							if(b){
+								b.set('wareVendorId','');
+								b.set('wareVendorName','');
+							}
+						}
+					},
 					select:function(c,r,i){
 						this.find('name','wareVendorContact')[0].setValue(r.get('custContact'));
 						this.find('name','wareVendorTel')[0].setValue(r.get('custTel'));
@@ -810,8 +856,10 @@ Fos.WarehouseTab = function(p) {
 						var b =this.wareGrid.getSelectionModel().getSelected();
 						if(b){
 							b.set('wareVendorId',r.get('custId'));
+							b.set('wareVendorName',r.get('custNameCn'));
 							b.set('wareVendorContact',r.get('custContact'));
 							b.set('wareVendorTel',r.get('custTel'));
+							c.setValue(r.get('custNameCn'));
 						}
 					},
 					keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}}},
@@ -1402,8 +1450,11 @@ Fos.BBookingTab = function(p) {
             layout:'column',layoutConfig: {columns:4},deferredRender:false,title:C_BASE_INFO,
             padding:5,collapsible:true,labelWidth:80,
             items:[{columnWidth:.25,layout: 'form',border : false,
-                items: [{fieldLabel:C_CARRIER,name:'consBCarrier',tabIndex:1,value:p.get('consBCarrier'),store:getCS(),enableKeyEvents:true,
-                	tpl:custTpl,itemSelector:'div.list-item',listWidth:250,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+                items: [{fieldLabel:C_CARRIER,name:'consBCarrier',tabIndex:1,
+                	value:p.get('consBCarrier'),store:getCS(),enableKeyEvents:true,
+                	tpl:custTpl,itemSelector:'div.list-item',listWidth:250,
+                	xtype:'combo',displayField:'custCode',valueField:'custCode',
+                	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
                 	listeners:{scope:this,
                 		blur:function(f){
                 			if(f.getRawValue()==''){
@@ -1414,6 +1465,8 @@ Fos.BBookingTab = function(p) {
                 		},
                 		select:function(c,r,i){
                 			p.set('consBCarrierId',r.get('custId'));
+                			p.set('consBCarrier',r.get('custNameCn'));
+                			c.setValue(r.get('custNameCn'));
                 		},
 						keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:BF}}},
                 {fieldLabel:C_COUNTRY_D,name:'consBCountryD',disabled:true,tabIndex:5,value:p.get('consBCountryD'),store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
@@ -1849,15 +1902,28 @@ Fos.InspectionTab = function(p) {
 		items: [
 				{columnWidth:.5,layout:'form',labelWidth:100,border:false,items:[
 					{fieldLabel:C_INSP_AGENCY,name:'inspVendorName',store:getCS(),enableKeyEvents:true,
-					xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
 					mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 						listeners:{scope:this,
-						blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('inspVendorId','');p.set('inspVendorName','');}},
+						blur:function(f){
+							if(f.getRawValue()==''){
+								f.clearValue();
+								var b =this.inspGrid.getSelectionModel().getSelected();
+								if(b){
+									b.set('inspVendorId','');
+									b.set('inspVendorName','');
+								}
+							}
+						},
 						select:function(c,r,i){
 							this.find('name','inspVendorContact')[0].setValue(r.get('custContact'));
 							this.find('name','inspVendorTel')[0].setValue(r.get('custTel'));
 							var b =this.inspGrid.getSelectionModel().getSelected();
-							b.set('inspVendorId',r.get('custId'));
+							if(b){
+								b.set('inspVendorId',r.get('custId'));
+								b.set('inspVendorName',r.get('custNameCn'));								
+							}
+							c.setValue(r.get('custNameCn'));
 						},
 						keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}}]},
 				{columnWidth:.5,layout:'form',border:false,trackResetOnLoad:true,items:[
@@ -2356,15 +2422,31 @@ Fos.CustomsTab = function(p) {
 			items:[
 			{layout:'column',border:false,items:[
 			{columnWidth:.25,layout:'form',border:false,items:[
-				{fieldLabel:C_CUSTOM_AGENCY,itemCls:'required',name:'cudeVendorName',store:getCS(),enableKeyEvents:true,
-				tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+				{fieldLabel:C_CUSTOM_AGENCY,itemCls:'required',name:'cudeVendorName',
+				store:getCS(),enableKeyEvents:true,
+				tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+				xtype:'combo',displayField:'custCode',valueField:'custCode',
+				typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 					listeners:{scope:this,
-					blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('cudeVendorId','');p.set('cudeVendorName','');}},
+					blur:function(f){
+						if(f.getRawValue()==''){
+							f.clearValue();
+							var b =this.grid.getSelectionModel().getSelected();
+							if(b){
+								b.set('cudeVendorId','');
+								b.set('cudeVendorName','');
+							}
+						}
+					},
 					select:function(c,r,i){
 						this.find('name','cudeVendorContact')[0].setValue(r.get('custContact'));
 						this.find('name','cudeVendorTel')[0].setValue(r.get('custTel'));
 						var b =this.grid.getSelectionModel().getSelected();
-						b.set('cudeVendorId',r.get('custId'));
+						if(b){
+							b.set('cudeVendorId',r.get('custId'));
+							b.set('cudeVendorName',r.get('custNameCn'));
+						}
+						c.setValue(r.get('custNameCn'));
 					},
 					keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM,itemCls:'required',name:'cudePortDomestic',xtype:'textfield',anchor:'99%'},
@@ -2923,12 +3005,25 @@ Fos.BlWin = function(p,b,store) {
 	this.genCons = function(){EXPC('CONS_B_BL','&blId='+b.get('blId'));};
 	var t2={layout:'column',title:C_BL_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,
 			items: [{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_BL_NO,name:'blNo',itemCls:'required',tabIndex:1,value:b.get('blNo'),xtype:'textfield',anchor:'90%'},
+				{fieldLabel:C_BL_NO,name:'blNo',itemCls:'required',tabIndex:1,
+					value:b.get('blNo'),xtype:'textfield',anchor:'90%'},
 				{fieldLabel:C_CARRIER,name:'blCarrierName',tabIndex:5,store:getCS(),enableKeyEvents:true,
-					tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+					tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+					xtype:'combo',displayField:'custCode',valueField:'custCode',
+					typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
 					listeners:{scope:this,
-					blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('blCarrier','');p.set('blCarrierName','');}},
-					select:function(c,r,i){b.set('blCarrier',r.get('custId'));},
+					blur:function(f){
+						if(f.getRawValue()==''){
+							f.clearValue();
+							b.set('blCarrier','');
+							b.set('blCarrierName','');
+						}
+					},
+					select:function(c,r,i){						
+						b.set('blCarrier',r.get('custId'));
+						b.set('blCarrierName',r.get('custNameCn'));
+						c.setValue(r.get('custNameCn'));
+					},
 					keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:BF}}},
                 {fieldLabel:C_RECEIPT_PLACE,name:'blReceiptPlace',value:b.get('blReceiptPlace'),tabIndex:9,xtype:'textfield',anchor:'90%'},
 				{fieldLabel:C_POT,name:'blPot',value:b.get('blPot'),tabIndex:13,xtype:'textfield',anchor:'90%'},

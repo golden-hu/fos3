@@ -173,7 +173,8 @@ Fos.StatDetailTab = function(a){
 		items:[{title:C_FILTER_MORE,layout:'column',name:'sf',xtype:'form',layoutConfig:{columns:4},height:120,frame:true,deferredRender:false,collapsible:true,collapsed:true,items:[
 	        	{columnWidth:.25,layout:'form',labelWidth:60,labelAlign:'right',border:false,items:[
 	            	{fieldLabel:C_CARRIER,tabIndex:1,name:'consCarrier',store:getCS(),enableKeyEvents:true,
-		            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
+		            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',
+		            	displayField:'custCode',valueField:'custId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
 		            	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:500}}},
      				{fieldLabel:C_VESS,tabIndex:5,name:'vessId',store:getVES(),enableKeyEvents:true,
      					xtype:'combo',displayField:'vessNameEn',valueField:'vessId',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',

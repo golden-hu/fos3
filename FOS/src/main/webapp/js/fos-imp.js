@@ -456,11 +456,23 @@ Fos.SplitTab = function(p) {
 			items: [{layout:'fit',border:false,items:[this.doGrid]}]},
 			{layout:'column',layoutConfig: {columns:4},deferredRender:false,labelWidth:60,labelAlign:'top',title:C_DO_INFO,collapsible:true,
  			items:[{columnWidth:.2,layout: 'form',labelAlign:'left',border:false,labelWidth:40,
-         		items: [{fieldLabel:C_WAREHOUSE,tabIndex:19,name:'doWarehouseName',store:getCS(),enableKeyEvents:true,
-         			xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',
-         			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',selectOnFocus:true,anchor:'95%',
+         		items: [
+         		{fieldLabel:C_WAREHOUSE,tabIndex:19,name:'doWarehouseName',store:getCS(),enableKeyEvents:true,
+         			xtype:'combo',displayField:'custCode',valueField:'custCode',
+         			typeAhead:true,mode:'local',
+         			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
+         			selectOnFocus:true,anchor:'95%',
 					listeners:{scope:this,
-					blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('doWarehouseId','');p.set('doWarehouseName','');}},
+					blur:function(f){
+						if(f.getRawValue()==''){
+							f.clearValue();
+							var b =this.doGrid.getSelectionModel().getSelected();
+							if(b){
+								b.set('doWarehouseId','');
+								b.set('doWarehouseName','');
+							}
+						}
+					},
 					select:function(c,r,i){
 						this.find('name','doWarehouseContact')[0].setValue(r.get('custContact'));
 						this.find('name','doWarehouseTel')[0].setValue(r.get('custTel'));
@@ -468,10 +480,12 @@ Fos.SplitTab = function(p) {
 						var b =this.doGrid.getSelectionModel().getSelected();
 						if(b){
 							b.set('doWarehouseId',r.get('custId'));
+							b.set('doWarehouseName',r.get('custNameCn'));
 							b.set('doWarehouseContact',r.get('custContact'));
 							b.set('doWarehouseName',r.get('custNameCn'));
 							b.set('doWarehouseTel',r.get('custTel'));
 							b.set('doWarehouseAddress',r.get('custAddress'));
+							c.setValue(r.get('custNameCn'));
 						}
 					},
 					keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}}}]},

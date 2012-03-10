@@ -133,8 +133,8 @@ Fos.CustMergeWin = function() {
     	items: [{fieldLabel:M_CUST_MERGE_TO,name:'custName',value:'',store:getCS(),enableKeyEvents:true,
        		xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',selectOnFocus:true,anchor:'95%',
-             	listeners:{scope:this,
-             	select:function(c,r,i){
+         	listeners:{scope:this,
+         	select:function(c,r,i){
 				this.find('name','custSname')[0].setValue(r.get('custSnameCn'));				
 				this.custId=r.get('custId');
 			},
@@ -940,9 +940,14 @@ Fos.PriceSheetTab = function(p){
 		{title:C_PRSH_INFO,name:'prshForm',xtype:'form',region:'north',height:120,layout:'column',layoutConfig:{columns:4},frame:true,deferredRender:false,collapsible:true,items:[
 			{columnWidth:.25,layout:'form',labelWidth:60,labelAlign:'right',border:false,items:[
 	        	{fieldLabel:C_CARRIER,itemClass:'required',tabIndex:5,name:'prshCarrierName',value:p.get('prshCarrierName'),store:getCS(),enableKeyEvents:true,
-	            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
-     					listeners:{scope:this,select:function(c,r,i){
-     						p.set('prshCarrier',r.get('custId'));},
+	            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+	            	xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+     					listeners:{scope:this,
+     					select:function(c,r,i){
+     						p.set('prshCarrier',r.get('custId'));
+     						p.set('prshCarrierName',r.get('custNameCn'));
+     						c.setValue(r.get('custNameCn'));
+     					},
      					keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:500}}},
      				{fieldLabel:C_SHLI,tabIndex:15,name:'shliId',value:p.get('shliId'),store:getSHLI_S(),xtype:'combo',displayField:'shliName',valueField:'shliId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
      					listeners:{scope:this,select:function(c,r,i){p.set('shliName',r.get('shliName'));}}}
@@ -950,10 +955,14 @@ Fos.PriceSheetTab = function(p){
 	        	{columnWidth:.25,layout:'form',border:false,labelWidth:60,labelAlign:'right',items:[
 	            	{fieldLabel:C_BOOK_AGENCY,tabIndex:2,
 	            	name:'prshVendorName',value:p.get('prshVendorName'),store:getCS(),enableKeyEvents:true,
-	            	xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
-	            		listeners:{scope:this,select:function(c,r,i){
-	            			p.set('prshVendorId',r.get('custId'));},
-	            			keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:500}}},
+	            	xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	            		listeners:{scope:this,
+	            		select:function(c,r,i){
+	            			p.set('prshVendorId',r.get('custId'));
+	            			p.set('prshVendorName',r.get('custNameCn'));
+	            			c.setValue(r.get('custNameCn'));
+	            		},
+	            		keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:500}}},
 	            	{fieldLabel:HL(C_POL),tabIndex:43,name:'prshPol',value:p.get('prshPol'),	            				
 	            				store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',
 	                      		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
@@ -1136,9 +1145,12 @@ Fos.FConLookup = function(store,T){
 	var t = new Ext.Panel({layout:'column',
 		items:[{columnWidth:.5,layout:'form',border:false,labelWidth:100,labelAlign:"right",
 	    	items:[{fieldLabel:C_BOOKER,name:'custId',store:getCS(),
-	        		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,enableKeyEvents:true,
-	        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,triggerAction:'all',selectOnFocus:true,anchor:'90%',
-	              	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},	        	
+	        		xtype:'combo',displayField:'custCode',valueField:'custId',
+	        		typeAhead:true,enableKeyEvents:true,
+	        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+	        		triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	              	listeners:{scope:this,
+	              		keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},	        	
 				{fieldLabel:C_SHLI,name:'shliId',store:getSHLI_S(),xtype:'combo',displayField:'shliName',valueField:'shliId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 				{fieldLabel:C_POL,name:'fconPol',store:getPOL_S(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	        	{fieldLabel:C_FORCAST_QUANTITY+'(>=)',name:'fconForcastQuantity',xtype:'numberfield',anchor:'90%'},
