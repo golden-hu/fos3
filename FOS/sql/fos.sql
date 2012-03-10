@@ -3507,6 +3507,7 @@ CREATE TABLE IF NOT EXISTS `S_BALANCE` (
   `CUST_SNAME` varchar(64) collate utf8_unicode_ci default NULL,
   `CURR_CODE` char(3) collate utf8_unicode_ci NOT NULL,
   `BALA_AMOUNT` decimal(9,2) NOT NULL,
+  `REMARKS` varchar(500) collate utf8_unicode_ci default NULL,
   `COMP_CODE` char(4) collate utf8_unicode_ci NOT NULL,
   `VERSION` int(11) NOT NULL default '0',
   PRIMARY KEY  (`BALA_ID`)
@@ -4982,7 +4983,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('BUEX_S', 'SBulkExpenseService', 'save', '调度费用保存'),
 ('BUEX_Q', 'SBulkExpenseService', 'query', '调度费用查询'),
 ('BALA_Q', 'SBalanceService', 'query', '客户余额查询'),
-
+('BALA_S', 'SBalanceService', 'save', '客户余额保存'),
 ('EXHI_S', 'TExportHistoryService', 'save', '导出历史保存'),
 ('EXHI_Q', 'TExportHistoryService', 'query', '导出历史查询'),
 ('EXHI_E', 'TExportHistoryService', 'dump', '导出财务数据'),

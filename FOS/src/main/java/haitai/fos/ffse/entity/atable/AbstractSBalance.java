@@ -20,6 +20,7 @@ public abstract class AbstractSBalance extends BaseDomain {
 	private String custSname;
 	private String currCode;
 	private Double balaAmount;
+	private String remarks;
 	private String compCode;
 
 	@Id
@@ -88,6 +89,15 @@ public abstract class AbstractSBalance extends BaseDomain {
 		this.balaAmount = balaAmount;
 	}
 
+	@Column(name = "REMARKS")
+	public String getRemarks() {
+		return this.remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	
 	@Column(name = "COMP_CODE", nullable = false, length = 4)
 	public String getCompCode() {
 		return this.compCode;

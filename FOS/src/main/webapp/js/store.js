@@ -538,11 +538,11 @@ SInvoiceNo = Ext.data.Record.create(['id',
 	{name:'innoStartDate',type:'date',dateFormat:DATEF},
 	'active','userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
-SBalance = Ext.data.Record.create(['id','balaId','custId','custName','custSname','currCode','balaAmount','compCode','version']);
+SBalance = Ext.data.Record.create(['id','balaId','custId','custName','custSname','currCode','balaAmount','remarks','compCode','version']);
 
 PCompanyBankAccount= Ext.data.Record.create(['id','cobaId','cobaName','cobaBank',
-                                             {name:'cobaAccount',type:'string'},
-                                             'currCode','compCode','active','version','rowAction']);
+	{name:'cobaAccount',type:'string'},
+	'currCode','compCode','active','version','rowAction']);
 PGroup = Ext.data.Record.create(['id','grouId','grouName','grouDesc','compCode','active','version','rowAction']);
 PRole = Ext.data.Record.create(['id','roleId','roleName','roleDesc','active','compCode','version','rowAction']); 
 PGroupUser = Ext.data.Record.create(['id','grusId','grouId','userId','userName','active','compCode','version','rowAction']); 
