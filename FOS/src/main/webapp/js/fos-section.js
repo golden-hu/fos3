@@ -2586,7 +2586,7 @@ Fos.BLGrid = function(p){
 	var sf =CHKCLM(C_BL_SPLIT,'blSplitFlag');
 	var maf =CHKCLM(C_BL_MASTER,'blMasterFlag');
 	var cm=new Ext.grid.ColumnModel({columns:[sm,maf,mf,sf,
-	{header:C_BL_TYPE,dataIndex:'blType',width:40},
+	{header:C_BL_TYPE,dataIndex:'blType',width:80},
 	{header:C_BL_NO,dataIndex:'blNo'},
 	{header:C_M_BL_NO,dataIndex:'blMBlNo'},
 	{header:C_CONS_NO,dataIndex:'consNo'},
@@ -3251,7 +3251,8 @@ Fos.BlWin = function(p,b,store) {
             items:{xtype:'tabpanel',plain:true,activeTab:0,defaults:{bodyStyle:'padding:10px'},height:650,
             items:p.get('consBizType')==BT_A?[t4,t5,t6,t3]:[t2,t3]}
     });
-    Fos.BlWin.superclass.constructor.call(this, {title:C_BL_INFO,modal:true,width:800,height:500,autoScroll:true,maximizable:true,layout:'fit',
+    Fos.BlWin.superclass.constructor.call(this, {title:C_BL_INFO,modal:true,
+    	width:1000,height:600,autoScroll:true,maximizable:true,layout:'fit',
         plain:false,bodyStyle:'padding:2px;',items:this.frm});
 };
 Ext.extend(Fos.BlWin, Ext.Window);

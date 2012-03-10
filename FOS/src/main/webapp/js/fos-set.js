@@ -1125,20 +1125,20 @@ Fos.ConsignAuditGrid = function() {
 		this.updateTB(r);}}});
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
-		{header:C_AUDIT_STATUS,width:60,dataIndex:"consStatusAud",renderer:getAUST},
-		{header:C_CONS_STATUS,dataIndex:"consStatus",renderer:getCONS_STATUS},
-		{header:C_CONS_NO,dataIndex:"consNo",renderer:consRender},
+		{header:C_AUDIT_STATUS,width:80,dataIndex:"consStatusAud",renderer:getAUST},
+		{header:C_CONS_STATUS,width:80,dataIndex:"consStatus",renderer:getCONS_STATUS},
+		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
 		{header:"F/L",width:40,dataIndex:"consShipType"},
 		{header:"P/C",width:40,dataIndex:"pateId",renderer:getPATE},
 		{header:C_BOOKER,width:200,dataIndex:"custName"},
-		{header:C_CSNAME,width:200,dataIndex:"custSname"},
-		{header:C_CONS_DATE,dataIndex:"consDate",renderer:formatDate},	
-		{header:C_PACKAGES,width:60,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'},
-		{header:C_GW,dataIndex:"consTotalGrossWeight",align:'right',css:'font-weight:bold;'},
-		{header:C_CBM,dataIndex:"consTotalMeasurement",align:'right',css:'font-weight:bold;'},	
-		{header:C_SUM_AR,dataIndex:"sumR",align:'right',renderer:numRender,css:'font-weight:bold;'},
-		{header:C_SUM_AP,dataIndex:"sumP",align:'right',renderer:numRender,css:'font-weight:bold;'},
-		{header:C_PROFIT,dataIndex:"grossProfit",align:'right',renderer:numRenderColor,css:'font-weight:bold;'},
+		{header:C_CSNAME,width:150,hidden:true,dataIndex:"custSname"},
+		{header:C_CONS_DATE,width:90,dataIndex:"consDate",renderer:formatDate},	
+		{header:C_PACKAGES,width:50,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'},
+		{header:C_GW,width:90,dataIndex:"consTotalGrossWeight",align:'right',css:'font-weight:bold;'},
+		{header:C_CBM,width:90,dataIndex:"consTotalMeasurement",align:'right',css:'font-weight:bold;'},	
+		{header:C_SUM_AR,width:80,dataIndex:"sumR",align:'right',renderer:numRender,css:'font-weight:bold;'},
+		{header:C_SUM_AP,width:80,dataIndex:"sumP",align:'right',renderer:numRender,css:'font-weight:bold;'},
+		{header:C_PROFIT,width:80,dataIndex:"grossProfit",align:'right',renderer:numRenderColor,css:'font-weight:bold;'},
 		{header:C_PROFIT_RATE,dataIndex:"grossProfitRate",align:'right',renderer:numRenderColor,css:'font-weight:bold;'},
 		{header:C_AR_USD,dataIndex:"sumRUsd",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_AP_USD,dataIndex:"sumPUsd",align:'right',renderer:numRender,css:'font-weight:bold;'},
@@ -1317,7 +1317,9 @@ var showInvoice= function(p){
 Fos.InvoiceGrid = function(t) {
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=INVO_X',baseParams:{mt:'xml',invoType:t},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'invoId'},SInvoice),
-		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'},groupField:'invoDate'});		
+		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'}
+		//,groupField:'invoDate'
+		});		
 	var a=[];
 	a[0]= new QParam({key:'invoType',value:t,op:EQ});
 	//a[1]= new QParam({key:'invoStatus',value:2,op:NE});
@@ -1480,7 +1482,7 @@ Fos.InvoiceGrid = function(t) {
 		{header:C_BANK,width:120,dataIndex:"invoBank"},
 		{header:C_BANK_ACCOUNT,width:120,dataIndex:"invoAccount"},
 		{header:C_BIZ_TYPE,dataIndex:"invoBizClass",renderer:getBC},		
-		{header:C_CONS_NO,dataIndex:"invoConsNo"},
+		{header:C_CONS_NO,width:120,dataIndex:"invoConsNo"},
 		{header:C_VESS,width:120,dataIndex:"invoVessel"},
 		{header:C_VOYA,dataIndex:"invoVoyage"},
 		{header:C_BL_NO,dataIndex:"invoBlNo"},		

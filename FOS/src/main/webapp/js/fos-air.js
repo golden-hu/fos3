@@ -2356,24 +2356,12 @@ Ext.extend(Fos.DocWin,Ext.Window);
 
 
 Fos.DocGrid = function(s) {
-	var title=C_DOC_ALL;
-	/*var a=[];
-	if(s=='B'){title=C_DOC_NOT_RETURN;a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};}
-	else if(s=='C'){title=C_DOC_RETURN_NOT_BACK;
-		a[a.length]={key:'fdocReturnFlag',value:'1',op:EQ};
-		a[a.length]={key:'fdocBackFlag',value:'0',op:EQ};
-	}
-	else if(s=='D'){title=C_DOC_BACK;a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};}
-	var bp=a.length?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
-	var store = new Ext.data.GroupingStore({url: SERVICE_URL+'?A='+'FDOC_X',
-		baseParams:bp,
-		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FDoc'}, FDoc),
-		groupField:'fdocRecvDate',sortInfo:{field:'fdocId', direction:'DESC'},remoteSort:true});
-	store.load({params:{start:0,limit:C_PS}});*/
-	
+	var title=C_DOC_ALL;	
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=FDOC_X',
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FDoc',idProperty:'fdocId'},FDoc),
-		remoteSort:true,sortInfo:{field:'fdocId', direction:'DESC'},groupField:'fdocRecvDate'});		
+		remoteSort:true,sortInfo:{field:'fdocId', direction:'DESC'}
+		//,groupField:'fdocRecvDate'
+		});		
 	var a=[];
 	if(s=='B'){
 		title=C_DOC_NOT_RETURN;
@@ -2415,12 +2403,12 @@ Fos.DocGrid = function(s) {
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
             listeners:{scope:this,select:function(c,r,i){sm.getSelected().set('dotyId',r.get('dotyId'));}}})},
     {header:C_BIZ_COMPANY,dataIndex:'fdocCompany',width:100,editor:new Ext.form.TextField()},
-    {header:C_CONS_NO,dataIndex:'consNo',width:80,renderer:consRender},
+    {header:C_CONS_NO,dataIndex:'consNo',width:120,renderer:consRender},
 	{header:C_DOC_NO,dataIndex:'fdocNo',width:80,editor:new Ext.form.TextField()},	
-	{header:C_DOC_ORI_NUM,dataIndex:'fdocOriginalNum',width:30,editor:new Ext.form.NumberField()},
-	{header:C_DOC_COPY_NUM,dataIndex:'fdocCopyNum',width:30,editor:new Ext.form.NumberField()},	
+	{header:C_DOC_ORI_NUM,dataIndex:'fdocOriginalNum',width:80,editor:new Ext.form.NumberField()},
+	{header:C_DOC_COPY_NUM,dataIndex:'fdocCopyNum',width:80,editor:new Ext.form.NumberField()},	
 	{header:C_DOC_RECEIVE_DATE,dataIndex:'fdocRecvDate',renderer:formatDate,width:80,editor:new Ext.form.DateField({format:DATEF})},
-	{header:C_CUSTOM_AGENCY,dataIndex:'fdocSendSigner',width:80,editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
+	{header:C_CUSTOM_AGENCY,dataIndex:'fdocSendSigner',width:120,editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
             mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
             store:getCS(),enableKeyEvents:true,
             listeners:{scope:this,select:function(c,r,i){
@@ -2436,12 +2424,12 @@ Fos.DocGrid = function(s) {
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
     {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()},    
-    {header:C_VESS,dataIndex:'vessName',width:80},
+    {header:C_VESS,dataIndex:'vessName',width:120},
     {header:C_VOYA,dataIndex:'voyaName',width:80},
-    {header:C_BL_NO,dataIndex:'consMblNo',width:80},
+    {header:C_BL_NO,dataIndex:'consMblNo',width:120},
     {header:C_SAIL_DATE,dataIndex:'consSailDate',width:80},
-    {header:C_BOOKER,dataIndex:'custName',width:80},
-    {header:C_CARGO_OWNER,dataIndex:'consCargoOwnerName',width:80}
+    {header:C_BOOKER,dataIndex:'custName',width:200},
+    {header:C_CARGO_OWNER,dataIndex:'consCargoOwnerName',width:200}
 	],defaults:{sortable:true,width:100}});
 	var vc={forceFit:false,groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'};
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});

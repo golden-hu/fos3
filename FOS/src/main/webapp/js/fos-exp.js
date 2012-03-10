@@ -104,10 +104,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c4={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS};
     var c5={header:C_CONS_NO,width:120,dataIndex:"consNo"};
     var c6={header:bizType==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
-    var c7={header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate};
-    var c8={header:C_TTER,dataIndex:"tranId",width:60,renderer:getTRAN};
-    var c9={header:C_PATE,dataIndex:"pateId",width:40,renderer:getPATE};
-    var c10={header:C_SHIP_TYPE,dataIndex:"consShipType",width:40};
+    var c7={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
+    var c8={header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
+    var c9={header:C_PATE,dataIndex:"pateId",width:80,renderer:getPATE};
+    var c10={header:C_SHIP_TYPE,dataIndex:"consShipType",width:80};
     var c11={header:C_VESS,width:100,dataIndex:"vessName"};
     var c12={header:bizType==BT_A?C_FLIGHT:C_VOYA,width:80,dataIndex:"voyaName"};
     var c13={header:C_SAIL_DATE,dataIndex:"consEtd",renderer:formatDate};
