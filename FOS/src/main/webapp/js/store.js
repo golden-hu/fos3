@@ -1067,8 +1067,8 @@ var getCHAR_S = function(){
 	if(Ext.StoreMgr.containsKey('CHAR_S')){return Ext.StoreMgr.get('CHAR_S');}
 	else {
 		var s=new Ext.data.Store({storeId:'CHAR_S',url:SERVICE_URL+'?A=CHAR_Q',baseParams:{mt:'xml'},
-			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
-			});
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge),
+			sortInfo:{field:'charCode', direction:'ASC'},remoteSort:true});
 		s.load();
 		return s;
     }
@@ -1150,12 +1150,40 @@ function UUID(){var guid='';for (var i=0;i<10;i++){guid += Math.floor(Math.rando
 
 function iniStore(){
 	Ext.MessageBox.show({title:'Please wait',msg:'初始化数据...',progressText:'Loading...',width:300,progress:true,closable:false});
-	getCOUN_S();getPOL_S();getEXRA_S();getCURR_S;getSEWA_S();getUNIT_S();
-	getCOBA_S();getDOTY_S();getCUCA_S();getTETY_S();getTRTE_S();getTRTY_S();getTATY_S();
-	getISTY_S();getPATE_S();getTRAN_S();getPACK_S();getCACL_S();getSHLI_S();getCOTY_S();
-	if(!NR(M1_P+A_ROLE+F_V)) getFUNC_S();getTEMP_S();getCHCL_S();
-	getCOCO_S();getGROU_S();getROLE_S();getUSER_S();getSALE_S();getOP_S();
-	getCCHAR_S();getCHAR_PERM_R_S();getCHAR_PERM_P_S();
+	getCOUN_S();
+	getPOL_S();
+	getEXRA_S();
+	getCURR_S;
+	getSEWA_S();
+	getUNIT_S();
+	getCOBA_S();
+	getDOTY_S();
+	getCUCA_S();
+	getTETY_S();
+	getTRTE_S();
+	getTRTY_S();
+	getTATY_S();
+	getISTY_S();
+	getPATE_S();
+	getTRAN_S();
+	getPACK_S();
+	getCACL_S();
+	getSHLI_S();
+	getCOTY_S();
+	if(!NR(M1_P+A_ROLE+F_V)) 
+		getFUNC_S();
+	getTEMP_S();
+	getCHCL_S();
+	getCOCO_S();
+	getGROU_S();
+	getROLE_S();
+	getUSER_S();
+	getSALE_S();
+	getOP_S();
+	getCHAR_S();
+	getCCHAR_S();
+	getCHAR_PERM_R_S();
+	getCHAR_PERM_P_S();
 	var f = function(v){
 		return function(){
 			if(v == 12){

@@ -264,7 +264,7 @@ Fos.InspectionDeclTab = function(p,store) {
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
     			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
- 					xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+ 					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  					selectOnFocus:true,anchor:'95%',
  			     	listeners:{scope:this,
@@ -279,6 +279,8 @@ Fos.InspectionDeclTab = function(p,store) {
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
  			     		p.set('custId',r.get('custId'));
  			     		p.set('custSname',r.get('custCode'));
+ 			     		p.set('custName',r.get('custNameCn'));
+ 			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
  			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
@@ -292,7 +294,7 @@ Fos.InspectionDeclTab = function(p,store) {
  	    	    	{fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
  	    	    		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
  	    	   		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',
- 	    	   		displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',
+ 	    	   		displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',
  	    	   		triggerAction:'all',selectOnFocus:true,anchor:'95%',
  	    	   		listeners:{scope:this,
  	    	   			blur:function(f){
@@ -301,7 +303,11 @@ Fos.InspectionDeclTab = function(p,store) {
  	    	   					p.set('consInspectionVendor','');
  	    	   					p.set('consInspectionVendorName','');
  	    	   			}},
- 	    	   			select:function(c,r,i){p.set('consInspectionVendor',r.get('custId'));},
+ 	    	   			select:function(c,r,i){
+ 	    	   				p.set('consInspectionVendor',r.get('custId'));
+ 	    	   				p.set('consInspectionVendorName',r.get('custNameCn'));
+ 	    	   			c.setValue(r.get('custNameCn'));
+ 	    	   			},
  	    	   			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}}
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
@@ -625,7 +631,7 @@ Fos.CustomsDeclearTab = function(p,store) {
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
     			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
- 					xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+ 					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  					selectOnFocus:true,anchor:'95%',
  			     	listeners:{scope:this,
@@ -640,6 +646,8 @@ Fos.CustomsDeclearTab = function(p,store) {
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
  			     		p.set('custId',r.get('custId'));
  			     		p.set('custSname',r.get('custCode'));
+ 			     		p.set('custName',r.get('custNameCn'));
+ 			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
  			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
@@ -651,7 +659,8 @@ Fos.CustomsDeclearTab = function(p,store) {
 	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:11,name:'consVerificationNo',value:p.get('consVerificationNo'),
  	    	    	xtype:'textfield',anchor:'95%'},
     	    	{fieldLabel:C_CUSTOM_AGENCY,tabIndex:16,name:'consCustomsVendorName',value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
-    	   		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
+    	   		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+    	   		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
     	   		listeners:{scope:this,
     	   			blur:function(f){
     	   				if(f.getRawValue()==''){
@@ -662,6 +671,8 @@ Fos.CustomsDeclearTab = function(p,store) {
     	   			},
     	   			select:function(c,r,i){
     	   				p.set('consCustomsVendor',r.get('custId'));
+    	   				p.set('consCustomsVendorName',r.get('custNameCn'));
+    	   				c.setValue(r.get('custNameCn'));
     	   			},
     	   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}}
  				]},
@@ -796,7 +807,8 @@ Fos.CustomsConsLookupWin = function(store){
 		defaults:{bodyStyle:'padding:10px'},items:
 			[{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 	    	items:[{fieldLabel:C_BOOKER,name:'custId',store:getCS(),
-        		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,enableKeyEvents:true,
+        		xtype:'combo',displayField:'custCode',valueField:'custId',
+        		typeAhead:true,enableKeyEvents:true,
         		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
         		triggerAction:'all',selectOnFocus:true,anchor:'90%',
               	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},			
@@ -1107,7 +1119,7 @@ Fos.TradeTab = function(p,store) {
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
     			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
- 					xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+ 					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  					selectOnFocus:true,anchor:'95%',
  			     	listeners:{scope:this,
@@ -1122,6 +1134,8 @@ Fos.TradeTab = function(p,store) {
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
  			     		p.set('custId',r.get('custId'));
  			     		p.set('custSname',r.get('custCode'));
+ 			     		p.set('custName',r.get('custNameCn'));
+ 			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
  			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
@@ -1572,7 +1586,7 @@ Fos.ReliefTab = function(p,store) {
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
     			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
- 					xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+ 					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  					selectOnFocus:true,anchor:'95%',
  			     	listeners:{scope:this,
@@ -1587,6 +1601,8 @@ Fos.ReliefTab = function(p,store) {
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
  			     		p.set('custId',r.get('custId'));
  			     		p.set('custSname',r.get('custCode'));
+ 			     		p.set('custName',r.get('custNameCn'));
+ 			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
  			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
@@ -2051,7 +2067,7 @@ Fos.EntRegTab = function(p,store) {
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
     			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
- 					xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+ 					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  					selectOnFocus:true,anchor:'95%',
  			     	listeners:{scope:this,
@@ -2066,6 +2082,8 @@ Fos.EntRegTab = function(p,store) {
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
  			     		p.set('custId',r.get('custId'));
  			     		p.set('custSname',r.get('custCode'));
+ 			     		p.set('custName',r.get('custNameCn'));
+ 			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
  			     {fieldLabel:C_WS_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
@@ -2083,8 +2101,15 @@ Fos.EntRegTab = function(p,store) {
      			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
      			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
      			     	listeners:{scope:this,
-     	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
-     	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+     	    			blur:function(f){
+     	    				if(f.getRawValue()==''){
+     	    					f.clearValue();
+     	    					p.set('consOperatorId','');
+     	    					p.set('consOperatorName','');
+     	    				}},
+     	    			select:function(c,r,i){
+     	    				p.set('consOperatorName',r.get('userName'));
+     	    			}}},
              	 	{fieldLabel:C_CUSTOM_CODE,tabIndex:10,name:'consCustomRegNo',value:p.get('consCustomRegNo'),
              			xtype:'textfield',anchor:'95%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),

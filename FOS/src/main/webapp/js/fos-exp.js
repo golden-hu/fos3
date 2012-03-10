@@ -450,7 +450,8 @@ Fos.BookTab = function(p) {
     if(p.get('rowAction')!='N'){
 		this.carg_s.load({params:{consId:p.get('consId')}});
 		if(p.get('consBizType')==BT_C){
-			this.cont_s.load({params:{consId:p.get('consId'),contPreFlag:p.get('consBizClass')==BC_I?'N':'Y'}});
+			this.cont_s.load({params:{consId:p.get('consId'),
+				contPreFlag:p.get('consBizClass')==BC_I?'N':'Y'}});
 			if(p.get('consBizClass')==BC_I)
 				this.hbl_s.load({params:{consId:p.get('consId'),blType:'H/BL'}});
 		}
@@ -618,18 +619,28 @@ Fos.BookTab = function(p) {
 			xmlData:FOSX(xml)
 		});
     };    
-    var f1={fieldLabel:p.get('consBizType')==BT_B?C_CHARTER:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-       		xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
-       		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',selectOnFocus:true,anchor:'99%',
-             	listeners:{scope:this,
-             	blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('custId','');p.set('custName','');}},
-             	select:function(c,r,i){
+    var f1={fieldLabel:p.get('consBizType')==BT_B?C_CHARTER:C_BOOKER,itemCls:'required',
+    		tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+       		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
+       		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+       		triggerAction:'all',selectOnFocus:true,anchor:'99%',
+         	listeners:{scope:this,
+         	blur:function(f){
+         		if(f.getRawValue()==''){
+         			f.clearValue();
+         			p.set('custId','');
+         			p.set('custName','');
+         		}
+         	},
+         	select:function(c,r,i){
 				this.find('name','custContact')[0].setValue(r.get('custContact'));
 				this.find('name','custTel')[0].setValue(r.get('custTel'));
 				this.find('name','custFax')[0].setValue(r.get('custFax'));
 				this.find('name','custSalesId')[0].store.reload({params:{custId:r.get('custId')}});
 				p.set('custId',r.get('custId'));
 				p.set('custSname',r.get('custCode'));
+				p.set('custName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
 				this.find('name','consShipper')[0].setValue(r.get('custShipper'));
 				var attr9=r.get('attr9');
 				var attr10=r.get('attr10');
@@ -774,41 +785,86 @@ Fos.BookTab = function(p) {
 				},
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('vessId','');p.set('vessName','');}},
 			keydown:{fn:function(f,e){LV(f,e,vt);},buffer:BF}}};
-	var m2={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,itemClass:'needed',tabIndex:p.get('consBizClass')==BC_I?42:38,name:'consCarrierName',value:p.get('consCarrierName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+	var m2={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,itemClass:'needed',
+		tabIndex:p.get('consBizClass')==BC_I?42:38,
+		name:'consCarrierName',value:p.get('consCarrierName'),store:getCS(),enableKeyEvents:true,
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
+		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consCarrier','');p.set('consCarrierName','');}},
-			select:function(c,r,i){p.set('consCarrier',r.get('custId'));},
-			keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:BF}}};
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consCarrier','');
+					p.set('consCarrierName','');
+				}
+			},
+			select:function(c,r,i){
+				p.set('consCarrier',r.get('custId'));
+				p.set('consCarrierName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
+			keydown:{fn:function(f,e){
+				LC(f,e,'custCarrierFlag');
+			},buffer:BF}}};
 	var m3={fieldLabel:C_OVERSEA_AGENCY,tabIndex:p.get('consBizClass')==BC_I?46:42,name:'consOverseaAgencyName',value:p.get('consOverseaAgencyName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
+		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOverseaAgency','');p.set('consOverseaAgencyName','');}},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consOverseaAgency','');
+					p.set('consOverseaAgencyName','');
+				}},
 			select:function(c,r,i){
             	p.set('consOverseaAgency',r.get('custId'));
+            	p.set('consOverseaAgencyName',r.get('custNameCn'));
+            	c.setValue(r.get('custNameCn'));
             	this.find('name','consNotifyParty2')[0].setValue(r.get('custAddress2'));
- 				},
+ 			},
 			keydown:{fn:function(f,e){LC(f,e,'custOverseaAgencyFlag');},buffer:BF}}};
 	var m4={fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_D:C_COUNTRY_L,tabIndex:46,disabled:true,name:'consTradeCountry',value:p.get('consTradeCountry'),store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var m5={fieldLabel:C_BL_REMARKS,tabIndex:50,name:'consBlRemarks',value:p.get('consBlRemarks'),xtype:'textfield',anchor:'99%'};
 	var m6={fieldLabel:'S/O No.',name:'consSoNo',tabIndex:54,value:p.get('consSoNo'),xtype:'textfield',anchor:'99%'};
 	
 	var m7={fieldLabel:C_CONTAINER,tabIndex:p.get('consBizClass')==BC_I?48:58,name:'consContainerCompanyName',value:p.get('consContainerCompanyName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
+		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-        	blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consContainerCompany','');p.set('consContainerCompanyName','');}},
-        	select:function(c,r,i){p.set('consContainerCompany',r.get('custId'));},
+        	blur:function(f){
+        		if(f.getRawValue()==''){
+        			f.clearValue();
+        			p.set('consContainerCompany','');
+        			p.set('consContainerCompanyName','');
+        	}},
+        	select:function(c,r,i){
+        		p.set('consContainerCompany',r.get('custId'));
+        		p.set('consContainerCompanyName',r.get('custNameCn'));
+        		c.setValue(r.get('custNameCn'));
+        	},
 			keydown:{fn:function(f,e){LC(f,e,'custContainerFlag');},buffer:BF}}};
 			
 	var m8={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,itemCls:'needed',tabIndex:35,name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'99%'};
 	var m9={fieldLabel:C_BOOK_AGENCY,tabIndex:39,name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
 		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consBookingAgency','');p.set('consBookingAgencyName','');}},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consBookingAgency','');
+					p.set('consBookingAgencyName','');
+			}},
         	select:function(c,r,i){
 				p.set('consBookingAgency',r.get('custId'));
-				p.set('consBookingAgencySname',r.get('custCode'));},
+				p.set('consBookingAgencySname',r.get('custCode'));
+				p.set('consBookingAgencyName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
         	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
     var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,
     		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
@@ -862,11 +918,23 @@ Fos.BookTab = function(p) {
     var m25={fieldLabel:C_DESTINATION,tabIndex:49,name:'consDestination',value:p.get('consDestination'),xtype:'textfield',anchor:'99%'};
     var m26={fieldLabel:C_PRECARRIAGE,tabIndex:53,name:'consPrecarriage',value:p.get('consPrecarriage'),xtype:'textfield',anchor:'99%'};
     var m27={fieldLabel:C_BL_ORI_NUM,name:'consOriginalBlNum',tabIndex:64,value:p.get('consOriginalBlNum'),xtype:'numberfield',anchor:'99%'};
-    var m28={fieldLabel:C_DO_AGENCY,name:'consDoAgencyName',tabIndex:47,value:p.get('consDoAgencyName'),store:getCS(),enableKeyEvents:true,
-    		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+    var m28={fieldLabel:C_DO_AGENCY,name:'consDoAgencyName',tabIndex:47,
+    		value:p.get('consDoAgencyName'),store:getCS(),enableKeyEvents:true,
+    		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+    		xtype:'combo',displayField:'custCode',valueField:'custCode',
+    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
         	listeners:{scope:this,
-            	blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consDoAgency','');p.set('consDoAgencyName','');}},
-             	select:function(c,r,i){p.set('consDoAgency',r.get('custId'));},
+            	blur:function(f){
+            		if(f.getRawValue()==''){
+            			f.clearValue();
+            			p.set('consDoAgency','');
+            			p.set('consDoAgencyName','');
+            	}},
+             	select:function(c,r,i){
+             		p.set('consDoAgency',r.get('custId'));
+             		p.set('consDoAgencyName',r.get('custNameCn'));
+             		c.setValue(r.get('custNameCn'));
+             	},
             	keydown:{fn:function(f,e){LC(f,e,'custDoAgencyFlag');},buffer:BF}}};
     var m29={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,name:'consHblNo',tabIndex:37,value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
         
@@ -1097,51 +1165,99 @@ Fos.BookTab = function(p) {
 			items:[r3,r4,r5,r6,r7,txtLoadFactory,txtLoadDate,txtLoadContact,txtLoadTel]};
 			
 	var r9={columnWidth:.5,layout:'form',border:false,items:[
-		{fieldLabel:C_WAREHOUSE,tabIndex:9,name:'consWarehouseName',value:p.get('consWarehouseName'),store:getCS(),enableKeyEvents:true,
-			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+		{fieldLabel:C_WAREHOUSE,tabIndex:9,name:'consWarehouseName',
+			value:p.get('consWarehouseName'),store:getCS(),enableKeyEvents:true,
+			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+			xtype:'combo',displayField:'custCode',valueField:'custCode',
+			typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 			listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consWarehouse','');p.set('consWarehouseName','');}},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consWarehouse','');
+					p.set('consWarehouseName','');
+			}},
 			select:function(c,r,i){
 				this.find('name','consWarehouseContact')[0].setValue(r.get('custContact'));
 				this.find('name','consWarehouseTel')[0].setValue(r.get('custTel'));
 				p.set('consWarehouse',r.get('custId'));
-				p.set('consWarehouseFax',r.get('custFax'));},
+				p.set('consWarehouseName',r.get('custNameCn'));
+				p.set('consWarehouseFax',r.get('custFax'));
+				c.setValue(r.get('custNameCn'));
+			},
 			keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}}}]};
 	var r10={columnWidth:.25,layout:'form',border:false,items:[
-	                {fieldLabel:C_WARE_CONTACT,tabIndex:10,name:'consWarehouseContact',value:p.get('consWarehouseContact'),
-	        		xtype:'textfield',anchor:'99%'}]};
+        {fieldLabel:C_WARE_CONTACT,tabIndex:10,name:'consWarehouseContact',
+        value:p.get('consWarehouseContact'),xtype:'textfield',anchor:'99%'}]};
 	var r11={columnWidth:.25,layout:'form',border:false,items:[
-	                {fieldLabel:C_WARE_TEL,tabIndex:11,name:'consWarehouseTel',value:p.get('consWarehouseTel'),
-	                	xtype:'textfield',anchor:'99%'}]};
+        {fieldLabel:C_WARE_TEL,tabIndex:11,name:'consWarehouseTel',
+        value:p.get('consWarehouseTel'),xtype:'textfield',anchor:'99%'}]};
 	var r12={columnWidth:.5,layout:'form',border:false,items:[
-	                {fieldLabel:p.get('consBizType')==BT_B?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
-	                		tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'99%'}]};
+		{fieldLabel:p.get('consBizType')==BT_B?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
+	    tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'99%'}]};
 	var r13={columnWidth:.5,layout:'form',border:false,items:[
-	               {fieldLabel:p.get('consBizType')==BT_B?C_WARE_ADDRESS:(p.get('consBizClass')==BC_E?C_CONT_LOAD_ADDRESS:C_CONT_DISCHARGE_ADDRESS),tabIndex:13,
-	            		   name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'99%'}]};
+	    {fieldLabel:p.get('consBizType')==BT_B?C_WARE_ADDRESS:(p.get('consBizClass')==BC_E?C_CONT_LOAD_ADDRESS:C_CONT_DISCHARGE_ADDRESS),tabIndex:13,
+	    name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'99%'}]};
 	var r14={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizType')==BT_B?C_WARE_DATE:(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),xtype:'datefield',format:DATEF,anchor:'50%'}]};
-	var r15={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),store:getCS(),enableKeyEvents:true,
-    		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	var r15={columnWidth:.5,layout:'form',border:false,items:[
+	    {fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),
+	    	store:getCS(),enableKeyEvents:true,
+    		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+    		xtype:'combo',displayField:'custCode',valueField:'custCode',
+    		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
         	listeners:{scope:this,
-         		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consCfs','');p.set('consCfsName','');}},
-         		select:function(c,r,i){p.set('consCfs',r.get('custId'));},
+         		blur:function(f){
+         			if(f.getRawValue()==''){
+         				f.clearValue();
+         				p.set('consCfs','');
+         				p.set('consCfsName','');
+         		}},
+         		select:function(c,r,i){
+         			p.set('consCfs',r.get('custId'));
+         			p.set('consCfsName',r.get('custNameCn'));
+         			c.setValue(r.get('custNameCn'));
+         		},
 				keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}}]};
 	
 	var t43={title:p.get('consBizType')==BT_B?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
 			layout:'column',collapsible:true,labelWidth:90,
 			items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14]:[r9,r10,r11,r12,r13,r14,r15]};
 	
-	var r15={fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	var r15={fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
+		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
+		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consInspectionVendor','');p.set('consInspectionVendorName','');}},
-			select:function(c,r,i){p.set('consInspectionVendor',r.get('custId'));},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consInspectionVendor','');
+					p.set('consInspectionVendorName','');
+			}},
+			select:function(c,r,i){
+				p.set('consInspectionVendor',r.get('custId'));
+				p.set('consInspectionVendorName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
 			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}};
-	var r16={fieldLabel:C_CUSTOM_AGENCY,tabIndex:16,name:'consCustomsVendorName',value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	var r16={fieldLabel:C_CUSTOM_AGENCY,tabIndex:16,name:'consCustomsVendorName',
+		value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
+		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consCustomsVendor','');p.set('consCustomsVendorName','');}},
-			select:function(c,r,i){p.set('consCustomsVendor',r.get('custId'));},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consCustomsVendor','');
+					p.set('consCustomsVendorName','');
+			}},
+			select:function(c,r,i){
+				p.set('consCustomsVendor',r.get('custId'));
+				p.set('consCustomsVendorName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
 			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}};
 	var r17={fieldLabel:C_SWITCH_BL,tabIndex:17,name:'swithId',value:p.get('swithId'),store:SWIT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var r18={fieldLabel:C_FUMIGATE_FLAG,tabIndex:18,name:'consFumigateFlag',checked:p.get('consFumigateFlag')=='1',xtype:'checkbox',anchor:'99%'};
@@ -1242,7 +1358,8 @@ Fos.BookTab = function(p) {
     };
     
 	this.updateStatus=function(s){
-		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatus:s},
+		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+			params:{A:'CONS_U',consId:p.get('consId'),consStatus:s},
 		success: function(r){
 			p.set('consStatus',s);
 			this.updateToolBar(s);
@@ -1263,7 +1380,8 @@ Fos.BookTab = function(p) {
 		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     this.unlock=function(){
-    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
+    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
 		success: function(r){
 			p.set('consStatusLock',0);
 			this.updateToolBar(p.get('consStatus'));

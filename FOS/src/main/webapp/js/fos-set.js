@@ -54,8 +54,10 @@
 	
 	if( VERSION==1){
 		t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
-				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
-	            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',
+				triggerAction:'all',tpl:charTpl,itemSelector:'div.list-item',listWidth:300,
+	            allowBlank:false,blankText:'',invalidText:'',mode:'local',
+	            selectOnFocus:true,listClass:'x-combo-list-small',
 	            store:getCHAR_S(),
 	            listeners:{scope:this,select:function(c,r,i){
 	            	var b =this.getSelectionModel().getSelected();
@@ -2089,8 +2091,10 @@ Fos.InvoiceTab = function(p,billNo) {
 			 disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
 			 scope:this,handler:this.genVoucher};
 	 
-	var c1={fieldLabel:HL(C_SETTLE_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-    		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,triggerAction:'all',selectOnFocus:true,anchor:'95%',
+	var c1={fieldLabel:HL(C_SETTLE_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),
+			store:getCS(),enableKeyEvents:true,
+    		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
+    		typeAhead:true,triggerAction:'all',selectOnFocus:true,anchor:'95%',
    		 mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
    		 select:function(c,r,i){
 			if(p.get('invoType')=='R'){
@@ -2105,9 +2109,14 @@ Fos.InvoiceTab = function(p,billNo) {
 				p.set('invoTitle',r.get('custNameCn'));				
 			}
 			p.set('custId',r.get('custId'));
-			p.set('custSname',r.get('custCode'));			
+			p.set('custSname',r.get('custCode'));
+			p.set('custName',r.get('custNameCn'));
+			c.setValue(r.get('custNameCn'));
 		},
-		keydown:{fn:function(f,e){LC(f,e,p.get('invoType')=='R'?'custArFlag':'custApFlag');},buffer:500}}};
+		keydown:{fn:function(f,e){
+			LC(f,e,p.get('invoType')=='R'?'custArFlag':'custApFlag');
+			},buffer:500}}
+	};
 	var c2={fieldLabel:HL(C_INVO_TITLE),tabIndex:2,name:'invoTitle',allowBlank:false,value:p.get('invoTitle'),xtype:'textfield',anchor:'95%'};
 	var c3={fieldLabel:C_INVO_NO,tabIndex:3,name:'invoNo',disabled:true,value:p.get('invoNo'),xtype:'textfield',anchor:'90%'};
 	var c4={fieldLabel:C_CURR,tabIndex:4,name:'currCode',allowBlank:false,value:p.get('currCode'),disabled:true,xtype:'textfield',anchor:'90%'};
@@ -2754,11 +2763,16 @@ Fos.VoucherTab = function(p,prId,invoId) {
 	items: [{region:'north',height:200,layout:'column',layoutConfig:{columns:4},deferredRender:false,title:p.get('voucType')=='R'?C_VOUC_R_INFO:C_VOUC_P_INFO,collapsible:true,
     	items:[{columnWidth:.25,layout:'form',border:false,
         	items:[{fieldLabel:p.get('voucType')=='R'?C_VOUC_NO_R:C_VOUC_NO_P,tabIndex:1,name:'voucNo',disabled:true,value:p.get('voucNo'),xtype:'textfield',anchor:'95%'},
-        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:5,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-            		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-            		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){						
+        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:5,
+        		name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+            		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
+            		typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+            		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+            		listeners:{scope:this,select:function(c,r,i){						
 						p.set('custId',r.get('custId'));
-						p.set('custSame',r.get('custCode'));
+						p.set('custSname',r.get('custCode'));
+						p.set('custName',r.get('custNameCn'));
+						c.setValue(r.get('custNameCn'));
 					},
 					keydown:{fn:function(f,e){LC(f,e,p.get('voucType')=='R'?'custArFlag':'custApFlag');},buffer:500}}},
                 {fieldLabel:p.get('voucType')=='R'?C_VOUC_R_AMOUNT:C_VOUC_P_AMOUNT,itemCls:'required',tabIndex:9,name:'voucAmount',value:p.get('voucAmount'),xtype:'numberfield',anchor:'95%',
@@ -3298,15 +3312,19 @@ Fos.PrTab = function(p) {
 	items: [{region:'north',height:180,layout:'column',layoutConfig:{columns:4},
 			bodyStyle:'padding:5px 0px 0px 0px',title:p.get('prType')=='R'?C_PR_R_INFO:C_PR_P_INFO,collapsible:true,
     	items:[{columnWidth:.5,layout:'form',border:false,items:[        	
-        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-           		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:1,
+        		name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+           		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
+           		typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
            		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){						
 					p.set('custId',r.get('custId'));
 					p.set('custSname',r.get('custCode'));
+					p.set('custName',r.get('custNameCn'));					
 					p.set('custBankCny',r.get('custBankCny'));
 					p.set('custAccountCny',r.get('custAccountCny'));
 					p.set('custBankUsd',r.get('custBankUsd'));
 					p.set('custAccountUsd',r.get('custAccountUsd'));
+					c.setValue(r.get('custNameCn'));
 					if(this.find('name','currCode')[0].getValue()=='CNY'){
 						this.find('name','custBank')[0].setValue(p.get('custBankCny'));
 						this.find('name','custAccount')[0].setValue(p.get('custAccountCny'));
@@ -3712,31 +3730,41 @@ Fos.BillTab = function(p){
 	items: [{region:'north',height:80,layout:'column',layoutConfig:{columns:4},deferredRender:false,title:C_BILL_INFO,collapsible:true,
     	items:[{columnWidth:.25,layout:'form',border:false,
         	items:[
-        	{fieldLabel:HL(C_BILL_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-            		allowBlank:false,xtype:'combo',displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+        	{fieldLabel:HL(C_BILL_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),
+        		store:getCS(),enableKeyEvents:true,
+            		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
+            		typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){
 						p.set('custId',r.get('custId'));
 						p.set('custSname',r.get('custCode'));
+						p.set('custName',r.get('custNameCn'));
+						c.setValue(r.get('custNameCn'));
 					},
 					keydown:{fn:function(f,e){LC(f,e,p.get('billType')=='R'?'custArFlag':'custApFlag');},buffer:BF}}},
                 {fieldLabel:HL(C_BILL_DATE),tabIndex:3,name:'billDate',value:p.get('billDate'),xtype:'datefield',format:DATEF,anchor:'95%'}]
              },
             {columnWidth:.25,layout:'form',border:false,
-                items: [{fieldLabel:C_BILL_NO,tabIndex:4,name:'billNo',disabled:true,value:p.get('billNo'),xtype:'textfield',anchor:'95%'},                
-                {fieldLabel:C_REMARKS,tabIndex:23,name:'billRemarks',value:p.get('billRemarks'),xtype:'textfield',anchor:'95%'}]
+                items: [{fieldLabel:C_BILL_NO,tabIndex:4,name:'billNo',disabled:true,
+                	value:p.get('billNo'),xtype:'textfield',anchor:'95%'},                
+                {fieldLabel:C_REMARKS,tabIndex:23,name:'billRemarks',
+                	value:p.get('billRemarks'),xtype:'textfield',anchor:'95%'}]
             },
             {columnWidth:.25,layout: 'form',border : false,
                 items: [          
-                {fieldLabel:C_SUM_USD,tabIndex:11,name:'billAmountUsd',value:p.get('billAmountUsd'),disabled:true,xtype:'textfield',anchor:'95%'},
-                {fieldLabel:C_SUM_LOC,tabIndex:11,name:'billAmount',value:p.get('billAmount'),disabled:true,xtype:'textfield',anchor:'95%'}
+                {fieldLabel:C_SUM_USD,tabIndex:11,name:'billAmountUsd',
+                	value:p.get('billAmountUsd'),disabled:true,xtype:'textfield',anchor:'95%'},
+                {fieldLabel:C_SUM_LOC,tabIndex:11,name:'billAmount',
+                	value:p.get('billAmount'),disabled:true,xtype:'textfield',anchor:'95%'}
                 ]
             },
             {columnWidth:.25,layout: 'form',border : false,
-                items: [{fieldLabel:C_SUM_CNY,tabIndex:11,name:'billAmountCny',value:p.get('billAmountCny'),disabled:true,xtype:'textfield',anchor:'95%'}           	
+                items: [{fieldLabel:C_SUM_CNY,tabIndex:11,name:'billAmountCny',
+                	value:p.get('billAmountCny'),disabled:true,xtype:'textfield',anchor:'95%'}           	
                ]
             }]
        	},
-		{layout:'fit',region:'center',deferredRender:false,labelWidth:40,labelAlign:'top',title:C_EXPE_LINE,items:this.grid}
+		{layout:'fit',region:'center',deferredRender:false,labelWidth:40,labelAlign:'top',
+       		title:C_EXPE_LINE,items:this.grid}
 	]});
 };
 Ext.extend(Fos.BillTab, Ext.FormPanel);
@@ -4107,7 +4135,8 @@ Fos.SectionExGrid = function(p,section,parent) {
 	
 	t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
-            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,
+            allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
             store:getCHAR_S(),
             listeners:{scope:this,select:function(c,r,i){
             	var b =this.getSelectionModel().getSelected();
