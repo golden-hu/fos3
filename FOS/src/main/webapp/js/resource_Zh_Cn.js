@@ -128,6 +128,8 @@ var M_LOAD_ADVICE='装箱通知单';
 var M_SHIP_ADVICE='装船通知';
 var M_SGS_ADVICE='SGS检验通知';
 var M_NO_MSG_SEND='您没有输入消息文本内容！';
+var M_SELECT_CUSTOMS_BILL='请先选择中一条报关单！';
+
 var C_SEL_STATION='选择到站';
 var C_SYSTEM_MENU='系统菜单';
 var C_PRSH_QUERY='价格单查询';
@@ -1504,3 +1506,5 @@ var C_INSPECTION='报检';
 var C_CUSTOMS_DECLEAR_ITEMS='申报要素';
 var C_CUSTOMS_DECLEAR_DATE='报关日期';
 var C_INSPECTION_DATE='报检日期';
+var C_COMMERCIAL_INVOICE_NO='商业发票号';
+var C_COMMERCIAL_INVOICE_DATE='商业发票日期';

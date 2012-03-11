@@ -40,7 +40,9 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private Date cudeEntryDate;
 	private Date cudeDeclarDate;
 	private String cudeCustomer;
+	private String cudeCargoCompany;
 	private String cudeShipper;
+	private String cudeConsignee;
 	private String tratCode;
 	private String cudeConveyance;
 	private String cudeBlNo;
@@ -82,6 +84,8 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private Date cudeShutoutDate;
 	private Integer cudeDocNum;
 	private String cudeDocColor;
+	private String cudeInvoiceNo;
+	private Date cudeInvoiceDate;
 	private Integer cudeRefundDocNum;
 	private Short cudeTransitedFlag;
 	private Short cudeRefundFlag;
@@ -315,6 +319,16 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeCustomer = cudeCustomer;
 	}
 
+	@Column(name = "CUDE_CARGO_COMPANY", length = 200)
+	public String getCudeCargoCompany() {
+		return this.cudeCargoCompany;
+	}
+
+	public void setCudeCargoCompany(String cudeCargoCompany) {
+		this.cudeCargoCompany = cudeCargoCompany;
+	}
+
+	
 	@Column(name = "CUDE_SHIPPER", length = 500)
 	public String getCudeShipper() {
 		return this.cudeShipper;
@@ -324,6 +338,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeShipper = cudeShipper;
 	}
 
+	@Column(name = "CUDE_CONSIGNEE", length = 500)
+	public String getCudeConsignee() {
+		return this.cudeConsignee;
+	}
+
+	public void setCudeConsignee(String cudeConsignee) {
+		this.cudeConsignee = cudeConsignee;
+	}
+	
 	@Column(name = "TRAT_CODE", length = 32)
 	public String getTratCode() {
 		return this.tratCode;
@@ -681,6 +704,25 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeShutoutDate = cudeShutoutDate;
 	}
 
+	@Column(name = "CUDE_INVOICE_NO", length = 32)
+	public String getCudeInvoiceNo() {
+		return this.cudeInvoiceNo;
+	}
+
+	public void setCudeInvoiceNo(String cudeInvoiceNo) {
+		this.cudeInvoiceNo = cudeInvoiceNo;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CUDE_INVOICE_DATE", length = 10)
+	public Date getCudeInvoiceDate() {
+		return this.cudeInvoiceDate;
+	}
+
+	public void setCudeInvoiceDate(Date cudeInvoiceDate) {
+		this.cudeInvoiceDate = cudeInvoiceDate;
+	}
+	
 	@Column(name = "CUDE_DOC_NUM")
 	public Integer getCudeDocNum() {
 		return this.cudeDocNum;

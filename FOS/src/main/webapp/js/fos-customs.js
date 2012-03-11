@@ -263,15 +263,16 @@ Fos.InspectionDeclTab = function(p,store) {
    
 	Fos.InspectionDeclTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_INSPECTION+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
-		bodyStyle:'padding:2px 10px 10px 2px',
-		border:false,labelAlign:'right',layout:'column',
+		padding:5,border:false,labelAlign:'right',layout:'column',
 	    items:[
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
+				{fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:1,
+						name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'},    
+    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:5,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
  					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
- 					selectOnFocus:true,anchor:'95%',
+ 					selectOnFocus:true,anchor:'99%',
  			     	listeners:{scope:this,
  			     	blur:function(f){
  			     		if(f.getRawValue()==''){
@@ -288,71 +289,69 @@ Fos.InspectionDeclTab = function(p,store) {
  			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
- 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
- 			     		xtype:'textfield',anchor:'95%'},
- 			     {fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:9,
- 			     		name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'95%'},    
+ 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:9,name:'consCompany',value:p.get('consCompany'),
+ 			     		xtype:'textfield',anchor:'99%'}, 			     
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'95%'},
-	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:11,name:'consVerificationNo',value:p.get('consVerificationNo'),
- 	    	    	xtype:'textfield',anchor:'95%'},
- 	    	    	{fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
- 	    	    		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
- 	    	   		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',
- 	    	   		displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',
- 	    	   		triggerAction:'all',selectOnFocus:true,anchor:'95%',
- 	    	   		listeners:{scope:this,
- 	    	   			blur:function(f){
- 	    	   				if(f.getRawValue()==''){
- 	    	   					f.clearValue();
- 	    	   					p.set('consInspectionVendor','');
- 	    	   					p.set('consInspectionVendorName','');
- 	    	   			}},
- 	    	   			select:function(c,r,i){
- 	    	   				p.set('consInspectionVendor',r.get('custId'));
- 	    	   				p.set('consInspectionVendorName',r.get('custNameCn'));
- 	    	   			c.setValue(r.get('custNameCn'));
- 	    	   			},
- 	    	   			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}}
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
+	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:17,name:'consVerificationNo',value:p.get('consVerificationNo'),
+ 	    	    	xtype:'textfield',anchor:'99%'},
+    	    	{fieldLabel:C_INSP_AGENCY,tabIndex:21,name:'consInspectionVendorName',
+    	    		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
+    	   		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',
+    	   		displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',
+    	   		triggerAction:'all',selectOnFocus:true,anchor:'99%',
+    	   		listeners:{scope:this,
+    	   			blur:function(f){
+    	   				if(f.getRawValue()==''){
+    	   					f.clearValue();
+    	   					p.set('consInspectionVendor','');
+    	   					p.set('consInspectionVendorName','');
+    	   			}},
+    	   			select:function(c,r,i){
+    	   				p.set('consInspectionVendor',r.get('custId'));
+    	   				p.set('consInspectionVendorName',r.get('custNameCn'));
+    	   			c.setValue(r.get('custNameCn'));
+    	   			},
+    	   			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}}
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             	 	{fieldLabel:C_CONTACT,tabIndex:2,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'95%'},
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:6,name:'consOperatorId',value:p.get('consOperatorId'),
-     			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-     			     	listeners:{scope:this,
-     	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
-     	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+					{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
+					  	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
+					  	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+					  	listeners:{scope:this,
+							blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
+							select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+             	 	{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_REF_NO,tabIndex:10,name:'consRefNo',value:p.get('consRefNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
-           			     xtype:'datefield',format:DATEF,anchor:'95%'},
-         			{fieldLabel:C_BL_NO,tabIndex:36,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'95%'}     			    
+           			     xtype:'datefield',format:DATEF,anchor:'99%'},
+         			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'}     			    
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             		{fieldLabel:C_PHONE,tabIndex:3,name:'custTel',value:p.get('custTel'),
-             			xtype:'textfield',anchor:'95%'},
-             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:7,name:'consSalesRepName',value:p.get('consSalesRepName'),
-         	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
-         	    		valueField:'userName',
-         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-         	    		listeners:{scope:this,
-         	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
-         	    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},
+					{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
+							store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
+							valueField:'userName',
+							typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+							listeners:{scope:this,
+								blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
+						    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},
+             		{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
+             			xtype:'textfield',anchor:'99%'},             		
              		{fieldLabel:C_INSPECTION_NO,tabIndex:11,name:'consCustomsDeclearationNo',value:p.get('consCustomsDeclearationNo'),
-         	    	    	xtype:'textfield',anchor:'95%'}, 	    	    	
-			       {fieldLabel:C_GOODS_NAME,tabIndex:16,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
-          			    xtype:'textfield',anchor:'95%'}             		
+         	    	    	xtype:'textfield',anchor:'99%'}, 	    	    	
+			       {fieldLabel:C_GOODS_NAME,tabIndex:15,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
+          			    xtype:'textfield',anchor:'99%'}             		
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-         	        {fieldLabel:C_FAX,xtype:'textfield',tabIndex:4,name:'custFax',value:p.get('custFax'),anchor:'95%'},
-             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:8,name:'deptId',value:p.get('deptId'),
-             			store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,
-             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-         			{fieldLabel:C_INSPECTION_DATE,tabIndex:15,name:'consCustomsDeclearDate',value:p.get('consCustomsDeclearDate'),
-         			    xtype:'datefield',format:DATEF,anchor:'95%'},         			
-         			{fieldLabel:C_HS_CODE,tabIndex:12,name:'cargHsCode',value:p.get('cargHsCode'),
-             			xtype:'textfield',anchor:'95%'}       			
+					{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
+							store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,
+							mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+         	        {fieldLabel:C_FAX,xtype:'textfield',tabIndex:8,name:'custFax',value:p.get('custFax'),anchor:'99%'},             		
+         			{fieldLabel:C_INSPECTION_DATE,tabIndex:12,name:'consCustomsDeclearDate',value:p.get('consCustomsDeclearDate'),
+         			    xtype:'datefield',format:DATEF,anchor:'99%'},         			
+         			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
+             			xtype:'textfield',anchor:'99%'}       			
          		]},
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_REMARKS,tabIndex:22,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',height:150,anchor:'99%'}
@@ -635,14 +634,17 @@ Fos.CustomsDeclearTab = function(p,store) {
    
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
-		padding:5,border:false,labelAlign:'right',layout:'column',
+		padding:5,labelAlign:'right',
 	    items:[
-    		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
+    		{header:false,border:false,layout:'column',items:[
+    		{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+				{fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:1,
+						name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'},  
+    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:5,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
  					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
- 					selectOnFocus:true,anchor:'95%',
+ 					selectOnFocus:true,anchor:'99%',
  			     	listeners:{scope:this,
  			     	blur:function(f){
  			     		if(f.getRawValue()==''){
@@ -659,81 +661,105 @@ Fos.CustomsDeclearTab = function(p,store) {
  			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
- 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
- 			     		xtype:'textfield',anchor:'95%'},
- 			     {fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:9,
- 			     		name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'95%'},    
+ 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:9,name:'consCompany',value:p.get('consCompany'),
+ 			     		xtype:'textfield',anchor:'99%'}, 			       
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'95%'},
-	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:11,name:'consVerificationNo',value:p.get('consVerificationNo'),
- 	    	    	xtype:'textfield',anchor:'95%'},
-    	    	{fieldLabel:C_CUSTOM_AGENCY,tabIndex:16,name:'consCustomsVendorName',value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
-    	   		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
-    	   		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
-    	   		listeners:{scope:this,
-    	   			blur:function(f){
-    	   				if(f.getRawValue()==''){
-    	   					f.clearValue();
-    	   					p.set('consCustomsVendor','');
-    	   					p.set('consCustomsVendorName','');
-    	   				}
-    	   			},
-    	   			select:function(c,r,i){
-    	   				p.set('consCustomsVendor',r.get('custId'));
-    	   				p.set('consCustomsVendorName',r.get('custNameCn'));
-    	   				c.setValue(r.get('custNameCn'));
-    	   			},
-    	   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}}
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
+	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:17,name:'consVerificationNo',value:p.get('consVerificationNo'),
+ 	    	    	xtype:'textfield',anchor:'99%'},
+    	    	{fieldLabel:C_CUSTOM_AGENCY,tabIndex:21,name:'consCustomsVendorName',
+    	    		value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
+    	    		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+    	    		xtype:'combo',displayField:'custCode',valueField:'custCode',
+    	    		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	    	   		listeners:{scope:this,
+	    	   			blur:function(f){
+	    	   				if(f.getRawValue()==''){
+	    	   					f.clearValue();
+	    	   					p.set('consCustomsVendor','');
+	    	   					p.set('consCustomsVendorName','');
+	    	   				}
+	    	   			},
+	    	   			select:function(c,r,i){
+	    	   				p.set('consCustomsVendor',r.get('custId'));
+	    	   				p.set('consCustomsVendorName',r.get('custNameCn'));
+	    	   				var obj = this.find('name','consCustomsContact');
+	    	   				if(obj.length>0){
+	    	   					var ct = obj[0];
+	    	   					ct.setValue(r.get('custContact'));    	   					
+	    	   				}
+	    	   				var obj2 = this.find('name','consCustomsTel');
+	    	   				if(obj2.length>0){
+	    	   					var ct = obj2[0];
+	    	   					ct.setValue(r.get('custTel'));    	   					
+	    	   				}
+	    	   				c.setValue(r.get('custNameCn'));
+	    	   			},
+	    	   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}}
  				]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             	 	{fieldLabel:C_CONTACT,tabIndex:2,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'95%'},
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:6,name:'consOperatorId',value:p.get('consOperatorId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
      			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
      			     	listeners:{scope:this,
      	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
      	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+     	    		{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_REF_NO,tabIndex:10,name:'consRefNo',value:p.get('consRefNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
-           			     xtype:'datefield',format:DATEF,anchor:'95%'},
-         			{fieldLabel:C_BL_NO,tabIndex:36,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'95%'}     			    
+           			     xtype:'datefield',format:DATEF,anchor:'99%'},
+         			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
+         			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             		{fieldLabel:C_PHONE,tabIndex:3,name:'custTel',value:p.get('custTel'),
-             			xtype:'textfield',anchor:'95%'},
-             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:7,name:'consSalesRepName',value:p.get('consSalesRepName'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
          	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
          	    		valueField:'userName',
-         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
          	    		listeners:{scope:this,
          	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
          	    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},
-             		{fieldLabel:C_CUSTOMS_DECLEARATION_NO,tabIndex:11,name:'consCustomsDeclearationNo',value:p.get('consCustomsDeclearationNo'),
-         	    	    	xtype:'textfield',anchor:'95%'}, 	    	    	
-			       {fieldLabel:C_GOODS_NAME,tabIndex:16,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
-          			    xtype:'textfield',anchor:'95%'},
-     			   {xtype:'checkbox',labelSeparator:'',name:'consRequireVerification',check:p.get('consRequireVerification')==1,
-		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP}
-             		
+ 	    	    	{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
+             			xtype:'textfield',anchor:'99%'},
+         	       {fieldLabel:C_CUSTOMS_DECLEARATION_NO,tabIndex:11,name:'consCustomsDeclearationNo',value:p.get('consCustomsDeclearationNo'),
+         	    	    	xtype:'textfield',anchor:'99%'}, 	    	    	
+			       {fieldLabel:C_GOODS_NAME,tabIndex:15,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
+          			    xtype:'textfield',anchor:'99%'},
+     			   {xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
+		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP},
+		     	  {fieldLabel:C_CUDE_TEL,name:'consCustomsTel',xtype:'textfield',anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-         	        {fieldLabel:C_FAX,xtype:'textfield',tabIndex:4,name:'custFax',value:p.get('custFax'),anchor:'95%'},
-             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:8,name:'deptId',value:p.get('deptId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
+             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
              			store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,
-             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-         			{fieldLabel:C_CUSTOMS_DECLEAR_DATE,tabIndex:15,name:'consCustomsDeclearDate',value:p.get('consCustomsDeclearDate'),
-         			    xtype:'datefield',format:DATEF,anchor:'95%'},         			
-         			{fieldLabel:C_HS_CODE,tabIndex:12,name:'cargHsCode',value:p.get('cargHsCode'),
-             			xtype:'textfield',anchor:'95%'},
-             		{xtype:'checkbox',hidden:p.get('consBizClass')=='I',labelSeparator:'',
-             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF}             			
-         		]},
-         	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
-         	    	{fieldLabel:C_CUSTOMS_DECLEAR_ITEMS,tabIndex:21,name:'consServiceSpec',value:p.get('consServiceSpec'),xtype:'textarea',height:150,anchor:'99%'}
+             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+             		{fieldLabel:C_FAX,xtype:'textfield',tabIndex:8,name:'custFax',value:p.get('custFax'),anchor:'99%'},
+             		{fieldLabel:C_CUSTOMS_DECLEAR_DATE,tabIndex:12,name:'consCustomsDeclearDate',value:p.get('consCustomsDeclearDate'),
+         			    xtype:'datefield',format:DATEF,anchor:'99%'},         			
+         			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
+             			xtype:'textfield',anchor:'99%'},
+             		{xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
+             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF}
+         		]}
          	    ]},
-         	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
-         	    	{fieldLabel:C_REMARKS,tabIndex:22,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',height:150,anchor:'99%'}
+         	   {header:false,border:false,layout:'column',items:[
+         	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+           	    	{fieldLabel:C_SHIPPER,tabIndex:23,name:'consShipper',value:p.get('consShipper'),
+				    	xtype:'textarea',height:100,anchor:'99%'}
+           	    ]},
+           	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+         	    	{fieldLabel:C_CONSIGNEE,tabIndex:24,name:'consConsignee',value:p.get('consConsignee'),
+					xtype:'textarea',height:100,anchor:'99%'}
+         	    ]},
+         	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+           	    	{fieldLabel:C_CUSTOMS_DECLEAR_ITEMS,tabIndex:25,name:'consServiceSpec',
+           	    		value:p.get('consServiceSpec'),xtype:'textarea',height:100,anchor:'99%'}
+           	    ]},
+           	    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+           	    	{fieldLabel:C_REMARKS,tabIndex:26,name:'consRemarks',value:p.get('consRemarks'),
+           	    		xtype:'textarea',height:100,anchor:'99%'}
+           	    ]}
          	    ]}
          	 ],
 		tbar:[
@@ -1123,15 +1149,16 @@ Fos.TradeTab = function(p,store) {
     
 	Fos.TradeTab.superclass.constructor.call(this, { 
 		id: "P_TRADE_"+p.get('id'),title:C_TRADE+'委托【'+p.get("consNo")+'】',header:false,closable:true,autoScroll:true,
-		bodyStyle:'padding:2px 10px 10px 2px',
-		border:false,labelAlign:'right',layout:'column',
+		padding:5,border:false,labelAlign:'right',layout:'column',
 	    items:[
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
+				{fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:1,
+						name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'},    
+    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:5,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
  					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
- 					selectOnFocus:true,anchor:'95%',
+ 					selectOnFocus:true,anchor:'99%',
  			     	listeners:{scope:this,
  			     	blur:function(f){
  			     		if(f.getRawValue()==''){
@@ -1148,54 +1175,52 @@ Fos.TradeTab = function(p,store) {
  			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
- 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
- 			     		xtype:'textfield',anchor:'95%'},
- 			     {fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:9,
- 			     		name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'95%'},    
+ 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:9,name:'consCompany',value:p.get('consCompany'),
+ 			     		xtype:'textfield',anchor:'99%'}, 			     
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'95%'},
- 			     {fieldLabel:C_EXT_1,tabIndex:17,name:'attr1',value:p.get('attr1'),xtype:'textfield',anchor:'95%'}
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
+ 			     {fieldLabel:C_EXT_1,tabIndex:17,name:'attr1',value:p.get('attr1'),xtype:'textfield',anchor:'99%'}
  				]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             	 	{fieldLabel:C_CONTACT,tabIndex:2,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'95%'},
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:6,name:'consOperatorId',value:p.get('consOperatorId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[             	 	
+             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
      			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
      			     	listeners:{scope:this,
      	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
      	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+     	    		{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_REF_NO,tabIndex:10,name:'consRefNo',value:p.get('consRefNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
-         			     xtype:'datefield',format:DATEF,anchor:'95%'},
-         			 {fieldLabel:C_EXT_2,tabIndex:18,name:'attr2',value:p.get('attr2'),xtype:'textfield',anchor:'95%'}
+         			     xtype:'datefield',format:DATEF,anchor:'99%'},
+         			 {fieldLabel:C_EXT_2,tabIndex:18,name:'attr2',value:p.get('attr2'),xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             		{fieldLabel:C_PHONE,tabIndex:3,name:'custTel',value:p.get('custTel'),
-             			xtype:'textfield',anchor:'95%'},
-             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:7,name:'consSalesRepName',value:p.get('consSalesRepName'),
+             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
          	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
          	    		valueField:'userName',
-         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
          	    		listeners:{scope:this,
          	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
          	    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},
-             		{fieldLabel:C_MANU_NO,tabIndex:11,name:'consManualNo',value:p.get('consManualNo'),
-         	    	    	xtype:'textfield',anchor:'95%'},
+ 	    	    	{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
+             			xtype:'textfield',anchor:'99%'},
+         	    	{fieldLabel:C_MANU_NO,tabIndex:11,name:'consManualNo',value:p.get('consManualNo'),
+         	    	    xtype:'textfield',anchor:'99%'},
          	    	{fieldLabel:C_MANUAL_EXPIRE_DATE,tabIndex:15,name:'consManualExpirationDate',value:p.get('consManualExpirationDate'),
-             			    xtype:'datefield',format:DATEF,anchor:'95%'},
-             		{fieldLabel:C_EXT_3,tabIndex:19,name:'attr3',value:p.get('attr3'),xtype:'textfield',anchor:'95%'}
+             			xtype:'datefield',format:DATEF,anchor:'99%'},
+             		{fieldLabel:C_EXT_3,tabIndex:19,name:'attr3',value:p.get('attr3'),xtype:'textfield',anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-         	        {fieldLabel:C_FAX,xtype:'textfield',tabIndex:4,name:'custFax',value:p.get('custFax'),anchor:'95%'},
-             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:8,name:'deptId',value:p.get('deptId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[         	        
+             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
              			store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,
-             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
+             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+             		{fieldLabel:C_FAX,xtype:'textfield',tabIndex:8,name:'custFax',value:p.get('custFax'),anchor:'99%'},
          			{fieldLabel:C_CONTRACT_NO,tabIndex:12,name:'consContractNo',value:p.get('consContractNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
          			{fieldLabel:C_MARGIN,tabIndex:16,name:'consMargin',value:p.get('consMargin'),
-             			xtype:'numberfield',anchor:'95%'},
-             		{fieldLabel:C_EXT_4,tabIndex:20,name:'attr4',value:p.get('attr4'),xtype:'textfield',anchor:'95%'}
+             			xtype:'numberfield',anchor:'99%'},
+             		{fieldLabel:C_EXT_4,tabIndex:20,name:'attr4',value:p.get('attr4'),xtype:'textfield',anchor:'99%'}
          		]},
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_WORKSET,tabIndex:21,name:'consServiceSpec',value:p.get('consServiceSpec'),xtype:'textarea',height:150,anchor:'99%'}
@@ -1590,15 +1615,16 @@ Fos.ReliefTab = function(p,store) {
     
 	Fos.ReliefTab.superclass.constructor.call(this, { 
 		id: "P_RELIEF_"+p.get('id'),title:C_RELIEF_TAX+'委托【'+p.get("consNo")+'】',header:false,closable:true,autoScroll:true,
-		bodyStyle:'padding:2px 10px 10px 2px',
-		border:false,labelAlign:'right',layout:'column',
+		padding:5,border:false,labelAlign:'right',layout:'column',
 	    items:[
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
+				{fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:1,
+					name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'},  
+    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:5,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
  					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
- 					selectOnFocus:true,anchor:'95%',
+ 					selectOnFocus:true,anchor:'99%',
  			     	listeners:{scope:this,
  			     	blur:function(f){
  			     		if(f.getRawValue()==''){
@@ -1615,61 +1641,59 @@ Fos.ReliefTab = function(p,store) {
  			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
- 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
- 			     		xtype:'textfield',anchor:'95%'},
- 			     {fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:9,
- 			     		name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'95%'},    
+ 			     {fieldLabel:C_BIZ_COMPANY,tabIndex:9,name:'consCompany',value:p.get('consCompany'),
+ 			     		xtype:'textfield',anchor:'99%'}, 			       
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'95%'},
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
  			     {fieldLabel:C_GOODS_NAME,xtype:'textfield',tabIndex:17,name:'consCargoNameCn',
- 			     		value:p.get('consCargoNameCn'),anchor:'95%'},
+ 			     		value:p.get('consCargoNameCn'),anchor:'99%'},
 	     		{fieldLabel:C_RELIEF_TARIFF,xtype:'numberfield',tabIndex:21,name:'consReliefTariff',
-     			    value:p.get('consReliefTariff'),anchor:'95%'}
+     			    value:p.get('consReliefTariff'),anchor:'99%'}
  				]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-             	 	{fieldLabel:C_CONTACT,tabIndex:2,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'95%'},
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:6,name:'consOperatorId',value:p.get('consOperatorId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
      			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
      			     	listeners:{scope:this,
      	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
      	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+     	    		{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_FREE_TABLE_NO,tabIndex:10,name:'consFreeTableNo',value:p.get('consFreeTableNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
-         			     xtype:'datefield',format:DATEF,anchor:'95%'},
-         			{fieldLabel:C_HS_CODE,xtype:'textfield',tabIndex:18,name:'cargHsCode',value:p.get('cargHsCode'),anchor:'95%'},
+         			     xtype:'datefield',format:DATEF,anchor:'99%'},
+         			{fieldLabel:C_HS_CODE,xtype:'textfield',tabIndex:18,name:'cargHsCode',value:p.get('cargHsCode'),anchor:'99%'},
          			{fieldLabel:C_RELIEF_VAT,xtype:'numberfield',tabIndex:22,name:'consReliefVat',
-         			    value:p.get('consReliefVat'),anchor:'95%'}
+         			    value:p.get('consReliefVat'),anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             		{fieldLabel:C_PHONE,tabIndex:3,name:'custTel',value:p.get('custTel'),
-             			xtype:'textfield',anchor:'95%'},
-             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:7,name:'consSalesRepName',value:p.get('consSalesRepName'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[             		
+             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
          	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
          	    		valueField:'userName',
-         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
          	    		listeners:{scope:this,
          	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
          	    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},
+ 	    	    	{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_PROJECT_NO,tabIndex:11,name:'consCustomRegNo',value:p.get('consCustomRegNo'),
-         	    	    	xtype:'textfield',anchor:'95%'},
+         	    	    	xtype:'textfield',anchor:'99%'},
          	    	{fieldLabel:C_CITY_AUDIT_DATE,tabIndex:15,name:'consAuditDate',value:p.get('consAuditDate'),
-             			    xtype:'datefield',format:DATEF,anchor:'95%'},
+             			    xtype:'datefield',format:DATEF,anchor:'99%'},
              	    {fieldLabel:C_QUANTITY,xtype:'numberfield',tabIndex:19,name:'consTotalPackages',
-             			    value:p.get('consTotalPackages'),anchor:'95%'}
+             			    value:p.get('consTotalPackages'),anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-         	        {fieldLabel:C_FAX,xtype:'textfield',tabIndex:4,name:'custFax',value:p.get('custFax'),anchor:'95%'},
-             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:8,name:'deptId',value:p.get('deptId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[         	        
+             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
              			store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,
-             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
+             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+             		{fieldLabel:C_FAX,xtype:'textfield',tabIndex:8,name:'custFax',value:p.get('custFax'),anchor:'99%'},
          			{fieldLabel:C_CONTRACT_NO,tabIndex:12,name:'consContractNo',value:p.get('consContractNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_PROVINCE_AUDIT_DATE,tabIndex:16,name:'consAuditDate2',value:p.get('consAuditDate2'),
-             			xtype:'datefield',format:DATEF,anchor:'95%'},
+             			xtype:'datefield',format:DATEF,anchor:'99%'},
          			{fieldLabel:C_AMOUNT,xtype:'numberfield',tabIndex:20,name:'consTax',
-         			    value:p.get('consTax'),anchor:'95%'}
+         			    value:p.get('consTax'),anchor:'99%'}
          		]},
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_REMARKS,tabIndex:23,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',height:150,anchor:'99%'}
@@ -2071,15 +2095,16 @@ Fos.EntRegTab = function(p,store) {
     
 	Fos.EntRegTab.superclass.constructor.call(this, { 
 		id: "P_ENT_"+p.get('id'),title:C_ENT_REG+'委托【'+p.get("consNo")+'】',header:false,closable:true,autoScroll:true,
-		bodyStyle:'padding:2px 10px 10px 2px',
-		border:false,labelAlign:'right',layout:'column',
+		padding:5,border:false,labelAlign:'right',layout:'column',
 	    items:[
-    		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
+    		{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+				{fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:1,
+					name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'},  
+    			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:5,name:'custName',
     				value:p.get('custName'),store:getCS(),enableKeyEvents:true,
  					xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
- 					selectOnFocus:true,anchor:'95%',
+ 					selectOnFocus:true,anchor:'99%',
  			     	listeners:{scope:this,
  			     	blur:function(f){
  			     		if(f.getRawValue()==''){
@@ -2096,20 +2121,17 @@ Fos.EntRegTab = function(p,store) {
  			     		c.setValue(r.get('custNameCn'));
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
- 			     {fieldLabel:C_WS_COMPANY,tabIndex:5,name:'consCompany',value:p.get('consCompany'),
- 			     		xtype:'textfield',anchor:'95%'},
- 			     {fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,tabIndex:9,
- 			     		name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'95%'},    
+ 			     {fieldLabel:C_WS_COMPANY,tabIndex:9,name:'consCompany',value:p.get('consCompany'),
+ 			     		xtype:'textfield',anchor:'99%'}, 			       
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'95%'},
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
 	     		 {fieldLabel:C_CUSTOMS_REG_EXPIRE_DATE,tabIndex:15,name:'consCustomRegDate',value:p.get('consCustomRegDate'),
-      			    xtype:'datefield',format:DATEF,anchor:'95%'}
+      			    xtype:'datefield',format:DATEF,anchor:'99%'}
  				]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-             	 	{fieldLabel:C_CONTACT,tabIndex:2,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'95%'},
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:6,name:'consOperatorId',value:p.get('consOperatorId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
      			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
      			     	listeners:{scope:this,
      	    			blur:function(f){
      	    				if(f.getRawValue()==''){
@@ -2120,37 +2142,38 @@ Fos.EntRegTab = function(p,store) {
      	    			select:function(c,r,i){
      	    				p.set('consOperatorName',r.get('userName'));
      	    			}}},
+     	    		{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_CUSTOM_CODE,tabIndex:10,name:'consCustomRegNo',value:p.get('consCustomRegNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
-         			     xtype:'datefield',format:DATEF,anchor:'95%'},     			   
+         			     xtype:'datefield',format:DATEF,anchor:'99%'},     			   
      			    {fieldLabel:C_BUSINESS_LICENCE_DATE,tabIndex:16,name:'consBusinessLicenseDate',value:p.get('consBusinessLicenseDate'),
-              			xtype:'datefield',format:DATEF,anchor:'95%'}
+              			xtype:'datefield',format:DATEF,anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-             		{fieldLabel:C_PHONE,tabIndex:3,name:'custTel',value:p.get('custTel'),
-             			xtype:'textfield',anchor:'95%'},
-             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:7,name:'consSalesRepName',value:p.get('consSalesRepName'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[             		
+             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
          	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
          	    		valueField:'userName',
-         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
          	    		listeners:{scope:this,
          	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
          	    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},
+ 	    	    	{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
+             			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_AREA,tabIndex:11,name:'attr1',value:p.get('attr1'),
-         	    	    	xtype:'textfield',anchor:'95%'},
+         	    	    	xtype:'textfield',anchor:'99%'},
  	    	    	{xtype:'checkbox',labelSeparator:'',boxLabel:C_EPORT_REG_FLAG,tabIndex:19,name:'consEportReg',
     			    	 checked:p.get('consEportReg')==1},
          	    	{fieldLabel:C_ORG_DATE,tabIndex:16,name:'consOrgDate',value:p.get('consOrgDate'),
-                     	 xtype:'datefield',format:DATEF,anchor:'95%'}
+                     	 xtype:'datefield',format:DATEF,anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-         	        {fieldLabel:C_FAX,xtype:'textfield',tabIndex:4,name:'custFax',value:p.get('custFax'),anchor:'95%'},
-             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:8,name:'deptId',value:p.get('deptId'),
+         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[         	        
+             		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
              			store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,
-             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-         			{fieldLabel:C_CONTRACT_NO,tabIndex:12,name:'consContractNo',value:p.get('consContractNo'),
-             			xtype:'textfield',anchor:'95%'},
+             			mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+             		{fieldLabel:C_FAX,xtype:'textfield',tabIndex:8,name:'custFax',value:p.get('custFax'),anchor:'99%'},
+             		{fieldLabel:C_CONTRACT_NO,tabIndex:12,name:'consContractNo',value:p.get('consContractNo'),
+             			xtype:'textfield',anchor:'99%'},
              		{xtype:'checkbox',labelSeparator:'',boxLabel:C_INSP_REG_FLAG,tabIndex:19,name:'consInspReg',
        			    	 checked:p.get('consInspReg')==1}
          		]},

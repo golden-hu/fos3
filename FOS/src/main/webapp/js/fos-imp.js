@@ -31,7 +31,7 @@ Fos.CargoGrid = function(p,store,frm) {
 	var c2={header:C_CARGO_NAME_EN,dataIndex:'cargNameEn',editor:new Ext.form.TextField({allowBlank:false})};
 	var c3={header:C_CARGO_NAME_CN,dataIndex:'cargNameCn',editor:new Ext.form.TextField({})};
 	var c4={header:C_PACKAGES,dataIndex:'cargPackageNum',editor:new Ext.form.NumberField({allowBlank:false})};
-	var c5={header:C_PACK,dataIndex:'packId',renderer:function(v,m,r){return r.get('packName')},
+	var c5={header:C_PACK,dataIndex:'packId',renderer:function(v,m,r){return r.get('packName');},
 			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
 	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
 	            listeners:{scope:this,select:function(c,r,i){

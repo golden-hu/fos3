@@ -31,6 +31,9 @@ public abstract class AbstractFCustomsEntry extends BaseDomain {
 	private String cuenCargoSpec;
 	private Double cuenCargoNum;
 	private String cuenCargoUnit;
+	private Double cuenCargoGrossWeight;
+	private Double cuenCargoNetWeight;
+	private Double cuenCargoMeasurement;
 	private String cuenCountry;
 	private Double cuenUnitPrice;
 	private Double cuenTotalPrice;
@@ -167,6 +170,33 @@ public abstract class AbstractFCustomsEntry extends BaseDomain {
 		this.cuenCargoUnit = cuenCargoUnit;
 	}
 
+	@Column(name = "CUEN_CARGO_GROSS_WEIGHT", precision = 9)
+	public Double getCuenCargoGrossWeight() {
+		return this.cuenCargoGrossWeight;
+	}
+
+	public void setCuenCargoGrossWeight(Double cuenCargoGrossWeight) {
+		this.cuenCargoGrossWeight = cuenCargoGrossWeight;
+	}
+	
+	@Column(name = "CUEN_CARGO_NET_WEIGHT", precision = 9)
+	public Double getCuenCargoNetWeight() {
+		return this.cuenCargoNetWeight;
+	}
+
+	public void setCuenCargoNetWeight(Double cuenCargoNetWeight) {
+		this.cuenCargoNetWeight = cuenCargoNetWeight;
+	}
+	
+	@Column(name = "CUEN_CARGO_MEASUREMENT", precision = 9)
+	public Double getCuenCargoMeasurement() {
+		return this.cuenCargoMeasurement;
+	}
+
+	public void setCuenCargoMeasurement(Double cuenCargoMeasurement) {
+		this.cuenCargoMeasurement = cuenCargoMeasurement;
+	}
+	
 	@Column(name = "CUEN_COUNTRY", length = 64)
 	public String getCuenCountry() {
 		return this.cuenCountry;

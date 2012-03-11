@@ -87,6 +87,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consContainerCompanyName;
 	private Integer consCustomsVendor;
 	private String consCustomsVendorName;
+	private String consCustomsContact;
+	private String consCustomsTel;
 	private Integer consInspectionVendor;
 	private String consInspectionVendorName;
 	private Integer consTrackVendor;
@@ -1002,6 +1004,24 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consCustomsVendorName = consCustomsVendorName;
 	}
 
+	@Column(name = "CONS_CUSTOMS_CONTACT", length = 32)
+	public String getConsCustomsContact() {
+		return this.consCustomsContact;
+	}
+
+	public void setConsCustomsContact(String consCustomsContact) {
+		this.consCustomsContact = consCustomsContact;
+	}
+	
+	@Column(name = "CONS_CUSTOMS_TEL", length = 32)
+	public String getConsCustomsTel() {
+		return this.consCustomsTel;
+	}
+
+	public void setConsCustomsTel(String consCustomsTel) {
+		this.consCustomsTel = consCustomsTel;
+	}
+	
 	@Column(name = "CONS_INSPECTION_VENDOR")
 	public Integer getConsInspectionVendor() {
 		return this.consInspectionVendor;
