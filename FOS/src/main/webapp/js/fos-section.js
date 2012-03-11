@@ -1720,7 +1720,7 @@ Fos.RailwayBlTab = function(p) {
 };
 Ext.extend(Fos.RailwayBlTab,Ext.Panel);
 
-//报检
+//报检单
 Fos.InspectionTab = function(p) {
 	this.sel=GSEL;
 	this.store = GS('INSP_Q','FInspection',FInspection,'inspId','DESC','','','inspId',false);
@@ -2018,7 +2018,14 @@ Fos.InspectionTab = function(p) {
 };
 Ext.extend(Fos.InspectionTab, Ext.Panel);
 
-//报关
+Fos.InspectionWin = function(p) {
+	var panel = new Fos.InspectionTab(p);
+	Fos.InspectionWin.superclass.constructor.call(this, {title:p.get('consNo')+C_INSP_BILL,modal:true,width:900,
+        height:565,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
+};
+Ext.extend(Fos.InspectionWin,Ext.Window);
+
+//报关单
 Fos.CustomsTab = function(p) {
 	this.sel =GSEL;
 	this.store = GS('CUDE_Q','FCustomsDeclaration',FCustomsDeclaration,'cudeId','DESC','','','cudeId',false);
@@ -2134,7 +2141,8 @@ Fos.CustomsTab = function(p) {
 			cudeCreateDate:new Date(),			
 			consBizClass:p.get('consBizClass'),
 			cudePortDomestic:p.get('consBizClass')==BC_E?p.get('consPolEn'):p.get('consPodEn'),
-			cudeCustomer:p.get('custName'),cudeShipper:p.get('custName'),
+			cudeCustomer:p.get('custName'),
+			cudeShipper:p.get('custName'),
 			cudeEntryDate:p.get('consLoadDate'),
 			cudeDeclarDate:new Date(),
 			cudeGrossWeight:p.get('consBizType')==BT_B?p.get('consTotalGrossWeight')*1000:p.get('consTotalGrossWeight'),
@@ -2417,7 +2425,7 @@ Fos.CustomsTab = function(p) {
 	var expPanel = new Fos.SectionExGrid(p,'INSP',this);	
 	
 	var frm = new Ext.FormPanel({layout:'border',title:C_CUSTOM_INFO,
-		labelAlign:'right',labelWidth:70,trackResetOnLoad:false,items:[
+		labelAlign:'right',labelWidth:80,trackResetOnLoad:false,items:[
        	 {region:'north',height:350,padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
 			items:[
 			{layout:'column',border:false,items:[
@@ -2496,7 +2504,7 @@ Fos.CustomsTab = function(p) {
 			{title:C_CUDE_CARGO_LIST,region:'center',layout:'fit',colapsable:true,items:[this.entryGrid]}
 			]});
 	
-	var frmRecord = new Ext.FormPanel({title:C_CUDE_RECORD,layout:'column',layoutConfig:{columns:4},deferredRender:false,items: [
+	var frmRecord = new Ext.FormPanel({title:C_CUDE_RECORD,layout:'column',layoutConfig:{columns:4},padding:5,items: [
 		{columnWidth:.25,layout:'form',border:false,items:[
 			{fieldLabel:C_DOC_SEND_DATE,name:'cudeDocSendDate',xtype:'datefield',format:DATEF,anchor:'99%'},
 			{fieldLabel:C_DOC_BACK_DATE,name:'cudeDocRecvDate',xtype:'datefield',format:DATEF,anchor:'99%'},
@@ -2551,6 +2559,13 @@ Fos.CustomsTab = function(p) {
 	});
 };
 Ext.extend(Fos.CustomsTab, Ext.Panel);
+
+Fos.CustomsWin = function(p) {
+	var panel = new Fos.CustomsTab(p);
+	Fos.CustomsWin.superclass.constructor.call(this, {title:p.get('consNo')+C_CUSTOM_BILL,modal:true,width:1000,
+        height:600,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
+};
+Ext.extend(Fos.CustomsWin,Ext.Window);
 
 //提单
 Fos.BLGrid = function(p){

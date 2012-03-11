@@ -1,8 +1,8 @@
-Company=BJQC
-IP=0
+Company=HXRC
+IP=192.168.0.105
 MAC=0
 MB=0
 HD=0
-Users=6
+Users=5
 SAAS=0
 ExpireDays=30000

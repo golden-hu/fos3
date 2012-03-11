@@ -250,14 +250,19 @@ Fos.InspectionDeclTab = function(p,store) {
     this.showAttach=function(){
     	var win = new Fos.AttachWin(p);
     	win.show();
-    };    
+    };
+    
+    this.showInsp = function(){
+    	var win = new Fos.InspectionWin(p);
+    	win.show();    	
+    };
     
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
    
 	Fos.InspectionDeclTab.superclass.constructor.call(this, { 
-		id: "P_CONS_"+p.get('id'),title:C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
+		id: "P_CONS_"+p.get('id'),title:C_INSPECTION+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		bodyStyle:'padding:2px 10px 10px 2px',
 		border:false,labelAlign:'right',layout:'column',
 	    items:[
@@ -360,6 +365,7 @@ Fos.InspectionDeclTab = function(p,store) {
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
+		      {text:C_INSP_BILL,itemId:'TB_INSP',iconCls:'dollar',disabled:p.get('rowAction')=='N',scope:this,handler:this.showInsp},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
 		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
 		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-'
@@ -618,15 +624,18 @@ Fos.CustomsDeclearTab = function(p,store) {
     	var win = new Fos.AttachWin(p);
     	win.show();
     };    
+    this.showCude = function(){
+    	var win = new Fos.CustomsWin(p);
+    	win.show();    	
+    };
     
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
    
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
-		id: "P_CONS_"+p.get('id'),title:C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
-		bodyStyle:'padding:2px 10px 10px 2px',
-		border:false,labelAlign:'right',layout:'column',
+		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
+		padding:5,border:false,labelAlign:'right',layout:'column',
 	    items:[
     		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
     			{fieldLabel:C_BOOKER,itemCls:'required',tabIndex:1,name:'custName',
@@ -734,6 +743,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
+		      {text:C_CUSTOM_BILL,itemId:'TB_CUDE',iconCls:'doc',disabled:p.get('rowAction')=='N',scope:this,handler:this.showCude},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
 		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
 		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-'

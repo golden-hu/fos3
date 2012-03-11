@@ -597,6 +597,12 @@ Fos.BookTab = function(p) {
 					var title=getBT(p.get('consBizType'))+getBC(p.get('consBizClass'))+getSHTY(p.get('consShipType'))+'委托【'+p.get("consNo")+'】';
 					t.setTitle(title);
 					this.find('name','consNo')[0].setValue(p.get('consNo'));
+					
+					var mn = this.find('name','consMasterNo');
+					if(mn && mn.length>0){
+						masterNo = mn[0];
+						masterNo.setValue(p.get('consMasterNo'));
+					}
 					p.set('rowAction','M');
 				}
 				p.endEdit();
