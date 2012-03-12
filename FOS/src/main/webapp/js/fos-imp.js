@@ -188,7 +188,8 @@ Fos.ContainerGrid = function(p,store) {
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;	
 	
 	Fos.ContainerGrid.superclass.constructor.call(this, { 
-	id:'G_CONT_EXP'+p.get('id'),border:true,plugins:[checkSOC,checkPOF],autoScroll:true,clicksToEdit:1,height:400,
+	id:'G_CONT_EXP'+p.get('id'),border:false,plugins:[checkSOC,checkPOF],autoScroll:true,
+	clicksToEdit:1,height:400,
     store: store,sm:sm,cm:cm,
     tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
 			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,

@@ -1769,8 +1769,8 @@ Fos.ExSearchWin = function(c,t) {
 	            	{fieldLabel:C_CUST_CONS_NO,tabIndex:16,name:'consRefNo',xtype:'textfield',anchor:'90%'}	            	
 	            ]}
 	    	]});        
-    Fos.ExSearchWin.superclass.constructor.call(this,{title:C_EXPE_QUERY,modal:true,width:1000,
-    	height:600,listeners:{maximize:function(w){w.doLayout();}},
+    Fos.ExSearchWin.superclass.constructor.call(this,{title:C_EXPE_QUERY,modal:true,width:900,
+    	height:500,listeners:{maximize:function(w){w.doLayout();}},
         minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',layout:'border',
         tbar:[{text:C_SEARCH,iconCls:'refresh',scope:this,handler:this.search},'-',
 			{text:C_CLEAR_FILTER,iconCls:'rotate',scope:this,handler:this.clear}],

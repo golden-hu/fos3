@@ -1609,8 +1609,8 @@ Fos.ExpenseLookupWin = function(store) {
     this.grid = new Ext.grid.GridPanel({ 
     header:false,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
    
-    Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:1000,
-        height:800,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
+    Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:900,
+        height:600,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
 };
 Ext.extend(Fos.ExpenseLookupWin,Ext.Window);
 Fos.InvoItemGrid = function(p,frm,billNo){
