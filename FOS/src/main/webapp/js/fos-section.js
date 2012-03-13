@@ -2251,24 +2251,7 @@ Fos.CustomsTab = function(p) {
 		else
 			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
 	};	
-	this.expExcel=function(){
-		var b = this.grid.getSelectionModel().getSelected();
-		if(b){
-			EXPC('CUDE','&cudeId='+b.get('cudeId'));
-		}
-		else
-			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
-	};
-	this.expEmail=function(){
-		var b = this.grid.getSelectionModel().getSelected();
-		if(b){			
-				var to='',cc='',sub=C_CUST_BILL;
-				var msg='';
-				EXPM(to,cc,sub,msg,'CUDE','cudeId='+b.get('cudeId'));
-		}
-		else
-			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
-	};
+	
 	this.updateStatus=function(s){
     	var b = this.grid.getSelectionModel().getSelected();
     	if(b){
@@ -2588,6 +2571,24 @@ Fos.CustomsTab = function(p) {
 		     ]}
 		 ]});
 	
+	
+	this.expCustomsDeclaration=function(){
+		var b = this.grid.getSelectionModel().getSelected();
+		if(b){
+			EXPC('CUDE','&cudeId='+b.get('cudeId'));
+		}
+		else
+			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
+	};
+	this.expCommercialInvoice=function(){
+		var b = this.grid.getSelectionModel().getSelected();
+		if(b){
+			EXPC('CUDE_INVOICE','&cudeId='+b.get('cudeId'));
+		}
+		else
+			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
+	};
+	
 	Fos.CustomsTab.superclass.constructor.call(this, { 
 	id: "T_CUDE_" +p.get('id'),title:C_SR_CUDE+'(F9)',autoScroll:true,	
 	tbar:[{text:C_ADD+'(N)',itemId:'TB_A',disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.addCude},'-',
@@ -2597,11 +2598,10 @@ Fos.CustomsTab = function(p) {
 	{text:C_CUSTOMS_PASSED+'(P)',itemId:'TB_E',disabled:NR(m+F_M),iconCls:'pass',scope:this,handler:function(){this.updateStatus('3');}},'-',
 	{text:C_CUSTOMS_EXIT+'(T)',itemId:'TB_F',disabled:NR(m+F_M),iconCls:'exit',scope:this,handler:function(){this.updateStatus('4');}},'-',
 	{text:C_EXPORT+'(E)',disabled:NR(m+F_E),iconCls:'print',scope:this,
-				menu: {items: [
-		   		{text:C_CUSTOM_BILL,menu:{items:[
-		   			{text:'Excel',scope:this,handler:this.expExcel},
-		   			{text:C_EMAIL,scope:this,handler:this.expEmail},
-		   			{text:C_FAX,scope:this,handler:function(){}}]}}
+				menu: {items: 
+				[
+			   		{text:C_CUSTOM_BILL,scope:this,handler:this.expCustomsDeclaration},
+			   		{text:C_COMMERCIAL_INVOICE,scope:this,handler:this.expCommercialInvoice}			   		
 		   		]}},'->'],
 	items: [this.grid,
         {xtype:'tabpanel',height:600,plain:true,activeTab:0,
@@ -3310,8 +3310,8 @@ Fos.BlWin = function(p,b,store) {
 				menu: {items: [
 		   		{text:C_BL_CONFIRM,menu:{items:[
 		   			{text:'Excel',scope:this,handler:this.expExcel},
-		   			{text:C_EMAIL,scope:this,handler:this.expEmail},
-		   			{text:C_FAX,scope:this,handler:function(){}}]}},
+		   			{text:C_EMAIL,scope:this,handler:this.expEmail}
+		   		]}},
 		   		{text:M_BOOK,scope:this,handler:this.genCons}
 		   		]}},'->'
 		   	],		   	
