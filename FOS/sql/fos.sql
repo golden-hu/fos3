@@ -6103,7 +6103,9 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (45, '业务员超期提示', 'FCONSIGN_INFO', '业务员超期提示', NULL, 'FConsign', NULL, 'B', 'M', 1, 1, 0, 0),
 (46, '减免税统计表', 'RELIEF_TAX_STAT', '减免税统计表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
 (47, '加工贸易催核表', 'TRADE_STAT', '加工贸易催核表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
-(48, '退单申请表', 'CUSTOMS_DOC_STAT', '退单申请表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0)
+(48, '退单申请表', 'CUSTOMS_DOC_STAT', '退单申请表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
+(49, '商业发票', 'CUDE', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
+(50, '报关装箱单', 'CUDE', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0)
 ;
 
 -- 提单
@@ -7143,3 +7145,26 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (47, '扩展字段4', 'FConsign', 'attr4', NULL),
 (47, '经营单位', 'FConsign', 'consCompany', NULL),
 (47, '保证金', 'FConsign', 'consCargoNameCn', NULL);
+
+-- 商业发票
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(49, '装货港', 'FCustomsDeclaration', 'cudePortDomestic', NULL),
+(49, '卸货港', 'FCustomsDeclaration', 'cudePortForeign', NULL),
+(49, '发票号', 'FCustomsDeclaration', 'cudeInvoiceNo', NULL),
+(49, '发票日期', 'FCustomsDeclaration', 'cudeInvoiceDate', NULL),
+(49, '发货人', 'FCustomsDeclaration', 'cudeShipper', NULL),
+(49, '收货人', 'FCustomsDeclaration', 'cudeConsignee', NULL),
+(49, '结汇方式', 'FCustomsDeclaration', 'exseCode', NULL),
+(49, '成交方式', 'FCustomsDeclaration', 'trteCode', NULL),
+(49, '总价合计', 'FCustomsDeclaration', 'cudeTotalAmount', NULL),
+(49, '大写件数', 'FCustomsDeclaration', 'cudeTotalSay', NULL),
+(49, '唛头与项号', 'FCustomsEntry', 'cuenNo', NULL),
+(49, '英文品名', 'FCustomsEntry', 'cuenCargoNameEn', NULL),
+(49, '包装件数', 'FCustomsEntry', 'cuenPackageNum', NULL),
+(49, '包装种类', 'FCustomsEntry', 'packCode', NULL),
+(49, '货物件数', 'FCustomsEntry', 'cuenCargoNum', NULL),
+(49, '货物单位', 'FCustomsEntry', 'cuenCargoUnit', NULL),
+(49, '单价', 'FCustomsEntry', 'cuenUnitPrice', NULL),
+(49, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
+(49, '币种', 'FCustomsEntry', 'currCode', NULL);
+

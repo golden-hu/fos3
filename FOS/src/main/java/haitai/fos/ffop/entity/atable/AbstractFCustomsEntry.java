@@ -29,6 +29,8 @@ public abstract class AbstractFCustomsEntry extends BaseDomain {
 	private String cuenCargoNameEn;
 	private String cuenCargoNameCn;
 	private String cuenCargoSpec;
+	private Double cuenPackageNum;
+	private String packCode;
 	private Double cuenCargoNum;
 	private String cuenCargoUnit;
 	private Double cuenCargoGrossWeight;
@@ -98,7 +100,7 @@ public abstract class AbstractFCustomsEntry extends BaseDomain {
 		this.cargId = cargId;
 	}
 
-	@Column(name = "CUEN_NO", length = 4)
+	@Column(name = "CUEN_NO", length = 32)
 	public String getCuenNo() {
 		return this.cuenNo;
 	}
@@ -152,6 +154,24 @@ public abstract class AbstractFCustomsEntry extends BaseDomain {
 		this.cuenCargoSpec = cuenCargoSpec;
 	}
 
+	@Column(name = "CUEN_PACKAGE_NUM", precision = 9)
+	public Double getCuenPackageNum() {
+		return this.cuenPackageNum;
+	}
+
+	public void setCuenPackageNum(Double cuenPackageNum) {
+		this.cuenPackageNum = cuenPackageNum;
+	}
+	
+	@Column(name = "PACK_CODE", length = 32)
+	public String getPackCode() {
+		return this.packCode;
+	}
+	
+	public void setPackCode(String packCode) {
+		this.packCode = packCode;
+	}
+	
 	@Column(name = "CUEN_CARGO_NUM", precision = 9)
 	public Double getCuenCargoNum() {
 		return this.cuenCargoNum;

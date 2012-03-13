@@ -360,7 +360,9 @@ FCustomsDeclaration= Ext.data.Record.create(['id',
 	{name:'cudeEntryDate',type:'date',dateFormat:DATEF},{name:'cudeDeclarDate',type:'date',dateFormat:DATEF},
 	'cudeCustomer','cudeCargoCompany','cudeShipper','cudeConsignee','tratCode','cudeConveyance','cudeBlNo','trtyCode','letyCode','exseCode','usagName','cudeCertificateNo',
 	'cudeLevyPercent','cudeApprovalNo','consContractNo','cudeContainerNo','cudeCountry','cudePortForeign',
-	'cudePlace','trteCode','cudeFreight','cudeInsurance','cudeCharge','cudePackageNum','packCode','cudeGrossWeight','cudeNetWeight',
+	'cudePlace','trteCode','cudeFreight','cudeInsurance','cudeCharge',
+	'cudeTotalSay','cudeTotalAmount',
+	'cudePackageNum','packCode','cudeGrossWeight','cudeNetWeight',
 	'cudeManu','cudeMarks','cudeAttachment','cudeTaxLevy','cudeDeclarent','cudeCreator',
 	'cudeCompany','cudeCompanyAddress','cudeCompanyZip','cudeCompanyTel',
 	{name:'cudeCreateDate',type:'date',dateFormat:DATEF},
@@ -377,8 +379,9 @@ FCustomsDeclaration= Ext.data.Record.create(['id',
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction','attr1','attr2','attr3','attr4','attr5','attr6','attr7','attr8','attr9','attr10']);
 FCustomsEntry= Ext.data.Record.create(['id',
-	'cuenId','cudeId','consId','cargId','cuenNo','cuenCargoNo','cuenManuNo','cuenCargoNameCn','cuenCargoNameEn','cuenCargoSpec','cuenCargoNum',
-	'cuenCargoUnit','cuenCargoGrossWeight','cuenCargoNetWeight','cuenCargoMeasurement',
+	'cuenId','cudeId','consId','cargId','cuenNo','cuenCargoNo','cuenManuNo',
+	'cuenCargoNameCn','cuenCargoNameEn','cuenCargoSpec','cuenPackageNum','packCode',
+	'cuenCargoNum','cuenCargoUnit','cuenCargoGrossWeight','cuenCargoNetWeight','cuenCargoMeasurement',
 	'cuenCountry','cuenUnitPrice','cuenTotalPrice','currCode','cuenLevyType','cuenRemarks','cuenVersion',
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
@@ -1090,7 +1093,7 @@ var getCCHAR_S=function(){
 	if(Ext.StoreMgr.containsKey('CCHAR_S')){return Ext.StoreMgr.get('CCHAR_S');}
 	else {
 		var s=new Ext.data.Store({storeId:'CCHAR_S',url:SERVICE_URL+'?A=CHAR_C',baseParams:{mt:'xml'},
-			reader:new Ext.data.JsonReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
 			});
 		s.load();
 		return s;

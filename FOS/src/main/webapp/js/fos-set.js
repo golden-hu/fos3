@@ -513,7 +513,10 @@ Ext.extend(Fos.ExCopyWin,Ext.Window);
 Fos.ExpenseTab = function(p,f){
 	this.f=f;
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
-	if(this.f=='C') m=m+M3_EXPE; else m=M1_S+S_EXPE;	
+	if(this.f=='C') 
+		m=m+M3_EXPE; 
+	else 
+		m=M1_S+S_EXPE;	
 	
 	var c1={fieldLabel:C_BOOKER,name:'custName',value:p.get('custName'),xtype:'textfield',anchor:'95%'};
 	var c2={fieldLabel:C_CARRIER,name:'consCarrier',value:p.get('consCarrierName'),xtype:'textfield',anchor:'95%'};
