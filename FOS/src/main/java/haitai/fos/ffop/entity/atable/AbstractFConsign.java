@@ -360,6 +360,14 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consLoadContact;
 	private String consLoadTel;
 	
+	private Short consVerificationFlag;
+	private Double consBulkyCarrier;
+	private Double consBulkyCustomer;
+	private Double consChargeWeightCarrier;
+	private Double consChargeWeightCustomer;
+	private Double consTotalGrossWeightCustomer;
+	private Double consTotalMeasurementCustomer;
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "CONS_ID", unique = true, nullable = false)
@@ -3376,6 +3384,17 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consInspReg = consInspReg;
 	}
 
+	@Column(name = "CONS_VERIFICATION_FLAG")
+	public Short getConsVerificationFlag() {
+		return consVerificationFlag;
+	}
+
+	public void setConsVerificationFlag(Short consVerificationFlag) {
+		this.consVerificationFlag = consVerificationFlag;
+	}
+	
+	
+	
 	@Column(name = "CONS_CUSTOMS_DECLEARATION_NO", length = 32)
 	public String getConsCustomsDeclearationNo() {
 		return consCustomsDeclearationNo;
@@ -3438,5 +3457,60 @@ public abstract class AbstractFConsign extends BaseDomain {
 
 	public void setConsLoadTel(String consLoadTel) {
 		this.consLoadTel = consLoadTel;
+	}
+	
+	
+	@Column(name = "CONS_BULKY_CARRIER", precision = 9)
+	public Double getConsBulkyCarrier() {
+		return consBulkyCarrier;
+	}
+
+	public void setConsBulkyCarrier(Double consBulkyCarrier) {
+		this.consBulkyCarrier = consBulkyCarrier;
+	}
+	
+	@Column(name = "CONS_BULKY_CUSTOMER", precision = 9)
+	public Double getConsBulkyCustomer() {
+		return consBulkyCustomer;
+	}
+
+	public void setConsBulkyCustomer(Double consBulkyCustomer) {
+		this.consBulkyCustomer = consBulkyCustomer;
+	}
+	
+	@Column(name = "CONS_CHARGE_WEIGHT_CARRIER", precision = 9)
+	public Double getConsChargeWeightCarrier() {
+		return consChargeWeightCarrier;
+	}
+
+	public void setConsChargeWeightCarrier(Double consChargeWeightCarrier) {
+		this.consChargeWeightCarrier = consChargeWeightCarrier;
+	}
+	
+	@Column(name = "CONS_CHARGE_WEIGHT_CUSTOMER", precision = 9)
+	public Double getConsChargeWeightCustomer() {
+		return consChargeWeightCustomer;
+	}
+
+	public void setConsChargeWeightCustomer(Double consChargeWeightCustomer) {
+		this.consChargeWeightCustomer = consChargeWeightCustomer;
+	}
+	
+	@Column(name = "CONS_TOTAL_GROSS_WEIGHT_CUSTOMER", precision = 9)
+	public Double getConsTotalGrossWeightCustomer() {
+		return consTotalGrossWeightCustomer;
+	}
+
+	public void setConsTotalGrossWeightCustomer(Double consTotalGrossWeightCustomer) {
+		this.consTotalGrossWeightCustomer = consTotalGrossWeightCustomer;
+	}
+	
+	@Column(name = "CONS_TOTAL_MEASUREMENT_CUSTOMER", precision = 9)
+	public Double getConsTotalMeasurementCustomer() {
+		return consTotalMeasurementCustomer;
+	}
+
+	public void setConsTotalMeasurementCustomer(Double consTotalMeasurementCustomer) {
+		this.consTotalMeasurementCustomer = consTotalMeasurementCustomer;
 	}
 }

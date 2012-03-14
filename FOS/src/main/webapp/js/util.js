@@ -305,7 +305,7 @@ var EXPC=function(t,p){
 	if(a.length==0) XMG.alert(SYS,M_TEMP_NOT_FOUND);
 	else if(a.length==1){
 		var tempId = a[0].get('tempId');
-		var url = SERVICE_URL+'?A='+'TEMP_E&tempId='+tempId+'&type=I'+p;
+		var url = SERVICE_URL+'?A='+'TEMP_E&tempId='+tempId+'&aggressive=1&type=I'+p;
 		window.open(url,'download', 'height=5, width=5, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 	}
 	else{
@@ -313,7 +313,7 @@ var EXPC=function(t,p){
 		w.addButton({text:C_OK,handler:function(){					
 			var tempId = w.findById('tempId').getValue();
 			if(tempId){
-				var url = SERVICE_URL+'?A='+'TEMP_E&tempId='+tempId+'&type=I'+p;
+				var url = SERVICE_URL+'?A='+'TEMP_E&tempId='+tempId+'&aggressive=1&type=I'+p;
 				window.open(url,'download', 'height=5, width=5, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 		  	}
 		  	w.close();
@@ -336,7 +336,7 @@ var EXPM=function(to,cc,sub,msg,t,p,mt){
 		m.set('messBody',body);
 		m.set('messType',mt?mt:1);
 		var x = RTX(m,'PMessage',PMessage);	
-		Ext.Ajax.request({scope:this,url:SERVICE_URL+'?A=MESS_S&tempId='+tid+'&type=I&'+p,method:'POST',
+		Ext.Ajax.request({scope:this,url:SERVICE_URL+'?A=MESS_S&tempId='+tid+'&aggressive=1&type=I&'+p,method:'POST',
 			success: function(r){XMG.alert(SYS,M_MAIL_SEND_SUCCESS);w.close();},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(x)

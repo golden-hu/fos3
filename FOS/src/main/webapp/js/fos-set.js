@@ -1324,12 +1324,13 @@ Fos.InvoiceGrid = function(t) {
 		//,groupField:'invoDate'
 		});		
 	var a=[];
-	a[0]= new QParam({key:'invoType',value:t,op:EQ});
+	//a[0]= new QParam({key:'invoType',value:t,op:EQ});
 	//a[1]= new QParam({key:'invoStatus',value:2,op:NE});
-	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
+	store.baseParams={mt:'xml',invoType:t,xml:''};
     store.load({params:{start:0,limit:C_PS}});
-    this.reset=function(){
-    	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
+    
+    this.reset=function(){    	
+    	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};    	
     	store.load({params:{start:0,limit:C_PS}});
     };
     this.search = function(){

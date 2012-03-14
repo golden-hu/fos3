@@ -476,7 +476,7 @@ var C_SETTLE_RELATED='结算相关';
 var C_MASTER_DATA='基础数据';
 
 var C_CHAR_TYPE='收付类型';
-
+var C_BULKY = '分泡%';
 var C_NO='编号';
 var C_CURR_DEFAULT='缺省币种';
 var C_UNIT_DEFAULT='缺省计费单位';

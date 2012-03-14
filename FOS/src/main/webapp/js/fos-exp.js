@@ -519,10 +519,7 @@ Fos.BookTab = function(p) {
    	 	if(p.get('consBizType')==BT_C){
 	   	 	var c =this.cont_s.getModifiedRecords();
 	   	 	if(c.length>0){
-	   	 		var tc=0;var cif='';var tn=0;
-	   	 		var df=false;
-	   	 	    var rf=false;
-	   	 	    var bf=false;
+	   	 		var tc=0;var cif='';var tn=0;	   	 		
 	   	 		var ra = this.contGrid.getStore().getRange();
 	   	 		for(var i=0;i<ra.length;i++){
 	   	 			var ct = ra[i].get('cotyId');
@@ -537,28 +534,11 @@ Fos.BookTab = function(p) {
 	   	 			else if(cl=='DG') df=true;
 	   	 			else if(cl=='RF') rf=true;
 	   	 		}
-	   	 		var tbt=this.getComponent('T_BOOK_T_'+p.get('id'));
-	   	 		var t=tbt.getComponent('C_B_H_'+p.get('id'));
-	   	 		
-	   	 		/*if(bf&&(p.get('cargLength')==''||p.get('cargWidth')==''||p.get('cargHigh')=='')){
-	   	 			XMG.alert(SYS,M_BIG_CARGO_INFO,function(){tbt.setActiveTab(t);},this);
-	   	 			return;
-	   	 		}
-	   	 		if(df&&(p.get('cargDanagerClass')==''||p.get('cargUnNo')=='')){
-	   	 			XMG.alert(SYS,M_DANAGER_CARGO_INFO,function(){tbt.setActiveTab(t);},this);
-	   	 			return;
-	   	 		}
-	   	 		if(rf&&(p.get('cargTemperature')==''||p.get('cargTemperatureLow')==''||p.get('cargTemperatureHigh')=='')){
-	   	 			XMG.alert(SYS,M_REEFTER_CARGO_INFO,function(){tbt.setActiveTab(t);},this);
-	   	 			return;
-	   	 		}*/
-	   	 		
 	   	 		p.set('consTotalContainers',tc);
 	   	 		p.set('consContainersInfo',cif);
 	   	 		p.set('consContainersTeu',tn);
 	   	 	}
-   	 	}   	 	
-   	 	var b=this.cargoGrid.getSelectionModel().getSelected();
+   	 	}
    	 	
    	 	p.set('consCargoPackages',''+p.get('consTotalPackages')+p.get('packName'));
  		p.set('consCargoNetWeight',''+p.get('consTotalNetWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
@@ -1087,37 +1067,172 @@ Fos.BookTab = function(p) {
 		]};    
 	var t1={id:'C_B_J_'+p.get('id'),title:C_BASE_INFO+'(J)',border:false,height:670,
 		items:(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I)?[t11,t13,t14]:[t11,t12,t13,t14]};
+           
+   	var txtCargoMarks={columnWidth:.5,layout:'form',labelWidth:90,border:false,
+   			items:[{fieldLabel:C_MARKS,tabIndex:58,name:'consCargoMarks',value:p.get('consCargoMarks'),
+   				xtype:'textarea',height:100,anchor:'99%'}
+   			]};
+    var txtCargoDesc={columnWidth:.5,layout:'form',labelWidth:90,border:false,
+    		items:[{fieldLabel:C_CARGO_DESC,tabIndex:61,name:'consCargoDesc',value:p.get('consCargoDesc'),
+    			xtype:'textarea',height:100,anchor:'99%'}
+    	]};
     
-    if(p.get('consBizType')==BT_C)
-    	var t2={id:'C_B_X_'+p.get('id'),border:false,title:C_CONT_INFO+'(X)',
-    		layout:'fit',items:[this.contGrid]};
-       
-   	var g1={columnWidth:.5,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_MARKS,tabIndex:58,name:'consCargoMarks',value:p.get('consCargoMarks'),xtype:'textarea',height:100,anchor:'99%'}]};
-    var g2={columnWidth:.5,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_CARGO_DESC,tabIndex:61,name:'consCargoDesc',value:p.get('consCargoDesc'),xtype:'textarea',height:100,anchor:'99%'}]};
-    var g3={columnWidth:.3,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_NUM_PACK,tabIndex:61,name:'consTotalPackages',value:p.get('consTotalPackages'),xtype:'numberfield',anchor:'99%',
+    var txtCargoNameCn={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[{fieldLabel:C_CARGO_NAME_CN,tabIndex:61,name:'consCargoNameCn',
+				value:p.get('consCargoNameCn'),xtype:'textfield',anchor:'99%'}
+			]};
+	var txtCargoNameEn={columnWidth:.5,layout:'form',labelWidth:90,border:false,
+			items:[{fieldLabel:C_CARGO_NAME_EN,tabIndex:61,name:'consCargoNameEn',
+				value:p.get('consCargoNameEn'),xtype:'textfield',anchor:'99%'}
+			]};
+	
+    var txtTotalPackages={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+    		items:[{fieldLabel:C_PACKAGES,tabIndex:61,name:'consTotalPackages',value:p.get('consTotalPackages'),
+    			xtype:'numberfield',anchor:'99%',
+			listeners:{scope:this,change:function(f,nv,ov){	
+				p.set('consTotalPackages',nv);
+				var pw='SAY TOTAL '+N2EW(nv)+' '+p.get('packName')+' ONLY';
+				p.set('consTotalPackagesInWord',pw);
+				this.find('name','consTotalPackagesInWord')[0].setValue(pw);				
+				}}}
+    		]};
+	var txtPack={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[{fieldLabel:C_PACK,tabIndex:61,name:'packName',value:p.get('packName'),
+			xtype:'combo',store:getPACK_S(),displayField:'packName',valueField:'packName',
+			typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+			listeners:{scope:this,select:function(c,r,i){
+				p.set('packId',r.get('packId'));
+				p.set('packName',r.get('packName'));
+				var pw='SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' '+r.get('packName')+' ONLY';
+				this.find('name','consTotalPackagesInWord')[0].setValue(pw);
+				p.set('consTotalPackagesInWord',pw);}}}
+			]};
+	var txtTotalSay={columnWidth:.5,layout:'form',labelWidth:90,border:false,
+			items:[{fieldLabel:C_PACKAGES_CAP,tabIndex:61,name:'consTotalPackagesInWord',
+				value:p.get('consTotalPackagesInWord'),xtype:'textfield',anchor:'99%'}
+			]};	
+	
+	var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),
+		tabIndex:61,name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%',
 		listeners:{scope:this,change:function(f,nv,ov){				
-			p.set('consTotalPackages',nv);
-			var pw='SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
-			this.find('name','consTotalPackagesInWord')[0].setValue(pw);
-			p.set('consTotalPackagesInWord',pw);}}}]};
-	var g4={columnWidth:.2,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:'',hideLabel:true,labelSeparator:'',tabIndex:61,name:'packId',value:p.get('packId'),xtype:'combo',store:getPACK_S(),displayField:'packName',valueField:'packId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
-		listeners:{scope:this,select:function(c,r,i){
-			p.set('packName',r.get('packName'));
-			var pw='SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
-			this.find('name','consTotalPackagesInWord')[0].setValue(pw);
-			p.set('consTotalPackagesInWord',pw);}}}]};
-	var g5={columnWidth:.16,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),tabIndex:61,name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),xtype:'numberfield',decimalPrecision:4,anchor:'99%'}]};
-	var g6={columnWidth:.16,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),tabIndex:61,name:'consTotalNetWeight',value:p.get('consTotalNetWeight'),xtype:'numberfield',decimalPrecision:4,anchor:'99%'}]};
-	var g7={columnWidth:.18,layout:'form',labelWidth:70,border:false,items:[{fieldLabel:C_CBM,tabIndex:61,name:'consTotalMeasurement',value:p.get('consTotalMeasurement'),xtype:'numberfield',decimalPrecision:4,anchor:'99%'}]};
-	var g8={columnWidth:.5,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_PACKAGES_CAP,tabIndex:61,name:'consTotalPackagesInWord',value:p.get('consTotalPackagesInWord'),xtype:'textfield',anchor:'99%'}]};
-	var g9={columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_CARGO_NAME_CN,tabIndex:61,name:'consCargoNameCn',value:p.get('consCargoNameCn'),xtype:'textfield',anchor:'99%'}]};
-	var g10={columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_CARGO_NAME_EN,tabIndex:61,name:'consCargoNameEn',value:p.get('consCargoNameEn'),xtype:'textfield',anchor:'99%'}]};
+			if(p.get('consBizType')==BT_A)
+				recalculateChargeWeight('Carrier');
+		}}});
+	var txtTotalGrossWeight={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numGrossWeight]};
 	
-	var g30={columnWidth:.5,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_CARGO_DIMENSION,tabIndex:61,name:'consCargoDimension',value:p.get('consCargoDimension'),xtype:'textarea',height:100,anchor:'99%'}]};
-	var g31={columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[{fieldLabel:C_CHARGE_WEIGHT,tabIndex:58,name:'consTotalChargeWeight',value:p.get('consTotalChargeWeight'),xtype:'numberfield',anchor:'99%'}]};
+	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),
+		tabIndex:61,name:'consTotalNetWeight',value:p.get('consTotalNetWeight'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'});
+	var txtTotalNetWeight={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numNetWeight]};
 	
-	var t31={layout:'column',layoutConfig: {columns:5},deferredRender:false,border:false,labelWidth:60,title:'货物小计',collapsible:true,items:
-			p.get('consBizType')==BT_A?[g1,g2,g30,g3,g4,g8,g5,g6,g7,g31,g10]:[g1,g2,g3,g4,g5,g6,g7,g8,g9,g10]};
+	var numMeasurement = new Ext.form.NumberField({fieldLabel:C_CBM,tabIndex:61,
+		name:'consTotalMeasurement',value:p.get('consTotalMeasurement'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%',
+		listeners:{scope:this,change:function(f,nv,ov){				
+			if(p.get('consBizType')==BT_A)
+				recalculateChargeWeight('Carrier');
+		}}});
+	var txtTotalMeasurement={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numMeasurement]};
+	
+	var numGrossWeightK = new Ext.form.NumberField({fieldLabel:C_GW+C_KGS+'-客户',
+		tabIndex:61,name:'consTotalGrossWeightCustomer',
+    	value:p.get('consTotalGrossWeightCustomer'),xtype:'numberfield',decimalPrecision:4,anchor:'99%',
+		listeners:{scope:this,change:function(f,nv,ov){				
+			recalculateChargeWeight('Customer');
+		}}});
+	var txtTotalGrossWeightK={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numGrossWeightK]};
+	
+	var numMeasurementK = new Ext.form.NumberField({fieldLabel:C_CBM+'-客户',tabIndex:61,
+		name:'consTotalMeasurementCustomer',value:p.get('consTotalMeasurementCustomer'),xtype:'numberfield',
+		decimalPrecision:4,anchor:'99%',
+		listeners:{scope:this,change:function(f,nv,ov){				
+			recalculateChargeWeight('Customer');
+		}}});
+	var txtTotalMeasurementK={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numMeasurementK]};
+	
+	var numBulkyCarrier = new Ext.form.NumberField({fieldLabel:C_BULKY,tabIndex:58,
+		name:'consBulkyCarrier',value:p.get('consBulkyCarrier'),xtype:'numberfield',anchor:'99%',
+		listeners:{scope:this,change:function(f,nv,ov){				
+			recalculateChargeWeight('Carrier');
+		}}});
+	var txtBulkyCarrier={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numBulkyCarrier]};
+	
+	var numBulkyCustomer = new Ext.form.NumberField({fieldLabel:C_BULKY+'-'+C_CUSTOMER,tabIndex:58,
+		name:'consBulkyCustomer',value:p.get('consBulkyCustomer'),xtype:'numberfield',anchor:'99%',
+		listeners:{scope:this,change:function(f,nv,ov){				
+			recalculateChargeWeight('Customer');
+		}}});
+	var txtBulkyCustomer={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numBulkyCustomer]};
+	
+	var numChargeWeight = new Ext.form.NumberField({fieldLabel:C_CHARGE_WEIGHT,tabIndex:58,name:'consTotalChargeWeight',
+		value:p.get('consTotalChargeWeight'),xtype:'numberfield',anchor:'99%'});
+	var txtTotalChargeWeight={columnWidth:.25,layout:'form',labelWidth:90,border:false,
+			items:[numChargeWeight]};
+	
+	var numChargeWeightCustomer = new Ext.form.NumberField({fieldLabel:C_CHARGE_WEIGHT+'-'+C_CUSTOMER,tabIndex:58,
+		name:'consChargeWeightCustomer',value:p.get('consChargeWeightCustomer'),xtype:'numberfield',anchor:'99%'});
+	var txtChargeWeightCustomer={columnWidth:.25,layout:'form',border:false,labelWidth:90,
+			items:[numChargeWeightCustomer]};
+	
+	function recalculateChargeWeight(t){
+		var w = 0;
+		var v = 0;
+		var b = 0;
+		
+		if(t=='Carrier'){
+			w = numGrossWeight.getValue();
+			v = numMeasurement.getValue();
+			b = numBulkyCarrier.getValue();
+		}
+		else{
+			w = numGrossWeightK.getValue();
+			v = numMeasurementK.getValue();
+			b = numBulkyCustomer.getValue();
+		}
+		
+		if(w) 
+			w = parseFloat(w);
+		if(v) 
+			v = parseFloat(v);
+		if(b) 
+			b = parseFloat(b);
+		
+		var weightC = v/0.006;
+		if(w>weightC)
+			weightC = w;
+		else{
+			weightC = w+ (weightC-w)*b/100;
+		}
+		if(t=='Carrier'){
+			numChargeWeight.setValue(weightC);
+		}			
+		else{
+			numChargeWeightCustomer.setValue(weightC);
+		}
+			
+	};
+	
+	var t31={layout:'column',layoutConfig: {columns:5},border:false,labelWidth:60,
+		title:'货物小计',collapsible:true,items:
+		p.get('consBizType')==BT_A?[txtCargoMarks,txtCargoDesc,txtCargoNameEn,
+		                            txtTotalGrossWeight,txtTotalGrossWeightK,
+		                            txtCargoNameCn,txtTotalNetWeight,txtTotalMeasurement,txtTotalMeasurementK,
+		                            txtTotalPackages,txtPack,txtBulkyCarrier,txtBulkyCustomer,
+		                            txtTotalSay,txtTotalChargeWeight,txtChargeWeightCustomer		                            
+		                            ]:
+		         [txtCargoMarks,txtCargoDesc,
+		          txtCargoNameEn,txtTotalGrossWeight,txtTotalMeasurement,
+		          txtTotalPackages,txtPack,txtCargoNameCn,txtTotalNetWeight,
+		          txtTotalSay
+		          ]};
 	
 	var g11={fieldLabel:C_DANAGER_CLASS,name:'cargDanagerClass',value:p.get('cargDanagerClass'),anchor:'99%'};
 	var g12={fieldLabel:C_IMDG_PAGE,name: 'cargImdgPage',value:p.get('cargImdgPage'),anchor:'99%'};
@@ -1152,7 +1267,9 @@ Fos.BookTab = function(p) {
 	       	[{id:'cargBigFlag',xtype:'fieldset',labelAlign:'right',labelWidth:70,checkboxToggle:true,checkboxName:'cargBigFlag',title:'大件货',autoHeight:true,collapsed:p.get('cargBigFlag')==0,items:
 				[g27,g28,g29]}]
 		}]};
-	var t3={id:'C_B_H_'+p.get('id'),title:C_CARGO_INFO+'(H)',height:600,autoScroll:true,items:[{layout:'fit',border:false,collapsible:true,items:this.cargoGrid},t31,t32]};
+	
+	var t3={id:'C_B_H_'+p.get('id'),title:C_CARGO_INFO+'(H)',height:600,autoScroll:true,
+			items:[{layout:'fit',border:false,collapsible:true,items:this.cargoGrid},t31,t32]};
 	
 	var r1={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_SERVICE_SPEC,tabIndex:1,name:'consServiceSpec',value:p.get('consServiceSpec'),xtype:'textarea',anchor:'99%'}]};
 	var r2={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:2,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',anchor:'99%'}]};
@@ -1345,24 +1462,31 @@ Fos.BookTab = function(p) {
 	var t54={title:C_OTHER_INFO,layout:'column',collapsible:true,items:[
     	{columnWidth:.5,layout:'form',border:false,labelWidth:70,items:[r40,r41,r42,r43,r44]},
     	{columnWidth:.5,layout:'form',border:false,labelWidth:70,items:[r45,r46,r47,r48,r49]}]};
-	var t5= {id:'C_B_K_'+p.get('id'),title:C_EXT_INFO+'(K)',height:450,autoScroll:true,items:p.get('consBizClass')==BC_E?[t51,t52,t53,t54]:[t51,t54]};
-    var t6={id:'C_B_T_'+p.get('id'),title:C_HBL_INFO+'(T)',height:450,autoScroll:true,layout:'form',deferredRender:false,collapsible:true,items:[this.hblGrid]};
+	
+	var t5= {id:'C_B_K_'+p.get('id'),title:C_EXT_INFO+'(K)',height:450,autoScroll:true,
+			items:p.get('consBizClass')==BC_E?[t51,t52,t53,t54]:[t51,t54]};
+    var t6={id:'C_B_T_'+p.get('id'),title:C_HBL_INFO+'(T)',height:450,autoScroll:true,
+    		layout:'form',deferredRender:false,collapsible:true,items:[this.hblGrid]};
     
     var tabs=[t1,t3,t4,t5];
+    
 	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){
 		tabs=[t1,t3,t5];
 	}
 	else if(p.get('consBizType')==BT_C){
+    	var t2={id:'C_B_X_'+p.get('id'),border:false,title:C_CONT_INFO+'(X)',
+    		layout:'fit',items:[this.contGrid]};
+		
 		tabs=[t1,t2,t3,t4,t5];
 		if(p.get('consBizClass')==BC_I) tabs=[t1,t2,t3,t6,t4,t5];
 	};
 	
 	this.expEmail=function(code,sub){
-		var to='';var cc='';sub=sub;var msg='';
+		var to='';var cc='';var msg='';
 		EXPM(to,cc,sub,msg,code,'consId='+p.get('consId'));
 	};
 	this.expFax=function(code,sub){
-        var to=p.get('custFax');var cc='';sub=sub;var msg='';
+        var to=p.get('custFax');var cc='';var msg='';
         EXPM(to,cc,sub,msg,code,'consId='+p.get('consId'),3);
     };
     this.expExcel=function(c){
