@@ -2196,6 +2196,7 @@ Fos.CustomsTab = function(p) {
 			cudePlace:p.get('consPolEn'),packCode:getPACK(p.get('packId')),
 			cudePackageNum:p.get('consTotalPackages'),
 			packCode:p.get('packName'),
+			cudeTotalSay:p.get('consTotalPackagesInWord'),
 			cudeGrossWeight:p.get('consTotalGrossWeight'),
 			cudeNetWeight:p.get('consTotalNetWeight'),
 			cudeConveyance:p.get('vessName')+' '+p.get('voyaName'),
@@ -2454,7 +2455,7 @@ Fos.CustomsTab = function(p) {
 	
 	var frm = new Ext.FormPanel({layout:'border',title:C_CUSTOM_INFO,
 		labelAlign:'right',labelWidth:80,trackResetOnLoad:false,items:[
-       	 {region:'north',height:400,padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
+       	 {region:'north',height:430,padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
 			items:[
 			{layout:'column',border:false,items:[
 			{columnWidth:.25,layout:'form',border:false,items:[
@@ -2523,7 +2524,14 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_INSURANCE_FEE,name:'cudeInsurance',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_GW_S+C_KGS,name:'cudeGrossWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_MW_S+C_KGS,name:'cudeNetWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'}]}
+				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'}
+				]},
+				{columnWidth:.5,layout:'form',border : false,items:[
+                     {fieldLabel:C_PACKAGES_CAP,name:'cudeTotalSay',xtype:'textfield',anchor:'99%'}       
+				]},
+				{columnWidth:.25,layout:'form',border : false,items:[
+                     {fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%'}       
+   				]}
 			]},				
 			{layout:'column',border:false,items:[
 				{columnWidth:.5,layout:'form',border:false,items:[

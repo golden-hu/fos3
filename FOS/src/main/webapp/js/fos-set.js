@@ -1243,13 +1243,8 @@ Fos.ConsignAuditGrid = function() {
 		if(!consNo){
 			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
 			return;
-		};
-		
+		};		
      	var a=[];
-     	//a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
-    	//a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
-    	//a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
-    	//if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
     	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
      	if(c>=0){
@@ -1318,14 +1313,13 @@ var showInvoice= function(p){
 	T_MAIN.setActiveTab(tab);tab.doLayout();}
 };
 Fos.InvoiceGrid = function(t) {
-	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=INVO_X',baseParams:{mt:'xml',invoType:t},
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=INVO_X',
+		baseParams:{mt:'xml',invoType:t},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'invoId'},SInvoice),
 		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'}
 		//,groupField:'invoDate'
 		});		
 	var a=[];
-	//a[0]= new QParam({key:'invoType',value:t,op:EQ});
-	//a[1]= new QParam({key:'invoStatus',value:2,op:NE});
 	store.baseParams={mt:'xml',invoType:t,xml:''};
     store.load({params:{start:0,limit:C_PS}});
     
@@ -1338,9 +1332,7 @@ Fos.InvoiceGrid = function(t) {
 		win.addButton({text:C_OK,handler:function(){
         	var tab = Fos.InvoLookupWin.superclass.findById.call(win,'T_INVO_LOOK');
         	var at = tab.getActiveTab();
-        	var a=[];     	
-        	//a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});  
-        	a[a.length]= new QParam({key:'invoType',value:t,op:EQ});
+        	var a=[];
         	if(at.getId()=='T_INVO_LOOK_1'){
         		
         		var invoNo=at.find('name','invoNo')[0].getValue();
@@ -1448,8 +1440,7 @@ Fos.InvoiceGrid = function(t) {
         	XMG.alert(SYS,M_INPUT_TAX_NO,function(b){kw.focus();});
         	return;
         };
-        var a=[];
-        a[a.length]= new QParam({key:'invoType',value:t,op:EQ});
+        var a=[];        
         var c=invoTaxNo.indexOf(',');
         var b=invoTaxNo.indexOf('..');
         
