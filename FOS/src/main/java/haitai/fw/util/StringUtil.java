@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.util.StringUtils;
 
@@ -53,6 +55,18 @@ public class StringUtil {
 		return !isBlank(s);
 	}
 
+	public static boolean isNumeric(String str){
+	   String s = str.substring(0,1);
+	   if(s.equals("-"))
+		   s = str.substring(1);
+	   Pattern pattern = Pattern.compile("[0-9]*");
+	   Matcher isNum = pattern.matcher(s);
+	   if( !isNum.matches() ){
+	       return false;
+	   }
+	   return true;
+	}
+	
 	public static String capitalize(String s) {
 		return StringUtils.capitalize(s);
 	}

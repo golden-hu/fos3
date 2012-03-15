@@ -15,8 +15,12 @@
 		consStatusInvoR:0,consStatusInvoP:0,consStatusAud:0,consStatusReassign:0,
 		consStatusInCy:0,consStatusInCfs:0,consStatusOnBoard:0,consStatusEir:0,
 		consStatusSendCont:0,consStatusLock:0,consReassignFrom:0,consStatusSettlement:0,consExternalFlag:0,		
-		consTransFlag:0,consPartialFlag:0,consPol:bc==BC_E?getCFG('BASE_PORT'):'',consPolEn:bc==BC_E?getCFGD('BASE_PORT'):'',
-		consPod:bc==BC_I?getCFG('BASE_PORT'):'',consPodEn:bc==BC_I?getCFGD('BASE_PORT'):'',
+		consTransFlag:0,
+		consPartialFlag:0,
+		//consPol:bc==BC_E?getCFG('BASE_PORT'):'',
+		consPolEn:bc==BC_E?getCFGD('BASE_PORT'):'',
+		//consPod:bc==BC_I?getCFG('BASE_PORT'):'',
+		consPodEn:bc==BC_I?getCFGD('BASE_PORT'):'',
 		deptId:getCFG('DEFAULT_DEPT_'+bt),consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
 		consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
 	return c;

@@ -773,7 +773,11 @@ public class PTemplateService {
 					cell.setCellValue(value);
 					break;
 			}
-			cell.setCellType(cellType);
+			if(StringUtil.isNumeric(value))
+				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+			else
+				cell.setCellType(cellType);
+			
 		} else {
 			cell.setCellValue(value);
 		}
