@@ -18,7 +18,7 @@ Fos.InspectionGrid = function() {
                if(v==1) return '<div class="locked"></div>'; else return '';
          }};
    
-    var c3={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS};
+    var c3={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getTRADE_S};
     var c4={header:C_CONS_NO,width:120,dataIndex:"consNo"};
     var c5={header:C_BOOKER,width:200,dataIndex:"custName"};
     var c6={header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate};   
@@ -213,7 +213,10 @@ Fos.InspectionDeclTab = function(p,store) {
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
     	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
+    	if(tb.getComponent('TB_INSP')) tb.getComponent('TB_INSP').setDisabled(p.get('rowAction')=='N');
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
+    	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
+    	if(tb.getComponent('TB_ATT')) tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
     };
     
@@ -395,7 +398,7 @@ Fos.CustomsGrid = function(bizClass) {
         {header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
             if(v==1) return '<div class="locked"></div>'; else return '';
         }},
-        {header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS},
+        {header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getTRADE_S},
         {header:C_CONS_NO,width:120,dataIndex:"consNo"},
         {header:C_BOOKER,width:200,dataIndex:"custName"},
         {header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate},
@@ -579,13 +582,16 @@ Fos.CustomsDeclearTab = function(p,store) {
         
     this.updateToolBar = function(){
 		var tb=this.getTopToolbar();
-		var s = p.get('consStatus');
+		var s = p.get('consStatus'); 
 		locked=p.get('consStatusLock')==1;
 		if(tb.getComponent('TB_S')) tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
     	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
+    	if(tb.getComponent('TB_CUDE')) tb.getComponent('TB_CUDE').setDisabled(p.get('rowAction')=='N');
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
+    	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
+    	if(tb.getComponent('TB_ATT')) tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
     };
     
