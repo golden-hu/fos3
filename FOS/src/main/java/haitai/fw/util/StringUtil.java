@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -55,10 +56,38 @@ public class StringUtil {
 		return !isBlank(s);
 	}
 
+	 public static boolean isDate(String value){          
+        SimpleDateFormat sdf = null;  
+        ParsePosition pos = new ParsePosition(0);
+          
+        if(value == null){  
+            return false;  
+        }  
+        try {  
+            sdf = new SimpleDateFormat("yyyy-MM-dd");  
+            sdf.setLenient(false);  
+            Date date = sdf.parse(value,pos);  
+            if(date == null){  
+                return false;  
+            }else{  
+                if(pos.getIndex() > sdf.format(date).length()){  
+                    return false;  
+                }  
+                return true;  
+            }  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+            return false;  
+        }  
+    }  
+	 
 	public static boolean isNumeric(String str){
 	   String s = str.substring(0,1);
 	   if(s.equals("-"))
 		   s = str.substring(1);
+	   if(s.indexOf("-")>0){
+		   return false;
+	   }
 	   Pattern pattern = Pattern.compile("[0-9]*");
 	   Matcher isNum = pattern.matcher(s);
 	   if( !isNum.matches() ){

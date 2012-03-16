@@ -200,7 +200,7 @@ public class PTemplateService {
 		String child = ptt.getTetyChild();
 		Map<String, PTemplateMap> fieldMap = getTemplateMap(queryMap);
 		// 根据action和查询条件, 获取到对象列表, 并拆成主表和子表
-		paramMap.put(ConstUtil.PARAM_EAGER, ConstUtil.TrueStr);
+		//paramMap.put(ConstUtil.PARAM_EAGER, ConstUtil.TrueStr);
 		List entityList = executeAction(ptt, conditions, paramMap);
 		Object parentEntity = null;
 		List<Object> childList = new ArrayList<Object>();
@@ -453,8 +453,9 @@ public class PTemplateService {
 				if (currentCell == null) {
 					currentCell = currentRow.createCell(cell.getColumnIndex());
 				}
-				currentCell.setCellType(Cell.CELL_TYPE_STRING);
-				currentCell.setCellValue(cell.getStringCellValue());
+				
+				currentCell.setCellType(Cell.CELL_TYPE_STRING);				
+				currentCell.setCellValue(cell.getStringCellValue());				
 				currentCell.setCellComment(cell.getCellComment());
 			}
 		}
@@ -773,14 +774,19 @@ public class PTemplateService {
 					cell.setCellValue(value);
 					break;
 			}
-			if(StringUtil.isNumeric(value))
-				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			else
-				cell.setCellType(cellType);
 			
+			try{
+				Double d = Double.parseDouble(value);
+				cell.setCellValue(d);
+				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+			}
+			catch(Exception e){
+				cell.setCellType(cellType);
+			}
 		} else {
 			cell.setCellValue(value);
 		}
+		
 	}
 
 	private int getCellTypeByComment(Cell cell) {

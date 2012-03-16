@@ -77,8 +77,7 @@ Fos.showConsignTabs = function(p){
 	if(!tc.getComponent('T_SESH_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_SESH)!=-1){tc.add(new Fos.SecondShipTab(p));};
 };
 
-Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
-	
+Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',baseParams:{mt:'xml'},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
 		remoteSort:true,

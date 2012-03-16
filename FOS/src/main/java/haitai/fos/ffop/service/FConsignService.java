@@ -718,13 +718,60 @@ public class FConsignService {
 	public List complexQueryCheck(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		List retList = new ArrayList();
 		List objList = dao.complexQueryCheck(conditions, queryMap);
-		checkMergeStatistics(retList, objList);
-		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
-			retList.addAll(expenseDao.findByProperties(queryMap));
-		}
+		checkMergeStatistics(retList, objList);		
 		return retList;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List queryForBill(Map queryMap) {
+		List retList = new ArrayList();
+		List<SExpense> expeList = new ArrayList();
+		
+		String consId = (String) queryMap.get("consId");
+		FConsign c = dao.findById(Integer.parseInt(consId));
+		
+		String expeIds = (String) queryMap.get("expeIds");
+		if(StringUtil.isNotBlank(expeIds)){
+			List<FosQuery> conditions = new ArrayList<FosQuery>();
+			conditions.add(new FosQuery("expeId", ConstUtil.SQL_OP_IN, expeIds));
+			expeList = expenseDao.complexQuery(conditions,new HashMap<String, Object>());
+		}
+		else
+			expeList = expenseDao.findByProperties(queryMap);
+		
+		Double sumRCny = 0.0;
+		Double sumRUsd = 0.0;
+		Double sumPCny = 0.0;
+		Double sumPUsd = 0.0;
+		for(SExpense e : expeList){
+			if(e.getExpeType().equals(ConstUtil.PR_TYPE_RECEIVE)){
+				if(e.getCurrCode().equals("CNY")){
+					sumRCny += e.getExpeTotalAmount();
+				}
+				else if(e.getCurrCode().equals("USD")){
+					sumRUsd += e.getExpeTotalAmount();
+				}
+			}
+			else{
+				if(e.getCurrCode().equals("CNY")){
+					sumPCny += e.getExpeTotalAmount();
+				}
+				else if(e.getCurrCode().equals("USD")){
+					sumPUsd += e.getExpeTotalAmount();
+				}
+			}
+		}
+		c.setSumRCny(sumRCny);
+		c.setSumRUsd(sumRUsd);
+		c.setSumPCny(sumPCny);
+		c.setSumPUsd(sumPUsd);
+		
+		retList.add(c);		
+		retList.addAll(expeList);
+		return retList;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List complexQueryTask(List<FosQuery> conditions, Map<String, Object> queryMap) {

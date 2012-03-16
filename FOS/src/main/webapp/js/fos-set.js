@@ -325,7 +325,18 @@
 	};
 	var locked=p.get('consStatusExp')==1||p.get('consStatusAud')!=0;
 	this.expConfirm=function(){
-		EXPC('EXPE_CONFIRM','&aggressive=1&expeType='+t+'&consId='+p.get('consId'));
+		var a = sm.getSelections();
+		var expeIds = '';
+		if(a.length){
+			for(var i=0;i<a.length;i++){
+				expeIds += a[i].get('expeId');
+				if(i<a.length-1)
+					expeIds += ',';
+			}
+			EXPC('EXPE_CONFIRM','&expeIds='+expeIds+'&consId='+p.get('consId'));
+		}
+		else
+			EXPC('EXPE_CONFIRM','&expeType='+t+'&consId='+p.get('consId'));
 	};
 	var sN='(N)';
 	if(t=='R') sN='(N)'; else if(t=='P') sN='(M)'; else sN='(A)';
@@ -1313,20 +1324,22 @@ var showInvoice= function(p){
 	T_MAIN.setActiveTab(tab);tab.doLayout();}
 };
 Fos.InvoiceGrid = function(t) {
-	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=INVO_X',
-		baseParams:{mt:'xml',invoType:t},
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL,
+		baseParams:{A:'INVO_Q',mt:'xml',invoType:t},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'invoId'},SInvoice),
 		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'}
 		//,groupField:'invoDate'
-		});		
-	var a=[];
-	store.baseParams={mt:'xml',invoType:t,xml:''};
+		});	
     store.load({params:{start:0,limit:C_PS}});
     
+    var a=[];
+		
     this.reset=function(){    	
     	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};    	
     	store.load({params:{start:0,limit:C_PS}});
     };
+    
+    
     this.search = function(){
     	var win = new Fos.InvoLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
@@ -1426,7 +1439,7 @@ Fos.InvoiceGrid = function(t) {
         		else if(invoAmount) 
         			a[a.length]=new QParam({key:'invoAmount',value:invoAmount,op:EQ});
         	}
-        	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
+        	store.baseParams={A:'INVO_X',mt:'xml',invoType:t,xml:FOSX(QTX(a))};
      		store.reload({params:{start:0,limit:C_PS},
      			callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});win.close();
 		}},this);
@@ -1453,9 +1466,7 @@ Fos.InvoiceGrid = function(t) {
             a[a.length]=new QParam({key:'invoTaxNo',value:ra[1],op:LE});
         }
         a[a.length]=new QParam({key:'invoTaxNo',value:invoTaxNo,op:LI});
-        
-       // a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});
-        store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};
+        store.baseParams={A:'INVO_X',mt:'xml',invoType:t,xml:FOSX(QTX(a))};
         store.reload({params:{start:0,limit:C_PS},
         	callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
     };
