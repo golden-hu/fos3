@@ -242,6 +242,28 @@ Fos.InspectionDeclTab = function(p,store) {
            });
        	}
     };
+    this.unlock=function(){
+    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
+		success: function(r){
+			p.set('consStatusLock',0);
+			this.updateToolBar(p.get('consStatus'));
+			
+			XMG.alert(SYS,M_S);
+			var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+					reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+			sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+				if(s&&r.length>0){
+					var c=r[0];
+					p.beginEdit();					
+					p.set('version',c.get('version'));
+					p.endEdit();
+					XMG.alert(SYS,M_S);
+				}    						
+			},scope:this});				
+		},
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+    };
     this.showExp=function(){
     	var win = new Fos.ExWin(p);
     	win.show();
@@ -616,6 +638,28 @@ Fos.CustomsDeclearTab = function(p,store) {
                	}
            });
        	}
+    };
+    this.unlock=function(){
+    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
+		success: function(r){
+			p.set('consStatusLock',0);
+			this.updateToolBar(p.get('consStatus'));
+			
+			XMG.alert(SYS,M_S);
+			var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+					reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+			sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+				if(s&&r.length>0){
+					var c=r[0];
+					p.beginEdit();					
+					p.set('version',c.get('version'));
+					p.endEdit();
+					XMG.alert(SYS,M_S);
+				}    						
+			},scope:this});				
+		},
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     this.showExp=function(){
     	var win = new Fos.ExWin(p);
@@ -1602,6 +1646,28 @@ Fos.ReliefTab = function(p,store) {
            });
        	}
     };
+    this.unlock=function(){
+    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
+		success: function(r){
+			p.set('consStatusLock',0);
+			this.updateToolBar(p.get('consStatus'));
+			
+			XMG.alert(SYS,M_S);
+			var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+					reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+			sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+				if(s&&r.length>0){
+					var c=r[0];
+					p.beginEdit();					
+					p.set('version',c.get('version'));
+					p.endEdit();
+					XMG.alert(SYS,M_S);
+				}    						
+			},scope:this});				
+		},
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+    };
     this.showExp=function(){
     	var win = new Fos.ExWin(p);
     	win.show();
@@ -2081,6 +2147,28 @@ Fos.EntRegTab = function(p,store) {
                	}
            });
        	}
+    };
+    this.unlock=function(){
+    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
+		success: function(r){
+			p.set('consStatusLock',0);
+			this.updateToolBar(p.get('consStatus'));
+			
+			XMG.alert(SYS,M_S);
+			var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+					reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+			sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+				if(s&&r.length>0){
+					var c=r[0];
+					p.beginEdit();					
+					p.set('version',c.get('version'));
+					p.endEdit();
+					XMG.alert(SYS,M_S);
+				}    						
+			},scope:this});				
+		},
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     this.showExp=function(){
     	var win = new Fos.ExWin(p);
