@@ -982,7 +982,7 @@ Fos.BookTab = function(p) {
 		t134=[m31,m30,m24,m25,m26,m23,m27];
 		if(p.get('consBizType')==BT_A){
 			t131=[m2,m4,m10,m9];
-			t132=[m8,m11,m17];
+			t132=[m8,m11,m17,m23];
 			t133=[m15,m30,m12];
 			t134=[m29,m31,m3];
 		}	
@@ -1642,16 +1642,25 @@ Fos.BookTab = function(p) {
 	var exp8=CREATE_E_MENU(M_SGS_ADVICE,function(){this.expExcel('SGS_INFO');},function(){this.expEmail('SGS_INFO',M_SGS_ADVICE);},function(){this.expFax('SGS_INFO',M_SGS_ADVICE);},this);
 	var exp9=CREATE_E_MENU(M_SHIP_ADVICE,function(){this.expExcel('SHIP_INFO');},function(){this.expEmail('SHIP_INFO',M_SHIP_ADVICE);},function(){this.expFax('SHIP_INFO',M_SHIP_ADVICE);},this);
 	var expM=[];
-	if(p.get('consBizType')==BT_C) expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9];		
-	else expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6];
+	if(p.get('consBizType')==BT_C) 
+		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9];		
+	else if(p.get('consBizType')==BT_A){
+		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6,exp7];
+	}
+	else 
+		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6];
 	var b10={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E)||locked,scope:this,menu:{items:expM}};
 	
 	var b20={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
 	var tbs=[];
-	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){tbs=[b1,'-',b8,'-',b9,'-',b16,'-',b17,'->',b20,'-'];}
+	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){
+		tbs=[b1,'-',b8,'-',b9,'-',b16,'-',b17,'->',b20,'-'];
+	}
 	else{
-		if(p.get('consBizClass')==BC_I) tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
-		else if(p.get('consBizClass')==BC_E) tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
+		if(p.get('consBizClass')==BC_I) 
+			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
+		else if(p.get('consBizClass')==BC_E) 
+			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
 	}
 	var bk=new Ext.KeyMap(Ext.getDoc(), {
 		key:'sbqtgxrfac',ctrl:true,
