@@ -788,7 +788,7 @@ getCOST = function(v){if(v>=0) return COST_S.getById(v).get('NAME'); else return
 var CIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未到港'],['1','已到港'],['2','已换单'],['3','已放行'],['4','已送货'],['6','已作废'],['7','已完成']]});
 getCIST = function(v){if(v>=0) return CIST_S.getById(v).get('NAME'); else return '';};
 
-var TRADE_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认'],['2','已完成']]});
+var TRADE_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认'],['2','已完成'],['3','已作废']]});
 getTRADE_S = function(v){if(v>=0) return TRADE_S.getById(v).get('NAME'); else return '';};
 
 getCONS_STATUS = function(v,m,r){
