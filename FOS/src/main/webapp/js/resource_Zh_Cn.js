@@ -215,6 +215,8 @@ C_CONT_USABLE='集装箱适用';
 
 var C_IMP = '进口';
 var C_EXP = '出口';
+var C_ENTRY = '进境';
+
 var C_BULK='散货';
 var C_BULK_CHARTER='租船';
 var C_EXP_BULK='散货出口';

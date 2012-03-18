@@ -18,8 +18,15 @@ var BT_M = 'M'; //加工贸易
 var BT_F = 'F'; //减免税
 var BT_R = 'R'; //企业注册
 
-var ST_F='FCL';var ST_L='LCL';
-var BC_I='I';var BC_E='E';
+var ST_F='FCL';
+var ST_L='LCL';
+
+var BC_I='I'; //进口
+var BC_E='E'; //出口
+var BC_D='D'; //内贸
+var BC_T='T'; //过境
+
+
 var XMG = Ext.MessageBox;
 var SR_TRAN='B';
 var SR_WARE='E';

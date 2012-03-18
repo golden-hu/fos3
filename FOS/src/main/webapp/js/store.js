@@ -739,13 +739,14 @@ getSHTY = function(v){if(v) return SHTY_S.getById(v).get('NAME'); else return ''
 var TRACK_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','车皮'],[2,'驳船'],['3','卡车'],['4','不做码头']]});
 getTRACK_T = function(v){if(v) return TRACK_T_S.getById(v).get('NAME'); else return '';};
 
-var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册']]});
+var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],
+                ['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册']]});
 getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return '';};
 
 var PLTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','省'],['2','市/县'],['3','港区']]});
 getPLTY = function(v){if(v) return PLTY_S.getById(v).get('NAME'); else return '';};
 
-var BC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
+var BC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口'],['T','进境'],['D','内贸']]});
 getBC = function(v){if(v) return BC_S.getById(v).get('NAME'); else return '';};
 
 var SOUR_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','自揽货'],['1','同行货'],['2','船公司指定货'],['3','海外代理指定货']]});
@@ -1218,19 +1219,28 @@ function getVES(){return new Ext.data.Store({url: SERVICE_URL+'?A=VESS_X',reader
 function getVS(){return new Ext.data.Store({url: SERVICE_URL+'?A=VOYA_Q',reader: new Ext.data.XmlReader({record:'GVoyage'},GVoyage),sortInfo:{field:'voyaId',direction:'DESC'}});};
 function getCUCOS(){return new Ext.data.Store({url: SERVICE_URL+'?A=CUCO_Q',reader: new Ext.data.XmlReader({record:'CCustomerContact'},CCustomerContact)});};
 function getCS(){return  new Ext.data.Store({url: SERVICE_URL+'?A='+'CUST_X',reader: new Ext.data.XmlReader({id:'custId',record:'CCustomer'},CCustomer),sortInfo:{field:'custId', direction:'DESC'}});};
+
+//获得委托模块代码
 function getRM(bizClass,bizType,shipType){
-	var m1='',m2='';
-	if(bizClass=='E') 
-		m2=M2_E; 
-	else if(bizClass=='I') 
-		m2=M2_I;
+	var m1 = '';
+	var m2 = '';
+	if(bizClass=='T'){
+		m1=M1_E;	
+		m2=eval('M2_T'+bizType);
+	}
+	else{
+		m1 = eval('M1_'+bizType);	
+		m2=eval('M2_'+bizClass);
+	}	
+	
 	if(bizType=='C'){
 		if(shipType=='FCL' && bizClass=='I') m2='02';
 		else if(shipType=='LCL' && bizClass=='I') m2='03';
 		else if(shipType=='FCL' && bizClass=='E') m2='05';
 		else if(shipType=='LCL' && bizClass=='E') m2='06';
 	}
-	m1=eval('M1_'+bizType);
+	
+	
 	if(bizType=='G'||bizType=='I')
 		return ""+m1;
 	else
@@ -1265,7 +1275,11 @@ var M1_P='0011';//系统管理
 var M1_W='0012';//网上服务
 var M1_M='0013';//加工贸易
 var M1_F='0014';//减免税
-var M1_R='0014';//企业注册
+var M1_R='0015';//企业注册
+var M1_E='0016';//进境
+
+var M2_TC='01';//进境集装箱
+var M2_TB='02';//进境散货
 
 var M2_A='01'; //进口全部
 var M2_AE='04';//出口全部

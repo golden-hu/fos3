@@ -141,8 +141,13 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c35={header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};    
     var c36={header:C_ETA,dataIndex:"consEta",renderer:formatDate};
     
-    var cm=new Ext.grid.ColumnModel({columns:bizType==BT_B?[c1,c2,c3,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c26,c27]:[c1,c2,c3,c4,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28],
+    var cm=new Ext.grid.ColumnModel({columns:
+    	bizType==BT_B?[c1,c2,c3,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c26,c27]:
+    	            [c1,c2,c3,c4,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28],
 		defaults: {sortable: true}});
+    
 	this.addConsign = function(){
 		var c=sm.getSelected();
 		if(c.get('consMasterFlag')=='1'){
@@ -301,15 +306,21 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');
 		}
 	};
-  	var title=getBT(bizType);
-  	title+=getBC(bizClass);
+  	
+  	var title=getBC(bizClass);
+  	if(bizType!='C')
+  		title+=getBT(bizType);
   	if(bizClass==BC_I&&shipType=='LCL') 
   		title+=C_SWITCH; 
-  	else title+=getSHTY(shipType);
+  	else 
+  		title+=getSHTY(shipType);
+  	
   	title+=C_CONS_LIST;
   	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
-	var b1={text:C_ADD+'(N)',disabled:NR(m+(bizType==BT_B?F_CM:F_M))||(bizType==BT_C&&shipType==''),iconCls:'add',handler:this.newConsign};
+	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&bizType==BT_B&&NR(m+F_CM))
+			||(bizType==BT_C&&shipType==''),
+			iconCls:'add',handler:this.newConsign};
 	var b2={text:C_CONSOLIDATE+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
 	var b3={text:C_EDIT+'(M)',disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b4={text:C_REMOVE+'(D)',disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
@@ -357,6 +368,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
         scope:this
     });
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
+    
     if(bizType==BT_B) 
     	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     else if (bizType==BT_C&&bizClass==BC_E&&shipType==ST_L)
@@ -375,8 +387,8 @@ Fos.ConsignTab = function(p){
 	var items=[];
 	items[0]=new Fos.BookTab(p);
 	if(p.get('rowAction')!='N'){
-		items[items.length]= new Fos.ConsDocGrid(p);
-		items[items.length]= VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
+		items[items.length] = new Fos.ConsDocGrid(p);
+		items[items.length] = VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
 	}
@@ -1661,7 +1673,10 @@ Fos.BookTab = function(p) {
 			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
 		else if(p.get('consBizClass')==BC_E) 
 			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
+		else if(p.get('consBizClass')==BC_T)
+			tbs=[b1,'-',b15,'-',b9,'-',b10,'-',b17];
 	}
+	
 	var bk=new Ext.KeyMap(Ext.getDoc(), {
 		key:'sbqtgxrfac',ctrl:true,
 		handler: function(k, e) {

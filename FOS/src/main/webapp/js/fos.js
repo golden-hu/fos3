@@ -18,12 +18,18 @@ function NaviMenu(t,c,f){
 };
 function getContPanel(){
 	var items=[];
-	if(VERSION==0&&!NR(M1_C+M2_A)) items[items.length]=NaviMenu(C_IMP_A,'G_CONS_I_C',function(){return new Fos.ConsignGrid('I','C','');});
-	if(!NR(M1_C+M2_F)) items[items.length]=NaviMenu(C_IMP_F,'G_CONS_I_C_FCL',function(){return new Fos.ConsignGrid('I','C','FCL');});
-	if(!NR(M1_C+M2_L)) items[items.length]=NaviMenu(C_IMP_L,'G_CONS_I_C_LCL',function(){return new Fos.ConsignGrid('I','C','LCL');});
-	if(VERSION==0&&!NR(M1_C+M2_AE)) items[items.length]=NaviMenu(C_EXP_A,'G_CONS_E_C',function(){return new Fos.ConsignGrid('E','C','');});
-	if(!NR(M1_C+M2_FE)) items[items.length]=NaviMenu(C_EXP_F,'G_CONS_E_C_FCL',function(){return new Fos.ConsignGrid('E','C','FCL');});
-	if(!NR(M1_C+M2_LE)) items[items.length]=NaviMenu(C_EXP_L,'G_CONS_E_C_LCL',function(){return new Fos.ConsignGrid('E','C','LCL');});
+	if(VERSION==0&&!NR(M1_C+M2_A)) 
+		items[items.length]=NaviMenu(C_IMP_A,'G_CONS_I_C',function(){return new Fos.ConsignGrid('I','C','');});
+	if(!NR(M1_C+M2_F)) 
+		items[items.length]=NaviMenu(C_IMP_F,'G_CONS_I_C_FCL',function(){return new Fos.ConsignGrid('I','C','FCL');});
+	if(!NR(M1_C+M2_L)) 
+		items[items.length]=NaviMenu(C_IMP_L,'G_CONS_I_C_LCL',function(){return new Fos.ConsignGrid('I','C','LCL');});
+	if(VERSION==0&&!NR(M1_C+M2_AE)) 
+		items[items.length]=NaviMenu(C_EXP_A,'G_CONS_E_C',function(){return new Fos.ConsignGrid('E','C','');});
+	if(!NR(M1_C+M2_FE)) 
+		items[items.length]=NaviMenu(C_EXP_F,'G_CONS_E_C_FCL',function(){return new Fos.ConsignGrid('E','C','FCL');});
+	if(!NR(M1_C+M2_LE)) 
+		items[items.length]=NaviMenu(C_EXP_L,'G_CONS_E_C_LCL',function(){return new Fos.ConsignGrid('E','C','LCL');});
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -53,6 +59,17 @@ function getAirPanel(){
 	return new Ext.Panel({title:C_AIR,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
+function getEntryPanel(){
+	var items=[];
+	if(!NR(M1_E+M2_TC)) 
+		items[items.length]=NaviMenu(C_CONT,'G_CONS_T_TC',function(){return new Fos.ConsignGrid('T','C','FCL');});
+	if(!NR(M1_E+M2_TB)) 
+		items[items.length]=NaviMenu(C_BULK,'G_CONS_T_TB',function(){return new Fos.ConsignGrid('T','B','');});
+	return new Ext.Panel({title:C_ENTRY,collapsible:true,layout:'fit',
+		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+};
+
 function getCudePanel(){
 	var items=[];
 	if(!NR(M1_G)){
@@ -170,6 +187,7 @@ function getPMenu(){
 	if(!NR(M1_B)) items[items.length]=getBulkPanel();
 	if(!NR(M1_A)) items[items.length]=getAirPanel();
 	if(!NR(M1_G)) items[items.length]=getCudePanel();
+	items[items.length]=getEntryPanel();
 	//if(!NR(M1_I)) items[items.length]=getInspPanel();
 	if(!NR(M1_D)) items[items.length]=getDocPanel();
 	if(!NR(M1_S)) items[items.length]=createSMTree();
@@ -179,6 +197,8 @@ function getPMenu(){
 	if(!NR(M1_P)) items[items.length]=getSysPanel();
 	//if(VERSION==1&&!NR(M1_W)) 
 		items[items.length]=getWsPanel();
+		
+	
 	return new Ext.Panel({
 		id:'AP',title:C_SYSTEM_MENU,region:'west',split:true,collapsible: true,collapseMode: 'mini',
 		layout:'accordion',width:200,minWidth:150,maxSize: 400,
