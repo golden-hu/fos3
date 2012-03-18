@@ -213,6 +213,7 @@ Fos.InspectionDeclTab = function(p,store) {
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
     	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
+    	if(tb.getComponent('TB_M')) tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
     	if(tb.getComponent('TB_INSP')) tb.getComponent('TB_INSP').setDisabled(p.get('rowAction')=='N');
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
     	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
@@ -222,6 +223,11 @@ Fos.InspectionDeclTab = function(p,store) {
     
     this.check=function(){this.updateStatus('1');};
     this.finish=function(){this.updateStatus('2');};
+    this.cancel=function()
+    {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
+    		{if(btn=='yes')
+    			this.updateStatus('3');
+    		},this);};
     this.del=function(){
     	if(p.get('consStatus')!='0')
        		XMG.alert(SYS,M_CONS_CONFIRMED);
@@ -388,6 +394,7 @@ Fos.InspectionDeclTab = function(p,store) {
 		      {text:C_CONS_CLOSED,itemId:'TB_F',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.finish},'-',
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
+		      {text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',scope:this,handler:this.cancel},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
 		      {text:C_INSP_BILL,itemId:'TB_INSP',iconCls:'dollar',disabled:p.get('rowAction')=='N',scope:this,handler:this.showInsp},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
@@ -609,16 +616,23 @@ Fos.CustomsDeclearTab = function(p,store) {
 		if(tb.getComponent('TB_S')) tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
     	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
+    	if(tb.getComponent('TB_M')) tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
     	if(tb.getComponent('TB_CUDE')) tb.getComponent('TB_CUDE').setDisabled(p.get('rowAction')=='N');
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
     	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
     	if(tb.getComponent('TB_ATT')) tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
-    	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
+    	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);报检
+    	
     };
     
     this.check=function(){this.updateStatus('1');};
     this.finish=function(){this.updateStatus('2');};
+    this.cancel=function()
+    {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
+    		{if(btn=='yes')
+    			this.updateStatus('3');
+    		},this);};
     this.del=function(){
     	if(p.get('consStatus')!='0')
        		XMG.alert(SYS,M_CONS_CONFIRMED);
@@ -639,6 +653,7 @@ Fos.CustomsDeclearTab = function(p,store) {
            });
        	}
     };
+    
     this.unlock=function(){
     	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
     		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
@@ -818,6 +833,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		      {text:C_CONS_CLOSED,itemId:'TB_F',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.finish},'-',
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
+		      {text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',scope:this,handler:this.cancel},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
 		      {text:C_CUSTOM_BILL,itemId:'TB_CUDE',iconCls:'doc',disabled:p.get('rowAction')=='N',scope:this,handler:this.showCude},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
