@@ -231,7 +231,7 @@ var getDirty=function(store){
 	return cc;
 };		
 var EXP=function(t,tid,p){
-	var url = SERVICE_URL+'?A='+'TEMP_E&tempId='+tid+'&type='+t+p;
+	var url = SERVICE_URL+'?A='+'TEMP_E&aggressive=1&tempId='+tid+'&type='+t+p;
 	window.open(url,'download', 'height=5, width=5, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
 };
 
