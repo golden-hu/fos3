@@ -2321,6 +2321,12 @@ Fos.CustomsTab = function(p) {
 	            if(field){
 	                b.set(f.name, field.getValue());
 	            }
+	            else{
+	            	field = frmRecord.getForm().findField(f.name);
+		            if(field){
+		                b.set(f.name, field.getValue());
+		            }
+	            }
 	        }, this);
 	        b.endEdit();
         }		
@@ -2502,7 +2508,7 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,itemCls:'required',name:'cudeCountry',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CUDE_TRTE,name:'trteCode',itemCls:'required',store:getTRTE_S(),xtype:'combo',displayField:'trteName',valueField:'trteName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_PACKAGES,name:'cudePackageNum',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				p.get('consBizClass')=='A'?{fieldLabel:C_MANUFACTURE,name:'cudeManu',xtype:'textfield',anchor:'99%'}:{fieldLabel:'用途',name:'usagId',store:getUSAG_S(),xtype:'combo',displayField:'usagName',valueField:'usagId',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
+				p.get('consBizClass')=='A'?{fieldLabel:C_MANUFACTURE,name:'cudeManu',xtype:'textfield',anchor:'99%'}:{fieldLabel:'用途',name:'usagName',store:getUSAG_S(),xtype:'combo',displayField:'usagName',valueField:'usagName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_CUST_CUDE_CODE,name:'attr1',xtype:'textfield',anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_CUDE_TEL,name:'cudeVendorTel',xtype:'textfield',anchor:'99%'},

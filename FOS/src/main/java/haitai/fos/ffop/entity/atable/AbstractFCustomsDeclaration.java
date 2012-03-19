@@ -49,7 +49,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String trtyCode;
 	private String letyCode;
 	private String exseCode;
-	private String usagId;
+	private String usagName;
 	private String cudeCertificateNo;
 	private String cudeLevyPercent;
 	private String cudeApprovalNo;
@@ -403,13 +403,13 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.exseCode = exseCode;
 	}
 
-	@Column(name = "USAG_ID", length = 32)
-	public String getUsagId() {
-		return this.usagId;
+	@Column(name = "USAG_NAME", length = 32)
+	public String getUsagName() {
+		return this.usagName;
 	}
 
-	public void setUsagId(String usagId) {
-		this.usagId = usagId;
+	public void setUsagName(String usagName) {
+		this.usagName = usagName;
 	}
 
 	@Column(name = "CUDE_CERTIFICATE_NO", length = 32)
