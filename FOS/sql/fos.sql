@@ -7177,6 +7177,25 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (49, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
 (49, '币种', 'FCustomsEntry', 'currCode', NULL);
 
-
+-- PACKING LIST
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(50, '装货港', 'FCustomsDeclaration', 'cudePortDomestic', NULL),
+(50, '卸货港', 'FCustomsDeclaration', 'cudePortForeign', NULL),
+(50, '发票号', 'FCustomsDeclaration', 'cudeInvoiceNo', NULL),
+(50, '发票日期', 'FCustomsDeclaration', 'cudeInvoiceDate', NULL),
+(50, '发货人', 'FCustomsDeclaration', 'cudeShipper', NULL),
+(50, '收货人', 'FCustomsDeclaration', 'cudeConsignee', NULL),
+(50, '结汇方式', 'FCustomsDeclaration', 'exseCode', NULL),
+(50, '成交方式', 'FCustomsDeclaration', 'trteCode', NULL),
+(50, '件数合计', 'FCustomsDeclaration', 'cudePackageNum', NULL),
+(50, '包装合计', 'FCustomsDeclaration', 'packCode', NULL),
+(50, '大写件数', 'FCustomsDeclaration', 'cudeTotalSay', NULL),
+(50, '唛头与项号', 'FCustomsEntry', 'cuenNo', NULL),
+(50, '英文品名', 'FCustomsEntry', 'cuenCargoNameEn', NULL),
+(50, '件数', 'FCustomsEntry', 'cuenPackageNum', NULL),
+(50, '包装', 'FCustomsEntry', 'packCode', NULL),
+(50, '毛重', 'FCustomsEntry', 'cuenCargoGrossWeight', NULL),
+(50, '净重', 'FCustomsEntry', 'cuenCargoNetWeight', NULL),
+(50, '体积', 'FCustomsEntry', 'cuenCargoMeasurement', NULL);
 
 
