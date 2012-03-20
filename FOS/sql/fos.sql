@@ -461,6 +461,7 @@ CREATE TABLE IF NOT EXISTS `C_VENDOR_CATEGORY` (
 CREATE TABLE IF NOT EXISTS `F_BL` (
   `BL_ID` int(11) NOT NULL auto_increment,
   `BL_NO` varchar(32) collate utf8_unicode_ci default NULL,
+  `MBL_NO` varchar(32) collate utf8_unicode_ci default NULL,
   `BL_TYPE` char(4) collate utf8_unicode_ci NOT NULL,
   `CONS_ID` int(11) NOT NULL,
   `CONS_NO` varchar(32) collate utf8_unicode_ci default NULL,
@@ -6070,8 +6071,8 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (46, '减免税统计表', 'RELIEF_TAX_STAT', '减免税统计表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
 (47, '加工贸易催核表', 'TRADE_STAT', '加工贸易催核表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
 (48, '退单申请表', 'CUSTOMS_DOC_STAT', '退单申请表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
-(49, '商业发票', 'COMMERCIAL_INVOICE', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
-(50, '报关装箱单', 'CUDE_PACKING_LIST', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0)
+(49, '商业发票', 'CUDE_INVOICE', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
+(50, '报关装箱单', 'CUDE_PACKING', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0)
 ;
 
 -- 提单
@@ -6081,6 +6082,10 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '通知人', 'FBl', 'blNotifyParty', NULL),
 (1, '第二通知人', 'FBl', 'blNotifyParty2', NULL),
 (1, '提单号', 'FBl', 'blNo', NULL),
+(1, 'HBLNo', 'FBl', 'blNo', NULL),
+(1, 'MBLNo', 'FBl', 'mblNo', NULL),
+(1, 'HAWBNO', 'FBl', 'blNo', NULL),
+(1, 'MAWBNO', 'FBl', 'mblNo', NULL),
 (1, '贸易合同号', 'FBl', 'consTradeContractNo', NULL),
 (1, '业务号', 'FBl', 'consNo', NULL),
 (1, '目的港代理', 'FBl', 'blOverseaAgency', NULL),
@@ -6115,6 +6120,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '备注', 'FBl', 'blRemarks', NULL),
 (1, '装船日期', 'FBl', 'blLoadDate', NULL),
 (1, '到港日期', 'FBl', 'blEta', NULL),
+(1, '开航日期', 'FBl', 'blEtd', NULL),
 (1, '第一中转港代码', 'FBl', 'blToFirst', NULL),
 (1, '第二中转港代码', 'FBl', 'blToSecond', NULL),
 (1, '第三中转港代码', 'FBl', 'blToThird', NULL),
@@ -6123,7 +6129,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '三程承运人代码', 'FBl', 'blByThird', NULL),
 (1, '币种', 'FBl', 'currCode', NULL),
 (1, '从价从量运费条款', 'FBl', 'blWeightPayment', NULL),
-(1, '其它费用条款', 'FBl', 'blOtherPanyment', NULL),
+(1, '其它费用条款', 'FBl', 'blOtherPayment', NULL),
 (1, '承运申报价值', 'FBl', 'blDvCarriage', NULL),
 (1, '海关申报价值', 'FBl', 'blDvCustoms', NULL),
 (1, '保险金额', 'FBl', 'blAmountInvoice', NULL),
@@ -7170,4 +7176,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (49, '单价', 'FCustomsEntry', 'cuenUnitPrice', NULL),
 (49, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
 (49, '币种', 'FCustomsEntry', 'currCode', NULL);
+
+
+
 

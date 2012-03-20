@@ -2687,8 +2687,12 @@ Fos.BLGrid = function(p){
 	],defaults:{sortable:true,width:80}});	
 	var newBl = function(t){
 		var rid=GGUID();
-		var bl = new FBl({id:rid,blId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
-		blType:t,blNo:t=='MB/L'?p.get('consMblNo'):p.get('consHblNo'),
+		var bl = new FBl({id:rid,blId:rid,
+		consId:p.get('consId'),
+		consNo:p.get('consNo'),
+		blType:t,
+		blNo:t=='MB/L'?p.get('consMblNo'):p.get('consHblNo'),
+		mblNo:p.get('consMblNo'),		
 		consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),consShipType:p.get('consShipType'),
 		custId:p.get('custId'),custName:p.get('custName'),
 		consTradeContractNo:p.get('consTradeContractNo'),consChargeRemarks:p.get('consChargeRemarks'),
@@ -3200,26 +3204,49 @@ Fos.BlWin = function(p,b,store) {
 	var t4={layout:'column',title:C_BASE_INFO,layoutConfig: {columns:4},bodyStyle:'padding:2px 2px 2px',deferredRender:false,collapsible:true,
 			items: [
 			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',items: [
-				{fieldLabel:"Shipper's Name and Address",name:'blShipper',value:b.get('blShipper'),tabIndex:1,xtype:'textarea',height:100,anchor:'99%'},
-				{fieldLabel:"Consignee's Name and Address",name:'blConsignee',value:b.get('blConsignee'),tabIndex:2,xtype:'textarea',height:100,anchor:'99%'},
-				{fieldLabel:"Issuing Carrier's Agent Name",name:'blNotifyParty',value:b.get('blNotifyParty'),tabIndex:3,xtype:'textarea',height:100,anchor:'99%'}
+				{fieldLabel:"Shipper's Name and Address",name:'blShipper',value:b.get('blShipper'),
+					tabIndex:1,xtype:'textarea',height:100,anchor:'99%'},
+				{fieldLabel:"Consignee's Name and Address",name:'blConsignee',value:b.get('blConsignee'),
+					tabIndex:2,xtype:'textarea',height:100,anchor:'99%'}				
 			]},
 			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',items: [                
-                {fieldLabel:"Accounting Information",name:'blAccountingInfo',value:b.get('blAccountingInfo'),tabIndex:4,xtype:'textarea',height:100,anchor:'99%'},
-                {fieldLabel: 'Also Notify',name:'blNotifyParty2',value:b.get('blNotifyParty2'),tabIndex:5,xtype:'textarea',height:100,anchor:'99%'},            	
-            	{layout:'column',layoutConfig: {columns:2},border:false,items: [
-	            	{columnWidth:.5,layout:'form',border : false,labelAlign:'top',items:[
-	            	{fieldLabel:'AWB No.',name:'blNo',value:b.get('blNo'),tabIndex:6,xtype:'textfield',anchor:'90%'},
-	            	{fieldLabel:"Agent IATA Code",name:'blAgentIataCode',value:b.get('blAgentIataCode'),tabIndex:8,xtype:'textfield',anchor:'90%'},
-	            	{fieldLabel:'Declared Value for Carriage',name:'blDvCarriage',value:b.get('blDvCarriage'),tabIndex:10,xtype:'textfield',anchor:'90%'}
-		            ]},
-		            {columnWidth:.5,layout:'form',border : false,labelAlign:'top',items:[
-		            	{fieldLabel:'Air Port of Departure',name:'blPol',value:b.get('blPol'),tabIndex:7,xtype:'textfield',anchor:'90%'},
-		            	{fieldLabel:'Account No.',name:'blAccountNo',value:b.get('blAccountNo'),tabIndex:9,xtype:'textfield',anchor:'90%'},            	
-		            	{fieldLabel:'Declared Value for Customs',name:'blDvCustoms',value:b.get('blDvCustoms'),tabIndex:11,xtype:'textfield',anchor:'90%'}
-		            ]}
-            	]}
+                {fieldLabel:"Accounting Information",name:'blAccountingInfo',value:b.get('blAccountingInfo'),
+                	tabIndex:4,xtype:'textarea',height:100,anchor:'99%'},
+                {fieldLabel: 'Also Notify',name:'blNotifyParty2',value:b.get('blNotifyParty2'),
+                	tabIndex:5,xtype:'textarea',height:100,anchor:'99%'}    	
             ]},            
+        	{columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
+        		{fieldLabel:'MAWB No.',name:'mblNo',value:b.get('mblNo'),
+        			tabIndex:6,xtype:'textfield',anchor:'99%'},	            	
+    			{fieldLabel:'Declared Value for Customs',name:'blDvCustoms',value:b.get('blDvCustoms'),
+                	tabIndex:11,xtype:'textfield',anchor:'99%'},
+            	{fieldLabel:'Flight',name:'blVoyage',value:b.get('blVoyage'),
+                	tabIndex:22,xtype:'textfield',anchor:'99%'}
+            ]},
+            {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
+                {fieldLabel:'HAWB No.',name:'blNo',value:b.get('blNo'),
+                	tabIndex:6,xtype:'textfield',anchor:'99%'},
+            	{fieldLabel:'Declared Value for Carriage',name:'blDvCarriage',value:b.get('blDvCarriage'),
+        			tabIndex:10,xtype:'textfield',anchor:'99%'},
+    			{fieldLabel:'Date',name:'blEtd',value:b.get('blEtd'),
+                	tabIndex:23,xtype:'datefield',format:DATEF,anchor:'99%'}	
+            ]},
+            {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[	          	
+              	{fieldLabel:"Agent IATA Code",name:'blAgentIataCode',value:b.get('blAgentIataCode'),
+        			tabIndex:8,xtype:'textfield',anchor:'99%'},
+    			{fieldLabel:'Air Port of Departure',name:'blPol',value:b.get('blPol'),
+	              	tabIndex:7,xtype:'textfield',anchor:'99%'},
+              	{fieldLabel:'Amount of Insurance',name:'blAmountInsurance',value:b.get('blAmountInsurance'),
+                	tabIndex:24,xtype:'textfield',anchor:'99%'}
+	          ]},
+	          {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
+	          	{fieldLabel:'Account No.',name:'blAccountNo',value:b.get('blAccountNo'),
+	              	tabIndex:9,xtype:'textfield',anchor:'99%'},
+              	{fieldLabel:'Air Port of Destination',name:'blPod',value:b.get('blPod'),
+              		tabIndex:21,xtype:'textfield',anchor:'99%'},
+          		{fieldLabel:'T/S Remarks',name:'blTsRemarks',value:b.get('blTsRemarks'),
+                	tabIndex:25,xtype:'textfield',anchor:'99%'}
+	          ]},                                   
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
             {fieldLabel:'To',name:'blToFirst',value:b.get('blToFirst'),tabIndex:12,xtype:'textfield',anchor:'99%'}
             ]},
@@ -3239,54 +3266,57 @@ Fos.BlWin = function(p,b,store) {
             {fieldLabel:'By',name:'blByThird',value:b.get('blByThird'),tabIndex:17,xtype:'textfield',anchor:'99%'}
             ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Currency',name:'currCode',value:b.get('currCode'),tabIndex:18,value:p.get('currCode'),store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}
+            {fieldLabel:'Currency',name:'currCode',value:b.get('currCode'),
+            	tabIndex:18,value:p.get('currCode'),store:getCURR_S(),xtype:'combo',
+            	displayField:'currCode',valueField:'currCode',typeAhead: true,mode:'local',
+            	triggerAction: 'all',selectOnFocus:true,anchor:'99%'}
             ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Weight/VAL',name:'blWeightPayment',value:b.get('blWeightPayment'),tabIndex:19,xtype:'textfield',anchor:'99%'}
+            {fieldLabel:'Weight/VAL',name:'blWeightPayment',value:b.get('blWeightPayment'),
+            	tabIndex:19,xtype:'textfield',anchor:'99%'}
             ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Other',name:'blOtherPayment',value:b.get('blOtherPayment'),tabIndex:20,xtype:'textfield',anchor:'80%'}
-            ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Air Port of Destination',name:'blPod',value:b.get('blPod'),tabIndex:21,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Flight',name:'blVoyage',value:b.get('blVoyage'),tabIndex:22,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Date',name:'blEtd',value:b.get('blEtd'),tabIndex:23,xtype:'datefield',format:DATEF,anchor:'99%'}
-            ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Amount of Insurance',name:'blAmountInsurance',value:b.get('blAmountInsurance'),tabIndex:24,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'T/S Remarks',name:'blTsRemarks',value:b.get('blTsRemarks'),tabIndex:25,xtype:'textfield',anchor:'90%'}
-            ]},
-            {columnWidth:.99,layout:'form',border:false,labelAlign:'top',
-                items: [{fieldLabel:"Handling information and Others",name:'blHandlingInfo',value:b.get('blHandlingInfo'),tabIndex:26,xtype:'textarea',height:100,anchor:'99%'}]}
+            {fieldLabel:'Other',name:'blOtherPayment',value:b.get('blOtherPayment'),
+            	tabIndex:20,xtype:'textfield',anchor:'99%'}
+            ]},            
+            {columnWidth:.5,layout:'form',border:false,labelAlign:'top',
+                items: [{fieldLabel:"Issuing Carrier's Agent Name",name:'blNotifyParty',value:b.get('blNotifyParty'),
+                	tabIndex:3,xtype:'textarea',height:100,anchor:'99%'}                        
+             ]},
+            {columnWidth:.5,layout:'form',border:false,labelAlign:'top',
+                items: [{fieldLabel:"Handling information and Others",name:'blHandlingInfo',
+                value:b.get('blHandlingInfo'),tabIndex:26,xtype:'textarea',height:100,anchor:'99%'}
+             ]}
           ]};
     var t5={layout:'column',title:C_CARGO_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,
 			items: [
 			 {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'No of Packages',name:'blPackages',value:b.get('blPackages'),tabIndex:27,xtype:'numberfield',anchor:'99%'}
+            {fieldLabel:'No of Packages',name:'blPackages',value:b.get('blPackages'),
+            	tabIndex:27,xtype:'numberfield',anchor:'99%'}
             ]},
             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Gross Weight',name:'blGrossWeight',value:b.get('blGrossWeight'),tabIndex:28,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
+            {fieldLabel:'Gross Weight',name:'blGrossWeight',value:b.get('blGrossWeight'),
+            	tabIndex:28,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
             ]},            
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Rate Class',name:'blRateClass',value:b.get('blRateClass'),tabIndex:29,xtype:'textfield',anchor:'99%'}
+            {fieldLabel:'Rate Class',name:'blRateClass',value:b.get('blRateClass'),
+            	tabIndex:29,xtype:'textfield',anchor:'99%'}
             ]},
             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Chargeable Weight',name:'blChargeWeight',value:b.get('blChargeWeight'),tabIndex:30,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
+            {fieldLabel:'Chargeable Weight',name:'blChargeWeight',value:b.get('blChargeWeight'),
+            	tabIndex:30,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
             ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Rate',name:'blChargeRate',value:b.get('blChargeRate'),tabIndex:31,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
+            {fieldLabel:'Rate',name:'blChargeRate',value:b.get('blChargeRate'),
+            	tabIndex:31,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
             ]},
             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Total',name:'blTotalCharge',value:b.get('blTotalCharge'),tabIndex:32,xtype:'numberfield',anchor:'99%'}
+            {fieldLabel:'Total',name:'blTotalCharge',value:b.get('blTotalCharge'),
+            	tabIndex:32,xtype:'numberfield',anchor:'99%'}
             ]},
 			{columnWidth:.99,layout:'form',border:false,labelAlign:'top',
-                items: [{fieldLabel:"Description of Goods",name:'blCargoDesc',value:b.get('blCargoDesc'),tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]}
+                items: [{fieldLabel:"Description of Goods",name:'blCargoDesc',value:b.get('blCargoDesc'),
+                tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]}
 			]};
 	var t6={layout:'column',title:C_EXPE_INFO,layoutConfig: {columns:2},deferredRender:false,collapsible:true,
 			items: [

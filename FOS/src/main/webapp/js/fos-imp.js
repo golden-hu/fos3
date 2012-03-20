@@ -1,30 +1,7 @@
 ﻿//单票界面货物信息
 Fos.CargoGrid = function(p,store,frm) {
 	this.sel = GSEL;
-	this.reCalculate=function(){
-		var pkg=0;var gw=0;var nw=0;var m=0;var cgw=0;
-		var a=store.getRange();
-		for(var i=0;i<a.length;i++){
-			pkg+=a[i].get('cargPackageNum');
-			gw+=a[i].get('cargGrossWeight');
-			nw+=a[i].get('cargNetWeight');
-			m+=a[i].get('cargMeasurement');
-			cgw+=a[i].get('cargMeasurement')*167;
-		}
-		frm.find('name','consTotalPackages')[0].setValue(pkg);
-		frm.find('name','consTotalGrossWeight')[0].setValue(gw);
-		frm.find('name','consTotalNetWeight')[0].setValue(nw);
-		frm.find('name','consTotalMeasurement')[0].setValue(m);
-		var cw=frm.find('name','consTotalChargeWeight');
-		if(cw.length) cw[0].setValue(gw>cgw?gw:cgw);
-		p.set('consTotalPackages',pkg);
-		p.set('consTotalGrossWeight',gw);
-		p.set('consTotalNetWeight',nw);
-		p.set('consTotalMeasurement',m);
-		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
-		frm.find('name','consTotalPackagesInWord')[0].setValue(pw);
-		p.set('consTotalPackagesInWord',pw);
-	};	
+	
 	var quitFlag=CHKCLM(C_CARG_QUIT,'cargQuitFlag');
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true}); 
 	var c1={header:C_MARKS,dataIndex:'cargMarks',editor:new Ext.form.TextField({})};
@@ -98,38 +75,93 @@ Fos.CargoGrid = function(p,store,frm) {
 		var t=T_MAIN.getComponent('G_CONS_PALI_'+p.get("consId"));if(t){T_MAIN.setActiveTab(t);}
 		else {t=T_MAIN.add(new Fos.ConsPaliGrid(p.get("consId")));T_MAIN.setActiveTab(t);t.doLayout();}
 	};
+	
+	this.reCalculate=function(){
+		var pkg=0;
+		var gw=0;
+		var nw=0;
+		var m=0;
+		var cgw=0;
+		
+		var a=store.getRange();
+		
+		var mark = '';
+		var ename = '';
+		var cname = '';
+		var pkgs = '';
+		
+		for(var i=0;i<a.length;i++){
+			pkg+=a[i].get('cargPackageNum');
+			gw+=a[i].get('cargGrossWeight');
+			nw+=a[i].get('cargNetWeight');
+			m+=a[i].get('cargMeasurement');
+			cgw+=a[i].get('cargMeasurement')*167;
+			
+			if(mark=='') 
+				mark = a[i].get('cargMarks');
+			else if(a[i].get('cargMarks')==mark)
+				mark = a[i].get('cargMarks');
+			else
+				mark = mark + ',' + a[i].get('cargMarks');
+			
+			if(ename!='') 
+				ename += ',';
+			ename = ename + a[i].get('cargNameEn');
+			
+			if(cname!='') 
+				cname += ',';
+			cname = cname + a[i].get('cargNameCn');
+			
+			if(pkgs==''){
+				pkgs = a[i].get('packName');
+			}
+			else if(pkgs!=a[i].get('packName')){				
+				pkgs = 'PKGS';
+			}
+		}
+		
+		frm.find('name','consTotalPackages')[0].setValue(pkg);
+		frm.find('name','consTotalGrossWeight')[0].setValue(gw);
+		frm.find('name','consTotalNetWeight')[0].setValue(nw);
+		frm.find('name','consTotalMeasurement')[0].setValue(m);
+		
+		var cw=frm.find('name','consTotalChargeWeight');
+		if(cw.length) 
+			cw[0].setValue(gw>cgw?gw:cgw);
+		p.set('consTotalPackages',pkg);
+		p.set('consTotalGrossWeight',gw);
+		p.set('consTotalNetWeight',nw);
+		p.set('consTotalMeasurement',m);
+		
+		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
+		frm.find('name','consTotalPackagesInWord')[0].setValue(pw);
+		p.set('consTotalPackagesInWord',pw);
+		
+		frm.find('name','consCargoMarks')[0].setValue(mark);
+		frm.find('name','consCargoNameCn')[0].setValue(cname);
+		frm.find('name','consCargoNameEn')[0].setValue(ename);
+		frm.find('name','consCargoDesc')[0].setValue(ename);
+		p.set('packName',pkgs);
+		
+		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
+		frm.find('name','consTotalPackagesInWord')[0].setValue(pw);
+		p.set('consTotalPackagesInWord',pw);
+	};	
+	
 	Fos.CargoGrid.superclass.constructor.call(this,{plugins:[quitFlag],
 	id:'G_CARG'+p.get('id'),border:true,autoScroll:true,clicksToEdit:1,height:150,store:store,sm:sm,cm:cm,
-	listeners:{scope:this,afteredit:function(e){
-    	var f=e.field;var r=e.record;var row=e.row;var v=e.value;
-    	if(f=='cargPackageNum'||f=='cargNetWeight'||f=='cargGrossWeight'||f=='cargMeasurement'){this.reCalculate();}
-    	else if(f=='cargMarks' && row==0){
-    		var consCargoMarks=frm.find('name','consCargoMarks')[0];
-			if(consCargoMarks.getValue()==''){consCargoMarks.setValue(v);p.set('consCargoMarks',v);}
-    	}
-    	else if(f=='cargNameEn' && row==0){
-    		var consCargoDesc=frm.find('name','consCargoDesc')[0];
-    		var consCargoNameEn=frm.find('name','consCargoNameEn')[0];
-    		if(consCargoDesc.getValue()==''){consCargoDesc.setValue(v);	p.set('consCargoDesc',v);};
-			if(consCargoNameEn.getValue()==''){consCargoNameEn.setValue(v);p.set('consCargoNameEn',v);};
-    	}
-    	else if(f=='cargNameCn' && row==0){
-    		var cn=frm.find('name','consCargoNameCn');
-    		if(cn.length){
-	    		var consCargoNameCn=cn[0];
-	    		if(consCargoNameCn.getValue()==''){consCargoNameCn.setValue(v);p.set('consCargoNameCn',v);};
-			};
-    	}
-    	else if(f=='packId' && row==0){
-    		var packId=frm.find('name','packId')[0];    		
-			if(packId.getValue()==''){
-				packId.setValue(v);
-				p.set('packId',v);
-				p.set('packName',r.get('packName'));
-				var pw='SAY '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
-				frm.find('name','consTotalPackagesInWord')[0].setValue(pw);
-				p.set('consTotalPackagesInWord',pw);
-			}
+	listeners:{scope:this,afteredit:function(e){			
+    	var f=e.field;
+    	if(f=='cargPackageNum'||
+    			f=='cargNetWeight'||
+    			f=='cargGrossWeight'||
+    			f=='cargMeasurement'||
+    			f=='cargMarks'||
+    			f=='cargNameEn'||
+    			f=='cargNameCn'||
+    			f=='packId')
+    	{
+    		this.reCalculate();
     	}
     }},
     tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){

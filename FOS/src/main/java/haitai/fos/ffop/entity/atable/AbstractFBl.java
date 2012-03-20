@@ -19,6 +19,7 @@ public abstract class AbstractFBl extends BaseDomain {
 	private static final long serialVersionUID = 7017791579834505366L;
 	private Integer blId;
 	private Integer version;
+	private String mblNo;
 	private String blNo;
 	private String blType;
 	private Integer consId;
@@ -169,6 +170,15 @@ public abstract class AbstractFBl extends BaseDomain {
 		this.version = version;
 	}
 
+	@Column(name = "MBL_NO", length = 32)
+	public String getMblNo() {
+		return this.mblNo;
+	}
+
+	public void setMblNo(String mblNo) {
+		this.mblNo = mblNo;
+	}
+
 	@Column(name = "BL_NO", length = 32)
 	public String getBlNo() {
 		return this.blNo;
@@ -177,7 +187,7 @@ public abstract class AbstractFBl extends BaseDomain {
 	public void setBlNo(String blNo) {
 		this.blNo = blNo;
 	}
-
+	
 	@Column(name = "BL_TYPE", nullable = false, length = 4)
 	public String getBlType() {
 		return this.blType;
