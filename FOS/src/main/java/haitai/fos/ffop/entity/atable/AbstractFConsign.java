@@ -81,6 +81,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consWarehouseName;
 	private String consWarehouseTel;
 	private String consWarehouseAddress;
+	private String consWarehouseNo;
 	private String consWarehouseRemarks;
 	private Date consContainerLoadDate;
 	private Integer consContainerCompany;
@@ -957,6 +958,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consWarehouseAddress = consWarehouseAddress;
 	}
 
+	@Column(name = "CONS_WAREHOUSE_NO", length = 32)
+	public String getConsWarehouseNo() {
+		return this.consWarehouseNo;
+	}
+
+	public void setConsWarehouseNo(String consWarehouseNo) {
+		this.consWarehouseNo = consWarehouseNo;
+	}
+	
 	@Column(name = "CONS_WAREHOUSE_REMARKS", length = 500)
 	public String getConsWarehouseRemarks() {
 		return this.consWarehouseRemarks;

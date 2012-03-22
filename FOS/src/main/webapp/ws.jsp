@@ -5,7 +5,7 @@
 <script type="text/javascript" src="js/ws.js"></script>
 <head>
 <title>FOS3.0网上服务系统  上海海钛软件科技有限公司</title>
-<link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
 <link rel="stylesheet" type="text/css" href="ws.css" />
 </head>
 <body id="docs">

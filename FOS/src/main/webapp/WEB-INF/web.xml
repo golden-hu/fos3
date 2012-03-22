@@ -24,6 +24,17 @@
 		<servlet-name>MainServlet</servlet-name>
 		<url-pattern>/MainServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description>FOSWS servlet</description>
+		<display-name>FOSWS</display-name>
+		<servlet-name>wsServlet</servlet-name>
+		<servlet-class>haitai.fos.ws.service.WsServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wsServlet</servlet-name>
+		<url-pattern>/WSServlet</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

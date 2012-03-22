@@ -100,7 +100,10 @@ Fos.WinqGrid = function() {
 	var re={rowdblclick:function(g,r,e){this.edit();}};
     this.edit = function(){
     	var p = sm.getSelected();
-    	if(p){var win = new InquiryWin(p);win.show();}
+    	if(p){
+    		var win = new InquiryWin(p);
+    		win.show();
+    	}
     	else XMG.alert(SYS,M_NO_DATA_SELECTED);
     };	
     Fos.WinqGrid.superclass.constructor.call(this, {

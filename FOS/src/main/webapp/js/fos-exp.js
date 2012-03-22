@@ -1345,7 +1345,16 @@ Fos.BookTab = function(p) {
 	var r13={columnWidth:.5,layout:'form',border:false,items:[
 	    {fieldLabel:p.get('consBizType')==BT_B?C_WARE_ADDRESS:(p.get('consBizClass')==BC_E?C_CONT_LOAD_ADDRESS:C_CONT_DISCHARGE_ADDRESS),tabIndex:13,
 	    name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'99%'}]};
-	var r14={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizType')==BT_B?C_WARE_DATE:(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),xtype:'datefield',format:DATEF,anchor:'50%'}]};
+	
+	var txtWarehouseNo={columnWidth:.25,layout:'form',border:false,items:[
+      	    {fieldLabel:C_IN_WAREHOUSE_NO,tabIndex:13,xtype:'textfield',
+      	    name:'consWarehouseNo',value:p.get('consWarehouseNo'),anchor:'99%'}]};
+	
+	var r14={columnWidth:.25,layout:'form',border:false,items:[
+	        {fieldLabel:p.get('consBizType')==BT_B?C_WARE_DATE:
+	        	(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,
+	        	name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),
+	        	xtype:'datefield',format:DATEF,anchor:'99%'}]};
 	var r15={columnWidth:.5,layout:'form',border:false,items:[
 	    {fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),
 	    	store:getCS(),enableKeyEvents:true,
@@ -1368,7 +1377,8 @@ Fos.BookTab = function(p) {
 	
 	var t43={title:p.get('consBizType')==BT_B?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
 			layout:'column',collapsible:true,labelWidth:90,
-			items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14]:[r9,r10,r11,r12,r13,r14,r15]};
+			items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14,txtWarehouseNo]:
+				[r9,r10,r11,r12,r13,r14,txtWarehouseNo,r15]};
 	
 	var r15={fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
 		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,

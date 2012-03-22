@@ -1,4 +1,4 @@
-package haitai.fosws.util;
+package haitai.fos.ws.service;
 
 import haitai.fos.sys.entity.table.Action;
 import haitai.fw.entity.FosQuery;
@@ -47,8 +47,7 @@ public class WsServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) {
+	protected void doGet(HttpServletRequest request,HttpServletResponse response) {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		StringBuffer sbResult = null;
@@ -81,8 +80,7 @@ public class WsServlet extends HttpServlet {
 				sbResult = toJson(fosResponse);
 
 				byte[] byteResult = null;
-				byteResult = sbResult.toString().getBytes(
-						ConstUtil.XML_ENCODING_UTF8);
+				byteResult = sbResult.toString().getBytes(ConstUtil.XML_ENCODING_UTF8);
 				logger.debug("\n" + sbResult);
 				bufferedWrite(outputStream, byteResult);
 			}
@@ -159,8 +157,7 @@ public class WsServlet extends HttpServlet {
 			sb.append(XstreamUtil.entity2JSON(fosResponse.getData()));
 			sb.delete(0, 8);
 			sb.deleteCharAt(sb.length() - 1);
-			sb.insert(1,
-							"\"rowCount\":\""
+			sb.insert(1,"\"rowCount\":\""
 									+ (StringUtil.isNotBlank(fosResponse
 											.getRowCount()) ? fosResponse
 											.getRowCount() : "0")

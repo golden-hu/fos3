@@ -14,7 +14,7 @@
 	'consPot','consPotEn','consDeliveryPlace','consDestination','consTranCountry','consTradeCountry',
 	'consHarbour','consCargoOwner','consCargoOwnerName','consCfs','consCfsName',
 	'consWarehouse','consWarehouseContact','consWarehouseName',
-	'consWarehouseTel','consWarehouseAddress','consWarehouseRemarks',
+	'consWarehouseTel','consWarehouseAddress','consWarehouseNo','consWarehouseRemarks',
 	{name:'consContainerLoadDate',type:'date',dateFormat:DATEF},
 	'consContainerCompany','consContainerCompanyName',
 	'consCustomsVendor','consCustomsVendorName','consCustomsContact','consCustomsTel',
@@ -549,6 +549,9 @@ SInvoiceNo = Ext.data.Record.create(['id',
 	'active','userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
 SBalance = Ext.data.Record.create(['id','balaId','custId','custName','custSname','currCode','balaAmount','remarks','compCode','version']);
+
+PComments = Ext.data.Record.create(['id','commId','objectId','objectType','commBody',
+	'commBy','createTime','removed','compCode','version']);
 
 PCompanyBankAccount= Ext.data.Record.create(['id','cobaId','cobaName','cobaBank',
 	{name:'cobaAccount',type:'string'},

@@ -1,12 +1,15 @@
 var wl=window.location.href;
 var idx=wl.lastIndexOf("/");
-SERVICE_URL=wl.substr(0,idx)+'/MainServlet';
+SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 
 var GUID=0;
-var GGUID=function(k){if(!k) GUID=GUID-1;return GUID;};
-var CUSER=sessionStorage.getItem('USER_ID');
-var CCUST=sessionStorage.getItem('CUST_ID');
+var GGUID=function(k){
+	if(!k) GUID=GUID-1;
+	return GUID;
+};
+var CUSER=sessionStorage.getItem('WUSER_ID');
+var CCUST=sessionStorage.getItem('WCUST_ID');
 
 var COMP_CODE='JAH';
 var SYS= 'FOS3.0网上服务系统';
@@ -80,8 +83,6 @@ var C_HARBOUR='港区';
 var C_SHLI='航线';
 var C_BL_NO='提单号';
 var C_TO='至';
-var BIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未对账'],['1','已对账'],['2','已作废']]});
-getBIST = function(v){if(v>=0) return BIST_S.getById(v).get('NAME'); else return ''};
 var C_BILL_NO='对账单号';
 var C_BILL_OBJECT='对账单位';
 var C_AMOUNT='金额';
@@ -211,6 +212,8 @@ WBlM=Ext.data.Record.create(['id','wblmId','blId','blNo','consId','consNo','cust
 	{name:'replyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},'wusrId','compCode','version','rowAction']);
+PComments = Ext.data.Record.create(['id','commId','objectId','objectType','commBody',
+	'commBy','createTime','removed','compCode','version']);
 
 GVoyage = Ext.data.Record.create(
 	['id','voyaId','voyaName','vessId','vessName','vessNameCn','voyaClass','voyaType',
@@ -230,8 +233,15 @@ GVoyage = Ext.data.Record.create(
 	'voyaDispatcherId','voyaDispatcherName','voyaOperatorId','voyaOperatorName',
 	'compCode','active','version','rowAction']);
 GShippingLine = Ext.data.Record.create(['id','shliId','shliCode','shliName','shliNameEn','shliBulkFlag','shliContFlag','active','compCode','version','rowAction']);
-var getElapsed=function(d){if(!d) return -1;return Math.abs((new Date()).getTime()-d.getTime());};
+
+var getElapsed=function(d){
+	if(!d) 
+		return -1;
+	return Math.abs((new Date()).getTime()-d.getTime());
+};
 var numRender = function(v){v=parseFloat(v);v=v.toFixed(2);if(v=='NaN') v='0.00';return v;};
+
+
 
 Ext.grid.CheckColumn = function(config){
 	this.addEvents({click:true});
@@ -239,7 +249,10 @@ Ext.grid.CheckColumn = function(config){
 	Ext.apply(this,config,{
 		init:function(grid){
 			this.grid = grid;
-			this.grid.on('render', function(){var view = this.grid.getView();view.mainBody.on('mousedown', this.onMouseDown,this);},this);
+			this.grid.on('render', function(){
+				var view = this.grid.getView();
+				view.mainBody.on('mousedown', this.onMouseDown,this);
+			},this);
 		},
 		onMouseDown:function(e, t){
 			if(t.className && t.className.indexOf('x-grid3-cc-'+this.id) != -1){
@@ -258,23 +271,58 @@ Ext.grid.CheckColumn = function(config){
 	this.renderer = this.renderer.createDelegate(this);
 };
 Ext.extend(Ext.grid.CheckColumn, Ext.util.Observable);
+
 var S_BC=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
 var S_ST=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
 var S_BT=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','海运'],['A','空运']]});
+var BIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
+	data:[['0','未对账'],['1','已对账'],['2','已作废']]});
+getBIST = function(v){
+	if(v>=0) 
+		return BIST_S.getById(v).get('NAME'); 
+	else return '';
+};
 
-var getWS_BC=function(v){if(v) return S_BC.getById(v).get('NAME'); else return ''};
-var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return ''};
-var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return ''};
-var getWCON_ST=function(v){if(v==0) return C_WS_WCON_ACCEPTED; else return C_WS_WCON_NOT_ACCEPTED;};
-function CHKCLM(t,d,w){return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});};
+getWINQStatus=function(v){
+	if(v==0) 
+		return '未回复'; 
+	else 
+		return '';
+};
+
+var getWS_BC=function(v){
+	if(v) 
+		return S_BC.getById(v).get('NAME'); 
+	else return '';
+};
+var getWS_BT=function(v){
+	if(v) 
+		return S_BT.getById(v).get('NAME'); 
+	else return '';
+};
+var getWS_ST=function(v){
+	if(v) 
+		return S_ST.getById(v).get('NAME'); 
+	else return '';
+};
+var getWCON_ST=function(v){
+	if(v==0) 
+		return C_WS_WCON_ACCEPTED; 
+	else 
+		return C_WS_WCON_NOT_ACCEPTED;
+};
+function CHKCLM(t,d,w){
+	return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});
+};
 var QTX=function(a){
 	var x='';
 	for(var i=0;i<a.length;i++)
 	{
-		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n'
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n';
 	}
 	return x;
 };
+
 var QTJ=function(a){return {fosQuery:a};};
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
 function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
@@ -287,7 +335,7 @@ var LP=function(f,e){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
-			var a=[];var op=1;
+			var a=[];
 			a[a.length]={key:'portNameEn',value:q+'%',op:LI};
 			f.store.baseParams=a.length>0?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
      		f.store.reload();f.expand();
@@ -298,8 +346,14 @@ var LP=function(f,e){
 
 
 Ext.ux.TabCloseMenu = function(){
-    var tabs, menu, ctxItem;
-    this.init = function(tp){tabs = tp;tabs.on('contextmenu', onContextMenu);};
+    var tabs;
+    var menu;
+    var ctxItem;
+    this.init = function(tp){
+    	tabs = tp;
+    	tabs.on('contextmenu', onContextMenu);
+    };
+    
     function onContextMenu(ts, item, e){
         if(!menu){
             menu = new Ext.menu.Menu([
@@ -341,7 +395,9 @@ var RTJ = function(r,rt){
 	}
 	return v;
 };
-var FOSJ=function(x){return {FosRequest:{data:x}}};
+var FOSJ=function(x){
+	return {FosRequest:{data:x}};
+};
 
 LoginWin = function() {
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',items:[
@@ -356,11 +412,10 @@ LoginWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_LOGIN',mt:'JSON',wusrName:wusrName,wusrPassword:wusrPassword},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				sessionStorage.setItem("USER_ID",user.WUser[0].wusrId);
-				sessionStorage.setItem("CUST_ID",user.WUser[0].custId);				
+				sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
+				sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);				
 				CUSER=user.WUser[0].wusrId;
 				CCUST=user.WUser[0].custId;
-				alert('登录成功！');
 				this.close();
 			},
 			failure: function(r){
@@ -373,7 +428,6 @@ LoginWin = function() {
 	this.reg=function(){
 		var w= new RegWin();
 		w.show();
-		//this.close();
 	};
     LoginWin.superclass.constructor.call(this, {title:'用户登录',modal:true,width:300,closable:false,
         height:130,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
@@ -415,8 +469,8 @@ RegWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_REG',mt:'JSON'},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				sessionStorage.setItem("USER_ID",user.WUser[0].wusrId);
-				sessionStorage.setItem("CUST_ID",user.WUser[0].custId);
+				sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
+				sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);
 				
 				CUSER=user.WUser[0].wusrId;
 				alert('注册成功！');
@@ -500,8 +554,8 @@ InquiryGrid = function() {
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
-		{header:'询价时间',dataIndex:'createTime',width:80,renderer:formatDateTime},
-		{header:'状态',dataIndex:'winqStatus',width:100},
+		{header:'询价时间',dataIndex:'createTime',width:120,renderer:formatDateTime},
+		{header:'状态',dataIndex:'winqStatus',width:100,renderer:getWINQStatus},
 		{header:'装货港',dataIndex:'winqPolEn',width: 80},
 		{header:'卸货港',dataIndex:'winqPodEn',width:100},
 		{header:'交货地',dataIndex:'winqDeliveryPlace',width:80},
@@ -1407,7 +1461,7 @@ Ext.onReady(function(){
 	
 	viewport.doLayout();
 	
-	if(!sessionStorage.getItem("USER_ID")){
+	if(!sessionStorage.getItem("WUSER_ID")){
 		var win= new LoginWin();
 		win.show();
 	}
@@ -1418,8 +1472,4 @@ Ext.onReady(function(){
 	}
 	
 });
-
-
-//
-
 

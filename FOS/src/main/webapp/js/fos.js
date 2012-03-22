@@ -196,7 +196,7 @@ function getPMenu(){
 	if(!NR(M1_J)) items[items.length]=createGMTree();
 	if(!NR(M1_P)) items[items.length]=getSysPanel();
 	//if(VERSION==1&&!NR(M1_W)) 
-		//items[items.length]=getWsPanel();
+		items[items.length]=getWsPanel();
 		
 	
 	return new Ext.Panel({

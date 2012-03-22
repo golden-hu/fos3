@@ -38,4 +38,15 @@ public class WInquiryService {
 		}
 		return retList;
 	}
+	
+	@Transactional
+	public List<WInquiry> save(List<WInquiry> entityList) {
+		return dao.saveByRowAction(entityList);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<WInquiry> query(Map queryMap) {
+		return dao.findByProperties(queryMap);
+	}
 }

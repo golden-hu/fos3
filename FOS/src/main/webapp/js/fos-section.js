@@ -2139,7 +2139,7 @@ Fos.CustomsTab = function(p) {
 	var addEntry = function(){
 		var r = this.grid.getSelectionModel().getSelected();
 		if(r){			
-			var rid=GGUID();
+			/*var rid=GGUID();
 			var t = new FCustomsEntry({id:rid,cuenId:rid,cudeId:r.get('cudeId'),
 				consId:r.get('consId'),					
 				cuenCargoNameEn:p.get('consCargoNameEn'),
@@ -2155,7 +2155,44 @@ Fos.CustomsTab = function(p) {
 			this.entryStore.add(t);
 			t.set('rowAction','N');
 			this.entryGrid.getStore().insert(0,t);
-			this.entryGrid.startEditing(0,1);
+			this.entryGrid.startEditing(0,1);*/
+			
+			var win = new Fos.CargoLookupWin('CARG_Q',p.get('consId'));
+			win.addButton({text:C_OK,scope:this,handler:function(){
+				var g = win.findById('G_CARG_LOOKUP');
+				var a = g.getSelectionModel().getSelections();
+				if(a){
+					for(var i=0;i<a.length;i++){
+							var rid=GGUID();
+							var t = new FCustomsEntry({id:rid,cuenId:rid,
+								cudeId:r.get('cudeId'),
+								consId:r.get('consId'),
+								cuenCargoNo:a[i].get('cargNo'),
+								cuenManuNo:a[i].get('cargManuNo'),
+								cuenNo:a[i].get('cargNameEn'),
+								cuenCargoNameEn:a[i].get('cargNameEn'),
+								cuenCargoNameCn:a[i].get('cargNameCn'),
+								cuenCargoNum:a[i].get('cargPackageNum'),
+								cuenCargoUnit:a[i].get('unitName'),
+								packCode:a[i].get('packName'),
+								cuenCargoGrossWeight:a[i].get('cargGrossWeight'),
+								cuenCargoNetWeight:a[i].get('cargNetWeight'),
+								cuenCargoMeasurement:a[i].get('cargMeasurement'),
+								cuenVersion:1,
+								currCode:'USD',
+								version:0});
+							this.entryStore.add(t);
+							t.set('rowAction','N');
+							this.entryGrid.getStore().insert(0,t);
+							this.entryGrid.startEditing(0,1);
+					}
+					//this.reCalculate();
+				}
+				win.close();
+			}			
+			},this);
+			win.addButton({text:C_CANCEL,handler : function(){win.close();}},this);
+			win.show();			
 		}
 		else
 			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);

@@ -20,4 +20,6 @@ public interface IWInquiryDAO {
 
 	public abstract List<Object> complexQuery(
 			final List<FosQuery> conditions, final Map<String, Object> propertyMap);
+	
+	public List<WInquiry> saveByRowAction(List<WInquiry> entityList);
 }

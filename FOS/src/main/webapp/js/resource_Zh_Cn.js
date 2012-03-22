@@ -588,7 +588,7 @@ var C_CBM_C='核算体积';
 var C_GW='毛重';
 var C_NW='净重';
 var C_SPLIT_NUM='拆单份数：';
-
+var C_IN_WAREHOUSE_NO='进仓编号';
 var C_BL_PACKAGES='提单件数';
 var C_BL_GW='提单毛重';
 var C_BL_NW='提单净重';
