@@ -62,7 +62,7 @@ public class WsServlet extends HttpServlet {
 		try {
 			inputStream = request.getInputStream();
 			outputStream = response.getOutputStream();
-			Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
+			Integer uid = (Integer) SessionManager.getAttr("WUID");
 			if (uid == null && !isPublic(actName)) {
 				throw new BusinessException("fw.session.expired");
 			} else {

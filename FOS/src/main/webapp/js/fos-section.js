@@ -3091,29 +3091,33 @@ Fos.BlWin = function(p,b,store) {
 			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
 			xmlData:FOSX(xml)});
 	};
+	
+	this.updateStatus=function(s){
+		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
+			params:{A:'BL_U',blId:b.get('blId'),consId:p.get('consId'),blStatus:s,
+				blType:b.get('blType')},
+			success: function(r){
+				b.set('blStatus',s);
+				b.set('version',b.get('version')+1);
+				this.updateToolBar();
+				XMG.alert(SYS,M_S);
+			},
+			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+    };
+    
 	this.check = function(){
-			Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'BL_U',blId:b.get('blId'),consId:p.get('consId'),blStatus:'2',blType:b.get('blType')},
-			success: function(r){b.set('blStatus','2');XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}		
-			});
+		this.updateStatus(2);
 	};
 	this.uncheck = function(){
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'BL_U',blId:b.get('blId'),consId:p.get('consId'),blStatus:'1',blType:b.get('blType')},
-			success: function(r){b.set('blStatus','1');XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+		this.updateStatus(1);
 	};
 	this.printOffical = function(){
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'BL_U',blId:b.get('blId'),consId:p.get('consId'),blStatus:'3',blType:b.get('blType')},
-			success: function(r){b.set('blStatus','3');XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}
-		});
+		this.updateStatus(3);
 	};
 	this.release = function(){
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'BL_U',blId:b.get('blId'),consId:p.get('consId'),blStatus:'5',blType:b.get('blType')},
-			success: function(r){b.set('blStatus','5');XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}
-		});
-	};	
+		this.updateStatus(4);
+	};
+	
 	this.expExcel=function(){
 		EXPC('BL','&blId='+b.get('blId'));
 	};
@@ -3379,13 +3383,30 @@ Fos.BlWin = function(p,b,store) {
                 items: [{fieldLabel:"Other Charges",name:'consChargeRemarks',value:b.get('consChargeRemarks'),tabIndex:46,xtype:'textarea',height:100,anchor:'99%'}]}
 			]};
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_BL;
-	this.frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',height:650,autoScroll:true,
+	
+	this.updateToolBar = function(s){
+		var tb=frm.getTopToolbar();
+		if(tb.getComponent('TB_SAVE')) 
+			tb.getComponent('TB_SAVE').setDisabled(NR(m+F_M)||b.get('blStatus')>1);
+    	if(tb.getComponent('TB_CONFIRM')) 
+    		tb.getComponent('TB_CONFIRM').setDisabled(NR(m+F_M)||b.get('blStatus')>1);
+    	if(tb.getComponent('TB_CANCEL')) 
+    		tb.getComponent('TB_CANCEL').setDisabled(NR(m+F_M)||b.get('blStatus')!=2);
+    	if(tb.getComponent('TB_PRINT_OFFICIAL')) 
+    		tb.getComponent('TB_PRINT_OFFICIAL').setDisabled(NR(m+F_M)||b.get('blStatus')!=2);  	
+    	if(tb.getComponent('TB_RELEASE')) 
+    		tb.getComponent('TB_RELEASE').setDisabled(NR(m+F_M)||b.get('blStatus')!=3);
+    	tb.getComponent('TB_M').setText(C_STATUS+'：'+getBLST(b.get('blStatus')));
+    };
+    var txtStatus={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+getBLST(b.get('blStatus'))};
+    
+	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',height:650,autoScroll:true,
 		tbar:[
-			{text:C_SAVE,iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
-			{text:C_CONFIRM,iconCls:'check',disabled:NR(m+F_M),scope:this,handler:this.check},'-',
-			{text:C_CANCEL_CONFIRM,iconCls:'renew',disabled:NR(m+F_M),scope:this,handler:this.uncheck},'-',
-			{text:C_PRINT_OFFICIAL,disabled:NR(m+F_M),iconCls:'star',scope:this,handler:this.printOffical},'-',
-			{text:C_BL_RELEASE,iconCls:'release',scope:this,handler:this.release},'-',
+			{text:C_SAVE,itemId:'TB_SAVE',iconCls:'save',disabled:NR(m+F_M)||b.get('blStatus')>1,scope:this,handler:this.save},'-',
+			{text:C_CONFIRM,itemId:'TB_CONFIRM',iconCls:'check',disabled:NR(m+F_M)||b.get('blStatus')>1,scope:this,handler:this.check},'-',
+			{text:C_CANCEL_CONFIRM,itemId:'TB_CANCEL',iconCls:'renew',disabled:NR(m+F_M)||b.get('blStatus')!=2,scope:this,handler:this.uncheck},'-',
+			{text:C_PRINT_OFFICIAL,itemId:'TB_PRINT_OFFICIAL',disabled:NR(m+F_M)||b.get('blStatus')!=2,iconCls:'star',scope:this,handler:this.printOffical},'-',
+			{text:C_BL_RELEASE,itemId:'TB_RELEASE',disabled:NR(m+F_M)||b.get('blStatus')!=2,iconCls:'release',scope:this,handler:this.release},'-',
 			{text:C_COPY_FROM,iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:this.copyFrom},'-',			
 			{text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E),scope:this,
 				menu: {items: [
@@ -3394,13 +3415,13 @@ Fos.BlWin = function(p,b,store) {
 		   			{text:C_EMAIL,scope:this,handler:this.expEmail}
 		   		]}},
 		   		{text:M_BOOK,scope:this,handler:this.genCons}
-		   		]}},'->'
+		   		]}},'->',txtStatus
 		   	],		   	
             items:{xtype:'tabpanel',plain:true,activeTab:0,defaults:{bodyStyle:'padding:10px'},height:650,
             items:p.get('consBizType')==BT_A?[t4,t5,t6,t3]:[t2,t3]}
     });
     Fos.BlWin.superclass.constructor.call(this, {title:C_BL_INFO,modal:true,
     	width:1000,height:600,autoScroll:true,maximizable:true,layout:'fit',
-        plain:false,bodyStyle:'padding:2px;',items:this.frm});
+        plain:false,bodyStyle:'padding:2px;',items:frm});
 };
 Ext.extend(Fos.BlWin, Ext.Window);

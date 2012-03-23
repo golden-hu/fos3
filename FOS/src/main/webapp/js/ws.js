@@ -135,7 +135,8 @@ GPort = Ext.data.Record.create(['id','portId','portCode','portNameEn','portNameC
 GPackage = Ext.data.Record.create(['id','packId','packCode','packName','packName','compCode','active','version','rowAction']); 
 WConsign = Ext.data.Record.create(['id','wconId','wconNo',
 	'consId','consNo','consShipType','consBizClass','consBizType',
-	'consRefNo','consContractNo',{name:'consDate',type:'date',dateFormat:DATEF},
+	'consRefNo','consContractNo',
+	{name:'consDate',type:'date',dateFormat:DATEF},
 	'custId','custName','consShipper','consConsignee','consNotifyParty','consNotifyParty2',	
 	'consPol','consPolEn','consReceiptPlace','consPod','consPodEn',
 	'consPot','consPotEn','consDeliveryPlace','consDestination','consTradeCountry','consPrecarriage',
@@ -233,6 +234,7 @@ GVoyage = Ext.data.Record.create(
 	'voyaDispatcherId','voyaDispatcherName','voyaOperatorId','voyaOperatorName',
 	'compCode','active','version','rowAction']);
 GShippingLine = Ext.data.Record.create(['id','shliId','shliCode','shliName','shliNameEn','shliBulkFlag','shliContFlag','active','compCode','version','rowAction']);
+var XMG = Ext.MessageBox;
 
 var getElapsed=function(d){
 	if(!d) 
@@ -272,6 +274,19 @@ Ext.grid.CheckColumn = function(config){
 };
 Ext.extend(Ext.grid.CheckColumn, Ext.util.Observable);
 
+var S_FIELD=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[
+	['blShipper','发货人'],['blConsignee','收货人'],['blNotifyParty','通知人'],
+	['blReceiptPlace','收货地'],['blDeliveryPlace','目的地'],['blPreCarriage','前程运输'],
+	['blReceiptPlace','收货地'],['blDeliveryPlace','目的地'],['blVessel','船名'],['blVoyage','航次'],
+	['blPol','装货港'],['blPod','卸货港'],['blMarks','唛头'],['blPackages','件数包装'],
+	['blCargoDesc','货物描述'],['blGrossWeight','毛重'],['blMeasurement','体积'],['blOriginalNum','正本提单分数']
+	]});
+getBLField = function(v){
+	if(v!='') 
+		return S_FIELD.getById(v).get('NAME'); 
+	else return '';
+};
+
 var S_BC=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
 var S_ST=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
 var S_BT=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','海运'],['A','空运']]});
@@ -306,7 +321,7 @@ var getWS_ST=function(v){
 	else return '';
 };
 var getWCON_ST=function(v){
-	if(v==0) 
+	if(v==1) 
 		return C_WS_WCON_ACCEPTED; 
 	else 
 		return C_WS_WCON_NOT_ACCEPTED;
@@ -345,34 +360,6 @@ var LP=function(f,e){
 };
 
 
-Ext.ux.TabCloseMenu = function(){
-    var tabs;
-    var menu;
-    var ctxItem;
-    this.init = function(tp){
-    	tabs = tp;
-    	tabs.on('contextmenu', onContextMenu);
-    };
-    
-    function onContextMenu(ts, item, e){
-        if(!menu){
-            menu = new Ext.menu.Menu([
-            {id: tabs.id + '-close',text: 'Close Tab',handler : function(){tabs.remove(ctxItem);}},
-            {id: tabs.id + '-close-others',text: 'Close Other Tabs',handler : function(){
-            	tabs.items.each(function(item){if(item.closable && item != ctxItem){tabs.remove(item);}});}
-            }]);
-        }
-        ctxItem = item;
-        var items = menu.items;
-        items.get(tabs.id + '-close').setDisabled(!item.closable);
-        var disableOthers = true;
-        tabs.items.each(function(){
-            if(this != item && this.closable){disableOthers = false;return false;}
-        });
-        items.get(tabs.id + '-close-others').setDisabled(disableOthers);
-        menu.showAt(e.getPoint());
-    }
-};
 var RTJ = function(r,rt){
 	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
@@ -382,10 +369,10 @@ var RTJ = function(r,rt){
 		var n = item.name;
 		var ty = item.type;		
 		if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){			
-			if(ty=='date'){
+			if(ty==Ext.data.Types.DATE){
 				v[n]=r.get(n)?r.get(n).format('Y-m-d H:i:s'):'';
 			}
-			else if(ty=='boolean'){
+			else if(ty==Ext.data.Types.BOOLEAN){
 				v[n]=r.get(n)?'1':'0';
 			}
 			else{
@@ -504,7 +491,9 @@ InquiryWin = function(p) {
 	            	this.find('name','winqDeliveryPlace')[0].setValue(r.get('portNameEn'));},
 	         	keydown:{fn:LP,buffer:BF}}},
     	{fieldLabel:'目的地',name:'winqDeliveryPlace',value:p.get('winqDeliveryPlace'),xtype:'textfield',anchor:'95%'},    		
-    	{fieldLabel:'运输条款',itemCls:'required',tabIndex:17,name:'tranId',value:p.get('tranId'),store:tranStore,xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+    	{fieldLabel:'运输条款',itemCls:'required',tabIndex:17,name:'tranId',value:p.get('tranId'),
+    		store:tranStore,xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,
+    		mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranId','');}},
     		select:function(c,r,i){p.set('tranCode',r.get('tranCode'));}}},    	
@@ -543,7 +532,7 @@ InquiryWin = function(p) {
 };
 Ext.extend(InquiryWin,Ext.Window);
 
-var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',layoutOnTabChange:true,plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
+var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',layoutOnTabChange:true,enableTabScroll:true,activeTab:0});
 
 InquiryGrid = function() {	
     var store = new Ext.data.Store({
@@ -627,7 +616,7 @@ WconGrid = function() {
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
-		{header:'订单号',dataIndex:'wconNo',width:80},
+		{header:'订单号',dataIndex:'wconNo',width:120},
 		{header:'委托日期',dataIndex:'consDate',width:80,renderer:formatDateTime},
 		{header:'状态',dataIndex:'consStatus',width:100,renderer:getWCON_ST},
 		{header:'装货港',dataIndex:'consPolEn',width: 80},
@@ -710,18 +699,24 @@ WconWin = function(p,store) {
 				keydown:{fn:LP,buffer:BF}}},
 			{fieldLabel:'出发地',name:'consReceiptPlace',value:p.get('consReceiptPlace'),xtype:'textfield',anchor:'95%'},
 			{fieldLabel:'目的地',name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'95%'}, 
-			{fieldLabel:'运输条款',itemCls:'required',tabIndex:17,name:'tranId',value:p.get('tranId'),store:tranStore,xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+			{fieldLabel:'运输条款',itemCls:'required',tabIndex:17,name:'tranCode',value:p.get('tranCode'),
+				store:tranStore,xtype:'combo',displayField:'tranCode',valueField:'tranCode',
+				typeAhead: true,mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
 				listeners:{scope:this,
 				blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranId','');}},
-				select:function(c,r,i){p.set('tranCode',r.get('tranCode'));}}},			
-			{fieldLabel:'运费条款',itemCls:'required',tabIndex:17,name:'pateId',value:p.get('pateId'),store:pateStore,xtype:'combo',displayField:'pateName',valueField:'pateId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+				select:function(c,r,i){p.set('tranId',r.get('tranId'));}}},			
+			{fieldLabel:'运费条款',itemCls:'required',tabIndex:17,name:'pateName',value:p.get('pateName'),
+				store:pateStore,xtype:'combo',displayField:'pateName',valueField:'pateName',
+				typeAhead: true,mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
 				listeners:{scope:this,
 				blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('pateId','');}},
-				select:function(c,r,i){p.set('pateName',r.get('pateName'));}}},    	
+				select:function(c,r,i){p.set('pateId',r.get('pateId'));}}},    	
 			{fieldLabel:C_PACKAGES,name:'consTotalPackages',value:p.get('consTotalPackages'),xtype:'numberfield',anchor:'95%'},
-			{fieldLabel:'包装种类',name:'packId',value:p.get('packId'),xtype:'combo',store:packStore,displayField:'packName',valueField:'packId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+			{fieldLabel:'包装种类',name:'packName',value:p.get('packName'),xtype:'combo',
+				store:packStore,displayField:'packName',valueField:'packName',
+				typeAhead: true,mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
 				listeners:{scope:this,select:function(c,r,i){
-				p.set('packName',r.get('packName'));
+					p.set('packId',r.get('packId'));
 				}}},
 			{fieldLabel:'货物毛重',itemCls:'required',name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),xtype:'numberfield',anchor:'95%'},
 			{fieldLabel:'货物体积',name:'consTotalMeasurement',value:p.get('ConsTotalMeasurement'),xtype:'textfield',anchor:'95%'},
@@ -916,11 +911,11 @@ ConsTab = function(){
    		url: SERVICE_URL+'?A=WS_CONS_X',
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign),remoteSort:true,
     	sortInfo:{field:'consId', direction:'DESC'}});
-    //store.load({params:{start:0,limit:20}});
+    store.load({params:{custId:CCUST,start:0,limit:20}});
     var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var cm = new Ext.grid.ColumnModel([
     	sm,
-    	{header:'单票号',dataIndex:'consNo',width:80},
+    	{header:'业务号',dataIndex:'consNo',width:120},
 		{header:'委托日期',dataIndex:'consDate',width:80,renderer:formatDateTime},
 		{header:'装货港',dataIndex:'consPolEn',width: 80},
 		{header:'卸货港',dataIndex:'consPodEn',width:100},
@@ -940,11 +935,14 @@ ConsTab = function(){
     	if(p){var win = new TaskWin(p.get('consId'));win.show();}
     	else alert(M_NO_DATA_SELECTED);
 	}};    
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:345,header:false,closable:true,cm:cm,sm:sm,loadMask:true,
-    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
+	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',
+		header:false,closable:true,cm:cm,sm:sm,loadMask:true,
+    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,
+    		displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
-   		if(CCUST=='null') return;   		
+   		if(CCUST=='null') 
+   			return;   		
    		var a=[];
    		a[a.length]={key:'custId',value:CCUST,op:EQ};
     	var consNo=this.find('name','consNo')[0].getValue();
@@ -969,25 +967,26 @@ ConsTab = function(){
    			a[a.length]={key:'consDate',value:consDate.format(DATEF),op:5};
    			a[a.length]={key:'consDate',value:consDate2.format(DATEF),op:3};
    		}
-   		else if(consDate) a[a.length]={key:'consDate',value:consDate,op:op};
+   		else if(consDate) 
+   			a[a.length]={key:'consDate',value:consDate,op:op};
    		var consEtd=this.find('name','consEtd')[0].getValue();
    		var consEtd2=this.find('name','consEtd2')[0].getValue();
    		if(consEtd && consEtd2){
    			a[a.length]={key:'consEtd',value:consEtd.format(DATEF),op:5};
    			a[a.length]={key:'consEtd',value:consEtd2.format(DATEF),op:3};
    		}
-   		else if(consEtd) a[a.length]={key:'consEtd',value:consEtd,op:op};
+   		else if(consEtd) 
+   			a[a.length]={key:'consEtd',value:consEtd,op:op};
    		store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
      	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) alert(M_NOT_FOUND);}});
 	};
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	ConsTab.superclass.constructor.call(this, {    
-    id:'T_CONS',title:'单票跟踪',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
-    items:[{layout:'column',name:'sf',xtype:'form',title:'单票查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,collapsible:true,collapsed:false,
-    		listeners:{scope:this,
-					collapse:function(p){g.setHeight(470);},
-					expand:function(p){g.setHeight(345);}},
+    id:'T_CONS',title:'单票跟踪',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,layout:'border',
+    items:[{region:'north',layout:'column',height:150,name:'sf',xtype:'form',title:'单票查询',
+    	layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',
+    	frame:true,collapsible:true,collapsed:false,
     		items:[	        	
     			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 					{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'95%'},
@@ -1009,7 +1008,7 @@ ConsTab = function(){
 	            	buttons:[{text:C_SEARCH,scope:this,handler:this.search},{text:C_RESET,scope:this,handler:this.clear}]
 	            	}
 	    	]},
-	{layout:'fit',deferredRender:false,items:[g]}]});
+	{region:'center',layout:'fit',deferredRender:false,items:[g]}]});
 };
 Ext.extend(ConsTab, Ext.Panel);
 
@@ -1022,7 +1021,7 @@ BLTab = function(){
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true}); 
 	var cm = new Ext.grid.ColumnModel([
     	sm,
-    	{header:'单票号',dataIndex:'consNo',width:80},
+    	{header:'业务号',dataIndex:'consNo',width:120},
     	{header:'合同号',dataIndex:'consTradeContractNo',width:80},
 		{header:'提单号',dataIndex:'blNo',width:80},
 		{header:'提单类型',dataIndex:'blType',width:80},		
@@ -1036,15 +1035,16 @@ BLTab = function(){
 	var re={rowdblclick:function(g,r,e){
 		var p = sm.getSelected();
     	if(p){
-    		var w=T_MAIN.getComponent('T_BL'+p.get('blId'));
-    		if(w) T_MAIN.setActiveTab(w);
-    		else T_MAIN.setActiveTab(T_MAIN.add(new BLPanel(p)));
+    		var win = new BlConfirmWin(p);
+    		win.show();
     	}
     	else alert(M_NO_DATA_SELECTED);
 	}};  
 	
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:395,header:false,closable:true,cm:cm,sm:sm,loadMask:true,
-    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
+	var grid = new Ext.grid.GridPanel({region:'center',store: store,iconCls:'grid',
+		header:false,closable:true,cm:cm,sm:sm,loadMask:true,
+    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,
+    		store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
    		if(CCUST=='null') return;   		
@@ -1071,11 +1071,10 @@ BLTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	BLTab.superclass.constructor.call(this, {    
-    id:'T_BL',title:'提单确认',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
-    items:[{layout:'column',name:'sf',xtype:'form',title:'提单查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
-    		listeners:{scope:this,
-					collapse:function(p){g.setHeight(475);},
-					expand:function(p){g.setHeight(395);}},
+    id:'T_BL',title:'提单确认',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,layout:'border',
+    items:[{region:'north',height:130,layout:'column',name:'sf',xtype:'form',
+    		title:'提单查询',layoutConfig:{columns:4},
+    	    labelWidth:60,labelAlign:'right',frame:true,collapsible:true,collapsed:false,
     		items:[	        	
     			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 					{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'95%'},
@@ -1091,132 +1090,125 @@ BLTab = function(){
 	     			]},
 	            {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 	            	{fieldLabel:C_VOYA,name:'voyaName',xtype:'textfield',anchor:'95%'}
-	            	],
-	            	buttons:[{text:C_SEARCH,scope:this,handler:this.search},{text:C_RESET,scope:this,handler:this.clear}]
-	            	}
-	    	]},
-	{layout:'fit',deferredRender:false,items:[g]}]});
+	            ]}
+	    	],
+        	buttons:[{text:C_SEARCH,scope:this,handler:this.search},
+        	         {text:C_RESET,scope:this,handler:this.clear}
+        	]},
+	    	grid
+	]});
 };
 Ext.extend(BLTab, Ext.Panel);
-BLPanel = function(p) {	
-	var html='<table cellspacing="1" cellpadding="0" border="1" width="100%">';
+
+BlConfirmWin = function(p) {	
+	var html='<table cellspacing="0" cellpadding="0" border="1" width="100%">';
+	
+		html+='<tr height="120" valign="top">';		
+    	html+='<td colspan="6"  width="60%"><b><font size="-1">SHIPPER</font></b><br><font color="#0000ff">';
+    	html+=p.get('blShipper');
+    	html+='</font></td>';    	
+		html+='<td colspan="4" width="40%"><b><font size="-1">B/L NUMBER</font></b><br><font color="#0000ff">';
+		html+p.get('blNo');
+		html+='</font></td>';		
+		html+='</tr>';
+		
 		html+='<tr height="120" valign="top">';
-    	html+='<td colspan="6"  width="60%"><b><font size="-1">SHIPPER</font></b><br><font color="#0000ff">'+p.get('blShipper')+'</font></td>';
-		html+='<td colspan="4" width="40%"><b><font size="-1">B/L NUMBER</font></b><br><font color="#0000ff">'+p.get('blNo')+'</font></td>';
+		html+='<td colspan="6"><b><font size="-1">CONSIGNEE</font></b><br><font color="#0000ff">';
+		html+=p.get('blConsignee');
+		html+='</font></td> ';
+		html+='<td colspan="4">&nbsp;</td>';
 		html+='</tr>';
+		
 		html+='<tr height="120" valign="top">';
-		html+='<td colspan="6"><b><font size="-1">CONSIGNEE</font></b><br><font color="#0000ff">'+p.get('blConsignee')+'</font></td> ';
+		html+='<td colspan="6"><b><font size="-1">NOTIFY PARTY</font></b><br><font color="#0000ff">';
+		html+=p.get('blNotifyParty');
+		html+='</font></td>';
 		html+='<td colspan="4">&nbsp;</td>';
 		html+='</tr>';
-		html+='<tr height="120" valign="top">';
-		html+='<td colspan="6"><b><font size="-1">NOTIFY PARTY</font></b><br><font color="#0000ff">'+p.get('blNotifyParty')+'</font></td>';
-		html+='<td colspan="4">&nbsp;</td>';
-		html+='</tr>';
+		
 		html+='<tr valign="top">';
-		html+='<td colspan="4"><b><font size="-1">PLACE OF RECEIPT</font></b><br><font color="#0000ff">'+p.get('blReceiptPlace')+'</font></td>';
-		html+='<td colspan="2"><b><font size="-1">PRE-CARRIAGE BY</font></b><br><font color="#0000ff">'+p.get('blPreCarriage')+'</font></td>';
+		html+='<td colspan="4"><b><font size="-1">PLACE OF RECEIPT</font></b><br><font color="#0000ff">';
+		html+=p.get('blReceiptPlace');
+		html+='</font></td>';
+		html+='<td colspan="2"><b><font size="-1">PRE-CARRIAGE BY</font></b><br><font color="#0000ff">';
+		html+=p.get('blPreCarriage');
+		html+='</font></td>';
 		html+='<td colspan="4">&nbsp;</td>';
 		html+='</tr>';
+		
 		html+='<tr valign="top">';
-		html+='<td colspan="2"><b><font size="-1">OCEAN VESSEL</font></b><br><font color="#0000ff">'+p.get('blVessel')+'</font></td>';
-		html+='<td colspan="2"><b><font size="-1">VOY NO.</font></b><br><font color="#0000ff">'+p.get('blVoyage')+'</font></td>';
-		html+='<td colspan="2"><b><font size="-1">PORT OF LOADING</font></b><br><font color="#0000ff">'+p.get('blPol')+'</font></td>';
-		html+='<td colspan="4"><b><font size="-1">NO.OF ORIGINAL B(s)/L</font></b><br><font color="#0000ff">'+p.get('blOriginalNum')+'</font></td>';
+		html+='<td colspan="2"><b><font size="-1">OCEAN VESSEL</font></b><br><font color="#0000ff">';
+		html+=p.get('blVessel');
+		html+='</font></td>';
+		html+='<td colspan="2"><b><font size="-1">VOY NO.</font></b><br><font color="#0000ff">';
+		html+=p.get('blVoyage');
+		html+='</font></td>';
+		html+='<td colspan="2"><b><font size="-1">PORT OF LOADING</font></b><br><font color="#0000ff">';
+		html+=p.get('blPol');
+		html+='</font></td>';
+		html+='<td colspan="4"><b><font size="-1">NO.OF ORIGINAL B(s)/L</font></b><br><font color="#0000ff">';
+		html+=p.get('blOriginalNum');
+		html+='</font></td>';
 		html+='</tr>';
+		
 		html+='<tr valign="top">';
-		html+='<td colspan="4"><b><font size="-1">PORT OF DISCHARGE</font></b><br><font color="#0000ff">'+p.get('blPod')+'</font></td>';
-		html+='<td colspan="2"><b><font size="-1">PLACE OF DELVIERY</font></b><br><font color="#0000ff">'+p.get('blDeliveryPlace')+'</font></td>';
+		html+='<td colspan="4"><b><font size="-1">PORT OF DISCHARGE</font></b><br><font color="#0000ff">';
+		html+=p.get('blPod');
+		html+='</font></td>';
+		html+='<td colspan="2"><b><font size="-1">PLACE OF DELVIERY</font></b><br><font color="#0000ff">';
+		html+=p.get('blDeliveryPlace');
+		html+='</font></td>';
 		html+='<td colspan="4">&nbsp;</td>';
 		html+='</tr>';
+		
 		html+='</table>';
+		
 		html+='<table cellspacing="0" cellpadding="0" border="1" bordercolor="#C0C0C0" width="100%">';
 		html+='<tr valign="top" height="220" >';
-		html+='<td colspan="2"><b><font size="-1">MARKS AND NUMBERS CONTAINER NO.&SEAL NO.</font></b><br><font color="#0000ff">'+p.get('blMarks')+'</font></td>';
-		html+='<td colspan="2"><b><font size="-1">NO. OF CONTAINERS OR PACKAGES</font></b><br><font color="#0000ff">'+p.get('blPackages')+'</font></td>';
-		html+='<td colspan="4"><b><font size="-1">TYPE OR KIND OF CONTAINERS OR PACKAGES - DESCRIPTION OF GOODS</font></b><br>'+p.get('blCargoDesc')+'</font></td>';
-		html+='<td><b><font size="-1">GROSS WEIGHT</font></b><br><font color="#0000ff">'+p.get('blGrossWeight')+'</font></td>';
-		html+='<td><b><font size="-1">MEASUREMENT</font></b><br><font color="#0000ff">'+p.get('blMeasurement')+'</font></td>';
+		html+='<td colspan="2"><b><font size="-1">MARKS AND NUMBERS CONTAINER NO.&SEAL NO.</font></b><br><font color="#0000ff">';
+		html+=p.get('blMarks');
+		html+='</font></td>';
+		html+='<td colspan="2"><b><font size="-1">NO. OF CONTAINERS OR PACKAGES</font></b><br><font color="#0000ff">';
+		html+=p.get('blPackages');
+		html+='</font></td>';
+		html+='<td colspan="4"><b><font size="-1">TYPE OR KIND OF CONTAINERS OR PACKAGES - DESCRIPTION OF GOODS</font></b><br><font color="#0000ff">';
+		html+=p.get('blCargoDesc');
+		html+='</font></td>';
+		html+='<td><b><font size="-1">GROSS WEIGHT</font></b><br><font color="#0000ff">';
+		html+=p.get('blGrossWeight');
+		html+='</font></td>';
+		html+='<td><b><font size="-1">MEASUREMENT</font></b><br><font color="#0000ff">';
+		html+=p.get('blMeasurement');
+		html+='</font></td>';
 		html+='</tr>';
 		html+='</table>';
-	
-	var frm = new Ext.Panel({bodyStyle:'padding:5px',layout:'column',autoScroll:true,border:false,items:[
-		{columnWidth:.6,layout:'form',labelAlign:'top',border:false,items: [
-			{fieldLabel:'SHIPPER',name:'SHIPPER',value:p.get('blShipper'),xtype:'textarea',height:100,anchor:'95%'},
-			{fieldLabel:'CONSIGNEE',name:'CONSIGNEE',value:p.get('blConsignee'),xtype:'textarea',height:100,anchor:'95%'},
-			{fieldLabel:'NOTIFY PARTY',name:'NOTIFY PARTY',value:p.get('blNotifyParty'),xtype:'textarea',height:100,anchor:'95%'}
-		]},
-		{columnWidth:.4,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'B/L NUMBER',name:'blNo',value:p.get('blNo'),xtype:'textarea',height:100,anchor:'95%'},
-			{fieldLabel:'&nbsp;',name:'',value:'',xtype:'textarea',height:100,anchor:'95%'},
-			{fieldLabel:'xx',name:'',value:'',xtype:'textarea',height:100,anchor:'95%'}
-		]},
-		
-		{columnWidth:.4,layout:'form',labelAlign:'top',border:false,items:[
-			{fieldLabel:'PLACE OF RECEIPT',name:'blReceiptPlace',value:p.get('blReceiptPlace'),xtype:'textfield',anchor:'95%'}
-		]},		
-		{columnWidth:.2,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'PRE-CARRIAGE BY',name:'blPreCarriage',value:p.get('blPreCarriage'),xtype:'textfield',anchor:'95%'}
-		]},   
-		{columnWidth:.4,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'xx',name:'',value:'',xtype:'textfield',anchor:'95%'}
-		]},
-				
-		{columnWidth:.2,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'OCEAN VESSEL',name:'blVessel',value:p.get('blVessel'),xtype:'textfield',anchor:'95%'}
-		]},		
-		{columnWidth:.2,layout:'form',border:false,labelAlign:'top',items:[            
-			{fieldLabel:'VOY NO.',name:'blVoyage',value:p.get('blVoyage'),xtype:'textfield',anchor:'95%'}
-		]},
-		{columnWidth:.2,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'PORT OF LOADING',name:'blPol',value:p.get('blPol'),xtype:'textfield',anchor:'95%'}
-		]},
-		{columnWidth:.4,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'NO.OF ORIGINAL B(s)/L',name:'blOriginalNum',value:'blOriginalNum',xtype:'textfield',anchor:'95%'}
-		]},		
-		{columnWidth:.4,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'PORT OF DISCHARGE',name:'blPod',value:p.get('blPod'),xtype:'textfield',anchor:'95%'}
-		]},   
-		{columnWidth:.2,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'PLACE OF DELVIERY',name:'blDeliveryPlace',value:p.get('blDeliveryPlace'),xtype:'textfield',anchor:'95%'}
-		]},
-		{columnWidth:.4,layout:'form',labelAlign:'top',border:false,items:[            
-			{fieldLabel:'xx',name:'',value:'',xtype:'textfield',anchor:'95%'}
-		]},		
-		{columnWidth:.2,layout:'form',labelAlign:'top',border:false,defaultType:'textfield',items: [
-			{fieldLabel:'MARKS AND NUMBERS CONTAINER NO.&SEAL NO.',name:'blMarks',value:p.get('blMarks'),xtype:'textarea',height:100,anchor:'95%'}]},          
-		{columnWidth:.15,layout:'form',labelAlign:'top',border:false,defaultType:'textfield',items: [
-			{fieldLabel:'NO. OF CONTAINERS OR PACKAGES',name:'blPackages',value:p.get('blPackages'),xtype:'textarea',height:100,anchor:'95%'}]},          
-		{columnWidth:.35,layout:'form',labelAlign:'top',border:false,defaultType:'textfield',items: [
-			{fieldLabel:'TYPE OR KIND OF CONTAINERS OR PACKAGES - DESCRIPTION OF GOODS',name:'blCargoDesc',value:p.get('blCargoDesc'),xtype:'textarea',height:100,anchor:'95%'}]},          
-		{columnWidth:.15,layout:'form',labelAlign:'top',border:false,defaultType:'textfield',items: [
-			{fieldLabel:'GROSS WEIGHT',name:'blGrossWeight',value:p.get('blGrossWeight'),xtype:'textarea',height:100,anchor:'95%'}]},          
-		{columnWidth:.15,layout:'form',labelAlign:'top',border:false,defaultType:'textfield',items: [
-			{fieldLabel:'MEASUREMENT',name:'blMeasurement',value:p.get('blMeasurement'),xtype:'textarea',height:100,anchor:'95%'}]}
-      ]
-     });
-	
+	var frm = new Ext.Panel({html:html,padding:10});
 	
 	this.renew=function(){
-    	if(p.get('blStatus')==1){
-    	var b = new WBlM({wblmId:0,blId:p.get('blId'),blNo:p.get('blNo'),consId:p.get('consId'),consNo:p.get('consNo'),custId:p.get('custId'),custName:p.get('custName'),
-    	wblmField:'',wblmValueOld:'',compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
-       	var win = new BLMWin(b,p);    	
-		win.show();
-		}
-		else alert('改提单已确认，不能修改！请和操作员联系。');
+    	//if(p.get('blStatus')==1){
+	    	var b = new WBlM({wblmId:0,blId:p.get('blId'),blNo:p.get('blNo'),
+	    		consId:p.get('consId'),consNo:p.get('consNo'),
+	    		custId:p.get('custId'),custName:p.get('custName'),
+	    		wblmStatus:0,
+	    		compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
+	       		var win = new BLMWin(b,p);    	
+			win.show();
+		//}
+		//else alert('该提单已确认，不能修改！请和操作员联系。');
 	};
 	this.record=function(){
-		var win = new BLMGrid(p);win.show();    	
+		var win = new BLMGrid(p);
+		win.show();    	
 	};
-    BLPanel.superclass.constructor.call(this, {id:'T_BL'+p.get('blId'),title:'提单'+p.get('blNo'),bodyStyle:'padding:5px',
-    	autoScroll:true,closable:true,items:frm,
+	BlConfirmWin.superclass.constructor.call(this,{iconCls:'task',title:'提单确认'+p.get('blNo'),
+		modal:true,width:900,autoScroll:true,
+		height:500,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
         tbar:[       	
-        	{iconCls:'add',text:"提单确认",scope:this,handler:this.save},'-',
-        	{iconCls:'add',text:"改单申请",scope:this,handler:this.renew},'-',
-        	{iconCls:'add',text:"改单记录",scope:this,handler:this.record}]
-        }); 
+          	{iconCls:'add',text:"提单确认",disabled:p.get('blStatus')>1,scope:this,handler:this.save},'-',
+          	{iconCls:'edit',text:"改单申请",scope:this,handler:this.renew},'-',
+          	{iconCls:'doc',text:"改单记录",scope:this,handler:this.record}]}); 
 };
-Ext.extend(BLPanel, Ext.Panel);
+Ext.extend(BlConfirmWin, Ext.Window);
 
 BLMGrid = function(p) {
 	var store = new Ext.data.Store({
@@ -1225,7 +1217,7 @@ BLMGrid = function(p) {
     	sortInfo:{field:'wblmId', direction:'DESC'}});
 	store.load({params:{mt:'JSON',blId:p.get('blId')},scope:this});	
 	var cm=new Ext.grid.ColumnModel([
-		{header:'修改项',width:200,dataIndex:"wblmField"},
+		{header:'修改项',width:200,dataIndex:"wblmField",renderer:getBLField},
 		{header:'原值',dataIndex: 'wblmValueOld',width:120},
 		{header:'新值',dataIndex: 'wblmValueNew',width:120},
 		{header:'状态',dataIndex: 'wblmStatus',width:120},
@@ -1236,15 +1228,18 @@ BLMGrid = function(p) {
 	cm.defaultWidth=100;		
 	var gv=new Ext.grid.GridView({
 		getRowClass: function(record, index) {			   
-            if (record.get('wblmStatus')==1) return 'green-font-row';
-            else if (record.get('taskFinishedFlag')==2) return 'red-font-row';
-            else return '';
+            if (record.get('wblmStatus')==1) 
+            	return 'green-font-row';
+            else if (record.get('taskFinishedFlag')==2) 
+            	return 'red-font-row';
+            else 
+            	return '';
         }});
    	
 	var grid=new Ext.grid.GridPanel({border:true,height:400,autoScroll:true,
 	    stripeRows:true,store:store,cm:cm, view:gv,
 	   	tbar:[{text:C_ADD+'(N)',iconCls:'add',handler:this.add}, '-', 
-		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit}, '-',
+		{text:C_EDIT+'(M)',iconCls:'edit',handler:this.edit}, '-',
 		{text:C_REMOVE+'(R)',iconCls:'remove',handler:this.remove},'-']
     }); 
 		
@@ -1253,36 +1248,45 @@ BLMGrid = function(p) {
 };
 Ext.extend(BLMGrid, Ext.Window);
 BLMWin = function(b,p) {
-	var S_FIELD=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[
-		['blShipper','发货人'],['blConsignee','收货人'],['blNotifyParty','通知人'],
-		['blReceiptPlace','收货地'],['blDeliveryPlace','目的地'],['blPreCarriage','前程运输'],
-		['blReceiptPlace','收货地'],['blDeliveryPlace','目的地'],['blVessel','船名'],['blVoyage','航次'],
-		['blPol','装货港'],['blPod','卸货港'],['blMarks','唛头'],['blPackages','件数包装'],
-		['blCargoDesc','货物描述'],['blGrossWeight','毛重'],['blMeasurement','体积'],['blOriginalNum','正本提单分数']
-		]});
-
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',border:false,items:[
 	{fieldLabel:'修改项',tabIndex:1,name:'wblmField',value:p.get('wblmField'),xtype:'combo',store:S_FIELD,displayField:'NAME',
 		valueField:'CODE',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-		listeners:{scope:this,select:function(c,r,i){this.find('name','wblmValueOld')[0].setValue(p.get(r.get('CODE')));}}},
+		listeners:{scope:this,
+			select:function(c,r,i){
+				this.find('name','wblmValueOld')[0].setValue(p.get(r.get('CODE')));
+				}
+		}},
 	{fieldLabel:'原值',tabIndex:1,name:'wblmValueOld',value:p.get('wblmValueOld'),readOnly:true,xtype:'textarea',height:100,anchor:'95%'},
 	{fieldLabel:'新值',tabIndex:1,name:'wblmValueNew',value:p.get('wblmValueNew'),xtype:'textarea',height:100,anchor:'95%'},
 	{fieldLabel:'修改原因',tabIndex:1,name:'wblmReason',value:p.get('wblmReason'),xtype:'textarea',height:100,anchor:'95%'},
 	]});
 	this.save=function(){
-		b.beginEdit();frm.getForm().updateRecord(b);b.endEdit();
-		if(!b.get('wblmField')){alert('修改项不能为空');frm.find('name','wblmField')[0].focus();return;}
-		if(!b.get('wblmValueNew')){alert('新值不能为空');frm.find('name','wblmValueNew')[0].focus();return;}
-		var rj=RTJ(r,WBlM);
+		b.beginEdit();
+		frm.getForm().updateRecord(b);
+		b.endEdit();
+		if(!b.get('wblmField')){
+			alert('修改项不能为空');
+			frm.find('name','wblmField')[0].focus();
+			return;
+		}
+		if(!b.get('wblmValueNew')){
+			alert('新值不能为空');
+			frm.find('name','wblmValueNew')[0].focus();
+			return;
+		}
+		var rj=RTJ(b,WBlM);
 		var data=FOSJ({'WBlM':rj});
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WBLM_S',mt:'JSON'},
 			success: function(res){
 				var rec=Ext.util.JSON.decode(res.responseText);
 				b.set('wblmId',rec.WBlM[0].wblmId);
-				alert('注册成功！');
+				alert('保存成功！');
+				this.close();
 			},
 			failure: function(r){
-				var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
+				var user=Ext.util.JSON.decode(r.responseText);
+				alert(user.FosResponse.msg);
+			},
 		jsonData:data});
 	};	
 	BLMWin.superclass.constructor.call(this,{iconCls:'task',title:'提单修改'+p.get('blNo'),modal:true,width:600,
@@ -1451,7 +1455,7 @@ var menuPanel = new Ext.Panel({
 		]})});
 	
 Ext.onReady(function(){	
-	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+	//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     

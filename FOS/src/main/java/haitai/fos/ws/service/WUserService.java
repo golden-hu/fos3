@@ -94,10 +94,13 @@ public class WUserService {
 	}
 
 	private void setLoginInfo(WUser entity) {
-		SessionManager.setAttr(SessionKeyType.UID, entity.getWusrId());
-		SessionManager.setAttr(SessionKeyType.USERNAME, entity.getWusrName());
+		//SessionManager.setAttr(SessionKeyType.UID, entity.getWusrId());
+		//SessionManager.setAttr(SessionKeyType.USERNAME, entity.getWusrName());
+		
+		SessionManager.setAttr("WUID", entity.getWusrId());
+		SessionManager.setAttr("WUSERNAME", entity.getWusrName());		
 		SessionManager.setAttr(SessionKeyType.COMPCODE, entity.getCompCode());
-		SessionManager.setAttr(SessionKeyType.USER, entity);
+		//SessionManager.setAttr(SessionKeyType.USER, entity);
 		ActionLogUtil.log();
 	}
 }

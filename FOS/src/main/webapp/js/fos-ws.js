@@ -217,7 +217,12 @@ Fos.WconGrid = function() {
     	sortInfo:{field:'wconId', direction:'DESC'}});
     store.load({params:{start:0,limit:20,mt:'JSON'}});
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
-	var getWCON_ST=function(v){if(v==1) return C_WS_WCON_ACCEPTED; else return C_WS_WCON_NOT_ACCEPTED;};
+	var getWCON_ST=function(v){
+		if(v==1) 
+			return C_WS_WCON_ACCEPTED; 
+		else 
+			return C_WS_WCON_NOT_ACCEPTED;
+	};
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
 		{header:C_WS_USR_NAME,dataIndex:'wusrName',width:80},
@@ -246,21 +251,18 @@ Fos.WconGrid = function() {
     	if(p){var win = new WconWin(p);win.show();}
     	else XMG.alert(SYS,M_NO_DATA_SELECTED);
     };    
-	this.accept=function(){		
-    	var r=sm.getSelected();
-    	if(r){W2F(r);}
-    };
+	
     Fos.WconGrid.superclass.constructor.call(this, {
-    id:'G_WCON',store: store,iconCls:'grid',width:600,height:300,title:C_WS_CONS_LIST,header:false,closable:true,
+    id:'G_WCON',store: store,iconCls:'grid',title:C_WS_CONS_LIST,header:false,closable:true,
     sm:sm,cm:cm,listeners:re,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
 	tbar:[
-		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit}, '-',
-		{text:C_WS_WCON_ACCEPT+'(R)',iconCls:'remove',handler:this.accept},'->',
+		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit},'->',
 		new Ext.PagingToolbar({pageSize:20,store:store})]
     }); 
 };
 Ext.extend(Fos.WconGrid,Ext.grid.GridPanel);
+
 Fos.WusrGrid = function(){
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WUSR_Q',
