@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>FOS3.0 - 网上服务系统</title>
+<script type="text/javascript" src="js/ext2.js"></script>
+<script type="text/javascript" src="js/ws-login.js"></script>
+<style type="text/css">
+.input{
+	border: 1px solid #c2c2c2;
+	width:200px;
+	height:24px;
+}
+
+
+.reg_button {
+    padding: 3px 15px 3px;
+    height:28px;
+}
+.reg_form {
+	padding:10px;
+	width:200px;
+    height:90px;
+    background: #BAD2F4;
+    border: 1px solid #c2c2c2;
+}
+.red{color:#FF0000;}
+</style>
+</head>
+
+
+<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000 topmargin=3 marginheight=3>
+<TABLE WIDTH="100%" HEIGHT="100%">
+<TR>
+<TD ALIGN="center" VALIGN="middle">
+<center>
+<div class="login_form">
+<form action="javascript:login();return" name="loginForm">
+<table>
+<tr><td align="right">用户名：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">密码：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">电子邮件：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">公司名称：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">联系电话：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">姓名：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">职位：</td><td><input class="input" value=""></td></tr>
+<tr><td align="right">部门：</td><td><input class="input" value=""></td></tr>
+<tr><td align="right">手机：</td><td><input class="input" value=""></td></tr>
+
+<tr><td align="right">&nbsp;</td><td><input type=button class="reg_button" value="注册"></td></tr>
+
+</table>
+</form>
+</div>
+
+</center>
+</TD>
+</TR>
+</TABLE>
+</body></html>
+<script type="text/javascript">document.loginForm.userLoginName.focus();</script>
+

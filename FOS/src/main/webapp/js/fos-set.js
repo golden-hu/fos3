@@ -455,7 +455,7 @@
     		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*e.value-r.get('expeCommission')));
     		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
     		this.reCalculate();}
-    	if(f=='unitName'){    		
+    	if(f=='unitName'){
             r.set('expeTotalAmount',round2(r.get('expeNum')*r.get('expeUnitPrice')-r.get('expeCommission')));
     		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-r.get('expeCommission')));
     		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
@@ -3502,7 +3502,7 @@ Fos.BillTab = function(p){
 		store.load({params:{billId:p.get('billId')}});
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_SETTLE_OBJECT,dataIndex:'custSname'},
+		{header:C_SETTLE_OBJECT,dataIndex:'custName'},
 		{header:C_CHAR,dataIndex:'charName'},
 		{header:C_UNIT,hidden:true,width:60,dataIndex:'unitName'},	
 		{header:C_UNIT_PRICE,width:60,align:'right',renderer:numRender,dataIndex:'expeUnitPrice'},
@@ -3549,7 +3549,8 @@ Fos.BillTab = function(p){
 						if(rn==0 || store.findBy(function(rec,id){return rec.get('expeId')==r[i].get('expeId');})==-1){							
 							var rid=GGUID();
 							var it = new SBillItem({id:rid,biitId:rid,billId:p.get('billId'),expeId:r[i].get('expeId'),
-							custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
+							custId:r[i].get('custId'),custName:r[i].get('custName'),
+							custSname:r[i].get('custSname'),
 							charId:r[i].get('charId'),charName:r[i].get('charName'),
 							unitId:r[i].get('unitId'),unitName:r[i].get('unitName'),
 							currCode:r[i].get('currCode'),expeType:r[i].get('expeType'),

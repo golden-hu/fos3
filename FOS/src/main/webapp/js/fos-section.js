@@ -2095,8 +2095,8 @@ Fos.CustomsTab = function(p) {
 	{header:C_RECORD_NO,dataIndex:'cudeRecordNo'}
 	],defaults:{sortable:true,width:100}});
 	
-	this.grid = new Ext.grid.GridPanel({title:C_CUSTOM_LIST,border:true,
-		autoScroll:true,collapsible:true,height:150,store:this.store,sm:sm,cm:cm});
+	this.grid = new Ext.grid.GridPanel({region:'north',height:150,title:C_CUSTOM_LIST,border:true,
+		autoScroll:true,collapsible:true,store:this.store,sm:sm,cm:cm});
 	
 	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm2=new Ext.grid.ColumnModel({columns:[sm2,
@@ -2139,7 +2139,7 @@ Fos.CustomsTab = function(p) {
 	var addEntry = function(){
 		var r = this.grid.getSelectionModel().getSelected();
 		if(r){			
-			/*var rid=GGUID();
+			var rid=GGUID();
 			var t = new FCustomsEntry({id:rid,cuenId:rid,cudeId:r.get('cudeId'),
 				consId:r.get('consId'),					
 				cuenCargoNameEn:p.get('consCargoNameEn'),
@@ -2155,8 +2155,13 @@ Fos.CustomsTab = function(p) {
 			this.entryStore.add(t);
 			t.set('rowAction','N');
 			this.entryGrid.getStore().insert(0,t);
-			this.entryGrid.startEditing(0,1);*/
-			
+			this.entryGrid.startEditing(0,1);
+		}
+	};
+	
+	var loadEntry = function(){
+		var r = this.grid.getSelectionModel().getSelected();
+		if(r){
 			var win = new Fos.CargoLookupWin('CARG_Q',p.get('consId'));
 			win.addButton({text:C_OK,scope:this,handler:function(){
 				var g = win.findById('G_CARG_LOOKUP');
@@ -2205,10 +2210,26 @@ Fos.CustomsTab = function(p) {
 		}
 	};
 	
-	this.entryGrid = new Ext.grid.EditorGridPanel({header:false,border:false,autoScroll:true,height:250,collapsible:true,sm:sm2,cm:cm2,
+	this.entryGrid = new Ext.grid.EditorGridPanel({title:C_CUDE_CARGO_LIST,region:'south',colapsable:true,
+		border:false,autoScroll:true,height:150,sm:sm2,cm:cm2,
 		store:new Ext.data.Store({reader:new Ext.data.XmlReader({id:'cuenId',record:'FCustomsEntry'},FCustomsEntry),sortInfo:{field:'cuenId',direction:'ASC'}}),
 		tbar:[{text:C_ADD,iconCls:'add',scope:this,handler:addEntry},'-',
-			  {text:C_REMOVE,iconCls:'remove',scope:this,handler:removeEntry}]
+		      {text:C_LOAD_ENTRY,iconCls:'add',scope:this,handler:loadEntry},'-',
+			  {text:C_REMOVE,iconCls:'remove',scope:this,handler:removeEntry}],
+			  listeners:{scope:this,
+				  afteredit:function(e){
+					var f=e.field;
+					var r=e.record;
+			    	if(f=='cuenCargoNum'){
+			    		r.set('cuenCargoNum',e.value);
+			    		r.set('cuenTotalPrice',round2(e.value*r.get('cuenUnitPrice')));
+			    	}
+			    	else if(f=='cuenUnitPrice'){
+			    		r.set('cuenUnitPrice',e.value);
+			    		r.set('cuenTotalPrice',round2(e.value*r.get('cuenCargoNum')));
+			    	}
+				  }
+			  }
 	});	
 	var newCude=function(){
 		var rid=GGUID();
@@ -2496,9 +2517,13 @@ Fos.CustomsTab = function(p) {
 	};
 	var expPanel = new Fos.SectionExGrid(p,'INSP',this);	
 	
+	var txtTotalAmountCap = new Ext.form.TextField({fieldLabel:C_CAP_AMOUNT,
+		name:'cudeTotalAmountCap',anchor:'99%'});	
+	var txtTotalSay = new Ext.form.TextField({fieldLabel:C_PACKAGES_CAP,
+		name:'cudeTotalSay',xtype:'textfield',anchor:'99%'});
 	var frm = new Ext.FormPanel({layout:'border',title:C_CUSTOM_INFO,
-		labelAlign:'right',labelWidth:80,trackResetOnLoad:false,items:[
-       	 {region:'north',height:430,padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
+		labelAlign:'right',labelWidth:100,trackResetOnLoad:false,items:[
+       	 {region:'center',autoScroll:true,padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
 			items:[
 			{layout:'column',border:false,items:[
 			{columnWidth:.25,layout:'form',border:false,items:[
@@ -2530,50 +2555,72 @@ Fos.CustomsTab = function(p) {
 					},
 					keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM,itemCls:'required',name:'cudePortDomestic',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:(p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM)+C_ENGLISH,itemCls:'required',name:'cudePortDomesticEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_BIZ_COMPANY,name:'cudeCustomer',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_SHIPPER_COMPANY:C_CONSIGN_COMPANY,name:'cudeCargoCompany',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CERTIFICATE_NO,name:'cudeCertificateNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_APPROVAL_NO,name:'cudeApprovalNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CONTRACT_NO_A,name:'consContractNo',itemCls:'needed',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PRE_NO,name:'cudePreNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CUDE_TYPE,name:'cudeType',xtype:'combo',value:p.get('cudeType'),store:CUTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}]},
+				{fieldLabel:C_CUDE_TYPE,name:'cudeType',xtype:'combo',value:p.get('cudeType'),
+					store:CUTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+					mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border:false,items:[
 				{fieldLabel:C_CUDE_CONTACT,name:'cudeVendorContact',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_RECORD_NO,name:'cudeRecordNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_TRAT,itemCls:'required',name:'tratCode',store:getTRAT_S(),xtype:'combo',displayField:'tratName',valueField:'tratName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_TRTY,itemCls:'required',name:'trtyCode',store:getTRTY_S(),xtype:'combo',displayField:'trtyName',valueField:'trtyName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,itemCls:'required',name:'cudeCountry',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CUDE_TRTE,name:'trteCode',itemCls:'required',store:getTRTE_S(),xtype:'combo',displayField:'trteName',valueField:'trteName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
+				{fieldLabel:C_CUDE_TRTE,name:'trteCode',itemCls:'required',store:getTRTE_S(),
+					xtype:'combo',displayField:'trteName',valueField:'trteName',typeAhead:true,
+					mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
+				{fieldLabel:C_CUDE_TRTE+C_ENGLISH,name:'trteCodeEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PACKAGES,name:'cudePackageNum',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				p.get('consBizClass')=='A'?{fieldLabel:C_MANUFACTURE,name:'cudeManu',xtype:'textfield',anchor:'99%'}:{fieldLabel:'用途',name:'usagName',store:getUSAG_S(),xtype:'combo',displayField:'usagName',valueField:'usagName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_CUST_CUDE_CODE,name:'attr1',xtype:'textfield',anchor:'99%'}]},
+				{fieldLabel:C_CUST_CUDE_CODE,name:'attr1',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_CUDE_TEL,name:'cudeVendorTel',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_EX_DATE:C_IM_DATE,name:'cudeEntryDate',xtype:'datefield',format:DATEF,anchor:'99%'},
 				{fieldLabel:C_CONVEYANCE_NAME,name:'cudeConveyance',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_LETY,name:'letyCode',store:getLETY_S(),xtype:'combo',displayField:'letyName',valueField:'letyName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_POD_A:C_POL,itemCls:'required',name:'cudePortForeign',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:(p.get('consBizClass')==BC_E?C_POD_A:C_POL)+C_ENGLISH,
+					itemCls:'required',name:'cudePortForeignEN',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_FREIGHT,name:'cudeFreight',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PACK,name:'packCode',itemCls:'required',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_PACK+C_ENGLISH,name:'packCodeEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CHARGE,name:'cudeCharge',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'}]},
+				{fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%',listeners:{
+					scope:this,
+					change:function(f,nv,ov){
+						txtTotalAmountCap.setValue(N2W(nv,2));
+					}
+				}}  
+				]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_CUSTOMS_NO,name:'cudeCustomsNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_DECLARE_DATE,name:'cudeDeclarDate',xtype:'datefield',format:DATEF,anchor:'99%'},
 				{fieldLabel:C_TRAFFIC_NO,name:'cudeBlNo',xtype:'textfield',anchor:'99%'},
-				p.get('consBizClass')==BC_E?{fieldLabel:C_EXSE,itemCls:'required',name:'exseCode',store:getEXSE_S(),xtype:'combo',displayField:'exseName',valueField:'exseName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'}:
+				p.get('consBizClass')==BC_E?{fieldLabel:C_EXSE,itemCls:'required',name:'exseCode',
+					store:getEXSE_S(),xtype:'combo',displayField:'exseName',valueField:'exseName',
+					typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'}:
 				{fieldLabel:C_LEVY_PERCENT,name:'cudeLevyPercent',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D,itemCls:'required',name:'cudePlace',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_EXSE+C_ENGLISH,name:'exseCodeEn',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D,
+					itemCls:'required',name:'cudePlace',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:(p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D)+C_ENGLISH,
+					itemCls:'required',name:'cudePlaceEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_INSURANCE_FEE,name:'cudeInsurance',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_GW_S+C_KGS,name:'cudeGrossWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_MW_S+C_KGS,name:'cudeNetWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'}
+				{fieldLabel:C_MW_S+C_KGS,name:'cudeNetWeight',itemCls:'required',xtype:'textfield',anchor:'99%'}
 				]},
 				{columnWidth:.5,layout:'form',border : false,items:[
-                     {fieldLabel:C_PACKAGES_CAP,name:'cudeTotalSay',xtype:'textfield',anchor:'99%'}       
+				     txtTotalSay
 				]},
-				{columnWidth:.25,layout:'form',border : false,items:[
-                     {fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%'}       
+				{columnWidth:.5,layout:'form',border : false,items:[
+				     txtTotalAmountCap   
    				]}
 			]},				
 			{layout:'column',border:false,items:[
@@ -2587,8 +2634,8 @@ Fos.CustomsTab = function(p) {
 					{fieldLabel:C_CONSIGNEE,name:'cudeConsignee',xtype:'textarea',anchor:'99%'}]}
 			]}			
 			]},
-			{title:C_CUDE_CARGO_LIST,region:'center',layout:'fit',colapsable:true,items:[this.entryGrid]}
-			]});
+			this.entryGrid
+		]});
 	
 	var frmRecord = new Ext.FormPanel({title:C_CUDE_RECORD,layout:'column',layoutConfig:{columns:4},padding:5,items: [
 		{columnWidth:.25,layout:'form',border:false,items:[
@@ -2639,10 +2686,18 @@ Fos.CustomsTab = function(p) {
 		else
 			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
 	};
+	this.expPackingList=function(){
+		var b = this.grid.getSelectionModel().getSelected();
+		if(b){
+			EXPC('CUDE_PACKING','&cudeId='+b.get('cudeId'));
+		}
+		else
+			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
+	};
 	
 	Fos.CustomsTab.superclass.constructor.call(this, { 
-	id: "T_CUDE_" +p.get('id'),title:C_SR_CUDE+'(F9)',autoScroll:true,	
-	tbar:[{text:C_ADD+'(N)',itemId:'TB_A',disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.addCude},'-',
+	id: "T_CUDE_" +p.get('id'),title:C_SR_CUDE+'(F9)',autoScroll:true,layout:'border',
+	tbar:[{text:C_ADD+'(N)',itemId:'TB_A',disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.addCude},'-',	      
 	{text:C_REMOVE+'(D)',itemId:'TB_B',disabled:NR(m+F_R),iconCls:'remove',scope:this,handler:this.removeCude},'-',
 	{text:C_SAVE+'(S)',itemId:'TB_C',disabled:NR(m+F_M),iconCls:'save',scope:this,handler:this.save},'-',
 	{text:C_APPLY+'(B)',itemId:'TB_D',disabled:NR(m+F_M),iconCls:'docpass',scope:this,handler:function(){this.updateStatus('2');}},'-',
@@ -2652,10 +2707,11 @@ Fos.CustomsTab = function(p) {
 				menu: {items: 
 				[
 			   		{text:C_CUSTOM_BILL,scope:this,handler:this.expCustomsDeclaration},
-			   		{text:C_COMMERCIAL_INVOICE,scope:this,handler:this.expCommercialInvoice}			   		
+			   		{text:C_COMMERCIAL_INVOICE,scope:this,handler:this.expCommercialInvoice},
+			   		{text:C_CUDE_PACKING_LIST,scope:this,handler:this.expPackingList}
 		   		]}},'->'],
 	items: [this.grid,
-        {xtype:'tabpanel',height:600,plain:true,activeTab:0,
+        {xtype:'tabpanel',region:'center',activeTab:0,
 			listeners:{scope:this,tabchange:function(m,a){a.doLayout();}},
 			items:[frm,frmRecord,expPanel]
 		}]

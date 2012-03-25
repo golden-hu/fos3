@@ -894,6 +894,7 @@ var C_DRIVER_TEL='司机电话';
 var C_TRACK_NO='车牌号';
 var C_OP_TYPE='作业类型';
 
+var C_CUDE_PACKING_LIST='装箱单';
 var C_INSP_BILL='报检单';
 var C_INSP_BILL_INFO='报检单内容';
 var C_INSP_BILL_LIST='报检单列表';
@@ -905,7 +906,7 @@ var C_CUSTOM_BILL='报关单';
 var C_CUSTOM_INFO='报关单内容';
 var C_CUSTOM_LIST='报关单列表';
 var C_ITEM_NO='项号';
-
+var C_LOAD_ENTRY='从单票导入...';
 var C_BL_LIST='提单列表';
 var C_BL_RELEASE='放单';
 var C_BL_SHIP_DATE='装船日期';
@@ -913,7 +914,7 @@ var C_BL_PATE='付费方式';
 var C_ISSUE_INFO='签发信息';
 var C_TOTAL_SAY='箱量/件数合计';
 var C_BL_CONFIRM='提单/确认书';
-
+var C_ENGLISH='(英文)';
 var C_SUM_CONS='票数合计：';
 var C_SUM_PACK='件数合计：';
 var C_SUM_GW='毛重合计：';
@@ -1060,6 +1061,7 @@ var C_DUE_DATE='付费期限';
 var C_AMOUNT='金额';
 var C_TOTAL_AMOUNT='合计金额';
 var C_TOTAL_AMOUNT_C='合计金额：';
+var C_CAP_AMOUNT='大写金额';
 var C_CAP_AMOUNT_C='大写金额：';
 var C_CAP_AMOUNT_E='大写金额（英文）：';
 

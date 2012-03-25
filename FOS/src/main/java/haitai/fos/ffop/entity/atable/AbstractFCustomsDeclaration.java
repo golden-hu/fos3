@@ -36,6 +36,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudePreNo;
 	private String cudeCustomsNo;
 	private String cudePortDomestic;
+	private String cudePortDomesticEn;
 	private String cudeRecordNo;
 	private Date cudeEntryDate;
 	private Date cudeDeclarDate;
@@ -49,6 +50,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String trtyCode;
 	private String letyCode;
 	private String exseCode;
+	private String exseCodeEn;
 	private String usagName;
 	private String cudeCertificateNo;
 	private String cudeLevyPercent;
@@ -57,13 +59,17 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudeContainerNo;
 	private String cudeCountry;
 	private String cudePortForeign;
+	private String cudePortForeignEn;
 	private String cudePlace;
+	private String cudePlaceEn;
 	private String trteCode;
+	private String trteCodeEn;
 	private String cudeFreight;
 	private String cudeInsurance;
 	private String cudeCharge;
 	private String cudePackageNum;
 	private String packCode;
+	private String packCodeEn;
 	private String cudeGrossWeight;
 	private String cudeNetWeight;
 	private String cudeManu;
@@ -99,6 +105,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private Short cudeType;
 	private String cudeTotalSay;
 	private Double cudeTotalAmount;
+	private String cudeTotalAmountCap;
 	private Integer userId;
 	private Integer grouId;
 	private Integer createBy;
@@ -283,6 +290,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudePortDomestic = cudePortDomestic;
 	}
 
+	@Column(name = "CUDE_PORT_DOMESTIC_EN", length = 64)
+	public String getCudePortDomesticEn() {
+		return this.cudePortDomesticEn;
+	}
+
+	public void setCudePortDomesticEn(String cudePortDomesticEn) {
+		this.cudePortDomesticEn = cudePortDomesticEn;
+	}
+	
 	@Column(name = "CUDE_RECORD_NO", length = 32)
 	public String getCudeRecordNo() {
 		return this.cudeRecordNo;
@@ -403,6 +419,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.exseCode = exseCode;
 	}
 
+	@Column(name = "EXSE_CODE_EN", length = 32)
+	public String getExseCodeEn() {
+		return this.exseCodeEn;
+	}
+
+	public void setExseCodeEn(String exseCodeEn) {
+		this.exseCodeEn = exseCodeEn;
+	}
+	
 	@Column(name = "USAG_NAME", length = 32)
 	public String getUsagName() {
 		return this.usagName;
@@ -475,6 +500,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudePortForeign = cudePortForeign;
 	}
 
+	@Column(name = "CUDE_PORT_FOREIGN_EN", length = 64)
+	public String getCudePortForeignEn() {
+		return this.cudePortForeignEn;
+	}
+
+	public void setCudePortForeignEn(String cudePortForeignEn) {
+		this.cudePortForeignEn = cudePortForeignEn;
+	}
+	
 	@Column(name = "CUDE_PLACE", length = 32)
 	public String getCudePlace() {
 		return this.cudePlace;
@@ -484,6 +518,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudePlace = cudePlace;
 	}
 
+	@Column(name = "CUDE_PLACE_EN", length = 64)
+	public String getCudePlaceEn() {
+		return this.cudePlaceEn;
+	}
+
+	public void setCudePlaceEn(String cudePlaceEn) {
+		this.cudePlaceEn = cudePlaceEn;
+	}
+	
 	@Column(name = "TRTE_CODE", length = 32)
 	public String getTrteCode() {
 		return this.trteCode;
@@ -493,6 +536,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.trteCode = trteCode;
 	}
 
+	@Column(name = "TRTE_CODE_EN", length = 32)
+	public String getTrteCodeEn() {
+		return this.trteCodeEn;
+	}
+
+	public void setTrteCodeEn(String trteCodeEn) {
+		this.trteCodeEn = trteCodeEn;
+	}
+	
 	@Column(name = "CUDE_FREIGHT", length = 32)
 	public String getCudeFreight() {
 		return this.cudeFreight;
@@ -538,6 +590,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.packCode = packCode;
 	}
 
+	@Column(name = "PACK_CODE_EN", length = 32)
+	public String getPackCodeEn() {
+		return this.packCodeEn;
+	}
+
+	public void setPackCodeEn(String packCodeEn) {
+		this.packCodeEn = packCodeEn;
+	}
+	
 	@Column(name = "CUDE_GROSS_WEIGHT", length = 32)
 	public String getCudeGrossWeight() {
 		return this.cudeGrossWeight;
@@ -859,6 +920,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 
 	public void setCudeTotalAmount(Double cudeTotalAmount) {
 		this.cudeTotalAmount = cudeTotalAmount;
+	}
+	
+	@Column(name = "CUDE_TOTAL_AMOUNT_CAP")
+	public String getCudeTotalAmountCap() {
+		return this.cudeTotalAmountCap;
+	}
+
+	public void setCudeTotalAmountCap(String cudeTotalAmountCap) {
+		this.cudeTotalAmountCap = cudeTotalAmountCap;
 	}
 	
 	@Column(name = "USER_ID")

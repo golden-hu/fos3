@@ -11,7 +11,7 @@ var GGUID=function(k){
 var CUSER=sessionStorage.getItem('WUSER_ID');
 var CCUST=sessionStorage.getItem('WCUST_ID');
 
-var COMP_CODE='JAH';
+var COMP_CODE='ECG';
 var SYS= 'FOS3.0网上服务系统';
 var M_NO_DATA_SELECTED='请先选择一条记录!';
 
@@ -776,7 +776,8 @@ Ext.extend(WconWin,Ext.Window);
 Ext.extend(WconGrid,Ext.grid.GridPanel);
 
 VoyaTab = function(){
-	var shliStore=new Ext.data.Store({url:SERVICE_URL+'?A=SHLI_Q',reader: new Ext.data.JsonReader({root:'GShippingLine'},GShippingLine),sortInfo:{field:'shliId',direction:'ASC'}});
+	var shliStore=new Ext.data.Store({url:SERVICE_URL+'?A=SHLI_Q',
+		reader: new Ext.data.JsonReader({root:'GShippingLine'},GShippingLine),sortInfo:{field:'shliId',direction:'ASC'}});
 	shliStore.load();	
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_VOYA_X',
@@ -847,8 +848,12 @@ VoyaTab = function(){
    		}
    		else if(voyaSailDate) a[a.length]={key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:EQ};   		
    		
-   		store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-     	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) alert(M_NOT_FOUND);}});
+   		if(a.length>0){
+   			store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+   	     	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) alert(M_NOT_FOUND);}});
+   		}
+   		else
+   			store.load({params:{start:0,limit:20}});
 	};
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
@@ -1427,14 +1432,13 @@ var checkLogin=function(fn){
 	else{var w=new LoginWin(fn);w.show();return 0;}	
 };
 var logout=function(){	
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_LOGOUT'},
+		/*Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_LOGOUT'},
 			success: function(r){				
-				alert('您已退出本系统！');
-				CUSER=0;
-				T_MAIN.removeAll();
+				window.close();
 			},
 			failure: function(r){}				
-		});
+		});*/
+	top.window.close();
 	};
 
 function CreateMenu(title,wid,f){
@@ -1470,10 +1474,8 @@ Ext.onReady(function(){
 		win.show();
 	}
 	else{
-		tranStore.load();
-		pateStore.load();
-		packStore.load();
+		CUSER=sessionStorage.getItem('WUSER_ID');
+		CCUST=sessionStorage.getItem('WCUST_ID');
 	}
-	
 });
 
