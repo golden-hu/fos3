@@ -2,6 +2,7 @@
 <html>
 <script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
+<script type="text/javascript" src="js/ws-login.js"></script>
 <script type="text/javascript" src="js/ws.js"></script>
 <head>
 <title>FOS3.0网上服务系统  上海海钛软件科技有限公司</title>

@@ -3096,12 +3096,10 @@ Fos.BlWin = function(p,b,store) {
 	this.save = function(){			
 		if(this.find('name','blNo')[0].getValue()==''){
 			XMG.alert(SYS,M_BL_REQIRED,function(){this.find('name','blNo')[0].focus();},this);return;};
-		b.beginEdit();
-		//this.frm.getForm().updateRecord(b);
-		
+		b.beginEdit();		
 		var fs = b.fields;
         fs.each(function(f){
-            var field = this.frm.getForm().findField(f.name);
+            var field = frm.getForm().findField(f.name);
             if(field){
                 b.set(f.name, field.getValue());
             }

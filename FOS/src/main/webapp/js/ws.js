@@ -8,8 +8,11 @@ var GGUID=function(k){
 	if(!k) GUID=GUID-1;
 	return GUID;
 };
-var CUSER=sessionStorage.getItem('WUSER_ID');
-var CCUST=sessionStorage.getItem('WCUST_ID');
+//var CUSER=sessionStorage.getItem('WUSER_ID');
+//var CCUST=sessionStorage.getItem('WCUST_ID');
+
+var CUSER=loadSession('WUSER_ID');
+var CCUST=loadSession('WCUST_ID');
 
 var COMP_CODE='ECG';
 var SYS= 'FOS3.0网上服务系统';
@@ -399,8 +402,12 @@ LoginWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_LOGIN',mt:'JSON',wusrName:wusrName,wusrPassword:wusrPassword},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
-				sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);				
+				//sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
+				//sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);			
+				
+				saveSession('WUSER_ID',user.WUser[0].wusrId);
+				saveSession('WCUST_ID',user.WUser[0].custId);
+				
 				CUSER=user.WUser[0].wusrId;
 				CCUST=user.WUser[0].custId;
 				this.close();
@@ -456,8 +463,11 @@ RegWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_REG',mt:'JSON'},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
-				sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);
+				//sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
+				//sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);
+				
+				saveSession('WUSER_ID',user.WUser[0].wusrId);
+				saveSession('WCUST_ID',user.WUser[0].custId);
 				
 				CUSER=user.WUser[0].wusrId;
 				alert('注册成功！');
@@ -1469,13 +1479,11 @@ Ext.onReady(function(){
 	
 	viewport.doLayout();
 	
-	if(!sessionStorage.getItem("WUSER_ID")){
+	//if(!sessionStorage.getItem("WUSER_ID")){
+	if(!loadSession('WUSER_ID')){
 		var win= new LoginWin();
 		win.show();
 	}
-	else{
-		CUSER=sessionStorage.getItem('WUSER_ID');
-		CCUST=sessionStorage.getItem('WCUST_ID');
-	}
+	
 });
 
