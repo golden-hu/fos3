@@ -10,8 +10,8 @@
 	'custName','custSname','custContact','custTel','custFax','custSalesId','custSalesName','consOverseaAgency',
 	'consOverseaAgencyName','consShipper','consConsignee','consNotifyParty','consNotifyParty2',
 	'consFShipper','consFConsignee','consFNotifyParty',
-	'consPol','consPolEn','consReceiptPlace','consPod','consPodEn',
-	'consPot','consPotEn','consDeliveryPlace','consDestination','consTranCountry','consTradeCountry',
+	'consPol','consPolEn','consPolCn','consReceiptPlace','consPod','consPodEn','consPodCn',
+	'consPot','consPotEn','consPotCn','consDeliveryPlace','consDestination','consTranCountry','consTradeCountry',
 	'consHarbour','consCargoOwner','consCargoOwnerName','consCfs','consCfsName',
 	'consWarehouse','consWarehouseContact','consWarehouseName',
 	'consWarehouseTel','consWarehouseAddress','consWarehouseNo','consWarehouseRemarks',
@@ -1067,18 +1067,33 @@ var getCOCO_S = function(){
     	s.load({callback:function(){getBP();}});return s;
     }
 };
-var getCFG=function(v){var _cs= getCOCO_S();return _cs.getById(v)?_cs.getById(v).get('cocoValue'):'';};
-var getCFGD=function(v){var _cs= getCOCO_S();return _cs.getById(v)?_cs.getById(v).get('cocoDesc'):'';};
+var getCFG=function(v){
+	var _cs= getCOCO_S();
+	return _cs.getById(v)?_cs.getById(v).get('cocoValue'):'';
+};
+var getCFGD=function(v){
+	var _cs= getCOCO_S();
+	return _cs.getById(v)?_cs.getById(v).get('cocoDesc'):'';
+};
 
-var BASE_PORT='',BASE_PORT_NAME='';
+var BASE_PORT='';
+var BASE_PORT_NAME='';
+var BASE_PORT_NAME_CN = '';
+
 var getBP=function(){
-	if(BASE_PORT!='') return BASE_PORT;
+	if(BASE_PORT!='') 
+		return BASE_PORT;
 	else{
 		var bc=getCFG('BASE_PORT');
 		var s=getPOL_S();
 		var a=s.getRange();
 		for(var i=0;i<a.length;i++){
-			if(a[i].get('portCode')==bc){BASE_PORT=a[i].get('portId');BASE_PORT_NAME=a[i].get('portNameEn');break;}
+			if(a[i].get('portCode')==bc){
+				BASE_PORT=a[i].get('portId');
+				BASE_PORT_NAME=a[i].get('portNameEn');
+				BASE_PORT_NAME_CN=a[i].get('portNameCn');
+				break;
+			}
 		}
 		return BASE_PORT;
 	}

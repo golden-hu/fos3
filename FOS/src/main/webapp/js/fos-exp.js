@@ -17,10 +17,18 @@
 		consStatusSendCont:0,consStatusLock:0,consReassignFrom:0,consStatusSettlement:0,consExternalFlag:0,		
 		consTransFlag:0,
 		consPartialFlag:0,
+		
 		//consPol:bc==BC_E?getCFG('BASE_PORT'):'',
-		consPolEn:bc==BC_E?getCFGD('BASE_PORT'):'',
+		//consPolEn:bc==BC_E?getCFGD('BASE_PORT'):'',
+		consPol:bc==BC_E?BASE_PORT:'',
+		consPolEn:bc==BC_E?BASE_PORT_NAME:'',
+		consPolCn:bc==BC_E?BASE_PORT_NAME_CN:'',
+				
 		//consPod:bc==BC_I?getCFG('BASE_PORT'):'',
-		consPodEn:bc==BC_I?getCFGD('BASE_PORT'):'',
+		//consPodEn:bc==BC_I?getCFGD('BASE_PORT'):'',
+		consPod:bc==BC_I?BASE_PORT:'',				
+		consPodEn:bc==BC_I?BASE_PORT_NAME:'',
+		consPodCn:bc==BC_I?BASE_PORT_NAME_CN:'',
 		deptId:getCFG('DEFAULT_DEPT_'+bt),consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
 		consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
 	return c;
@@ -884,6 +892,7 @@ Fos.BookTab = function(p) {
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
             	select:function(c,r,i){
             		p.set('consPol',r.get('portId'));
+            		p.set('consPolcN',r.get('portNameCn'));
             		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) 
             			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
             		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) 
@@ -896,6 +905,7 @@ Fos.BookTab = function(p) {
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
         	select:function(c,r,i){
         		p.set('consPod',r.get('portId'));
+        		p.set('consPodCn',r.get('portNameCn'));
             	if(p.get('consBizClass')==BC_E&&this.find('name','consTradeCountry')[0]) 
             		this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
             	if(this.find('name','consDeliveryPlace')[0]) 
@@ -904,7 +914,8 @@ Fos.BookTab = function(p) {
             		this.find('name','consDestination')[0].setValue(r.get('portNameEn'));
             	},
          	keydown:{fn:LP,buffer:BF}}};
-    var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',value:p.get('consPotEn'),xtype:'textfield',anchor:'99%'};
+    var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',
+    		value:p.get('consPotEn'),xtype:'textfield',anchor:'99%'};
     var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'99%'};
     var m14={fieldLabel:C_PACKING_LIST_NO,tabIndex:59,name:'consPackingListNo',value:p.get('consPackingListNo'),xtype:'textfield',anchor:'99%'};
     

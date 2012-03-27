@@ -2243,7 +2243,8 @@ Fos.CustomsTab = function(p) {
 			consContractNo:p.get('consContractNo'),
 			cudeCreateDate:new Date(),			
 			consBizClass:p.get('consBizClass'),
-			cudePortDomestic:p.get('consBizClass')==BC_E?p.get('consPolEn'):p.get('consPodEn'),
+			cudePortDomesticEn:p.get('consBizClass')==BC_E?p.get('consPolEn'):p.get('consPodEn'),
+			cudePortDomestic:p.get('consBizClass')==BC_E?p.get('consPolCn'):p.get('consPodCn'),
 			cudeCustomer:p.get('custName'),
 			cudeShipper:p.get('consShipper'),
 			cudeConsignee:p.get('consConsignee'),
@@ -2261,7 +2262,8 @@ Fos.CustomsTab = function(p) {
 			cudeBlNo:p.get('consMblNo'),
 			cudeContractNo:p.get('consTradeContractNo'),
 			cudeCountry:getCOUN(p.get('consTradeCountry')),
-			cudePortForeign:p.get('consBizClass')==BC_E?p.get('consPodEn'):p.get('consPolEn'),
+			cudePortForeignEn:p.get('consBizClass')==BC_E?p.get('consPodEn'):p.get('consPolEn'),
+			cudePortForeign:p.get('consBizClass')==BC_E?p.get('consPodCn'):p.get('consPolCn'),
 			cudeContainerNo:p.get('consContainerNo'),
 			cudeStatus:'1',cudeDocStatus:'0',version:'0'});
 		return b;
@@ -2595,7 +2597,7 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%',listeners:{
 					scope:this,
 					change:function(f,nv,ov){
-						txtTotalAmountCap.setValue(N2W(nv,2));
+						txtTotalAmountCap.setValue(N2D(nv));
 					}
 				}}  
 				]},
@@ -2786,7 +2788,9 @@ Fos.BLGrid = function(p){
 		blType:t,
 		blNo:t=='MB/L'?p.get('consMblNo'):p.get('consHblNo'),
 		mblNo:p.get('consMblNo'),		
-		consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),consShipType:p.get('consShipType'),
+		consBizClass:p.get('consBizClass'),
+		consBizType:p.get('consBizType'),
+		consShipType:p.get('consShipType'),
 		custId:p.get('custId'),custName:p.get('custName'),
 		consTradeContractNo:p.get('consTradeContractNo'),consChargeRemarks:p.get('consChargeRemarks'),
 		blShipper:p.get('consShipper'),blConsignee:p.get('consConsignee'),blNotifyParty:p.get('consNotifyParty'),
@@ -2806,7 +2810,7 @@ Fos.BLGrid = function(p){
 		blMergeFlag:0,blSplitFlag:0,blMasterFlag:1,
 		blCargoDesc:p.get('consCargoDesc'),blGrossWeight:p.get('consCargoGrossWeight'),
 		blMeasurement:p.get('consCargoMeasurement'),
-		blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' '+getPACK(p.get('packId'))+' ONLY',
+		blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' ('+p.get('consTotalPackages')+') '+getPACK(p.get('packId'))+' ONLY',
 		blPaymentTerm:p.get('pateName'),blPaidAt:p.get('consPaidAt'),blMarks:p.get('consCargoMarks'),
 		blTransTerm:getTRAN(p.get('tranId')),blContainerInfo:p.get('consContainersInfo'),istyId:p.get('istyId'),
 		blOriginalNum:N2EW(p.get('consOriginalBlNum')),blStatus:'1',version:'0',rowAction:'N'});
@@ -2964,7 +2968,7 @@ Fos.BLGrid = function(p){
 		bl.set('packId',c.get('packId'));
 		bl.set('packName',c.get('packName'));
 		bl.set('rowAction','N');
-		bl.set('blTotalSay','SAY TOTAL '+N2EW(c.get('cargPackageNum'))+' '+c.get('packName')+'ONLY');
+		bl.set('blTotalSay','SAY TOTAL '+N2EW(c.get('cargPackageNum'))+' ('+p.get('consTotalPackages')+') '+c.get('packName')+'ONLY');
 		showBlWin(p,bl,store);
 	};
 	this.removeBl = function(){

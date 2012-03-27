@@ -61,11 +61,14 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consFNotifyParty;
 	private Integer consPol;
 	private String consPolEn;
+	private String consPolCn;
 	private String consReceiptPlace;
 	private Integer consPod;
 	private String consPodEn;
+	private String consPodCn;
 	private Integer consPot;
 	private String consPotEn;
+	private String consPotCn;
 	private String consDeliveryPlace;
 	private String consDestination;
 	private String consTranCountry;
@@ -778,6 +781,16 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consPolEn = consPolEn;
 	}
 
+	@Column(name = "CONS_POL_CN", length = 64)
+	public String getConsPolCn() {
+		return this.consPolCn;
+	}
+
+	public void setConsPolCn(String consPolCn) {
+		this.consPolCn = consPolCn;
+	}
+
+	
 	@Column(name = "CONS_RECEIPT_PLACE", length = 64)
 	public String getConsReceiptPlace() {
 		return this.consReceiptPlace;
@@ -805,6 +818,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consPodEn = consPodEn;
 	}
 
+	@Column(name = "CONS_POD_CN", length = 64)
+	public String getConsPodCn() {
+		return this.consPodCn;
+	}
+
+	public void setConsPodCn(String consPodCn) {
+		this.consPodCn = consPodCn;
+	}
+	
 	@Column(name = "CONS_POT")
 	public Integer getConsPot() {
 		return this.consPot;
@@ -823,6 +845,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consPotEn = consPotEn;
 	}
 
+	@Column(name = "CONS_POT_CN", length = 64)
+	public String getConsPotCn() {
+		return this.consPotCn;
+	}
+
+	public void setConsPotCn(String consPotCn) {
+		this.consPotCn = consPotCn;
+	}
+	
 	@Column(name = "CONS_DELIVERY_PLACE", length = 64)
 	public String getConsDeliveryPlace() {
 		return this.consDeliveryPlace;

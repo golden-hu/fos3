@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,14 +94,51 @@ public class WUserService {
 		}
 	}
 
-	private void setLoginInfo(WUser entity) {
-		//SessionManager.setAttr(SessionKeyType.UID, entity.getWusrId());
-		//SessionManager.setAttr(SessionKeyType.USERNAME, entity.getWusrName());
+	@Transactional(readOnly = true)
+	public WUser register(Map<String, Object> queryMap) {
+		String wusrName = (String) queryMap.get("wusrName");
+		String wusrPassword = (String) queryMap.get("wusrPassword");
+		String wusrFirstName= (String) queryMap.get("wusrFirstName");
+		String wusrTitle= (String) queryMap.get("wusrTitle");
+		String wusrDept= (String) queryMap.get("wusrDept");
+		String wusrEmail= (String) queryMap.get("wusrEmail");
+		String wusrCompanyName= (String) queryMap.get("wusrCompanyName");
+		String wusrTel= (String) queryMap.get("wusrTel");
+		String wusrMobile= (String) queryMap.get("wusrMobile");
+		String compCode= (String) queryMap.get("compCode");
 		
+		wusrPassword = CryptoUtil.MD5Encode(wusrPassword);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("wusrName", wusrName);
+		
+		List<WUser> userList = dao.findByProperties(map);
+		if (userList != null && userList.size() > 0) {
+			throw new BusinessException("ws.username.exist");
+		}
+		
+		
+		WUser user = new WUser();
+		user.setCompCode(compCode);
+		user.setWusrCompanyName(wusrCompanyName);
+		user.setWusrDept(wusrDept);
+		user.setWusrEmail(wusrEmail);
+		user.setWusrFirstName(wusrFirstName);
+		user.setWusrMobile(wusrMobile);
+		user.setWusrName(wusrName);
+		user.setWusrPassword(wusrPassword);
+		user.setWusrTel(wusrTel);
+		user.setWusrTitle(wusrTitle);
+		user.setRowAction(RowAction.N);
+		
+		
+		return user;
+	}
+	
+	private void setLoginInfo(WUser entity) {		
 		SessionManager.setAttr("WUID", entity.getWusrId());
 		SessionManager.setAttr("WUSERNAME", entity.getWusrName());		
 		SessionManager.setAttr(SessionKeyType.COMPCODE, entity.getCompCode());
-		//SessionManager.setAttr(SessionKeyType.USER, entity);
 		ActionLogUtil.log();
 	}
 }

@@ -95,18 +95,14 @@ WUser = Ext.data.Record.create(['id','wusrId','wusrName','wusrPassword','wusrFir
  	{name:'wusrLastLoginTime',type:'date',dateFormat:'Y-m-d H:i:s'},
  	'custId','compCode','version','rowAction']);
 var login = function(f){	
-	var wusrName=loginForm.userLoginName.value;
-	var wusrPassword=loginForm.userPassword.value;
+	var wusrName=f.userLoginName.value;
+	var wusrPassword=f.userPassword.value;
 	Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
 		params:{A:'WS_LOGIN',mt:'JSON',wusrName:wusrName,wusrPassword:wusrPassword},
 		success: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);
-			//sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
-			//sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);
-			
 			saveSession('WUSER_ID',user.WUser[0].wusrId);
-			saveSession('WCUST_ID',user.WUser[0].custId);
-			
+			saveSession('WCUST_ID',user.WUser[0].custId);			
 			if(self!=top) 
 				top.location='ws.jsp';
 			else 
@@ -119,5 +115,65 @@ var login = function(f){
 		}
 	});	
 };
+
+var reg = function(f){	
+	var wusrName=f.wusrName.value;
+	var wusrPassword=f.wusrPassword.value;
+	var wusrEmail=f.wusrEmail.value;
+	var wusrCompanyName=f.wusrCompanyName.value;
+	var wusrTel=f.wusrTel.value;
+	
+	if(!wusrName){
+		alert('用户名不能为空');
+		f.wusrName.focus();
+		return;
+	}
+	if(!wusrPassword){
+		alert('密码不能为空');
+		f.wusrPassword.focus();
+		return;
+	}
+	if(!wusrEmail){
+		alert('Email不能为空');
+		f.wusrEmail.focus();
+		return;
+	}
+	if(!wusrCompanyName){
+		alert('公司名称不能为空');
+		f.wusrCompanyName.focus();
+		return;
+	}
+	if(!wusrTel){
+		alert('联系电话不能为空');
+		f.wusrTel.focus();
+		return;
+	}
+			
+	var rj=RTJ(r,WUser);
+	var data=FOSJ({'WUser':rj});
+	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
+		params:{A:'WS_REG',mt:'JSON',
+			wusrName:wusrName,wusrPassword:wusrPassword,
+			wusrEmail:wusrEmail,wusrCompanyName:wusrCompanyName,
+			wusrTel:wusrTel
+		},
+		success: function(r){
+			var user=Ext.util.JSON.decode(r.responseText);
+			saveSession('WUSER_ID',user.WUser[0].wusrId);
+			saveSession('WCUST_ID',user.WUser[0].custId);
+			
+			CUSER=user.WUser[0].wusrId;
+			alert('注册成功！');
+		},
+		failure: function(r){
+			var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
+	jsonData:data});
+	
+};
+
+var showRegWin = function(){
+	window.open('ws-reg.html','','height=360,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+};
+
 var exit = function(){window.open('', '_self', '');window.close();};
 var logout = function(){window.location=SERVICE_URL+'?A=LOGOUT';};

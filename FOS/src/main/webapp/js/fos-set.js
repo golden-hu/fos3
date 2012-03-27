@@ -1188,9 +1188,17 @@ Fos.ConsignAuditGrid = function() {
 	var rowCtxEvents = {rowdblclick: function(g,r,e){this.showExpense();}};
 	this.updateStatus=function(s){
 		var p = sm.getSelected();
-		if(p) Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatusAud:s},
-				success: function(r){p.beginEdit();p.set('consStatusAud',s);p.endEdit();this.updateTB(p);XMG.alert(SYS,M_S);},
-				failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+		if(p) Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+				params:{A:'CONS_U',consId:p.get('consId'),consStatusAud:s},
+				success: function(r){
+					p.beginEdit();p.set('consStatusAud',s);
+					p.endEdit();
+					this.updateTB(p);
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(r){
+					XMG.alert(SYS,M_F+r.responseText);
+				}});
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
 	this.showExpense = function(p){
@@ -1226,8 +1234,10 @@ Fos.ConsignAuditGrid = function() {
     	if(tb.getComponent('TB_7')) tb.getComponent('TB_7').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=2);
 	};
 	var b1={itemId:'TB_1',text:C_EXPE+'(Y)',disabled:NR(M1_S+S_EXPE),iconCls:'option',handler:this.showExpense};
-	var b2={itemId:'TB_2',text:C_FIN_CHECK+'(C)',disabled:NR(M1_S+S_COAU+F_A),iconCls:'check',scope:this,handler:function(){this.updateStatus('1');}};
-	var b3={itemId:'TB_3',text:C_MANAGER_CHECK+'(M)',disabled:NR(M1_S+S_COAU+F_A2),iconCls:'check',scope:this,handler:function(){this.updateStatus('2');}};
+	var b2={itemId:'TB_2',text:C_FIN_CHECK+'(C)',disabled:NR(M1_S+S_COAU+F_A),
+			iconCls:'check',scope:this,handler:function(){this.updateStatus('1');}};
+	var b3={itemId:'TB_3',text:C_MANAGER_CHECK+'(M)',disabled:NR(M1_S+S_COAU+F_A2),
+			iconCls:'check',scope:this,handler:function(){this.updateStatus('2');}};
 	var b4={itemId:'TB_4',text:C_SEARCH+('(F)'),iconCls:'search',handler:this.search};
 	var b5={itemId:'TB_5',text:C_EXPORT+'(E)',disabled:NR(M1_S+S_COAU+F_E),iconCls:'print',scope:this,
 			handler:this.exp};

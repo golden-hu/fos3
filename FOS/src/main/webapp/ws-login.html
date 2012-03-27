@@ -38,12 +38,12 @@
 <table>
 <tr><td align="right">用户名：</td><td><input name=userLoginName class='input'></td></tr>
 <tr><td align="right">密     码：</td><td><input type=password name=userPassword  class='input' 
-	onkeypress="javascript:if (event.keyCode == 13) login();return"></td>
+	onkeypress="javascript:if (event.keyCode == 13) login(loginForm);return"></td>
 </tr>
 
 <tr>
-<td><input type=button class="login_button" value="登录" onclick="javascript:login();return"></td>
-<td><input type=button class="login_button" value="注册新用户" onclick="javascript:login();return"></td>
+<td><input type=button class="login_button" value="登录" onclick="javascript:login(loginForm);return"></td>
+<td><input type=button class="login_button" value="注册" onclick="javascript:showRegWin();return"></td>
 </tr>
 </table>
 </form>

@@ -18,8 +18,6 @@
 }
 .reg_form {
 	padding:10px;
-	width:200px;
-    height:90px;
     background: #BAD2F4;
     border: 1px solid #c2c2c2;
 }
@@ -28,26 +26,25 @@
 </head>
 
 
-<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000 topmargin=3 marginheight=3>
+<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000>
 <TABLE WIDTH="100%" HEIGHT="100%">
 <TR>
 <TD ALIGN="center" VALIGN="middle">
 <center>
-<div class="login_form">
-<form action="javascript:login();return" name="loginForm">
+<div class="reg_form">
+<form action="javascript:login();return" name="reg_form">
 <table>
-<tr><td align="right">用户名：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">密码：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">电子邮件：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">公司名称：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">联系电话：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">姓名：</td><td><input class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">职位：</td><td><input class="input" value=""></td></tr>
-<tr><td align="right">部门：</td><td><input class="input" value=""></td></tr>
-<tr><td align="right">手机：</td><td><input class="input" value=""></td></tr>
+<tr><td align="right">用户名：</td><td><input name="wusrName" class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">密码：</td><td><input name="wusrPassword" class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">电子邮件：</td><td><input name="wusrEmail" class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">公司名称：</td><td><input name="wusrCompanyName" class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">联系电话：</td><td><input name="wuserTel" class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">手机：</td><td><input name="wusrMobile" class="input" value=""></td></tr>
+<tr><td align="right">姓名：</td><td><input name="wusrFirstName" class="input" value=""><span class="red">*</span></td></tr>
+<tr><td align="right">职位：</td><td><input name="wusrTitle" class="input" value=""></td></tr>
+<tr><td align="right">部门：</td><td><input name="wusrDept" class="input" value=""></td></tr>
 
 <tr><td align="right">&nbsp;</td><td><input type=button class="reg_button" value="注册"></td></tr>
-
 </table>
 </form>
 </div>
@@ -57,5 +54,5 @@
 </TR>
 </TABLE>
 </body></html>
-<script type="text/javascript">document.loginForm.userLoginName.focus();</script>
+<script type="text/javascript">document.reg_form.wusrName.focus();</script>
 

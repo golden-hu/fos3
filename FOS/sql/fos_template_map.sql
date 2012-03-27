@@ -59,6 +59,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, 'MBLNo', 'FBl', 'mblNo', NULL),
 (1, 'HAWBNO', 'FBl', 'blNo', NULL),
 (1, 'MAWBNO', 'FBl', 'mblNo', NULL),
+(1, '装运方式', 'FBl', 'consShipType', NULL),
 (1, '贸易合同号', 'FBl', 'consTradeContractNo', NULL),
 (1, '业务号', 'FBl', 'consNo', NULL),
 (1, '目的港代理', 'FBl', 'blOverseaAgency', NULL),

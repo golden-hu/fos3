@@ -105,7 +105,7 @@ Fos.CargoGrid = function(p,store,frm) {
 				mark = mark + ',' + a[i].get('cargMarks');
 			
 			if(ename!='') 
-				ename += ',';
+				ename += '\r\n';
 			ename = ename + a[i].get('cargNameEn');
 			
 			if(cname!='') 
@@ -133,17 +133,13 @@ Fos.CargoGrid = function(p,store,frm) {
 		p.set('consTotalNetWeight',nw);
 		p.set('consTotalMeasurement',m);
 		
-		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
-		frm.find('name','consTotalPackagesInWord')[0].setValue(pw);
-		p.set('consTotalPackagesInWord',pw);
-		
 		frm.find('name','consCargoMarks')[0].setValue(mark);
 		frm.find('name','consCargoNameCn')[0].setValue(cname);
 		frm.find('name','consCargoNameEn')[0].setValue(ename);
 		frm.find('name','consCargoDesc')[0].setValue(ename);
 		p.set('packName',pkgs);
 		
-		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' '+p.get('packName')+' ONLY';
+		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' ('+p.get('consTotalPackages')+') '+p.get('packName')+' ONLY';
 		frm.find('name','consTotalPackagesInWord')[0].setValue(pw);
 		p.set('consTotalPackagesInWord',pw);
 	};	

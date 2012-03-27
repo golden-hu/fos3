@@ -463,9 +463,6 @@ RegWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_REG',mt:'JSON'},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				//sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
-				//sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);
-				
 				saveSession('WUSER_ID',user.WUser[0].wusrId);
 				saveSession('WCUST_ID',user.WUser[0].custId);
 				
