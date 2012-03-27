@@ -384,7 +384,12 @@ FCustomsDeclaration= Ext.data.Record.create(['id',
 	{name:'cudeInspectionFlag',type:'boolean',convert:function(v){return v==1;}},
 	{name:'cudeOpenFlag',type:'boolean',convert:function(v){return v==1;}},
 	'cudeStatus','cudeDocStatus','cudeDocReleaseBy',
-	{name:'cudeDocReleaseTime',type:'date',dateFormat:'Y-m-d H:i:s'},'cudeDocReceiver',
+	{name:'cudeDocReleaseTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+	'cudeDocReceiver',
+	{name:'cudeShipDateF',type:'date',dateFormat:DATEF},
+	{name:'cudeShipDateT',type:'date',dateFormat:DATEF},
+	{name:'cudeTransFlag',type:'boolean',convert:function(v){return v==1;}},
+	{name:'cudePartialFlag',type:'boolean',convert:function(v){return v==1;}},
 	'userId','grouId','createBy','modifyBy',
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
@@ -1189,7 +1194,7 @@ function UUID(){var guid='';for (var i=0;i<10;i++){guid += Math.floor(Math.rando
 function iniStore(){
 	Ext.MessageBox.show({title:'Please wait',msg:'初始化数据...',progressText:'Loading...',width:300,progress:true,closable:false});
 	getCOUN_S();
-	getPOL_S();
+	//getPOL_S();
 	getEXRA_S();
 	getCURR_S;
 	getSEWA_S();
@@ -1241,7 +1246,9 @@ function getCStatistic(ct){
 	if(s=='45' && ct.indexOf('H')!=-1) return '45H';
 	return '00';
 };
-function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_Q',reader: new Ext.data.XmlReader({record:'GPort'},GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
+function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_Q',
+	reader: new Ext.data.XmlReader({record:'GPort'},GPort),
+	sortInfo:{field:'portNameEn',direction:'ASC'}});};
 function getVES(){return new Ext.data.Store({url: SERVICE_URL+'?A=VESS_X',reader: new Ext.data.XmlReader({id:'vessId',record:'GVessel'}, GVessel),sortInfo:{field:'vessNameEn', direction:'ASC'}});};
 function getVS(){return new Ext.data.Store({url: SERVICE_URL+'?A=VOYA_Q',reader: new Ext.data.XmlReader({record:'GVoyage'},GVoyage),sortInfo:{field:'voyaId',direction:'DESC'}});};
 function getCUCOS(){return new Ext.data.Store({url: SERVICE_URL+'?A=CUCO_Q',reader: new Ext.data.XmlReader({record:'CCustomerContact'},CCustomerContact)});};

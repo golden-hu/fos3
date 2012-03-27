@@ -125,6 +125,11 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String attr9;
 	private String attr10;
 
+	private Short cudeTransFlag;
+	private Short cudePartialFlag;
+	private Date cudeShipDateF;
+	private Date cudeShipDateT;
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "CUDE_ID", unique = true, nullable = false)
@@ -1095,4 +1100,41 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.attr10 = attr10;
 	}
 
+	@Column(name = "CUDE_TRANS_FLAG")
+	public Short getCudeTransFlag() {
+		return this.cudeTransFlag;
+	}
+
+	public void setCudeTransFlag(Short cudeTransFlag) {
+		this.cudeTransFlag = cudeTransFlag;
+	}
+
+	@Column(name = "CUDE_PARTIAL_FLAG")
+	public Short getCudePartialFlag() {
+		return this.cudePartialFlag;
+	}
+
+	public void setCudePartialFlag(Short cudePartialFlag) {
+		this.cudePartialFlag = cudePartialFlag;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CUDE_SHIP_DATE_F", length = 10)
+	public Date getCudeShipDateF() {
+		return cudeShipDateF;
+	}
+
+	public void setCudeShipDateF(Date cudeShipDateF) {
+		this.cudeShipDateF = cudeShipDateF;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CUDE_SHIP_DATE_T", length = 10)
+	public Date getCudeShipDateT() {
+		return cudeShipDateT;
+	}
+
+	public void setCudeShipDateT(Date cudeShipDateT) {
+		this.cudeShipDateT = cudeShipDateT;
+	}
 }

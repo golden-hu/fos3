@@ -885,7 +885,7 @@ Fos.BookTab = function(p) {
         	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
     var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,
     		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
-    		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
+    		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'remote',
     		triggerAction:'all',selectOnFocus:true,anchor:'99%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
@@ -899,7 +899,9 @@ Fos.BookTab = function(p) {
             			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
             	},
              	keydown:{fn:LP,buffer:BF}}};
-	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',value:p.get('consPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
+			value:p.get('consPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',
+			valueField:'portNameEn',typeAhead: true,mode:'remote',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
