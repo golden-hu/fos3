@@ -2567,7 +2567,8 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_CUDE_TYPE,name:'cudeType',xtype:'combo',value:p.get('cudeType'),
 					store:CUTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
 					mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'}]},
+				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_LOAD_DATE_F,name:'cudeShipDateF',xtype:'datefield',format:DATEF,anchor:'99%'}]},
 			{columnWidth:.25,layout:'form',border:false,items:[
 				{fieldLabel:C_CUDE_CONTACT,name:'cudeVendorContact',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_RECORD_NO,name:'cudeRecordNo',xtype:'textfield',anchor:'99%'},
@@ -2581,7 +2582,9 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_PACKAGES,name:'cudePackageNum',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				p.get('consBizClass')=='A'?{fieldLabel:C_MANUFACTURE,name:'cudeManu',xtype:'textfield',anchor:'99%'}:{fieldLabel:'用途',name:'usagName',store:getUSAG_S(),xtype:'combo',displayField:'usagName',valueField:'usagName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_CUST_CUDE_CODE,name:'attr1',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'}]},
+				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'},
+				{fieldLabel:C_LOAD_DATE_T,name:'cudeShipDateT',xtype:'datefield',format:DATEF,anchor:'99%'}
+				]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_CUDE_TEL,name:'cudeVendorTel',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_EX_DATE:C_IM_DATE,name:'cudeEntryDate',xtype:'datefield',format:DATEF,anchor:'99%'},

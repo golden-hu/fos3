@@ -66,6 +66,7 @@ public abstract class AbstractFTrans extends BaseDomain {
 	private Date tranEtd;
 	private String tranSoNo;
 	private String tranPol;
+	private String tranPod;
 	private String tranCyDraw;
 	private Date tranDrawDate;
 	private String tranCyBack;
@@ -547,6 +548,15 @@ public abstract class AbstractFTrans extends BaseDomain {
 		this.tranPol = tranPol;
 	}
 
+	@Column(name = "TRAN_POD", length = 64)
+	public String getTranPod() {
+		return this.tranPod;
+	}
+
+	public void setTranPod(String tranPod) {
+		this.tranPod = tranPod;
+	}
+	
 	@Column(name = "TRAN_CY_DRAW", length = 64)
 	public String getTranCyDraw() {
 		return this.tranCyDraw;
