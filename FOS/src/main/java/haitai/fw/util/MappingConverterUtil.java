@@ -35,6 +35,13 @@ public class MappingConverterUtil {
 		return "NO";
 	}
 	
+	public String Allowed(String str) {
+		if ("1".equals(str)) {
+			return "Allowed";
+		}
+		return "Not Allowed";
+	}
+	
 	public String subString8(String s) {
 		if (StringUtil.isBlank(s)) {
 			return s;

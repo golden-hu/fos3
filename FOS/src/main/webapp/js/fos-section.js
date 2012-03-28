@@ -2210,8 +2210,8 @@ Fos.CustomsTab = function(p) {
 		}
 	};
 	
-	this.entryGrid = new Ext.grid.EditorGridPanel({title:C_CUDE_CARGO_LIST,region:'south',colapsable:true,
-		border:false,autoScroll:true,height:150,sm:sm2,cm:cm2,
+	this.entryGrid = new Ext.grid.EditorGridPanel({title:C_CUDE_CARGO_LIST,colapsable:true,
+		border:false,autoScroll:true,height:200,sm:sm2,cm:cm2,
 		store:new Ext.data.Store({reader:new Ext.data.XmlReader({id:'cuenId',record:'FCustomsEntry'},FCustomsEntry),sortInfo:{field:'cuenId',direction:'ASC'}}),
 		tbar:[{text:C_ADD,iconCls:'add',scope:this,handler:addEntry},'-',
 		      {text:C_LOAD_ENTRY,iconCls:'add',scope:this,handler:loadEntry},'-',
@@ -2260,6 +2260,8 @@ Fos.CustomsTab = function(p) {
 			cudeNetWeight:p.get('consTotalNetWeight'),
 			cudeConveyance:p.get('vessName')+' '+p.get('voyaName'),
 			cudeBlNo:p.get('consMblNo'),
+			cudeTransFlag:p.get('consTransFlag'),
+			cudePartialFlag:p.get('consPartialFlag'),
 			cudeContractNo:p.get('consTradeContractNo'),
 			cudeCountry:getCOUN(p.get('consTradeCountry')),
 			cudePortForeignEn:p.get('consBizClass')==BC_E?p.get('consPodEn'):p.get('consPolEn'),
@@ -2519,13 +2521,16 @@ Fos.CustomsTab = function(p) {
 	};
 	var expPanel = new Fos.SectionExGrid(p,'INSP',this);	
 	
+	var txtPartial={xtype:'checkbox',labelSeparator:'',boxLabel:C_PARTIAL_FLAG,tabIndex:19,name:'consPartialFlag',checked:p.get('consPartialFlag')=='1'};
+	var txtTrans={xtype:'checkbox',labelSeparator:'',boxLabel:C_TANS_FLAG,tabIndex:20,name:'cudeTransFlag',checked:p.get('cudeTransFlag')=='1'};
+
 	var txtTotalAmountCap = new Ext.form.TextField({fieldLabel:C_CAP_AMOUNT,
 		name:'cudeTotalAmountCap',anchor:'99%'});	
 	var txtTotalSay = new Ext.form.TextField({fieldLabel:C_PACKAGES_CAP,
 		name:'cudeTotalSay',xtype:'textfield',anchor:'99%'});
-	var frm = new Ext.FormPanel({layout:'border',title:C_CUSTOM_INFO,
+	var frm = new Ext.FormPanel({title:C_CUSTOM_INFO,height:350,autoScroll:true,
 		labelAlign:'right',labelWidth:100,trackResetOnLoad:false,items:[
-       	 {region:'center',autoScroll:true,padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
+       	 {padding:5,title:C_CUSTOM_INFO,collapsible:true,            	 
 			items:[
 			{layout:'column',border:false,items:[
 			{columnWidth:.25,layout:'form',border:false,items:[
@@ -2568,7 +2573,8 @@ Fos.CustomsTab = function(p) {
 					store:CUTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
 					mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_LOAD_DATE_F,name:'cudeShipDateF',xtype:'datefield',format:DATEF,anchor:'99%'}]},
+				txtPartial
+				]},
 			{columnWidth:.25,layout:'form',border:false,items:[
 				{fieldLabel:C_CUDE_CONTACT,name:'cudeVendorContact',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_RECORD_NO,name:'cudeRecordNo',xtype:'textfield',anchor:'99%'},
@@ -2583,7 +2589,7 @@ Fos.CustomsTab = function(p) {
 				p.get('consBizClass')=='A'?{fieldLabel:C_MANUFACTURE,name:'cudeManu',xtype:'textfield',anchor:'99%'}:{fieldLabel:'用途',name:'usagName',store:getUSAG_S(),xtype:'combo',displayField:'usagName',valueField:'usagName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_CUST_CUDE_CODE,name:'attr1',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-				{fieldLabel:C_LOAD_DATE_T,name:'cudeShipDateT',xtype:'datefield',format:DATEF,anchor:'99%'}
+				txtTrans
 				]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_CUDE_TEL,name:'cudeVendorTel',xtype:'textfield',anchor:'99%'},
@@ -2597,12 +2603,8 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_PACK,name:'packCode',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PACK+C_ENGLISH,name:'packCodeEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CHARGE,name:'cudeCharge',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%',listeners:{
-					scope:this,
-					change:function(f,nv,ov){
-						txtTotalAmountCap.setValue(N2D(nv));
-					}
-				}}  
+				{fieldLabel:C_LOAD_DATE_F,name:'cudeShipDateF',xtype:'datefield',format:DATEF,anchor:'99%'},
+				{fieldLabel:C_TRADE_CONTRACT_NO,name:'cudeContractNo',xtype:'textfield',anchor:'99%'}
 				]},
 			{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_CUSTOMS_NO,name:'cudeCustomsNo',xtype:'textfield',anchor:'99%'},
@@ -2619,12 +2621,22 @@ Fos.CustomsTab = function(p) {
 					itemCls:'required',name:'cudePlaceEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_INSURANCE_FEE,name:'cudeInsurance',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_GW_S+C_KGS,name:'cudeGrossWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_MW_S+C_KGS,name:'cudeNetWeight',itemCls:'required',xtype:'textfield',anchor:'99%'}
-				]},
+				{fieldLabel:C_MW_S+C_KGS,name:'cudeNetWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_LOAD_DATE_T,name:'cudeShipDateT',xtype:'datefield',format:DATEF,anchor:'99%'},
+				{fieldLabel:C_CONTRACT_DATE,name:'cudeContractDate',xtype:'datefield',format:DATEF,anchor:'99%'}
+				]},				
 				{columnWidth:.5,layout:'form',border : false,items:[
 				     txtTotalSay
 				]},
-				{columnWidth:.5,layout:'form',border : false,items:[
+				{columnWidth:.25,layout:'form',border : false,items:[
+ 					{fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%',listeners:{
+ 						scope:this,
+ 						change:function(f,nv,ov){
+ 							txtTotalAmountCap.setValue(N2D(nv));
+ 						}
+ 					}}  
+ 				]},
+				{columnWidth:.25,layout:'form',border : false,items:[
 				     txtTotalAmountCap   
    				]}
 			]},				
@@ -2699,6 +2711,14 @@ Fos.CustomsTab = function(p) {
 		else
 			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
 	};
+	this.expContract=function(){
+		var b = this.grid.getSelectionModel().getSelected();
+		if(b){
+			EXPC('CUDE_CONTRACT','&cudeId='+b.get('cudeId'));
+		}
+		else
+			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
+	};
 	
 	Fos.CustomsTab.superclass.constructor.call(this, { 
 	id: "T_CUDE_" +p.get('id'),title:C_SR_CUDE+'(F9)',autoScroll:true,layout:'border',
@@ -2713,7 +2733,8 @@ Fos.CustomsTab = function(p) {
 				[
 			   		{text:C_CUSTOM_BILL,scope:this,handler:this.expCustomsDeclaration},
 			   		{text:C_COMMERCIAL_INVOICE,scope:this,handler:this.expCommercialInvoice},
-			   		{text:C_CUDE_PACKING_LIST,scope:this,handler:this.expPackingList}
+			   		{text:C_CUDE_PACKING_LIST,scope:this,handler:this.expPackingList},
+			   		{text:C_TRADE_CONTRACT,scope:this,handler:this.expContract}
 		   		]}},'->'],
 	items: [this.grid,
         {xtype:'tabpanel',region:'center',activeTab:0,

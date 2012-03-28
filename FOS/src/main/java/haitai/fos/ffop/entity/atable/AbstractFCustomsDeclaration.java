@@ -92,6 +92,8 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudeDocColor;
 	private String cudeInvoiceNo;
 	private Date cudeInvoiceDate;
+	private String cudeContractNo;
+	private Date cudeContractDate;
 	private Integer cudeRefundDocNum;
 	private Short cudeTransitedFlag;
 	private Short cudeRefundFlag;
@@ -781,6 +783,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeInvoiceNo = cudeInvoiceNo;
 	}
 	
+	@Column(name = "CUDE_CONTRACT_NO", length = 32)
+	public String getCudeContractNo() {
+		return this.cudeContractNo;
+	}
+
+	public void setCudeContractNo(String cudeContractNo) {
+		this.cudeContractNo = cudeContractNo;
+	}
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CUDE_INVOICE_DATE", length = 10)
 	public Date getCudeInvoiceDate() {
@@ -789,6 +800,16 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 
 	public void setCudeInvoiceDate(Date cudeInvoiceDate) {
 		this.cudeInvoiceDate = cudeInvoiceDate;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CUDE_CONTRACT_DATE", length = 10)
+	public Date getCudeContractDate() {
+		return this.cudeContractDate;
+	}
+
+	public void setCudeContractDate(Date cudeContractDate) {
+		this.cudeContractDate = cudeContractDate;
 	}
 	
 	@Column(name = "CUDE_DOC_NUM")
