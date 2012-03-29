@@ -17,6 +17,8 @@
     height:28px;
 }
 .reg_form {
+	width:320px;
+	height:300px;
 	padding:10px;
     background: #BAD2F4;
     border: 1px solid #c2c2c2;
@@ -34,17 +36,47 @@
 <div class="reg_form">
 <form action="javascript:login();return" name="reg_form">
 <table>
-<tr><td align="right">用户名：</td><td><input name="wusrName" class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">密码：</td><td><input name="wusrPassword" class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">电子邮件：</td><td><input name="wusrEmail" class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">公司名称：</td><td><input name="wusrCompanyName" class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">联系电话：</td><td><input name="wuserTel" class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">手机：</td><td><input name="wusrMobile" class="input" value=""></td></tr>
-<tr><td align="right">姓名：</td><td><input name="wusrFirstName" class="input" value=""><span class="red">*</span></td></tr>
-<tr><td align="right">职位：</td><td><input name="wusrTitle" class="input" value=""></td></tr>
-<tr><td align="right">部门：</td><td><input name="wusrDept" class="input" value=""></td></tr>
+<tr>
+<td align="right">用户名：</td>
+<td><input name="wusrName" class="input" value=""><span class="red">*</span></td>
+</tr>
+<tr>
+<td align="right">密码：</td>
+<td><input name="wusrPassword" class="input" value=""><span class="red">*</span></td>
+</tr>
+<tr>
+<td align="right">电子邮件：</td>
+<td><input name="wusrEmail" class="input" value=""><span class="red">*</span></td>
+</tr>
+<tr>
+<td align="right">公司名称：</td>
+<td><input name="wusrCompanyName" class="input" value=""><span class="red">*</span></td>
+</tr>
+<tr>
+<td align="right">联系电话：</td>
+<td><input name="wusrTel" class="input" value=""><span class="red">*</span></td>
+</tr>
+<tr>
+<td align="right">手机：</td>
+<td><input name="wusrMobile" class="input" value=""></td>
+</tr>
+<tr>
+<td align="right">姓名：</td>
+<td><input name="wusrFirstName" class="input" value=""><span class="red">*</span></td>
+</tr>
+<tr>
+<td align="right">职位：</td>
+<td><input name="wusrTitle" class="input" value=""></td>
+</tr>
+<tr>
+<td align="right">部门：</td>
+<td><input name="wusrDept" class="input" value=""></td>
+</tr>
 
-<tr><td align="right">&nbsp;</td><td><input type=button class="reg_button" value="注册"></td></tr>
+<tr><td align="right">&nbsp;</td>
+<td>
+<input type=button class="reg_button" value="注册" onclick="javascript:reg(reg_form);return">
+</td></tr>
 </table>
 </form>
 </div>

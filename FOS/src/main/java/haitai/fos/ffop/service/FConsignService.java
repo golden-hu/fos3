@@ -740,11 +740,15 @@ public class FConsignService {
 		else
 			expeList = expenseDao.findByProperties(queryMap);
 		
+		String settlementObject = "";
+		
 		Double sumRCny = 0.0;
 		Double sumRUsd = 0.0;
 		Double sumPCny = 0.0;
 		Double sumPUsd = 0.0;
 		for(SExpense e : expeList){
+			if(settlementObject.equals(""))
+				settlementObject = e.getCustName();
 			if(e.getExpeType().equals(ConstUtil.PR_TYPE_RECEIVE)){
 				if(e.getCurrCode().equals("CNY")){
 					sumRCny += e.getExpeTotalAmount();
@@ -766,7 +770,7 @@ public class FConsignService {
 		c.setSumRUsd(sumRUsd);
 		c.setSumPCny(sumPCny);
 		c.setSumPUsd(sumPUsd);
-		
+		c.setSettlement(settlementObject);
 		retList.add(c);		
 		retList.addAll(expeList);
 		return retList;

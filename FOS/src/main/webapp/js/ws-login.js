@@ -148,9 +148,7 @@ var reg = function(f){
 		f.wusrTel.focus();
 		return;
 	}
-			
-	var rj=RTJ(r,WUser);
-	var data=FOSJ({'WUser':rj});
+	
 	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
 		params:{A:'WS_REG',mt:'JSON',
 			wusrName:wusrName,wusrPassword:wusrPassword,
@@ -160,19 +158,27 @@ var reg = function(f){
 		success: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);
 			saveSession('WUSER_ID',user.WUser[0].wusrId);
-			saveSession('WCUST_ID',user.WUser[0].custId);
-			
+			saveSession('WCUST_ID',user.WUser[0].custId);			
 			CUSER=user.WUser[0].wusrId;
 			alert('注册成功！');
+			if(self!=top) 
+				top.location='ws.jsp';
+			else 
+				window.location='ws.jsp';
 		},
 		failure: function(r){
-			var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
-	jsonData:data});
-	
+			var user=Ext.util.JSON.decode(r.responseText);
+			alert(user.FosResponse.msg);}
+		});	
 };
 
 var showRegWin = function(){
-	window.open('ws-reg.html','','height=360,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+	if(self!=top) 
+		top.location='ws-reg.html';
+	else 
+		window.location='ws-reg.html';
+	
+	//window.open('ws-reg.html','','height=360,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
 };
 
 var exit = function(){window.open('', '_self', '');window.close();};

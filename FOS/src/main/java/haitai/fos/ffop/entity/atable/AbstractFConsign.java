@@ -371,6 +371,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Double consChargeWeightCustomer;
 	private Double consTotalGrossWeightCustomer;
 	private Double consTotalMeasurementCustomer;
+		
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)

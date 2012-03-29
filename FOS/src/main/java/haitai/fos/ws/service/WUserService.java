@@ -94,7 +94,7 @@ public class WUserService {
 		}
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public WUser register(Map<String, Object> queryMap) {
 		String wusrName = (String) queryMap.get("wusrName");
 		String wusrPassword = (String) queryMap.get("wusrPassword");
