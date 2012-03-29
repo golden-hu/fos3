@@ -280,7 +280,6 @@ var LP=function(f,e){
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
 			var a=[];
-			var op=1;
 			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});			
 			var xml = QTX(a);
 	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'PORT_X',S:1}:{A:'PORT_X'},
@@ -294,7 +293,8 @@ var LP=function(f,e){
 var LV=function(f,e,vt){
 	var q=f.getRawValue();
 	if(q.length>1 && !f.isExpanded()){
-		var a=[];var op=1;a[0]=new QParam({key:'vessActive',value:'1',op:1});
+		var a=[];
+		a[0]=new QParam({key:'vessActive',value:'1',op:1});
 		a[1]=new QParam({key:'vessNameEn',value:q+'%',op:7});
 		if(vt!=='') a[a.length]=new QParam({key:'vessType',value:vt?vt:1,op:1});
 		var xml = QTX(a);

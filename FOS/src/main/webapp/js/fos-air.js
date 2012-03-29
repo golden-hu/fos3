@@ -2566,8 +2566,12 @@ Fos.FDocLookupWin = function(store,s){
 	   		{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_SAIL_DATE,name:'consEtd',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_VOYA,tabIndex:35,name:'voyaName',xtype:'textfield',anchor:'95%'},
-	        	{fieldLabel:C_COUNTRY_D,name:'consTradeCountry',store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
-                	listeners:{scope:this,select:function(c,r,i){this.find('name','consPod')[0].store.reload({params:{counCode:r.get('counCode'),portActive:1}});}}},	             	
+	        	{fieldLabel:C_COUNTRY_D,name:'consTradeCountry',store:getCOUN_S(),
+	        		xtype:'combo',displayField:'counNameEn',valueField:'counCode',
+	        		typeAhead:true,mode:'remote',triggerAction:'all',selectOnFocus:true,anchor:'95%',
+                	listeners:{scope:this,select:function(c,r,i){
+                		this.find('name','consPod')[0].store.reload({params:{counCode:r.get('counCode'),portActive:1}});
+                	}}},	             	
 	        	{fieldLabel:C_SALES,name:'consSalesRepId',store:getSALE_S(),xtype:'combo',displayField:'userName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
 	        	{fieldLabel:C_CONTRACT_NO,name:'consContractNo',xtype:'textfield',anchor:'95%'},
 	        	{fieldLabel:C_CARRIER,name:'consCarrier',store:getCS(),enableKeyEvents:true,

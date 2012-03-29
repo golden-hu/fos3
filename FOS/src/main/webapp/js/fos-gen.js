@@ -9,8 +9,13 @@
     var grid = new  Ext.grid.EditorGridPanel({id:'G_COUN',iconCls:'gen',title:C_COUN,header:false,
     plugins:ac,clicksToEdit:1,closable:true,store:store,sm:sm,cm:cm,loadMask:true,
     bbar:PTB(store,100),
-    tbar:[{text:C_SAVE,disabled:NR(M1_J+G_COUN+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GCountry',GCountry,'COUN_S');getCOUN_S().reload();}},'-',
-        {text:C_EXPORT,disabled:NR(M1_J+G_COUN+F_E),iconCls:'print',handler:function(){EXP('C','COUN','');}}]
+    tbar:[{text:C_SAVE,disabled:NR(M1_J+G_COUN+F_M),iconCls:'save',handler:function(){
+    	FOS_POST(store,'GCountry',GCountry,'COUN_S');
+    	//getCOUN_S().reload();
+    	}},'-',
+        {text:C_EXPORT,disabled:NR(M1_J+G_COUN+F_E),iconCls:'print',handler:function(){
+        	EXP('C','COUN','');
+        }}]
     }); 
     store.load({params:{start:0,limit:100}});
     return grid;
@@ -58,7 +63,8 @@ var showG_PLAC = function(){
         {header:C_REMARKS,dataIndex:'placDesc',editor:new Ext.form.TextArea({grow:true,height:'400',width:'400'})},
 		{header:C_COUN,dataIndex:'counCode',renderer:getCOUN,
 			editor:new Ext.form.ComboBox({displayField:'counCode',valueField:'counCode',triggerAction: 'all',
-			tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},
+			tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'remote',selectOnFocus:true,
+			listClass:'x-combo-list-small',store:getCOUN_S()})},
 		{header:C_STATE,dataIndex:'placProvinceId',renderer:function(v,m,r){return r.get('placProvinceName')},
 			editor:new Ext.form.ComboBox({displayField:'placName',valueField:'placId',triggerAction: 'all',
 			tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPROV_S()})}
@@ -87,7 +93,8 @@ var showG_PORT = function(pt) {
 	var sm=getCSM();
 	var c1={header:C_COUN,dataIndex: 'counCode',renderer:getCOUN,
 			editor:new Ext.form.ComboBox({displayField:'counCode',valueField:'counCode',triggerAction: 'all',
-				tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})};
+				tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'remote',selectOnFocus:true,
+				listClass:'x-combo-list-small',store:getCOUN_S()})};
     var c2={header:C_CODE,dataIndex: 'portCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})};
     var c3={header:C_ENAME,dataIndex: 'portNameEn',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})};
     var c4={header:C_CNAME,dataIndex: 'portNameCn',editor:new Ext.form.TextField({allowBlank:true,blankText:'',invalidText:''})};
@@ -144,8 +151,9 @@ var showG_VESS = function(){
         {header:C_CARRIER,dataIndex: 'vessLiner',editor:new Ext.form.TextField()},
         {header:C_REMARKS,dataIndex: 'vessDesc',editor:new Ext.form.TextField()},
 		{header:C_COUN,dataIndex: 'counCode',renderer:getCOUN,
-			editor:new Ext.form.ComboBox({displayField: 'counNameEn',valueField:'counCode',triggerAction: 'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},		
+			editor:new Ext.form.ComboBox({displayField: 'counNameEn',
+				valueField:'counCode',triggerAction: 'all',
+            mode:'remote',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},		
 		{header:C_VESS_CALL,dataIndex: 'vessCode',editor:new Ext.form.TextField()},
 		ac],defaults:{sortable:true,width:100}});
     var grid = new  Ext.grid.EditorGridPanel({ 

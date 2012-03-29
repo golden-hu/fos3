@@ -842,7 +842,10 @@ Fos.BookTab = function(p) {
             	this.find('name','consNotifyParty2')[0].setValue(r.get('custAddress2'));
  			},
 			keydown:{fn:function(f,e){LC(f,e,'custOverseaAgencyFlag');},buffer:BF}}};
-	var m4={fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_D:C_COUNTRY_L,tabIndex:46,disabled:true,name:'consTradeCountry',value:p.get('consTradeCountry'),store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
+	var m4={fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_D:C_COUNTRY_L,
+			tabIndex:46,disabled:true,name:'consTradeCountry',value:p.get('consTradeCountry'),
+			store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',
+			typeAhead:true,mode:'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var m5={fieldLabel:C_BL_REMARKS,tabIndex:50,name:'consBlRemarks',value:p.get('consBlRemarks'),xtype:'textfield',anchor:'99%'};
 	var m6={fieldLabel:'S/O No.',name:'consSoNo',tabIndex:54,value:p.get('consSoNo'),xtype:'textfield',anchor:'99%'};
 	
@@ -885,7 +888,7 @@ Fos.BookTab = function(p) {
         	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
     var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,
     		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
-    		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'remote',
+    		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
     		triggerAction:'all',selectOnFocus:true,anchor:'99%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
@@ -901,7 +904,7 @@ Fos.BookTab = function(p) {
              	keydown:{fn:LP,buffer:BF}}};
 	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
 			value:p.get('consPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',
-			valueField:'portNameEn',typeAhead: true,mode:'remote',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
@@ -1248,7 +1251,7 @@ Fos.BookTab = function(p) {
 			
 	};
 	
-	var t31={layout:'column',layoutConfig: {columns:5},border:false,labelWidth:60,
+	var t31={layout:'column',padding:5,layoutConfig: {columns:5},border:false,labelWidth:60,
 		title:'货物小计',collapsible:true,items:
 		p.get('consBizType')==BT_A?[txtCargoMarks,txtCargoDesc,txtCargoNameEn,
 		                            txtTotalGrossWeight,txtTotalGrossWeightK,
@@ -1284,7 +1287,7 @@ Fos.BookTab = function(p) {
 	var g28={fieldLabel: C_WIDTH,name:'cargWidth',value:p.get('cargWidth'),xtype:'numberfield',anchor:'99%'};
 	var g29={fieldLabel: C_HEIGH,name:'cargHigh',value:p.get('cargHigh'),xtype:'numberfield',anchor:'99%'};
 	
-	var t32={layout:'column',layoutConfig: {columns:3},title:C_CARGO_SPECIAL_INFO,border:false,collapsible:true,items:
+	var t32={layout:'column',padding:5,layoutConfig: {columns:3},title:C_CARGO_SPECIAL_INFO,border:false,collapsible:true,items:
 	 		[{columnWidth:.33,border:false,items: 
 	        [{id:'cargDanagerFlag',xtype:'fieldset',labelAlign:'right',labelWidth:80,checkboxToggle:true,checkboxName:'cargDanagerFlag',title:'危险品',autoHeight:true,defaultType:'textfield',collapsed:p.get('cargDanagerFlag')==0,items:
 				[g11,g12,g13,g14,g15,g16,g17,g18,g19,g20]}]},
@@ -1296,12 +1299,12 @@ Fos.BookTab = function(p) {
 				[g27,g28,g29]}]
 		}]};
 	
-	var t3={id:'C_B_H_'+p.get('id'),title:C_CARGO_INFO+'(H)',height:600,autoScroll:true,
+	var t3={id:'C_B_H_'+p.get('id'),title:C_CARGO_INFO+'(H)',height:720,
 			items:[{layout:'fit',border:false,collapsible:true,items:this.cargoGrid},t31,t32]};
 	
 	var r1={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_SERVICE_SPEC,tabIndex:1,name:'consServiceSpec',value:p.get('consServiceSpec'),xtype:'textarea',anchor:'99%'}]};
 	var r2={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:2,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',anchor:'99%'}]};
-	var t41={title:C_BOOKING_REQUIREMENT,layout:'column',labelWidth:90,collapsible:true,items:[r1,r2]};
+	var t41={title:C_BOOKING_REQUIREMENT,layout:'column',padding:5,labelWidth:90,border:false,collapsible:true,items:[r1,r2]};
 	
 	var r3={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_TRACK_VENDOR,tabIndex:3,name:'consTrackVendorName',value:p.get('consTrackVendorName'),store:getCS(),enableKeyEvents:true,
 		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
@@ -1321,7 +1324,7 @@ Fos.BookTab = function(p) {
 	var txtLoadTel={columnWidth:.25,layout:'form',border:false,items:[
 	        {fieldLabel:C_LOAD_TEL,tabIndex:5,name:'consLoadTel',value:p.get('consLoadTel'),xtype:'textfield',anchor:'99%'}]};
 
-	var t42={title:C_TRAN_REQUIREMENT,layout:'column',labelWidth:90,collapsible:true,
+	var t42={title:C_TRAN_REQUIREMENT,layout:'column',padding:5,border:false,labelWidth:90,collapsible:true,
 			items:[r3,r4,r5,r6,r7,txtLoadFactory,txtLoadDate,txtLoadContact,txtLoadTel]};
 			
 	var r9={columnWidth:.5,layout:'form',border:false,items:[
@@ -1389,7 +1392,7 @@ Fos.BookTab = function(p) {
 				keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}}]};
 	
 	var t43={title:p.get('consBizType')==BT_B?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
-			layout:'column',collapsible:true,labelWidth:90,
+			layout:'column',padding:5,border:false,collapsible:true,labelWidth:90,
 			items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14,txtWarehouseNo]:
 				[r9,r10,r11,r12,r13,r14,txtWarehouseNo,r15]};
 	
@@ -1436,7 +1439,7 @@ Fos.BookTab = function(p) {
 	var r21={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:CUTY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
     var r22={fieldLabel:C_INV_FLAG,xtype:'checkbox',tabIndex:22,name:'consInvoiceFlag',checked:p.get('consInvoiceFlag')=='1',anchor:'99%'};
     var r23={fieldLabel:C_INSP_FLAG,xtype:'checkbox',tabIndex:23,name:'consInspectionFlag',checked:p.get('consInspectionFlag')=='1',anchor:'99%'};
-	var t44={title:C_CUST_REQUIREMENT,layout:'column',collapsible:true,items:
+	var t44={title:C_CUST_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:
 		[{columnWidth:.5,layout:'form',border:false,labelWidth:90,items:[r15]},
 		 {columnWidth:.5,layout:'form',border:false,labelWidth:90,items:[r16]},
 		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r17,r21]},
@@ -1448,10 +1451,10 @@ Fos.BookTab = function(p) {
 	var r24={fieldLabel:C_BHK_FLAG,tabIndex:24,name:'consBHkFlag',checked:p.get('consBHkFlag')=='1',xtype:'checkbox',anchor:'99%'};
 	var r25={fieldLabel:C_BINTERNATIONAL_FLAG,tabIndex:25,name:'consBInternationalFlag',checked:p.get('consBInternationalFlag')=='1',xtype:'checkbox',anchor:'99%'};
 	var r26={fieldLabel:C_REMARKS,tabIndex:26,name:'consBRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'99%'};
-	var t45={title:C_BARGE_REQUIREMENT,layout:'column',deferredRender:false,collapsible:true,items:[
+	var t45={title:C_BARGE_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:[
 		{columnWidth:.4,layout:'form',border:false,items:[r24,r25]},
 		{columnWidth:.6,layout:'form',border:false,items:[r26]}]};
-	var t4={id:'C_B_Y_'+p.get('id'),title:C_SERVICE_REQUIREMENT+'(Y)',height:600,autoScroll:true,
+	var t4={id:'C_B_Y_'+p.get('id'),title:C_SERVICE_REQUIREMENT+'(Y)',height:650,
 		items:p.get('consBizClass')==BC_E?[t41,t42,t43,t44,t45]:[t41,t42,t43,t44]};
 	
 	var r27={fieldLabel:C_CARGO_OWNER,tabIndex:1,name:'consCargoOwnerName',value:p.get('consCargoOwnerName'),store:getCS(),enableKeyEvents:true,
@@ -1465,7 +1468,7 @@ Fos.BookTab = function(p) {
 	var r30={fieldLabel:C_INSURANCE_FEE,tabIndex:6,name:'consInsuranceFee',value:p.get('consInsuranceFee'),xtype:'textfield',anchor:'99%'};
 	var r31={fieldLabel:C_CREDIT_NO,tabIndex:3,name:'consCreditNo',value:p.get('consCreditNo'),xtype:'textfield',anchor:'99%'};
 	var r32={fieldLabel:C_TRTE,tabIndex:4,name:'trteId',value:p.get('trteId'),store:getTRTE_S(),xtype:'combo',displayField:'trteName',valueField:'trteId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
-	var t51={title:C_TRADE_INFO,layout:'column',collapsible:true,items:[
+	var t51={title:C_TRADE_INFO,layout:'column',padding:5,border:false,collapsible:true,items:[
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r27,r28]},
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r29,r30]},
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r31]},
@@ -1475,7 +1478,7 @@ Fos.BookTab = function(p) {
 	var r34={fieldLabel:C_SCAC_CODE,tabIndex:8,name:'consScacCode',value:p.get('consScacCode'),xtype:'textfield',anchor:'99%'};
 	var r35={fieldLabel:C_BOOK_US_NO,tabIndex:9,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),xtype:'textfield',anchor:'99%'};
 	var r36={fieldLabel:C_US_FULLSHIP,tabIndex:10,name:'consUsFullShip',value:p.get('consUsFullShip'),store:USFU_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'};
-	var t52={title:C_AMS_INFO,layout:'column',collapsible:true,items:[
+	var t52={title:C_AMS_INFO,layout:'column',padding:5,border:false,collapsible:true,items:[
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r33]},
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r34]},
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r35]},
@@ -1483,7 +1486,7 @@ Fos.BookTab = function(p) {
 	var r37={fieldLabel:C_F_SHIPPER,tabIndex:11,name:'consFShipper',value:p.get('consFShipper'),xtype:'textarea',anchor:'99%'};
 	var r38={fieldLabel:C_F_CONSIGNEE,tabIndex:12,name:'consFConsignee',value:p.get('consFConsignee'),xtype:'textarea',anchor:'99%'};
 	var r39={fieldLabel:C_F_NOTIFY,tabIndex:13,name:'consFNotifyParty',value:p.get('consFNotifyParty'),xtype:'textarea',anchor:'99%'};
-	var t53={title:C_FSHIPPER_INFO,layout:'column',collapsible:true,items:[
+	var t53={title:C_FSHIPPER_INFO,layout:'column',padding:5,border:false,collapsible:true,items:[
     	{columnWidth:.34,layout:'form',border:false,labelWidth:70,items:[r37]},
     	{columnWidth:.33,layout:'form',border:false,labelWidth:70,items:[r38]},
     	{columnWidth:.33,layout:'form',border:false,labelWidth:70,items:[r39]}]};
@@ -1497,21 +1500,18 @@ Fos.BookTab = function(p) {
 	var r47={fieldLabel:C_EXT_6,tabIndex:19,name:'attr6',value:p.get('attr6'),xtype:'textfield',anchor:'99%'};
 	var r48={fieldLabel:C_EXT_8,tabIndex:21,name:'attr8',value:p.get('attr8'),xtype:'textfield',anchor:'99%'};
 	var r49={fieldLabel:C_EXT_10,tabIndex:23,name:'attr10',value:p.get('attr10'),xtype:'textarea',anchor:'99%'};
-	var t54={title:C_OTHER_INFO,layout:'column',collapsible:true,items:[
+	var t54={title:C_OTHER_INFO,layout:'column',padding:5,collapsible:true,border:false,items:[
     	{columnWidth:.5,layout:'form',border:false,labelWidth:70,items:[r40,r41,r42,r43,r44]},
     	{columnWidth:.5,layout:'form',border:false,labelWidth:70,items:[r45,r46,r47,r48,r49]}]};
 	
-	var t5= {id:'C_B_K_'+p.get('id'),title:C_EXT_INFO+'(K)',height:450,autoScroll:true,
+	var t5= {id:'C_B_K_'+p.get('id'),title:C_EXT_INFO+'(K)',height:500,
 			items:p.get('consBizClass')==BC_E?[t51,t52,t53,t54]:[t51,t54]};
     var t6={id:'C_B_T_'+p.get('id'),title:C_HBL_INFO+'(T)',height:450,autoScroll:true,
     		layout:'form',deferredRender:false,collapsible:true,items:[this.hblGrid]};
     
     var tabs=[t1,t3,t4,t5];
     
-	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){
-		tabs=[t1,t3,t5];
-	}
-	else if(p.get('consBizType')==BT_C){
+	if(p.get('consBizType')==BT_C){
     	var t2={id:'C_B_X_'+p.get('id'),border:false,title:C_CONT_INFO+'(X)',
     		layout:'fit',items:[this.contGrid]};
 		

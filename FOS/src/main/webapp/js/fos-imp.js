@@ -217,7 +217,7 @@ Fos.ContainerGrid = function(p,store) {
 	
 	Fos.ContainerGrid.superclass.constructor.call(this, { 
 	id:'G_CONT_EXP'+p.get('id'),border:false,plugins:[checkSOC,checkPOF],autoScroll:true,
-	clicksToEdit:1,height:400,
+	clicksToEdit:1,height:500,
     store: store,sm:sm,cm:cm,
     tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
 			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,

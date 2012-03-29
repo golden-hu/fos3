@@ -279,7 +279,9 @@ Fos.CustomerWin = function(p,store,wu){
             ]}
          ]};
     var t2={title:C_CONTINF,layout:'form',defaultType: 'textfield',
-				items: [{fieldLabel:C_COUN,id:'counCode',value:p.get('counCode'),xtype:'combo',store:getCOUN_S(),displayField:'counNameCn',valueField:'counCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+				items: [{fieldLabel:C_COUN,id:'counCode',value:p.get('counCode'),xtype:'combo',
+					store:getCOUN_S(),displayField:'counNameCn',valueField:'counCode',
+					typeAhead: true,mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
             	{fieldLabel:C_STATE,id:'custProvince',value:p.get('custProvince'),anchor:'90%'},
             	{fieldLabel:C_CITY,id:'custCity',value:p.get('custCity'),anchor:'90%'},
             	{fieldLabel:C_ADDRESS,id:'custAddress',value:p.get('custAddress'),anchor:'90%'},
@@ -380,7 +382,9 @@ Fos.CustomerLW = function(store) {
 	     	]},
 		{columnWidth:.34,layout:'form',border:false,items:[
 			{fieldLabel:C_CUCA,tabIndex:3,name: 'cucaId',xtype:'combo',store:getCUCA_S(),displayField:'cucaName',valueField:'cucaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-	     	{fieldLabel:C_COUN,name:'counCode',xtype:'combo',store:getCOUN_S(),displayField:'counNameCn',valueField:'counCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
+	     	{fieldLabel:C_COUN,name:'counCode',xtype:'combo',store:getCOUN_S(),
+				displayField:'counNameCn',valueField:'counCode',typeAhead: true,
+				mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
 	    ]}]};
 	var t5={id:'TCL_5',title:C_LOOK_BY_SERVICE,layout:'column',items:[
 		{columnWidth:.33,layout:'form',border:false,items:[	
