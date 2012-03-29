@@ -1196,7 +1196,7 @@ function UUID(){var guid='';for (var i=0;i<10;i++){guid += Math.floor(Math.rando
 
 function iniStore(){
 	Ext.MessageBox.show({title:'Please wait',msg:'初始化数据...',progressText:'Loading...',width:300,progress:true,closable:false});
-	getCOUN_S();
+	//getCOUN_S();
 	//getPOL_S();
 	getEXRA_S();
 	getCURR_S;
