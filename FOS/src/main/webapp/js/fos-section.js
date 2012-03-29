@@ -2139,7 +2139,9 @@ Fos.CustomsTab = function(p) {
 	{header:C_NW+(C_KGS),dataIndex:'cuenCargoNetWeight',renderer:numRender,
 		editor:new Ext.form.NumberField({decimalPrecision:2,invalidText:''})},
 	{header:C_CBM,dataIndex:'cuenCargoMeasurement',renderer:numRender,
-		editor:new Ext.form.NumberField({decimalPrecision:2,allowBlank:false,blankText:'',invalidText:''})}
+		editor:new Ext.form.NumberField({decimalPrecision:2,allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_REMARKS,dataIndex:'cuenRemarks',width:150,
+		editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})}
 	],defaults:{sortable:true,width:100}});
 	
 	var addEntry = function(){

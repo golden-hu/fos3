@@ -184,7 +184,9 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (4, '单价', 'FCustomsEntry', 'cuenUnitPrice', NULL),
 (4, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
 (4, '币制', 'FCustomsEntry', 'currCode', NULL),
-(4, '征免', 'FCustomsEntry', 'cuenLevyType', NULL);
+(4, '征免', 'FCustomsEntry', 'cuenLevyType', NULL),
+(4, '备注', 'FCustomsEntry', 'cuenRemarks', NULL)
+;
 
 -- 报检单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
@@ -1164,7 +1166,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (49, '货物单位', 'FCustomsEntry', 'cuenCargoUnit', NULL),
 (49, '单价', 'FCustomsEntry', 'cuenUnitPrice', NULL),
 (49, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
-(49, '币种', 'FCustomsEntry', 'currCode', NULL);
+(49, '币种', 'FCustomsEntry', 'currCode', NULL),
+(49, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);
 
 -- PACKING LIST
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
@@ -1187,7 +1190,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (50, '包装', 'FCustomsEntry', 'packCode', NULL),
 (50, '毛重', 'FCustomsEntry', 'cuenCargoGrossWeight', NULL),
 (50, '净重', 'FCustomsEntry', 'cuenCargoNetWeight', NULL),
-(50, '体积', 'FCustomsEntry', 'cuenCargoMeasurement', NULL);
+(50, '体积', 'FCustomsEntry', 'cuenCargoMeasurement', NULL),
+(51, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);
 
 -- 贸易合同
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
@@ -1223,4 +1227,5 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (51, '货物单位', 'FCustomsEntry', 'cuenCargoUnit', NULL),
 (51, '单价', 'FCustomsEntry', 'cuenUnitPrice', NULL),
 (51, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
-(51, '币种', 'FCustomsEntry', 'currCode', NULL);
+(51, '币种', 'FCustomsEntry', 'currCode', NULL),
+(51, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);
