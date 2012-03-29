@@ -1469,7 +1469,10 @@ Fos.BBookingTab = function(p) {
                 			c.setValue(r.get('custNameCn'));
                 		},
 						keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:BF}}},
-                {fieldLabel:C_COUNTRY_D,name:'consBCountryD',disabled:true,tabIndex:5,value:p.get('consBCountryD'),store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
+                {fieldLabel:C_COUNTRY_D,name:'consBCountryD',disabled:true,
+					tabIndex:5,value:p.get('consBCountryD'),store:getCOUN_S(),
+					xtype:'combo',displayField:'counNameEn',valueField:'counCode',
+					typeAhead: true,mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
                 {fieldLabel:C_ETD,name:'consBEtd',tabIndex:9,value:p.get('consBEtd'),xtype:'datefield',format:DATEF,anchor:'99%'},
                 {fieldLabel:C_BOOKING_NO,name:'consBBookingNo',tabIndex:13,value:p.get('consBBookingNo'),xtype:'textfield',anchor:'99%'}
                 ]
@@ -1977,7 +1980,10 @@ Fos.InspectionTab = function(p) {
 	            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[
 					{fieldLabel:p.get('consBizClass')==BC_E?C_CARGO_DELIVERY_DATE:C_CARGO_DISCHARGE_DATE,name:'inspShippingDate',xtype:'datefield',format:DATEF,anchor:'99%'}]},
 	            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[
-					{fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_TO:C_COUNTRY_FROM,name:'inspTradeCountry',store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counNameEn',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}]},
+					{fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_TO:C_COUNTRY_FROM,
+							name:'inspTradeCountry',store:getCOUN_S(),xtype:'combo',
+							displayField:'counNameEn',valueField:'counNameEn',typeAhead:true,
+							mode:'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}]},
 	            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[
 					{fieldLabel:C_CERTIFICATE_NO,name:'inspCertificateNo',xtype:'textfield',anchor:'99%'}]},
 	            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[
@@ -2119,7 +2125,7 @@ Fos.CustomsTab = function(p) {
         mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_S()})},
 	{header:p.get('consBizClass')==BC_I?C_COL_A:C_COUNTRY_DESTINATION,dataIndex:'cuenCountry',renderer:getCOUN,
 		editor:new Ext.form.ComboBox({displayField:'counNameCn',valueField:'counCode',triggerAction: 'all',
-    	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},
+    	mode:'remote',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},
 	{header:C_UNIT_PRICE,dataIndex:'cuenUnitPrice',width:80,align:'right',
     	renderer:numRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_TOTAL_PRICE,dataIndex:'cuenTotalPrice',width:80,align:'right',
