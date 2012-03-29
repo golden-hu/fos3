@@ -130,8 +130,8 @@ public class WUserService {
 		user.setWusrTel(wusrTel);
 		user.setWusrTitle(wusrTitle);
 		user.setRowAction(RowAction.N);
-		
-		
+		dao.save(user);
+		setLoginInfo(user);
 		return user;
 	}
 	

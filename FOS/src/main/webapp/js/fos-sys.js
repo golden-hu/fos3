@@ -1091,6 +1091,7 @@ Fos.TaskWin = function(p) {
 	var ad=new Ext.form.DateField({value:p.get('consEta'),format:DATEF,width:120,disabled:false});
 	var sd=new Ext.form.DateField({value:p.get('consSailDate'),format:DATEF,width:120,disabled:false});
 	var saveT=function(r){
+		r.set('rowAction','M');
 		var x=RTX(r,'FTask',FTask);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'TASK_S'},
 			success: function(res){
