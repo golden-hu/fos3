@@ -35,8 +35,10 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudeVendorTel;
 	private String cudePreNo;
 	private String cudeCustomsNo;
-	private String cudePortDomestic;
-	private String cudePortDomesticEn;
+	private String cudePol;
+	private String cudePolEn;
+	private String cudePod;
+	private String cudePodEn;
 	private String cudeRecordNo;
 	private Date cudeEntryDate;
 	private Date cudeDeclarDate;
@@ -57,7 +59,8 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudeApprovalNo;
 	private String consContractNo;
 	private String cudeContainerNo;
-	private String cudeCountry;
+	private String cudeLoadCountry;
+	private String cudeDischargeCountry;
 	private String cudePortForeign;
 	private String cudePortForeignEn;
 	private String cudePlace;
@@ -288,22 +291,40 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeCustomsNo = cudeCustomsNo;
 	}
 
-	@Column(name = "CUDE_PORT_DOMESTIC", length = 32)
-	public String getCudePortDomestic() {
-		return this.cudePortDomestic;
+	@Column(name = "CUDE_POL", length = 32)
+	public String getCudePol() {
+		return this.cudePol;
 	}
 
-	public void setCudePortDomestic(String cudePortDomestic) {
-		this.cudePortDomestic = cudePortDomestic;
+	public void setCudePol(String cudePol) {
+		this.cudePol = cudePol;
 	}
 
-	@Column(name = "CUDE_PORT_DOMESTIC_EN", length = 64)
-	public String getCudePortDomesticEn() {
-		return this.cudePortDomesticEn;
+	@Column(name = "CUDE_POL_EN", length = 64)
+	public String getCudePolEn() {
+		return this.cudePolEn;
 	}
 
-	public void setCudePortDomesticEn(String cudePortDomesticEn) {
-		this.cudePortDomesticEn = cudePortDomesticEn;
+	public void setCudePolEn(String cudePolEn) {
+		this.cudePolEn = cudePolEn;
+	}
+	
+	@Column(name = "CUDE_POD", length = 32)
+	public String getCudePod() {
+		return this.cudePod;
+	}
+
+	public void setCudePod(String cudePod) {
+		this.cudePod = cudePod;
+	}
+	
+	@Column(name = "CUDE_POD_EN", length = 64)
+	public String getCudePodEn() {
+		return this.cudePodEn;
+	}
+
+	public void setCudePodEn(String cudePodEn) {
+		this.cudePodEn = cudePodEn;
 	}
 	
 	@Column(name = "CUDE_RECORD_NO", length = 32)
@@ -489,32 +510,23 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeContainerNo = cudeContainerNo;
 	}
 
-	@Column(name = "CUDE_COUNTRY", length = 64)
-	public String getCudeCountry() {
-		return this.cudeCountry;
+	@Column(name = "CUDE_LOAD_COUNTRY", length = 64)
+	public String getCudeLoadCountry() {
+		return this.cudeLoadCountry;
 	}
 
-	public void setCudeCountry(String cudeCountry) {
-		this.cudeCountry = cudeCountry;
+	public void setCudeLoadCountry(String cudeLoadCountry) {
+		this.cudeLoadCountry = cudeLoadCountry;
 	}
 
-	@Column(name = "CUDE_PORT_FOREIGN", length = 32)
-	public String getCudePortForeign() {
-		return this.cudePortForeign;
+	@Column(name = "CUDE_DISCHARGE_COUNTRY", length = 64)
+	public String getCudeDischargeCountry() {
+		return this.cudeDischargeCountry;
 	}
 
-	public void setCudePortForeign(String cudePortForeign) {
-		this.cudePortForeign = cudePortForeign;
-	}
-
-	@Column(name = "CUDE_PORT_FOREIGN_EN", length = 64)
-	public String getCudePortForeignEn() {
-		return this.cudePortForeignEn;
-	}
-
-	public void setCudePortForeignEn(String cudePortForeignEn) {
-		this.cudePortForeignEn = cudePortForeignEn;
-	}
+	public void setCudeDischargeCountry(String cudeDischargeCountry) {
+		this.cudeDischargeCountry = cudeDischargeCountry;
+	}	
 	
 	@Column(name = "CUDE_PLACE", length = 32)
 	public String getCudePlace() {

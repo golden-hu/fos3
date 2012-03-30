@@ -1189,11 +1189,10 @@ Fos.ContainerTab = function(p) {
 			},stopEvent:true,scope:this});
 	
 	this.getVendorId=function(){    	
-    		return p.get('consCfs');
+    	return p.get('consCfs');
     };
-	this.getVendorName=function(){
-		
-			return p.get('consCfsName');
+	this.getVendorName=function(){		
+		return p.get('consCfsName');
 	};
 	var expPanel = new Fos.SectionExGrid(p,'CONT',this);
 	
@@ -2250,9 +2249,7 @@ Fos.CustomsTab = function(p) {
 			cudeVendorName:p.get('consCustomsVendorName'),
 			consContractNo:p.get('consContractNo'),
 			cudeCreateDate:new Date(),			
-			consBizClass:p.get('consBizClass'),
-			cudePortDomesticEn:p.get('consBizClass')==BC_E?p.get('consPolEn'):p.get('consPodEn'),
-			cudePortDomestic:p.get('consBizClass')==BC_E?p.get('consPolCn'):p.get('consPodCn'),
+			consBizClass:p.get('consBizClass'),			
 			cudeCustomer:p.get('custName'),
 			cudeShipper:p.get('consShipper'),
 			cudeConsignee:p.get('consConsignee'),
@@ -2260,22 +2257,26 @@ Fos.CustomsTab = function(p) {
 			cudeDeclarDate:new Date(),
 			cudeGrossWeight:p.get('consBizType')==BT_B?p.get('consTotalGrossWeight')*1000:p.get('consTotalGrossWeight'),
 			cudeNetWeight:p.get('consBizType')==BT_B?p.get('consTotalNetWeight')*1000:p.get('consTotalNetWeight'),
-			cudePlace:p.get('consPolEn'),packCode:getPACK(p.get('packId')),
+			cudePlace:p.get('consPolCn'),
+			cudePlaceEn:p.get('consPolEn'),			
 			cudePackageNum:p.get('consTotalPackages'),
-			packCode:p.get('packName'),
-			cudeTotalSay:p.get('consTotalPackagesInWord'),
-			cudeGrossWeight:p.get('consTotalGrossWeight'),
-			cudeNetWeight:p.get('consTotalNetWeight'),
+			packCodeEn:p.get('packName'),
+			cudeTotalSay:p.get('consTotalPackagesInWord'),			
 			cudeConveyance:p.get('vessName')+' '+p.get('voyaName'),
 			cudeBlNo:p.get('consMblNo'),
 			cudeTransFlag:p.get('consTransFlag'),
 			cudePartialFlag:p.get('consPartialFlag'),
 			cudeContractNo:p.get('consTradeContractNo'),
-			cudeCountry:getCOUN(p.get('consTradeCountry')),
-			cudePortForeignEn:p.get('consBizClass')==BC_E?p.get('consPodEn'):p.get('consPolEn'),
-			cudePortForeign:p.get('consBizClass')==BC_E?p.get('consPodCn'):p.get('consPolCn'),
+			cudeLoadCountry:p.get('consBizClass')==BC_I?getCOUN(p.get('consTradeCountry')):'CHINA',
+			cudeDischargeCountry:p.get('consBizClass')==BC_E?getCOUN(p.get('consTradeCountry')):'CHINA',
+			cudePol:p.get('consPolCn'),
+			cudePolEn:p.get('consPolEn'),
+			cudePod:p.get('consPodCn'),
+			cudePodEn:p.get('consPodEn'),			
 			cudeContainerNo:p.get('consContainerNo'),
-			cudeStatus:'1',cudeDocStatus:'0',version:'0'});
+			cudeStatus:'1',
+			cudeDocStatus:'0',
+			version:'0'});
 		return b;
 	};
 	this.addCude = function(){
@@ -2286,19 +2287,33 @@ Fos.CustomsTab = function(p) {
 	};
 	this.addCudeByCargo=function(b){
 		var r=newCude();
-		this.store.insert(0,r);r.set('rowAction','N');
+		this.store.insert(0,r);
+		r.set('rowAction','N');
 		r.set('cudeGrossWeight',p.get('consBizType')==BT_B?b.get('cargGrossWeight')*1000:b.get('cargGrossWeight'));
 		r.set('cudeNetWeight',p.get('consBizType')==BT_B?b.get('cargNetWeight')*1000:b.get('cargNetWeight'));
 		r.set('cudePackageNum',b.get('cargPackageNum'));
 		r.set('packCode',b.get('packName'));
 		this.grid.getSelectionModel().selectFirstRow();		
 		var rid=GGUID();
-		var t = new FCustomsEntry({id:rid,cuenId:rid,cuenNo:'1',cudeId:r.get('cudeId'),consId:r.get('consId'),
-			cuenCargoNo:b.get('cargNo'),cuenManuNo:b.get('cargManuNo'),
-			cuenCargoNameCn:b.get('cargNameCn'),cuenCargoSpec:b.get('cargSpec'),cuenCargoNum:b.get('cargNetWeight'),
-			cuenCargoUnit:b.get('unitName'),cuenCountry:'',cuenUnitPrice:'',
-			cuenTotalPrice:'',currCode:'USD',cuenLevyType:'',cuenRemarks:'',version:'0'});
-		this.entryStore.add(t);t.set('rowAction','N');
+		var t = new FCustomsEntry({id:rid,
+			cuenId:rid,
+			cuenNo:'1',
+			cudeId:r.get('cudeId'),
+			consId:r.get('consId'),
+			cuenCargoNo:b.get('cargNo'),
+			cuenManuNo:b.get('cargManuNo'),
+			cuenCargoNameCn:b.get('cargNameCn'),
+			cuenCargoSpec:b.get('cargSpec'),
+			cuenCargoNum:b.get('cargNetWeight'),
+			cuenCargoUnit:b.get('unitName'),
+			cuenCountry:'',
+			cuenUnitPrice:'',
+			cuenTotalPrice:'',
+			currCode:'USD',
+			cuenLevyType:'',
+			cuenRemarks:'',version:'0'});
+		this.entryStore.add(t);
+		t.set('rowAction','N');
 		this.entryGrid.getStore().insert(0,t);
 	};
 	this.removeCude = function(){
@@ -2408,8 +2423,12 @@ Fos.CustomsTab = function(p) {
                 		XMG.alert(SYS,M_CUDE_VENDOR_REQIRED);
                 		return;
                 	}
-                	if(a[i].get('cudePortDomestic')==''){
-                		XMG.alert(SYS,p.get('consBizClass')==BC_E?C_PORT_EX_REQIRED:C_PORT_IM_REQIRED);
+                	if(p.get('consBizClass')==BC_E && a[i].get('cudePol')==''){
+                		XMG.alert(SYS,C_PORT_EX_REQIRED);
+                		return;
+                	}
+                	if(p.get('consBizClass')==BC_I && a[i].get('cudePod')==''){
+                		XMG.alert(SYS,C_PORT_IM_REQIRED);
                 		return;
                 	}
                 	if(a[i].get('cudeCustomer')==''){
@@ -2424,8 +2443,12 @@ Fos.CustomsTab = function(p) {
                 		XMG.alert(SYS,C_TRTY_REQIRED);
                 		return;
                 	}
-                	if(a[i].get('cudeCountry')==''){
-                		XMG.alert(SYS,p.get('consBizClass')==BC_E?C_COD_A_REQIRED:C_COL_A_REQIRED);
+                	if(p.get('consBizClass')==BC_E && a[i].get('cudeDischargeCountry')==''){
+                		XMG.alert(SYS,C_COD_A_REQIRED);
+                		return;
+                	}
+                	if(p.get('consBizClass')==BC_I && a[i].get('cudeLoadCountry')==''){
+                		XMG.alert(SYS,C_COL_A_REQIRED);
                 		return;
                 	}
                 	if(a[i].get('trteCode')==''){
@@ -2436,8 +2459,12 @@ Fos.CustomsTab = function(p) {
                 		XMG.alert(SYS,C_PACKAGES_REQIRED);
                 		return;
                 	}
-                	if(a[i].get('cudePortForeign')==''){
-                		XMG.alert(SYS,p.get('consBizClass')==BC_E?C_POD_A_REQIRED:C_POL_REQIRED);
+                	if(p.get('consBizClass')==BC_E && a[i].get('cudePod')==''){
+                		XMG.alert(SYS,C_POD_A_REQIRED);
+                		return;
+                	}
+                	if(p.get('consBizClass')==BC_I && a[i].get('cudePol')==''){
+                		XMG.alert(SYS,C_POL_REQIRED);
                 		return;
                 	}
                 	if(a[i].get('packCode')==''){
@@ -2569,8 +2596,10 @@ Fos.CustomsTab = function(p) {
 						c.setValue(r.get('custNameCn'));
 					},
 					keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM,itemCls:'required',name:'cudePortDomestic',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:(p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM)+C_ENGLISH,itemCls:'required',name:'cudePortDomesticEn',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM,itemCls:'required',
+						name:p.get('consBizClass')==BC_E?'cudePol':'cudePod',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:(p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM)+C_ENGLISH,itemCls:'required',
+						name:p.get('consBizClass')==BC_E?'cudePolEn':'cudePodEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_BIZ_COMPANY,name:'cudeCustomer',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:p.get('consBizClass')==BC_E?C_SHIPPER_COMPANY:C_CONSIGN_COMPANY,name:'cudeCargoCompany',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CERTIFICATE_NO,name:'cudeCertificateNo',xtype:'textfield',anchor:'99%'},
@@ -2588,7 +2617,8 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_RECORD_NO,name:'cudeRecordNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_TRAT,itemCls:'required',name:'tratCode',store:getTRAT_S(),xtype:'combo',displayField:'tratName',valueField:'tratName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_TRTY,itemCls:'required',name:'trtyCode',store:getTRTY_S(),xtype:'combo',displayField:'trtyName',valueField:'trtyName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,itemCls:'required',name:'cudeCountry',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,itemCls:'required',
+					name:p.get('consBizClass')==BC_E?'cudeDischargeCountry':'cudeLoadCountry',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CUDE_TRTE,name:'trteCode',itemCls:'required',store:getTRTE_S(),
 					xtype:'combo',displayField:'trteName',valueField:'trteName',typeAhead:true,
 					mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
@@ -2604,9 +2634,10 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:p.get('consBizClass')==BC_E?C_EX_DATE:C_IM_DATE,name:'cudeEntryDate',xtype:'datefield',format:DATEF,anchor:'99%'},
 				{fieldLabel:C_CONVEYANCE_NAME,name:'cudeConveyance',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_LETY,name:'letyCode',store:getLETY_S(),xtype:'combo',displayField:'letyName',valueField:'letyName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_POD_A:C_POL,itemCls:'required',name:'cudePortForeign',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:(p.get('consBizClass')==BC_E?C_POD_A:C_POL)+C_ENGLISH,
-					itemCls:'required',name:'cudePortForeignEN',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:p.get('consBizClass')==BC_E?C_POD_A:C_POL,itemCls:'required',
+					name:p.get('consBizClass')==BC_E?'cudePod':'cudePol',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:(p.get('consBizClass')==BC_E?C_POD_A:C_POL)+C_ENGLISH,itemCls:'required',
+					name:p.get('consBizClass')==BC_E?'cudePodEn':'cudePolEn',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_FREIGHT,name:'cudeFreight',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PACK,name:'packCode',itemCls:'required',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PACK+C_ENGLISH,name:'packCodeEn',xtype:'textfield',anchor:'99%'},

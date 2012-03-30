@@ -18,6 +18,7 @@ import haitai.fw.entity.BaseDomain;
 public class AbstractWInquiry extends BaseDomain {
 	private static final long serialVersionUID = -5585401528007021751L;
 	private Integer winqId;
+	private String winqCompany;
 	private Integer version;
 	private String winqCargoDesc;
 	private Integer winqCargoPackages;
@@ -52,6 +53,14 @@ public class AbstractWInquiry extends BaseDomain {
 		this.winqId = winqId;
 	}
 
+	@Column(name="WINQ_COMPANY", length=64)
+	public String getWinqCompany() {
+		return winqCompany;
+	}
+	public void setWinqCompany(String winqCompany) {
+		this.winqCompany = winqCompany;
+	}
+	
 	@Version
 	@Column(name = "VERSION", nullable = false)
 	public Integer getVersion() {

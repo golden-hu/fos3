@@ -39,35 +39,50 @@ var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return '
 var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return ''};
 
 InquiryWin = function(p) {
-	var frm = new Ext.form.FormPanel({labelWidth:80,bodyStyle:'padding:5px',items:[    	
-    	{fieldLabel:C_POL,name:'winqPolEn',value:p.get('winqPolEn'),xtype:'textfield',readOnly:true,anchor:'95%'},
-        {fieldLabel:'出发地',name:'winqReceiptPlace',value:p.get('winqReceiptPlace'),xtype:'textfield',readOnly:true,anchor:'95%'},
-        {fieldLabel:C_POD,name:'winqPodEn',value:p.get('winqPodEn'),xtype:'textfield',readOnly:true,anchor:'95%'},
-    	{fieldLabel:'目的地',name:'winqDeliveryPlace',value:p.get('winqDeliveryPlace'),xtype:'textfield',readOnly:true,anchor:'95%'},    		
-    	{fieldLabel:'运输条款',name:'tranCode',value:p.get('tranCode'),xtype:'textfield',readOnly:true,anchor:'95%'},    	
-    	{fieldLabel:'货物描述',name:'winqCargoDesc',value:p.get('winqCargoDesc'),xtype:'textarea',height:100,readOnly:true,anchor:'95%'},
-    	{fieldLabel:'货物毛重',name:'winqCargoGw',value:p.get('winqCargoGw'),xtype:'textfield',readOnly:true,anchor:'95%'},
-    	{fieldLabel:'货物体积',name:'winqCargoMeasurement',value:p.get('winqCargoMeasurement'),xtype:'textfield',readOnly:true,anchor:'95%'},
-    	{fieldLabel:'备注',name:'winqRemarks',value:p.get('tranId'),xtype:'textarea',readOnly:true,height:100,anchor:'95%'}
-    	]});    	
-	this.save = function(){				
-		var rj=RTJ(p,WInquiry);
-		var data=FOSJ({'WInquiry':rj});
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WINQ_S',mt:'JSON'},
-			success: function(r){
-				var res=Ext.util.JSON.decode(r.responseText);
-				var inq=res.WInquiry[0];
-				p.set('version',inq.version);
-				p.set('winqId',inq.prshId);
-				alert('操作成功！');
-			},
-			failure: function(r){
-				var res=Ext.util.JSON.decode(r.responseText);alert(res.FosResponse.msg);},
-		jsonData:data});
+	var html = '<div style="padding:5px;"><table class="reference" width="100%">';
+	html +='<tr><td width="80">询价单位：</td><td>'+p.get('wusrCompanyName')+'</td></tr>';
+	html +='<tr><td width="80">询价人：</td><td>'+p.get('wusrFirstName')+'</td></tr>';
+	html +='<tr><td width="80">询价日期：</td><td>'+p.get('createTime')+'</td></tr>';
+	html +='<tr><td width="80">装货港：</td><td>'+p.get('winqPolEn')+'</td></tr>';
+	html +='<tr><td>出发地：</td><td>'+p.get('winqReceiptPlace')+'</td></tr>';
+	html +='<tr><td>卸货港：</td><td>'+p.get('winqPodEn')+'</td></tr>';
+	html +='<tr><td>出发地：</td><td>'+p.get('winqDeliveryPlace')+'</td></tr>';
+	html +='<tr><td>运输条款：</td><td>'+p.get('tranCode')+'</td></tr>';
+	html +='<tr><td>货物描述：</td><td>'+p.get('winqCargoDesc')+'</td></tr>';
+	html +='<tr><td>货物毛重：</td><td>'+p.get('winqCargoGw')+'</td></tr>';
+	html +='<tr><td>货物体积：</td><td>'+p.get('winqCargoMeasurement')+'</td></tr>';
+	html +='<tr><td>备注：</td><td>'+p.get('winqRemarks')+'</td></tr>';
+	html +='</table></div>';
+	
+	var txtMessage = new Ext.form.TextArea({width:480,height:130,anchor:'95%'});
+	
+	var panelInfo = new Ext.Panel({region:'center',title:'询价信息',frame:true,html:html,autoScroll:true});
+	var panelReply = new Ext.Panel({region:'south',height:150,title:'回复信息',frame:true,collapsible:true,items:
+		txtMessage
+	});
+	
+	this.reply = function(){
+		var msg = txtMessage.getValue();
+		if(!msg){
+			alert('请输入回复的内容！');
+			return;
+		}
+		else			
+			var comm = new PComments({objectType:'WINQ',objectId:p.get("id"),
+				commBody:msg});
+			var xml=RTX(comm,'PComments',PComments);
+			Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
+				params:{A:'PCOM_S'},
+				success: function(r,o){
+					alert('保存成功');
+				},
+				failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+				xmlData:FOSX(xml)
+		});
 	};	
     InquiryWin.superclass.constructor.call(this, {title:'网上询价',modal:true,width:500,
-        height:470,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
-        buttons:[{text:"保存",scope:this,handler:this.save},{text:"取消",scope:this,handler:this.close}]
+        height:600,buttonAlign:'right',layout:'fit',items:[{layout:'border',items:[panelInfo,panelReply]}],
+        buttons:[{text:"回复",scope:this,handler:this.reply},{text:"关闭",scope:this,handler:this.close}]
         }); 
 };
 Ext.extend(InquiryWin,Ext.Window);

@@ -531,4 +531,6 @@ line-height:18px;
     background-color: #F7F7F7;
     overflow: hidden;
 }
-
+.frame{background:#FFFFFF;margin:10px;border:1px solid #9a9a9a;
+	-moz-border-radius:5px; -webkit-border-radius:5px;border-radius:5px;
+	}

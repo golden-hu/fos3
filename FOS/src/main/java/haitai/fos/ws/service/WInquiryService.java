@@ -4,6 +4,8 @@ import haitai.fos.ws.entity.idao.IWInquiryDAO;
 import haitai.fos.ws.entity.table.WInquiry;
 import haitai.fos.ws.entity.table.WUser;
 import haitai.fw.entity.FosQuery;
+import haitai.fw.session.SessionManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,7 @@ public class WInquiryService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<WInquiry> complexQuery(List<FosQuery> conditions, Map queryMap) {
-		List<WInquiry> retList = new ArrayList<WInquiry>();
+		List<WInquiry> retList = new ArrayList<WInquiry>();		
 		List<Object> objList = dao.complexQuery(conditions, queryMap);
 		for (Object obj : objList) {
 			if (obj instanceof Object[]) {
@@ -41,12 +43,17 @@ public class WInquiryService {
 	
 	@Transactional
 	public List<WInquiry> save(List<WInquiry> entityList) {
+		String winqCompany = SessionManager.getStringAttr("wusrCompany");
+		for(WInquiry e : entityList){
+			e.setWinqCompany(winqCompany);
+		}
 		return dao.saveByRowAction(entityList);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<WInquiry> query(Map queryMap) {
+		//queryMap.put("wusrId", SessionManager.getStringAttr("WUID"));
 		return dao.findByProperties(queryMap);
 	}
 }

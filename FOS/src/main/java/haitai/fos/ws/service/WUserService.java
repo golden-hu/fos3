@@ -117,7 +117,6 @@ public class WUserService {
 			throw new BusinessException("ws.username.exist");
 		}
 		
-		
 		WUser user = new WUser();
 		user.setCompCode(compCode);
 		user.setWusrCompanyName(wusrCompanyName);
@@ -137,7 +136,8 @@ public class WUserService {
 	
 	private void setLoginInfo(WUser entity) {		
 		SessionManager.setAttr("WUID", entity.getWusrId());
-		SessionManager.setAttr("WUSERNAME", entity.getWusrName());		
+		SessionManager.setAttr("WUSERNAME", entity.getWusrName());
+		SessionManager.setAttr("WCOMPANY", entity.getWusrCompanyName());
 		SessionManager.setAttr(SessionKeyType.COMPCODE, entity.getCompCode());
 		ActionLogUtil.log();
 	}

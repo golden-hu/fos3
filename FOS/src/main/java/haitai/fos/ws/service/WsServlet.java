@@ -215,8 +215,8 @@ public class WsServlet extends HttpServlet {
 		SessionManager.regSession(request.getSession());
 		SessionManager.setAttr(SessionKeyType.ACTNAME, actName);
 		logger.info(actName + " by "
-				+ SessionManager.getAttr(SessionKeyType.USERNAME) + "("
-				+ SessionManager.getAttr(SessionKeyType.UID) + ")@"
+				+ SessionManager.getAttr("WUSERNAME") + "("
+				+ SessionManager.getAttr("WUID") + ")@"
 				+ SessionManager.getAttr(SessionKeyType.HOSTNAME));
 	}
 

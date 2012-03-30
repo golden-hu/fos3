@@ -8,6 +8,7 @@ import haitai.fos.ws.entity.table.WUser;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
+import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.RowAction;
 
@@ -50,6 +51,7 @@ public class WConsignService {
 	@Transactional(readOnly = true)
 	public List<WConsign> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<WConsign> retList = new ArrayList<WConsign>();
+		//queryMap.put("wusrId", SessionManager.getStringAttr("WUID"));
 		List<Object> objList = dao.complexQuery(conditions, queryMap);
 		for (Object obj : objList) {
 			if (obj instanceof Object[]) {
@@ -88,6 +90,7 @@ public class WConsignService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<WConsign> query(Map queryMap) {
+		//queryMap.put("wusrId", SessionManager.getStringAttr("WUID"));
 		return dao.findByProperties(queryMap);
 	}
 

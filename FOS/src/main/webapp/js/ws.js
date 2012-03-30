@@ -126,7 +126,7 @@ WUser = Ext.data.Record.create(['id','wusrId','wusrName','wusrPassword','wusrFir
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	{name:'wusrLastLoginTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	'custId','compCode','version','rowAction']);
-WInquiry = Ext.data.Record.create(['id','winqId','winqCargoDesc','winqCargoPackages','winqCargoGw','winqCargoMeasurement',
+WInquiry = Ext.data.Record.create(['id','winqId','winqCompany','winqCargoDesc','winqCargoPackages','winqCargoGw','winqCargoMeasurement',
         'winqReceiptPlace','winqDeliveryPlace','winqPol','winqPolEn','winqPod','winqPodEn',
         'tranId','tranCode','pateId','pateName','winqBizType','winqRemarks',
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
@@ -245,8 +245,6 @@ var getElapsed=function(d){
 	return Math.abs((new Date()).getTime()-d.getTime());
 };
 var numRender = function(v){v=parseFloat(v);v=v.toFixed(2);if(v=='NaN') v='0.00';return v;};
-
-
 
 Ext.grid.CheckColumn = function(config){
 	this.addEvents({click:true});
@@ -543,7 +541,7 @@ var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',lay
 
 InquiryGrid = function() {	
     var store = new Ext.data.Store({
-   		url: SERVICE_URL+'?A=WS_WINQ_Q',
+   		url: SERVICE_URL+'?A=WS_WINQ_Q&wusrId='+CUSER,
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WInquiry'}, WInquiry),remoteSort:true,
     	sortInfo:{field:'winqId', direction:'DESC'}});
     store.load({params:{start:0,limit:20}});
@@ -619,7 +617,7 @@ WconGrid = function() {
    		url: SERVICE_URL+'?A=WS_WCON_Q',
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WConsign'}, WConsign),remoteSort:true,
     	sortInfo:{field:'wconId', direction:'DESC'}});
-    store.load({params:{start:0,limit:20}});
+    store.load({params:{start:0,limit:20,wsurId:CUSER}});
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
@@ -811,7 +809,7 @@ VoyaTab = function(){
         {header:C_LOAD_DATE_T,dataIndex: 'voyaLoadDateT',width:90,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})},
 		{header:C_VOYA_PORTS,dataIndex: 'voyaPorts',width:100}]);
 	cm.defaultSortable=true;	
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:350,header:false,closable:true,cm:cm,loadMask:true,
+	var grid=new Ext.grid.GridPanel({region:'center',store: store,iconCls:'grid',height:350,header:false,closable:true,cm:cm,loadMask:true,
     	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
     this.search=function(){
@@ -865,8 +863,9 @@ VoyaTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	VoyaTab.superclass.constructor.call(this, {    
-    id:'T_VOYA',title:'船期查询',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
-    items:[{layout:'column',name:'sf',xtype:'form',title:'船期查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,items:[	        	
+    id:'T_VOYA',title:'船期查询',iconCls:'stats',closable:true,layout:'border',
+    items:[{region:'north',height:150,layout:'column',name:'sf',xtype:'form',title:'船期查询',
+    	layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,items:[	        	
     			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 					{fieldLabel:C_VESS,tabIndex:1,name:'vessName',xtype:'textfield',anchor:'95%'},
 	     			{fieldLabel:C_ETA_V,tabIndex:3,name:'voyaEta',xtype:'datefield',format:DATEF,anchor:'95%'},
@@ -886,8 +885,8 @@ VoyaTab = function(){
 	            	{fieldLabel:C_TO,name:'voyaBerthingDate2',xtype:'datefield',format:DATEF,anchor:'95%'}],
 	            	buttons:[{text:C_SEARCH,scope:this,handler:this.search},{text:C_RESET,scope:this,handler:this.clear}]
 	            	}
-	    	]},
-	{layout:'fit',deferredRender:false,items:[g]}]});
+	    	]},grid
+	]});
 };
 Ext.extend(VoyaTab, Ext.Panel);
 

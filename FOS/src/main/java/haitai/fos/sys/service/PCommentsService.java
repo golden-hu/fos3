@@ -2,6 +2,11 @@ package haitai.fos.sys.service;
 
 import haitai.fos.sys.entity.idao.IPCommentsDAO;
 import haitai.fos.sys.entity.table.PComments;
+import haitai.fw.session.SessionKeyType;
+import haitai.fw.session.SessionManager;
+import haitai.fw.util.RowAction;
+import haitai.fw.util.TimeUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +21,12 @@ public class PCommentsService {
 
 	@Transactional
 	public List<PComments> save(List<PComments> entityList) {
+		for(PComments c : entityList){
+			c.setCommBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
+			c.setCompCode(SessionManager.getStringAttr("CompCode"));
+			c.setRowAction(RowAction.N);
+			c.setCreateTime(TimeUtil.getNow());
+		}
 		return dao.saveByRowAction(entityList);
 	}
 

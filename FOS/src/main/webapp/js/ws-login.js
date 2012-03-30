@@ -2,6 +2,7 @@ var wl=window.location.href;
 var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
+var COMP_CODE='ECG';
 
 var Cookies = {};
 Cookies.set = function(name, value){
@@ -49,28 +50,74 @@ Cookies.getCookieVal = function(offset){
 var isIE = !!document.all;
 if(isIE) document.documentElement.addBehavior("#default#userdata");
 function  saveUserData(key, value){
-    var ex; 
     if(isIE){
         with(document.documentElement)
-        	try {load(key);setAttribute("value", value);save(key);return  getAttribute("value");}
-        	catch (ex){alert(ex.message);}
+        	try {
+        		load(key);
+        		setAttribute("value", value);
+        		save(key);
+        		return  getAttribute("value");
+        	}
+        	catch (ex){
+        		alert(ex.message);
+        	}
     }
     else if(window.sessionStorage){
-        try{sessionStorage.setItem(key,value);} catch (ex){alert(ex);}
-    }else{alert("当前浏览器不支持userdata或者sessionStorage特性");}
+        try{
+        	sessionStorage.setItem(key,value);
+        } 
+        catch (ex){
+        	alert(ex);
+        }
+    }
+    else{
+    	alert("当前浏览器不支持userdata或者sessionStorage特性");
+    }
 };
 
 function loadUserData(key){
-    var ex; 
-    if(isIE){with(document.documentElement)try{load(key);return getAttribute("value");}catch (ex){alert(ex.message);return null;}
-    }else if(window.sessionStorage){try{return sessionStorage.getItem(key);}catch (ex){alert(ex);}}
+    if(isIE){
+    	with(document.documentElement)
+    	try{
+    		load(key);
+    		return getAttribute("value");
+    	}
+    	catch (ex){
+    		alert(ex.message);
+    		return null;
+    	}
+    }
+    else if(window.sessionStorage){
+    	try{
+    		return sessionStorage.getItem(key);
+	    }
+	    catch (ex){
+	    	alert(ex);
+    	}
+    }
 };
 function  deleteUserData(key){
-    var ex; 
-    if(isIE){with(document.documentElement)try{load(key);expires = new Date(315532799000).toUTCString();save(key);}
-        catch (ex){alert(ex.message);}
+    if(isIE){
+    	with(document.documentElement)
+    	try{
+    		load(key);
+    		expires = new Date(315532799000).toUTCString();
+    		save(key);
+    	}
+        catch (ex){
+        	alert(ex.message);
+        }
     }
-    else if(window.sessionStorage){try{sessionStorage.removeItem(key);}catch (ex){alert(ex);}}};
+    else if(window.sessionStorage){
+    	try{
+    		sessionStorage.removeItem(key);
+    	}
+    	catch (ex){
+    		alert(ex);
+    	}
+    }
+};
+
 var checkBrowser=function(){if(!Ext.isGecko&&!Ext.isIE8&&!Ext.isChrome) alert('您的浏览器版本太低，请升级到Firefox4/IE8/Chrome!');};
 var loadSession=function(k){
 	var p='';
@@ -122,6 +169,10 @@ var reg = function(f){
 	var wusrEmail=f.wusrEmail.value;
 	var wusrCompanyName=f.wusrCompanyName.value;
 	var wusrTel=f.wusrTel.value;
+	var wusrMobile=f.wusrMobile.value;
+	var wusrFirstName=f.wusrFirstName.value;
+	var wusrTitle=f.wusrTitle.value;
+	var wusrDept=f.wusrDept.value;
 	
 	if(!wusrName){
 		alert('用户名不能为空');
@@ -148,12 +199,20 @@ var reg = function(f){
 		f.wusrTel.focus();
 		return;
 	}
+	if(!wusrFirstName){
+		alert('姓名不能为空');
+		f.wusrFirstName.focus();
+		return;
+	}
 	
 	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
 		params:{A:'WS_REG',mt:'JSON',
 			wusrName:wusrName,wusrPassword:wusrPassword,
 			wusrEmail:wusrEmail,wusrCompanyName:wusrCompanyName,
-			wusrTel:wusrTel
+			wusrTel:wusrTel,wusrMobile:wusrMobile,
+			wusrFirstName:wusrFirstName,wusrTitle:wusrTitle,
+			wusrDept:wusrDept,
+			compCode:COMP_CODE
 		},
 		success: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);

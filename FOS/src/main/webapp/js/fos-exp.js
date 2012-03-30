@@ -895,7 +895,7 @@ Fos.BookTab = function(p) {
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
             	select:function(c,r,i){
             		p.set('consPol',r.get('portId'));
-            		p.set('consPolcN',r.get('portNameCn'));
+            		p.set('consPolCn',r.get('portNameCn'));
             		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) 
             			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
             		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) 

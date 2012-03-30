@@ -999,7 +999,7 @@ function N2D(input){
 	var d=a[0];
 	var c=a[1];
 	var s='ZERO DOLLARS';
-	if(d) s=N2EW(d)+' DOLLARS';
+	if(d) s=N2EW(d)+' U.S. DOLLARS ONLY';
 	if(c) s+=' '+N2EW(c)+' CENTS';
 	return s;
 };

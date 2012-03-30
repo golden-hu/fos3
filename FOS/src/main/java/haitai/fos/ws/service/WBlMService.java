@@ -2,6 +2,8 @@ package haitai.fos.ws.service;
 
 import haitai.fos.ws.entity.idao.IWBlMDAO;
 import haitai.fos.ws.entity.table.WBlM;
+import haitai.fw.session.SessionManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class WBlMService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<WBlM> query(Map queryMap) {
+		//queryMap.put("wusrId", SessionManager.getStringAttr("WUID"));
 		return dao.findByProperties(queryMap);
 	}
 }

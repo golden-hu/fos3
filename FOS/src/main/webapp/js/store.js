@@ -360,14 +360,15 @@ FCustomsDeclaration= Ext.data.Record.create(['id',
 	'consBizClass','consBizType','custId','custName','cudeVendorId','cudeVendorName',
 	'cudeVendorContact','cudeVendorTel','cudePreNo',
 	{name:'cudeCustomsNo',type:'string'},
-	'cudePortDomestic','cudePortDomesticEn','cudeRecordNo',
+	'cudePol','cudePolEn','cudePod','cudePodEn',
+	'cudeRecordNo',
 	{name:'cudeEntryDate',type:'date',dateFormat:DATEF},
 	{name:'cudeDeclarDate',type:'date',dateFormat:DATEF},
 	'cudeCustomer','cudeCargoCompany','cudeShipper','cudeConsignee',
 	'tratCode','cudeConveyance','cudeBlNo','trtyCode','letyCode',
 	'exseCode','exseCodeEn','usagName','cudeCertificateNo',
 	'cudeLevyPercent','cudeApprovalNo','consContractNo','cudeContainerNo',
-	'cudeCountry','cudePortForeign','cudePortForeignEn',
+	'cudeLoadCountry','cudeDischargeCountry',
 	'cudePlace','cudePlaceEn','trteCode','trteCodeEn','cudeFreight','cudeInsurance','cudeCharge',
 	'cudeTotalSay','cudeTotalAmount','cudeTotalAmountCap',
 	'cudePackageNum','packCode','packCodeEn','cudeGrossWeight','cudeNetWeight',
@@ -735,7 +736,7 @@ WUser = Ext.data.Record.create(['id','wusrId','wusrName','wusrPassword','wusrFir
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'wusrLastLoginTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'custId','compCode','version','rowAction']);
-WInquiry = Ext.data.Record.create(['id','winqId','winqCargoDesc','winqCargoPackages','winqCargoGw','winqCargoMeasurement',
+WInquiry = Ext.data.Record.create(['id','winqId','winqCompany','winqCargoDesc','winqCargoPackages','winqCargoGw','winqCargoMeasurement',
         'winqReceiptPlace','winqDeliveryPlace','winqPol','winqPolEn','winqPod','winqPodEn',
         'tranId','tranCode','pateId','pateName','winqBizType','winqRemarks',
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
@@ -746,7 +747,10 @@ FAttach = Ext.data.Record.create(['attachId','attachName','attachFileName','atta
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
-
+PComments = Ext.data.Record.create(['commId','objectType','objectId','commBody','commBy',
+    {name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+    'compCode','version','rowAction']);
+                                    
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['CONS_DATE','委托生成日期'],['CONS_ETA','预计船到日期'],['CONS_SAIL_DATE','开船日期'],['BASE_TASK_D','依赖任务完成日']]});
 getDATY = function(v){if(v) return DATY_S.getById(v).get('NAME'); else return '';};
 

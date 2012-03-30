@@ -4580,7 +4580,7 @@ CREATE TABLE IF NOT EXISTS `W_BL_M` (
   `VERSION` int(11) NOT NULL default '0',
   `REMOVED` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`WBLM_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=INNODB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4652,7 +4652,7 @@ CREATE TABLE IF NOT EXISTS `W_CONSIGN` (
   `VERSION` int(11) NOT NULL default '0',
   `REMOVED` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`WCON_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=INNODB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4686,7 +4686,7 @@ CREATE TABLE IF NOT EXISTS `W_INQUIRY` (
   `VERSION` int(11) NOT NULL default '0',
   `REMOVED` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`WINQ_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=INNODB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4721,5 +4721,17 @@ CREATE TABLE IF NOT EXISTS `W_USER` (
   `VERSION` int(11) NOT NULL default '0',
   `REMOVED` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`WUSR_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=INNODB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE P_COMMENTS(
+    COMM_ID        INT            AUTO_INCREMENT,
+    OBJECT_TYPE    VARCHAR(16)    NOT NULL,
+    OBJECT_ID      INT            NOT NULL,
+    COMM_BODY      TEXT           NOT NULL,
+    COMM_BY        VARCHAR(32),
+    CREATE_TIME    DATETIME       NOT NULL,
+    COMP_CODE      CHAR(4),
+    VERSION        INT            NOT NULL,
+    REMOVED        TINYINT        DEFAULT 0 NOT NULL,
+    PRIMARY KEY (COMM_ID)
+)ENGINE=INNODB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
