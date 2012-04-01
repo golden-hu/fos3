@@ -39,10 +39,16 @@ var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return '
 var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return ''};
 
 InquiryWin = function(p) {
+	var store = new Ext.data.Store({
+   		url: SERVICE_URL+'?A=PCOM_Q',
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PComments'}, PComments),remoteSort:true,
+    	sortInfo:{field:'commId', direction:'DESC'}});
+    store.load({params:{start:0,limit:20,mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+    
 	var html = '<div style="padding:5px;"><table class="reference" width="100%">';
 	html +='<tr><td width="80">询价单位：</td><td>'+p.get('wusrCompanyName')+'</td></tr>';
 	html +='<tr><td width="80">询价人：</td><td>'+p.get('wusrFirstName')+'</td></tr>';
-	html +='<tr><td width="80">询价日期：</td><td>'+p.get('createTime')+'</td></tr>';
+	html +='<tr><td width="80">询价日期：</td><td>'+formatDateTime(p.get('createTime'))+'</td></tr>';
 	html +='<tr><td width="80">装货港：</td><td>'+p.get('winqPolEn')+'</td></tr>';
 	html +='<tr><td>出发地：</td><td>'+p.get('winqReceiptPlace')+'</td></tr>';
 	html +='<tr><td>卸货港：</td><td>'+p.get('winqPodEn')+'</td></tr>';
@@ -56,7 +62,29 @@ InquiryWin = function(p) {
 	
 	var txtMessage = new Ext.form.TextArea({width:480,height:130,anchor:'95%'});
 	
-	var panelInfo = new Ext.Panel({region:'center',title:'询价信息',frame:true,html:html,autoScroll:true});
+	var panelInfo = new Ext.Panel({region:'center',title:'询价信息',frame:true,
+		collapsible:true,html:html,autoScroll:true});
+	
+	var tpl = new Ext.XTemplate(
+		    '<tpl for=".">',		        
+		        '<div>{commBy}:  <span>{createTime}</span> </div>',
+		        '<div>{commBody}</div>',
+		    '</tpl>'
+		);
+
+	var panel = new Ext.Panel({region:'south',
+	    frame:true,
+	    height:150,
+	    autoScroll:true,
+	    collapsible:true,
+	    title:'回复信息',
+	    items: new Ext.DataView({
+	        store: store,
+	        tpl: tpl,
+	        autoHeight:true
+	    })
+	});
+	
 	var panelReply = new Ext.Panel({region:'south',height:150,title:'回复信息',frame:true,collapsible:true,items:
 		txtMessage
 	});
@@ -70,7 +98,7 @@ InquiryWin = function(p) {
 		else			
 			var comm = new PComments({objectType:'WINQ',objectId:p.get("id"),
 				commBody:msg});
-			var xml=RTX(comm,'PComments',PComments);
+			var xml=RTX(comm,'PComments',panel);
 			Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
 				params:{A:'PCOM_S'},
 				success: function(r,o){
@@ -81,7 +109,7 @@ InquiryWin = function(p) {
 		});
 	};	
     InquiryWin.superclass.constructor.call(this, {title:'网上询价',modal:true,width:500,
-        height:600,buttonAlign:'right',layout:'fit',items:[{layout:'border',items:[panelInfo,panelReply]}],
+        height:600,buttonAlign:'right',layout:'fit',items:[{layout:'border',items:[panelInfo,panel]}],
         buttons:[{text:"回复",scope:this,handler:this.reply},{text:"关闭",scope:this,handler:this.close}]
         }); 
 };
