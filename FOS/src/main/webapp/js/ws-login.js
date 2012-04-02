@@ -4,6 +4,41 @@ SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 var COMP_CODE='ECG';
 
+var formatDate = function(v){return v ? v.dateFormat('Y-m-d') : '';};
+var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
+FTask= Ext.data.Record.create(['id',
+   	'taskId','tatyId','tatyName','tatyDId','tatyDName','consId',
+   	'consNo','consMasterId','consMasterNo','taskOwner','taskOwnerName',
+   	{name:'taskEstimatedDate',type:'date',dateFormat:'Y-m-d'},
+   	{name:'taskFinishedDate',type:'date',dateFormat:'Y-m-d'},
+   	'taskFinishedFlag','tatyBizType','tatyBizClass',
+   	'active','compCode','version','rowAction']);
+
+Ext.grid.CheckColumn = function(config){
+	this.addEvents({click:true});
+	Ext.grid.CheckColumn.superclass.constructor.call(this);
+	Ext.apply(this,config,{
+		init:function(grid){
+			this.grid = grid;
+			this.grid.on('render', function(){var view = this.grid.getView();view.mainBody.on('mousedown', this.onMouseDown,this);},this);
+		},
+		onMouseDown:function(e, t){
+			if(t.className && t.className.indexOf('x-grid3-cc-'+this.id) != -1){
+			e.stopEvent();
+			var index = this.grid.getView().findRowIndex(t);
+			var record = this.grid.store.getAt(index);
+			record.set(this.dataIndex,record.data[this.dataIndex]==1?0:1);
+			this.fireEvent('click', this, e, record);
+		}},
+		renderer:function(v, p, record){
+			p.css += ' x-grid3-check-col-td';
+			return '<div class="x-grid3-check-col'+(v==1?'-on':'')+' x-grid3-cc-'+this.id+'">&#160;</div>';
+		}
+	});
+	if(!this.id){this.id = Ext.id();};
+	this.renderer = this.renderer.createDelegate(this);
+};
+Ext.extend(Ext.grid.CheckColumn, Ext.util.Observable);
 var Cookies = {};
 Cookies.set = function(name, value){
      var argv = arguments;
@@ -235,10 +270,61 @@ var showRegWin = function(){
 	if(self!=top) 
 		top.location='ws-reg.html';
 	else 
-		window.location='ws-reg.html';
-	
+		window.location='ws-reg.html';	
 	//window.open('ws-reg.html','','height=360,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
 };
+
+var showTaskWin = function(f){
+	var consNo=f.consNo.value;
+	if(!consNo){
+		alert('业务号不能为空！');
+		f.consNo.focus();
+		return;
+	}
+	var win = new TaskWin(consNo);
+	win.show();
+	
+};
+
+TaskWin = function(consNo) {	
+	var store = new Ext.data.Store({
+   		url: SERVICE_URL+'?A=TASK_Q',
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FTask'}, FTask),remoteSort:true,
+    	sortInfo:{field:'tatyOrder', direction:'ASC'}});
+	
+	store.load({params:{consNo:consNo},scope:this});	
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	var c1={header:'操作任务',width:200,dataIndex:"tatyName"};
+	var c2={header:'预计完成日期',dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
+	var c3={header:'实际完成日期',dataIndex: 'taskFinishedDate',width:120,renderer:formatDate};
+	var ff=new Ext.grid.CheckColumn({header:'已完成',dataIndex:'taskFinishedFlag',width:55});
+	
+	var cm=new Ext.grid.ColumnModel({columns:[sm,c1,c2,ff,c3],defaults:{sortable:true,width:100}});
+	
+	
+	var grid=new Ext.grid.GridPanel({id:'G_TASK',	border:true,height:400,autoScroll:true,
+		plugins:[ff],
+	    stripeRows:true,store:store,sm:sm,cm:cm
+		});	
+	TaskWin.superclass.constructor.call(this,{iconCls:'task',
+		title:'单票状态 - '+consNo,modal:true,width:600,
+       height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid}); 
+};
+Ext.extend(TaskWin, Ext.Window);
+
+function showElement(eid,html,x,y){
+	var o=document.getElementById(eid);	
+	o.innerHTML = html,
+	o.style.left=x+'px';
+	o.style.top=y+'px';
+	o.style.display="block";
+}
+
+function hideElement(eid){
+	var o=document.getElementById(eid);	
+	o.style.display="none";
+}
 
 var exit = function(){window.open('', '_self', '');window.close();};
 var logout = function(){window.location=SERVICE_URL+'?A=LOGOUT';};

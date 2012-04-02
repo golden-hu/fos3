@@ -386,7 +386,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     id:'G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''),iconCls:'grid',
     store: store,title:title,header:false,loadMask:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,ddGroup:'consGridDDGroup',enableDragDrop:shipType=='LCL'?true:false,	
-	listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
+	listeners:rowCtxEvents,
+	view:new Ext.grid.GroupingView(groupViewCfg),
 	tbar:tbs,bbar:PTB(store,C_PS)});    
 };
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
@@ -629,7 +630,7 @@ Fos.BookTab = function(p) {
 		});
     };    
     
-    var txtConsNo={fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',disabled:true,
+    var txtConsNo={fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',readOnly:true,
 			tabIndex:1,name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'};
 	var txtDept={fieldLabel:C_DEPT,itemCls:'required',name:'deptId',value:p.get('deptId'),
 			tabIndex:2,store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',
