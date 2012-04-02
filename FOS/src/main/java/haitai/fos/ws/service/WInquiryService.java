@@ -43,7 +43,7 @@ public class WInquiryService {
 	
 	@Transactional
 	public List<WInquiry> save(List<WInquiry> entityList) {
-		String winqCompany = SessionManager.getStringAttr("wusrCompany");
+		String winqCompany = SessionManager.getStringAttr("WCOMPANY");
 		for(WInquiry e : entityList){
 			e.setWinqCompany(winqCompany);
 		}

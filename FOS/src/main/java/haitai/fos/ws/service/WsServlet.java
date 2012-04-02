@@ -54,6 +54,8 @@ public class WsServlet extends HttpServlet {
 		Map<String, String> paramMap = getRequestParams(request);
 		String actName = paramMap.get(HttpHeader.ACTNAME);
 		String compCode = paramMap.get("compCode");
+		
+				
 		regSessionAttr(request, actName);
 		if (StringUtil.isBlank(SessionManager.getStringAttr("CompCode"))
 				&& StringUtil.isNotBlank(compCode)) {
@@ -65,7 +67,8 @@ public class WsServlet extends HttpServlet {
 			Integer uid = (Integer) SessionManager.getAttr("WUID");
 			if (uid == null && !isPublic(actName)) {
 				throw new BusinessException("fw.session.expired");
-			} else {
+			} 
+			else {
 				String json = readJson(inputStream, paramMap);
 				logger.debug(json);
 				FosRequest fosRequest = parseJson(json);

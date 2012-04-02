@@ -42,8 +42,8 @@ InquiryWin = function(p) {
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=PCOM_Q',
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PComments'}, PComments),remoteSort:true,
-    	sortInfo:{field:'commId', direction:'DESC'}});
-    store.load({params:{start:0,limit:20,mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+    	sortInfo:{field:'commId', direction:'ASC'}});
+    store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
     
 	var html = '<div style="padding:5px;"><table class="reference" width="100%">';
 	html +='<tr><td width="80">询价单位：</td><td>'+p.get('wusrCompanyName')+'</td></tr>';
@@ -62,8 +62,8 @@ InquiryWin = function(p) {
 	
 	var txtMessage = new Ext.form.TextArea({width:480,height:130,anchor:'95%'});
 	
-	var panelInfo = new Ext.Panel({region:'center',title:'询价信息',frame:true,
-		collapsible:true,html:html,autoScroll:true});
+	var panelInfo = new Ext.Panel({title:'询价信息',frame:true,
+		html:html,autoScroll:true});
 	
 	var tpl = new Ext.XTemplate(
 		    '<tpl for=".">',		        
@@ -71,20 +71,23 @@ InquiryWin = function(p) {
 		        '<div>{commBody}</div>',
 		    '</tpl>'
 		);
-
-	var panel = new Ext.Panel({region:'south',
-	    frame:true,
-	    height:150,
+	var formatData = function(data) {
+		data.createTime=formatDateTime(data.createTime);
+		return data;
+	};
+	
+	var msgPanel = new Ext.Panel({region:'south',
 	    autoScroll:true,
-	    collapsible:true,
 	    title:'回复信息',
 	    items: new Ext.DataView({
 	        store: store,
 	        tpl: tpl,
-	        autoHeight:true
-	    })
+	        autoHeight:true,
+			prepareData: formatData.createDelegate(this)
+		})
 	});
 	
+	var tabPanel = new Ext.TabPanel({region:'center',activeTab:0,items:[panelInfo,msgPanel]});
 	var panelReply = new Ext.Panel({region:'south',height:150,title:'回复信息',frame:true,collapsible:true,items:
 		txtMessage
 	});
@@ -98,18 +101,19 @@ InquiryWin = function(p) {
 		else			
 			var comm = new PComments({objectType:'WINQ',objectId:p.get("id"),
 				commBody:msg});
-			var xml=RTX(comm,'PComments',panel);
+			var xml=RTX(comm,'PComments',PComments);
 			Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
 				params:{A:'PCOM_S'},
 				success: function(r,o){
 					alert('保存成功');
+					store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
 				},
 				failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
 				xmlData:FOSX(xml)
 		});
 	};	
     InquiryWin.superclass.constructor.call(this, {title:'网上询价',modal:true,width:500,
-        height:600,buttonAlign:'right',layout:'fit',items:[{layout:'border',items:[panelInfo,panel]}],
+        height:600,buttonAlign:'right',layout:'fit',items:[{layout:'border',items:[tabPanel,panelReply]}],
         buttons:[{text:"回复",scope:this,handler:this.reply},{text:"关闭",scope:this,handler:this.close}]
         }); 
 };

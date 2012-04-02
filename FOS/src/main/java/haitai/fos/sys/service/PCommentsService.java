@@ -5,6 +5,7 @@ import haitai.fos.sys.entity.table.PComments;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.RowAction;
+import haitai.fw.util.StringUtil;
 import haitai.fw.util.TimeUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,13 @@ public class PCommentsService {
 	@Transactional
 	public List<PComments> save(List<PComments> entityList) {
 		for(PComments c : entityList){
-			c.setCommBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
+			String wusrName = SessionManager.getStringAttr("WUSERNAME");
+			if(StringUtil.isNotBlank(wusrName)){
+				c.setCommBy(wusrName);
+			}
+			else
+				c.setCommBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
+			
 			c.setCompCode(SessionManager.getStringAttr("CompCode"));
 			c.setRowAction(RowAction.N);
 			c.setCreateTime(TimeUtil.getNow());

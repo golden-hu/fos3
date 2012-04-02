@@ -118,7 +118,8 @@ var DATEF='Y-m-d';
 var C_LW=400;
 var BF=500;var EQ=1;var LT=2;var LE=3;var GT=4;var GE=5;var NE=6;var LI=7;var IN=8;
 var formatDate = function(v){return v ? v.dateFormat(DATEF) : '';};
-formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
+var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
+
 QParam = Ext.data.Record.create(['key','op','value']);
 WUser = Ext.data.Record.create(['id','wusrId','wusrName','wusrPassword','wusrFirstName','wusrLastName',
         'wusrTitle','wusrDept','wusrMobile','wusrEmail','wusrCompanyName','wusrAddress','wusrCity','wusrProvice',
@@ -330,37 +331,6 @@ var getWCON_ST=function(v){
 function CHKCLM(t,d,w){
 	return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});
 };
-var QTX=function(a){
-	var x='';
-	for(var i=0;i<a.length;i++)
-	{
-		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n';
-	}
-	return x;
-};
-
-var QTJ=function(a){return {fosQuery:a};};
-var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
-function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
-
-var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
-var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.JsonReader({root:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
-var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.JsonReader({root:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
-
-var LP=function(f,e){
-	if(e.getKey()!=e.ENTER){	
-		var q=f.getRawValue();
-		if(q.length>1 && !f.isExpanded()){
-			var a=[];
-			a[a.length]={key:'portNameEn',value:q+'%',op:LI};
-			f.store.baseParams=a.length>0?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
-     		f.store.reload();f.expand();
-		}
-		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
-	}
-};
-
-
 var RTJ = function(r,rt){
 	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
@@ -385,6 +355,100 @@ var RTJ = function(r,rt){
 };
 var FOSJ=function(x){
 	return {FosRequest:{data:x}};
+};
+var RTX = function(r,t,rt){
+	var f=rt.prototype.fields;
+	var x='<'+t+'>\n';
+	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
+	for(var i=0;i<f.length;i++){
+		var item = f.items[i];
+		var n = item.name;
+		var ty = item.type;
+		if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){
+			x+='<'+n+'>';
+			if(ty==Ext.data.Types.DATE){				
+				x+=r.get(n)?r.get(n).format(item.dateFormat):'';
+			}
+			else if(ty==Ext.data.Types.BOOLEAN){
+				x+=r.get(n)?'1':'0';
+			}
+			else{
+				x+=Ext.util.Format.htmlEncode(r.get(n));
+			}
+			x+='</'+n+'>\n';
+		}
+	}	
+	return x+'</'+t+'>\n';
+};
+
+var ATX = function(a,t,rt){
+	var x='';
+	var f=rt.prototype.fields;
+	for(var j=0;j<a.length;j++)
+	{
+		var r=a[j];
+		if(r.get('rowAction') == ''||r.get('rowAction') == undefined) 
+			r.set('rowAction','M');
+		if(r.get('rowAction')!='D'){
+			x=x+"<"+t+">\n";
+			for(var i=0;i<f.length;i++){
+				var item = f.items[i];
+				var n = item.name;
+				var ty = item.type;				
+				if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){
+					x+='<'+n+'>';
+					if(ty==Ext.data.Types.DATE) 
+						x+=r.get(n)?r.get(n).format(item.dateFormat):'';
+					else if(ty==Ext.data.Types.BOOLEAN)
+						x+=r.get(n)?'1':'0';
+					else
+						x+=Ext.util.Format.htmlEncode(r.get(n));						
+					x+='</'+n+'>\n';
+				}
+			}
+			x=x+"</"+t+">\n";
+		}
+	}
+	return x;
+};
+var QTX=function(a){
+	var x='';
+	for(var i=0;i<a.length;i++)
+	{
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n'
+	}
+	return x;
+};
+var FOSX=function(x){return "<FosRequest>\n<data>\n"+x+"</data>\n</FosRequest>"};
+
+var QTX=function(a){
+	var x='';
+	for(var i=0;i<a.length;i++)
+	{
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n';
+	}
+	return x;
+};
+var QTJ=function(a){return {fosQuery:a};};
+
+var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
+function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
+
+var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
+var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.JsonReader({root:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
+var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.JsonReader({root:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
+
+var LP=function(f,e){
+	if(e.getKey()!=e.ENTER){	
+		var q=f.getRawValue();
+		if(q.length>1 && !f.isExpanded()){
+			var a=[];
+			a[a.length]={key:'portNameEn',value:q+'%',op:LI};
+			f.store.baseParams=a.length>0?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
+     		f.store.reload();f.expand();
+		}
+		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
+	}
 };
 
 LoginWin = function() {
@@ -541,7 +605,7 @@ var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',lay
 
 InquiryGrid = function() {	
     var store = new Ext.data.Store({
-   		url: SERVICE_URL+'?A=WS_WINQ_Q&wusrId='+CUSER,
+   		url: SERVICE_URL+'?A=WINQ_X&wusrId='+CUSER,
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WInquiry'}, WInquiry),remoteSort:true,
     	sortInfo:{field:'winqId', direction:'DESC'}});
     store.load({params:{start:0,limit:20}});
@@ -562,15 +626,18 @@ InquiryGrid = function() {
 	cm.defaultSortable=true;
 	var re={rowdblclick:function(g,r,e){this.edit();}};   
     this.add = function(){
-    	var p = new WInquiry({winqId:0,winqPolEn:'',winqPodEn:'',winqDeliveryPlace:'',winqReceiptPlace:'',tranCode:'',pateName:'',
-		winqBizType:1,winqCargoGw:'',winqCargoMeasurement:'',compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
+    	var p = new WInquiry({winqId:0,compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
        	var win = new InquiryWin(p);    	
 		win.show();
     };
     this.edit = function(){
     	var p = sm.getSelected();
-    	if(p){var win = new InquiryWin(p);win.show();}
-    	else XMG.alert(SYS,M_NO_DATA_SELECTED);
+    	if(p){
+    		var win = new InquiryReplyWin(p);
+    		win.show();
+    	}
+    	else 
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
 	this.remove=function(){
 		if (sm.getSelections().length > 0)
@@ -586,32 +653,103 @@ InquiryGrid = function() {
         else XMG.alert(SYS,M_R_P);
 	};
 	
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'nmrbf',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('G_CUST');
-		 	if(tc&&tc==T_MAIN.getActiveTab()){			 	
-			 		switch(k) {
-					case Ext.EventObject.N:
-						if(!NR(M1_V+V_CUST+F_M)) this.add();break;
-					case Ext.EventObject.R:
-						if(!NR(M1_V+V_CUST+F_R)) this.remove();break;
-					case Ext.EventObject.M:
-						if(!NR(M1_V+V_CUST+F_V)) this.edit();break;
-			 		}
-		 	}
-		},stopEvent:true,scope:this});
     InquiryGrid.superclass.constructor.call(this, {
     id:'G_WINQ',store: store,iconCls:'grid',width:600,height:300,title:'询价列表',header:false,closable:true,
     sm:sm,cm:cm,listeners:re,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
-	tbar:[{text:C_ADD+'(N)',iconCls:'add',handler:this.add}, '-', 
-		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit}, '-',
-		{text:C_REMOVE+'(R)',iconCls:'remove',handler:this.remove},'->',
+	tbar:[{text:C_ADD,iconCls:'add',handler:this.add}, '-', 
+		{text:C_EDIT,iconCls:'option',handler:this.edit}, '-',
+		{text:C_REMOVE,iconCls:'remove',handler:this.remove},'->',
 		new Ext.PagingToolbar({pageSize:20,store:store})]
     }); 
 };
 Ext.extend(InquiryGrid,Ext.grid.GridPanel);
+
+InquiryReplyWin = function(p) {
+	var store = new Ext.data.Store({
+   		url: SERVICE_URL+'?A=PCOM_Q',
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PComments'}, PComments),remoteSort:true,
+    	sortInfo:{field:'commId', direction:'ASC'}});
+    store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+    
+	var html = '<div style="padding:5px;"><table class="reference" width="100%">';
+	html +='<tr><td width="80">询价单位：</td><td>'+p.get('wusrCompanyName')+'</td></tr>';
+	html +='<tr><td width="80">询价人：</td><td>'+p.get('wusrFirstName')+'</td></tr>';
+	html +='<tr><td width="80">询价日期：</td><td>'+formatDateTime(p.get('createTime'))+'</td></tr>';
+	html +='<tr><td width="80">装货港：</td><td>'+p.get('winqPolEn')+'</td></tr>';
+	html +='<tr><td>出发地：</td><td>'+p.get('winqReceiptPlace')+'</td></tr>';
+	html +='<tr><td>卸货港：</td><td>'+p.get('winqPodEn')+'</td></tr>';
+	html +='<tr><td>出发地：</td><td>'+p.get('winqDeliveryPlace')+'</td></tr>';
+	html +='<tr><td>运输条款：</td><td>'+p.get('tranCode')+'</td></tr>';
+	html +='<tr><td>货物描述：</td><td>'+p.get('winqCargoDesc')+'</td></tr>';
+	html +='<tr><td>货物毛重：</td><td>'+p.get('winqCargoGw')+'</td></tr>';
+	html +='<tr><td>货物体积：</td><td>'+p.get('winqCargoMeasurement')+'</td></tr>';
+	html +='<tr><td>备注：</td><td>'+p.get('winqRemarks')+'</td></tr>';
+	html +='</table></div>';
+	
+	var txtMessage = new Ext.form.TextArea({width:480,height:130,anchor:'95%'});
+	
+	var panelInfo = new Ext.Panel({title:'询价信息',frame:true,
+		html:html,autoScroll:true});
+	
+	var tpl = new Ext.XTemplate(
+		    '<tpl for=".">',		        
+		        '<div>{commBy}:  <span>{createTime}</span> </div>',
+		        '<div>{commBody}</div>',
+		    '</tpl>'
+		);
+	var formatData = function(data) {
+		//data.createTime=formatDateTime(data.createTime);
+		return data;
+	};
+	
+	var msgPanel = new Ext.Panel({region:'south',
+	    autoScroll:true,
+	    title:'回复信息',
+	    items: new Ext.DataView({
+	        store: store,
+	        tpl: tpl,
+	        autoHeight:true,
+			prepareData: formatData.createDelegate(this)
+		})
+	});
+	
+	var tabPanel = new Ext.TabPanel({region:'center',activeTab:0,items:[panelInfo,msgPanel]});
+	var panelReply = new Ext.Panel({region:'south',height:150,title:'回复信息',frame:true,collapsible:true,items:
+		txtMessage
+	});
+	
+	this.reply = function(){
+		var msg = txtMessage.getValue();
+		if(!msg){
+			alert('请输入回复的内容！');
+			return;
+		}
+		else			
+			var comm = new PComments({objectType:'WINQ',objectId:p.get("id"),
+				commBody:msg});
+			var rj=RTJ(comm,PComments);
+			var data=FOSJ({'PComments':rj});			
+			Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
+				params:{A:'PCOM_S',mt:'JSON'},
+				success: function(r,o){
+					alert('保存成功');
+					store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+				},
+				failure: function(r,o){
+					XMG.alert(SYS,r.responseText);
+				},
+				jsonData:data
+		});
+	};	
+	InquiryReplyWin.superclass.constructor.call(this, {title:'网上询价',modal:true,width:500,
+        height:600,buttonAlign:'right',layout:'fit',items:[{layout:'border',items:[tabPanel,panelReply]}],
+        buttons:[{text:"回复",scope:this,handler:this.reply},{text:"关闭",scope:this,handler:this.close}]
+        }); 
+};
+Ext.extend(InquiryReplyWin,Ext.Window);
+
+
 WconGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_WCON_Q',
@@ -1445,29 +1583,33 @@ var logout=function(){
 			failure: function(r){}				
 		});*/
 	top.window.close();
-	};
-
-function CreateMenu(title,wid,f){
- 	var fn=function(){T_MAIN.setActiveTab(T_MAIN.getComponent(wid)?T_MAIN.getComponent(wid):T_MAIN.add(f()));};
- 	return {text:title,iconCls :'grid',scope:this,handler:function(){if(checkLogin(fn)==1) fn();}};
 };
+
+function CreateMenu(title,wid,f,disabled){
+ 	var fn=function(){T_MAIN.setActiveTab(T_MAIN.getComponent(wid)?T_MAIN.getComponent(wid):T_MAIN.add(f()));};
+ 	return {text:title,iconCls :'grid',disabled:disabled,scope:this,handler:function(){if(checkLogin(fn)==1) fn();}};
+};
+
 var menuPanel = new Ext.Panel({
 	id:'MENU',title:'FOS3.0网上服务',region:'west',split:true,collapsible: true,collapseMode:'mini',
 	width:200,minWidth:150,maxSize: 400,bodyStyle:'padding: 10px; background-color: #f0f0f0',
 	items:new Ext.menu.Menu({floating:false,items:['-',
-		CreateMenu('船期查询','T_VOYA',function(){return new VoyaTab();}),'-',
-		CreateMenu('网上询价','G_WINQ',function(){return new InquiryGrid();}),'-',
-		CreateMenu('网上订舱','G_BOOK',function(){return new WconGrid();}),'-',
-		CreateMenu('单票跟踪','T_CONS',function(){return new ConsTab();}),'-',
-		CreateMenu('提单确认','T_BL',function(){return new BLTab();}),'-',
-		CreateMenu('网上对账','T_BILL',function(){return new BillTab();}),'-',
-		{text:'退出',iconCls :'grid',scope:this,handler:this.logout},'-'
+		CreateMenu('船期查询','T_VOYA',function(){return new VoyaTab();},false),'-',
+		CreateMenu('网上询价','G_WINQ',function(){return new InquiryGrid();},false),'-',
+		CreateMenu('网上订舱','G_BOOK',function(){return new WconGrid();},CCUST!=''),'-',
+		CreateMenu('单票跟踪','T_CONS',function(){return new ConsTab();},CCUST!=''),'-',
+		CreateMenu('提单确认','T_BL',function(){return new BLTab();},CCUST!=''),'-',
+		CreateMenu('网上对账','T_BILL',function(){return new BillTab();},CCUST!=''),'-',
+		{text:'退出',iconCls :'grid',scope:this,disabled:false,handler:this.logout},'-'
 		]})});
 	
 Ext.onReady(function(){	
-	//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
-    Ext.QuickTips.init();
-    Ext.form.Field.prototype.msgTarget = 'side';
+	if(!loadSession('WUSER_ID')){
+		var win= new LoginWin();
+		win.show();
+	}
+	
+    Ext.QuickTips.init();    
     
     var tBar=new Ext.BoxComponent({region:'north',el:'north',height:90});   
 	var viewport = new Ext.Viewport({layout:'border',items:[tBar,menuPanel,T_MAIN]});
@@ -1475,11 +1617,7 @@ Ext.onReady(function(){
 	
 	viewport.doLayout();
 	
-	//if(!sessionStorage.getItem("WUSER_ID")){
-	if(!loadSession('WUSER_ID')){
-		var win= new LoginWin();
-		win.show();
-	}
+	
 	
 });
 
