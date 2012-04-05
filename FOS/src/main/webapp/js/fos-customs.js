@@ -775,7 +775,7 @@ Fos.CustomsDeclearTab = function(p,store) {
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
          			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
-         			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'}
+         			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',value:p.get('consCustomsContact'),xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
              		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -793,7 +793,7 @@ Fos.CustomsDeclearTab = function(p,store) {
           			    xtype:'textfield',anchor:'99%'},
      			   {xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
 		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP},
-		     	  {fieldLabel:C_CUDE_TEL,name:'consCustomsTel',xtype:'textfield',anchor:'99%'}
+		     	  {fieldLabel:C_CUDE_TEL,name:'consCustomsTel',value:p.get('consCustomsTel'),xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
              		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
