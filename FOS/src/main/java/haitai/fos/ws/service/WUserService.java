@@ -107,8 +107,6 @@ public class WUserService {
 		String wusrMobile= (String) queryMap.get("wusrMobile");
 		String compCode= (String) queryMap.get("compCode");
 		
-		wusrPassword = CryptoUtil.MD5Encode(wusrPassword);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("wusrName", wusrName);
 		
@@ -116,6 +114,8 @@ public class WUserService {
 		if (userList != null && userList.size() > 0) {
 			throw new BusinessException("ws.username.exist");
 		}
+		
+		wusrPassword = CryptoUtil.MD5Encode(wusrPassword);
 		
 		WUser user = new WUser();
 		user.setCompCode(compCode);

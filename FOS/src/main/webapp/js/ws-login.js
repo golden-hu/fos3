@@ -14,6 +14,32 @@ FTask= Ext.data.Record.create(['id',
    	'taskFinishedFlag','tatyBizType','tatyBizClass',
    	'active','compCode','version','rowAction']);
 
+var RTJ = function(r,rt){
+	var f=rt.prototype.fields;	
+	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
+	var v={};
+	for(var i=0;i<f.length;i++){
+		var item = f.items[i];
+		var n = item.name;
+		var ty = item.type;		
+		if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){			
+			if(ty==Ext.data.Types.DATE){
+				v[n]=r.get(n)?r.get(n).format('Y-m-d H:i:s'):'';
+			}
+			else if(ty==Ext.data.Types.BOOLEAN){
+				v[n]=r.get(n)?'1':'0';
+			}
+			else{
+				v[n]=Ext.util.Format.htmlEncode(r.get(n));
+			}
+		}
+	}
+	return v;
+};
+var FOSJ=function(x){
+	return {FosRequest:{data:x}};
+};
+
 Ext.grid.CheckColumn = function(config){
 	this.addEvents({click:true});
 	Ext.grid.CheckColumn.superclass.constructor.call(this);
@@ -198,6 +224,75 @@ var login = function(f){
 	});	
 };
 
+RegWin = function() {
+	var frm = new Ext.form.FormPanel({labelWidth:70,bodyStyle:'padding:5px',labelAlign:'right',labelSeparator:'',items:[
+    	{fieldLabel:'用户名:'+'<font color="#FF0000">*</font>',name:'wusrName',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'密码:'+'<font color="#FF0000">*</font>',name:'wusrPassword',xtype:'textfield',inputType:'password',anchor:'99%'},    	
+    	{fieldLabel:'Email:'+'<font color="#FF0000">*</font>',name:'wusrEmail',xtype:'textfield',vtype:'email',vtypeText:'邮件地址不合法！·',anchor:'99%'},
+    	{fieldLabel:'公司名称:'+'<font color="#FF0000">*</font>',name:'wusrCompanyName',xtype:'textfield',anchor:'99%'},    	
+    	{fieldLabel:'电话:'+'<font color="#FF0000">*</font>',name:'wusrTel',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'传真',name:'wusrFax',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'姓名',name:'wusrFirstName',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'职务',name:'wusrTitle',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'部门',name:'wusrDept',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'手机号码',name:'wusrMobile',xtype:'textfield',anchor:'99%'},
+    	{fieldLabel:'地址',name:'wusrAddress',xtype:'textfield',anchor:'99%'}
+    	]});
+    	
+	this.reg = function(){	
+		var r=new WUser({});
+		r.beginEdit();
+		frm.getForm().updateRecord(r);
+		r.set('compCode',COMP_CODE);
+		r.set('rowAction','N');
+		r.endEdit();
+		if(!r.get('wusrName')){
+			alert('用户名不能为空');
+			frm.find('name','wusrName')[0].focus();
+			return;
+		}
+		if(!r.get('wusrPassword')){
+			alert('密码不能为空');
+			frm.find('name','wusrPassword')[0].focus();
+			return;
+		}
+		if(!r.get('wusrEmail')){
+			alert('Email不能为空');
+			frm.find('name','wusrEmail')[0].focus();
+			return;
+		}
+		if(!r.get('wusrCompanyName')){
+			alert('公司名称不能为空');
+			frm.find('name','wusrCompanyName')[0].focus();
+			return;
+		}
+		if(!r.get('wusrTel')){
+			alert('联系电话不能为空');
+			frm.find('name','wusrTel')[0].focus();
+			return;
+		}
+		var rj=RTJ(r,WUser);
+		var data=FOSJ({'WUser':rj});
+		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WUSR_S',mt:'JSON'},
+			success: function(r){
+				var user=Ext.util.JSON.decode(r.responseText);
+				saveSession('WUSER_ID',user.WUser[0].wusrId);
+				saveSession('WCUST_ID',user.WUser[0].custId);				
+				CUSER=user.WUser[0].wusrId;
+				alert('注册成功！');
+				this.close();
+			},
+			failure: function(r){
+				var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
+		jsonData:data});
+	};	
+    RegWin.superclass.constructor.call(this, {title:'用户注册',modal:true,width:300,
+        height:370,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,
+        buttons:[{text:"注册",scope:this,handler:this.reg},{text:"取消",scope:this,handler:this.close}]
+        }); 
+};
+Ext.extend(RegWin,Ext.Window);
+
 var reg = function(f){	
 	var wusrName=f.wusrName.value;
 	var wusrPassword=f.wusrPassword.value;
@@ -267,10 +362,13 @@ var reg = function(f){
 };
 
 var showRegWin = function(){
-	if(self!=top) 
+	var win = new RegWin();
+	win.show();
+	
+	/*if(self!=top) 
 		top.location='ws-reg.html';
 	else 
-		window.location='ws-reg.html';	
+		window.location='ws-reg.html';	*/
 	//window.open('ws-reg.html','','height=360,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
 };
 

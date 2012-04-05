@@ -464,12 +464,8 @@ LoginWin = function() {
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_LOGIN',mt:'JSON',wusrName:wusrName,wusrPassword:wusrPassword},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
-				//sessionStorage.setItem("WUSER_ID",user.WUser[0].wusrId);
-				//sessionStorage.setItem("WCUST_ID",user.WUser[0].custId);			
-				
 				saveSession('WUSER_ID',user.WUser[0].wusrId);
-				saveSession('WCUST_ID',user.WUser[0].custId);
-				
+				saveSession('WCUST_ID',user.WUser[0].custId);				
 				CUSER=user.WUser[0].wusrId;
 				CCUST=user.WUser[0].custId;
 				this.close();

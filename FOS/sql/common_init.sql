@@ -337,6 +337,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('CHAN_PB', 'CmsController', 'publish', '频道发布'),
 ('WS_LOGIN', 'WUserService', 'login', '网上服务-登录'),
 ('WS_REG', 'WUserService', 'register', '网上服务-注册'),
+('WS_WUSR_Q', 'WUserService', 'query', '网上服务-查询用户'),
+('WS_WUSR_S', 'WUserService', 'save', '网上服务-保存用户'),
 ('WS_WINQ_S', 'WInquiryService', 'save', '网上服务-询价保存'),
 ('WS_WINQ_Q', 'WInquiryService', 'query', '网上服务-询价查询'),
 ('WS_LOGOUT', 'WUserService', 'logout', '网上服务-退出登录'),
