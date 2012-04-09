@@ -150,6 +150,15 @@ public class MappingConverterUtil {
 		return entity.getUserName();
 	}
 
+	public String getUserTel(String strId){
+		if(StringUtil.isBlank(strId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(strId);
+		PUser entity = userDao.findById(id);
+		return entity.getUserTel();
+	}
+	
 	public String getCleanBL(String flag) {
 		if(ConstUtil.TrueStr.equals(flag)) {
 			return "clean on board";

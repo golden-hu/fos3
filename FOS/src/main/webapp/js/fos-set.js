@@ -1247,13 +1247,13 @@ Fos.ConsignAuditGrid = function() {
 	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',scope:this,handler:function(){this.fastSearch();}};
 	var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
 	var vc={forceFit:false,
-		 templates:{   
+		/* templates:{   
 			    cell: new Ext.Template( 
 			      '<td height=24 class="x-grid3-col x-grid3-cellx-grid3-td-{id}   x-selectable{css}" style="{style}"  tabIndex="0" {cellAttr}>',
 			      '<div style="padding-top:4px;" class="x-grid3-cell-innerx-grid3-col-{id}" {attr}>{value}</div>',
 			      '</td>'
 			       )
-			    },
+			    },*/
 		groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})',
 		getRowClass: function(record, index) {
 			var t=getCFG('PROFIT_ALERT_TYPE');

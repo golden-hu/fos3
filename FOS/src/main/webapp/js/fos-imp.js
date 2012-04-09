@@ -91,18 +91,20 @@ Fos.CargoGrid = function(p,store,frm) {
 		var pkgs = '';
 		
 		for(var i=0;i<a.length;i++){
-			pkg+=a[i].get('cargPackageNum');
-			gw+=a[i].get('cargGrossWeight');
-			nw+=a[i].get('cargNetWeight');
-			m+=a[i].get('cargMeasurement');
-			cgw+=a[i].get('cargMeasurement')*167;
+			pkg += parseFloat(a[i].get('cargPackageNum'));
+			gw +=  parseFloat(a[i].get('cargGrossWeight'));
+			nw +=  parseFloat(a[i].get('cargNetWeight'));
+			m +=   parseFloat(a[i].get('cargMeasurement'));
+			cgw += parseFloat(a[i].get('cargMeasurement')*167);
 			
 			if(mark=='') 
 				mark = a[i].get('cargMarks');
-			else if(a[i].get('cargMarks')==mark)
-				mark = a[i].get('cargMarks');
-			else
-				mark = mark + ',' + a[i].get('cargMarks');
+			else{
+				if(a[i].get('cargMarks')!=mark){
+					mark += '\r\n';
+					mark += a[i].get('cargMarks');
+				}
+			}			
 			
 			if(ename!='') 
 				ename += '\r\n';

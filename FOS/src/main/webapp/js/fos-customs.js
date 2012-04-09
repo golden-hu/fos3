@@ -407,13 +407,14 @@ Ext.extend(Fos.InspectionDeclTab,Ext.FormPanel);
 
 //报关
 Fos.CustomsGrid = function(bizClass) {
-	var a=[];
-	a[a.length]={key:'consBizType',value:BT_G,op:1};
-	a[a.length]={key:'consBizClass',value:bizClass,op:1};
-	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+	var queryParams=[];
+	queryParams[queryParams.length]=new QParam({key:'consBizType',value:BT_G,op:1});
+	queryParams[queryParams.length]=new QParam({key:'consBizClass',value:bizClass,op:1});
+	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
+	
 	var store = new Ext.data.GroupingStore({
    		url: SERVICE_URL+'?A=CONS_X',baseParams:bp,
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'}, FConsign),remoteSort:true,
     	sortInfo:{field:'consDate', direction:'DESC'}});    	
 	
 	this.reset=function(){
@@ -490,8 +491,12 @@ Fos.CustomsGrid = function(bizClass) {
 		}
        	else XMG.alert(SYS,M_R_P);
     };
+    
+    setQueryParams=function(a){
+    	queryParams = a;
+    };
 	this.search = function(){
-		var w=new Fos.CustomsConsLookupWin(store);
+		var w=new Fos.CustomsConsLookupWin(store,setQueryParams);
 		w.show();
 	};
 	
@@ -501,27 +506,43 @@ Fos.CustomsGrid = function(bizClass) {
 		var consNo=kw.getValue();
 		if(!consNo){XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});return;};
      	var a=[];     	
-     	a[a.length]={key:'consBizType',value:BT_G,op:EQ};
+     	a[a.length]=new QParam({key:'consBizType',value:BT_G,op:EQ});
      	
      	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
      	if(c>=0){
-			a[a.length]={key:'consNo',value:consNo,op:IN};
+			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
 		}
 		else if(b>=0){
 			var ra=consNo.split('..');
-			a[a.length]={key:'consNo',value:ra[0],op:GE};
-			a[a.length]={key:'consNo',value:ra[1],op:LE};
+			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
 		}
 		else
- 			a[a.length]={key:'consNo',value:consNo,op:LI};
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+ 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+     	queryParams = a;
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(queryParams))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
 	this.exp=function(){
+		
+		if(queryParams.length>0){
+			var a = queryParams;
+			var qa = [];
+			for(var i=0;i<a.length;i++){
+				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+			}
+			//EXP('C','CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+			EXPC('CUSTOMS_DOC_STAT','&mt=JSON&xml'+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+		}
+		else{
+			//EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');			
+			EXPC('CUSTOMS_DOC_STAT','&mt=JSON&start=0&limit=500');
+		}
+		
 		EXPC('CUSTOMS_DOC_STAT',store.baseParams.xml?'&mt=JSON&xml='
 				+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');
 	};
@@ -833,7 +854,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		      {text:C_CONS_CLOSED,itemId:'TB_F',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.finish},'-',
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
-		      {text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',scope:this,handler:this.cancel},'-',
+		      {text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')==0||p.get('rowAction')=='N',scope:this,handler:this.cancel},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
 		      {text:C_CUSTOM_BILL,itemId:'TB_CUDE',iconCls:'doc',disabled:p.get('rowAction')=='N',scope:this,handler:this.showCude},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
@@ -844,65 +865,89 @@ Fos.CustomsDeclearTab = function(p,store) {
 };
 Ext.extend(Fos.CustomsDeclearTab,Ext.FormPanel);
 
-Fos.CustomsConsLookupWin = function(store){    
+Fos.CustomsConsLookupWin = function(store,setQueryParams){    
 	this.reload=function(){
      	var a=[];var op=1;
-     	a[a.length]={key:'consBizType',value:BT_G,op:1};
+     	a[a.length]=new QParam({key:'consBizType',value:BT_G,op:1});
      	
  		var custId=panel.find('name','custId')[0].getValue();
- 		if(custId) a[a.length]={key:'custId',value:custId,op:op}; 
+ 		if(custId) 
+ 			a[a.length]=new QParam({key:'custId',value:custId,op:op}); 
  		var consCompany=panel.find('name','consCompany')[0].getValue();        		
- 		if(consCompany) a[a.length]={key:'consCompany',value:consCompany,op:op};
+ 		if(consCompany) 
+ 			a[a.length]=new QParam({key:'consCompany',value:consCompany,op:op});
  		var consSalesRepId=panel.find('name','consSalesRepId')[0].getValue();        		
- 		if(consSalesRepId) a[a.length]={key:'consSalesRepId',value:consSalesRepId,op:op};
+ 		if(consSalesRepId) 
+ 			a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
  		var consOperatorId=panel.find('name','consOperatorId')[0].getValue();        		
- 		if(consOperatorId) a[a.length]={key:'consOperatorId',value:consOperatorId,op:op};
+ 		if(consOperatorId) 
+ 			a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:op});
  		
  		var consDate=panel.find('name','consDate')[0].getValue();
  		var consDate2=panel.find('name','consDate2')[0].getValue();
  		if(consDate && consDate2){
- 			a[a.length]={key:'consDate',value:consDate.format(DATEF),op:5};
- 			a[a.length]={key:'consDate',value:consDate2.format(DATEF),op:3};
+ 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
  		}
- 		else if(consDate) a[a.length]={key:'consDate',value:consDate.format(DATEF),op:op};
+ 		else if(consDate) 
+ 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:op});
  		
  		var consCloseDate=panel.find('name','consCloseDate')[0].getValue();
  		var consCloseDate2=panel.find('name','consCloseDate2')[0].getValue();
  		if(consDate && consCloseDate2){
- 			a[a.length]={key:'consCloseDate',value:consCloseDate.format(DATEF),op:5};
- 			a[a.length]={key:'consCloseDate',value:consDate2.format(DATEF),op:3};
+ 			a[a.length]=new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consCloseDate',value:consDate2.format(DATEF),op:3});
  		}
- 		else if(consCloseDate) a[a.length]={key:'consCloseDate',value:consCloseDate.format(DATEF),op:op};
+ 		else if(consCloseDate) 
+ 			a[a.length]=new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:op});
  		
  		var consCustomsDeclearDate=panel.find('name','consCustomsDeclearDate')[0].getValue();
  		var consCustomsDeclearDate2=panel.find('name','consCustomsDeclearDate2')[0].getValue();
  		if(consCustomsDeclearDate && consCustomsDeclearDate2){
- 			a[a.length]={key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:5};
- 			a[a.length]={key:'consCustomsDeclearDate',value:consCustomsDeclearDate2.format(DATEF),op:3};
+ 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate2.format(DATEF),op:3});
  		}
- 		else if(consCustomsDeclearDate) a[a.length]={key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:op};
+ 		else if(consCustomsDeclearDate) 
+ 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:op});
  		
  		var consVerificationNo=panel.find('name','consVerificationNo')[0].getValue();        		
- 		if(consVerificationNo) a[a.length]={key:'consVerificationNo',value:consVerificationNo,op:op};
+ 		if(consVerificationNo) 
+ 			a[a.length]=new QParam({key:'consVerificationNo',value:consVerificationNo,op:op});
  		
  		var consRefNo=panel.find('name','consRefNo')[0].getValue();        		
- 		if(consRefNo) a[a.length]={key:'consRefNo',value:consRefNo,op:op};
+ 		if(consRefNo) 
+ 			a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:op});
  		
  		var consStatusAud=panel.find('name','consStatusAud')[0].getValue();        		
- 		if(consStatusAud) a[a.length]={key:'consStatusAud',value:consStatusAud,op:op};
+ 		if(consStatusAud) 
+ 			a[a.length]=new QParam({key:'consStatusAud',value:consStatusAud,op:op});
  		var consStatusAr=panel.find('name','consStatusAr')[0].getValue();        		
- 		if(consStatusAr) a[a.length]={key:'consStatusAr',value:consStatusAr,op:op};
+ 		if(consStatusAr) 
+ 			a[a.length]=new QParam({key:'consStatusAr',value:consStatusAr,op:op});
  		var consStatusAp=panel.find('name','consStatusAp')[0].getValue();        		
- 		if(consStatusAp) a[a.length]={key:'consStatusAp',value:consStatusAp,op:op};
+ 		if(consStatusAp) 
+ 			a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
  		var consStatusInvoR=panel.find('name','consStatusInvoR')[0].getValue();        		
- 		if(consStatusInvoR) a[a.length]={key:'consStatusInvoR',value:consStatusInvoR,op:op};
+ 		if(consStatusInvoR) 
+ 			a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
  		var consStatusInvoP=panel.find('name','consStatusInvoP')[0].getValue();        		
- 		if(consStatusInvoP) a[a.length]={key:'consStatusInvoP',value:consStatusInvoP,op:op};
+ 		if(consStatusInvoP) 
+ 			a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
  		var consStatusExp=panel.find('name','consStatusExp')[0].getValue();        		
- 		if(consStatusExp) a[a.length]={key:'consStatusExp',value:consStatusExp,op:op};
+ 		if(consStatusExp) 
+ 			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
      	
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-     	store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
+ 		setQueryParams(a);
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+     	store.reload({params:{start:0,limit:C_PS},
+     		callback:function(r){
+     			if(r.length==0) 
+     				XMG.alert(SYS,M_NOT_FOUND);
+     			}
+     	});
+     	
+     	//store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	//store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
 	};		
 		
 	var panel = new Ext.Panel({plain:true,height:340,layout:'column',
