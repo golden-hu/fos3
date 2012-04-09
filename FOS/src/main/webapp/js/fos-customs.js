@@ -527,24 +527,18 @@ Fos.CustomsGrid = function(bizClass) {
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
-	this.exp=function(){
-		
+	this.exp=function(){		
 		if(queryParams.length>0){
 			var a = queryParams;
 			var qa = [];
 			for(var i=0;i<a.length;i++){
 				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
 			}
-			//EXP('C','CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
-			EXPC('CUSTOMS_DOC_STAT','&mt=JSON&xml'+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+			EXPC('CUSTOMS_DOC_STAT','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
 		}
-		else{
-			//EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');			
+		else{		
 			EXPC('CUSTOMS_DOC_STAT','&mt=JSON&start=0&limit=500');
-		}
-		
-		EXPC('CUSTOMS_DOC_STAT',store.baseParams.xml?'&mt=JSON&xml='
-				+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');
+		}		
 	};
 	
 	var m=M1_G+M3_CONS;

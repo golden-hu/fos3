@@ -1589,6 +1589,16 @@ Fos.InvoiceGrid = function(t) {
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
+    
+    this.exp = function(){
+    	if(store.baseParams.xml){
+			EXPC('INVO_LIST','&mt=xml&invoType='+t+'&xml='+store.baseParams.xml);
+		}
+		else{		
+			EXPC('INVO_LIST','&mt=xml&sort=invoId&dir=DESC&invoType='+t+'&start=0&limit=20');
+		}
+    };
+    
 	Fos.InvoiceGrid.superclass.constructor.call(this, {    
     id:'G_INVO_'+t,iconCls:'grid',store: store,title:t=='R'?C_INVO_R_MGT:C_INVO_P_MGT,header:false,autoScroll:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
@@ -1596,7 +1606,7 @@ Fos.InvoiceGrid = function(t) {
 		{text:C_EDIT+'(M)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'option',handler:this.edit},'-',
 		{text:C_REMOVE+'(D)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R),iconCls:'remove',handler:this.removeInvo},'-',
 		{text:C_SEARCH+'(F)',iconCls:'search',handler:this.search},'-',
-		{text:C_EXPORT+'(E)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:function(){EXP('C','INVO_LIST','&mt=xml&xml='+store.baseParams.xml);}},'-',
+		{text:C_EXPORT+'(E)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:this.exp},'-',
         kw,b8,'-',b9,'-'],
 	bbar:PTB(store,C_PS)});
 };
@@ -1707,10 +1717,6 @@ Fos.InvoItemGrid = function(p,frm,billNo){
 					expeType:p.get('invoType')},
 				reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:'expeId'},SExpense),
 				remoteSort:true,sortInfo:{field:'expeId', direction:'DESC'}});	
-				
-			/*evar eStore = GS('EXPE_INV_Q','SExpense',SExpense,'expeId','DESC','','',false);
-			Store.baseParams={mt:'JSON',custId:p.get('custId'),pateCode:'P',expeAllocatedFlag:0,expeType:p.get('invoType')};
-			*/
 			eStore.load();	
 			
 			var win = new Fos.ExpenseLookupWin(eStore);
