@@ -147,7 +147,7 @@ var C_VOUC_P_QUERY='付款单查询';
 var C_EXPE_QUERY='费用查询';
 var C_BILL_QUERY='对账单查询';
 var C_PALI_QUERY='发货清单查询';
-
+var C_CONTAINER_INFO = '箱型箱量';
 var C_LOOK_BY_CUST_CODE='按客户代码查询';
 var C_LOOK_BY_CNAME='按中文名称查询';
 var C_LOOK_BY_ENAME='按英文名称查询';
