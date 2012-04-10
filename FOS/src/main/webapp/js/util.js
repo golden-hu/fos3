@@ -40,13 +40,13 @@ var SR_SESH='N';
 
    
 var groupViewCfg = {forceFit:false,
-		 templates:{   
-			    cell: new Ext.Template( 
-			      '<td height=24 class="x-grid3-col x-grid3-cellx-grid3-td-{id}   x-selectable{css}" style="{style}"  tabIndex="0" {cellAttr}>',
-			      '<div style="padding-top:4px;" class="x-grid3-cell-innerx-grid3-col-{id}" {attr}>{value}</div>',
-			      '</td>'
-			       )
-			    },
+//		 templates:{   
+//			    cell: new Ext.Template( 
+//			      '<td height=24 class="x-grid3-col x-grid3-cellx-grid3-td-{id}   x-selectable{css}" style="{style}"  tabIndex="0" {cellAttr}>',
+//			      '<div style="padding-top:4px;" class="x-grid3-cell-innerx-grid3-col-{id}" {attr}>{value}</div>',
+//			      '</td>'
+//			       )
+//			    },
 		groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'};
 var formatDate = function(v){return v ? v.dateFormat(DATEF) : '';};
 var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};

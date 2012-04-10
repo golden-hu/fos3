@@ -1,11 +1,11 @@
 //报检
 Fos.InspectionGrid = function() {
-	var a=[];
-	a[a.length]={key:'consBizType',value:BT_I,op:1};
-	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+	var queryParams=[];
+	queryParams[queryParams.length]=new QParam({key:'consBizType',value:BT_I,op:1});
+	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
 	var store = new Ext.data.GroupingStore({
    		url: SERVICE_URL+'?A=CONS_X',baseParams:bp,
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'FConsign'}, FConsign),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'}, FConsign),remoteSort:true,
     	sortInfo:{field:'consDate', direction:'DESC'}});    	
 	
 	this.reset=function(){
@@ -82,8 +82,13 @@ Fos.InspectionGrid = function() {
 		}
        	else XMG.alert(SYS,M_R_P);
     };
+    
+    setQueryParams=function(a){
+    	queryParams = a;
+    };
+    
 	this.search = function(){
-		var w=new Fos.InspConsLookupWin(store);
+		var w=new Fos.InspConsLookupWin(store,setQueryParams);
 		w.show();
 	};
 	
@@ -95,28 +100,40 @@ Fos.InspectionGrid = function() {
 		var consNo=kw.getValue();
 		if(!consNo){XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});return;};
      	var a=[];     	
-     	a[a.length]={key:'consBizType',value:BT_I,op:EQ};
+     	a[a.length]=new QParam({key:'consBizType',value:BT_I,op:EQ});
      	
      	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
      	if(c>=0){
-			a[a.length]={key:'consNo',value:consNo,op:IN};
+			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
 		}
 		else if(b>=0){
 			var ra=consNo.split('..');
-			a[a.length]={key:'consNo',value:ra[0],op:GE};
-			a[a.length]={key:'consNo',value:ra[1],op:LE};
+			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
 		}
 		else
- 			a[a.length]={key:'consNo',value:consNo,op:LI};
-     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+ 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(queryParams))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
-	this.exp=function(){EXP('C','CONS_LIST',
-			store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');};
+	
+	this.exp=function(){		
+		if(queryParams.length>0){
+			var a = queryParams;
+			var qa = [];
+			for(var i=0;i<a.length;i++){
+				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+			}
+			EXPC('CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+		}
+		else{		
+			EXPC('CONS_LIST','&mt=JSON&start=0&limit=500');
+		}		
+	};	
 	
 	var m=M1_I+M3_CONS;
 	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,menu: 
@@ -404,6 +421,146 @@ Fos.InspectionDeclTab = function(p,store) {
 	});
 };
 Ext.extend(Fos.InspectionDeclTab,Ext.FormPanel);
+
+Fos.InspConsLookupWin = function(store,setQueryParams){    
+	this.reload=function(){
+     	var a=[];var op=1;
+     	a[a.length]=new QParam({key:'consBizType',value:BT_I,op:1});
+     	
+ 		var custId=panel.find('name','custId')[0].getValue();
+ 		if(custId) 
+ 			a[a.length]=new QParam({key:'custId',value:custId,op:op}); 
+ 		var consCompany=panel.find('name','consCompany')[0].getValue();        		
+ 		if(consCompany) 
+ 			a[a.length]=new QParam({key:'consCompany',value:consCompany,op:op});
+ 		var consSalesRepId=panel.find('name','consSalesRepId')[0].getValue();        		
+ 		if(consSalesRepId) 
+ 			a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
+ 		var consOperatorId=panel.find('name','consOperatorId')[0].getValue();        		
+ 		if(consOperatorId) 
+ 			a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:op});
+ 		
+ 		var consDate=panel.find('name','consDate')[0].getValue();
+ 		var consDate2=panel.find('name','consDate2')[0].getValue();
+ 		if(consDate && consDate2){
+ 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consDate) 
+ 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:op});
+ 		
+ 		var consCloseDate=panel.find('name','consCloseDate')[0].getValue();
+ 		var consCloseDate2=panel.find('name','consCloseDate2')[0].getValue();
+ 		if(consDate && consCloseDate2){
+ 			a[a.length]=new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consCloseDate',value:consDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consCloseDate) 
+ 			a[a.length]=new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:op});
+ 		
+ 		var consCustomsDeclearDate=panel.find('name','consCustomsDeclearDate')[0].getValue();
+ 		var consCustomsDeclearDate2=panel.find('name','consCustomsDeclearDate2')[0].getValue();
+ 		if(consCustomsDeclearDate && consCustomsDeclearDate2){
+ 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consCustomsDeclearDate) 
+ 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:op});
+ 		
+ 		var consVerificationNo=panel.find('name','consVerificationNo')[0].getValue();        		
+ 		if(consVerificationNo) 
+ 			a[a.length]=new QParam({key:'consVerificationNo',value:consVerificationNo,op:op});
+ 		
+ 		var consRefNo=panel.find('name','consRefNo')[0].getValue();        		
+ 		if(consRefNo) 
+ 			a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:op});
+ 		
+ 		var consStatusAud=panel.find('name','consStatusAud')[0].getValue();        		
+ 		if(consStatusAud) 
+ 			a[a.length]=new QParam({key:'consStatusAud',value:consStatusAud,op:op});
+ 		var consStatusAr=panel.find('name','consStatusAr')[0].getValue();        		
+ 		if(consStatusAr) 
+ 			a[a.length]=new QParam({key:'consStatusAr',value:consStatusAr,op:op});
+ 		var consStatusAp=panel.find('name','consStatusAp')[0].getValue();        		
+ 		if(consStatusAp) 
+ 			a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
+ 		var consStatusInvoR=panel.find('name','consStatusInvoR')[0].getValue();        		
+ 		if(consStatusInvoR) 
+ 			a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
+ 		var consStatusInvoP=panel.find('name','consStatusInvoP')[0].getValue();        		
+ 		if(consStatusInvoP) 
+ 			a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
+ 		var consStatusExp=panel.find('name','consStatusExp')[0].getValue();        		
+ 		if(consStatusExp) 
+ 			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
+     	
+ 		setQueryParams(a);
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+     	store.reload({params:{start:0,limit:C_PS},
+     		callback:function(r){
+     			if(r.length==0) 
+     				XMG.alert(SYS,M_NOT_FOUND);
+     			}
+     	});
+     	
+     	//store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	//store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
+	};		
+		
+	var panel = new Ext.Panel({plain:true,height:340,layout:'column',
+		defaults:{bodyStyle:'padding:10px'},items:
+			[{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+	    	items:[{fieldLabel:C_BOOKER,name:'custId',store:getCS(),
+        		xtype:'combo',displayField:'custCode',valueField:'custId',
+        		typeAhead:true,enableKeyEvents:true,
+        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+        		triggerAction:'all',selectOnFocus:true,anchor:'90%',
+              	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},			
+			{fieldLabel:C_BIZ_COMPANY,name:'consCompany',xtype:'textfield',anchor:'90%'},			
+        	{fieldLabel:C_OPERATOR,name:'consOperatorId',store:getOP_S(),xtype:'combo',
+              	displayField:'userLoginName',valueField:'userId',typeAhead: true,
+              	mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+        	{fieldLabel:C_SALES,name:'consSalesRepId',store:getSALE_S(),xtype:'combo',
+              	displayField:'userLoginName',valueField:'userId',typeAhead: true,
+              	mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+         	{fieldLabel:C_CONS_AUDIT_STATUS,name:'consStatusAud',xtype:'combo',
+              	store:AUST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+         	{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',
+              	store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+      	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+   		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+        	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+        	{fieldLabel:C_CUSTOMS_DECLEAR_DATE,name:'consCustomsDeclearDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+        	{fieldLabel:C_VERIFICATION_NO,name:'consVerificationNo',xtype:'textfield',anchor:'90%'},
+			{fieldLabel:C_INVO_STATUS_R,name:'consStatusInvoR',xtype:'combo',
+        		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+			{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
+        		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+        	{fieldLabel:C_TO,name:'consCloseDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+        	{fieldLabel:C_TO,name:'consCustomsDeclearDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+         	{fieldLabel:C_REF_NO,name:'consRefNo',xtype:'textfield',anchor:'90%'},
+			{fieldLabel:C_EXPE_CONFIRM_STATUS,name:'consStatusExp',xtype:'combo',
+         		store:EXPC_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+			{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
+         		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
+		]}
+	]});
+    Fos.InspConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
+    	width:800,height:260,buttonAlign:'right',items:panel,
+		buttons:[{text:C_OK,scope:this,handler:this.reload},
+		         {text:C_CANCEL,scope:this,handler:this.close}]
+	}); 
+};
+Ext.extend(Fos.InspConsLookupWin, Ext.Window);
+
 
 //报关
 Fos.CustomsGrid = function(bizClass) {
@@ -821,7 +978,7 @@ Fos.CustomsDeclearTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
              			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF},
-                     {fieldLabel:'箱型箱量',name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'90%'}
+                     {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'90%'}
          		]}
          	    ]},
          	   {header:false,border:false,layout:'column',items:[
