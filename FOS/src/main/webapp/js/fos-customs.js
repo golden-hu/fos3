@@ -821,7 +821,7 @@ Fos.CustomsDeclearTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
              			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF},
-                     {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'90%'}
+                     {fieldLabel:'箱型箱量',name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'90%'}
          		]}
          	    ]},
          	   {header:false,border:false,layout:'column',items:[

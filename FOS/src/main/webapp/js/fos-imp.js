@@ -223,14 +223,12 @@ Fos.ContainerGrid = function(p,store) {
     store: store,sm:sm,cm:cm,
     tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
 			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,
-				contNo:'',contSealNo:'',contSealNo2:'',contSealNo3:'',
 			contPreFlag:p.get('consBizClass')==BC_I?'N':'Y',
-			consId:p.get('consId'),consNo:p.get('consNo'),
-			contMConsNo:'',contPackageNum:'',contGrossWeight:'',contMeasurement:'',
-			contCargoNameEn:p.get('consCargoNameEn'),
-			contCargoNameCn:p.get('consCargoNameCn'),
-			contRemarks:'',			
-			cotyId:'',contFl:p.get('consShipType')==ST_L?ST_L:ST_F,packId:'',contSocFlag:0,
+			consId:p.get('consId'),
+			consNo:p.get('consNo'),
+			contCargoNameEn:p.get('consBizClass')==BC_I?p.get('consCargoNameEn'):'',
+			contCargoNameCn:p.get('consBizClass')==BC_I?p.get('consCargoNameCn'):'',
+			contFl:p.get('consShipType')==ST_L?ST_L:ST_F,packId:'',contSocFlag:0,
 			contPartOfFlag:p.get('consShipType')==ST_L?1:0,version:'0',rowAction:'N'});
         		store.insert(0,c);this.startEditing(0, 1);}},'-',
 		{text:C_REMOVE,iconCls:'remove',disabled:NR(m+F_M),scope:this,handler:function(){FOS_REMOVE(sm,store);}}
