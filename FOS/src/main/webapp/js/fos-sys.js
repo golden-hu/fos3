@@ -842,7 +842,7 @@ var showP_COCO = function() {
 	store.load();
 	var cm=new Ext.grid.ColumnModel({columns:[
      	new Ext.grid.RowNumberer(),
-     	{header:C_COCO_CODE,dataIndex:'cocoCode',width: 80},
+     	{header:C_COCO_CODE,dataIndex:'cocoCode',width:250},
  		{header:C_COCO_NAME,dataIndex: 'cocoName',width:150},
  		{header:C_COCO_VALUE,dataIndex:'cocoValue',width:150,editable:true,renderer:function(v,m,r){if(r.get('cocoDesc')) return r.get('cocoDesc'); else return v;}},
  		{header:C_COCO_GROU,dataIndex: 'cocoGroup',width:100}
