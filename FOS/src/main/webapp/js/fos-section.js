@@ -2123,7 +2123,7 @@ Fos.CustomsTab = function(p) {
 		editor:new Ext.form.ComboBox({displayField:'unitCode',valueField:'unitCode',triggerAction:'all',
         mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_S()})},
 	{header:p.get('consBizClass')==BC_I?C_COL_A:C_COUNTRY_DESTINATION,dataIndex:'cuenCountry',renderer:getCOUN,
-		editor:new Ext.form.ComboBox({displayField:'counNameCn',valueField:'counCode',triggerAction: 'all',
+		editor:new Ext.form.ComboBox({displayField:'counNameCn',valueField:'counNameCn',triggerAction: 'all',
     	mode:'remote',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},
 	{header:C_UNIT_PRICE,dataIndex:'cuenUnitPrice',width:80,align:'right',
     	renderer:numRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
