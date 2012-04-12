@@ -1079,6 +1079,9 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
  		var consStatusAp=panel.find('name','consStatusAp')[0].getValue();        		
  		if(consStatusAp) 
  			a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
+ 		var consMblNo=panel.find('name','consMblNo')[0].getValue();
+ 		if(consMblNo) 
+ 			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:op});
  		var consStatusInvoR=panel.find('name','consStatusInvoR')[0].getValue();        		
  		if(consStatusInvoR) 
  			a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
@@ -1129,6 +1132,7 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
         	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_CUSTOMS_DECLEAR_DATE,name:'consCustomsDeclearDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_VERIFICATION_NO,name:'consVerificationNo',xtype:'textfield',anchor:'90%'},
+        	{fieldLabel:C_TRAFFIC_NO,name:'consMblNo',xtype:'textfield',anchor:'90%'},
 			{fieldLabel:C_INVO_STATUS_R,name:'consStatusInvoR',xtype:'combo',
         		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
