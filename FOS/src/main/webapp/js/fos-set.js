@@ -874,7 +874,7 @@ Fos.ExpenseTab2 = function(p,f){
 	this.rg=new Fos.ExGrid(p,'R',this,this.rs);
 	var pR=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',
 			title:C_EXPE_R,collapsible:true,autoscroll:true,border:false,items:[this.rg],
-		bbar:NR(m+S_AP+F_CV)?[]:[cT,sumCnyR,'-',uT,sumUsdR,'-',lT,sumLocR,'-',rT,sumRcR]
+		bbar:[cT,sumCnyR,'-',uT,sumUsdR,'-',lT,sumLocR,'-',rT,sumRcR]
 	});		
 	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
 	var sumUsdP = new Ext.form.TextField({width:80,disabled:true});
@@ -902,7 +902,7 @@ Fos.ExpenseTab2 = function(p,f){
 	this.pg=new Fos.ExGrid(p,'P',this,this.ps);
 	var pP=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',
 		title:C_EXPE_P,collapsible:true,border:false,items:[this.pg],
-		bbar:NR(m+S_AP+F_CV)?[]:[cT,sumCnyP,'-',uT,sumUsdP,'-',lT,sumLocP,'-',rT,sumRcP]
+		bbar:[cT,sumCnyP,'-',uT,sumUsdP,'-',lT,sumLocP,'-',rT,sumRcP]
 	});
 	
 	this.reCalculate = function(){		
@@ -973,7 +973,7 @@ Fos.ExpenseTab2 = function(p,f){
 	id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'?'(F3)':('-'+p.get("consNo"))),header:false,autoScroll:true,closable:f=='C'?false:true,
 	height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
 	items: [pBiz,pR,pP],
-		tbar:NR(m+S_AP+F_CV)?[tb1,'-',tb2]:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
+		tbar:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
 	});
 };
 Ext.extend(Fos.ExpenseTab2, Ext.Panel);
