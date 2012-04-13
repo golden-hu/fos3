@@ -1,8 +1,8 @@
 CREATE TABLE F_CUSTOMS_TYPE(
      ID              INT             AUTO_INCREMENT,
-     CUTY_NAME       VARCHAR(32),
-     CUTY_CODE       INT,
-     ACTIVE          TINYINT,
+     CUTY_NAME       VARCHAR(32) NOT NULL,
+     CUTY_CODE       INT NOT NULL default '0',
+     ACTIVE          TINYINT NOT NULL default '1',
      CREATE_BY       INT,
      CREATE_TIME     DATETIME,
      MODIFY_BY       INT,
