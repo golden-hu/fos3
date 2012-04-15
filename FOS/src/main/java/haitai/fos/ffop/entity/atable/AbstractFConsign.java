@@ -128,6 +128,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Date consBlIssueDate;
 	private String consMblNo;
 	private String consHblNo;
+	private String consCertNo;
 	private String consScacCode;
 	private String consContainerNo;
 	private String consSealNo;
@@ -1395,6 +1396,14 @@ public abstract class AbstractFConsign extends BaseDomain {
 
 	public void setConsHblNo(String consHblNo) {
 		this.consHblNo = consHblNo;
+	}
+
+	@Column(name = "CONS_CERT_NO", length = 32)
+	public String getConsCertNo() {
+		return consCertNo;
+	}
+	public void setConsCertNo(String consCertNo) {
+		this.consCertNo = consCertNo;
 	}
 
 	@Column(name = "CONS_SCAC_CODE", length = 32)

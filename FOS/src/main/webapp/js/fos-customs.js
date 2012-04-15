@@ -389,7 +389,9 @@ Fos.InspectionDeclTab = function(p,store) {
              		{fieldLabel:C_INSPECTION_NO,tabIndex:11,name:'consCustomsDeclearationNo',value:p.get('consCustomsDeclearationNo'),
          	    	    	xtype:'textfield',anchor:'99%'}, 	    	    	
 			       {fieldLabel:C_GOODS_NAME,tabIndex:15,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
-          			    xtype:'textfield',anchor:'99%'}             		
+          			    xtype:'textfield',anchor:'99%'},
+      			   {fieldLabel:C_CERT,tabIndex:17,name:'consCertNo',value:p.get('consCertNo'),
+          			    xtype:'textfield',anchor:'99%'}   
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),

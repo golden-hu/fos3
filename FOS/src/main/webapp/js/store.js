@@ -37,7 +37,7 @@
 	{name:'fconShipDateT',type:'date',dateFormat:DATEF},
 	{name:'voyaShipDateF',type:'date',dateFormat:DATEF},
 	{name:'voyaShipDateT',type:'date',dateFormat:DATEF},
-	'consMblNo','consHblNo','consScacCode','consContainerNo','consSealNo','consCargoDesc',
+	'consMblNo','consHblNo','consCertNo','consScacCode','consContainerNo','consSealNo','consCargoDesc',
 	'consCargoMarks','consCargoDimension','consCargoPackages','consCargoNetWeight','consCargoGrossWeight','consCargoMeasurement',
 	'consCargoNameEn','consCargoNameCn','consCargoSpecial',
 	'consTotalContainers','consContainersInfo',

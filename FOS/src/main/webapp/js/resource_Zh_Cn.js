@@ -576,6 +576,7 @@ var C_PORT_IM='进口口岸';
 var C_PORT_IM_REQIRED='进口口岸不能为空！';
 var C_DELIVERY_PLACE='目的港';
 var C_BL_NO='提单号';
+var C_CERT='产地证号';
 var C_M_BL_NO='主提单号';
 var C_MBL_NO='M B/L No.';
 var C_HBL_NO='H B/L No.';
