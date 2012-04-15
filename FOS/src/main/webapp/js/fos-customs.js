@@ -401,7 +401,9 @@ Fos.InspectionDeclTab = function(p,store) {
          			{fieldLabel:C_INSPECTION_DATE,tabIndex:12,name:'consCustomsDeclearDate',value:p.get('consCustomsDeclearDate'),
          			    xtype:'datefield',format:DATEF,anchor:'99%'},         			
          			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
-             			xtype:'textfield',anchor:'99%'}       			
+             			xtype:'textfield',anchor:'99%'},  
+     			    {fieldLabel:C_CONTRACT_NO,tabIndex:17,name:'consContractNo',value:p.get('consContractNo'),
+         			    xtype:'textfield',anchor:'99%'}   
          		]},
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_REMARKS,tabIndex:22,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',height:150,anchor:'99%'}
