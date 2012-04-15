@@ -719,6 +719,7 @@ GDocumentType = Ext.data.Record.create(['id','dotyCode','dotyId','dotyName','dot
 GVehicleType = Ext.data.Record.create(['id','vehtId','vehtName','active','compCode','version','rowAction']);
 GCargoClass = Ext.data.Record.create(['id','caclId','caclCode','caclNameCn','caclNameEn','active','compCode','version','rowAction']);
 GCargoType = Ext.data.Record.create(['id','catyId','caclId','catyCode','catyNameCn','catyNameEn','catyDanagerFlag','catyDanagerNo','catyDanagerProperty','catyRemarks','active','compCode','version','rowAction']);
+GCustomsType = Ext.data.Record.create(['cutyId','cutyCode','cutyName','compCode','active','version','rowAction']);
 FDo = Ext.data.Record.create(['id','doId','doNo','consId','consNo','mblNo','hblNo',
 	'doConsignee','doPort','doHarbour',
 	{name:'doArriveDate',type:'date',dateFormat:DATEF},
@@ -922,8 +923,8 @@ var EXTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['R','应
 getEXTY = function(v){if(v) return EXTY_S.getById(v).get('NAME'); else return '';};
 var LCLT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['A','内部拼箱'],['B','外部拼箱'],['C','客户自拼']]});
 getLCLT = function(v){if(v) return LCLT_S.getById(v).get('NAME'); else return '';};
-var CUTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','属地'],['2','口岸']]});
-getCUTY = function(v){if(v) return CUTY_S.getById(v).get('NAME'); else return '';};
+/*var CUTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','属地'],['2','口岸']]});
+getCUTY = function(v){if(v) return CUTY_S.getById(v).get('NAME'); else return '';};*/
 
 var IRTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','三月期'],['2','六月期'],['3','一年期']]});
 getIRTY = function(v){if(v) return IRTY_S.getById(v).get('NAME'); else return '';};
@@ -954,6 +955,9 @@ getISTY = function(v){var _cs= getISTY_S();if(v) return _cs.getById(v)?_cs.getBy
 
 var getTRAN_S = function(){return getGStore('TTER','GTransTerm',GTransTerm,'tranId','ASC','');};
 getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return '';};
+
+var getCUTY_S = function(){return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');};	
+getCUTY = function(v){var _cs= getCUTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; else return '';}; 
 
 var getTTB_S = function(){
 	var s=GS('TTER','GTransTerm',GTransTerm,'tranId','ASC','');
@@ -1381,6 +1385,7 @@ var G_COBA='25';
 var G_DOTY='26';
 var G_PATE='27';
 var G_PLAC='28';
+var G_CUTY='29';
 
 var S_COAU='01';
 var S_BILL_R='02';

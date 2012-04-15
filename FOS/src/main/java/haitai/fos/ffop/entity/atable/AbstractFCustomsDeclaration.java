@@ -107,7 +107,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private Integer cudeDocReleaseBy;
 	private Date cudeDocReleaseTime;
 	private String cudeDocReceiver;
-	private Short cudeType;
+	private String cudeType;
 	private String cudeTotalSay;
 	private Double cudeTotalAmount;
 	private String cudeTotalAmountCap;
@@ -934,11 +934,11 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	}
 
 	@Column(name = "CUDE_TYPE")
-	public Short getCudeType() {
+	public String getCudeType() {
 		return this.cudeType;
 	}
 
-	public void setCudeType(Short cudeType) {
+	public void setCudeType(String cudeType) {
 		this.cudeType = cudeType;
 	}
 

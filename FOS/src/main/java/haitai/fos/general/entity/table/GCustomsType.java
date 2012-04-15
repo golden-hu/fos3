@@ -1,6 +1,6 @@
-package haitai.fos.ffop.entity.table;
+package haitai.fos.general.entity.table;
 
-import haitai.fos.ffop.entity.atable.AbstractFCustomsType;
+import haitai.fos.general.entity.atable.AbstractGCustomsType;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,9 +9,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "F_CUSTOMS_TYPE")
+@Table(name = "G_CUSTOMS_TYPE")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class FCustomesType extends AbstractFCustomsType {
+public class GCustomsType extends AbstractGCustomsType {
 
 	private static final long serialVersionUID = 1L;
 }

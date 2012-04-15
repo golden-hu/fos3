@@ -1,4 +1,4 @@
-package haitai.fos.ffop.entity.atable;
+package haitai.fos.general.entity.atable;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import haitai.fw.entity.BaseDomain;
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class AbstractFCustomsType extends BaseDomain {
+public abstract class AbstractGCustomsType extends BaseDomain {
 
 	private static final long serialVersionUID = 1L;
 	private Integer cutyId;
