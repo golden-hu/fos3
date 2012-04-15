@@ -31,6 +31,13 @@ INSERT INTO `C_VENDOR_CATEGORY` (`VECA_NAME`, `COMP_CODE`, `VERSION`, `REMOVED`)
 ('签约供应商', '{CC}', 0, 0);
 
 --
+-- 导出表中的数据 `G_CUSTOMS_TYPE`
+--
+
+INSERT INTO `G_CUSTOMS_TYPE` (`CUTY_CODE`, `CUTY_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('KD','口地', '{CC}', 0, 0),
+('SA','属岸','{CC}', 0, 0);
+--
 -- 导出表中的数据 `G_CARGO_CLASS`
 --
 
