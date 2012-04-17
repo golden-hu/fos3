@@ -1315,18 +1315,39 @@ Fos.BookTab = function(p) {
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}}]};
 	var r4={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_TRAN_CONTACT,tabIndex:4,name:'consTrackContact',value:p.get('consTrackContact'),xtype:'textfield',anchor:'99%'}]};
 	var r5={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_TRAN_TEL,tabIndex:5,name:'consTrackTel',value:p.get('consTrackTel'),xtype:'textfield',anchor:'99%'}]};
-	var r6={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,tabIndex:6,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textarea',anchor:'99%'}]};
-	var r7={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:7,name:'consTrackRemarks',value:p.get('consTrackRemarks'),xtype:'textarea',anchor:'99%'}]};
-	var txtLoadDate={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,tabIndex:8,name:'consTrackLoadDate',value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'}]};
+	
+	txtLoadAddress = new Ext.form.TextArea({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,
+			tabIndex:6,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textarea',anchor:'99%'});
+		
+	var r7={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:7,
+		name:'consTrackRemarks',value:p.get('consTrackRemarks'),xtype:'textarea',anchor:'99%'}]};
+	var txtLoadDate={columnWidth:.25,layout:'form',border:false,items:[
+	       {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,tabIndex:8,
+	        name:'consTrackLoadDate',value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'}]};
+	
+	
 	var txtLoadFactory = {columnWidth:.25,layout:'form',hidden:p.get('consBizClass')!=BC_E,border:false,items:[
-	    	{fieldLabel:C_LOAD_FACTORY,name:'consLoadFactory',value:p.get('consLoadFactory'),xtype:'textfield',anchor:'99%'}]};
-	var txtLoadContact={columnWidth:.25,layout:'form',border:false,items:[
-	    	{fieldLabel:C_LOAD_CONTACT,tabIndex:4,name:'consLoadContact',value:p.get('consLoadContact'),xtype:'textfield',anchor:'99%'}]};
-	var txtLoadTel={columnWidth:.25,layout:'form',border:false,items:[
-	        {fieldLabel:C_LOAD_TEL,tabIndex:5,name:'consLoadTel',value:p.get('consLoadTel'),xtype:'textfield',anchor:'99%'}]};
+	    	{fieldLabel:C_LOAD_FACTORY,name:'consLoadFactory',value:p.get('consLoadFactory'),
+	    		xtype:'siteLookup',siteType:1,custId:p.get('custId'),
+	        	typeAhead:true,mode:'local',triggerAction: 'all',
+	        	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
+	    		listeners:{scope:this,	    			
+	    			select:function(c,r,i){
+	    				txtLoadContact.setValue(r.get('cusiContact'));
+	    				txtLoadTel.setValue(r.get('cusiTel'));
+	    				txtLoadAddress.setValue(r.get('cusiAddress'));
+	    			}}}]};
+	
+	var txtLoadContact=new Ext.form.TextField({fieldLabel:C_LOAD_CONTACT,tabIndex:4,name:'consLoadContact',
+	    	value:p.get('consLoadContact'),xtype:'textfield',anchor:'99%'});
+	var txtLoadTel=new Ext.form.TextField({fieldLabel:C_LOAD_TEL,tabIndex:5,name:'consLoadTel',
+	        value:p.get('consLoadTel'),xtype:'textfield',anchor:'99%'});
 
 	var t42={title:C_TRAN_REQUIREMENT,layout:'column',padding:5,border:false,labelWidth:90,collapsible:true,
-			items:[r3,r4,r5,r6,r7,txtLoadFactory,txtLoadDate,txtLoadContact,txtLoadTel]};
+			items:[r3,r4,r5,txtLoadFactory,txtLoadDate,
+			       {columnWidth:.25,layout:'form',border:false,items:[txtLoadContact]},
+			       {columnWidth:.25,layout:'form',border:false,items:[txtLoadTel]},
+			       {columnWidth:.5,layout:'form',border:false,items:[txtLoadAddress]},r7]};
 			
 	var r9={columnWidth:.5,layout:'form',border:false,items:[
 		{fieldLabel:C_WAREHOUSE,tabIndex:9,name:'consWarehouseName',

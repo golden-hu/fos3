@@ -255,6 +255,7 @@ var C_CONFIRM='确认';
 var C_CANCEL_CONFIRM='取消确认';
 var C_OK='确定';
 var C_CANCEL='取消';
+var C_CLOSE='关闭';
 var C_SEARCH='查询';
 var C_RESET='重置';
 var C_EXPORT='输出';
