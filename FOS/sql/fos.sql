@@ -1435,7 +1435,7 @@ CREATE TABLE G_CUSTOMS_TYPE(
      COMP_CODE       CHAR(4)    NOT NULL,
      VERSION         INT  NOT NULL default '0',
      REMOVED         TINYINT  NOT NULL default '0',
-     PRIMARY KEY (ID)
+     PRIMARY KEY (CUTY_ID)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

@@ -48,7 +48,7 @@ public class XstreamUtil implements InitializingBean {
 	public static String entity2XML(Object srcObj) {
 		return xstreamXML.toXML(srcObj);
 	}
-
+	
 	public static Object XML2Entity(String xml) {
 		return xstreamXML.fromXML(xml);
 	}

@@ -1592,10 +1592,10 @@ var menuPanel = new Ext.Panel({
 	items:new Ext.menu.Menu({floating:false,items:['-',
 		CreateMenu('船期查询','T_VOYA',function(){return new VoyaTab();},false),'-',
 		CreateMenu('网上询价','G_WINQ',function(){return new InquiryGrid();},false),'-',
-		CreateMenu('网上订舱','G_BOOK',function(){return new WconGrid();},CCUST!=''),'-',
-		CreateMenu('单票跟踪','T_CONS',function(){return new ConsTab();},CCUST!=''),'-',
-		CreateMenu('提单确认','T_BL',function(){return new BLTab();},CCUST!=''),'-',
-		CreateMenu('网上对账','T_BILL',function(){return new BillTab();},CCUST!=''),'-',
+		CreateMenu('网上订舱','G_BOOK',function(){return new WconGrid();},CCUST==''),'-',
+		CreateMenu('单票跟踪','T_CONS',function(){return new ConsTab();},CCUST==''),'-',
+		CreateMenu('提单确认','T_BL',function(){return new BLTab();},CCUST==''),'-',
+		CreateMenu('网上对账','T_BILL',function(){return new BillTab();},CCUST==''),'-',
 		{text:'退出',iconCls :'grid',scope:this,disabled:false,handler:this.logout},'-'
 		]})});
 	
