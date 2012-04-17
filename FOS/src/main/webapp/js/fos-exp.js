@@ -778,7 +778,7 @@ Fos.BookTab = function(p) {
  	var s9=CreateSR(C_SR_SESH,'SR_SESH',SR_SESH,32);
  	var s10=CreateSR(C_SR_RABL,'SR_RABL',SR_RABL,33);
  	
- 	var srTab=[s1,s2,s3,s6,s7];
+ 	var srTab=[s1,s2,s3,s6,s7,s10];
  	if(p.get('consBizType')==BT_B&&p.get('consBizClass')==BC_E){
  		srTab=[s1,s2,s3,s5,s6,s7,s8,s9,s10];
  	}

@@ -3250,6 +3250,56 @@ Fos.BlWin = function(p,b,store) {
 				EXPM(to,cc,sub,msg,'BL','blId='+b.get('blId'));
 	};		
 	this.genCons = function(){EXPC('CONS_B_BL','&blId='+b.get('blId'));};
+	
+	this.saveShipper = function(shipperT){
+    	var cushName = '';
+    	if(shipperT==1) 
+    		cushName = this.find('name','blShipper')[0].getValue();
+    	else if(shipperT==2) 
+    		cushName = this.find('name','blConsignee')[0].getValue();
+    	else if(shipperT==3) 
+    		cushName = this.find('name','blNotifyParty')[0].getValue();
+    	else if(shipperT==4) 
+    		cushName = this.find('name','blOverseaAgency')[0].getValue();
+    	    	
+    	if(cushName!=''){    		
+    		var c = new CCustomerShipper({rowAction:'N',custId:p.get('custId'),cushType:shipperT,cushName:cushName});
+    		var xml = RTX(c,'CCustomerShipper',CCustomerShipper);
+			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+				params:{A:'CUSH_S'},
+				success: function(res){XMG.alert(SYS,M_S);},
+				failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+				xmlData:FOSX(xml)
+			});
+    	}
+    };
+    
+    this.selShipper = function(shipperT){
+		var win = new  Fos.ShipperWin(p.get('custId'),shipperT,updateShipper);
+    	win.show();
+    };
+    
+   updateShipper = function(shipperT,cushName){
+    	if(shipperT==1) 
+    		cushName = frm.find('name','blShipper')[0].setValue(cushName);
+    	else if(shipperT==2) 
+    		cushName = frm.find('name','blConsignee')[0].setValue(cushName);
+    	else if(shipperT==3) 
+    		cushName = frm.find('name','blNotifyParty')[0].setValue(cushName);
+    	else if(shipperT==4) 
+    		cushName = frm.find('name','blOverseaAgency')[0].setValue(cushName);
+    };
+    
+    var bSaveShipper = new Ext.Button({text:'保存',scope:this,handler:function(){this.saveShipper(1);}});
+    var bSearchShipper = new Ext.Button({text:'选择',scope:this,handler:function(){this.selShipper(1);}});
+    var bSaveConsignee = new Ext.Button({text:'保存',scope:this,handler:function(){this.saveShipper(2);}});
+    var bSearchConsignee = new Ext.Button({text:'选择',scope:this,handler:function(){this.selShipper(2);}});
+    var bSaveNotifyParty = new Ext.Button({text:'保存',scope:this,handler:function(){this.saveShipper(3);}});
+    var bSearchNotifyParty = new Ext.Button({text:'选择',scope:this,handler:function(){this.selShipper(3);}});
+    var bSaveNotifyParty2 = new Ext.Button({text:'保存',scope:this,handler:function(){this.saveShipper(4);}});
+    var bSearchNotifyParty2 = new Ext.Button({text:'选择',scope:this,handler:function(){this.selShipper(4);}});
+    
+
 	var t2={layout:'column',title:C_BL_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,
 			items: [{columnWidth:.25,layout:'form',border : false,items:[
 				{fieldLabel:C_BL_NO,name:'blNo',itemCls:'required',tabIndex:1,
@@ -3317,15 +3367,20 @@ Fos.BlWin = function(p,b,store) {
 					}}
                 }]},
 			
-			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',
+			{columnWidth:.45,layout:'form',border:false,
                 items: [{fieldLabel:C_SHIPPER,name:'blShipper',value:b.get('blShipper'),tabIndex:17,xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',
+            {columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
+            {columnWidth:.45,layout:'form',border:false,
                 items:[{fieldLabel:C_CONSIGNEE,name:'blConsignee',value:b.get('blConsignee'),tabIndex:18,xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',
+            {columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
+            {columnWidth:.45,layout:'form',border:false,
                 items: [{fieldLabel:C_NOTIFIER,name:'blNotifyParty',value:b.get('blNotifyParty'),tabIndex:19,xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.5,layout: 'form',border : false,labelAlign:'top',
+            {columnWidth:.05,border:false,items:[bSaveNotifyParty,bSearchNotifyParty]},
+            {columnWidth:.45,layout: 'form',border : false,
                 items: [{fieldLabel:C_OVERSEA_AGENCY,name:'blOverseaAgency',value:b.get('blOverseaAgency'),tabIndex:20,xtype:'textarea',height:100,anchor:'99%'}]},			
-			{columnWidth:.3,layout: 'form',border :false,labelAlign:'top',
+            {columnWidth:.05,border:false,items:[bSaveNotifyParty2,bSearchNotifyParty2]},
+            
+            {columnWidth:.3,layout: 'form',border :false,labelAlign:'top',
                 items: [{fieldLabel:C_MARKS,name:'blMarks',value:b.get('blMarks'),tabIndex:21,xtype:'textarea',height:100,anchor:'99%'}]},
 			{columnWidth:.1,layout: 'form',border:false,labelAlign:'top',
                 items: [{fieldLabel:C_NUM_PACK,name:'blPackages',value:b.get('blPackages'),tabIndex:22,xtype:'textarea',height:100,anchor:'99%'}]},
