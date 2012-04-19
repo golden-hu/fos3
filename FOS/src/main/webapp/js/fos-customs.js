@@ -21,7 +21,7 @@ Fos.InspectionGrid = function() {
     var c3={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getTRADE_S};
     var c4={header:C_CONS_NO,width:120,dataIndex:"consNo"};
     var c5={header:C_BOOKER,width:200,dataIndex:"custName"};
-    var c6={header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate};   
+    var c6={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};   
     var c7={header:C_CONS_CLOSE_DATE,dataIndex:"consCloseDate",renderer:formatDate};
     var c8={header:C_CONTRACT_NO,dataIndex:"consContractNo"};
     var c9={header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"};
@@ -374,7 +374,8 @@ Fos.InspectionDeclTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
-         			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'}     			    
+         			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
+         			{fieldLabel:C_GOODS_NAME_S,tabIndex:22,name:'consCargoNameCn',value:p.get('consCargoNameCn'),xtype:'textfield',anchor:'99%'},
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -391,7 +392,10 @@ Fos.InspectionDeclTab = function(p,store) {
 			       {fieldLabel:C_GOODS_NAME,tabIndex:15,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
           			    xtype:'textfield',anchor:'99%'},
       			   {fieldLabel:C_CERT,tabIndex:17,name:'consCertNo',value:p.get('consCertNo'),
-          			    xtype:'textfield',anchor:'99%'}   
+          			    xtype:'textfield',anchor:'99%'},
+          		   //将美线仓单申报号在此用作申请号
+      			   {fieldLabel:C_APPLICATION_NO,tabIndex:23,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),
+          			    xtype:'textfield',anchor:'99%'} 
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
@@ -403,7 +407,11 @@ Fos.InspectionDeclTab = function(p,store) {
          			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
              			xtype:'textfield',anchor:'99%'},  
      			    {fieldLabel:C_CONTRACT_NO,tabIndex:17,name:'consContractNo',value:p.get('consContractNo'),
-         			    xtype:'textfield',anchor:'99%'}   
+         			    xtype:'textfield',anchor:'99%'},
+         			 //将贸易合同号在此用作商检发票号    
+     			    {fieldLabel:C_COMMODITY_NO,tabIndex:24,name:'consTradeContractNo',value:p.get('consTradeContractNo'),
+         			    xtype:'textfield',anchor:'99%'}
+             			
          		]},
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_REMARKS,tabIndex:22,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',height:150,anchor:'99%'}
