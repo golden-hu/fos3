@@ -54,7 +54,7 @@ public abstract class AbstractGPort extends BaseDomain {
 		this.portCode = portCode;
 	}
 
-	@Column(name = "PORT_NAME_EN", nullable = false, length = 32)
+	@Column(name = "PORT_NAME_EN", nullable = false, length = 64)
 	public String getPortNameEn() {
 		return this.portNameEn;
 	}
@@ -63,7 +63,7 @@ public abstract class AbstractGPort extends BaseDomain {
 		this.portNameEn = portNameEn;
 	}
 
-	@Column(name = "PORT_NAME_CN", length = 32)
+	@Column(name = "PORT_NAME_CN", length = 64)
 	public String getPortNameCn() {
 		return this.portNameCn;
 	}

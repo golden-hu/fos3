@@ -249,15 +249,16 @@ var showG_PACK = function() {
     var ac=ACTIVE();
     var sm=getCSM();
     var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CODE,dataIndex:'packCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_CODE,dataIndex:'packCode',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_NAME,dataIndex:'packName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	ac],defaults:{sortable:true,width:100}});
+	{header:C_CNAME,dataIndex:'packNameCn',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	ac],defaults:{sortable:true,width:150}});
     var grid = new  Ext.grid.EditorGridPanel({id:'G_PACK',
 	iconCls:'gen',title:C_PACK,header:false,plugins:ac,clicksToEdit:1,closable:true,
     store:store,sm:sm,cm:cm,
 	tbar:[{
 		text:C_ADD,disabled:NR(M1_J+G_PACK+F_M),iconCls:'add',handler : function(){            	
-			var p = new GPackage({id:GGUID(true),packId:'0',packCode:'',packName:'',active:1,version:'0',rowAction:'N'});            
+			var p = new GPackage({id:GGUID(true),packId:'0',active:1,version:'0',rowAction:'N'});            
         	grid.stopEditing();store.insert(0,p);grid.startEditing(0,1);}}, '-', 
         {text:C_REMOVE,disabled:NR(M1_J+G_PACK+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}}, '-', 
         {text:C_SAVE,disabled:NR(M1_J+G_PACK+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GPackage',GPackage,'PACK_S');getPACK_S().reload();}
@@ -272,7 +273,7 @@ var showG_TRTE = function() {
     var sm=getCSM();
     var cm=new Ext.grid.ColumnModel({columns:[sm,
 	{header:C_CODE,dataIndex:'trteCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_NAME,dataIndex:'trteName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_NAME,dataIndex:'trteName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},	
 	ac],defaults:{sortable:true,width:100}});
     var grid = new  Ext.grid.EditorGridPanel({
     id:'G_TRTE',iconCls:'gen',title:C_TRTE,

@@ -16,6 +16,7 @@ public abstract class AbstractGPackage extends BaseDomain {
 	private Integer version;
 	private String packCode;
 	private String packName;
+	private String packNameCn;
 	private Short active;
 	private String compCode;
 	private Short removed;
@@ -49,7 +50,7 @@ public abstract class AbstractGPackage extends BaseDomain {
 		this.packCode = packCode;
 	}
 
-	@Column(name = "PACK_NAME", nullable = false, length = 32)
+	@Column(name = "PACK_NAME", nullable = false, length = 64)
 	public String getPackName() {
 		return this.packName;
 	}
@@ -58,6 +59,15 @@ public abstract class AbstractGPackage extends BaseDomain {
 		this.packName = packName;
 	}
 
+	@Column(name = "PACK_NAME_CN", nullable = false, length = 64)
+	public String getPackNameCn() {
+		return this.packNameCn;
+	}
+
+	public void setPackNameCn(String packNameCn) {
+		this.packNameCn = packNameCn;
+	}
+	
 	@Column(name = "ACTIVE")
 	public Short getActive() {
 		return this.active;
