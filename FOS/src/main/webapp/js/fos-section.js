@@ -3338,7 +3338,7 @@ Fos.BlWin = function(p,b,store) {
 				{fieldLabel:C_VESS,name:'blVessel',value:b.get('blVessel'),tabIndex:6,xtype:'textfield',anchor:'90%'},
                 {fieldLabel:C_POL,name:'blPol',value:b.get('blPol'),tabIndex:10,xtype:'textfield',anchor:'90%'},
                 {fieldLabel:C_BL_SHIP_DATE,name:'blLoadDate',value:b.get('blLoadDate'),tabIndex:14,xtype:'datefield',format:DATEF,anchor:'90%'},
-                {fieldLabel:C_PACK,tabIndex:18,name:'packId',value:b.get('packId'),xtype:'combo',store:getPACK_S(),displayField:'packName',valueField:'packId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+                {fieldLabel:C_PACK,tabIndex:18,name:'packId',value:b.get('packId'),xtype:'combo',store:getPACK_S(),displayField:'packName',valueField:'packId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
 					listeners:{scope:this,select:function(c,r,i){
 						b.set('packName',r.get('packName'));
 						b.set('blTotalSay','SAY TOTAL '+N2EW(b.get('blPackages'))+' '+b.get('packName')+' ONLY');
