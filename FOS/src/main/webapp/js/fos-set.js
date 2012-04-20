@@ -220,7 +220,7 @@
 			e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
 			e.set('expeUnitPrice','');e.set('expeNum','');e.set('expeNum2','');
 			e.set('expeInnerPrice','');e.set('expeInnerAmount','');e.set('expeTotalAmount','');
-			e.set('expeCommission','');e.set('expeCommissionRate','');e.set('expeRcAmount','');
+			e.set('expeCommission',0);e.set('expeCommissionRate','');e.set('expeRcAmount','');
 			e.set('expeWriteOffDate','');
 			e.set('expeInvoiceAmount',0);e.set('expeWriteOffAmount',0);
 			e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
@@ -255,7 +255,7 @@
 				e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
 				e.set('expeUnitPrice','');
 				e.set('expeInnerPrice','');e.set('expeInnerAmount','');e.set('expeTotalAmount','');
-				e.set('expeCommission','');e.set('expeCommissionRate','');e.set('expeRcAmount','');
+				e.set('expeCommission',0);e.set('expeCommissionRate','');e.set('expeRcAmount','');
 				e.set('expeWriteOffDate','');
 				e.set('expeInvoiceAmount',0);e.set('expeWriteOffAmount',0);
 				e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
@@ -299,7 +299,7 @@
 			    		expeWriteOffRcAmount:'0',
 			    		expeInnerAmount:'0',
 			    		expeRcAmount:'0',
-			    		expeTotalAmount:'0',expeNum:r.get('expeNum'),version:'0',rowAction:'N'});
+			    		expeTotalAmount:r.get('expeTotalAmount'),expeNum:r.get('expeNum'),version:'0',rowAction:'N'});
 					store.add(e);
 				};
 				this.reCalculate();
