@@ -60,13 +60,16 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consFConsignee;
 	private String consFNotifyParty;
 	private Integer consPol;
+	private String consPolCode;
 	private String consPolEn;
 	private String consPolCn;
 	private String consReceiptPlace;
 	private Integer consPod;
+	private String consPodCode;
 	private String consPodEn;
 	private String consPodCn;
 	private Integer consPot;
+	private String consPotCode;
 	private String consPotEn;
 	private String consPotCn;
 	private String consDeliveryPlace;
@@ -116,6 +119,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Integer vessId;
 	private String vessName;
 	private String vessNameCn;
+	private String vessCode;
 	private Integer voyaId;
 	private String voyaName;
 	private Date consEtd;
@@ -774,6 +778,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consPol = consPol;
 	}
 
+	@Column(name = "CONS_POL_CODE", length = 16)
+	public String getConsPolCode() {
+		return this.consPolCode;
+	}
+
+	public void setConsPolCode(String consPolCode) {
+		this.consPolCode = consPolCode;
+	}
+	
 	@Column(name = "CONS_POL_EN", length = 64)
 	public String getConsPolEn() {
 		return this.consPolEn;
@@ -811,6 +824,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consPod = consPod;
 	}
 
+	@Column(name = "CONS_POD_CODE", length = 16)
+	public String getConsPodCode() {
+		return this.consPodCode;
+	}
+
+	public void setConsPodCode(String consPodCode) {
+		this.consPodCode = consPodCode;
+	}
+	
 	@Column(name = "CONS_POD_EN", length = 64)
 	public String getConsPodEn() {
 		return this.consPodEn;
@@ -838,6 +860,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consPot = consPot;
 	}
 
+	@Column(name = "CONS_POT_CODE", length = 16)
+	public String getConsPotCode() {
+		return this.consPotCode;
+	}
+
+	public void setConsPotCode(String consPotCode) {
+		this.consPotCode = consPotCode;
+	}
+	
 	@Column(name = "CONS_POT_EN", length = 64)
 	public String getConsPotEn() {
 		return this.consPotEn;
@@ -1282,6 +1313,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.vessNameCn = vessNameCn;
 	}
 
+	@Column(name = "VESS_CODE", length = 32)
+	public String getVessCode() {
+		return this.vessCode;
+	}
+
+	public void setVessCode(String vessCode) {
+		this.vessCode = vessCode;
+	}
+	
 	@Column(name = "VOYA_ID")
 	public Integer getVoyaId() {
 		return this.voyaId;
