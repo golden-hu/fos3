@@ -2495,6 +2495,7 @@ CREATE TABLE IF NOT EXISTS `G_PACKAGE` (
   `PACK_ID` int(11) NOT NULL auto_increment,
   `PACK_CODE` varchar(16) collate utf8_unicode_ci NOT NULL,
   `PACK_NAME` varchar(32) collate utf8_unicode_ci NOT NULL,
+  `PACK_NAME_CN` varchar(64) collate utf8_unicode_ci NOT NULL,
   `ACTIVE` tinyint(4) default '1',
   `COMP_CODE` char(4) collate utf8_unicode_ci NOT NULL,
   `VERSION` int(11) NOT NULL default '0',
