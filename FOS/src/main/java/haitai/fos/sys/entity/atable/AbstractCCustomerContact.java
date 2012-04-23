@@ -30,6 +30,7 @@ public abstract class AbstractCCustomerContact extends BaseDomain {
 	private String cucoGender;
 	private String cucoMsn;
 	private String cucoQq;
+	private String cucoSkype;
 	private String cucoFax;
 	private String cucoZip;
 	private Date cucoBirthday;
@@ -109,7 +110,7 @@ public abstract class AbstractCCustomerContact extends BaseDomain {
 		this.cucoAddress2 = cucoAddress2;
 	}
 
-	@Column(name = "CUCO_TEL", length = 16)
+	@Column(name = "CUCO_TEL", length = 64)
 	public String getCucoTel() {
 		return this.cucoTel;
 	}
@@ -118,7 +119,7 @@ public abstract class AbstractCCustomerContact extends BaseDomain {
 		this.cucoTel = cucoTel;
 	}
 
-	@Column(name = "CUCO_HOME_TEL", length = 16)
+	@Column(name = "CUCO_HOME_TEL", length = 64)
 	public String getCucoHomeTel() {
 		return this.cucoHomeTel;
 	}
@@ -127,7 +128,7 @@ public abstract class AbstractCCustomerContact extends BaseDomain {
 		this.cucoHomeTel = cucoHomeTel;
 	}
 
-	@Column(name = "CUCO_MOBILE", length = 16)
+	@Column(name = "CUCO_MOBILE", length = 64)
 	public String getCucoMobile() {
 		return this.cucoMobile;
 	}
@@ -172,7 +173,16 @@ public abstract class AbstractCCustomerContact extends BaseDomain {
 		this.cucoQq = cucoQq;
 	}
 
-	@Column(name = "CUCO_FAX", length = 16)
+	@Column(name = "CUCO_SKYPE", length = 32)
+	public String getCucoSkype() {
+		return this.cucoSkype;
+	}
+
+	public void setCucoSkype(String cucoSkype) {
+		this.cucoSkype = cucoSkype;
+	}
+	
+	@Column(name = "CUCO_FAX", length = 64)
 	public String getCucoFax() {
 		return this.cucoFax;
 	}

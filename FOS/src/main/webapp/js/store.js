@@ -648,7 +648,7 @@ CPriceRecord = Ext.data.Record.create(['id','prreId','prliId','prshId','currCode
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
 CCustomerContact = Ext.data.Record.create(['id','cucoId','custId','cucoName','cucoTitle','cucoAddress1','cucoAddress2','cucoTel',
-	'cucoHomeTel','cucoMobile','cucoEmail','cucoGender','cucoMsn','cucoQq','cucoFax',
+	'cucoHomeTel','cucoMobile','cucoEmail','cucoGender','cucoMsn','cucoQq','cucoSkype','cucoFax',
 	'cucoZip',
 	{name:'cucoBirthday',type:'date',dateFormat:DATEF},
 	'cucoRemarks',

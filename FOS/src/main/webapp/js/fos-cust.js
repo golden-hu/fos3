@@ -180,6 +180,7 @@ Fos.CustomerWin = function(p,store,wu){
 	{header:C_TITLE,dataIndex:'cucoTitle',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_MSN,dataIndex:'cucoMsn',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_QQ,dataIndex:'cucoQq',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:'Skype',dataIndex:'cucoSkype',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_BIRTHDAY,dataIndex: 'cucoBirthday',width:100,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})},
 	{header:C_GENDER,dataIndex:'cucoGender',width:60,renderer:getGEND,editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction: 'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:GEND_S})},
