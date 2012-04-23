@@ -2600,7 +2600,16 @@ Fos.CustomsTab = function(p) {
 						name:p.get('consBizClass')==BC_E?'cudePol':'cudePod',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:(p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM)+C_ENGLISH,itemCls:'required',
 						name:p.get('consBizClass')==BC_E?'cudePolEn':'cudePodEn',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_BIZ_COMPANY,name:'cudeCustomer',itemCls:'required',xtype:'textfield',anchor:'99%'},
+				{fieldLabel:C_BIZ_COMPANY,name:'cudeCustomer',itemCls:'required',
+							xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+	 			     		store:getCS(),enableKeyEvents:true,
+	 	 					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
+	 	 					selectOnFocus:true,anchor:'99%',
+	 	 			     	listeners:{scope:this, 	 			     	
+	 	 			     	select:function(c,r,i){ 	 			     		
+	 	 			     		c.setValue(r.get('custNameCn'));
+	 	 			     	},
+	 	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	
 				{fieldLabel:p.get('consBizClass')==BC_E?C_SHIPPER_COMPANY:C_CONSIGN_COMPANY,name:'cudeCargoCompany',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CERTIFICATE_NO,name:'cudeCertificateNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_APPROVAL_NO,name:'cudeApprovalNo',xtype:'textfield',anchor:'99%'},
