@@ -383,7 +383,9 @@ Fos.InspectionDeclTab = function(p,store) {
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
          			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
-         			{fieldLabel:C_GOODS_NAME_S,tabIndex:22,name:'consCargoNameCn',value:p.get('consCargoNameCn'),xtype:'textfield',anchor:'99%'},
+         			//将美线仓单申报号在此用作申请号
+       			   {fieldLabel:C_APPLICATION_NO,tabIndex:23,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),
+           			    xtype:'textfield',anchor:'99%'} 
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -401,9 +403,9 @@ Fos.InspectionDeclTab = function(p,store) {
           			    xtype:'textfield',anchor:'99%'},
       			   {fieldLabel:C_CERT,tabIndex:17,name:'consCertNo',value:p.get('consCertNo'),
           			    xtype:'textfield',anchor:'99%'},
-          		   //将美线仓单申报号在此用作申请号
-      			   {fieldLabel:C_APPLICATION_NO,tabIndex:23,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),
-          			    xtype:'textfield',anchor:'99%'} 
+      			  //将贸易合同号在此用作商检发票号    
+     			    {fieldLabel:C_COMMODITY_NO,tabIndex:24,name:'consTradeContractNo',value:p.get('consTradeContractNo'),
+         			    xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
@@ -415,11 +417,7 @@ Fos.InspectionDeclTab = function(p,store) {
          			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
              			xtype:'textfield',anchor:'99%'},  
      			    {fieldLabel:C_CONTRACT_NO,tabIndex:17,name:'consContractNo',value:p.get('consContractNo'),
-         			    xtype:'textfield',anchor:'99%'},
-         			 //将贸易合同号在此用作商检发票号    
-     			    {fieldLabel:C_COMMODITY_NO,tabIndex:24,name:'consTradeContractNo',value:p.get('consTradeContractNo'),
          			    xtype:'textfield',anchor:'99%'}
-             			
          		]},
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_REMARKS,tabIndex:22,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',height:150,anchor:'99%'}
@@ -510,10 +508,30 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
  		var consStatusInvoP=panel.find('name','consStatusInvoP')[0].getValue();        		
  		if(consStatusInvoP) 
  			a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
+ 		
  		var consStatusExp=panel.find('name','consStatusExp')[0].getValue();        		
  		if(consStatusExp) 
  			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
-     	
+ 		
+ 		var inmpNo=panel.find('name','consCustomsDeclearationNo')[0].getValue();        		
+ 		if(inmpNo) 
+ 			a[a.length]=new QParam({key:'consCustomsDeclearationNo',value:inmpNo,op:op});
+ 		
+ 		var consCertNo=panel.find('name','consCertNo')[0].getValue();        		
+ 		if(consCertNo) 
+ 			a[a.length]=new QParam({key:'consCertNo',value:consCertNo,op:op});
+ 		
+ 		var appNo=panel.find('name','consBookingDeclareNoUs')[0].getValue();        		
+ 		if(appNo) 
+ 			a[a.length]=new QParam({key:'consBookingDeclareNoUs',value:appNo,op:op});
+ 		
+ 		var consTradeContractNo=panel.find('name','consTradeContractNo')[0].getValue();        		
+ 		if(consTradeContractNo) 
+ 			a[a.length]=new QParam({key:'consTradeContractNo',value:consTradeContractNo,op:op});
+ 		
+ 		var consContractNo=panel.find('name','consContractNo')[0].getValue();        		
+ 		if(consContractNo) 
+ 			a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:op});
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -557,7 +575,9 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
               	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
          	{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',
               	store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+            {fieldLabel:C_INSPECTION_NO,name:'consCustomsDeclearationNo',xtype:'textfield',anchor:'90%'},
+            {fieldLabel:C_APPLICATION_NO,name:'consBookingDeclareNoUs',xtype:'textfield',anchor:'90%'}]},
       	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
    		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -568,7 +588,9 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
 			{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
         		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+        	{fieldLabel:C_COMMODITY_NO,name:'consTradeContractNo',xtype:'textfield',anchor:'90%'},
+        	{fieldLabel:C_CONTRACT_NO,name:'consContractNo',xtype:'textfield',anchor:'90%'}]},
 		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_TO,name:'consCloseDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -579,11 +601,11 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
          		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
 			{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
          		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
-		]}
+         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+ 			{fieldLabel:C_CERT,name:'consCertNo',xtype:'textfield',anchor:'90%'}]}
 	]});
     Fos.InspConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
-    	width:800,height:260,buttonAlign:'right',items:panel,
+    	width:800,height:300,buttonAlign:'right',items:panel,
 		buttons:[{text:C_OK,scope:this,handler:this.reload},
 		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 
@@ -713,7 +735,7 @@ Fos.CustomsGrid = function(bizClass) {
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
-	this.exp=function(){		
+	this.exp1=function(){		
 		if(queryParams.length>0){
 			var a = queryParams;
 			var qa = [];
@@ -727,6 +749,20 @@ Fos.CustomsGrid = function(bizClass) {
 		}		
 	};
 	
+	this.exp2=function(){		
+		if(queryParams.length>0){
+			var a = queryParams;
+			var qa = [];
+			for(var i=0;i<a.length;i++){
+				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+			}
+			EXPC('CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+		}
+		else{		
+			EXPC('CONS_LIST','&mt=JSON&start=0&limit=500');
+		}		
+	};
+	
 	var m=M1_G+M3_CONS;
 	
 	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.newConsign};
@@ -734,7 +770,7 @@ Fos.CustomsGrid = function(bizClass) {
 	var b4={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
 	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',scope:this,menu: 
-		{items: [{text:C_CUSTOMS_STAT,scope:this,handler:this.exp}]}};	
+		{items: [{text:C_CUSTOMS_STAT,scope:this,handler:this.exp1},{text:C_CUSTOMS_LIST,scope:this,handler:this.exp2}]}};	
 	var b7={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};	
 	var b8={text:C_RESET,iconCls:'refresh',handler:this.reset};
 			
@@ -1322,8 +1358,12 @@ Fos.TradeGrid = function() {
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
-	this.exp=function(){
+	this.exp1=function(){
 		EXPC('TRADE_STAT',store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');
+	};
+	
+	this.exp2=function(){			
+		EXPC('CONS_LIST',store.baseParams.xml?'&mt=JSON&start=0&limit=500&consBizType=M&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');	
 	};
 	
 	var m=M1_M+M3_CONS;
@@ -1332,7 +1372,7 @@ Fos.TradeGrid = function() {
 	var b4={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
 	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',scope:this,menu: 
-	{items: [{text:C_TRADE_STAT,scope:this,handler:this.exp}]}};	
+	{items: [{text:C_TRADE_STAT,scope:this,handler:this.exp1},{text:C_TRADE_LIST,scope:this,handler:this.exp2}]}};	
 	var b7={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};	
 	var b8={text:C_RESET,iconCls:'refresh',handler:this.reset};
 			
@@ -1364,7 +1404,8 @@ Fos.TradeTab = function(p,store) {
 			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);return;};
 		if(this.find('name','consOperatorId')[0].getValue()==''){
 			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorId')[0].focus();},this);return;};
-			
+		if(this.find('name','attr1')[0].getValue()==''){
+			XMG.alert(SYS,C_TRTY_REQIRED,function(){this.find('name','attr1')[0].focus();},this);return;};	
 		var f = FConsign.prototype.fields;
 		for (var i = 0; i < f.keys.length; i++) {
         	var fn = ''+f.keys[i];
@@ -1499,7 +1540,10 @@ Fos.TradeTab = function(p,store) {
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},			     
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
  			     		xtype:'datefield',format:DATEF,anchor:'99%'},
- 			     {fieldLabel:C_EXT_1,tabIndex:17,name:'attr1',value:p.get('attr1'),xtype:'textfield',anchor:'99%'}
+ 			     {fieldLabel:C_TRTY,itemCls:'required',tabIndex:17,name:'attr1',value:p.get('attr1'),
+ 			     	   store:getTRTY_S(),xtype:'combo',displayField:'trtyName',
+ 			     	   valueField:'trtyName',typeAhead:true,mode:'local',triggerAction:'all',
+ 			     	   selectOnFocus:true,anchor:'99%'}
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[             	 	
              	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),

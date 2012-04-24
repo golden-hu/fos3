@@ -431,13 +431,13 @@ function createGMTree(){
 		var vety = CreateNode(C_VEHT,'VEHT',M1_J+G_VEHT,showG_VEHT);
 		biz.appendChild(vety);
 	}	
-	if(!NR(M1_J+G_CUTY)){
-		var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
-		biz.appendChild(cuty);
-	}
 	root.appendChild(biz);
 	
 	var cus = new Ext.tree.TreeNode({text:C_CUDE_RELATED,leaf:false});
+	if(!NR(M1_J+G_CUTY)){
+		var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
+		cus.appendChild(cuty);
+	}
 	if(!NR(M1_J+G_TRTY)){
 		var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
 		cus.appendChild(trty);

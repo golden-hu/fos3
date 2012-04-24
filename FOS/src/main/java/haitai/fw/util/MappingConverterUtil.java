@@ -189,5 +189,14 @@ public class MappingConverterUtil {
 		}
 		return status;
 	}
-		
+	
+	public String getBizClass(String code){
+		String status = "";
+		if("E".equals(code)){
+			status = "出口";
+		}else if ("I".equals(code)){
+			status = "进口";
+		}
+		return status;
+	}
 }
