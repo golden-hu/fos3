@@ -206,7 +206,7 @@ Fos.CustomerWin = function(p,store,wu){
 				}
 			}
 		}]
-	});			
+	});
 	this.save=function(){
 		if(frmCustomer.getForm().isValid()){				
 				p.beginEdit();

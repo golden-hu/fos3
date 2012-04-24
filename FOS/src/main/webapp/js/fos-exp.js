@@ -1534,7 +1534,7 @@ Fos.BookTab = function(p) {
     var tabs=[t1,t3,t4,t5];
     
 	if(p.get('consBizType')==BT_C){
-    	var t2={id:'C_B_X_'+p.get('id'),border:false,title:C_CONT_INFO+'(X)',
+    	var t2={id:'C_B_X_'+p.get('id'),border:false,title:C_CONT_INFO+'(X)',height:500,
     		layout:'fit',items:[this.contGrid]};
 		
 		tabs=[t1,t2,t3,t4,t5];
