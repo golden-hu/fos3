@@ -508,10 +508,30 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
  		var consStatusInvoP=panel.find('name','consStatusInvoP')[0].getValue();        		
  		if(consStatusInvoP) 
  			a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
+ 		
  		var consStatusExp=panel.find('name','consStatusExp')[0].getValue();        		
  		if(consStatusExp) 
  			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
-     	
+ 		
+ 		var inmpNo=panel.find('name','consCustomsDeclearationNo')[0].getValue();        		
+ 		if(inmpNo) 
+ 			a[a.length]=new QParam({key:'consCustomsDeclearationNo',value:inmpNo,op:op});
+ 		
+ 		var consCertNo=panel.find('name','consCertNo')[0].getValue();        		
+ 		if(consCertNo) 
+ 			a[a.length]=new QParam({key:'consCertNo',value:consCertNo,op:op});
+ 		
+ 		var appNo=panel.find('name','consBookingDeclareNoUs')[0].getValue();        		
+ 		if(appNo) 
+ 			a[a.length]=new QParam({key:'consBookingDeclareNoUs',value:appNo,op:op});
+ 		
+ 		var consTradeContractNo=panel.find('name','consTradeContractNo')[0].getValue();        		
+ 		if(consTradeContractNo) 
+ 			a[a.length]=new QParam({key:'consTradeContractNo',value:consTradeContractNo,op:op});
+ 		
+ 		var consContractNo=panel.find('name','consContractNo')[0].getValue();        		
+ 		if(consContractNo) 
+ 			a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:op});
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -555,7 +575,9 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
               	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
          	{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',
               	store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+            {fieldLabel:C_INSPECTION_NO,name:'consCustomsDeclearationNo',xtype:'textfield',anchor:'90%'},
+            {fieldLabel:C_APPLICATION_NO,name:'consBookingDeclareNoUs',xtype:'textfield',anchor:'90%'}]},
       	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
    		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -566,7 +588,9 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
 			{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
         		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+        	{fieldLabel:C_COMMODITY_NO,name:'consTradeContractNo',xtype:'textfield',anchor:'90%'},
+        	{fieldLabel:C_CONTRACT_NO,name:'consContractNo',xtype:'textfield',anchor:'90%'}]},
 		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_TO,name:'consCloseDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -577,11 +601,11 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
          		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
 			{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
          		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
-		]}
+         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+ 			{fieldLabel:C_CERT,name:'consCertNo',xtype:'textfield',anchor:'90%'}]}
 	]});
     Fos.InspConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
-    	width:800,height:260,buttonAlign:'right',items:panel,
+    	width:800,height:300,buttonAlign:'right',items:panel,
 		buttons:[{text:C_OK,scope:this,handler:this.reload},
 		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 
@@ -1339,7 +1363,7 @@ Fos.TradeGrid = function() {
 	};
 	
 	this.exp2=function(){			
-		EXPC('CONS_LIST','&mt=JSON&start=0&limit=500&consBizType=M');	
+		EXPC('CONS_LIST',store.baseParams.xml?'&mt=JSON&start=0&limit=500&consBizType=M&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');	
 	};
 	
 	var m=M1_M+M3_CONS;
