@@ -137,6 +137,8 @@ public class FDocService {
 				doc.setCustName(consign.getCustName());
 				doc.setConsSailDate(consign.getConsSailDate());
 				doc.setConsCargoOwnerName(consign.getConsCargoOwnerName());
+				doc.setConsSalesRepName(consign.getConsSalesRepName());
+				doc.setConsOperatorName(consign.getConsOperatorName());
 				retList.add(doc);
 			}
 		}
