@@ -115,6 +115,13 @@ public class WUserService {
 			throw new BusinessException("ws.username.exist");
 		}
 		
+		map.clear();
+		map.put("wusrEmail", wusrEmail);
+		userList = dao.findByProperties(map);
+		if (userList != null && userList.size() > 0) {
+			throw new BusinessException("ws.email.exist");
+		}
+		
 		wusrPassword = CryptoUtil.MD5Encode(wusrPassword);
 		
 		WUser user = new WUser();

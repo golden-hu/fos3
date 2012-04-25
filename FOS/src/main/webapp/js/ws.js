@@ -510,14 +510,36 @@ RegWin = function() {
     	
 	this.reg = function(){	
 		var r=new WUser({});
-		r.beginEdit();frm.getForm().updateRecord(r);r.set('compCode',COMP_CODE);r.set('rowAction','N');r.endEdit();
-		if(!r.get('wusrName')){alert('用户名不能为空');frm.find('name','wusrName')[0].focus();return;}
-		if(!r.get('wusrPassword')){alert('密码不能为空');frm.find('name','wusrPassword')[0].focus();return;}
-		if(!r.get('wusrEmail')){alert('Email不能为空');frm.find('name','wusrEmail')[0].focus();return;}
-		if(!r.get('wusrCompanyName')){alert('公司名称不能为空');frm.find('name','wusrCompanyName')[0].focus();return;}
-		if(!r.get('wusrTel')){alert('联系电话不能为空');frm.find('name','wusrTel')[0].focus();return;}
+		r.beginEdit();
+		frm.getForm().updateRecord(r);
+		r.set('compCode',COMP_CODE);
+		r.set('rowAction','N');r.endEdit();
+		if(!r.get('wusrName')){
+			alert('用户名不能为空');frm.find('name','wusrName')[0].focus();
+			return;
+		}
+		if(!r.get('wusrPassword')){alert('密码不能为空');
+			frm.find('name','wusrPassword')[0].focus();
+			return;
+		}
+		if(!r.get('wusrEmail')){
+			alert('Email不能为空');
+			frm.find('name','wusrEmail')[0].focus();
+			return;
+		}
+		if(!r.get('wusrCompanyName')){
+			alert('公司名称不能为空');
+			frm.find('name','wusrCompanyName')[0].focus();
+			return;
+		}
+		if(!r.get('wusrTel')){
+			alert('联系电话不能为空');
+			frm.find('name','wusrTel')[0].focus();
+			return;
+		}
 		var rj=RTJ(r,WUser);
 		var data=FOSJ({'WUser':rj});
+		
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_REG',mt:'JSON'},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
@@ -528,7 +550,9 @@ RegWin = function() {
 				alert('注册成功！');
 			},
 			failure: function(r){
-				var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
+				var user=Ext.util.JSON.decode(r.responseText);
+				alert(user.FosResponse.msg);
+			},
 		jsonData:data});
 	};	
     RegWin.superclass.constructor.call(this, {title:'用户注册',modal:true,width:400,
@@ -1612,8 +1636,5 @@ Ext.onReady(function(){
 	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));	
 	
 	viewport.doLayout();
-	
-	
-	
 });
 

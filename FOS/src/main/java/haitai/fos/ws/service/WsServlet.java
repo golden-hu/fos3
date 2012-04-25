@@ -211,6 +211,7 @@ public class WsServlet extends HttpServlet {
 		Set<String> publicSet = new HashSet<String>();
 		publicSet.add("WS_LOGIN");
 		publicSet.add("WS_REG");
+		publicSet.add("WS_WUSR_S");
 		publicSet.add("TASK_Q");
 		return publicSet.contains(actName);
 	}

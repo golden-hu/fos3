@@ -270,10 +270,12 @@ RegWin = function() {
 			alert('联系电话不能为空');
 			frm.find('name','wusrTel')[0].focus();
 			return;
-		}
-		var rj=RTJ(r,WUser);
-		var data=FOSJ({'WUser':rj});
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WUSR_S',mt:'JSON'},
+		}		
+			
+		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_REG',wusrName:r.get('wusrName'),
+			wusrPassword:r.get('wusrPassword'),wusrFirstName:r.get('wusrFirstName'),wusrTitle:r.get('wusrTitle'),
+			wusrDept:r.get('wusrDept'),wusrEmail:r.get('wusrEmail'),wusrCompanyName:r.get('wusrCompanyName'),
+			wusrTel:r.get('wusrTel'),wusrMobile:r.get('wusrMobile'),compCode:COMP_CODE},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
 				saveSession('WUSER_ID',user.WUser[0].wusrId);
@@ -283,8 +285,10 @@ RegWin = function() {
 				this.close();
 			},
 			failure: function(r){
-				var user=Ext.util.JSON.decode(r.responseText);alert(user.FosResponse.msg);},
-		jsonData:data});
+				var user=Ext.util.JSON.decode(r.responseText);
+				alert(user.FosResponse.msg);
+			}
+			});
 	};	
     RegWin.superclass.constructor.call(this, {title:'用户注册',modal:true,width:300,
         height:370,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm,

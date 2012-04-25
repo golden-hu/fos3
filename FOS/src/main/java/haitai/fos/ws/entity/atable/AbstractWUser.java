@@ -233,7 +233,7 @@ public class AbstractWUser extends BaseDomain {
 		this.custId = custId;
 	}
 	
-	@Column(name="COMP_CODE", nullable=false, length=4)
+	@Column(name="COMP_CODE", nullable=true, length=4)
 	public String getCompCode() {
 		return compCode;
 	}

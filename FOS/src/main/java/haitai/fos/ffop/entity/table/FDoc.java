@@ -23,7 +23,9 @@ public class FDoc extends AbstractFDoc {
 	private String custName;
 	private Date consSailDate;
 	private String consCargoOwnerName;
-
+	private String consSalesRepName;
+	private String consOperatorName;
+	
 	@Transient
 	public String getVessName() {
 		return vessName;
@@ -76,5 +78,23 @@ public class FDoc extends AbstractFDoc {
 
 	public void setConsCargoOwnerName(String consCargoOwnerName) {
 		this.consCargoOwnerName = consCargoOwnerName;
+	}
+	
+	@Transient
+	public String getConsSalesRepName() {
+		return consSalesRepName;
+	}
+
+	public void setConsSalesRepName(String consSalesRepName) {
+		this.consSalesRepName = consSalesRepName;
+	}
+	
+	@Transient
+	public String getConsOperatorName() {
+		return consOperatorName;
+	}
+
+	public void setConsOperatorName(String consOperatorName) {
+		this.consOperatorName = consOperatorName;
 	}
 }
