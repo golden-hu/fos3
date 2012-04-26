@@ -960,14 +960,22 @@ Fos.ContainerTab = function(p) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,scope:this,listeners:re});	
 	var soc = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CONT_NO,dataIndex:'contNo',width:100,validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，请重新输入！'})},
-	{header:C_SEAL_NO,dataIndex:'contSealNo',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_COTY,dataIndex:'cotyId',width:60,renderer:getCOTY,
-			editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S()})},
+	{header:C_CONT_NO,dataIndex:'contNo',width:100,validator:checkContainerNo,
+		editor:new Ext.form.TextField({allowBlank:false,blankText:'',
+		invalidText:'集装箱编码格式不正确，请重新输入！'})},
+	{header:C_SEAL_NO,dataIndex:'contSealNo',width:100,
+		editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_COTY,dataIndex:'cotyCode',width:60,renderer:getCOTY,
+		editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyCode',triggerAction:'all',
+        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S(),
+        listeners:{scope:this,
+        	select:function(c,r,i){
+        		this.grid.getSelectionModel().getSelected().set('cotyId',r.get('cotyId'));
+        		}
+		}})},
 	{header:C_FL,dataIndex:'contFl',width:40,
-			editor:new Ext.form.ComboBox({displayField:'CODE',valueField:'CODE',triggerAction: 'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:FL_S})},
+		editor:new Ext.form.ComboBox({displayField:'CODE',valueField:'CODE',triggerAction: 'all',
+        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:FL_S})},
     soc,
 	{header:C_CARGO_NAME_EN,dataIndex:'contCargoNameEn',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_PACKAGES,dataIndex:'contPackageNum',width:60,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
