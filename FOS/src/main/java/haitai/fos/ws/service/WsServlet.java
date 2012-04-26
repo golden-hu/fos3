@@ -37,6 +37,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.hibernate.exception.ConstraintViolationException;
 
 public class WsServlet extends HttpServlet {
@@ -55,7 +59,11 @@ public class WsServlet extends HttpServlet {
 		String actName = paramMap.get(HttpHeader.ACTNAME);
 		String compCode = paramMap.get("compCode");
 		
-				
+		boolean isJSON = false;
+		if(ConstUtil.JSON.equalsIgnoreCase(paramMap.get(HttpHeader.TEXT_TYPE))) {
+			isJSON = true;
+		}
+		
 		regSessionAttr(request, actName);
 		if (StringUtil.isBlank(SessionManager.getStringAttr("CompCode"))
 				&& StringUtil.isNotBlank(compCode)) {
@@ -69,8 +77,8 @@ public class WsServlet extends HttpServlet {
 				throw new BusinessException("fw.session.expired");
 			} 
 			else {
-				String json = readJson(inputStream, paramMap);
-				logger.debug(json);
+				
+				/*String json = readJson(inputStream, paramMap);				
 				FosRequest fosRequest = parseJson(json);
 				fosRequest.getParam().putAll(paramMap);
 				if (fosRequest.getData() == null) {
@@ -85,7 +93,63 @@ public class WsServlet extends HttpServlet {
 				byte[] byteResult = null;
 				byteResult = sbResult.toString().getBytes(ConstUtil.XML_ENCODING_UTF8);
 				logger.debug("\n" + sbResult);
-				bufferedWrite(outputStream, byteResult);
+				bufferedWrite(outputStream, byteResult);*/
+				
+				if(isJSON){
+					String json = readJson(inputStream, paramMap);				
+					FosRequest fosRequest = parseJson(json);
+					fosRequest.getParam().putAll(paramMap);
+					if (fosRequest.getData() == null) {
+						fosRequest.setData(new ArrayList<FosQuery>());
+					}
+
+					response.setContentType(HttpHeader.CONTENT_TYPE_JSON);
+					FosResponse fosResponse = dispatch(actName, fosRequest);
+					copyRowCount(fosRequest, fosResponse);
+					sbResult = toJson(fosResponse);
+
+					byte[] byteResult = null;
+					byteResult = sbResult.toString().getBytes(ConstUtil.XML_ENCODING_UTF8);
+					logger.debug("\n" + sbResult);
+					bufferedWrite(outputStream, byteResult);
+				}
+				else{
+					String xml = readXml(inputStream);
+					//分页, 从参数中取得XML
+					if(StringUtil.isBlank(xml)){
+						xml = paramMap.get(ConstUtil.XML);
+						paramMap.remove(ConstUtil.XML);
+						if(isJSON && StringUtil.contains(xml, "\\\"")) {
+							xml = xml.replaceAll("\\\\", "");
+							if(xml.startsWith("\"")) {
+								xml = xml.substring(1, xml.length() - 1);
+							}
+						}
+					}
+					logger.info(xml);
+					
+					FosRequest fosRequest = parseXml(actName,xml);
+					fosRequest.getParam().putAll(paramMap);
+					if(fosRequest.getData() == null){
+						fosRequest.setData(new ArrayList<FosQuery>());
+					}
+					
+					sbResult = new StringBuffer();
+					
+					FosResponse fosResponse = new FosResponse();
+					setResponseHeader(response, sbResult);
+					
+					dispatch(actName, fosRequest, fosResponse);
+					paramMap = fosRequest.getParam();
+					
+					copyRowCount(fosRequest, fosResponse);				
+					 entity2Text(fosResponse,sbResult);
+
+					byte[] byteResult;
+					byteResult = sbResult.toString().getBytes(ConstUtil.XML_ENCODING_UTF8);
+					logger.info("\n" + sbResult);
+					bufferedWrite(outputStream, byteResult);
+				}
 			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -154,6 +218,7 @@ public class WsServlet extends HttpServlet {
 		}
 	}
 
+		
 	private StringBuffer toJson(FosResponse fosResponse) {
 		StringBuffer sb = new StringBuffer();
 		if (fosResponse.getData() != null && fosResponse.getData().size() > 0) {
@@ -305,4 +370,101 @@ public class WsServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	/**
+	 * 从请求中取得POST的XML或者JSON文本
+	 * @param inputStream the post parameter
+	 * @return the xml or json string
+	 * @throws IOException read error
+	 */
+	private String readXml(InputStream inputStream) throws IOException {
+		InputStreamReader br = new InputStreamReader(inputStream, ConstUtil.XML_ENCODING_UTF8);
+		BufferedReader br2 = new BufferedReader(br);
+		String line;
+        StringBuilder sb = new StringBuilder();
+		while ((line = br2.readLine()) != null) {
+			sb.append(line).append(ConstUtil.LINE_SEPARATOR);
+		}
+        return sb.toString();
+	}
+
+	/**
+	 * 把输入的XML解析成FosRequest对象
+	 * @param actName the action name
+	 * @param xml the xml or json string
+	 * @param isJSON the message format is json
+	 * @return fos request object
+	 */
+	private FosRequest parseXml(String actName,String xml) {
+		if (actName.endsWith("_Q") || StringUtil.isBlank(xml) || xml.startsWith("----")) {
+			return new FosRequest();
+		}
+		else	return (FosRequest) XstreamUtil.XML2Entity(xml);
+	}
+	
+	
+	
+	/**
+	 * 设置response的头信息
+	 * @param response the http response
+	 * @param sbResult the output string
+	 * @param isJSON format is json
+	 */
+	private void setResponseHeader(HttpServletResponse response, StringBuffer sbResult) {
+		response.setDateHeader("Expires", 0);
+		response.addHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		
+		response.setContentType(HttpHeader.CONTENT_TYPE_XML);
+		sbResult.append(ConstUtil.XML_HEADER);
+	}
+
+	/**
+	 * 调用相关服务
+	 * @param actName the action name
+	 * @param fosRequest the fos request
+	 * @param fosResponse the fos response
+	 * @throws Exception the exception
+	 */
+	private void dispatch(String actName, FosRequest fosRequest, FosResponse fosResponse) throws Exception {
+		// get service class and action method
+		Action action = ActionManager.getAction(actName);
+		Object service = SpringContextHolder.getBean(action.getActService());
+		// convert request to parameter type of action method
+		Method[] methods = service.getClass().getMethods();
+		for (Method method : methods) {
+			if (method.getName().equalsIgnoreCase(action.getActMethod())) {
+				Class<?> paramType[] = method.getParameterTypes();
+				Object paramObject[] = new Object[paramType.length];
+				int i = 0;
+				for (Class<?> paramClass : paramType) {
+					if (List.class.isAssignableFrom(paramClass)) {
+						paramObject[i] = fosRequest.getData();
+					} else if (Map.class.isAssignableFrom(paramClass)) {
+						paramObject[i] = fosRequest.getParam();
+					} else {
+						paramObject[i] = fosRequest.getData().get(0);
+					}
+					i++;
+				}
+				Object retObj = method.invoke(service, paramObject);
+				if (retObj instanceof List<?>) {
+					fosResponse.setData((List<?>) retObj);
+				} else {
+					fosResponse.addData(retObj);
+				}
+				fosResponse.setCode(0);
+				fosResponse.setMsg(MessageUtil.getMessage("fw.success"));
+			}
+		}
+	}
+	
+	/**
+	 * 把返回的对象序列化, 生成返回前台的文本
+	 * @param sbResult the output
+	 * @param fosResponse the fos response
+	 * @param isJSON format is json
+	 */
+	private void entity2Text(FosResponse fosResponse,StringBuffer sb) {		
+		sb.append(XstreamUtil.entity2XML(fosResponse));
+	}
 }
