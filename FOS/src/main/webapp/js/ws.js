@@ -153,7 +153,7 @@ WConsign = Ext.data.Record.create(['id','wconId','wconNo',
 	{name:'cargDanagerFlag',type:'boolean',convert:function(v){return v==1;}},
 	{name:'consTransFlag',type:'boolean',convert:function(v){return v==1;}},
 	{name:'consPartialFlag',type:'boolean',convert:function(v){return v==1;}},
-	'tranId','tranCode','packId','packName','pateId','pateName','consContainerInfo',
+	'tranId','tranCode','packId','packName','pateId','pateName','consContainersInfo',
 	'consOriginalBlNum','consRemarks','consServiceRequired','consStatus',
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
@@ -169,7 +169,7 @@ FConsign = Ext.data.Record.create(['id',
 	'consMblNo','consCargoDesc','consCargoMarks','consTotalPackages',
 	{name:'consTotalGrossWeight',type:'float'},		
 	{name:'consTotalMeasurement',type:'float'},
-	'tranId','tranCode','packId','packName','pateId','pateName','consContainerInfo',
+	'tranId','tranCode','packId','packName','pateId','pateName','consContainersInfo',
 	'consOriginalBlNum','consRemarks','consServiceRequired','consStatus',
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
@@ -304,7 +304,7 @@ getWINQStatus=function(v){
 	if(v==0) 
 		return '未回复'; 
 	else 
-		return '';
+		return '已回复';
 };
 
 var getWS_BC=function(v){
@@ -432,25 +432,29 @@ var QTX=function(a){
 var QTJ=function(a){return {fosQuery:a};};
 
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
-function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_X',reader: new Ext.data.JsonReader({root:'GPort'}, GPort),sortInfo:{field:'portNameEn',direction:'ASC'}});};
+function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_Q',
+	reader: new Ext.data.XmlReader({record:'GPort'},GPort),
+	sortInfo:{field:'portNameEn',direction:'ASC'}});};
 
-var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.JsonReader({root:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
-var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.JsonReader({root:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
-var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.JsonReader({root:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
+var tranStore=new Ext.data.Store({url:SERVICE_URL+'?A=TTER_Q',reader: new Ext.data.XmlReader({record:'GTransTerm'},GTransTerm),sortInfo:{field:'tranId',direction:'ASC'}});
+var pateStore=new Ext.data.Store({url:SERVICE_URL+'?A=PATE_Q',reader: new Ext.data.XmlReader({record:'GPaymentTerm'},GPaymentTerm),sortInfo:{field:'pateId',direction:'ASC'}});
+var packStore=new Ext.data.Store({url:SERVICE_URL+'?A=PACK_Q',reader: new Ext.data.XmlReader({record:'GPackage'},GPackage),sortInfo:{field:'packId',direction:'ASC'}});
 
-var LP=function(f,e){
+LP=function(f,e){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
 			var a=[];
-			a[a.length]={key:'portNameEn',value:q+'%',op:LI};
-			f.store.baseParams=a.length>0?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
-     		f.store.reload();f.expand();
+			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});			
+			var xml = QTX(a);
+	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'PORT_X'},
+				success: function(r,o){f.store.loadData(r.responseXML,false);f.expand();},
+				xmlData:"<FosRequest>\n<data>\n"+xml+"</data>\n</FosRequest>\n"
+			});
 		}
 		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
 	}
 };
-
 LoginWin = function() {
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',items:[
     	{fieldLabel:C_WS_USR_NAME,name:'wusrName',xtype:'textfield',anchor:'90%'},
@@ -563,7 +567,9 @@ RegWin = function() {
 Ext.extend(RegWin,Ext.Window);
 InquiryWin = function(p) {
 	var frm = new Ext.form.FormPanel({labelWidth:80,bodyStyle:'padding:5px',items:[    	
-    	{fieldLabel:C_POL,itemCls:'required',name:'winqPolEn',value:p.get('winqPolEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
+    	{fieldLabel:C_POL,itemCls:'required',name:'winqPolEn',value:p.get('winqPolEn'),
+    		store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portNameEn',
+    		typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('winqPol','');}},
@@ -626,7 +632,7 @@ var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',margins:'0 5 5 0',lay
 InquiryGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WINQ_X&wusrId='+CUSER,
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WInquiry'}, WInquiry),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'WInquiry'}, WInquiry),remoteSort:true,
     	sortInfo:{field:'winqId', direction:'DESC'}});
     store.load({params:{start:0,limit:20}});
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
@@ -646,7 +652,7 @@ InquiryGrid = function() {
 	cm.defaultSortable=true;
 	var re={rowdblclick:function(g,r,e){this.edit();}};   
     this.add = function(){
-    	var p = new WInquiry({winqId:0,compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
+    	var p = new WInquiry({winqId:0,compCode:COMP_CODE,wusrId:CUSER,winqStatus:0,rowAction:'N'});
        	var win = new InquiryWin(p);    	
 		win.show();
     };
@@ -670,7 +676,7 @@ InquiryGrid = function() {
 					jsonData:FOSJ(json)});
             	}
         	});
-        else XMG.alert(SYS,M_R_P);
+        else XMG.alert(SYS,'操作失败！');
 	};
 	
     InquiryGrid.superclass.constructor.call(this, {
@@ -688,9 +694,9 @@ Ext.extend(InquiryGrid,Ext.grid.GridPanel);
 InquiryReplyWin = function(p) {
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=PCOM_Q',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PComments'}, PComments),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'PComments'}, PComments),remoteSort:true,
     	sortInfo:{field:'commId', direction:'ASC'}});
-    store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+    store.load({params:{objectType:'WINQ',objectId:p.get('winqId')}});
     
 	var html = '<div style="padding:5px;"><table class="reference" width="100%">';
 	html +='<tr><td width="80">询价单位：</td><td>'+p.get('wusrCompanyName')+'</td></tr>';
@@ -773,9 +779,9 @@ Ext.extend(InquiryReplyWin,Ext.Window);
 WconGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_WCON_Q',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WConsign'}, WConsign),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'WConsign'}, WConsign),remoteSort:true,
     	sortInfo:{field:'wconId', direction:'DESC'}});
-    store.load({params:{start:0,limit:20,wsurId:CUSER}});
+    store.load({params:{start:0,limit:20,wusrId:CUSER}});
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
@@ -797,8 +803,15 @@ WconGrid = function() {
 	var re={rowdblclick:function(g,r,e){this.edit();}};   
     this.add = function(){
     	var rid=GGUID();
-    	var p = new WConsign({wconId:rid,wconNo:'N'+rid,consDate:new Date(),consBizClass:'E',consShipType:'FCL',consServiceRequired:'',
-		consBizType:'C',compCode:COMP_CODE,wusrId:CUSER,rowAction:'N'});
+    	var p = new WConsign({wconId:rid,wconNo:'N'+rid,
+    		consDate:new Date(),
+    		consBizClass:'E',
+    		consShipType:'FCL',
+    		consServiceRequired:'',
+    		consBizType:'C',
+    		compCode:COMP_CODE,
+    		wusrId:CUSER,
+    		rowAction:'N'});
        	var win = new WconWin(p,store);    	
 		win.show();
     };
@@ -818,7 +831,7 @@ WconGrid = function() {
 					jsonData:FOSJ(json)});
             	}
         	});
-        else XMG.alert(SYS,M_R_P);
+        else XMG.alert(SYS,'操作失败！');
 	};	
     WconGrid.superclass.constructor.call(this, {
     id:'G_WCON',store: store,iconCls:'grid',width:600,height:300,title:'网上订舱列表',header:false,closable:true,
@@ -940,11 +953,11 @@ Ext.extend(WconGrid,Ext.grid.GridPanel);
 
 VoyaTab = function(){
 	var shliStore=new Ext.data.Store({url:SERVICE_URL+'?A=SHLI_Q',
-		reader: new Ext.data.JsonReader({root:'GShippingLine'},GShippingLine),sortInfo:{field:'shliId',direction:'ASC'}});
+		reader: new Ext.data.XmlReader({record:'GShippingLine'},GShippingLine),sortInfo:{field:'shliId',direction:'ASC'}});
 	shliStore.load();	
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_VOYA_X',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'GVoyage'}, GVoyage),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GVoyage'}, GVoyage),remoteSort:true,
     	sortInfo:{field:'voyaId', direction:'DESC'}});
     //store.load({params:{start:0,limit:20}});
 	var cm = new Ext.grid.ColumnModel([

@@ -73,7 +73,9 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consPotEn;
 	private String consPotCn;
 	private String consDeliveryPlace;
+	private String consDeliveryPlaceCode;
 	private String consDestination;
+	private String consDestinationCode;
 	private String consTranCountry;
 	private String consTradeCountry;
 	private Integer fconHarbourId;
@@ -896,6 +898,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consDeliveryPlace = consDeliveryPlace;
 	}
 
+	@Column(name = "CONS_DELIVERY_PLACE_CODE", length = 32)
+	public String getConsDeliveryPlaceCode() {
+		return this.consDeliveryPlaceCode;
+	}
+
+	public void setConsDeliveryPlaceCode(String consDeliveryPlaceCode) {
+		this.consDeliveryPlaceCode = consDeliveryPlaceCode;
+	}
+	
 	@Column(name = "CONS_DESTINATION", length = 64)
 	public String getConsDestination() {
 		return this.consDestination;
@@ -905,6 +916,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consDestination = consDestination;
 	}
 
+	@Column(name = "CONS_DESTINATION_CODE", length = 32)
+	public String getConsDestinationCode() {
+		return this.consDestinationCode;
+	}
+
+	public void setConsDestinationCode(String consDestinationCode) {
+		this.consDestinationCode = consDestinationCode;
+	}
+	
 	@Column(name = "CONS_TRAN_COUNTRY", length = 2)
 	public String getConsTranCountry() {
 		return this.consTranCountry;

@@ -105,8 +105,21 @@ InquiryWin = function(p) {
 			Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
 				params:{A:'PCOM_S'},
 				success: function(r,o){
-					alert('保存成功');
-					store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+					
+					p.set('rowAction','M');
+					p.set('winqStatus',1);
+					var x =RTX(p,'WInquiry',WInquiry);
+					Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WINQ_S'},
+						success: function(r){							
+							p.set('version',p.get('version')+1);
+							store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
+							alert('操作成功！');
+						},
+						failure: function(r){
+							var res=Ext.util.JSON.decode(r.responseText);
+							alert(res.FosResponse.msg);
+						},
+						xmlData:FOSX(x)});
 				},
 				failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
 				xmlData:FOSX(xml)
@@ -125,15 +138,23 @@ Fos.WinqGrid = function() {
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WInquiry'}, WInquiry),remoteSort:true,
     	sortInfo:{field:'winqId', direction:'DESC'}});
     store.load({params:{start:0,limit:20,mt:'JSON'}});
+    
+    getWINQStatus=function(v){
+    	if(v==0) 
+    		return '未回复'; 
+    	else 
+    		return '已回复';
+    };
+    
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
+    	{header:'状态',dataIndex:'winqStatus',width:100,renderer:getWINQStatus},
 		{header:'询价时间',dataIndex:'createTime',width:80,renderer:formatDateTime},
 		{header:C_WS_USR_NAME,dataIndex:'wusrName',width:80},
 		{header:C_WS_FIRST_NAME,dataIndex:'wusrFirstName',width:80},
 		{header:C_WS_COMPANY,dataIndex:'wusrCompanyName',width:100},
-		{header:C_WS_TEL,dataIndex:'wusrTel',width: 80},
-		{header:'状态',dataIndex:'winqStatus',width:100},
+		{header:C_WS_TEL,dataIndex:'wusrTel',width: 80},		
 		{header:'装货港',dataIndex:'winqPolEn',width: 80},
 		{header:'卸货港',dataIndex:'winqPodEn',width:100},
 		{header:'交货地',dataIndex:'winqDeliveryPlace',width:80},

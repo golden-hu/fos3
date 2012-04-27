@@ -12,7 +12,9 @@ Fos.CargoGrid = function(p,store,frm) {
 			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
 	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
 	            listeners:{scope:this,select:function(c,r,i){
-						this.getSelectionModel().getSelected().set('packName',r.get('packName'));}}
+						this.getSelectionModel().getSelected().set('packName',r.get('packName'));
+						this.getSelectionModel().getSelected().set('packCode',r.get('packCode'));
+					}}
 	            })};
 	var c6={header:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargGrossWeight',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
 	var c7={header:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargNetWeight',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,invalidText:''})};

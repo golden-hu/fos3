@@ -31,6 +31,7 @@ public abstract class AbstractFContainer extends BaseDomain {
 	private String contSealNo2;
 	private String contSealNo3;
 	private Integer cotyId;
+	private String cotyCode;
 	private String contFl;
 	private Integer packId;
 	private String packName;
@@ -190,6 +191,15 @@ public abstract class AbstractFContainer extends BaseDomain {
 		this.cotyId = cotyId;
 	}
 
+	@Column(name = "COTY_CODE", length = 16)
+	public String getCotyCode() {
+		return this.cotyCode;
+	}
+
+	public void setCotyCode(String cotyCode) {
+		this.cotyCode = cotyCode;
+	}
+	
 	@Column(name = "CONT_FL", length = 3)
 	public String getContFl() {
 		return this.contFl;

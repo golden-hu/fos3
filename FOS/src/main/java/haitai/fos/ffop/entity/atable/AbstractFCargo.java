@@ -30,6 +30,7 @@ public abstract class AbstractFCargo extends BaseDomain {
 	private String cargSpec;
 	private String cargNo;
 	private Integer packId;
+	private String packCode;
 	private String packName;
 	private Integer cargPackageNum;
 	private Integer packSId;
@@ -202,6 +203,15 @@ public abstract class AbstractFCargo extends BaseDomain {
 		this.packName = packName;
 	}
 
+	@Column(name = "PACK_CODE", length = 32)
+	public String getPackCode() {
+		return this.packCode;
+	}
+
+	public void setPackCode(String packCode) {
+		this.packCode = packCode;
+	}
+	
 	@Column(name = "CARG_PACKAGE_NUM")
 	public Integer getCargPackageNum() {
 		return this.cargPackageNum;
