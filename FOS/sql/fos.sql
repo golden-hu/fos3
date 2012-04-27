@@ -1316,7 +1316,7 @@ CREATE TABLE IF NOT EXISTS `F_CUSTOMS_DECLARATION` (
   `CUDE_OPEN_FLAG` tinyint(4) default '0',
   `CUDE_INVOICE_NO` varchar(32) collate utf8_unicode_ci default NULL,
   `CUDE_INVOICE_DATE` date default NULL,
-  `CUDE_CONTRACT_NO` VARCHAR(32) DATE NULL DEFAULT NULL,
+  `CUDE_CONTRACT_NO` VARCHAR(32) NULL DEFAULT NULL,
   `CUDE_CONTRACT_DATE` DATE NULL DEFAULT NULL,
   `CUDE_REMARKS` varchar(500) collate utf8_unicode_ci default NULL,
   `CUDE_STATUS` tinyint(4) default '0',
