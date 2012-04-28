@@ -816,7 +816,7 @@ INSERT INTO `P_SERIAL_RULE` (`seru_code`, `seru_name`, `comp_code`, `seru_rule`,
 ('bill_no', '账单', '{CC}', '<COMP><YY>B<SN>', 6, '<YY>', 3),
 ('tran_no', '陆运联系单号', '{CC}', '<COMP><YY>DY<SN>', 6, '<YY>', 3),
 ('ware_no', '仓储单号', '{CC}', '<COMP><YY>W<SN>', 6, '<COMP><YY>', 3);
-
+('ws_consign_no', '网上订舱编号', '{CC}', '<COMP>W<YY><SN>', 6, '<COMP>W<YY>', 3);
 --
 -- 导出表中的数据 `P_TEMPLATE`
 --
@@ -912,7 +912,23 @@ INSERT INTO `P_COMPANY_CONFIG` (`COCO_CODE`, `COCO_NAME`, `COCO_VALUE`, `COCO_VA
 ('PROFIT_ALERT_VALUE', '利润预警阀值（利润小于）', '10', 1, NULL, '系统参数', 'A', NULL, '{CC}', 2, 0),
 ('PROFIT_ALERT_COLOR', '利润预警颜色', '#99CC00', 9, NULL, '系统参数', NULL, NULL, '{CC}', 2, 0),
 ('CONS_LOCK_DAYS', '开航后多少天锁定业务数据', '30', 1, NULL, '系统参数', 'A', NULL, '{CC}', 0, 0),
-('CONS_AR_OVERDUE_DAYS', '最大应收账款天数', '60', 1, NULL, '业务设置', 'A', NULL, '{CC}', 0, 0);
+('CONS_AR_OVERDUE_DAYS', '最大应收账款天数', '60', 1, NULL, '业务设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_CE', '整箱出口业务类型代码', 'CE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_CI', '整箱进口业务类型代码', 'CI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_PE', '拼箱出口业务类型代码', 'PE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_PI', '进口分拨业务类型代码', 'PI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_BE', '散货出口业务类型代码', 'BE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_BI', '散货进口业务类型代码', 'BI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_AE', '空运出口业务类型代码', 'AE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_AI', '空运进口业务类型代码', 'AI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_GE', '出口报关业务类型代码', 'GE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_GI', '进口报关业务类型代码', 'GI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_IE', '出口报关业务类型代码', 'IE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_II', '进口报关业务类型代码', 'II', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_MH', '加工贸易业务类型代码', 'M', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_FH', '减免税业务类型代码', 'F', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+;
 
 -- 建立公司
 insert into P_COMPANY (comp_code, comp_name_cn, comp_name_en,comp_active,comp_start_date,comp_end_date,comp_service_level, comp_email,comp_tel,comp_fax,comp_address, comp_contact,create_time, modify_time) 

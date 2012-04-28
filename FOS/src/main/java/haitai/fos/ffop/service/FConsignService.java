@@ -19,6 +19,7 @@ import haitai.fw.serial.SerialFactory;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
@@ -62,6 +63,7 @@ public class FConsignService {
 	@Autowired
 	private PMessageService messageService;
 
+		
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List save(List entityList) {
@@ -509,12 +511,27 @@ public class FConsignService {
 	 */
 	private String getConsignNo(FConsign entity) {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put(SerialFactory.RULE_CONS_TYPE, entity.getClassType() + entity.getConsBizClass() + entity.getExternal
-				());
+		String bt = entity.getClassType() + entity.getConsBizClass() + entity.getExternal();		
+		map.put(SerialFactory.RULE_CONS_TYPE,getBizTypeCode(bt));
 		map.put(SerialFactory.RULE_CUST_CODE, entity.getCustSname());
 		return SerialFactory.getSerial("consign_no", map);
 	}
 
+	/**
+	 * @param entity the consign
+	 * @return the consign no
+	 */
+	private String getBizTypeCode(String bt) {
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("cocoCode", "BIZ_TYPE_CODE_"+bt);
+		List<PCompanyConfig> list = companyConfigDao.findByProperties(queryMap);
+		if (list.size() == 1) {
+			return list.get(0).getCocoValue();
+		}
+		return bt;
+	}
+
+	
 	private void updateFactQuantity(FConsign entity, boolean isDelete) {
 		FContract contract = contractDao.findById(entity.getFconId());
 		FLoadingList loadingList = loadingListDao.findById(entity.getLoliId());
