@@ -3415,7 +3415,17 @@ Fos.BlWin = function(p,b,store) {
 	var t3={layout:'column',title:C_ISSUE_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,height:200,
 			items: [
 				{columnWidth:.25,layout:'form',labelWidth:80,border : false,items:[
-					{fieldLabel:C_ISTY,name:'istyId',value:b.get('istyId'),store:getISTY_S(),tabIndex:50,xtype:'combo',displayField:'istyName',valueField:'istyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}]},
+					{fieldLabel:C_ISTY,name:'istyId',value:b.get('istyId'),
+						store:getISTY_S(),tabIndex:50,xtype:'combo',
+						displayField:'istyName',valueField:'istyId',
+						typeAhead: true,mode: 'local',triggerAction: 'all',
+						selectOnFocus:true,anchor:'99%',
+						listeners:{scope:this,select:function(c,r,i){
+							if(i==0)
+								this.find('name','blOriginalNum')[0].setValue("THREE");
+							else if(i==1)
+								this.find('name','blOriginalNum')[0].setValue("ONE");
+						}}}]},
 				{columnWidth:.25,layout:'form',labelWidth:80,border : false,items:[
 					{fieldLabel:C_ISSUE_BY,name:'blIssueBy',value:b.get('blIssueBy'),tabIndex:51,xtype:'textfield',anchor:'99%'}]},
 				{columnWidth:.25,layout:'form',labelWidth:80,border : false,items:[
