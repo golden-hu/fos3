@@ -815,7 +815,7 @@ INSERT INTO `P_SERIAL_RULE` (`seru_code`, `seru_name`, `comp_code`, `seru_rule`,
 ('voucher_no', '收款单', '{CC}', '<COMP><YY>V<SN>', 6, '<YY>', 3),
 ('bill_no', '账单', '{CC}', '<COMP><YY>B<SN>', 6, '<YY>', 3),
 ('tran_no', '陆运联系单号', '{CC}', '<COMP><YY>DY<SN>', 6, '<YY>', 3),
-('ware_no', '仓储单号', '{CC}', '<COMP><YY>W<SN>', 6, '<COMP><YY>', 3);
+('ware_no', '仓储单号', '{CC}', '<COMP><YY>W<SN>', 6, '<COMP><YY>', 3),
 ('ws_consign_no', '网上订舱编号', '{CC}', '<COMP>W<YY><SN>', 6, '<COMP>W<YY>', 3);
 --
 -- 导出表中的数据 `P_TEMPLATE`
@@ -923,11 +923,11 @@ INSERT INTO `P_COMPANY_CONFIG` (`COCO_CODE`, `COCO_NAME`, `COCO_VALUE`, `COCO_VA
 ('BIZ_TYPE_CODE_AI', '空运进口业务类型代码', 'AI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_GE', '出口报关业务类型代码', 'GE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_GI', '进口报关业务类型代码', 'GI', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
-('BIZ_TYPE_CODE_IE', '出口报关业务类型代码', 'IE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
-('BIZ_TYPE_CODE_II', '进口报关业务类型代码', 'II', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_IE', '出口报检业务类型代码', 'IE', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_II', '进口报检业务类型代码', 'II', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_MH', '加工贸易业务类型代码', 'M', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_FH', '减免税业务类型代码', 'F', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
-('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0)
 ;
 
 -- 建立公司
