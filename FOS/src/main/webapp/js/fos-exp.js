@@ -794,6 +794,36 @@ Fos.BookTab = function(p) {
     if(p.get('consBizType')==BT_C) vt=1;
     else if(p.get('consBizType')==BT_B) vt=2;
     
+    var cboBookAgency={fieldLabel:C_BOOK_AGENCY,tabIndex:39,name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),store:getCS(),enableKeyEvents:true,
+    		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+    		xtype:'combo',displayField:'custCode',valueField:'custCode',
+    		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+    		listeners:{scope:this,
+    			blur:function(f){
+    				if(f.getRawValue()==''){
+    					f.clearValue();
+    					p.set('consBookingAgency','');
+    					p.set('consBookingAgencyName','');
+    			}},
+            	select:function(c,r,i){
+    				p.set('consBookingAgency',r.get('custId'));
+    				p.set('consBookingAgencySname',r.get('custCode'));
+    				p.set('consBookingAgencyName',r.get('custNameCn'));
+    				c.setValue(r.get('custNameCn'));    				
+    				this.find('name','consBookingAgencyContact')[0].store.reload({params:{custId:r.get('custId')}});
+    			},
+            	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
+    var cboBookAgencyContact={fieldLabel:C_BOOK_AGENCY_CONTACT,
+    		name:'consBookingAgencyContact',value:p.get('consBookingAgencyContact'),
+			tabIndex:10,store:getCUCOS(),xtype:'combo',displayField:'cucoName',valueField:'cucoName',
+			typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+			listeners:{scope:this,
+            	select:function(c,r,i){
+            		this.find('name','consBookingAgencyTel')[0].setValue(r.get('cucoTel'));
+    			}}};
+    var txtBookAgencyTel={fieldLabel:C_BOOK_AGENCY_TEL,name:'consBookingAgencyTel',
+    		tabIndex:54,value:p.get('consBookingAgencyTel'),xtype:'textfield',anchor:'99%'};
+    
 	var m1={fieldLabel:C_VESS,itemCls:'needed',tabIndex:34,name:'vessName',value:p.get('vessName'),store:getVES(),enableKeyEvents:true,
 		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,
 		mode:'local',tpl:vessTpl,itemSelector:'div.list-item',listWidth:400,triggerAction:'all',selectOnFocus:true,anchor:'99%',
@@ -869,25 +899,9 @@ Fos.BookTab = function(p) {
         	},
 			keydown:{fn:function(f,e){LC(f,e,'custContainerFlag');},buffer:BF}}};
 			
-	var m8={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,itemCls:'needed',tabIndex:35,name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'99%'};
-	var m9={fieldLabel:C_BOOK_AGENCY,tabIndex:39,name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
-		xtype:'combo',displayField:'custCode',valueField:'custCode',
-		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
-		listeners:{scope:this,
-			blur:function(f){
-				if(f.getRawValue()==''){
-					f.clearValue();
-					p.set('consBookingAgency','');
-					p.set('consBookingAgencyName','');
-			}},
-        	select:function(c,r,i){
-				p.set('consBookingAgency',r.get('custId'));
-				p.set('consBookingAgencySname',r.get('custCode'));
-				p.set('consBookingAgencyName',r.get('custNameCn'));
-				c.setValue(r.get('custNameCn'));
-			},
-        	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
+	var m8={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,itemCls:'needed',
+			tabIndex:35,name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'99%'};
+	
     var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,
     		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
     		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
@@ -926,8 +940,9 @@ Fos.BookTab = function(p) {
     var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'99%'};
     var m14={fieldLabel:C_PACKING_LIST_NO,tabIndex:59,name:'consPackingListNo',value:p.get('consPackingListNo'),xtype:'textfield',anchor:'99%'};
     
-    var m15={fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,tabIndex:36,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
-    var m16={fieldLabel:C_SHIP_LOAD_DATE,tabIndex:40,name:'consLoadDate',value:p.get('consLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
+   
+    var m16={fieldLabel:C_SHIP_LOAD_DATE,tabIndex:40,name:'consLoadDate',
+    		value:p.get('consLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
     var m17={fieldLabel:C_HARBOUR,tabIndex:p.get('consBizClass')==BC_I?43:44,name:'consHarbour',value:p.get('consHarbour'),store:getHARB_S(),xtype:'combo',displayField:'placName',valueField:'placName',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     		listeners:{scope:this,select:function(c,r,i){p.set('consHarbourId',r.get('placId'));}}};
     var m18={fieldLabel:C_DELIVERY_PLACE,tabIndex:48,name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
@@ -944,7 +959,7 @@ Fos.BookTab = function(p) {
     var m24={fieldLabel:C_RECEIPT_PLACE,tabIndex:45,name:'consReceiptPlace',value:p.get('consReceiptPlace'),xtype:'textfield',anchor:'99%'};
     var m25={fieldLabel:C_DESTINATION,tabIndex:49,name:'consDestination',value:p.get('consDestination'),xtype:'textfield',anchor:'99%'};
     var m26={fieldLabel:C_PRECARRIAGE,tabIndex:53,name:'consPrecarriage',value:p.get('consPrecarriage'),xtype:'textfield',anchor:'99%'};
-    var m27={fieldLabel:C_BL_ORI_NUM,name:'consOriginalBlNum',tabIndex:64,value:p.get('consOriginalBlNum'),xtype:'numberfield',anchor:'99%'};
+    var txtOriginalBlNum={fieldLabel:C_BL_ORI_NUM,name:'consOriginalBlNum',tabIndex:64,value:p.get('consOriginalBlNum'),xtype:'numberfield',anchor:'99%'};
     var m28={fieldLabel:C_DO_AGENCY,name:'consDoAgencyName',tabIndex:47,
     		value:p.get('consDoAgencyName'),store:getCS(),enableKeyEvents:true,
     		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
@@ -963,8 +978,12 @@ Fos.BookTab = function(p) {
              		c.setValue(r.get('custNameCn'));
              	},
             	keydown:{fn:function(f,e){LC(f,e,'custDoAgencyFlag');},buffer:BF}}};
-    var m29={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,name:'consHblNo',tabIndex:37,value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
-        
+   
+    var txtMblNo={fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,
+    		name:'consMblNo',tabIndex:36,value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
+    var txtHblNo={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,tabIndex:37,name:'consHblNo',
+    		value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
+    
     var m30={fieldLabel:C_ETA,name:'consEta',itemCls:p.get('consBizClass')==BC_I?'required':'',tabIndex:44,value:p.get('consEta'),xtype:'datefield',format:DATEF,anchor:'99%',
         listeners:{scope:this,change:function(f,nv,ov){if(p.get('consBizClass')==BC_I) p.set('consSailDate',nv);}}};
     var m31={fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,
@@ -990,37 +1009,37 @@ Fos.BookTab = function(p) {
     if(p.get('consBizClass')==BC_I){
 		t131=[m1,m4,m2,m3];
 		t132=[m8,m10,m17,m28];
-		t133=[m15,m11,m30,m7];
-		t134=[m29,m12,m31,m21];
+		t133=[txtMblNo,m11,m30,m7];
+		t134=[txtHblNo,m12,m31,m21];
 		if(p.get('consBizType')==BT_A){
-			t131=[m2,m4,m11,m9];
-			t132=[m8,m10,m17];
-			t133=[m15,m30,m12];
-			t134=[m29,m31,m3];
+			t131=[m2,m4,m11,cboBookAgency];
+			t132=[m8,m10,m17,cboBookAgencyContact];
+			t133=[txtMblNo,m30,m12,txtBookAgencyTel];
+			t134=[txtHblNo,m31,m3];
 		}
 		else if(p.get('consBizType')==BT_B){
             t131=[m1,m4,m2,m3];
             t132=[m8,m10,m17];
-            t133=[m15,m11,m30,m7];
-            t134=[m29,m12,m31];
+            t133=[txtMblNo,m11,m30,m7];
+            t134=[txtHblNo,m12,m31];
         }
 	}
 	else{
-		t131=[m1,m2,m3,m4,m5,m6,m7];
-		t132=[m8,m9,m10,m11,m12,m13,m14];
-		t133=[m15,m16,m17,m18,m19,m20,m21];
-		t134=[m31,m30,m24,m25,m26,m23,m27];
+		t131=[m1,m31,m3,m4,m2,m5,m6,m7];
+		t132=[m8,cboBookAgency,m10,m11,m12,m13,m14];
+		t133=[txtMblNo,cboBookAgencyContact,m16,m17,m18,m19,m20,m21];
+		t134=[txtHblNo,txtBookAgencyTel,m30,m24,m25,m26,m23,txtOriginalBlNum];
 		if(p.get('consBizType')==BT_A){
-			t131=[m2,m4,m10,m9];
-			t132=[m8,m11,m17,m23];
-			t133=[m15,m30,m12];
-			t134=[m29,m31,m3];
+			t131=[m2,m4,m10,cboBookAgency];
+			t132=[m8,m11,m17,txtBookAgencyTel];
+			t133=[txtMblNo,m30,m12,m23];
+			t134=[txtHblNo,m31,m3];
 		}	
 		else if(p.get('consBizType')==BT_B){
-			t131=[m1,m2,m3,m4,m5,m32,m33,m35];
-			t132=[m8,m9,m10,m11,m12,m13,m34,m36];
-			t133=[m15,m16,m17,m18,m19,m20,m27,m37];
-			t134=[m31,m30,m24,m25,m26,m23,m38];
+			t131=[m1,m2,m3,m4,m5,m32,m33,m35,txtOriginalBlNum];
+			t132=[m8,cboBookAgency,m10,m11,m12,m13,m34,m36];
+			t133=[txtMblNo,cboBookAgencyContact,m16,m17,m18,m19,m20,m37];
+			t134=[m31,txtBookAgencyTel,m30,m24,m25,m26,m23,m38];
 		}
 	};
     var t13={layout:'column',title:C_BL_INFO,collapsible:true,border:false,padding:5,
@@ -1308,11 +1327,24 @@ Fos.BookTab = function(p) {
 	var r2={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:2,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',anchor:'99%'}]};
 	var t41={title:C_BOOKING_REQUIREMENT,layout:'column',padding:5,labelWidth:90,border:false,collapsible:true,items:[r1,r2]};
 	
-	var r3={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_TRACK_VENDOR,tabIndex:3,name:'consTrackVendorName',value:p.get('consTrackVendorName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	var r3={columnWidth:.25,layout:'form',border:false,items:[
+	    {fieldLabel:C_TRACK_VENDOR,tabIndex:3,name:'consTrackVendorName',value:p.get('consTrackVendorName'),
+	    store:getCS(),enableKeyEvents:true,
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
+		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consTrackVendor','');p.set('consTrackVendorName','');}},
-			select:function(c,r,i){p.set('consTrackVendor',r.get('custId'));},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consTrackVendor','');
+					p.set('consTrackVendorName','');
+				}},
+			select:function(c,r,i){
+				p.set('consTrackVendor',r.get('custId'));
+				p.set('consTrackVendorName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}}]};
 	var r4={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_TRAN_CONTACT,tabIndex:4,name:'consTrackContact',value:p.get('consTrackContact'),xtype:'textfield',anchor:'99%'}]};
 	var r5={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_TRAN_TEL,tabIndex:5,name:'consTrackTel',value:p.get('consTrackTel'),xtype:'textfield',anchor:'99%'}]};
@@ -1325,7 +1357,10 @@ Fos.BookTab = function(p) {
 	var txtLoadDate={columnWidth:.25,layout:'form',border:false,items:[
 	       {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,tabIndex:8,
 	        name:'consTrackLoadDate',value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'}]};
-	
+	var txtLoadTime={columnWidth:.25,layout:'form',border:false,items:[
+       {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_TIME:C_FETCH_TIME,tabIndex:8,
+        name:'consTrackLoadTime',value:p.get('consTrackLoadTime'),xtype:'timefield',increment:30,anchor:'99%'}]};
+
 	
 	var txtLoadFactory = {columnWidth:.25,layout:'form',hidden:p.get('consBizClass')!=BC_E,border:false,items:[
 	    	{fieldLabel:C_LOAD_FACTORY,name:'consLoadFactory',value:p.get('consLoadFactory'),
@@ -1345,7 +1380,7 @@ Fos.BookTab = function(p) {
 	        value:p.get('consLoadTel'),xtype:'textfield',anchor:'99%'});
 
 	var t42={title:C_TRAN_REQUIREMENT,layout:'column',padding:5,border:false,labelWidth:90,collapsible:true,
-			items:[r3,r4,r5,txtLoadFactory,txtLoadDate,
+			items:[r3,r4,r5,txtLoadFactory,txtLoadDate,txtLoadTime,
 			       {columnWidth:.25,layout:'form',border:false,items:[txtLoadContact]},
 			       {columnWidth:.25,layout:'form',border:false,items:[txtLoadTel]},
 			       {columnWidth:.5,layout:'form',border:false,items:[txtLoadAddress]},r7]};
@@ -1497,12 +1532,11 @@ Fos.BookTab = function(p) {
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r31]},
    		{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r32]}]};
 	
-	var r33={fieldLabel:C_HBL_NO,tabIndex:7,name:'consHblNo',value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
+	
 	var r34={fieldLabel:C_SCAC_CODE,tabIndex:8,name:'consScacCode',value:p.get('consScacCode'),xtype:'textfield',anchor:'99%'};
 	var r35={fieldLabel:C_BOOK_US_NO,tabIndex:9,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),xtype:'textfield',anchor:'99%'};
 	var r36={fieldLabel:C_US_FULLSHIP,tabIndex:10,name:'consUsFullShip',value:p.get('consUsFullShip'),store:USFU_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'};
-	var t52={title:C_AMS_INFO,layout:'column',padding:5,border:false,collapsible:true,items:[
-    	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r33]},
+	var t52={title:C_AMS_INFO,layout:'column',padding:5,border:false,collapsible:true,items:[    	
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r34]},
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r35]},
     	{columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[r36]}]};

@@ -104,6 +104,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consTrackVendorName;
 	private String consTrackContact;
 	private Date consTrackLoadDate;
+	private String consTrackLoadTime;
 	private String consTrackLoadAddress;
 	private String consTrackRemarks;
 	private String consTrackTel;	
@@ -112,6 +113,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Integer consBookingAgency;
 	private String consBookingAgencyName;
 	private String consBookingAgencySname;
+	private String consBookingAgencyContact;
+	private String consBookingAgencyTel;
 	private Date consBookingDate;
 	private String consBookingContractNo;
 	private String consSoNo;
@@ -1188,6 +1191,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consTrackLoadAddress = consTrackLoadAddress;
 	}
 
+	@Column(name = "CONS_TRACK_LOAD_TIME", length = 32)
+	public String getConsTrackLoadTime() {
+		return this.consTrackLoadTime;
+	}
+
+	public void setConsTrackLoadTime(String consTrackLoadTime) {
+		this.consTrackLoadTime = consTrackLoadTime;
+	}
+	
 	@Column(name = "CONS_TRACK_REMARKS", length = 500)
 	public String getConsTrackRemarks() {
 		return this.consTrackRemarks;
@@ -1251,6 +1263,24 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consBookingAgencySname = consBookingAgencySname;
 	}
 
+	@Column(name = "CONS_BOOKING_AGENCY_CONTACT", length = 32)
+	public String getConsBookingAgencyContact() {
+		return this.consBookingAgencyContact;
+	}
+
+	public void setConsBookingAgencyContact(String consBookingAgencyContact) {
+		this.consBookingAgencyContact = consBookingAgencyContact;
+	}
+	
+	@Column(name = "CONS_BOOKING_AGENCY_TEL", length = 32)
+	public String getConsBookingAgencyTel() {
+		return this.consBookingAgencyTel;
+	}
+
+	public void setConsBookingAgencyTel(String consBookingAgencyTel) {
+		this.consBookingAgencyTel = consBookingAgencyTel;
+	}
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CONS_BOOKING_DATE", length = 10)
 	public Date getConsBookingDate() {
