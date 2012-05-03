@@ -1212,19 +1212,20 @@ Fos.ConsignAuditGrid = function() {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};	
-	this.exp=function(){
+	
+	this.exp=function(){		
 		if(queryParams.length>0){
 			var a = queryParams;
 			var qa = [];
 			for(var i=0;i<a.length;i++){
 				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
 			}
-			EXP('C','CONS_AUDIT','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+			EXPC('CONS_AUDIT','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
 		}
-		else{
-			EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');
-		}
-	};
+		else{		
+			EXPC('CONS_AUDIT','&mt=JSON&start=0&limit=500');
+		}		
+	};	
 			
 	this.updateTB=function(r){
 		var tb=this.getTopToolbar();

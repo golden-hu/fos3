@@ -212,16 +212,17 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
        	if(a.length){
        		XMG.confirm(SYS,M_R_C,function(btn){
            	if(btn=='yes'){
-           		var b = false;
+           		/*var b = false;
                	for(var i=0;i<a.length;i++){if(a[i].get('consStatus')!='0'){b=true;break;}}
-               	if(b) XMG.alert(SYS,M_CONS_CONFIRMED);
-               	else {
+               	if(b) 
+               		XMG.alert(SYS,M_CONS_CONFIRMED);
+               	else {*/
                		var xml = SMTX4R(sm,'FConsign','consId');
                		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
 					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
 					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
 					xmlData:FOSX(xml)});
-               	}
+               	//}
            }});
 		}
        	else XMG.alert(SYS,M_R_P);
@@ -311,7 +312,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			EXP('C','CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
 		}
 		else{
-			EXP('C','CONS_AUDIT','&mt=JSON&start=0&limit=500');
+			EXP('C','CONS_LIST','&mt=JSON&start=0&limit=500');
 		}
 	};
   	

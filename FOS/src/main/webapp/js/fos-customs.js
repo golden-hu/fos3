@@ -343,7 +343,8 @@ Fos.InspectionDeclTab = function(p,store) {
  	 					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  	 					selectOnFocus:true,anchor:'99%',
  	 			     	listeners:{scope:this, 	 			     	
- 	 			     	select:function(c,r,i){ 	 			     		
+ 	 			     	select:function(c,r,i){ 	 	
+ 	 			     		p.set('consCompany',r.get('custNameCn'));
  	 			     		c.setValue(r.get('custNameCn'));
  	 			     	},
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	     
@@ -934,6 +935,47 @@ Fos.CustomsDeclearTab = function(p,store) {
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
    
+    function saveShipper(shipperT){
+    	var cushName = '';
+    	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').getValue();
+    	else if(shipperT==2) cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').getValue();
+    	    	
+    	if(!p.get('custId')){
+    		XMG.alert(SYS,M_SELECT_CUST_FIRST);
+    		return;
+    	}
+    	if(cushName!=''){
+    		
+    		var c = new CCustomerShipper({rowAction:'N',custId:p.get('custId'),cushType:shipperT,cushName:cushName});
+    		var xml = RTX(c,'CCustomerShipper',CCustomerShipper);
+			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+				params:{A:'CUSH_S'},
+				success: function(res){XMG.alert(SYS,M_S);},
+				failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+				xmlData:FOSX(xml)
+			});
+    	}
+    };
+    
+    function selShipper(shipperT){
+    	if(p.get('custId')){
+    		var win = new  Fos.ShipperWin(p.get('custId'),shipperT,updateShipper);
+        	win.show();
+    	}
+    	else
+    		XMG.alert(SYS,M_SELECT_CUST_FIRST);
+    }
+    
+    function updateShipper(shipperT,cushName){
+    	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').setValue(cushName);
+    	else if(shipperT==2) cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').setValue(cushName);
+    };
+    
+    var bSaveShipper = new Ext.Button({text:'保存',handler:function(){saveShipper(1);}});
+    var bSearchShipper = new Ext.Button({text:'选择',handler:function(){selShipper(1);}});
+    var bSaveConsignee = new Ext.Button({text:'保存',handler:function(){saveShipper(2);}});
+    var bSearchConsignee = new Ext.Button({text:'选择',handler:function(){selShipper(2);}});
+    
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		padding:5,labelAlign:'right',
@@ -964,13 +1006,14 @@ Fos.CustomsDeclearTab = function(p,store) {
  			     	},
  			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
  			     {fieldLabel:C_BIZ_COMPANY,tabIndex:9,name:'consCompany',value:p.get('consCompany'),
- 			     		xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+ 			     		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
  			     		store:getCS(),enableKeyEvents:true,
  	 					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
  	 					selectOnFocus:true,anchor:'99%',
  	 			     	listeners:{scope:this, 	 			     	
  	 			     	select:function(c,r,i){ 	 			     		
  	 			     		c.setValue(r.get('custNameCn'));
+ 	 			     		p.set('consCompany',r.get('custNameCn'));
  	 			     	},
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	       
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
@@ -1055,14 +1098,18 @@ Fos.CustomsDeclearTab = function(p,store) {
          		]}
          	    ]},
          	   {header:false,border:false,layout:'column',items:[
-         	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
-           	    	{fieldLabel:C_SHIPPER,tabIndex:23,name:'consShipper',value:p.get('consShipper'),
+         	   {columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[
+           	    	{fieldLabel:C_SHIPPER,tabIndex:23,
+           	    		id:p.get('consId')+'CONS_SHIPPER',name:'consShipper',value:p.get('consShipper'),
 				    	xtype:'textarea',height:100,anchor:'99%'}
            	    ]},
-           	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+           	 {columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
+           	   {columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[
          	    	{fieldLabel:C_CONSIGNEE,tabIndex:24,name:'consConsignee',value:p.get('consConsignee'),
+         	    		id:p.get('consId')+'CONS_CONSIGNEE',
 					xtype:'textarea',height:100,anchor:'99%'}
          	    ]},
+         	   {columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
          	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
            	    	{fieldLabel:C_CUSTOMS_DECLEAR_ITEMS,tabIndex:25,name:'consServiceSpec',
            	    		value:p.get('consServiceSpec'),xtype:'textarea',height:100,anchor:'99%'}
