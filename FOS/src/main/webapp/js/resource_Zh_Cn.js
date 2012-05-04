@@ -883,7 +883,7 @@ var C_WARE_OPERATOR_TEL='我司联系电话';
 var C_WARE_OPERATOR_FAX='我司传真';
 var C_WARE_BOOK_DATE='预约日期';
 var C_WARE_LOAD_FLAG='是否需要内装';
-
+var C_ENTER_WAREHOUSE_TIME='进仓时间';
 var C_CONT_BILL='装箱单';
 var C_CONT='集装箱';
 var C_CONT_NO='箱号';

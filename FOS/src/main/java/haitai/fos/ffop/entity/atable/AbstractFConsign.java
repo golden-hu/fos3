@@ -92,6 +92,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consWarehouseNo;
 	private String consWarehouseRemarks;
 	private Date consContainerLoadDate;
+	private String consContainerLoadTime;
 	private Integer consContainerCompany;
 	private String consContainerCompanyName;
 	private Integer consCustomsVendor;
@@ -1073,6 +1074,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consContainerLoadDate = consContainerLoadDate;
 	}
 
+	@Column(name = "CONS_CONTAINER_LOAD_TIME", length = 32)
+	public String getConsContainerLoadTime() {
+		return this.consContainerLoadTime;
+	}
+
+	public void setConsContainerLoadTime(String consContainerLoadTime) {
+		this.consContainerLoadTime = consContainerLoadTime;
+	}
+	
 	@Column(name = "CONS_CONTAINER_COMPANY")
 	public Integer getConsContainerCompany() {
 		return this.consContainerCompany;

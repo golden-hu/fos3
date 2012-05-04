@@ -1429,7 +1429,13 @@ Fos.BookTab = function(p) {
 	        	(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,
 	        	name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),
 	        	xtype:'datefield',format:DATEF,anchor:'99%'}]};
-	var r15={columnWidth:.5,layout:'form',border:false,items:[
+	var txtContainerLoadTime={columnWidth:.25,layout:'form',border:false,items:[
+           {fieldLabel:C_ENTER_WAREHOUSE_TIME,tabIndex:8,
+            name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),
+            xtype:'timefield',increment:30,anchor:'99%'}]};
+
+	
+	var txtCFS={columnWidth:.25,layout:'form',border:false,items:[
 	    {fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),
 	    	store:getCS(),enableKeyEvents:true,
     		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
@@ -1452,7 +1458,7 @@ Fos.BookTab = function(p) {
 	var t43={title:p.get('consBizType')==BT_B?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
 			layout:'column',padding:5,border:false,collapsible:true,labelWidth:90,
 			items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14,txtWarehouseNo]:
-				[r9,r10,r11,r12,r13,r14,txtWarehouseNo,r15]};
+				[r9,r10,r11,r12,r13,r14,txtContainerLoadTime,txtWarehouseNo,txtCFS]};
 	
 	var r15={fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
 		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
