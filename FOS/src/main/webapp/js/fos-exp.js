@@ -1327,8 +1327,9 @@ Fos.BookTab = function(p) {
 	var r2={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:2,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',anchor:'99%'}]};
 	var t41={title:C_BOOKING_REQUIREMENT,layout:'column',padding:5,labelWidth:90,border:false,collapsible:true,items:[r1,r2]};
 	
-	var r3={columnWidth:.25,layout:'form',border:false,items:[
-	    {fieldLabel:C_TRACK_VENDOR,tabIndex:3,name:'consTrackVendorName',value:p.get('consTrackVendorName'),
+	
+	var cboTrackVendor = new Ext.form.ComboBox({fieldLabel:C_TRACK_VENDOR,tabIndex:3,
+		name:'consTrackVendorName',value:p.get('consTrackVendorName'),
 	    store:getCS(),enableKeyEvents:true,
 		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
 		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
@@ -1343,15 +1344,21 @@ Fos.BookTab = function(p) {
 			select:function(c,r,i){
 				p.set('consTrackVendor',r.get('custId'));
 				p.set('consTrackVendorName',r.get('custNameCn'));
+				txtTranContact.setValue(r.get('custContact'));
+				txtTranTel.setValue(r.get('custTel'));
 				c.setValue(r.get('custNameCn'));
 			},
-			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}}]};
-	var r4={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_TRAN_CONTACT,tabIndex:4,name:'consTrackContact',value:p.get('consTrackContact'),xtype:'textfield',anchor:'99%'}]};
-	var r5={columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:C_TRAN_TEL,tabIndex:5,name:'consTrackTel',value:p.get('consTrackTel'),xtype:'textfield',anchor:'99%'}]};
-	
+			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}});
+	var txtTranContact = new Ext.form.TextField({fieldLabel:C_TRAN_CONTACT,tabIndex:4,
+		name:'consTrackContact',value:p.get('consTrackContact'),anchor:'99%'});
+	var txtTranTel = new Ext.form.TextField({fieldLabel:C_TRAN_TEL,tabIndex:5,
+		name:'consTrackTel',value:p.get('consTrackTel'),anchor:'99%'});
 	txtLoadAddress = new Ext.form.TextArea({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,
 			tabIndex:6,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textarea',anchor:'99%'});
-		
+	
+	var r3={columnWidth:.25,layout:'form',border:false,items:[cboTrackVendor]};
+	var r4={columnWidth:.25,layout:'form',border:false,items:[txtTranContact]};
+	var r5={columnWidth:.25,layout:'form',border:false,items:[txtTranTel]};		
 	var r7={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:7,
 		name:'consTrackRemarks',value:p.get('consTrackRemarks'),xtype:'textarea',anchor:'99%'}]};
 	var txtLoadDate={columnWidth:.25,layout:'form',border:false,items:[
