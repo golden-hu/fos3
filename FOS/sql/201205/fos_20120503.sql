@@ -11,6 +11,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (18, '进仓时间', 'FConsign', 'consContainerLoadTime', NULL),
 (26, '订舱代理联系人', 'FConsign', 'consBookingAgencyContact', NULL),
 (26, '订舱代理电话', 'FConsign', 'consBookingAgencyTel', NULL),
+(18, '业务号', 'FConsign', 'consNo', NULL),
 (18, '业务员', 'FConsign', 'consSalesRepId', 'getUserName'),
 (18, '业务员电话', 'FConsign', 'consSalesRepId', 'getUserTel'),
 (18, '主单号', 'FConsign', 'consMblNo', NULL),

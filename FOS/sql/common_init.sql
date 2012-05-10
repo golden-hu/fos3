@@ -123,6 +123,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('CUST_M', 'CCustomerService', 'mergeCust', '客户供应商归并'),
 ('VEND_S', 'CVendorService', 'save', '供应商保存'),
 ('VEND_Q', 'CVendorService', 'query', '供应商查询'),
+('CUSI_S', 'CCustomerSiteService', 'save', '客户地点保存'),
+('CUSI_Q', 'CCustomerSiteService', 'query', '客户地点查询'),
 ('COCO_S', 'PCompanyConfigService', 'save', '公司配置保存'),
 ('COCO_Q', 'PCompanyConfigService', 'query', '公司配置查询'),
 ('COBA_S', 'PCompanyBankAccountService', 'save', '公司银行账号保存'),

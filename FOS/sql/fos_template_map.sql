@@ -474,6 +474,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (18, '中转港', 'FConsign', 'consPotEn', NULL),
 (18, '卸货港', 'FConsign', 'consPodEn', NULL),
 (18, '目的港', 'FConsign', 'consDestination', NULL),
+(18, '业务号', 'FConsign', 'consNo', NULL),
 (18, '提单号', 'FConsign', 'consMblNo', NULL),
 (18, '主单号', 'FConsign', 'consMblNo', NULL),
 (18, '分单号', 'FConsign', 'consHblNo', NULL),
