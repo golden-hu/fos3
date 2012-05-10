@@ -366,6 +366,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (15, '我司发票号', 'FConsign', 'consMasterNo', NULL),
 (15, '应收合计', 'FConsign', 'sumR', NULL),
 (15, '贸易方式', 'FConsign', 'attr1', NULL),
+(15, '我司发票号','FConsign', 'attr2',NULL),
 (15, '手册号', 'FConsign', 'consManualNo', NULL),
 (15, '产地证号', 'FConsign', 'consCertNo', NULL),
 (15, '报关类型', 'FConsign', 'consCertNo', NULL),
@@ -699,6 +700,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (26, '货物英文名称', 'FConsign', 'consCargoDesc', NULL),
 (26, '毛重', 'FConsign', 'consCargoGrossWeight', NULL),
 (26, '件数', 'FConsign', 'consTotalPackages', NULL),
+(26, '体积', 'FConsign', 'consTotalMeasurement', NULL),
 (26, '包装', 'FConsign', 'packName', NULL),
 (26, '运输条款', 'FConsign', 'tranId', 'getTranCode'),
 (26, '尺码', 'FConsign', 'consCargoMeasurement', NULL),
@@ -726,6 +728,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (26, '单票号', 'FConsign', 'consNo', NULL),
 (26, '合同号', 'FConsign', 'consContractNo', NULL),
 (26, '提单号', 'FConsign', 'consMblNo', NULL),
+(26, '提单备注', 'FConsign', 'consBlRemarks', NULL),
 (26, '箱型箱量', 'FConsign', 'consContainersInfo', NULL);
 
 -- 进口到货通知

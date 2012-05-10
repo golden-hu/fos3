@@ -1526,3 +1526,4 @@ var C_COMMERCIAL_INVOICE_NO='商业发票号';
 var C_COMMERCIAL_INVOICE_DATE='商业发票日期';
 var C_APPLICATION_NO = '申请号';
 var C_COMMODITY_NO = '商检发票号';
+var C_MYCOMPANY_INVOICE ='我司发票号';

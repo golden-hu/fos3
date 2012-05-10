@@ -413,6 +413,9 @@ Fos.InspectionDeclTab = function(p,store) {
           			    xtype:'textfield',anchor:'99%'},
           			  txtSailDate,
       			   {fieldLabel:C_CERT,tabIndex:23,name:'consCertNo',value:p.get('consCertNo'),
+          			    xtype:'textfield',anchor:'99%'},
+          		   //将attr1用作我司发票号
+      			   {fieldLabel:C_MYCOMPANY_INVOICE,tabIndex:23,name:'attr2',value:p.get('attr2'),
           			    xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
@@ -1626,7 +1629,9 @@ Fos.TradeTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
          			     xtype:'datefield',format:DATEF,anchor:'99%'},
-         			 {fieldLabel:C_EXT_2,tabIndex:18,name:'attr2',value:p.get('attr2'),xtype:'textfield',anchor:'99%'}
+         			  //将attr2用作我司发票号
+    			    {fieldLabel:C_MYCOMPANY_INVOICE,tabIndex:18,name:'attr2',value:p.get('attr2'),
+        			    xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
              		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),

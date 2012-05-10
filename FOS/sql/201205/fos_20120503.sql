@@ -5,6 +5,7 @@ ALTER TABLE `F_CONSIGN`
 	ADD COLUMN `CONS_CONTAINER_LOAD_TIME` VARCHAR(32) NULL DEFAULT NULL AFTER `CONS_CONTAINER_LOAD_DATE`;
 	
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(15, '我司发票号','FConsign', 'attr2',NULL),
 (18, '装货时间', 'FConsign', 'consTrackLoadTime', NULL),
 (18, '进仓日期', 'FConsign', 'consContainerLoadDate', NULL),
 (18, '进仓时间', 'FConsign', 'consContainerLoadTime', NULL),
