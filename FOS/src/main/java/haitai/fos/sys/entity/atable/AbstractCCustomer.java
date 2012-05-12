@@ -76,6 +76,10 @@ public abstract class AbstractCCustomer extends BaseDomain {
 	private Short custExpressFlag;
 	private Short custSalesId;
 	private String custSalesName;
+	private String custOrgNo;
+	private String custTaxNo;
+	private String custRegAddress;
+	private String custExCode;
 	private Integer grouId;
 	private Integer userId;
 	private Integer createBy;
@@ -620,6 +624,42 @@ public abstract class AbstractCCustomer extends BaseDomain {
 		this.custSalesName = custSalesName;
 	}
 
+	@Column(name = "CUST_ORG_NO", length = 32)
+	public String getCustOrgNo() {
+		return this.custOrgNo;
+	}
+
+	public void setCustOrgNo(String custOrgNo) {
+		this.custOrgNo = custOrgNo;
+	}
+	
+	@Column(name = "CUST_TAX_NO", length = 32)
+	public String getCustTaxNo() {
+		return this.custTaxNo;
+	}
+
+	public void setCustTaxNo(String custTaxNo) {
+		this.custTaxNo = custTaxNo;
+	}
+	
+	@Column(name = "CUST_EX_CODE", length = 32)
+	public String getCustExCode() {
+		return this.custExCode;
+	}
+
+	public void setCustExCode(String custExCode) {
+		this.custExCode = custExCode;
+	}
+	
+	@Column(name = "CUST_REG_ADDRESS", length = 200)
+	public String getCustRegAddress() {
+		return this.custRegAddress;
+	}
+
+	public void setCustRegAddress(String custRegAddress) {
+		this.custRegAddress = custRegAddress;
+	}
+	
 	@Column(name = "GROU_ID")
 	public Integer getGrouId() {
 		return this.grouId;
