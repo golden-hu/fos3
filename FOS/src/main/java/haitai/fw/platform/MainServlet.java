@@ -7,6 +7,7 @@ import haitai.fw.entity.FosRequest;
 import haitai.fw.entity.FosResponse;
 import haitai.fw.entity.HttpHeader;
 import haitai.fw.exception.BusinessException;
+import haitai.fw.exception.ExtBusinessException;
 import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
@@ -439,19 +440,45 @@ public class MainServlet extends HttpServlet {
 		} else if (ExceptionUtil.contains(
 				ConstraintViolationException.class, e)) {
 			msg = MessageUtil.getMessage("fw.db.constraint_violation");
-		} else if (ExceptionUtil.contains(BusinessException.class, e)) {
+		} 
+		else if (ExceptionUtil.contains(BusinessException.class, e)) {
 			Throwable b = ExceptionUtil.getTypeException(BusinessException.class, e);
 			if (b != null) {
 				msg = MessageUtil.getMessage(b.getMessage());
 			} else {
 				msg = e.getMessage();
 			}
-		} else {
+		} 
+		else if (ExceptionUtil.contains(ExtBusinessException.class, e)) {		
+			ExtBusinessException ex = getTypeException(ExtBusinessException.class, e);			
+			msg = ex.getBusinessMessage();
+		} 
+		else {
 			msg = MessageUtil.getMessage("fw.unknown");
 		}
 		return msg;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T getTypeException(Class<? extends Throwable> exType, Throwable ex) {
+		if (exType == null || exType.isInstance(ex)) {
+			return (T) ex;
+		}
+		Throwable cause = ex.getCause();
+		if (cause == ex) {
+			return (T) ex;
+		}
+		while (cause != null) {
+			if (exType.isInstance(cause)) {
+				return (T) cause;
+			}
+			if (cause.getCause() == cause) {
+				break;
+			}
+			cause = cause.getCause();
+		}
+		return (T) cause;
+	}
 
 	private void bufferedWrite(OutputStream outputStream, byte[] data)
 			throws IOException {
