@@ -1052,6 +1052,7 @@ var C_INVO_P='应付账单';
 var C_INVO_LIST='账单列表';
 var C_BILL='对账单';
 var C_EXPE_CONFIRM='费用确认单';
+var C_EXPE_CHECK='费用结算单';
 var C_BILL_INFO='对账单信息';
 var C_BILL_R='应收对账单';
 var C_BILL_P='应付对账单';

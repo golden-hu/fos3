@@ -46,8 +46,8 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (48, '退单申请表', 'CUSTOMS_DOC_STAT', '退单申请表', 'CONS_X',  NULL, 'FConsign','B', 'M', 1, 1, 0, 0),
 (49, '商业发票', 'CUDE_INVOICE', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (50, '报关装箱单', 'CUDE_PACKING', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
-(51, '贸易合同', 'CUDE_CONTRACT', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0)
-;
+(51, '贸易合同', 'CUDE_CONTRACT', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
+(52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0);
 
 -- 提单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
@@ -154,7 +154,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (4, '运费', 'FCustomsDeclaration', 'cudeFreight', NULL),
 (4, '保费', 'FCustomsDeclaration', 'cudeInsurance', NULL),
 (4, '杂费', 'FCustomsDeclaration', 'cudeCharge', NULL),
-(4, '合同协议号', 'FCustomsDeclaration', 'consContractNo', NULL),
+(4, '合同协议号', 'FCustomsDeclaration', '', NULL),
 (4, '件数', 'FCustomsDeclaration', 'cudePackageNum', NULL),
 (4, '包装种类', 'FCustomsDeclaration', 'packCode', NULL),
 (4, '毛重', 'FCustomsDeclaration', 'cudeGrossWeight', NULL),
@@ -360,7 +360,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (15, '报检企业', 'FConsign', 'consCompany', NULL),
 (15, '报检日期', 'FConsign', 'consCustomsDeclearDate', NULL),
 (15, '品名', 'FConsign', 'consCargoNameCn', NULL),
-(15, '合同号', 'FConsign', 'consContractNo', NULL),
+(15, '合同号', 'FConsign', '', NULL),
 (15, '申请号', 'FConsign', 'consBookingDeclareNoUs', NULL),
 (15, '商检发票号', 'FConsign', 'consTradeContractNo', NULL),
 (15, '我司发票号', 'FConsign', 'consMasterNo', NULL),
@@ -727,7 +727,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (26, '订舱代理电话', 'FConsign', 'consBookingAgencyTel', NULL),
 (26, '开航日期', 'FConsign', 'consEtd', NULL),
 (26, '单票号', 'FConsign', 'consNo', NULL),
-(26, '合同号', 'FConsign', 'consContractNo', NULL),
+(26, '合同号', 'FConsign', '', NULL),
 (26, '提单号', 'FConsign', 'consMblNo', NULL),
 (26, '提单备注', 'FConsign', 'consBlRemarks', NULL),
 (26, '箱型箱量', 'FConsign', 'consContainersInfo', NULL);
@@ -981,7 +981,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (37, '备注', 'FConsign', 'consRemarks', NULL),
 (37, '货物描述', 'FConsign', 'consCargoDesc', NULL),
 (37, '港区', 'FConsign', 'consHarbour', NULL),
-(37, '合同号', 'FConsign', 'consContractNo', NULL),
+(37, '合同号', 'FConsign', '', NULL),
 (37, '船公司条款', 'FConsign', 'tranCodeCarrier', NULL);
 
 -- 发货清单
@@ -1052,7 +1052,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (40, '船名', 'FConsign', 'vessName', NULL),
 (40, '航次', 'FConsign', 'voyaName', NULL),
 (40, '船公司', 'FConsign', 'consCarrierName', NULL),
-(40, '合同号', 'FConsign', 'consContractNo', NULL),
+(40, '合同号', 'FConsign', '', NULL),
 (40, '开航日期', 'FConsign', 'consEtd', NULL),
 (40, '到港日期', 'FConsign', 'consEta', NULL),
 (40, '启运港', 'FConsign', 'consPolEn', NULL),
@@ -1276,3 +1276,57 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (51, '总价', 'FCustomsEntry', 'cuenTotalPrice', NULL),
 (51, '币种', 'FCustomsEntry', 'currCode', NULL),
 (51, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);
+
+-- 费用结算单
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(52, '业务号', 'FConsign', 'consNo', NULL),
+(52, '业务类型', 'FConsign', 'consBizType', 'getBizType'),
+(52, '订舱客户', 'FConsign', 'custName', NULL),
+(52, '联系人', 'FConsign', 'custContact', NULL),
+(52, '客户联系人', 'FConsign', 'custContact', NULL),
+(52, '客户联系电话', 'FConsign', 'custTel', NULL),
+(52, '客户传真', 'FConsign', 'custFax', NULL),
+(52, '船名', 'FConsign', 'vessName', NULL),
+(52, '航次', 'FConsign', 'voyaName', NULL),
+(52, '起运港', 'FConsign', 'consPolEn', NULL),
+(52, '目的港', 'FConsign', 'consPodEn', NULL),
+(52, '件数包装', 'FConsign', 'consCargoPackages', NULL),
+(52, '件数', 'FConsign', 'consTotalPackages', NULL),
+(52, '包装', 'FConsign', 'packName', NULL),
+(52, '毛重', 'FConsign', 'consTotalGrossWeight', NULL),
+(52, '尺码', 'FConsign', 'consTotalMeasurement', NULL),
+(52, '体积', 'FConsign', 'consTotalMeasurement', NULL),
+(52, 'MBL', 'FConsign', 'consMblNo', NULL),
+(52, 'HBL', 'FConsign', 'consHblNo', NULL),
+(52, '合同号', 'FConsign', 'consContractNo', NULL),
+(52, '箱型箱量', 'FConsign', 'consContainersInfo', NULL),
+(52, '开航日期', 'FConsign', 'consSailDate', NULL),
+(52, '进仓编号', 'FConsign', 'consNo', NULL),
+(52, '核销单号', 'FConsign', 'consVerificationNo', NULL),
+(52, '经营单位', 'FConsign', 'consCompany', NULL),
+(52, '应收人民币合计', 'FConsign', 'sumRCny', NULL),
+(52, '应付人民币合计', 'FConsign', 'sumPCny', NULL),
+(52, '人民币利润', 'FConsign', 'cnyGrossProfit', NULL),
+(52, '应收美元合计', 'FConsign', 'sumRUsd', NULL),
+(52, '应付美元合计', 'FConsign', 'sumPUsd', NULL),
+(52, '美元利润', 'FConsign', 'usdGrossProfit', NULL),
+(52, '其它币种应收合计', 'FConsign', 'sumROther', NULL),
+(52, '其它币种应付合计', 'FConsign', 'sumPOther', NULL),
+(52, '其它币种利润', 'FConsign', 'otherGrossProfit', NULL),
+(52, '折算人民币应收合计', 'FConsign', 'sumR', NULL),
+(52, '折算人民币应付合计', 'FConsign', 'sumP', NULL),
+(52, '折算人民币利润', 'FConsign', 'grossProfit', NULL),
+(52, '操作员', 'FConsign', 'consOperatorName', NULL),
+(52, '业务员', 'FConsign', 'consSalesRepName', NULL),
+(52, '费用类型', 'SExpense', 'expeType', 'getExpeType'),
+(52, '结算对象', 'SExpense', 'custName', NULL),
+(52, '发票抬头', 'SExpense', 'custName', NULL),
+(52, '币种', 'SExpense', 'currCode', NULL),
+(52, '费用名称', 'SExpense', 'charName', NULL),
+(52, '数量', 'SExpense', 'expeNum', NULL),
+(52, '单价', 'SExpense', 'expeUnitPrice', NULL),
+(52, '金额', 'SExpense', 'expeTotalAmount', NULL),
+(52, '汇率', 'SExpense', 'expeExRate', NULL),
+(52, '发票号', 'SExpense', 'expeInvoiceNo', NULL),
+(52, '备注', 'SExpense', 'expeRemarks', NULL)
+;

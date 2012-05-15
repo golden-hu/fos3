@@ -338,6 +338,22 @@
 		else
 			EXPC('EXPE_CONFIRM','&expeType='+t+'&consId='+p.get('consId'));
 	};
+	
+	this.expCheck=function(){
+		var a = sm.getSelections();
+		var expeIds = '';
+		if(a.length){
+			for(var i=0;i<a.length;i++){
+				expeIds += a[i].get('expeId');
+				if(i<a.length-1)
+					expeIds += ',';
+			}
+			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeIds='+expeIds+'&consId='+p.get('consId'));
+		}
+		else
+			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeType='+t+'&consId='+p.get('consId'));
+	};
+	
 	var sN='(N)';
 	if(t=='R') sN='(N)'; else if(t=='P') sN='(M)'; else sN='(A)';
 	var sR='(R)';
@@ -352,7 +368,7 @@
 	var b3={itemId:'TB_C',text:C_SAVE+sS,iconCls:'save',disabled:NR(m+F_M)||locked,scope:this,handler:this.save};
 	var b4={itemId:'TB_D',text:C_COPY_FROM+sC,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.cp};
     var b5={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_M)||locked,scope:this,menu: {items: [
-           {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}]}};
+           {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}, {text:C_EXPE_CHECK,scope:this,handler:this.expCheck}]}};
     var b6={itemId:'TB_F'+'F',text:C_ALLOCATION,iconCls:'broken',disabled:NR(m+F_M)||locked,scope:this,handler:this.allocate};
     
     var b7={itemId:'TB_CF',text:C_COPY_FROM_OT,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.copyFrom};
