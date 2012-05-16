@@ -275,6 +275,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (8, '装港', 'FContainer', 'contPol', NULL),
 (8, '卸港', 'FContainer', 'contPod', NULL),
 (8, '交货地', 'FContainer', 'contDeliveryPlace', NULL),
+(8, '装箱地址', 'FContainer', 'contAddress', NULL),
 (8, '备注', 'FContainer', 'contRemarks', NULL),
 (8, '提单号', 'FContainerCargo', 'consMblNo', NULL),
 (8, '件数', 'FContainerCargo', 'cocaPackageNum', NULL),

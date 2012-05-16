@@ -1438,7 +1438,7 @@ Fos.BookTab = function(p) {
 	        	xtype:'datefield',format:DATEF,anchor:'99%'}]};
 	var txtContainerLoadTime={columnWidth:.25,layout:'form',border:false,items:[
            {fieldLabel:C_ENTER_WAREHOUSE_TIME,tabIndex:8,
-            name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),
+            name:'consContainerLoadTime',value:p.get('consContainerLoadTime'),
             xtype:'timefield',increment:30,anchor:'99%'}]};
 
 	
