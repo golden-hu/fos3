@@ -199,4 +199,37 @@ public class MappingConverterUtil {
 		}
 		return status;
 	}
+	public String getBizType(String code){
+		String status = "";
+		if("C".equals(code)){
+			status = "集装箱";
+		}else if ("P".equals(code)){
+			status = "集装箱";
+		}else if ("B".equals(code)){
+			status = "散货";
+		}else if ("A".equals(code)){
+			status = "空运";
+		}else if ("G".equals(code)){
+			status = "报关";
+		}else if ("I".equals(code)){
+			status = "报检";
+		}else if ("M".equals(code)){
+			status = "加工贸易";
+		}else if ("F".equals(code)){
+			status = "减免税";
+		}else if ("R".equals(code)){
+			status = "企业注册";
+		}
+		return status;
+	}
+	public String getExpeType(String code){
+		String status = "";
+		if ("R".equals(code)) {
+			status = "应收";
+		} else if ("P".equals(code)) {
+			status = "应付";
+		}
+		return status;
+	}
+	
 }

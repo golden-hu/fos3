@@ -985,6 +985,7 @@ Fos.ContainerTab = function(p) {
             listeners:{scope:this,select:function(c,r,i){this.grid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
 	{header:C_GW,dataIndex:'contGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.TextField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_CBM,dataIndex:'contMeasurement',width:60,renderer:rateRender,editor:new Ext.form.TextField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
+	{header:C_CONT_LOAD_ADDRESS,dataIndex:'contAddress',width:150,editor:new Ext.form.TextField()},
 	{header:C_REMARKS,dataIndex:'contRemarks',width:100,editor:new Ext.form.TextField()}],defaults:{sortable:true,width:100}});
 	this.grid = new Ext.grid.EditorGridPanel({region:'north',height:200,title:C_CONT_LIST,plugins:soc,autoScroll:true,clicksToEdit:1,height:200,
 		store:this.store,sm:sm,cm:cm,listeners:{scope:this,

@@ -26,6 +26,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -736,6 +737,20 @@ public class FConsignService {
 		List retList = new ArrayList();
 		List objList = dao.complexQueryCheck(conditions, queryMap);
 		checkMergeStatistics(retList, objList);		
+		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
+			queryMap.put("consId", (String)queryMap.get("consId"));
+			queryMap.put("consBizType", (String)queryMap.get("consBizType"));
+		    String expeType = (String)queryMap.get("expeType");
+			if(StringUtil.isNotBlank(expeType)){
+				queryMap.put("expeType", (String)queryMap.get("expeType"));
+			}
+			String sort = (String)queryMap.get("sort");
+			if(StringUtil.isNotBlank(sort)){
+				queryMap.put("sort", sort);
+			}
+			
+			retList.addAll(expenseDao.findByProperties(queryMap));
+		}
 		return retList;
 	}
 

@@ -42,6 +42,7 @@ public abstract class AbstractFContainer extends BaseDomain {
 	private Double contMeasurement;
 	private Short contSocFlag;
 	private Date contLoadDate;
+	private String contAddress;
 	private String contRemarks;
 	private String cargTemperature;
 	private String cargDanagerClass;
@@ -291,6 +292,14 @@ public abstract class AbstractFContainer extends BaseDomain {
 		this.contLoadDate = contLoadDate;
 	}
 
+	@Column(name = "CONT_ADDRESS", length = 200)
+	public String getContAddress() {
+		return contAddress;
+	}
+	public void setContAddress(String contAddress) {
+		this.contAddress = contAddress;
+	}
+	
 	@Column(name = "CONT_REMARKS", length = 200)
 	public String getContRemarks() {
 		return this.contRemarks;
