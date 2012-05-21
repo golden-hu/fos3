@@ -18,7 +18,14 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
 		  p:entityManagerFactory-ref="entityManagerFactory"/>
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-		  p:basename="classpath:exception" p:useCodeAsDefaultMessage="true"/>
+		  p:basename="classpath:exception" p:useCodeAsDefaultMessage="true"/>	
+	<bean id="messageMapper" class="haitai.fw.exception.MessageMapper">
+		<property name="clazzes">
+			<list>
+				<value>haitai.fw.exception.ExceptionEnum</value>
+			</list>
+		</property>
+	</bean>	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		  p:driverClassName="org.logicalcobwebs.proxool.ProxoolDriver" p:url="proxool.fosdb"/>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
