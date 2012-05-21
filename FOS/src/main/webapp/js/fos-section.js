@@ -92,6 +92,7 @@ Fos.TransTab = function(p) {
 	
 	var sm3=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm3=new Ext.grid.ColumnModel({columns:[sm2,
+	{header:C_MBL_NO,dataIndex:'consMblNo',width:100,editor:new Ext.form.TextField({})},                                         
 	{header:C_CATY,dataIndex:'trcaCargoName',width:80,editor:new Ext.form.TextField({})},
 	{header:C_PACK,dataIndex:'packId',width:80,renderer:getPACK,
 			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',

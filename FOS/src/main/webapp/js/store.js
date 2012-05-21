@@ -304,7 +304,7 @@ FTransTask = Ext.data.Record.create(['id','trtaId','consId','tranId','cotyId','t
 	{name:'trtaBackTime',type:'date',dateFormat:'Y-m-d H:i:s'},'trtaDriver','trtaDriverTel','trtaTrackNo','trtaRemarks',
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
-FTransCargo = Ext.data.Record.create(['id','trcaId','consId','tranId','cargId','trcaCargoName','packId','packName',
+FTransCargo = Ext.data.Record.create(['id','trcaId','consId','tranId','cargId','trcaCargoName','packId','packName','consMblNo',
 	{name:'trcaPackageNum',type:'int'},{name:'trcaGrossWeight',type:'float'},{name:'trcaMeasurement',type:'float'},'trcaRemarks',
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);	

@@ -216,6 +216,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('BL_SP_C', 'FBlService', 'cancelSplit', '提单拆单撤销'),
 ('TRAN_S', 'FTransService', 'save', '运输保存'),
 ('TRAN_Q', 'FTransService', 'query', '运输查询'),
+('TRAN_QWC', 'FTransService', 'queryWithCargo', '运输查询(包含货物列表）'),
 ('TRTA_Q', 'FTransService', 'queryTask', '运输任务查询'),
 ('TRCA_Q', 'FTransService', 'queryCargo', '箱货物查询'),
 ('TRAN_U', 'FTransService', 'updateStatus', '运输修改'),

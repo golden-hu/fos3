@@ -108,6 +108,20 @@ public class FTransService {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
+	public List<Object> queryWithCargo(Map queryMap) {
+		List<Object> objList = new ArrayList<Object>();
+		String tranId = (String)queryMap.get("tranId");
+		FTrans trans = dao.findById(Integer.parseInt(tranId));
+		objList.add(trans);
+		
+		objList.addAll(cargoDao.findByProperties(queryMap));
+		
+		System.out.println("列表大小："+objList.size());
+		return objList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<FTransTask> queryTask(Map queryMap) {
 		return taskDao.findByProperties(queryMap);
 	}

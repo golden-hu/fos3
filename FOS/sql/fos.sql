@@ -2078,6 +2078,7 @@ CREATE TABLE IF NOT EXISTS `F_TRANS_CARGO` (
   `CARG_ID` int(11) default NULL,
   `PACK_ID` int(11) default NULL,
   `PACK_NAME` varchar(64) collate utf8_unicode_ci default NULL,
+  `CONS_MBL_NO` varchar(32) collate utf8_unicode_ci default NULL,
   `TRCA_CARGO_NAME` varchar(200) collate utf8_unicode_ci default NULL,
   `TRCA_PACKAGE_NUM` int(11) default NULL,
   `TRCA_GROSS_WEIGHT` decimal(9,2) default NULL,

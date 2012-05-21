@@ -22,6 +22,7 @@ public abstract class AbstractFTransCargo extends BaseDomain {
 	private Integer consId;
 	private Integer cargId;
 	private Integer packId;
+	private String consMblNo;
 	private String packName;
 	private String trcaCargoName;
 	private Integer trcaPackageNum;
@@ -92,6 +93,14 @@ public abstract class AbstractFTransCargo extends BaseDomain {
 
 	public void setPackId(Integer packId) {
 		this.packId = packId;
+	}
+	
+	@Column(name = "CONS_MBL_NO")
+	public String getConsMblNo() {
+		return consMblNo;
+	}
+	public void setConsMblNo(String consMblNo) {
+		this.consMblNo = consMblNo;
 	}
 
 	@Column(name = "PACK_NAME", length = 64)

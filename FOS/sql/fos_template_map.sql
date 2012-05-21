@@ -15,7 +15,7 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (17, '对账单', 'BILL', NULL, 'BILL_EQ', 'SBill', 'SBillItem', 'B', 'P', 1, 1, 1, 0),
 (18, '进仓/装箱通知单', 'WARE_INFO', NULL, 'CONS_Q', 'FConsign', NULL, 'B', 'P', 1, 1, 0, 0),
 (19, '订舱确认书', 'BOOK_C', NULL, 'CONS_Q', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0),
-(20, '代运联系单', 'TRAN', NULL, 'TRAN_Q', 'FTrans', 'FTransCargo', 'B', 'P', 1, 1, 0, 0),
+(20, '代运联系单', 'TRAN', NULL, 'TRAN_QWC', 'FTrans', 'FTransCargo', 'B', 'P', 1, 1, 0, 0),
 (21, '仓储联系单', 'WARE', NULL, 'WARE_Q', 'FWarehouse', 'FWarehouseCargo', 'B', 'P', 1, 1, 0, 0),
 (22, '电放保函', 'BLER', '电放保函模板', 'CONS_Q', 'FConsign', NULL, 'B', 'P', 1, 1, 0, 0),
 (23, 'SEAWAYBILL保函', 'SEAW', NULL, 'CONS_Q', 'FConsign', NULL, 'B', 'P', 1, 1, 0, 0),
@@ -563,8 +563,13 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (20, '装货联系电话', 'FTrans', 'tranLoadTel', NULL),
 (20, '装货地点', 'FTrans', 'tranLoadFactory', NULL),
 (20, '装货地址', 'FTrans', 'tranLoadAddress', NULL),
+(20, '送货联系人', 'FTrans', 'tranLoadContact', NULL),
+(20, '送货联系电话', 'FTrans', 'tranLoadTel', NULL),
+(20, '送货地点', 'FTrans', 'tranLoadFactory', NULL),
+(20, '送货地址', 'FTrans', 'tranLoadAddress', NULL),
 (20, '收货地址', 'FTrans', 'tranDeliveryAddress', NULL),
 (20, '箱公司', 'FTrans', 'tranContainerCompanyName', NULL),
+
 (20, '提箱堆场', 'FTrans', 'tranCyDraw', NULL),
 (20, '还箱堆场', 'FTrans', 'tranCyBack', NULL),
 (20, '提箱日期', 'FTrans', 'tranDrawDate', NULL),
@@ -578,7 +583,13 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (20, '报关公司电话', 'FTrans', 'tranCustomsTel', NULL),
 (20, '报关公司地址', 'FTrans', 'tranCustomsAddress', NULL),
 (20, '备注', 'FTrans', 'tranRemarks', NULL),
-(20, '包装', 'FTrans', 'packName', NULL);
+(20, '包装', 'FTrans', 'packName', NULL),
+(20, 'MBL/NO', 'FTransCargo', 'consMblNo', NULL),
+(20, '货物品名', 'FTransCargo', 'trcaCargoName', NULL),
+(20, '货物件数', 'FTransCargo', 'trcaPackageNum', NULL),
+(20, '货物毛重', 'FTransCargo', 'trcaGrossWeight', NULL),
+(20, '货物体积', 'FTransCargo', 'trcaMeasurement', NULL),
+(20, '货物备注', 'FTransCargo', 'trcaRemarks', NULL);
 
 -- 仓储联系单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
