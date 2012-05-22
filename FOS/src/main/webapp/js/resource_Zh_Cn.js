@@ -577,7 +577,7 @@ var C_PORT_EX='出口口岸';
 var C_PORT_EX_REQIRED='出口口岸不能为空！';
 var C_PORT_IM='进口口岸';
 var C_PORT_IM_REQIRED='进口口岸不能为空！';
-var C_DELIVERY_PLACE='目的港';
+var C_DESTINATION_PORT='目的港';
 var C_BL_NO='提单号';
 var C_CERT='产地证号';
 var C_M_BL_NO='主提单号';
@@ -803,6 +803,8 @@ var C_DELIVERY_PLACE='送货地点';
 var C_DELIVERY_ADDRESS='送货地址';
 var C_DELIVERY_CONTACT='送货联系人';
 var C_DELIVERY_TEL='送货联系电话';
+var C_DELIVERY_DATE='送货日期';
+var C_DELIVERY_TIME='送货时间';
 
 var C_DRAW_CY='提箱堆场';
 var C_DRAW_DATE='提箱日期';

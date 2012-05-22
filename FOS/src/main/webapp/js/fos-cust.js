@@ -2136,7 +2136,7 @@ Fos.CustomerSiteWin=function(siteType,custId,fn,scope){
 	};
 	this.save = function(){
 		FOS_POST(store,'CCustomerSite',CCustomerSite,'CUSI_S');
-		store.load({params:{custId:custId,siteType:siteType}});
+		store.load({params:{custId:custId,cusiType:siteType}});
 	};
 	
 	var grid = new  Ext.grid.EditorGridPanel({header:false,width:600,height:400,

@@ -318,8 +318,16 @@ Fos.TransTab = function(p) {
 				}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}};
-	var txtLoadTime={fieldLabel:C_LOAD_TIME,name:'tranLoadTime',tabIndex:26,xtype:'textfield',anchor:'99%'};
-	var c4={fieldLabel:C_LOAD_PLACE,name:'tranLoadFactory',tabIndex:9,xtype:'textfield',anchor:'99%'};
+	var txtLoadTime={fieldLabel:C_LOAD_TIME,name:'tranLoadTime',tabIndex:26,xtype:'timefield',increment:30,anchor:'99%'};
+	var c4={fieldLabel:C_LOAD_PLACE,name:'tranLoadFactory',tabIndex:9,xtype:'siteLookup',
+			custId:p.get('custId'),siteType:3,typeAhead:true,mode:'local',triggerAction:'all',
+        	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
+    		listeners:{scope:this,	    			
+    			select:function(c,r,i){
+    				this.find('name','tranLoadContact')[0].setValue(r.get('cusiContact'));
+    				this.find('name','tranLoadTel')[0].setValue(r.get('cusiTel'));
+    				this.find('name','tranLoadAddress')[0].setValue(r.get('cusiAddress'));
+    			}}};
 	var txtLoadAddress={fieldLabel:C_LOAD_ADDRESS,name:'tranLoadAddress',tabIndex:13,xtype:'textfield',anchor:'99%'};	
 	var c7={fieldLabel:C_DRAW_CY,name:'tranCyDraw',tabIndex:25,xtype:'textfield',anchor:'99%'};	
 	var c8={fieldLabel:C_TRAN_CONTACT,name:'tranVendorContact',tabIndex:2,xtype:'textfield',anchor:'99%'};
@@ -354,31 +362,42 @@ Fos.TransTab = function(p) {
 	var c25={fieldLabel:C_CONT_INFO,name:'tranContainerInfo',tabIndex:16,xtype:'textfield',allowDecimals:false,anchor:'99%'};
 	var c26={fieldLabel:p.get('consBizClass')==BC_E?C_CUSTOM_EXPIRY_DATE:C_ETA,tabIndex:8,name:'tranExpiryDate',xtype:'datefield',format:DATEF,anchor:'99%'};
 	var c28={fieldLabel:C_BACK_DATE,name:'tranBackDate',tabIndex:28,xtype:'datefield',format:DATEF,anchor:'99%'};	
-	var txtDeliveryPlace={fieldLabel:C_DELIVERY_PLACE,name:'tranDeliveryPlace',
-			tabIndex:24,xtype:'textfield',anchor:'99%'};
 	var txtDeliveryAddress={fieldLabel:C_DELIVERY_ADDRESS,name:'tranDeliveryAddress',
 			tabIndex:14,xtype:'textfield',anchor:'99%'};
 	var txtDeliveryContact={fieldLabel:C_DELIVERY_CONTACT,name:'tranDeliveryContact',
 			tabIndex:24,xtype:'textfield',anchor:'99%'};
 	var txtDeliveryTel={fieldLabel:C_DELIVERY_TEL,name:'tranDeliveryTel',
 			tabIndex:24,xtype:'textfield',anchor:'99%'};
+	var txtDeliveryDate={fieldLabel:C_DELIVERY_DATE,name:'tranDeliveryDate',
+			tabIndex:24,xtype:'datefield',format:DATEF,anchor:'99%'};
+	var txtDeliveryTime={fieldLabel:C_DELIVERY_TIME,name:'tranDeliveryTime',
+			tabIndex:24,xtype:'timefield',increment: 30,anchor:'99%'};
+	var txtDeliveryPlace={fieldLabel:C_DELIVERY_PLACE,name:'tranDeliveryPlace',tabIndex:24,xtype:'siteLookup',
+			custId:p.get('custId'),siteType:2,typeAhead:true,mode:'local',triggerAction:'all',
+        	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
+    		listeners:{scope:this,	    			
+    			select:function(c,r,i){
+    				this.find('name','tranDeliveryContact')[0].setValue(r.get('cusiContact'));
+    				this.find('name','tranDeliveryTel')[0].setValue(r.get('cusiTel'));
+    				this.find('name','tranDeliveryAddress')[0].setValue(r.get('cusiAddress'));
+    			}}};
 	
 	var t2={layout:'column',title:C_TRAN_INFO,layoutConfig:{columns:4},padding:5,collapsible:true,
 			items:[
 			{columnWidth:.25,layout:'form',border:false,items:
-				p.get('consBizType')==BT_C?[c1,c9,c4,txtDeliveryPlace,c20,c7]:
-					[c1,c9,c4,txtDeliveryPlace,c20]
+				p.get('consBizType')==BT_C?[c1,c9,c4,txtDeliveryPlace,txtDeliveryDate,c20,c7]:
+					[c1,c9,c4,txtDeliveryPlace,txtDeliveryDate,c20]
 			},
 			{columnWidth:.25,layout:'form',border : false,labelWidth:90,items:
-				p.get('consBizType')==BT_C?[c8,c16,c10,txtDeliveryAddress,c12,c14]:
-					[c8,c16,c10,txtDeliveryAddress,c12]
+				p.get('consBizType')==BT_C?[c8,c16,c10,txtDeliveryAddress,txtDeliveryTime,c12,c14]:
+					[c8,c16,c10,txtDeliveryAddress,txtDeliveryTime,c12]
 			},
 			{columnWidth:.25,layout:'form',border : false,items:
-				p.get('consBizType')==BT_C?[c15,c23,c17,c19,txtDeliveryContact,c18,c21]:
+				p.get('consBizType')==BT_C?[c15,c23,c17,txtDeliveryContact,c19,c18,c21]:
 					[c15,c23,c17,txtDeliveryContact,c19]
 			},
 			{columnWidth:.25,layout:'form',border : false,items:
-				p.get('consBizType')==BT_C?[c22,txtLoadTime,txtLoadAddress,c26,txtDeliveryTel,c25,c28]:
+				p.get('consBizType')==BT_C?[c22,txtLoadTime,txtLoadAddress,txtDeliveryTel,c26,c25,c28]:
 					[c22,txtLoadTime,txtLoadAddress,txtDeliveryTel,c26]
 			}
             ]};

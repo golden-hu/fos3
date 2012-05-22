@@ -49,6 +49,8 @@ public abstract class AbstractFTrans extends BaseDomain {
 	private Date tranStartDate;
 	private Date tranCompleteDate;
 	private String tranLoadTime;
+	private Date  tranDeliveryDate;
+	private String tranDeliveryTime;
 	private String tranDeliveryAddress;
 	private String tranDeliveryPlace;
 	private String tranDeliveryContact;
@@ -392,6 +394,25 @@ public abstract class AbstractFTrans extends BaseDomain {
 
 	public void setTranLoadTime(String tranLoadTime) {
 		this.tranLoadTime = tranLoadTime;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "TRAN_DELIVERY_DATE", length = 10)
+	public Date getTranDeliveryDate() {
+		return tranDeliveryDate;
+	}
+
+	public void setTranDeliveryDate(Date tranDeliveryDate) {
+		this.tranDeliveryDate = tranDeliveryDate;
+	}
+
+	@Column(name = "TRAN_DELIVERY_TIME", length = 10)
+	public String getTranDeliveryTime() {
+		return tranDeliveryTime;
+	}
+
+	public void setTranDeliveryTime(String tranDeliveryTime) {
+		this.tranDeliveryTime = tranDeliveryTime;
 	}
 
 	@Column(name = "TRAN_DELIVERY_ADDRESS", length = 200)

@@ -945,7 +945,7 @@ Fos.BookTab = function(p) {
     		value:p.get('consLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
     var m17={fieldLabel:C_HARBOUR,tabIndex:p.get('consBizClass')==BC_I?43:44,name:'consHarbour',value:p.get('consHarbour'),store:getHARB_S(),xtype:'combo',displayField:'placName',valueField:'placName',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     		listeners:{scope:this,select:function(c,r,i){p.set('consHarbourId',r.get('placId'));}}};
-    var m18={fieldLabel:C_DELIVERY_PLACE,tabIndex:48,name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
+    var m18={fieldLabel:C_DESTINATION_PORT,tabIndex:48,name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
     var m19={fieldLabel:C_ISTY,tabIndex:52,name:'istyId',value:p.get('istyId'),store:getISTY_S(),xtype:'combo',displayField:'istyName',valueField:'istyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
     var m20={fieldLabel:C_BOOKING_DATE,tabIndex:56,name:'consBookingDate',value:p.get('consBookingDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
     var m21={fieldLabel:C_CFS,tabIndex:p.get('consBizClass')==BC_I?49:60,name:'consCfsName',value:p.get('consCfsName'),store:getCS(),enableKeyEvents:true,
