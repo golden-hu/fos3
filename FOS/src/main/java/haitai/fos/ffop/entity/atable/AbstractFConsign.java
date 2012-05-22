@@ -321,6 +321,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Integer deptId;
 	private Short consExternalFlag;
 	private Short consCudeType;
+	private Short consCustomsType;
 	private Short consInvoiceFlag;
 	private Short consInspectionFlag;
 	private Short consWsFlag;
@@ -3157,6 +3158,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consCudeType = consCudeType;
 	}
 
+	@Column(name = "CONS_CUSTOMS_TYPE")
+	public Short getConsCustomsType() {
+		return this.consCustomsType;
+	}
+
+	public void setConsCustomsType(Short consCustomsType) {
+		this.consCustomsType = consCustomsType;
+	}
+	
 	@Column(name = "CONS_INVOICE_FLAG")
 	public Short getConsInvoiceFlag() {
 		return this.consInvoiceFlag;

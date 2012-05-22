@@ -2644,8 +2644,8 @@ Fos.CustomsTab = function(p) {
 				{fieldLabel:C_APPROVAL_NO,name:'cudeApprovalNo',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_CONTRACT_NO_A,name:'consContractNo',itemCls:'needed',xtype:'textfield',anchor:'99%'},
 				{fieldLabel:C_PRE_NO,name:'cudePreNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CUDE_TYPE,name:'cudeType',xtype:'combo',value:p.get('cudeType'),
-					store:getCUTY_S(),displayField:'cutyName',valueField:'cutyName',typeAhead: true,
+				{fieldLabel:C_CUSTOMS_TYPE,name:'cudeType',xtype:'combo',value:p.get('cudeType'),
+					store:getCustomsType_S(),displayField:'cutyName',valueField:'cutyName',typeAhead: true,
 					mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
 				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'},
 				txtPartial
