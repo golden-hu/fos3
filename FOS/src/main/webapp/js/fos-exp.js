@@ -1408,6 +1408,7 @@ Fos.BookTab = function(p) {
 			select:function(c,r,i){
 				this.find('name','consWarehouseContact')[0].setValue(r.get('custContact'));
 				this.find('name','consWarehouseTel')[0].setValue(r.get('custTel'));
+				this.find('name','consWarehouseAddress')[0].setValue(r.get('custAddress'));
 				p.set('consWarehouse',r.get('custId'));
 				p.set('consWarehouseName',r.get('custNameCn'));
 				p.set('consWarehouseFax',r.get('custFax'));
