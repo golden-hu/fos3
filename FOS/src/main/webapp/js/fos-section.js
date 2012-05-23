@@ -182,6 +182,7 @@ Fos.TransTab = function(p) {
 			tranLoadContact:p.get('custContact'),tranLoadTel:p.get('custTel'),
 			tranContainerNo:p.get('consTotalContainers'),tranVessel:p.get('vessName'),
 			tranVoyage:p.get('voyaName'),tranSoNo:p.get('consSoNo'),
+			consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),
 			tranPol:p.get('consPolEn'),tranStatus:'0',version:'0'});    
 		this.store.insert(0,b);b.set('rowAction','N');
 		this.tranGrid.getSelectionModel().selectFirstRow();
@@ -320,7 +321,7 @@ Fos.TransTab = function(p) {
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}};
 	var txtLoadTime={fieldLabel:C_LOAD_TIME,name:'tranLoadTime',tabIndex:26,xtype:'timefield',increment:30,anchor:'99%'};
 	var c4={fieldLabel:C_LOAD_PLACE,name:'tranLoadFactory',tabIndex:9,xtype:'siteLookup',
-			custId:p.get('custId'),siteType:3,typeAhead:true,mode:'local',triggerAction:'all',
+			custId:p.get('custId'),siteType:3,typeAhead:true,mode:'remote',triggerAction:'all',
         	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
     		listeners:{scope:this,	    			
     			select:function(c,r,i){
@@ -373,7 +374,7 @@ Fos.TransTab = function(p) {
 	var txtDeliveryTime={fieldLabel:C_DELIVERY_TIME,name:'tranDeliveryTime',
 			tabIndex:24,xtype:'timefield',increment: 30,anchor:'99%'};
 	var txtDeliveryPlace={fieldLabel:C_DELIVERY_PLACE,name:'tranDeliveryPlace',tabIndex:24,xtype:'siteLookup',
-			custId:p.get('custId'),siteType:2,typeAhead:true,mode:'local',triggerAction:'all',
+			custId:p.get('custId'),siteType:2,typeAhead:true,mode:'remote',triggerAction:'all',
         	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
     		listeners:{scope:this,	    			
     			select:function(c,r,i){
