@@ -1206,6 +1206,7 @@ Fos.TaskPanel = function(p) {
 		});
 	};	
 	this.saveTask=function(e){saveT(e.record);};
+	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
 	var gv=new Ext.grid.GridView({
 		getRowClass: function(record, index) {			   
             if (record.get('taskFinishedFlag')) return 'green-font-row';
@@ -1218,7 +1219,7 @@ Fos.TaskPanel = function(p) {
 	    listeners:{scope:this,afteredit:this.saveTask},
 	    tbar:[{xtype:'tbtext',text:C_ETA_V},ad,'-',
 			{xtype:'tbtext',text:C_SAIL_DATE},sd,'-',
-			{text:C_SAVE,iconCls:'save',scope:this,handler:this.saveTask},'-'
+			{text:C_SAVE,iconCls:'save',scope:this,handler:this.saveTask,disabled:false},'-'
 			]
 	}); 
 };

@@ -4,7 +4,12 @@ ALTER TABLE `F_CONSIGN`
 	ADD COLUMN `CONS_CARRIER_TEL` VARCHAR(64) NULL DEFAULT NULL AFTER `CONS_CARRIER_CONTACT`,
 	ADD COLUMN `CONS_THC_FLAG` TINYINT(4) NULL DEFAULT '0' AFTER `CONS_TRANSFERRING_FLAG`,
 	ADD COLUMN `CONS_PRESSURE_BOX_FLAG` TINYINT(4) NULL DEFAULT '0' AFTER `CONS_THC_FLAG`;
-	
+
+INSERT INTO `P_TEMPLATE` (`TEMP_NAME`, `TEMP_CLASS`, `TEMP_TYPE`, `TETY_ID`, `TETY_CODE`, `TETY_NAME`, `TEMP_FILE_NAME`, `TEMP_DESC`, `ACTIVE`, `CREATE_BY`, `CREATE_TIME`, `MODIFY_BY`, `MODIFY_TIME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('进口业务流程表', 'B', 'xls', 53, 'BUSINESS_PROCESS', '业务流程表', NULL, '进口业务流程表', 1, 86, '2009-03-22 23:08:50', 86, '2009-03-22 23:08:50', '{CC}', 0, 0);
+
+INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`, `TETY_ACTION`, `TETY_PARENT`, `TETY_CHILD`, `TETY_CLASS`, `TETY_TYPE`, `TETY_FORM_FLAG`, `ACTIVE`, `VERSION`, `REMOVED`) VALUES
+(53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'TTask', 'B', 'P', 1, 1, 0, 0);
 -- 进口业务流程
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (53, '业务号', 'FConsign', 'consNo', NULL),
@@ -35,5 +40,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (53, '换单地址', 'FConsign', 'consDoAgencyAddress', NULL),
 (53, '是否有THC', 'FConsign', 'consThcFlag', 'bool'),
 (53, '是否压箱', 'FConsign', 'consPressBoxFlag', 'bool'),
+(53, '任务时间', 'FTask', 'consPressBoxFlag', NULL),
+(53, '任务名称', 'FTask', 'consPressBoxFlag', NULL),
+(53, '任务事项', 'FTask', 'consPressBoxFlag', NULL),
 (53, '备注', 'FConsign', 'consRemarks', NULL)
 ;
