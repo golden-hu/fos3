@@ -111,6 +111,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consTrackTel;	
 	private Integer consDoAgency;
 	private String consDoAgencyName;
+	private String consDoAgencyAddress;
 	private Integer consBookingAgency;
 	private String consBookingAgencyName;
 	private String consBookingAgencySname;
@@ -122,6 +123,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consPrecarriage;
 	private Integer consCarrier;
 	private String consCarrierName;
+	private String consCarrierContact;
+	private String consCarrierTel;
 	private Integer vessId;
 	private String vessName;
 	private String vessNameCn;
@@ -233,6 +236,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Short consFumigateFlag;
 	private Short consQuarantineFlag;
 	private Short consTransferringFlag;
+	private Short consThcFlag;
+	private Short consPressureBoxFlag;
 	private String consOriginalBlNum;
 	private Integer consCopyBlNum;
 	private String consRemarks;
@@ -1247,6 +1252,14 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consDoAgencyName = consDoAgencyName;
 	}
 
+	@Column(name = "CONS_DO_AGENCY_ADDRESS", length = 64)
+	public String getConsDoAgencyAddress() {
+		return consDoAgencyAddress;
+	}
+	public void setConsDoAgencyAddress(String consDoAgencyAddress) {
+		this.consDoAgencyAddress = consDoAgencyAddress;
+	}
+
 	@Column(name = "CONS_BOOKING_AGENCY")
 	public Integer getConsBookingAgency() {
 		return this.consBookingAgency;
@@ -1345,6 +1358,22 @@ public abstract class AbstractFConsign extends BaseDomain {
 
 	public void setConsCarrierName(String consCarrierName) {
 		this.consCarrierName = consCarrierName;
+	}
+
+	@Column(name = "CONS_CARRIER_CONTACT", length = 64)
+	public String getConsCarrierContact() {
+		return consCarrierContact;
+	}
+	public void setConsCarrierContact(String consCarrierContact) {
+		this.consCarrierContact = consCarrierContact;
+	}
+
+	@Column(name = "CONS_CARRIER_TEL", length = 64)
+	public String getConsCarrierTel() {
+		return consCarrierTel;
+	}
+	public void setConsCarrierTel(String consCarrierTel) {
+		this.consCarrierTel = consCarrierTel;
 	}
 
 	@Column(name = "VESS_ID")
@@ -2351,6 +2380,22 @@ public abstract class AbstractFConsign extends BaseDomain {
 
 	public void setConsTransferringFlag(Short consTransferringFlag) {
 		this.consTransferringFlag = consTransferringFlag;
+	}
+	
+	@Column(name = "CONS_THC_FLAG")
+	public Short getConsThcFlag() {
+		return consThcFlag;
+	}
+	public void setConsThcFlag(Short consThcFlag) {
+		this.consThcFlag = consThcFlag;
+	}
+
+	@Column(name = "CONS_PRESSURE_BOX_FLAG")
+	public Short getConsPressureBoxFlag() {
+		return consPressureBoxFlag;
+	}
+	public void setConsPressureBoxFlag(Short consPressureBoxFlag) {
+		this.consPressureBoxFlag = consPressureBoxFlag;
 	}
 
 	@Column(name = "CONS_ORIGINAL_BL_NUM", length = 32)
