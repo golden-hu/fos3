@@ -1408,6 +1408,7 @@ Fos.BookTab = function(p) {
 			select:function(c,r,i){
 				this.find('name','consWarehouseContact')[0].setValue(r.get('custContact'));
 				this.find('name','consWarehouseTel')[0].setValue(r.get('custTel'));
+				this.find('name','consWarehouseAddress')[0].setValue(r.get('custAddress'));
 				p.set('consWarehouse',r.get('custId'));
 				p.set('consWarehouseName',r.get('custNameCn'));
 				p.set('consWarehouseFax',r.get('custFax'));
@@ -1424,7 +1425,7 @@ Fos.BookTab = function(p) {
 		{fieldLabel:p.get('consBizType')==BT_B?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
 	    tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'99%'}]};
 	var r13={columnWidth:.5,layout:'form',border:false,items:[
-	    {fieldLabel:p.get('consBizType')==BT_B?C_WARE_ADDRESS:(p.get('consBizClass')==BC_E?C_CONT_LOAD_ADDRESS:C_CONT_DISCHARGE_ADDRESS),tabIndex:13,
+	    {fieldLabel:C_WARE_ADDRESS,tabIndex:13,
 	    name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'99%'}]};
 	
 	var txtWarehouseNo={columnWidth:.25,layout:'form',border:false,items:[
@@ -1507,16 +1508,20 @@ Fos.BookTab = function(p) {
 	var r18={fieldLabel:C_FUMIGATE_FLAG,tabIndex:18,name:'consFumigateFlag',checked:p.get('consFumigateFlag')=='1',xtype:'checkbox',anchor:'99%'};
 	var r19={fieldLabel:C_QUARANTINE_FLAG,tabIndex:19,name:'consQuarantineFlag',checked:p.get('consQuarantineFlag')=='1',xtype:'checkbox',anchor:'99%'};
 	var r20={fieldLabel:C_TRANSFERRING_FLAG,tabIndex:20,name:'consTransferringFlag',checked:p.get('consTransferringFlag')=='1',xtype:'checkbox',anchor:'99%'};
-	var r21={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:getCUTY_S(),xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
+	var r21={fieldLabel:C_CUSTOMS_TYPE,tabIndex:21,name:'consCustomsType',value:p.get('consCustomsType'),store:getCustomsType_S(),
+			xtype:'combo',displayField:'cutyName',valueField:'cutyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
     var r22={fieldLabel:C_INV_FLAG,xtype:'checkbox',tabIndex:22,name:'consInvoiceFlag',checked:p.get('consInvoiceFlag')=='1',anchor:'99%'};
     var r23={fieldLabel:C_INSP_FLAG,xtype:'checkbox',tabIndex:23,name:'consInspectionFlag',checked:p.get('consInspectionFlag')=='1',anchor:'99%'};
-	var t44={title:C_CUST_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:
-		[{columnWidth:.5,layout:'form',border:false,labelWidth:90,items:[r15]},
-		 {columnWidth:.5,layout:'form',border:false,labelWidth:90,items:[r16]},
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r17,r21]},
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r18,r22]},
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r19,r23]},		
-		{columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r20]}
+	
+	var cboCudeType={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:CUTY_S,
+			xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
+
+    var t44={title:C_CUST_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:
+		[
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r15,r17,r23]},
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r16,r18,r22]},
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[cboCudeType,r19]},		
+		{columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r21,r20]}
 		]};
 	
 	var r24={fieldLabel:C_BHK_FLAG,tabIndex:24,name:'consBHkFlag',checked:p.get('consBHkFlag')=='1',xtype:'checkbox',anchor:'99%'};

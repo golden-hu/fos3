@@ -1,9 +1,10 @@
-Company=Haitai Soft
+#Tue May 22 18:42:27 CST 2012
+Expire=3929683347115
 IP=0
 MAC=0
-MB=0
-HD=0
-Users=0
 SAAS=0
-Expire=1337525973140
-Key=ac48d1d1d88ce30c408b87e2658a36e4
+Company=JAH
+MB=0
+Key=31c227b80f8d189de2dffd2883b49f9f
+Users=1000
+HD=0

@@ -106,7 +106,7 @@
 	'consStatusAr','consStatusAp',{name:'consArWriteoffDate',type:'date',dateFormat:DATEF},
 	{name:'consApWriteoffDate',type:'date',dateFormat:DATEF},
 	'consStatusInvoR','consStatusInvoP',{name:'consInvoRDate',type:'date',dateFormat:DATEF},
-	{name:'consInvoPDate',type:'date',dateFormat:DATEF},'consExternalFlag','consCudeType',
+	{name:'consInvoPDate',type:'date',dateFormat:DATEF},'consExternalFlag','consCudeType','consCustomsType',
 	'consWsFlag','consWsAcceptFlag',
 	{name:'consCloseDate',type:'date',dateFormat:DATEF},
 	{name:'consManualExpirationDate',type:'date',dateFormat:DATEF},
@@ -974,8 +974,12 @@ getISTY = function(v){var _cs= getISTY_S();if(v) return _cs.getById(v)?_cs.getBy
 var getTRAN_S = function(){return getGStore('TTER','GTransTerm',GTransTerm,'tranId','ASC','');};
 getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return '';};
 
-var getCUTY_S = function(){return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');};	
-getCUTY = function(v){var _cs= getCUTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; else return '';}; 
+var getCustomsType_S = function(){return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');};	
+getCustomsType = function(v){var _cs= getCUTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; else return '';}; 
+
+var CUTY_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','客户自报'],['1','代报']]});
+getCUTY = function(v){var _cs= getCUTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('NAME'):v; else return '';}; 
+
 
 var getTTB_S = function(){
 	var s=GS('TTER','GTransTerm',GTransTerm,'tranId','ASC','');

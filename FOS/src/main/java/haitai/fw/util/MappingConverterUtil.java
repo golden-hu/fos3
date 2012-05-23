@@ -166,6 +166,24 @@ public class MappingConverterUtil {
 		return "";
 	}
 	
+	public String getCudeType(String strId){
+		if("0".equals(strId)){
+			return "客户自报关";
+		}else if ("1".equals(strId)){
+			return "代报";
+		}
+		else
+			return "";
+	}
+	
+	public String getAmountCap(String num){
+		return NumberUtil.NumberToCapital(Double.parseDouble(num));
+	}
+	
+	public String getEnAmountCap(String num){
+		return NumberUtil.num2EnWords(Double.parseDouble(num));
+	}
+	
 	public String invoStatus(String code){
 		String status = "";
 		if("0".equals(code)){
