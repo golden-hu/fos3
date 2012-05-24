@@ -35,6 +35,7 @@ public class FConsign extends AbstractFConsign {
 	private Short editable;
 	private Integer wconId;
 	private String settlementObject;
+	private Double sumExchangesFee;
 	
 	@Transient
 	public Double getSumR() {
@@ -225,5 +226,13 @@ public class FConsign extends AbstractFConsign {
 
 	public void setSettlement(String settlementObject) {
 		this.settlementObject = settlementObject;
+	}
+	
+	@Transient
+	public Double getSumExchangesFee() {
+		return sumExchangesFee;
+	}
+	public void setSumExchangesFee(Double sumExchangesFee) {
+		this.sumExchangesFee = sumExchangesFee;
 	}
 }
