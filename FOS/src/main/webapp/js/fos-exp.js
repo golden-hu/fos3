@@ -1523,12 +1523,16 @@ Fos.BookTab = function(p) {
 	var cboCudeType={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:CUTY_S,
 			xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 
+	var txtCustomsContact={fieldLabel:C_CUSTOMS_CONTACT,name:'consCustomsContact',tabIndex:24,xtype:'textfield',anchor:'99%'};
+	var txtCustomsAddress={fieldLabel:C_CUSTOMS_ADDRESS,tabIndex:25,name:'consCustomsAddress',xtype:'textfield',anchor:'99%'};
+	var txtCustomsTel={fieldLabel:C_CUSTOMS_TEL,name:'consCustomsTel',tabIndex:26,xtype:'textfield',anchor:'99%'};
+	
     var t44={title:C_CUST_OTHER_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:
 		[
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r15,r17,r23]},
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r16,r18,r22]},
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[cboCudeType,r19,consThcFlag]},		
-		{columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r21,r20,consPressureBoxFlag]}
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r16,r17,r23]},
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[txtCustomsContact,r15,r18,r22]},
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[txtCustomsAddress,cboCudeType,r19,consThcFlag]},		
+		{columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[txtCustomsTel,r21,r20,consPressureBoxFlag]}
 		]};
 	
 	var r24={fieldLabel:C_BHK_FLAG,tabIndex:24,name:'consBHkFlag',checked:p.get('consBHkFlag')=='1',xtype:'checkbox',anchor:'99%'};

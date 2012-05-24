@@ -819,13 +819,25 @@ public class FConsignService {
 		}
 		List<FosQuery> taskConditions = new ArrayList<FosQuery>();
 		taskConditions.add(new FosQuery("consId", ConstUtil.SQL_OP_IN, consIds));
-		List<FTask> taskList = taskDao.complexQuery(taskConditions,
-				new HashMap<String, Object>());
+		List<FTask> taskList = taskDao.complexQuery(taskConditions,new HashMap<String, Object>());
 		retList.addAll(objList);
 		retList.addAll(taskList);
 		return retList;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Object> queryWithTask(Map queryMap) {
+		List<Object> objList = new ArrayList<Object>();
+		String consId = (String)queryMap.get("consId");
+		FConsign consign = dao.findById(Integer.parseInt(consId));
+		objList.add(consign);
+		
+		objList.addAll(taskDao.findByProperties(queryMap));
+		
+		return objList;
+	}
+	
 	public void updateSailDate(Map<String, Object> queryMap) {
 		Integer voyaId = Integer.valueOf((String) queryMap.get("voyaId"));
 		String strVoyaSailDate = (String) queryMap.get("voyaSailDate");
