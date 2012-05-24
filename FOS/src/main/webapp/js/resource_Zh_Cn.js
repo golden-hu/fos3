@@ -1531,3 +1531,12 @@ var C_COMMERCIAL_INVOICE_DATE='商业发票日期';
 var C_APPLICATION_NO = '申请号';
 var C_COMMODITY_NO = '商检发票号';
 var C_MYCOMPANY_INVOICE ='我司发票号';
+
+/*20120523 嘉兴锦诚 */
+var C_DO_AGENCY_ADDRESS='换单地址';
+var C_CARRIER_CONTACT='承运联系人';
+var C_CARRIER_TEL='承运电话';
+var C_THC_FLAG='是否有THC';
+var C_PRESSURE_BOX_FLAG='是否压箱';
+var C_CUST_OTHER_REQUIREMENT='报检/报关及其他服务要求';
+var M_BUSSINESS_PROCESS='业务流程表';

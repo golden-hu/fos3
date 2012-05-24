@@ -822,6 +822,7 @@ INSERT INTO `P_SERIAL_RULE` (`seru_code`, `seru_name`, `comp_code`, `seru_rule`,
 --
 
 INSERT INTO `P_TEMPLATE` (`TEMP_NAME`, `TEMP_CLASS`, `TEMP_TYPE`, `TETY_ID`, `TETY_CODE`, `TETY_NAME`, `TEMP_FILE_NAME`, `TEMP_DESC`, `ACTIVE`, `CREATE_BY`, `CREATE_TIME`, `MODIFY_BY`, `MODIFY_TIME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('进口业务流程表', 'B', 'xls', 53, 'BUSINESS_PROCESS', '业务流程表', NULL, '进口业务流程表', 1, 86, '2009-03-22 23:08:50', 86, '2009-03-22 23:08:50', '{CC}', 0, 0),
 ('基础数据-国家', 'B', 'xls', 13, 'COUN', NULL, NULL, '国家数据导出模板', 1, 1, '2008-10-10 00:00:00', 1, '2008-10-10 00:00:00', '{CC}', 0, 0),
 ('基础数据-港口', 'B', 'xls', 14, 'PORT', NULL, NULL, '港口数据导出模板', 1, 1, '2008-10-10 00:00:00', 1, '2008-10-10 00:00:00', '{CC}', 0, 0),
 ('委托列表', 'B', 'xls', 15, 'CONS_LIST', '委托列表', NULL, '委托列表导出模板', 1, 1, '2008-10-10 00:00:00', 1, '2008-10-10 00:00:00', '{CC}', 0, 0),

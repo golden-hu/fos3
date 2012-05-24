@@ -1005,12 +1005,19 @@ Fos.BookTab = function(p) {
 	var m37={fieldLabel:C_BL_NW,name:'blCargoNetWeight',value:p.get('blCargoNetWeight'),disabled:true,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'};
     var m38={fieldLabel:C_BL_CBM,name:'blCargoMeasurement',value:p.get('blCargoMeasurement'),disabled:true,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'};
     
+    /*20120523 嘉兴锦诚 */
+    var txtCarrierConatct={fieldLabel:C_CARRIER_CONTACT,name:'consCarrierContact',value:p.get('consCarrierContact'),xtype:'textfield',anchor:'99%'};
+    var txtCarrierTel={fieldLabel:C_CARRIER_TEL,name:'consCarrierTel',value:p.get('consCarrierTel'),xtype:'textfield',anchor:'99%'};
+    var txtDoAgencyAddress={fieldLabel:C_DO_AGENCY_ADDRESS,name:'consDoAgencyAddress',value:p.get('consDoAgencyAddress'),xtype:'textfield',anchor:'99%'};
+    var consThcFlag={fieldLabel:C_THC_FLAG,name:'consThcFlag',value:p.get('consThcFlag'),xtype:'checkbox',anchor:'99%'};
+    var consPressureBoxFlag={fieldLabel:C_PRESSURE_BOX_FLAG,name:'consPressureBoxFlag',value:p.get('consPressureBoxFlag'),xtype:'checkbox',anchor:'99%'};
+    
     var t131=[];var t132=[];var t133=[];var t134=[];
     if(p.get('consBizClass')==BC_I){
 		t131=[m1,m4,m12,m3,m7];
 		t132=[m8,m10,m11,m28,m21];
-		t133=[txtMblNo,m30,m2];
-		t134=[txtHblNo,m31,m17];
+		t133=[txtMblNo,m30,txtDoAgencyAddress,m2,txtCarrierConatct];
+		t134=[txtHblNo,m31,m17,txtCarrierTel];
 		if(p.get('consBizType')==BT_A){
 			t131=[m2,m4,m11,cboBookAgency];
 			t132=[m8,m10,m17,cboBookAgencyContact];
@@ -1516,12 +1523,12 @@ Fos.BookTab = function(p) {
 	var cboCudeType={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:getCustomsType_S(),
 			xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 
-    var t44={title:C_CUST_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:
+    var t44={title:C_CUST_OTHER_REQUIREMENT,layout:'column',padding:5,border:false,collapsible:true,items:
 		[
 		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r15,r17,r23]},
 		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r16,r18,r22]},
-		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[cboCudeType,r19]},		
-		{columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r21,r20]}
+		  {columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[cboCudeType,r19,consThcFlag]},		
+		{columnWidth:.25,layout:'form',border:false,labelWidth:90,items:[r21,r20,consPressureBoxFlag]}
 		]};
 	
 	var r24={fieldLabel:C_BHK_FLAG,tabIndex:24,name:'consBHkFlag',checked:p.get('consBHkFlag')=='1',xtype:'checkbox',anchor:'99%'};
@@ -1751,9 +1758,10 @@ Fos.BookTab = function(p) {
 	var exp7=CREATE_E_MENU(M_LOAD_ADVICE,function(){this.expExcel('WARE_INFO');},function(){this.expEmail('WARE_INFO',M_LOAD_ADVICE);},function(){this.expFax('WARE_INFO',M_LOAD_ADVICE);},this);
 	var exp8=CREATE_E_MENU(M_SGS_ADVICE,function(){this.expExcel('SGS_INFO');},function(){this.expEmail('SGS_INFO',M_SGS_ADVICE);},function(){this.expFax('SGS_INFO',M_SGS_ADVICE);},this);
 	var exp9=CREATE_E_MENU(M_SHIP_ADVICE,function(){this.expExcel('SHIP_INFO');},function(){this.expEmail('SHIP_INFO',M_SHIP_ADVICE);},function(){this.expFax('SHIP_INFO',M_SHIP_ADVICE);},this);
+	var exp10=CREATE_E_MENU(M_BUSSINESS_PROCESS,function(){this.expExcel('BUSINESS_PROCESS');},function(){this.expEmail('BUSINESS_PROCESS',M_BUSSINESS_PROCESS);},function(){this.expFax('BUSINESS_PROCESS',M_BUSSINESS_PROCESS);},this);
 	var expM=[];
 	if(p.get('consBizType')==BT_C) 
-		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9];		
+		expM=p.get('consBizClass')==BC_I?[exp1,exp10]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9];		
 	else if(p.get('consBizType')==BT_A){
 		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6,exp7];
 	}

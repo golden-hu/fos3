@@ -116,7 +116,6 @@ public class FTransService {
 		
 		objList.addAll(cargoDao.findByProperties(queryMap));
 		
-		System.out.println("列表大小："+objList.size());
 		return objList;
 	}
 	

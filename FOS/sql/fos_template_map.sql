@@ -48,6 +48,7 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (50, '报关装箱单', 'CUDE_PACKING', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (51, '贸易合同', 'CUDE_CONTRACT', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0);
+(53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTask', 'B', 'P', 1, 1, 0, 0);
 
 -- 提单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
@@ -1387,5 +1388,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (53, '换单地址', 'FConsign', 'consDoAgencyAddress', NULL),
 (53, '是否有THC', 'FConsign', 'consThcFlag', 'bool'),
 (53, '是否压箱', 'FConsign', 'consPressBoxFlag', 'bool'),
+(53, '任务时间', 'FTask', 'consPressBoxFlag', NULL),
+(53, '任务名称', 'FTask', 'consPressBoxFlag', NULL),
+(53, '任务事项', 'FTask', 'consPressBoxFlag', NULL),
 (53, '备注', 'FConsign', 'consRemarks', NULL)
 ;
