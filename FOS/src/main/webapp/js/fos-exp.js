@@ -1520,7 +1520,7 @@ Fos.BookTab = function(p) {
     var r22={fieldLabel:C_INV_FLAG,xtype:'checkbox',tabIndex:22,name:'consInvoiceFlag',checked:p.get('consInvoiceFlag')=='1',anchor:'99%'};
     var r23={fieldLabel:C_INSP_FLAG,xtype:'checkbox',tabIndex:23,name:'consInspectionFlag',checked:p.get('consInspectionFlag')=='1',anchor:'99%'};
 	
-	var cboCudeType={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:CUTY_S,
+	var cboCudeType={fieldLabel:C_CUDE_TYPE,tabIndex:21,name:'consCudeType',value:p.get('consCudeType'),store:getCustomsType_S(),
 			xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 
 	var txtCustomsContact={fieldLabel:C_CUSTOMS_CONTACT,name:'consCustomsContact',tabIndex:24,xtype:'textfield',anchor:'99%'};
