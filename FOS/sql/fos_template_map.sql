@@ -1400,6 +1400,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (53, '报关公司联系人', 'FConsign', 'consCustomsContact', NULL),
 (53, '报关公司电话', 'FConsign', 'consCustomsTel', NULL),
 (53, '中文品名', 'FConsign', 'consCargoNameCn', NULL),
+(53, '换单费', 'FConsign', 'sumExchangesFee', NULL),
 (53, '任务时间', 'FTask', 'consPressBoxFlag', NULL),
 (53, '任务名称', 'FTask', 'consPressBoxFlag', NULL),
 (53, '任务事项', 'FTask', 'consPressBoxFlag', NULL)

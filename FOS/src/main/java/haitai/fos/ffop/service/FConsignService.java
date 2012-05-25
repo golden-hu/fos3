@@ -4,7 +4,10 @@ import haitai.fos.ffop.entity.idao.*;
 import haitai.fos.ffop.entity.table.*;
 import haitai.fos.ffse.entity.idao.ISExpenseDAO;
 import haitai.fos.ffse.entity.table.SExpense;
+import haitai.fos.general.entity.dao.GChargeDAO;
+import haitai.fos.general.entity.idao.IGChargeDAO;
 import haitai.fos.general.entity.idao.IGVoyageDAO;
+import haitai.fos.general.entity.table.GCharge;
 import haitai.fos.general.entity.table.GVoyage;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
 import haitai.fos.sys.entity.idao.IPTaskTypeDAO;
@@ -61,6 +64,8 @@ public class FConsignService {
 	private IPTaskTypeDAO taskTypeDao;
 	@Autowired
 	private IFTaskDAO taskDao;
+	@Autowired
+	private IGChargeDAO chargeDAO;
 	@Autowired
 	private PMessageService messageService;
 
@@ -828,9 +833,35 @@ public class FConsignService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Object> queryWithTask(Map queryMap) {
-		List<Object> objList = new ArrayList<Object>();
+		List<Object> objList = new ArrayList<Object>();	
+		
 		String consId = (String)queryMap.get("consId");
 		FConsign consign = dao.findById(Integer.parseInt(consId));
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+        map.put("charCode", "HDF");
+        List<GCharge> feeList = chargeDAO.findByProperties(map);
+		if (feeList.size()>0){
+			Double sFee = 0.0;			
+			Integer charId  = feeList.get(0).getCharId();		    
+		    map.clear();
+			map.put("charId", charId);	
+			map.put("consId", consId);	
+			map.put("expeType", "R");	
+			List<SExpense> expeList = expenseDao.findByProperties(map);
+			
+			for(SExpense s: expeList){
+			    sFee += s.getExpeTotalAmount();
+			}
+			consign.setSumExchangesFee(sFee);
+			
+		}
+		else{
+			consign.setSumExchangesFee(0d);
+		}
+		
+		
+		
 		objList.add(consign);
 		
 		objList.addAll(taskDao.findByProperties(queryMap));
