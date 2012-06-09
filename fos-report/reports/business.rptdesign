@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
-    <property name="units">in</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <list-property name="userProperties">
         <structure>
             <property name="name">dc.dsBusiness.x</property>
@@ -16,6 +15,17 @@
     </list-property>
     <property name="dc.dsBusiness.x">135</property>
     <property name="dc.dsBusiness.y">80</property>
+    <property name="units">in</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">24</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">24</property>
+        </structure>
+    </list-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <list-property name="libraries">
@@ -31,13 +41,13 @@
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">date</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">2008-01-01</value>
             </simple-property-list>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
-            <property name="distinct">true</property>
             <property name="autoSuggestThreshold">1</property>
             <structure name="format">
                 <property name="category">Long Date</property>
@@ -50,17 +60,42 @@
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataType">date</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">2040-12-31</value>
             </simple-property-list>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
-            <property name="distinct">true</property>
             <property name="autoSuggestThreshold">1</property>
             <structure name="format">
                 <property name="category">Long Date</property>
                 <property name="pattern">Long Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="dt" id="45">
+            <text-property name="promptText">日期类型</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">false</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">0</value>
+            </simple-property-list>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">0</property>
+                    <property name="label">委托日期</property>
+                </structure>
+                <structure>
+                    <property name="value">1</property>
+                    <property name="label">开航日期</property>
+                </structure>
+            </list-property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="type" id="63">
@@ -68,6 +103,7 @@
             <text-property name="promptText">分组</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">0</value>
             </simple-property-list>
@@ -97,7 +133,6 @@
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -110,6 +145,7 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsBusiness" id="24">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">secondGp</property>
@@ -136,71 +172,55 @@ rt;</expression>
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">CONS_BIZ_CLASS</property>
-                    <property name="displayName">CONS_BIZ_CLASS</property>
+                    <text-property name="displayName">CONS_BIZ_CLASS</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_BIZ_TYPE</property>
-                    <property name="displayName">CONS_BIZ_TYPE</property>
+                    <text-property name="displayName">CONS_BIZ_TYPE</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_SHIP_TYPE</property>
-                    <property name="displayName">CONS_SHIP_TYPE</property>
+                    <text-property name="displayName">CONS_SHIP_TYPE</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_TOTAL_GROSS_WEIGHT</property>
-                    <property name="displayName">CONS_TOTAL_GROSS_WEIGHT</property>
+                    <text-property name="displayName">CONS_TOTAL_GROSS_WEIGHT</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_CONTAINERS_TEU</property>
-                    <property name="displayName">CONS_CONTAINERS_TEU</property>
+                    <text-property name="displayName">CONS_CONTAINERS_TEU</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_CARRIER_NAME</property>
-                    <property name="displayName">CONS_CARRIER_NAME</property>
+                    <text-property name="displayName">CONS_CARRIER_NAME</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CUST_SNAME</property>
-                    <property name="displayName">CUST_SNAME</property>
+                    <text-property name="displayName">CUST_SNAME</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_SALES_REP_NAME</property>
-                    <property name="displayName">CONS_SALES_REP_NAME</property>
+                    <text-property name="displayName">CONS_SALES_REP_NAME</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">SHLI_NAME</property>
-                    <property name="displayName">SHLI_NAME</property>
+                    <text-property name="displayName">SHLI_NAME</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_ID</property>
-                    <property name="displayName">id</property>
+                    <text-property name="displayName">id</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">CONS_TOTAL_MEASUREMENT</property>
-                    <property name="displayName">cbm</property>
+                    <text-property name="displayName">cbm</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
                 <structure>
-                    <property name="name">DSP_F</property>
-                    <property name="paramName">F</property>
-                    <property name="dataType">string</property>
-                    <property name="position">1</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">DSP_T</property>
-                    <property name="paramName">T</property>
-                    <property name="dataType">string</property>
-                    <property name="position">2</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
                     <property name="name">DP_compCode</property>
                     <property name="paramName">compCode</property>
                     <property name="dataType">string</property>
-                    <property name="position">3</property>
+                    <property name="position">1</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
@@ -269,6 +289,16 @@ rt;</expression>
                     </structure>
                 </list-property>
             </structure>
+            <method name="beforeOpen"><![CDATA[var sql = this.queryText;
+			if(params["dt"] == "0"){
+				sql += " and c.CONS_DATE >= '" + params["F"] + "'";
+				sql += " and c.CONS_DATE <= '" + params["T"] + "'";
+			}
+			else if(params["dt"] == "1"){
+				sql += " and c.CONS_SAIL_DATE >= '" + params["F"] + "'";
+				sql += " and c.CONS_SAIL_DATE <= '" + params["T"] + "'";	
+			}
+			this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
             <list-property name="resultSet">
                 <structure>
@@ -365,8 +395,6 @@ F_CONSIGN c
 left join G_SHIPPING_LINE l on c.SHLI_ID = l.SHLI_ID
 where c.removed = 0
 and c.cons_status < 5
-and c.CONS_DATE >= ?
-and c.CONS_DATE <= ?
 and c.COMP_CODE = ?
 ]]></xml-property>
         </oda-data-set>
@@ -374,7 +402,7 @@ and c.COMP_CODE = ?
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">COMP_NAME_CN</property>
-                    <property name="displayName">COMP_NAME_CN</property>
+                    <text-property name="displayName">COMP_NAME_CN</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -631,9 +659,17 @@ rt;</expression>
                                 </cell>
                                 <cell id="28"/>
                                 <cell id="29">
-                                    <text-data id="45">
+                                    <text-data id="729">
                                         <property name="textAlign">right</property>
-                                        <expression name="valueExpr">"时间范围: " + params["F"].value + " ~ " + params["T"].value</expression>
+                                        <expression name="valueExpr">
+                                        	var dateType;
+											if(params["dt"].value == "0"){
+												dateType = "委托日期：";
+											}else if(params["dt"].value == "1"){
+												dateType = "开航日期：";
+											}											
+                                        	dateType + params["F"].value + " ~ " + params["T"].value
+                                        </expression>
                                         <property name="contentType">html</property>
                                     </text-data>
                                 </cell>
@@ -648,6 +684,7 @@ rt;</expression>
                     <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <extended-item extensionName="Crosstab" extensionVersion="2.5.0" id="71">
+                        <property name="cube">dc</property>
                         <property name="measures">
                             <extended-item extensionName="MeasureView" id="81">
                                 <property name="measure">sumField</property>
@@ -810,7 +847,6 @@ rt;</expression>
                         <property name="fontFamily">sans-serif</property>
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">left</property>
-                        <property name="cube">dc</property>
                         <property name="width">210mm</property>
                         <list-property name="boundDataColumns">
                             <structure>
