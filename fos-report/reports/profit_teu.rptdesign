@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20100208 Build &lt;2.5.2.v20100210-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <property name="units">in</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">24</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">24</property>
+        </structure>
+    </list-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <list-property name="libraries">
@@ -47,6 +57,31 @@
             <structure name="format">
                 <property name="category">Long Date</property>
                 <property name="pattern">Long Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="dt" id="45">
+            <text-property name="promptText">日期类型</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">false</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">0</value>
+            </simple-property-list>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">0</property>
+                    <property name="label">委托日期</property>
+                </structure>
+                <structure>
+                    <property name="value">1</property>
+                    <property name="label">开航日期</property>
+                </structure>
+            </list-property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="type" id="63">
@@ -96,45 +131,32 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsProfit" id="24">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">groupBy</property>
-                    <expression name="expression">var rt;&#13;
-if(params["type"].value == "1"){&#13;
-	rt = row["CONS_CARRIER_NAME"];&#13;
-}else if(params["type"].value == "2"){&#13;
-	rt = row["CUST_SNAME"];&#13;
-}else if(params["type"].value == "3"){&#13;
-	rt = (row["USER_NAME"] == null ? "" : row["USER_NAME"]);&#13;
-}else if(params["type"].value == "4"){&#13;
-	rt = row["SHLI_NAME"];&#13;
-}&#13;
-rt;</expression>
+                    <expression name="expression">
+                    var rt;
+					if(params["type"].value == "1"){
+						rt = row["CONS_CARRIER_NAME"];
+					}else if(params["type"].value == "2"){
+						rt = row["CUST_SNAME"];
+					}else if(params["type"].value == "3"){
+						rt = (row["USER_NAME"] == null ? "" : row["USER_NAME"]);
+					}else if(params["type"].value == "4"){
+						rt = row["SHLI_NAME"];
+					}
+					rt;
+					</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
             <list-property name="parameters">
                 <structure>
-                    <property name="name">DSP_F</property>
-                    <property name="paramName">F</property>
-                    <property name="dataType">string</property>
-                    <property name="position">1</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">DSP_T</property>
-                    <property name="paramName">T</property>
-                    <property name="dataType">string</property>
-                    <property name="position">2</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
                     <property name="name">DP_compCode1</property>
                     <property name="paramName">compCode</property>
                     <property name="dataType">string</property>
-                    <property name="position">3</property>
+                    <property name="position">1</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
@@ -142,7 +164,7 @@ rt;</expression>
                     <property name="name">DP_compCode2</property>
                     <property name="paramName">compCode</property>
                     <property name="dataType">string</property>
-                    <property name="position">4</property>
+                    <property name="position">2</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
@@ -201,6 +223,16 @@ rt;</expression>
                     </structure>
                 </list-property>
             </structure>
+            <method name="beforeOpen"><![CDATA[var sql = this.queryText;
+			if(params["dt"] == "0"){
+				sql += " and c.CONS_DATE >= '" + params["F"] + "'";
+				sql += " and c.CONS_DATE <= '" + params["T"] + "'";
+			}
+			else if(params["dt"] == "1"){
+				sql += " and c.CONS_SAIL_DATE >= '" + params["F"] + "'";
+				sql += " and c.CONS_SAIL_DATE <= '" + params["T"] + "'";	
+			}
+			this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
             <list-property name="resultSet">
                 <structure>
@@ -278,8 +310,6 @@ left join P_USER u on c.CONS_SALES_REP_ID = u.USER_ID
 left join G_SHIPPING_LINE l on c.SHLI_ID = l.SHLI_ID
 where e.CONS_ID = c.CONS_ID
 and c.CONS_BIZ_TYPE = 'C'
-and c.CONS_DATE >= ?
-and c.CONS_DATE <= ?
 and e.REMOVED = 0
 and c.REMOVED = 0
 and c.COMP_CODE = ?
@@ -517,9 +547,17 @@ where COMP_CODE = ?]]></xml-property>
                                     </text-data>
                                 </cell>
                                 <cell id="28">
-                                    <text-data id="45">
+                                    <text-data id="455">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">"时间范围: " + params["F"].value + " ~ " + params["T"].value</expression>
+                                        <expression name="valueExpr">
+                                        	var dateType;
+											if(params["dt"].value == "0"){
+												dateType = "委托日期：";
+											}else if(params["dt"].value == "1"){
+												dateType = "开航日期：";
+											}											
+                                        	dateType + params["F"].value + " ~ " + params["T"].value
+                                        </expression>
                                         <property name="contentType">html</property>
                                     </text-data>
                                 </cell>
@@ -540,6 +578,7 @@ where COMP_CODE = ?]]></xml-property>
                     <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <extended-item extensionName="Crosstab" extensionVersion="2.5.0" id="391">
+                        <property name="cube">cube</property>
                         <property name="measures">
                             <extended-item extensionName="MeasureView" id="398">
                                 <property name="measure">R</property>
@@ -878,7 +917,6 @@ where COMP_CODE = ?]]></xml-property>
                         </property>
                         <property name="fontFamily">sans-serif</property>
                         <property name="fontSize">9pt</property>
-                        <property name="cube">cube</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">groupBy</property>

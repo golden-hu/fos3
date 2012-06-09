@@ -149,23 +149,25 @@
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">secondGp</property>
-                    <expression name="expression">var rt;
-if(params["type"].value == "1"){
-	rt = row["CONS_CARRIER_NAME"];
-}else if(params["type"].value == "2"){
-	rt = (row["CUST_SNAME"] == null ? "" : row["CUST_SNAME"]);
-}else if(params["type"].value == "3"){
-	rt = (row["CONS_SALES_REP_NAME"] == null ? "" : row["CONS_SALES_REP_NAME"]);
-}else if(params["type"].value == "4"){
-	rt = row["SHLI_NAME"];
-}else {
-	if(row["CONS_BIZ_CLASS"] == "E"){
-		rt = "出口";
-	}else{	
-		rt = "进口";
-	}
-}
-rt;</expression>
+                    <expression name="expression">
+	                    var rt;
+						if(params["type"].value == "1"){
+							rt = row["CONS_CARRIER_NAME"];
+						}else if(params["type"].value == "2"){
+							rt = (row["CUST_SNAME"] == null ? "" : row["CUST_SNAME"]);
+						}else if(params["type"].value == "3"){
+							rt = (row["CONS_SALES_REP_NAME"] == null ? "" : row["CONS_SALES_REP_NAME"]);
+						}else if(params["type"].value == "4"){
+							rt = row["SHLI_NAME"];
+						}else {
+							if(row["CONS_BIZ_CLASS"] == "E"){
+								rt = "出口";
+							}else{	
+								rt = "进口";
+							}
+						}
+						rt;
+					</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>

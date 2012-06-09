@@ -73,7 +73,7 @@ Fos.StatBuexTab = function(a){
 };
 Ext.extend(Fos.StatBuexTab, Ext.Panel);
 
-//
+//业务员业务量统计表
 Fos.StatSalesSumTab = function(){
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
 	
@@ -106,12 +106,17 @@ Fos.StatSalesSumTab = function(){
 };
 Ext.extend(Fos.StatSalesSumTab, Ext.Panel);
 
+
 Fos.StatContProfitTab = function(){
+	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
 	var RT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1',C_CARRIER],['2',C_BOOKER],['3',C_SALES],['4',C_SHLI]]});
 	var t1=new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'3',
          	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:RT_S});
     var t2=new Ext.form.DateField({value:(new Date()).getFirstDateOfMonth(),format:DATEF});
     var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
+    var t4=new Ext.form.ComboBox({width:80,displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'0',
+     	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:DT_S});
+    
     var doc=new Ext.ux.IFrameComponent({id:'REPT_PTEU', url:''});
 	this.report=function(){
 		if(!t2.getValue()){
@@ -119,17 +124,20 @@ Fos.StatContProfitTab = function(){
 		if(!t3.getValue()){
 			XMG.alert(SYS,M_INPUT_END_TIME,function(){t3.focus();},this);return;};
 		var iframe = Ext.get('IF_'+'REPT_PTEU');
-		if(t1.value=='0') iframe.dom.src=SERVICE_URL+'?A=REPT_PTEU&type='+t1.value+'&F='+t2.value+'&T='+t3.value;
-		else iframe.dom.src=SERVICE_URL+'?A=REPT_PTEU&type='+t1.value+'&F='+t2.value+'&T='+t3.value;		
+		if(t1.value=='0') 
+			iframe.dom.src=SERVICE_URL+'?A=REPT_PTEU&type='+t1.value+'&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();
+		else 
+			iframe.dom.src=SERVICE_URL+'?A=REPT_PTEU&type='+t1.value+'&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();	
 	};
 	this.expExcel=function(){
-		var url=SERVICE_URL+'?A=REPT_PTEU&format=xls&type='+t1.value+'&F='+t2.value+'&T='+t3.value;		
+		var url=SERVICE_URL+'?A=REPT_PTEU&format=xls&type='+t1.value+'&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();	
 		window.open(url,'download','height=5,width=5,top=0,left=0,toolbar=no, menubar=no, scrollbars=no,resizable=no,location=no,status=no');
 	};
 	Fos.StatContProfitTab.superclass.constructor.call(this, {    
     id:'REPT_PTEU',title:C_STAT_PROFIT_CONT,layout:'fit',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
-     tbar:[{xtype:'tbtext',text:C_STAT_TYPE},t1,'-',
-		{xtype:'tbtext',text:C_CONS_DATE+C_FROM},t2,
+     tbar:[
+        {xtype:'tbtext',text:C_STAT_TYPE},t1,'-',
+        t4,{xtype:'tbtext',text:C_FROM},t2,
 		{xtype:'tbtext',text:C_TO},t3,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_PTEU+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_PTEU+F_E),iconCls:'print',scope:this,
