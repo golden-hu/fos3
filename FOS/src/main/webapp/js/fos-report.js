@@ -73,9 +73,15 @@ Fos.StatBuexTab = function(a){
 };
 Ext.extend(Fos.StatBuexTab, Ext.Panel);
 
+//
 Fos.StatSalesSumTab = function(){
+	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
+	
     var t2=new Ext.form.DateField({value:(new Date()).getFirstDateOfMonth(),format:DATEF});
     var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
+    var t4=new Ext.form.ComboBox({width:80,displayField:'NAME',valueField:'CODE',triggerAction:'all',value:'0',
+     	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:DT_S});
+    
     var doc=new Ext.ux.IFrameComponent({id:'REPT_BUSI_SALES', url:''});
 	this.report=function(){
 		if(!t2.getValue()){
@@ -83,16 +89,16 @@ Fos.StatSalesSumTab = function(){
 		if(!t3.getValue()){
 			XMG.alert(SYS,M_INPUT_END_TIME,function(){t3.focus();},this);return;};
 		var iframe = Ext.get('IF_REPT_BUSI_SALES');
-		iframe.dom.src=SERVICE_URL+'?A=REPT_BUSI_SALES&F='+t2.value+'&T='+t3.value;		
+		iframe.dom.src=SERVICE_URL+'?A=REPT_BUSI_SALES&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();
 	};
 	this.expExcel=function(){
-		var url=SERVICE_URL+'?A=REPT_BUSI_SALES&format=xls&F='+t2.value+'&T='+t3.value;		
+		var url=SERVICE_URL+'?A=REPT_BUSI_SALES&format=xls&F='+t2.value+'&T='+t3.value+'&dt='+t4.getValue();
 		window.open(url,'download','height=5,width=5,top=0,left=0,toolbar=no, menubar=no, scrollbars=no,resizable=no,location=no,status=no');
 	};
 	Fos.StatSalesSumTab.superclass.constructor.call(this, {    
     id:'REPT_BUSI_SALES',title:C_STAT_BIZ_SUM_SALES,layout:'fit',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
      tbar:[
-		{xtype:'tbtext',text:C_CONS_DATE+C_FROM},t2,
+		t4,{xtype:'tbtext',text:C_FROM},t2,
 		{xtype:'tbtext',text:C_TO},t3,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_BUEX+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_BUEX+F_E),iconCls:'print',scope:this,
