@@ -8,14 +8,30 @@ var openInvo=function(n){
 var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',deferredRender:false,plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
 
 function CreateMenu(t,c,m,f){
- 	return {text:t,iconCls :'grid',scope:this,handler:function(){
- 		if(''==GR()) {XMG.alert(SYS,M_SESSION_TIMEOUT);logout();return}
- 		if(m!='' && NR(m)){XMG.alert(SYS,M_NR);return}
-		T_MAIN.setActiveTab(T_MAIN.getComponent(c)?T_MAIN.getComponent(c):T_MAIN.add(f()));}};
+ 	return {text:t,iconCls :'grid',scope:this,
+ 		handler:function(){
+	 		if(''==GR()){
+	 			XMG.alert(SYS,M_SESSION_TIMEOUT);
+	 			logout();
+	 			return;
+	 		}
+	 		if(m!='' && NR(m)){
+	 			XMG.alert(SYS,M_NR);
+	 			return;
+	 		}
+			T_MAIN.setActiveTab(T_MAIN.getComponent(c)?T_MAIN.getComponent(c):T_MAIN.add(f()));
+		}
+ 	};
 };
+
 function NaviMenu(t,c,f){
- 	return {text:t,iconCls:'grid',scope:this,handler:function(){T_MAIN.setActiveTab(T_MAIN.getComponent(c)?T_MAIN.getComponent(c):T_MAIN.add(f()));}};
+ 	return {text:t,iconCls:'grid',scope:this,
+ 		handler:function(){
+ 			T_MAIN.setActiveTab(T_MAIN.getComponent(c)?T_MAIN.getComponent(c):T_MAIN.add(f()));
+ 		}
+ 	};
 };
+
 function getContPanel(){
 	var items=[];
 	if(VERSION==0&&!NR(M1_C+M2_A)) 

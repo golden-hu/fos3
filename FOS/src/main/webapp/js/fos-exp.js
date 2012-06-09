@@ -88,7 +88,7 @@ Fos.showConsignTabs = function(p){
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',baseParams:{mt:'xml'},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
-		remoteSort:true,
+		remoteSort:true,autoLoad:false,
 		sortInfo:{field:((bizClass==BC_E&&shipType==ST_L)||bizType==BT_B)?'consMasterNo':'consDate', direction:'DESC'}
 	});		
 	var queryParams=[];
@@ -359,7 +359,12 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	new Ext.KeyMap(Ext.getDoc(), {key:[116],
         handler: function(k, e) {
             var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
-            if(t&&t==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
+            if(t&&t==T_MAIN.getActiveTab()){
+            	switch(k) {
+            		case Ext.EventObject.F5:this.reset();
+            		break;
+            	}
+            }
         },stopEvent: true,scope:this
     });
     this.pagingNav=function(page){
