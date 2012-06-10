@@ -69,7 +69,7 @@ Fos.StatBuexTab = function(a){
 		t4,{xtype:'tbtext',text:C_FROM},t2,{xtype:'tbtext',text:C_TO},t3,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_BUEX+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_BUEX+F_E),iconCls:'print',scope:this,
-		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc})
+		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc});
 };
 Ext.extend(Fos.StatBuexTab, Ext.Panel);
 
@@ -102,7 +102,7 @@ Fos.StatSalesSumTab = function(){
 		{xtype:'tbtext',text:C_TO},t3,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_BUEX+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_BUEX+F_E),iconCls:'print',scope:this,
-		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc})
+		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc});
 };
 Ext.extend(Fos.StatSalesSumTab, Ext.Panel);
 
@@ -141,7 +141,7 @@ Fos.StatContProfitTab = function(){
 		{xtype:'tbtext',text:C_TO},t3,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_PTEU+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_PTEU+F_E),iconCls:'print',scope:this,
-		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc})
+		menu:{items:[{text:'Excel',scope:this,handler:function(){this.expExcel();}}]}}],items:doc});
 };
 Ext.extend(Fos.StatContProfitTab, Ext.Panel);
 
@@ -227,7 +227,7 @@ Fos.StatDetailTab = function(a){
 	            	{fieldLabel:C_SHIP_TYPE,tabIndex:12,name:'consShipType',store:SHTY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'}]}	
 	    	]},
 	    	{layout:'fit',height:600,deferredRender:false,items:[doc]}]
-    })
+    });
 };    
 Ext.extend(Fos.StatDetailTab, Ext.Panel);
 Fos.StatProfitTab = function(A){
