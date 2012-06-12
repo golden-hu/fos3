@@ -655,14 +655,18 @@ Fos.UserTab = function() {
 	var active =ACTIVE();
 	var sales =CHKCLM(C_SALES,'userSalesFlag');
 	var operator = CHKCLM(C_OPERATOR,'userOperatorFlag');
-	var va=CHKCLM(C_VIEW_ALL_CONS,'userAllViewFlag',100);
-	var ea=CHKCLM(C_EDIT_ALL_CONS,'userAllEditFlag',100);
+	var systemUser = CHKCLM(C_SYSTEM_USER,'userSystemUserFlag',80);
+	var vg=CHKCLM(C_VIEW_GROU_CONS,'userGrouViewFlag',110);
+	var eg=CHKCLM(C_EDIT_GROU_CONS,'userGrouEditFlag',110);	
+	var va=CHKCLM(C_VIEW_ALL_CONS,'userAllViewFlag',110);
+	var ea=CHKCLM(C_EDIT_ALL_CONS,'userAllEditFlag',110);
+	
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_FNAME,dataIndex:'userName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_SYS_USER_NAME,dataIndex:'userLoginName',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_DEFAULT_GROU,dataIndex:'userDefaultGroup',width:80,renderer:getGROU,editor:new Ext.form.ComboBox({displayField:'grouName',valueField:'grouId',triggerAction: 'all',
             allowBlank:false,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getGROU_S()})},
-        sales,operator,va,ea,            
+            systemUser,sales,operator,va,ea,vg,eg,          
 		{header:C_TEL,dataIndex:'userTel',editor:new Ext.form.TextField()},
 		{header:C_MOBILE,dataIndex:'userMobile',editor:new Ext.form.TextField()},
 		{header:C_EMAIL,dataIndex:'userEmail',editor:new Ext.form.TextField()},		
@@ -690,10 +694,12 @@ Fos.UserTab = function() {
 	//if(VERSION==0)
 		tbItems[tbItems.length] = {itemId:'TB_E',text:C_EXPE_PERMISSIOM+'(E)',disabled:NR(M1_P+A_USER+F_M),iconCls:'key',scope:this,handler:this.expePer};
 	
-	var ug = new Ext.grid.EditorGridPanel({
-		id:'G_USER',title:C_USER_LIST,plugins:[sales,operator,va,ea,active],clicksToEdit:1,border:true,height:475,store:store,sm:sm,cm:cm,
+	var ug = new Ext.grid.EditorGridPanel({id:'G_USER',title:C_USER_LIST,
+		clicksToEdit:1,border:true,height:475,store:store,sm:sm,cm:cm,
+		plugins:[systemUser,sales,operator,va,ea,vg,eg,active],
 		tbar:tbItems
 	});
+	
 	new Ext.KeyMap(Ext.getDoc(),{
 		key:'nrspe',ctrl:true,
 		handler: function(k, e) {

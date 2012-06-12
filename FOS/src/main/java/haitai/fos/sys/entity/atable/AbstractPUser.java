@@ -31,6 +31,9 @@ public abstract class AbstractPUser extends BaseDomain {
 	private Integer userDefaultRole;
 	private Short userSalesFlag;
 	private Short userOperatorFlag;
+	private Short userSystemUserFlag;
+	private Short userGrouViewFlag;
+	private Short userGrouEditFlag;
 	private Short userAllViewFlag;
 	private Short userAllEditFlag;
 	private Date userPasswordModifyDate;
@@ -167,6 +170,33 @@ public abstract class AbstractPUser extends BaseDomain {
 		this.userOperatorFlag = userOperatorFlag;
 	}
 
+	@Column(name = "USER_SYSTEM_USER_FLAG")
+	public Short getUserSystemUserFlag() {
+		return this.userSystemUserFlag;
+	}
+
+	public void setUserSystemUserFlag(Short userSystemUserFlag) {
+		this.userSystemUserFlag = userSystemUserFlag;
+	}
+	
+	@Column(name = "USER_GROU_VIEW_FLAG")
+	public Short getUserGrouViewFlag() {
+		return this.userGrouViewFlag;
+	}
+
+	public void setUserGrouViewFlag(Short userGrouViewFlag) {
+		this.userGrouViewFlag = userGrouViewFlag;
+	}
+	
+	@Column(name = "USER_GROU_EDIT_FLAG")
+	public Short getUserGrouEditFlag() {
+		return this.userGrouEditFlag;
+	}
+
+	public void setUserGrouEditFlag(Short userGrouEditFlag) {
+		this.userGrouEditFlag = userGrouEditFlag;
+	}
+	
 	@Column(name = "USER_ALL_VIEW_FLAG")
 	public Short getUserAllViewFlag() {
 		return this.userAllViewFlag;

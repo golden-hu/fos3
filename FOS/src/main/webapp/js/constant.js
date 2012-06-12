@@ -3,9 +3,11 @@ var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/MainServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 
-PUser = Ext.data.Record.create(['id','userId','userName','userLoginName','userPassword','userTel','userMobile','userEmail','userMsn','userQq',
-	'userDefaultGroup','userDefaultRole','userSalesFlag','userOperatorFlag','userManagerFlag',
-	'userGroupViewFlag','userGroupEditFlag','userAllViewFlag','userAllEditFlag',
+PUser = Ext.data.Record.create(['id','userId','userName','userLoginName',
+    'userPassword','userTel','userMobile','userEmail','userMsn','userQq',
+	'userDefaultGroup','userDefaultRole','userSalesFlag','userOperatorFlag',
+	'userSystemUserFlag','userManagerFlag',
+	'userGrouViewFlag','userGrouEditFlag','userAllViewFlag','userAllEditFlag',
 	{name:'userPasswordModifyDate',type:'date',dateFormat:'Y-m-d'},
 	'funcCode','active','compCode','version','rowAction']);
 var Cookies = {};

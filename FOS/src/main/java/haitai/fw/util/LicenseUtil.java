@@ -41,6 +41,7 @@ public class LicenseUtil {
 				}
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("removed", ConstUtil.FalseStr);
+				queryMap.put("userSystemUserFlag", ConstUtil.TrueStr);
 				if (dao.findByProperties(queryMap).size() < num) {
 					status = true;
 				}
@@ -142,6 +143,7 @@ public class LicenseUtil {
 				}
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("removed", ConstUtil.FalseStr);
+				queryMap.put("userSystemUserFlag", ConstUtil.TrueStr);
 				if (dao.findByProperties(queryMap).size() <= num) {
 					status = true;
 				}
