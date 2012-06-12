@@ -3423,7 +3423,10 @@ Fos.BillGrid = function(t) {
 		else {tab = T_MAIN.add(new Fos.BillTab(p));
 		T_MAIN.setActiveTab(tab);tab.doLayout();}
 	};
-	this.search = function(){var w=new Fos.BillLookupWin(store,t);w.show();};
+	this.search = function(){
+		var w=new Fos.BillLookupWin(store,t);
+		w.show();
+	};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,

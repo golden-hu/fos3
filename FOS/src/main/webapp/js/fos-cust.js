@@ -1480,8 +1480,8 @@ Fos.PrLookupWin = function(t) {
         			{columnWidth:.33,layout:'form',border:false,
 	             	items:[
 	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
-	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
+	             		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
 						keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
 	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	             	{fieldLabel:C_SEWA,tabIndex:3,name:'prPaymentType',store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
@@ -1803,7 +1803,7 @@ Fos.BillLookupWin = function(store,t) {
 		{columnWidth:.5,layout:'form',border:false,labelWidth:80,labelAlign:'right',items:[
 			{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 			{fieldLabel:C_TO,name:'billDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
-			{fieldLabel:C_TO,name:'billSailDate2',xtype:'numberfield',anchor:'90%'},			
+			{fieldLabel:C_TO,name:'billSailDate2',xtype:'datefield',format:DATEF,anchor:'90%'},		
 			{fieldLabel:C_BL_NO,name:'billBlNo',xtype:'textfield',anchor:'90%'},
 			{fieldLabel:C_VOYA,tabIndex:35,name:'billVoyage',xtype:'textfield',anchor:'90%'}]}
 		]};

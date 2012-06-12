@@ -394,6 +394,7 @@ var C_ACTIVE_DATE='启用日期';
 var C_DEPT='部门';
 var C_SALES='业务员';
 var C_OPERATOR='操作员';
+var C_SYSTEM_USER='系统用户';
 var C_MANAGER='管理人员';
 var C_INDUSTRY='行业';
 var C_CPTY='公司性质';
