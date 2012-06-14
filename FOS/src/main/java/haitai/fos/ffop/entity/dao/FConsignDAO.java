@@ -12,7 +12,10 @@ import haitai.fw.exception.BusinessException;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.StringUtil;
 import haitai.fw.util.TimeUtil;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
@@ -24,10 +27,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import haitai.fos.sys.entity.idao.IPGroupUserDAO;
+import haitai.fos.sys.entity.table.PGroupUser;
+
 @Repository
 public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		IFConsignDAO {
 
+	@Autowired
+	private IPGroupUserDAO gudao;
+	
 	public FConsignDAO() {
 		super(FConsign.class);
 	}
@@ -145,21 +154,61 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 
 	@SuppressWarnings("unchecked")
 	public List<FConsign> complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
-		//权限管理
+		
 		String joinSql = "";
 		PUser myself = (PUser) SessionManager.getAttr(SessionKeyType.USER);
 		String uid = SessionManager.getAttr(SessionKeyType.UID).toString();
-		if (ConstUtil.TrueShort.equals(myself.getUserAllViewFlag())) {
-		} else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+		if (ConstUtil.TrueShort.equals(myself.getUserAllViewFlag())) 
+		{						
+		}
+		else if(ConstUtil.TrueShort.equals(myself.getUserGrouViewFlag())){
+			Map<String,Object> qmap = new HashMap<String,Object>();
+			qmap.put("userId", myself.getUserId());
+			List<PGroupUser> groups = gudao.findByProperties(qmap);
+			String inStr = "";
+			for(PGroupUser u : groups){
+				if(StringUtil.isNotBlank(inStr))
+					inStr += ",";
+				inStr += u.getGrouId();
+			}
+			if(StringUtil.isNotBlank(inStr)){
+				joinSql += "t1.deptId in (" + inStr + ")";
+			}
+			else if(myself.getUserDefaultGroup()!=null){
+				joinSql += "t1.deptId = " + myself.getUserDefaultGroup();
+			}
+			else{
+				if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+						&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+					joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
+				} 
+				else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
+				{
+					joinSql += "t1.consSalesRepId = " + uid;
+				} 
+				else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+					joinSql += "t1.consOperatorId = " + uid;
+				} 
+				else {
+					joinSql += "t1.createBy = " + uid;
+				}
+			}
+		}
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
 				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
 			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
-		} else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) {
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
+		{
 			joinSql += "t1.consSalesRepId = " + uid;
-		} else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
 			joinSql += "t1.consOperatorId = " + uid;
-		} else {
+		} 
+		else {
 			joinSql += "t1.createBy = " + uid;
 		}
+		
 		Class clazz = FConsign.class;
 		List retList = complexQuery(conditions, propertyMap, "t1", joinSql, clazz);
 		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, "t1", joinSql, clazz));
@@ -242,8 +291,65 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		sb.append(" from SExpense e where e.consId=t1.consId and e.removed='0'");
 		sb.append(" and e.expeType='P' and e.currCode='CNY') as sumPCnyWriteOff");
 		String fieldSql = sb.toString();
-		List retList = complexQuery(conditions, propertyMap, fieldSql, "", t1);
-		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, "distinct t1", "", t1));
+		
+		String joinSql = "";
+		PUser myself = (PUser) SessionManager.getAttr(SessionKeyType.USER);
+		String uid = SessionManager.getAttr(SessionKeyType.UID).toString();
+		if (ConstUtil.TrueShort.equals(myself.getUserAllViewFlag())) 
+		{						
+		}
+		else if(ConstUtil.TrueShort.equals(myself.getUserGrouViewFlag())){
+			Map<String,Object> qmap = new HashMap<String,Object>();
+			qmap.put("userId", myself.getUserId());
+			List<PGroupUser> groups = gudao.findByProperties(qmap);
+			String inStr = "";
+			for(PGroupUser u : groups){
+				if(StringUtil.isNotBlank(inStr))
+					inStr += ",";
+				inStr += u.getGrouId();
+			}
+			if(StringUtil.isNotBlank(inStr)){
+				joinSql += "t1.deptId in (" + inStr + ")";
+			}
+			else if(myself.getUserDefaultGroup()!=null){
+				joinSql += "t1.deptId = " + myself.getUserDefaultGroup();
+			}
+			else{
+				if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+						&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+					joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
+				} 
+				else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
+				{
+					joinSql += "t1.consSalesRepId = " + uid;
+				} 
+				else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+					joinSql += "t1.consOperatorId = " + uid;
+				} 
+				else {
+					joinSql += "t1.createBy = " + uid;
+				}
+			}
+		}
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
+		{
+			joinSql += "t1.consSalesRepId = " + uid;
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+			joinSql += "t1.consOperatorId = " + uid;
+		} 
+		else {
+			joinSql += "t1.createBy = " + uid;
+		}
+		
+		List retList = complexQuery(conditions, propertyMap, fieldSql, joinSql, t1);
+		
+		
+		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, "distinct t1", joinSql, t1));
 		propertyMap.put(HttpHeader.ROWCOUNT, String.valueOf(rowCount));
 		return retList;
 	}

@@ -1672,9 +1672,20 @@ Fos.BookTab = function(p) {
     this.check=function(){this.updateStatus('2');};
     this.exit=function(){this.updateStatus('3');};
     this.renew=function(){this.updateStatus('4');};
-    this.quit=function(){XMG.confirm(SYS,M_CONS_QUIT_C,function(btn){if(btn=='yes') this.updateStatus('5');},this);};
+    this.quit=function(){
+    	XMG.confirm(SYS,M_CONS_QUIT_C,function(btn){
+    		if(btn=='yes') this.updateStatus('5');
+    	},this);
+    };
     this.rebook=function(){this.updateStatus('1');};
-    this.cancel=function(){XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn){if(btn=='yes') this.updateStatus('6');},this);};
+    this.cancel=function(){
+    	XMG.confirm(SYS,M_CONS_CANCEL_C,
+    		function(btn){
+    			if(btn=='yes') 
+    				this.updateStatus('6');
+    		},
+    	this);
+    };
     this.arrive=function(){XMG.confirm(SYS,M_CONS_ARRIVE_C,function(btn){if(btn=='yes') this.updateStatus('1');},this);};
     this.release=function(){XMG.confirm(SYS,M_CONS_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('2');},this);};
     this.releaseCargo=function(){XMG.confirm(SYS,M_CARGO_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('3');},this);};
@@ -1718,6 +1729,37 @@ Fos.BookTab = function(p) {
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;
+    
+    this.MoidfyConsNo=function(){
+    	XMG.prompt(SYS,C_CONS_NO_NEW,function(b,v){
+			if(b=='ok'){
+				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+		    		params:{A:'CONS_MODIFY_NO',consId:p.get('consId'),consNo:v},
+				success: function(res){
+					var c = XTR(res.responseXML,'FConsign',FConsign);
+					
+					p.beginEdit();	
+					p.set('consNo',v);
+					p.set('version',c.get('version'));
+					p.endEdit();
+					
+					var t = T_MAIN.getComponent('C_'+ p.get('id'));
+					var title=getBT(p.get('consBizType'))+getBC(p.get('consBizClass'))+getSHTY(p.get('consShipType'))+'委托【'+p.get("consNo")+'】';
+					t.setTitle(title);
+					this.find('name','consNo')[0].setValue(p.get('consNo'));
+					
+					var mn = this.find('name','consMasterNo');
+					if(mn && mn.length>0){
+						masterNo = mn[0];
+						masterNo.setValue(p.get('consMasterNo'));
+					}					
+					XMG.alert(SYS,M_S);					
+				},
+				failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+			}
+		},this);
+    };
+    
 	this.updateToolBar = function(s){
 		var tb=this.getTopToolbar();
 		locked=p.get('consStatusLock')==1;
@@ -1746,7 +1788,7 @@ Fos.BookTab = function(p) {
 	var b7={text:C_BOOK_RENEW+'(R)',itemId:'TB_G',iconCls:'renew',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')<2,scope:this,handler:this.rebook};
 	var b8={text:C_INVALID+'(F)',itemId:'TB_H',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.cancel};
 	var b9={text:C_COPY+'(A)',itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){Fos.showConsign(Fos.copyConsign(p));}};
-	var b16={text:C_COPY_FROM+'(C)',itemId:'TB_O',iconCls:'copy',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.copyFrom};
+	var b16={text:C_COPY_FROM,itemId:'TB_O',iconCls:'copy',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.copyFrom};
 	
 	var b11={text:C_ARRIVE,itemId:'TB_I',iconCls:'plane',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.arrive};
 	var b12={text:C_SWITCH_BL,itemId:'TB_J',iconCls:'release',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.release};	
@@ -1756,6 +1798,8 @@ Fos.BookTab = function(p) {
 	
 	var b17={text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock};
 	
+	var btnModifyConsignNo={text:C_MODIFY_CONS_NO,itemId:'TB_M_CONS_NO',iconCls:'option',
+			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1,scope:this,handler:this.MoidfyConsNo};
 	
 	var exp1=CREATE_E_MENU(M_ARRIVE_ADVICE,function(){this.expExcel('ARAD');},function(){this.expEmail('ARAD',M_ARRIVE_ADVICE);},function(){this.expFax('ARAD',M_ARRIVE_ADVICE);},this);
 	var exp2=CREATE_E_MENU(M_BOOK,function(){this.expExcel('CONS_B');},function(){this.expEmail('CONS_B',M_BOOK);},function(){this.expFax('CONS_B',M_BOOK);},this);
@@ -1780,19 +1824,19 @@ Fos.BookTab = function(p) {
 	var b20={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
 	var tbs=[];
 	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){
-		tbs=[b1,'-',b8,'-',b9,'-',b16,'-',b17,'->',b20,'-'];
+		tbs=[b1,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b17,'->',b20,'-'];
 	}
 	else{
 		if(p.get('consBizClass')==BC_I) 
-			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
+			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b17,'->',b20,'-'];
 		else if(p.get('consBizClass')==BC_E) 
-			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',b10,'-',b17,'->',b20,'-'];
+			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b17,'->',b20,'-'];
 		else if(p.get('consBizClass')==BC_T)
-			tbs=[b1,'-',b15,'-',b9,'-',b10,'-',b17];
+			tbs=[b1,'-',b15,'-',b9,'-',btnModifyConsignNo,'-',b10,'-',b17];
 	}
 	
 	var bk=new Ext.KeyMap(Ext.getDoc(), {
-		key:'sbqtgxrfac',ctrl:true,
+		key:'sbqtgxrfa',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
@@ -1818,9 +1862,7 @@ Fos.BookTab = function(p) {
 					case Ext.EventObject.F:
 						if(!tb.getComponent('TB_H').disabled) this.cancel();break;
 					case Ext.EventObject.A:
-						if(!tb.getComponent('TB_N').disabled) Fos.showConsign(Fos.copyConsign(p));break;
-					case Ext.EventObject.C:
-						if(!tb.getComponent('TB_O').disabled) this.copyFrom();break;
+						if(!tb.getComponent('TB_N').disabled) Fos.showConsign(Fos.copyConsign(p));break;					
 				}}
 		 	}
 		},

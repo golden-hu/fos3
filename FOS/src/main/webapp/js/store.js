@@ -1329,6 +1329,7 @@ var F_IM='11';
 var F_SH='12';
 var F_UL='13';
 var F_MERGE='05';
+var F_MIDIFY_CONS_NO='20';
 
 var M1_C='0001';//集装箱
 var M1_B='0002';//散货

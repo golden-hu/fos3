@@ -3,7 +3,13 @@ package haitai.fos.ffop.service;
 import haitai.fos.ffop.entity.idao.*;
 import haitai.fos.ffop.entity.table.*;
 import haitai.fos.ffse.entity.idao.ISExpenseDAO;
+import haitai.fos.ffse.entity.idao.ISInvoiceEntryDAO;
+import haitai.fos.ffse.entity.idao.ISInvoiceItemDAO;
+import haitai.fos.ffse.entity.idao.ISVoucherItemDAO;
 import haitai.fos.ffse.entity.table.SExpense;
+import haitai.fos.ffse.entity.table.SInvoiceEntry;
+import haitai.fos.ffse.entity.table.SInvoiceItem;
+import haitai.fos.ffse.entity.table.SVoucherItem;
 import haitai.fos.general.entity.dao.GChargeDAO;
 import haitai.fos.general.entity.idao.IGChargeDAO;
 import haitai.fos.general.entity.idao.IGVoyageDAO;
@@ -87,9 +93,18 @@ public class FConsignService {
 	@Autowired
 	private IFSecondShipDAO seshDao;
 	
+	@Autowired
+	private ISInvoiceItemDAO invoiceItemDao;
+	
+	@Autowired
+	private ISInvoiceEntryDAO invoiceEntryDao;
+	
+	@Autowired
+	private ISVoucherItemDAO voucherItemDao;
+	
 	//手工修改业务号
 	@Transactional
-	public void updateConsNo(Map<String, Object> queryMap) {
+	public FConsign modifyConsNo(Map<String, Object> queryMap) {
 		String consId = (String) queryMap.get("consId");
 		String consNo = (String) queryMap.get("consNo");
 		Integer iConsId = Integer.valueOf(consId);
@@ -191,6 +206,29 @@ public class FConsignService {
 			s.setRowAction(RowAction.M);
 			seshDao.save(s);
 		}
+		
+		List<SInvoiceItem> invoItemList = invoiceItemDao.findByProperties(map);
+		for(SInvoiceItem s : invoItemList){
+			s.setConsNo(consNo);
+			s.setRowAction(RowAction.M);
+			invoiceItemDao.save(s);
+		}
+		
+		List<SInvoiceEntry> invoEntryList = invoiceEntryDao.findByProperties(map);
+		for(SInvoiceEntry s : invoEntryList){
+			s.setConsNo(consNo);
+			s.setRowAction(RowAction.M);
+			invoiceEntryDao.save(s);
+		}
+		
+		List<SVoucherItem> voucItemList = voucherItemDao.findByProperties(map);
+		for(SVoucherItem s : voucItemList){
+			s.setConsNo(consNo);
+			s.setRowAction(RowAction.M);
+			voucherItemDao.save(s);
+		}
+		
+		return c;
 	}
 	
 		
