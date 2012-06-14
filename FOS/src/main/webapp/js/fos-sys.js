@@ -600,6 +600,7 @@ Fos.UserTab = function() {
 	this.reload = false;	
 	var store = GS('USER_Q','PUser',PUser,'userId','DESC','','S_USER','userId',false);
     store.load();
+    
 	var urStore = GS('USRO_Q','PUserRole',PUserRole,'usroId','DESC','','S_USRO','usroId',false);
 	var re1 = {scope:this,
 		rowselect:function(sm,row,record){
@@ -675,11 +676,17 @@ Fos.UserTab = function() {
 		{header:"Msn",dataIndex:'userMsn',editor:new Ext.form.TextField()},
 		{header:"QQ",dataIndex:'userQq',editor:new Ext.form.TextField()},
 		active],defaults:{sortable:true,width:60}});
+	
 	this.addUser=function(){
 		var uid=GGUID();
-		var r = new PUser({id:uid,userId:uid,userName:'',userLoginName:'',userPassword:'123456',userTel:'',userMobile:'',
-		userEmail:'',userMsn:'',userQq:'',userDefaultGroup:'',userDefaultRole:'',userSalesFlag:'0',userOperatorFlag:'0',active:'1',version:'0',rowAction:'N'});
-    	ug.stopEditing();store.insert(0,r);ug.getSelectionModel().selectFirstRow();ug.startEditing(0,1);
+		var r = new PUser({id:uid,userId:uid,userPassword:'123456',userSystemUserFlag:'0',
+		userSalesFlag:'0',userOperatorFlag:'0',
+		userGrouViewFlag:'0',userGrouEditFlag:'0',userAllViewFlag:'0',userAllEditFlag:'0',
+		active:'1',version:'0',rowAction:'N'});
+    	ug.stopEditing();
+    	store.insert(0,r);
+    	ug.getSelectionModel().selectFirstRow();
+    	ug.startEditing(0,1);
 	};
 	this.removeUser=function(){FOS_REMOVE(sm,store);};
 	this.expePer=function(){

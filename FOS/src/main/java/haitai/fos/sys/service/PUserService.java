@@ -7,6 +7,7 @@ import haitai.fw.log.FosLogger;
 import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,13 @@ public class PUserService {
 					PUser retEntity = dao.findById(entity.getUserId());
 					// 不修改密码, 有单独修改密码服务
 					entity.setUserPassword(retEntity.getUserPassword());
+					
+					//如果将用户的systemUserFlag从0改成1，检查用户license数是否够用
+					if(retEntity.getUserSystemUserFlag().equals(ConstUtil.FalseStr) &&
+							entity.getUserSystemUserFlag().equals(ConstUtil.TrueStr)){
+						licenseUtil.checkUserAvailable();
+					}
+						
 					retList.add(dao.update(entity));
 				} else if (entity.getRowAction() == RowAction.R) {
 					PUser delEntity = dao.findById(entity.getUserId());
@@ -253,6 +261,9 @@ public class PUserService {
 			PUser user = userList.get(0);
 			if (ConstUtil.FalseShort.equals(user.getActive()))
 				throw new BusinessException("fw.login.user_deactived");
+			if (ConstUtil.FalseShort.equals(user.getUserSystemUserFlag()))
+				throw new BusinessException("fw.login.fail");
+			
 			checkPasswordExpire(user);
 			if (ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 				checkRepeatLogin(user);

@@ -69,6 +69,130 @@ public class FConsignService {
 	@Autowired
 	private PMessageService messageService;
 
+	@Autowired
+	private IFCustomsDeclarationDAO cudeDao;
+	
+	@Autowired
+	private IFInspectionDAO inspDao;
+	
+	@Autowired
+	private IFTransDAO tranDao;
+	
+	@Autowired
+	private IFWarehouseDAO wareDao;
+	
+	@Autowired
+	private IFRailwayBlDAO railDao;
+	
+	@Autowired
+	private IFSecondShipDAO seshDao;
+	
+	//手工修改业务号
+	@Transactional
+	public void updateConsNo(Map<String, Object> queryMap) {
+		String consId = (String) queryMap.get("consId");
+		String consNo = (String) queryMap.get("consNo");
+		Integer iConsId = Integer.valueOf(consId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("consNo", consNo);
+		List<FConsign> consList = dao.findByProperties(map);
+		if(consList.size()>0){
+			throw new BusinessException("fos.cons_no.existing");
+		}
+		
+		FConsign c = dao.findById(iConsId);
+		c.setConsNo(consNo);
+		c.setRowAction(RowAction.M);
+		dao.save(c);
+		
+		map.clear();
+		map.put("consId", consId);
+		List<FContainer> contList = containerDao.findByProperties(map);
+		for(FContainer cont : contList){
+			cont.setConsNo(consNo);
+			cont.setRowAction(RowAction.M);
+			containerDao.save(cont);
+		}
+		
+		List<FCargo> cargList = cargoDao.findByProperties(map);
+		for(FCargo carg : cargList){
+			carg.setConsNo(consNo);
+			carg.setRowAction(RowAction.M);
+			cargoDao.save(carg);
+		}
+		
+		List<FBl> blList = blDao.findByProperties(map);
+		for(FBl bl : blList){
+			bl.setConsNo(consNo);
+			bl.setRowAction(RowAction.M);
+			blDao.save(bl);
+		}
+		
+		List<FDo> doList = doDao.findByProperties(map);
+		for(FDo d : doList){
+			d.setConsNo(consNo);
+			d.setRowAction(RowAction.M);
+			doDao.save(d);
+		}
+		
+		List<FDoc> docList = docDao.findByProperties(map);
+		for(FDoc doc : docList){
+			doc.setConsNo(consNo);
+			doc.setRowAction(RowAction.M);
+			docDao.save(doc);
+		}
+		
+		List<SExpense> expList = expenseDao.findByProperties(map);
+		for(SExpense e : expList){
+			e.setConsNo(consNo);
+			e.setRowAction(RowAction.M);
+			expenseDao.save(e);
+		}
+		
+		List<FCustomsDeclaration> cudeList = cudeDao.findByProperties(map);
+		for(FCustomsDeclaration cd : cudeList){
+			cd.setConsNo(consNo);
+			cd.setRowAction(RowAction.M);
+			cudeDao.save(cd);
+		}
+		
+		List<FInspection> inspList = inspDao.findByProperties(map);
+		for(FInspection insp : inspList){
+			insp.setConsNo(consNo);
+			insp.setRowAction(RowAction.M);
+			inspDao.save(insp);
+		}
+		
+		List<FTrans> tranList = tranDao.findByProperties(map);
+		for(FTrans t : tranList){
+			t.setConsNo(consNo);
+			t.setRowAction(RowAction.M);
+			tranDao.save(t);
+		}
+		
+		List<FWarehouse> wareList = wareDao.findByProperties(map);
+		for(FWarehouse w : wareList){
+			w.setConsNo(consNo);
+			w.setRowAction(RowAction.M);
+			wareDao.save(w);
+		}
+		
+		List<FRailwayBl> railList = railDao.findByProperties(map);
+		for(FRailwayBl r : railList){
+			r.setConsNo(consNo);
+			r.setRowAction(RowAction.M);
+			railDao.save(r);
+		}
+		
+		List<FSecondShip> seshList = seshDao.findByProperties(map);
+		for(FSecondShip s : seshList){
+			s.setConsNo(consNo);
+			s.setRowAction(RowAction.M);
+			seshDao.save(s);
+		}
+	}
+	
 		
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -699,6 +823,8 @@ public class FConsignService {
 		}
 	}
 
+	
+	
 	@Transactional
 	public void updateMblStatusById(Map<String, Object> queryMap) {
 		Integer id = Integer.valueOf((String) queryMap.get("consId"));

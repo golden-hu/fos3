@@ -206,34 +206,32 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		}
 		else 
 			XMG.alert(SYS,M_NO_DATA_SELECTED);
-	};	
+	};
+	
 	this.removeConsign = function(){
 		var a =sm.getSelections();
        	if(a.length){
        		XMG.confirm(SYS,M_R_C,function(btn){
            	if(btn=='yes'){
-           		/*var b = false;
-               	for(var i=0;i<a.length;i++){if(a[i].get('consStatus')!='0'){b=true;break;}}
-               	if(b) 
-               		XMG.alert(SYS,M_CONS_CONFIRMED);
-               	else {*/
-               		var xml = SMTX4R(sm,'FConsign','consId');
-               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
-					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
-					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
-					xmlData:FOSX(xml)});
-               	//}
+           		var xml = SMTX4R(sm,'FConsign','consId');
+           		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
+				success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
+				failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+				xmlData:FOSX(xml)});
            }});
 		}
        	else XMG.alert(SYS,M_R_P);
     };
+    
     setQueryParams=function(a){
     	queryParams = a;
     };
+    
 	this.search = function(){
 		var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store,setQueryParams);
 		w.show();
 	};
+	
 	var rowCtxEvents = {
 		rowdblclick: function(grid, rowIndex, event){
 			var c=grid.getSelectionModel().getSelected();if(c){Fos.showConsign(c);}},
@@ -264,6 +262,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			}); 
 		}
 	};	
+	
 	var kw = new Ext.form.TextField({listeners:{scope:this,
 		specialkey:function(c,e){
 			if(e.getKey()==Ext.EventObject.ENTER) 

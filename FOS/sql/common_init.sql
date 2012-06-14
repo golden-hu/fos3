@@ -194,6 +194,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('CUSH_S', 'CCustomerShipperService', 'save', '保存客户发货人'),
 ('CONS_S', 'FConsignService', 'save', '委托保存'),
 ('CONS_Q', 'FConsignService', 'query', '委托查询'),
+('CONS_UPDATE_NO', 'FConsignService', 'updateConsNo', '修改业务号'),
 ('CONS_U', 'FConsignService', 'updateStatusById', '委托状态修改'),
 ('CONS_X', 'FConsignService', 'complexQuery', '委托综合查询'),
 ('CONT_S', 'FContainerService', 'save', '箱保存'),
