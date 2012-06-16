@@ -243,13 +243,17 @@ Fos.GroupTab = function(p) {
 	this.reload = false;	
 	var store = GS('GROU_Q','PGroup',PGroup,'grouId','DESC','','S_GROU','grouId',false);
 	store.load();
+	
 	var us = GS('GRUS_Q','PGroupUser',PGroupUser,'grusId','DESC','','S_GRUS','grusId',false);
-	us.load({callback:function(){this.grid.getSelectionModel().selectFirstRow();},scope:this});		
+	us.load({callback:function(){this.grid.getSelectionModel().selectFirstRow();},scope:this});
+	
 	var re1 = {scope:this,
 		rowselect:function(sm,row,record){
 			if(this.sel!=record.get('grouId')){
 				this.sel = record.get('grouId');				
-				this.reload = true;this.ug.getSelectionModel().clearSelections();this.reload = false;
+				this.reload = true;
+				this.ug.getSelectionModel().clearSelections();
+				this.reload = false;
 				this.checkUser();
 			};			
 		}
@@ -261,7 +265,9 @@ Fos.GroupTab = function(p) {
 			if(a[i].get('grouId')==this.sel){
 				for(var j=0;j<ra.length;j++){
 					if(ra[j].get('userId') == a[i].get('userId') && a[i].get('rowAction')!='D'&& a[i].get('rowAction')!='R'){
-						this.reload = true;this.ug.getSelectionModel().selectRecords([ra[j]],true);this.reload = false;
+						this.reload = true;
+						this.ug.getSelectionModel().selectRecords([ra[j]],true);
+						this.reload = false;
 					}
 				}
 			}
@@ -324,7 +330,10 @@ Fos.GroupTab = function(p) {
 				var a = us.getRange();var b=false;
 				for(var i=0;i<a.length;i++){				
 					if(a[i].get('grouId')==this.sel && record.get('grouId') == a[i].get('grouId')){
-						b=true;if(a[i].get('rowAction')=='R') a[i].set('rowAction','M');break;
+						b=true;
+						if(a[i].get('rowAction')=='R') 
+							a[i].set('rowAction','M');
+						break;
 					};
 				};
 				if(b==false){
@@ -334,9 +343,13 @@ Fos.GroupTab = function(p) {
 			}
 		},
 		rowdeselect:function(sm,row,record){
-			if(this.reload==false){var a = us.getRange();
+			if(this.reload==false){
+				var a = us.getRange();
 				for(var i=0;i<a.length;i++){				
-					if(a[i].get('grouId')==this.sel && record.get('grouId') == a[i].get('grouId')){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');break;};
+					if(a[i].get('grouId')==this.sel && record.get('userId') == a[i].get('userId')){
+						a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');
+						break;
+					};
 				}
 			}
 		}
@@ -744,9 +757,13 @@ Fos.UserTab = function() {
 			}
 		},
 		rowdeselect:function(sm,row,record){
-			if(this.reload==false){var a = urStore.getRange();
+			if(this.reload==false){
+				var a = urStore.getRange();
 				for(var i=0;i<a.length;i++){				
-					if(a[i].get('userId')==this.sel && record.get('roleId') == a[i].get('roleId')){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');break;};
+					if(a[i].get('userId')==this.sel && record.get('roleId') == a[i].get('roleId')){
+						a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');
+						break;
+					};
 				};
 			}
 		}
