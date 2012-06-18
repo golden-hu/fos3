@@ -393,8 +393,11 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('REPT_BUSI_SALES', '', 'business_sales.rptdesign', '业务员业务量汇总表'),
 ('REPT_BUDS', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)'),
 ('PCOM_S', 'PCommentsService', 'save', '评论保存'),
-('PCOM_Q', 'PCommentsService', 'query', '评论查询')
-;
+('PCOM_Q', 'PCommentsService', 'query', '评论查询'),
+('COTR_Q', 'FContainerTraceService', 'query', '集装箱管理查询'),
+('COTR_S', 'FContainerTraceService', 'save', '集装箱管理保存'),
+('TRAIN_Q', 'GTrainStationService', 'query', '火车站管理查询'),
+('TRAIN_S', 'GTrainStationService', 'save', '火车站管理保存');
 
 
 --

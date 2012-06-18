@@ -1146,7 +1146,39 @@ CREATE TABLE IF NOT EXISTS `F_CONTAINER_CARGO` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
-
+--
+-- 表的结构 `F_CONTAINER_TRACE`
+--
+ CREATE TABLE F_CONTAINER_TRACE(
+     COTR_ID                 INT               AUTO_INCREMENT,
+     CONS_ID                 INT,
+     CONS_NO                 VARCHAR(32),
+     CONT_NO                 VARCHAR(32),
+     CONT_OWNER              VARCHAR(64),
+     CONT_OWNER_ID           INT,
+     CONT_NUM                INT               DEFAULT 1,
+     CONT_TYPE               VARCHAR(32),
+     CONS_ETA                DATE,
+     CONS_EXPIRY_DATE        DATE,
+     CUST_FREE_DAY           TINYINT,
+     CUST_EXTENDED_RATE      DECIMAL(9, 4),
+     CUST_EXTENDED_FEE       DECIMAL(9, 4),
+     CUST_EXTENDED_DAY       TINYINT,
+     TENANT_FREE_DAY         TINYINT,
+     TENANT_EXTENDED_RATE    DECIMAL(9, 4),
+     TENANT_EXTENDED_FEE     DECIMAL(9, 4),
+     TENANT_EXTENDED_DAY     TINYINT,
+     CONT_REMARKS            VARCHAR(200),
+     CREATE_BY               INT,
+     CREATE_TIME             DATETIME,
+     MODIFY_BY               INT,
+     MODIFY_TIME             DATETIME,
+     COMP_CODE               CHAR(4)           NOT NULL,
+     VERSION                 INT               DEFAULT 0 NOT NULL,
+     REMOVED                 TINYINT           DEFAULT 0 NOT NULL,
+     PRIMARY KEY (COTR_ID)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+-- --------------------------------------------------------
 --
 -- 表的结构 `F_CONTRACT`
 --
@@ -1274,8 +1306,6 @@ CREATE TABLE IF NOT EXISTS `F_CUSTOMS_DECLARATION` (
   `CUDE_VENDOR_TEL` varchar(32) collate utf8_unicode_ci default NULL,
   `CUDE_PRE_NO` varchar(32) collate utf8_unicode_ci default NULL,
   `CUDE_CUSTOMS_NO` varchar(32) collate utf8_unicode_ci default NULL,
-  `CUDE_PORT_DOMESTIC` varchar(32) collate utf8_unicode_ci default NULL,
-  `CUDE_PORT_DOMESTIC_EN` varchar(64) collate utf8_unicode_ci default NULL,
   `CUDE_RECORD_NO` varchar(32) collate utf8_unicode_ci default NULL,
   `CUDE_ENTRY_DATE` date default NULL,
   `CUDE_DECLAR_DATE` date default NULL,
@@ -1299,8 +1329,6 @@ CREATE TABLE IF NOT EXISTS `F_CUSTOMS_DECLARATION` (
   `CUDE_LOAD_COUNTRY` VARCHAR(64) NULL DEFAULT NULL,
   `CUDE_DISCHARGE_COUNTRY` VARCHAR(64) NULL DEFAULT NULL,
   `CUDE_COUNTRY` varchar(64) collate utf8_unicode_ci default NULL,
-  `CUDE_PORT_FOREIGN` VARCHAR(64) NULL DEFAULT NULL,
-  `CUDE_PORT_FOREIGN_EN` VARCHAR(64) NULL DEFAULT NULL,
   `CUDE_POL` varchar(32) collate utf8_unicode_ci default NULL,
   `CUDE_POL_EN` VARCHAR(64) NULL DEFAULT NULL,
   `CUDE_POD` VARCHAR(64) NULL DEFAULT NULL,
@@ -2648,7 +2676,25 @@ CREATE TABLE IF NOT EXISTS `G_SHIPPING_LINE` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
-
+--
+-- 表的结构 `G_TRAIN_STATION`
+--
+CREATE TABLE `G_TRAIN_STATION` (
+	`TRAIN_ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`TRAIN_CODE` VARCHAR(16) NOT NULL,
+	`TRAIN_NAME_CN` VARCHAR(64) NULL DEFAULT NULL,
+	`TRAIN_NAME_EN` VARCHAR(64) NULL DEFAULT NULL,
+	`TRAIN_TYPE` TINYINT(4) NULL DEFAULT '0',
+	`TRAIN_TYPE_FLAG` TINYINT(4) NULL DEFAULT '1',
+	`ACTIVE` TINYINT(4) NULL DEFAULT NULL,
+	`COUN_CODE` CHAR(2) NOT NULL,
+	`COMP_CODE` CHAR(4) NOT NULL,
+	`REMOVED` TINYINT(4) NOT NULL DEFAULT '0',
+	`VERSION` INT(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`TRAIN_ID`),
+	INDEX `COUN_CODE` (`COUN_CODE`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='火车站';
+-- --------------------------------------------------------
 --
 -- 表的结构 `G_TRADE_TERM`
 --

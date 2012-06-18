@@ -771,7 +771,70 @@ FAttach = Ext.data.Record.create(['attachId','attachName','attachFileName','atta
 PComments = Ext.data.Record.create(['commId','objectType','objectId','commBody','commBy',
     {name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
     'compCode','version','rowAction']);
-                                    
+       
+/* 北京永顺   集装箱管理 BEGIN*/
+FContainerTrace = Ext.data.Record.create(['id',
+  	'cotrId','consId','consNo','contNo','contType','contOwner','contOwnerId',
+  	'contNum','custFreeDay','custExtendedRate','custExtendedDay','custExtendedFee','tenantFreeDay','tenantExtendedRate',
+  	'tenantExtendedFee','tenantExtendedDay','contRemarks','createBy','modifyBy',
+  	{name:'consEta',type:'date',dateFormat:DATEF},
+  	{name:'consExpiryDate',type:'date',dateFormat:DATEF},
+  	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+  	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
+  	'compCode','version','rowAction']);
+GTrainStation = Ext.data.Record.create(['id','trainId','trainCode','trainNameEn','trainNameCn','counCode','trainType','trainTypeFlag','compCode','active','version','rowAction']); 
+
+var CONT_TYPE_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','货主SOC'],['1','我司SOC'],['2','COC']]});
+getCONT_TYPE_S = function(v){if(v>=0)return CONT_TYPE_S.getById(v).get('NAME');else return'';};
+
+var getTRAIN_S = function(){
+	if(Ext.StoreMgr.containsKey('S_TRAIN')){return Ext.StoreMgr.get('S_TRAIN');}
+	else {
+		s = GS('TRAIN_Q','GTrainStation',GTrainStation,'trainNameEn','ASC','','S_TRAIN','trainId');
+    	s.load({params:{counCode:'CN',active:'1'},callback:function(){getBTS();}});return s;}    
+};
+
+
+
+var BASE_STATION = '';
+var BASE_TRAINNAME_EN = '';
+var BASE_TRAINNAME_CN = '';
+
+var getBTS=function(){
+	if(BASE_STATION!='') 
+		return BASE_STATION;
+	else{
+		var bc=getCFG('BASE_STATION');
+		var s=getTRAIN_S();
+		var a=s.getRange();
+		for(var i=0;i<a.length;i++){
+			if(a[i].get('trainCode')==bc){
+				BASE_PORT=a[i].get('trainId');
+				BASE_PORT_NAME=a[i].get('trainNameEn');
+				BASE_PORT_NAME_CN=a[i].get('trainNameCn');
+				break;
+			}
+		}
+		return BASE_STATION;
+	}
+};
+
+
+function getTS(){return new Ext.data.Store({url: SERVICE_URL+'?A=TRAIN_Q',
+	reader: new Ext.data.XmlReader({record:'GTrainStation'},GTrainStation),
+	sortInfo:{field:'trainNameEn',direction:'ASC'}});};
+	
+	
+var M1_RT = '0017';//铁路联运
+
+var M2_TF='铁运管理';
+var M2_TE='空箱管理';
+
+var M2_K='02';//空箱返回
+var M3_TRAIN='15';
+
+
+/* 北京永顺   集装箱管理 END*/
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['CONS_DATE','委托生成日期'],['CONS_ETA','预计船到日期'],['CONS_SAIL_DATE','开船日期'],['BASE_TASK_D','依赖任务完成日']]});
 getDATY = function(v){if(v) return DATY_S.getById(v).get('NAME'); else return '';};
 
@@ -784,7 +847,7 @@ getSHTY = function(v){if(v) return SHTY_S.getById(v).get('NAME'); else return ''
 var TRACK_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','车皮'],[2,'驳船'],['3','卡车'],['4','不做码头']]});
 getTRACK_T = function(v){if(v) return TRACK_T_S.getById(v).get('NAME'); else return '';};
 
-var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],
+var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],['T','铁运'],
                 ['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册']]});
 getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return '';};
 

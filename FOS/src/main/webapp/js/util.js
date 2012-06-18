@@ -17,6 +17,7 @@ var BT_K='K';
 var BT_M = 'M'; //加工贸易
 var BT_F = 'F'; //减免税
 var BT_R = 'R'; //企业注册
+var BT_T='T';//铁运
 
 var ST_F='FCL';
 var ST_L='LCL';
@@ -85,6 +86,7 @@ var custTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{
 var charTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{charCode}</span>{charName}</h3></div></tpl>');
 var dotyTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{dotyCode}</span>{dotyName}</h3></div></tpl>');
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
+var stationTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{trainCode}</span>{trainNameCn}</h3></div></tpl>');
 var counTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{counCode}</span>{counNameCn}</h3></div></tpl>');
 var vessTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{vessNameEn}</span>&nbsp;&nbsp;&nbsp;&nbsp;{vessNameCn}</h3></div></tpl>');
 var getElapsed=function(d){if(!d) return -1;return Math.abs((new Date()).getTime()-d.getTime());};
@@ -300,6 +302,23 @@ var LP=function(f,e){
 		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
 	}
 };
+
+var LT=function(f,e){
+	if(e.getKey()!=e.ENTER){	
+		var q=f.getRawValue();
+		if(q.length>1 && !f.isExpanded()){
+			var a=[];
+			a[0]=new QParam({key:'trainCode',value:q+'%',op:7});			
+			var xml = QTX(a);
+	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'TRAIN_Q',S:1}:{A:'TRAIN_Q'},
+				success: function(r,o){f.store.loadData(r.responseXML,false);f.expand();},
+				xmlData:"<FosRequest>\n<data>\n"+xml+"</data>\n</FosRequest>\n"
+			});
+		}
+		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
+	}
+};
+
 var LV=function(f,e,vt){
 	var q=f.getRawValue();
 	if(q.length>1 && !f.isExpanded()){

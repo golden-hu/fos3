@@ -405,6 +405,7 @@ Fos.ConsignTab = function(p){
 		items[items.length] = VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
+		items[items.length] = new Fos.ContainerTraceTab(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
 	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) items[items.length]=new Fos.WarehouseTab(p);
@@ -653,7 +654,7 @@ Fos.BookTab = function(p) {
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
     	select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}};
 	
-    var txtCust={fieldLabel:p.get('consBizType')==BT_B?C_CHARTER:C_BOOKER,itemCls:'required',
+	var txtCust={fieldLabel:p.get('consBizType')==BT_B?C_CHARTER:C_BOOKER,itemCls:'required',
     		tabIndex:5,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
        		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
@@ -664,16 +665,19 @@ Fos.BookTab = function(p) {
          			f.clearValue();
          			p.set('custId','');
          			p.set('custName','');
+         			p.set('consSalesRepId','');
          		}
          	},
          	select:function(c,r,i){
 				this.find('name','custContact')[0].setValue(r.get('custContact'));
 				this.find('name','custTel')[0].setValue(r.get('custTel'));
 				this.find('name','custFax')[0].setValue(r.get('custFax'));
-				this.find('name','custSalesId')[0].store.reload({params:{custId:r.get('custId')}});
+				this.find('name','custSalesName')[0].store.reload({params:{custId:r.get('custId')}});
+				this.find('name','consSalesRepName')[0].setValue(r.get('custSalesName'));
 				p.set('custId',r.get('custId'));
 				p.set('custSname',r.get('custCode'));
 				p.set('custName',r.get('custNameCn'));
+				p.set('consSalesRepId',r.get('custSalesId'));
 				c.setValue(r.get('custNameCn'));
 				this.find('name','consShipper')[0].setValue(r.get('custShipper'));
 				var attr9=r.get('attr9');
@@ -697,9 +701,9 @@ Fos.BookTab = function(p) {
     
     var txtConsDate={fieldLabel:C_CONS_DATE,tabIndex:9,name:'consDate',value:p.get('consDate'),
     		xtype:'datefield',format:DATEF,anchor:'99%'};
-    var txtCustSales={fieldLabel:C_CUST_SALES,name:'custSalesId',value:p.get('custSalesId'),
-			tabIndex:10,store:getCUCOS(),xtype:'combo',displayField:'cucoName',valueField:'cucoId',
-			typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
+    var txtCustSales={fieldLabel:C_CUST_SALES,name:'custSalesName',value:p.get('custSalesName'),
+			tabIndex:10,store:getCUCOS(),xtype:'combo',displayField:'cucoName',valueField:'cucoName',
+			typeAhead: true,mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
     var txtRefNo={fieldLabel:C_REF_NO,tabIndex:11,name:'consRefNo',value:p.get('consRefNo'),xtype:'textfield',anchor:'99%'};    
 	var txtContractNo={fieldLabel:C_CONTRACT_NO,tabIndex:12,name:'consContractNo',
 			value:p.get('consContractNo'),xtype:'textfield',anchor:'99%'};

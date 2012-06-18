@@ -986,9 +986,9 @@ Fos.ExpenseTab2 = function(p,f){
 	var tb5={xtype:'tbtext',text:C_PROFIT_LOC};
 	var tb7={xtype:'tbtext',text:C_PROFIT_RC};	
 	Fos.ExpenseTab2.superclass.constructor.call(this, { 
-	id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'?'(F3)':('-'+p.get("consNo"))),header:false,autoScroll:true,closable:f=='C'?false:true,
-	height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
-	items: [pBiz,pR,pP],
+		id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'||f=='T'?'(F3)':('-'+p.get("consNo"))),header:false,autoScroll:true,closable:f=='C'||f=='T'?false:true,
+		height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
+		items: f=='T'?[pR,pP]:[pBiz,pR,pP],
 		tbar:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
 	});
 };

@@ -1545,3 +1545,36 @@ var C_THC_FLAG='是否有THC';
 var C_PRESSURE_BOX_FLAG='是否压箱';
 var C_CUST_OTHER_REQUIREMENT='报检/报关及其他服务要求';
 var M_BUSSINESS_PROCESS='业务流程表';
+
+
+/*20120523 北京永顺  铁路运输*/
+var C_STATION = '火车站';
+var C_CONT_TRACE = '集装箱管理';
+var C_CONT_OWNER = '箱主';
+var C_EXPIRY_DATE = '返场日期';
+var C_CUST_DAY ='客户滞箱免费期';
+var C_TENANT_DAY = '滞箱免费期';
+var C_CUST_EXT_RATE = '客户超期费率';
+var C_TENANT_EXT_RATE ='超期费率';
+var C_RECALCULATE = '计算费用';
+var C_OWNER_FEE = '租借滞期费';
+var C_CUST_FEE = '客户滞期费';
+var C_CUST_EXT_DAY='客户超期(天)';
+var C_TENANT_EXT_DAY='租借超期(天)';
+var C_RAILWAY_TRANSPORT = '铁路联运';
+var C_RAILWAY_MANAGMENT='铁运管理';
+var C_EMPTY_BOX_MANAGEME='空箱返回管理';
+var C_RAIL_NO = '车号';
+var C_DEPARTURE_DATE = '发车日期';
+var C_TRANSPORT_STATION = '换装站';
+var C_FOREIGN_RAIL_NO = '外方车号';
+var C_ARRIVAL_DATE = '到站日期';
+var C_DEPARTURE_STATION = '始发站';
+var C_CTRANSFER_STATION = '中方换装站';
+var C_CRAIL_NO = '中方车号';
+var C_CDELIVERY_DATE = '中方交出日期';
+var C_FTRANSFER_STATION = '外方换装站';
+var C_FRAIL_NO = '外方车号';
+var C_FDELIVERY_DATE = '外方换装日期';
+var C_DESTINATION_STATION = '目的站';
+var C_CONTAINER_TYPE = '箱类型';

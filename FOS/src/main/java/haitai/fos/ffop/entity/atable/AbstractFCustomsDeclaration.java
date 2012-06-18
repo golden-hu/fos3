@@ -61,8 +61,6 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudeContainerNo;
 	private String cudeLoadCountry;
 	private String cudeDischargeCountry;
-	private String cudePortForeign;
-	private String cudePortForeignEn;
 	private String cudePlace;
 	private String cudePlaceEn;
 	private String trteCode;

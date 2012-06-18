@@ -164,14 +164,14 @@ Fos.CargoGrid = function(p,store,frm) {
     		this.reCalculate();
     	}
     }},
-    tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
-			var rid=GGUID();
-			var c = new FCargo({id:rid,cargId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
-			consMasterId:p.get('consMasterId'),consMasterNo:p.get('consMasterNo'),cargMarks:'',cargSpec:'',
-			cargManuNo:'',cargNo:'',packId:'',cargPackageNum:'',cargNameCn:'',cargNameEn:'',cargGrossWeight:'',cargNetWeight:'',
-				cargMeasurement:'',cargUnit:'',version:'0',rowAction:'N'});
-        		store.insert(0,c);sm.selectFirstRow();this.startEditing(0, 2);}},'-',
-			{text:C_REMOVE,iconCls:'remove',disabled:NR(m+F_M),iconCls:'remove',scope:this,handler:function(){
+    tbar:[{text:C_ADD,iconCls:'add',disabled:p.get('consBizType')=='T'?false:NR(m+F_M),scope:this,handler:function(){
+		var rid=GGUID();
+		var c = new FCargo({id:rid,cargId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
+		consMasterId:p.get('consMasterId'),consMasterNo:p.get('consMasterNo'),cargMarks:'',cargSpec:'',
+		cargManuNo:'',cargNo:'',packId:'',cargPackageNum:'',cargNameCn:'',cargNameEn:'',cargGrossWeight:'',cargNetWeight:'',
+			cargMeasurement:'',cargUnit:'',version:'0',rowAction:'N'});
+    		store.insert(0,c);sm.selectFirstRow();this.startEditing(0, 2);}},'-',
+		{text:C_REMOVE,iconCls:'remove',disabled:p.get('consBizType')=='T'?false:NR(m+F_M),iconCls:'remove',scope:this,handler:function(){
 				var r = sm.getSelections();
 				if(r){
 					for(var i=0;i<r.length;i++){r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');store.remove(r[i]);}

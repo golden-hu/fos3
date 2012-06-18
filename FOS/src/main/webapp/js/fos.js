@@ -76,6 +76,15 @@ function getAirPanel(){
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
 
+function getRailwayPanel(){
+	var items=[];
+	if(!NR(M1_A+M2_I)) items[items.length]=NaviMenu(C_RAILWAY_MANAGMENT,'G_CONS_R_T',function(){return new Fos.RailwayGrid('R','T','');});
+	if(!NR(M1_A+M2_E)) items[items.length]=NaviMenu(C_EMPTY_BOX_MANAGEME,'G_CONS_K_T',function(){return new Fos.RailwayGrid('K','T','');});
+	return new Ext.Panel({title:C_RAILWAY_TRANSPORT,collapsible:true,layout:'fit',
+		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+};
+
+
 function getEntryPanel(){
 	var items=[];
 	if(!NR(M1_E+M2_TC)) 
@@ -202,6 +211,7 @@ function getPMenu(){
 	if(!NR(M1_C)) items[items.length]=getContPanel();
 	if(!NR(M1_B)) items[items.length]=getBulkPanel();
 	if(!NR(M1_A)) items[items.length]=getAirPanel();
+	if(!NR(M1_A)) items[items.length]=getRailwayPanel();
 	if(!NR(M1_G)) items[items.length]=getCudePanel();
 	//items[items.length]=getEntryPanel();
 	//if(!NR(M1_I)) items[items.length]=getInspPanel();
@@ -386,6 +396,10 @@ function createGMTree(){
 	if(!NR(M1_J+G_PORT)){
 		var port = CreateNode(C_PORT,'PORT',M1_J+G_PORT,function(){return showG_PORT('0');});
 		biz.appendChild(port);
+	}
+	if(!NR(M1_J+G_PORT)){
+		var station = CreateNode(C_STATION,'STATION',M1_J+G_PORT,function(){return showG_STATION('0');});
+		biz.appendChild(station);
 	}
 	/*if(!NR(M1_J+G_AIRP)){
 		var airp = CreateNode(C_AIRP,'AIRP',M1_J+G_AIRP,function(){return showG_PORT('1');});
