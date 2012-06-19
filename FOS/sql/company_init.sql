@@ -1919,6 +1919,17 @@ insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001105', 
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110501', '{CC}');
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110502', '{CC}');
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110503', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0016', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001601', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160101', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160102', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160103', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160104', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001602', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160201', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160202', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160203', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160204', '{CC}');
 
 INSERT INTO `P_MESSAGE_TOPIC` (`METO_ID`, `METO_NAME`, `METO_DESC`, `METO_TEMPLATE`, `METO_RULE`, `ACT_NAME`, `TETY_ID`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 (1, '配船通知', '租船部生成委托时通知操作和调度', '大家好 <br><br>操作：{操作} <br><br>船名：{船名} or sub <br>租船人：{租船人} <br>发货人：{发货人} <br>LAYCAN：与客户：{预计船期从}/{预计船期到} 与船公司：{船期从}/{船期到} <br>船公司：{船公司} <br>船代：{船代} <br>计费标准： 与客户{客户计费单位} 与船公司{船公司计费单位} <br>配货：{毛重} {客户计费单位} <br>合同号：{合同号} <br>FOS编号: {委托号} <br>货物明细：{货物描述} <br>装（港区）/卸港 {装货港}({港区})/{卸货港} <br>条款：与船公司{船公司条款} 与客户{客户条款} <br><br>注意事项：{注意事项} <br><br>装船要求：{备注}', 'rowAction=N,consBizType=B,consMasterFlag=1', 'CONS_S', 37, 1, '{CC}', 3, 0),

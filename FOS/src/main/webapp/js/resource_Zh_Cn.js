@@ -1549,7 +1549,7 @@ var M_BUSSINESS_PROCESS='业务流程表';
 
 /*20120523 北京永顺  铁路运输*/
 var C_STATION = '火车站';
-var C_CONT_TRACE = '集装箱管理';
+var C_CONT_TRACE = '空箱返回管理';
 var C_CONT_OWNER = '箱主';
 var C_EXPIRY_DATE = '返场日期';
 var C_CUST_DAY ='客户滞箱免费期';
@@ -1557,8 +1557,8 @@ var C_TENANT_DAY = '滞箱免费期';
 var C_CUST_EXT_RATE = '客户超期费率';
 var C_TENANT_EXT_RATE ='超期费率';
 var C_RECALCULATE = '计算费用';
-var C_OWNER_FEE = '租借滞期费';
-var C_CUST_FEE = '客户滞期费';
+var C_OWNER_FEE = '应付费用';
+var C_CUST_FEE = '应收费用';
 var C_CUST_EXT_DAY='客户超期(天)';
 var C_TENANT_EXT_DAY='租借超期(天)';
 var C_RAILWAY_TRANSPORT = '铁路联运';

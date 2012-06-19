@@ -7,7 +7,6 @@ Fos.ContainerTraceTab = function(p) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 	{header:C_CONT_NO,dataIndex:'contNo',editor:new Ext.form.TextField({})},
-	{header:C_QUANTITY,dataIndex:'contNum',width:60,editor:new Ext.form.TextField({})},
 	{header:C_COTY,dataIndex:'contType',width:60,renderer:getCOTY,
 		editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyCode',triggerAction:'all',
         mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S()
@@ -31,10 +30,10 @@ Fos.ContainerTraceTab = function(p) {
 	}),width:160},
 	{header:C_EXPIRY_DATE,dataIndex:'consExpiryDate',renderer:formatDate,editor:new Ext.form.DateField({})},
 	{header:C_ETA,dataIndex:'consEta',renderer:formatDate,editor:new Ext.form.DateField({})},
-	{header:C_CUST_DAY,dataIndex:'custFreeDay',width:110,editor:new Ext.form.TextField({})},
-	{header:C_CUST_EXT_RATE,dataIndex:'custExtendedRate',editor:new Ext.form.TextField({})},
-	{header:C_TENANT_DAY,dataIndex:'tenantFreeDay',editor:new Ext.form.TextField({})},
-	{header:C_TENANT_EXT_RATE,dataIndex:'tenantExtendedRate',editor:new Ext.form.TextField({})}
+	{header:C_CUST_DAY,dataIndex:'custFreeDay',width:110,editor:new Ext.form.NumberField({})},
+	{header:C_CUST_EXT_RATE,dataIndex:'custExtendedRate',editor:new Ext.form.NumberField({})},
+	{header:C_TENANT_DAY,dataIndex:'tenantFreeDay',editor:new Ext.form.NumberField({})},
+	{header:C_TENANT_EXT_RATE,dataIndex:'tenantExtendedRate',editor:new Ext.form.NumberField({})}
 	],defaults:{sortable:true,width:100}});
 	
 	this.addTrace = function(){
@@ -162,13 +161,13 @@ Fos.SectionGridCustFee = function(p,section,parent,listStore,traceSm) {
 	this.add=function(){
 		var a = listStore.getRange();
 		var b =store.getRange();
-		if(a.length>0&&b.length>0){
+		if(a.length>0&&b.length>0&&a.length>b.length){
 			for(var i=0;i<a.length;i++){
 				for(var j=0;j<b.length;j++){
 					if(a[i].get('cotrId')!=b[j].get('consCustId')){
 					    var day=(a[i].get('consExpiryDate').getTime()-a[i].get('consEta').getTime())/(24*60*60*1000);
 					    var freeDay=a[i].get('custFreeDay');
-					    var num = (day-freeDay)*a[i].get('contNum');
+					    var num = (day-freeDay);
 					    var expeTotalAmount = num * a[i].get('custExtendedRate');
 					    var unit='EACH';var rid=GGUID();
 					    if(num>0){
@@ -192,7 +191,7 @@ Fos.SectionGridCustFee = function(p,section,parent,listStore,traceSm) {
 			  for(var i=0;i<a.length;i++){
 				    var day=(a[i].get('consExpiryDate').getTime()-a[i].get('consEta').getTime())/(24*60*60*1000);
 				    var freeDay=a[i].get('custFreeDay');
-				    var num = (day-freeDay)*a[i].get('contNum');
+				    var num = (day-freeDay);
 				    var expeTotalAmount = num * a[i].get('custExtendedRate');
 				    var unit='EACH';var rid=GGUID();
 				    if(num>0){
@@ -373,14 +372,13 @@ Fos.SectionGridFee = function(p,section,parent,listStore,traceSm) {
 	this.add=function(){
 		var a = listStore.getRange();
 		var b =store.getRange();
-		store.removeAll();
-		if(a.length>0&&b.length>0&&a.length>=b.length){
+		if(a.length>0&&b.length>0&&a.length>b.length){
 			for(var i=0;i<a.length;i++){
 				for(var j=0;j<b.length;j++){
 					if(a[i].get('cotrId')==b[j].get('consCustId')){
 					    var day=(a[i].get('consExpiryDate').getTime()-a[i].get('consEta').getTime())/(24*60*60*1000);
 					    var freeDay=a[i].get('tenantFreeDay');
-					    var num = (day-freeDay)*a[i].get('contNum');
+					    var num = (day-freeDay);
 					    var expeTotalAmount = num * a[i].get('tenantExtendedRate');
 					    var unit='EACH';var rid=GGUID();
 					    if(num>0){
@@ -404,7 +402,7 @@ Fos.SectionGridFee = function(p,section,parent,listStore,traceSm) {
 			  for(var i=0;i<a.length;i++){
 				    var day=(a[i].get('consExpiryDate').getTime()-a[i].get('consEta').getTime())/(24*60*60*1000);
 				    var freeDay=a[i].get('custFreeDay');
-				    var num = (day-freeDay)*a[i].get('contNum');
+				    var num = (day-freeDay);
 				    var expeTotalAmount = num * a[i].get('custExtendedRate');
 				    var unit='EACH';var rid=GGUID();
 				    if(num>0){
@@ -652,9 +650,8 @@ Fos.RailwayGrid = function(bizClass,bizType){
 	};
 	
 	
-	var m=M1_G+M3_CONS;
-	
-	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.newConsign};
+	var m=M1_RT+(bizClass=='R'?M2_RT:M2_K);
+	var b1={text:C_ADD,disabled:NR(m+F_V),iconCls:'add',scope:this,handler:this.newConsign};
 	var b2={text:C_EDIT,disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b3={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b4={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',scope:this,menu: 
@@ -776,7 +773,7 @@ Fos.RailwayConsign = function (p,listStore) {
 		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     
-    var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
+    var m=M1_RT+(p.get('consBizClass')=='R'?M2_RT:M2_K);
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     this.updateToolBar = function(){
@@ -1103,15 +1100,13 @@ Fos.RailwayConsign = function (p,listStore) {
 	var t2={id:'C_B_H_'+p.get('id'),title:C_CARGO_INFO+'(H)',height:720,
 			items:[{layout:'fit',border:false,collapsible:true,items:this.cargoGrid},t31]};
 	var tabs=[t1,t2];
-	if(p.get('consBizClass')=='K'){
-		tabs=[t1];
-	}
 	
 	Fos.RailwayConsign.superclass.constructor.call(this, { 
 		id: "T_RAIL_"+p.get('id'),title:C_CONSIGN+"(F1)",header:false,autoScroll:true,
 		border:false,labelAlign:'right',bodyStyle:'padding:2px 10px 10px 2px',tbar:tbs,		
-		items:[{id:'T_RAIL_T_'+p.get('id'),xtype:'tabpanel',plain:true,activeTab:0,
-	    	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}},items:tabs
+		items:p.get('consBizClass')=='K'?[t11,t12,t13]:[{id:'T_RAIL_T_'+p.get('id'),xtype:'tabpanel',plain:true,activeTab:0,
+	    	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}},
+	    	items:tabs
 		}]
 	});
 };

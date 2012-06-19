@@ -823,16 +823,6 @@ var getBTS=function(){
 function getTS(){return new Ext.data.Store({url: SERVICE_URL+'?A=TRAIN_Q',
 	reader: new Ext.data.XmlReader({record:'GTrainStation'},GTrainStation),
 	sortInfo:{field:'trainCode',direction:'ASC'}});};
-	
-	
-var M1_RT = '0017';//铁路联运
-
-var M2_TF='铁运管理';
-var M2_TE='空箱管理';
-
-var M2_K='02';//空箱返回
-var M3_TRAIN='15';
-
 
 /* 北京永顺   集装箱管理 END*/
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['CONS_DATE','委托生成日期'],['CONS_ETA','预计船到日期'],['CONS_SAIL_DATE','开船日期'],['BASE_TASK_D','依赖任务完成日']]});
@@ -1409,7 +1399,8 @@ var M1_W='0012';//网上服务
 var M1_M='0013';//加工贸易
 var M1_F='0014';//减免税
 var M1_R='0015';//企业注册
-var M1_E='0016';//进境
+var M1_RT ='0016';//铁运联运
+var M1_E='0017';//进境
 
 var M2_TC='01';//进境集装箱
 var M2_TB='02';//进境散货
@@ -1429,6 +1420,9 @@ var M2_V='04';
 var M2_R='05';
 var M2_I='02'; //进口
 var M2_E='03'; //出口
+
+var M2_RT='01';//铁路管理
+var M2_K='02';//空箱返回管理
 
 var M3_CONS='01';
 var M3_DOC='02';
