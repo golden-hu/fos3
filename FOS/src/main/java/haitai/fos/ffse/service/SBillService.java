@@ -1,7 +1,6 @@
 package haitai.fos.ffse.service;
 
 import haitai.fos.ffop.entity.idao.IFConsignDAO;
-import haitai.fos.ffop.entity.table.FBl;
 import haitai.fos.ffop.entity.table.FConsign;
 import haitai.fos.ffse.entity.idao.ISBillDAO;
 import haitai.fos.ffse.entity.idao.ISBillItemDAO;

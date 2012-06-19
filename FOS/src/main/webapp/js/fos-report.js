@@ -145,6 +145,7 @@ Fos.StatContProfitTab = function(){
 };
 Ext.extend(Fos.StatContProfitTab, Ext.Panel);
 
+//业务明细统计表
 Fos.StatDetailTab = function(a){
 	var G_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_STAT_NO_GROUP],['4',C_BOOKER],['7',C_GROU],['5',C_SALES],['1',C_SHLI],['2',C_VOYA],['3',C_CARRIER],['6',C_OPERATOR]]});
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
@@ -230,6 +231,8 @@ Fos.StatDetailTab = function(a){
     });
 };    
 Ext.extend(Fos.StatDetailTab, Ext.Panel);
+
+//利润分析表
 Fos.StatProfitTab = function(A){
 	var G_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_STAT_NO_GROUP],['1',C_BOOKER],['4',C_GROU],['2',C_SALES],['3',C_POD]]});
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
@@ -300,6 +303,7 @@ Fos.StatProfitTab = function(A){
 	    	{layout:'fit',height:600,deferredRender:false,items:[doc]}]});
 };
 Ext.extend(Fos.StatProfitTab, Ext.Panel);
+
 Fos.StatACTab = function(t){
     var t1=new Ext.form.DateField({value:new Date(),format:DATEF});
     var doc=new Ext.ux.IFrameComponent({id:'AC'+t, url:''});
@@ -316,6 +320,8 @@ Fos.StatACTab = function(t){
 		items:[{layout:'fit',height:600,deferredRender:false,items:[doc]}]});
 };
 Ext.extend(Fos.StatACTab, Ext.Panel);
+
+//应收费用统计表
 Fos.StatArTab = function(T){
 	var G_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_STAT_NO_GROUP],['1',C_BOOKER],['7',C_GROU],['6',C_SALES],['2',C_VOYA],['3',C_CONS_NO],['4',C_CHAR],['5',C_CURR]]});
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE],['2',C_INVO_DATE]]});
@@ -402,6 +408,8 @@ Fos.StatArTab = function(T){
 	    	{layout:'fit',height:500,items:[doc]}]});
 };
 Ext.extend(Fos.StatArTab, Ext.Panel);
+
+//应付费用统计表
 Fos.StatApTab = function(){
 	var G_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_STAT_NO_GROUP],['1',C_VENDOR],['7',C_GROU],['6',C_SALES],['2',C_VOYA],['3',C_CONS_NO],['4',C_CHAR],['5',C_CURR]]});
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE],['2',C_INVO_DATE]]});	
@@ -431,7 +439,7 @@ Fos.StatApTab = function(){
 		var consReceiptPlace=this.find('name','consReceiptPlace')[0].getValue();
 		var consStatusAud=this.find('name','consStatusAud')[0].getValue();
 		var consStatusInvoP=this.find('name','consStatusInvoP')[0].getValue();
-		var consStatusAp=this.find('name','consStatusInvoP')[0].getValue();
+		var consStatusAp=this.find('name','consStatusAp')[0].getValue();
 		var url = SERVICE_URL+'?A=REPT_VEEX&g='+t1.value+'&dt='+t4.value+'&F='+t2.value+'&T='+t3.value;		
 		if(vessId) url+='&vessId='+vessId;
 		if(charId) url+='&charId='+charId;
@@ -445,9 +453,9 @@ Fos.StatApTab = function(){
 		if(consPol) url+='&consPol='+consPol;
 		if(consPod) url+='&consPod='+consPod;
 		if(consReceiptPlace) url+='&consReceiptPlace='+consReceiptPlace;
-		if(consStatusAud) url+='&consStatusAud='+consStatusAud;
-		if(consStatusInvoP) url+='&consStatusInvoP='+consStatusInvoP;
-		if(consStatusAp) url+='&consStatusAp='+consStatusAp;
+		if(consStatusAud>=0) url+='&consStatusAud='+consStatusAud;
+		if(consStatusInvoP>=0) url+='&consStatusInvoP='+consStatusInvoP;
+		if(consStatusAp>=0) url+='&consStatusAp='+consStatusAp;
 		return url;
 	};
 	this.report=function(){check();Ext.get('IF_VEEX').dom.src=this.getUrl();};

@@ -682,7 +682,19 @@ public class FConsignService {
 		String bt = entity.getClassType() + entity.getConsBizClass() + entity.getExternal();		
 		map.put(SerialFactory.RULE_CONS_TYPE,getBizTypeCode(bt));
 		map.put(SerialFactory.RULE_CUST_CODE, entity.getCustSname());
-		return SerialFactory.getSerial("consign_no", map);
+		boolean bExist = true;
+		String consNo = SerialFactory.getSerial("consign_no", map);
+		while(bExist)
+		{
+			Map<String,Object> qmap = new HashMap<String,Object>();
+			qmap.put("consNo", consNo);
+			List<FConsign> consList = dao.findByProperties(qmap);
+			if(consList.size()==0)
+				bExist = false;
+			else
+				consNo = SerialFactory.getSerial("consign_no", map);
+		}
+		return consNo;
 	}
 
 	/**
