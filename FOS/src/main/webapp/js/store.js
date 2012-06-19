@@ -790,7 +790,7 @@ getCONT_TYPE_S = function(v){if(v>=0)return CONT_TYPE_S.getById(v).get('NAME');e
 var getTRAIN_S = function(){
 	if(Ext.StoreMgr.containsKey('S_TRAIN')){return Ext.StoreMgr.get('S_TRAIN');}
 	else {
-		s = GS('TRAIN_Q','GTrainStation',GTrainStation,'trainNameEn','ASC','','S_TRAIN','trainId');
+		s = GS('TRAIN_Q','GTrainStation',GTrainStation,'trainCode','ASC','','S_TRAIN','trainId');
     	s.load({params:{counCode:'CN',active:'1'},callback:function(){getBTS();}});return s;}    
 };
 
@@ -809,9 +809,9 @@ var getBTS=function(){
 		var a=s.getRange();
 		for(var i=0;i<a.length;i++){
 			if(a[i].get('trainCode')==bc){
-				BASE_PORT=a[i].get('trainId');
-				BASE_PORT_NAME=a[i].get('trainNameEn');
-				BASE_PORT_NAME_CN=a[i].get('trainNameCn');
+				BASE_STATION=a[i].get('trainId');
+				BASE_TRAINNAME_EN=a[i].get('trainNameEn');
+				BASE_TRAINNAME_CN=a[i].get('trainNameCn');
 				break;
 			}
 		}
@@ -822,7 +822,7 @@ var getBTS=function(){
 
 function getTS(){return new Ext.data.Store({url: SERVICE_URL+'?A=TRAIN_Q',
 	reader: new Ext.data.XmlReader({record:'GTrainStation'},GTrainStation),
-	sortInfo:{field:'trainNameEn',direction:'ASC'}});};
+	sortInfo:{field:'trainCode',direction:'ASC'}});};
 	
 	
 var M1_RT = '0017';//铁路联运
@@ -854,7 +854,7 @@ getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return '';};
 var PLTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','省'],['2','市/县'],['3','港区']]});
 getPLTY = function(v){if(v) return PLTY_S.getById(v).get('NAME'); else return '';};
 
-var BC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口'],['T','进境'],['D','内贸']]});
+var BC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口'],['T','进境'],['D','内贸'],['R','管理'],['K','空箱返回']]});
 getBC = function(v){if(v) return BC_S.getById(v).get('NAME'); else return '';};
 
 var SOUR_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','自揽货'],['1','同行货'],['2','船公司指定货'],['3','海外代理指定货']]});

@@ -50,5 +50,6 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('COTR_Q', 'FContainerTraceService', 'query', '集装箱管理查询'),
 ('COTR_S', 'FContainerTraceService', 'save', '集装箱管理保存'),
 ('TRAIN_Q', 'GTrainStationService', 'query', '火车站管理查询'),
+('TRAIN_X', 'GTrainStationService', 'complexQuery', '火车站复杂查询'),
 ('TRAIN_S', 'GTrainStationService', 'save', '火车站管理保存');
 /* 北京永顺   END*/

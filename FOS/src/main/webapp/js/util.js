@@ -86,7 +86,7 @@ var custTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{
 var charTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{charCode}</span>{charName}</h3></div></tpl>');
 var dotyTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{dotyCode}</span>{dotyName}</h3></div></tpl>');
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
-var stationTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{trainCode}</span>{trainNameCn}</h3></div></tpl>');
+var stationTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{trainNameEn}</span>{trainNameCn}</h3></div></tpl>');
 var counTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{counCode}</span>{counNameCn}</h3></div></tpl>');
 var vessTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{vessNameEn}</span>&nbsp;&nbsp;&nbsp;&nbsp;{vessNameCn}</h3></div></tpl>');
 var getElapsed=function(d){if(!d) return -1;return Math.abs((new Date()).getTime()-d.getTime());};
@@ -310,7 +310,7 @@ var LT=function(f,e){
 			var a=[];
 			a[0]=new QParam({key:'trainCode',value:q+'%',op:7});			
 			var xml = QTX(a);
-	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'TRAIN_Q',S:1}:{A:'TRAIN_Q'},
+	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'TRAIN_X'},
 				success: function(r,o){f.store.loadData(r.responseXML,false);f.expand();},
 				xmlData:"<FosRequest>\n<data>\n"+xml+"</data>\n</FosRequest>\n"
 			});

@@ -398,7 +398,7 @@ function createGMTree(){
 		biz.appendChild(port);
 	}
 	if(!NR(M1_J+G_PORT)){
-		var station = CreateNode(C_STATION,'STATION',M1_J+G_PORT,function(){return showG_STATION('0');});
+		var station = CreateNode(C_STATION,'STATION',M1_J+G_PORT,function(){return showG_STATION();});
 		biz.appendChild(station);
 	}
 	/*if(!NR(M1_J+G_AIRP)){
