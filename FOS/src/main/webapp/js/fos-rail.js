@@ -81,7 +81,7 @@ Fos.ContainerTraceTab = function(p) {
 	this.grid = new Ext.grid.EditorGridPanel({title:C_CONT_INFO,region:'north',autoScroll:true,height:140,store:store,sm:sm,cm:cm,
 			tbar:[{text:C_ADD+'(N)',iconCls:'add',scope:this,handler:this.addTrace},'-',
 				{text:C_REMOVE+'(R)',iconCls:'remove',scope:this,handler:this.removeTrace}, '-', 
-				{text:C_SAVE+'(S)',iconCls:'save',scope:this,handler:this.saveTrace},'-'],});
+				{text:C_SAVE+'(S)',iconCls:'save',scope:this,handler:this.saveTrace},'-']});
 	
 	var expPanel = new Fos.SectionGridFee(p,'COTR',this,store,sm);
 	
@@ -662,7 +662,7 @@ Fos.RailwayGrid = function(bizClass,bizType){
     var tbs=[b1, '-',b2,'-',b3,'-',b7,'-',b4,'-',b5,'-',kw,b6,'-'];
     
 	Fos.RailwayGrid.superclass.constructor.call(this,{title:bizClass=='R'?C_RAILWAY_MANAGMENT:C_EMPTY_BOX_MANAGEME,
-		iconCls:'grid',store: store,header:false,loadMask:true,
+		iconCls:'grid',store: store,header:false,loadMask:true,id:'R_CONS_'+bizClass,
 		sm:sm,cm:cm,stripeRows:true,closable:true,
 		listeners:{rowdblclick: function(grid, rowIndex, event){
 			var c=grid.getSelectionModel().getSelected();
@@ -950,7 +950,7 @@ Fos.RailwayConsign = function (p,listStore) {
     
     var t121 = [departureDate,cDeliveryDate,fDeliveryDate,arrivalDate];
 	var t122 = [containerNo,cRailNo,fRailNo];
-	var t123 = [containerType,departureStation,fTransferStation,];
+	var t123 = [containerType,departureStation,fTransferStation];
 	var t124 = [contSealNo,cTransferStation,destinationStation];
 	
     function saveShipper(shipperT){

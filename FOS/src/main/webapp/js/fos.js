@@ -78,8 +78,8 @@ function getAirPanel(){
 
 function getRailwayPanel(){
 	var items=[];
-	if(!NR(M1_RT+M2_RT)) items[items.length]=NaviMenu(C_RAILWAY_MANAGMENT,'G_CONS_R_T',function(){return new Fos.RailwayGrid('R','T','');});
-	if(!NR(M1_RT+M2_K)) items[items.length]=NaviMenu(C_EMPTY_BOX_MANAGEME,'G_CONS_K_T',function(){return new Fos.RailwayGrid('K','T','');});
+	if(!NR(M1_RT+M2_RT)) items[items.length]=NaviMenu(C_RAILWAY_MANAGMENT,'R_CONS_R',function(){return new Fos.RailwayGrid('R','T','');});
+	if(!NR(M1_RT+M2_K)) items[items.length]=NaviMenu(C_EMPTY_BOX_MANAGEME,'R_CONS_K',function(){return new Fos.RailwayGrid('K','T','');});
 	return new Ext.Panel({title:C_RAILWAY_TRANSPORT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
