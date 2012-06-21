@@ -239,52 +239,21 @@ Fos.AcloLW = function(store) {
 Ext.extend(Fos.AcloLW, Ext.Window);
 
 Fos.GroupTab = function(p) {
-	this.sel =GSEL;
-	this.reload = false;	
 	var store = GS('GROU_Q','PGroup',PGroup,'grouId','DESC','','S_GROU','grouId',false);
 	store.load();
 	
-	var us = GS('GRUS_Q','PGroupUser',PGroupUser,'grusId','DESC','','S_GRUS','grusId',false);
-	us.load({callback:function(){this.grid.getSelectionModel().selectFirstRow();},scope:this});
-	
-	var re1 = {scope:this,
-		rowselect:function(sm,row,record){
-			if(this.sel!=record.get('grouId')){
-				this.sel = record.get('grouId');				
-				this.reload = true;
-				this.ug.getSelectionModel().clearSelections();
-				this.reload = false;
-				this.checkUser();
-			};			
-		}
-	};
-	this.checkUser=function(){
-		var a = us.getRange();
-		var ra = this.ug.getStore().getRange();
-		for(var i=0;i<a.length;i++){
-			if(a[i].get('grouId')==this.sel){
-				for(var j=0;j<ra.length;j++){
-					if(ra[j].get('userId') == a[i].get('userId') && a[i].get('rowAction')!='D'&& a[i].get('rowAction')!='R'){
-						this.reload = true;
-						this.ug.getSelectionModel().selectRecords([ra[j]],true);
-						this.reload = false;
-					}
-				}
-			}
-		}
-	};
 	this.save = function(){
 		var xml = '';
 		var a = store.getModifiedRecords();		
-		if(a.length) xml = ATX(a,'PGroup',PGroup);
-		var ra = us.getModifiedRecords();
-		if(ra.length>0){var x = ATX(ra,'PGroupUser',PGroupUser);xml=xml+x;};
+		if(a.length) xml = ATX(a,'PGroup',PGroup);		
 		if(xml!=''){
 			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'GROU_S'},
 				success: function(r){
-					var a = XTRA(r.responseXML,'PGroup',PGroup);FOSU(store,a,PGroup);
-					var b = XTRA(r.responseXML,'PGroupUser',PGroupUser);FOSU(us,b,PGroupUser);
-					XMG.alert(SYS,M_S);getGROU_S().reload();},
+					var a = XTRA(r.responseXML,'PGroup',PGroup);
+					FOSU(store,a,PGroup);
+					XMG.alert(SYS,M_S);
+					getGROU_S().reload();
+				},
 				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 				xmlData:FOSX(xml)});
 		}
@@ -295,8 +264,20 @@ Fos.GroupTab = function(p) {
     	this.grid.stopEditing();store.insert(0,g);this.grid.getSelectionModel().selectFirstRow();this.grid.startEditing(0,1);
 	};
 	this.removeGrou=function(){FOS_REMOVE(sm,store);};
+	this.showUserList = function(){
+		var b=sm.getSelected();
+		if(b){
+			if(b.get('rowAction')=='N')
+				XMG.alert(SYS,M_SAVE_FIRST);
+			else{
+				var win = new Fos.GroupUserWin(b);
+				win.show();
+			}
+		}
+		else XMG.alert(SYS,M_NO_DATA_SELECTED);		
+	};
 	
-	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,listeners:re1});
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var active = new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',sortable:true,width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_NAME,dataIndex:'grouName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
@@ -306,7 +287,8 @@ Fos.GroupTab = function(p) {
 		id:'G_GROU',title:C_GROU_LIST,plugins:[active],clicksToEdit:1,border:true,height:500,store:store,sm:sm,cm:cm,
 		tbar:[{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_GROU+F_M),iconCls:'add',scope:this,handler:this.addGrou}, '-', 		
 		{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_GROU+F_R),iconCls:'remove',scope:this,handler:this.removeGrou},'-', 
-		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_GROU+F_M),iconCls:'save',scope:this,handler:this.save}]
+		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_GROU+F_M),iconCls:'save',scope:this,handler:this.save},
+		{itemId:'TB_U',text:C_USER_LIST,disabled:NR(M1_P+A_GROU+F_M),iconCls:'user',scope:this,handler:this.showUserList}]
 	});
 	new Ext.KeyMap(Ext.getDoc(), {
 		key:'nrs',ctrl:true,
@@ -324,46 +306,106 @@ Fos.GroupTab = function(p) {
 				}
 		 	}
 		},stopEvent:true,scope:this});	
-	var re = {scope:this,
-		rowselect:function(sm,row,record){
-			if(this.reload==false){
-				var a = us.getRange();var b=false;
-				for(var i=0;i<a.length;i++){				
-					if(a[i].get('grouId')==this.sel && record.get('grouId') == a[i].get('grouId')){
-						b=true;
-						if(a[i].get('rowAction')=='R') 
-							a[i].set('rowAction','M');
-						break;
-					};
-				};
-				if(b==false){
-					var ur = new PGroupUser({id:GGUID(),grusId:GGUID(true),grouId:this.sel,userId:record.get('userId')});
-					us.add(ur);ur.set('rowAction','N');
-				}
-			}
-		},
-		rowdeselect:function(sm,row,record){
-			if(this.reload==false){
-				var a = us.getRange();
-				for(var i=0;i<a.length;i++){				
-					if(a[i].get('grouId')==this.sel && record.get('userId') == a[i].get('userId')){
-						a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');
-						break;
-					};
-				}
-			}
-		}
-	};
-	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false,listeners:re});
-    this.ug = new  Ext.grid.GridPanel({id:'G_GRUS',title:C_GROU_USER_LIST,closable:true,border:true,height:500,store:getUSER_S(),sm:sm2,
-    	cm:new Ext.grid.ColumnModel([sm2,{header:C_USER_NAME,dataIndex:'userName',width:100}])});
-	Fos.GroupTab.superclass.constructor.call(this,{id:'T_GROU',title:C_GROU,iconCls:'gen',header:false,deferredRender:false,
-	autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,layout:'border',
-	  	items:[{title:'',region:'center',width:400,minSize:200,maxSize:600,layout:'fit',items:[this.grid]},
-    		{title:'',region:'east',split:true,width:400,minSize:200,maxSize:600,layout:'fit',items:[this.ug]}]
+		
+	Fos.GroupTab.superclass.constructor.call(this,{id:'T_GROU',title:C_GROU,iconCls:'gen',header:false,
+	autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,layout:'fit',
+	  	items:[{width:400,minSize:200,maxSize:600,layout:'fit',items:[this.grid]}]
 	});
 };
-Ext.extend(Fos.GroupTab, Ext.FormPanel);
+Ext.extend(Fos.GroupTab, Ext.Panel);
+
+Fos.GroupUserWin = function(group) {	
+	var store = GS('GRUS_Q','PGroupUser',PGroupUser,'grusId','DESC','','S_GRUS','grusId',false);
+	store.load({params:{grouId:group.get('grouId')}});
+	
+	this.save = function(){
+		var xml = '';
+		var a = store.getModifiedRecords();
+		if(a.length) 
+			xml = ATX(a,'PGroupUser',PGroupUser);
+		if(xml!=''){
+			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'GRUS_S'},
+				success: function(r){
+					var b = XTRA(r.responseXML,'PGroupUser',PGroupUser);
+					FOSU(store,b,PGroupUser);
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+				xmlData:FOSX(xml)});
+		}
+		else XMG.alert(SYS,M_NC);
+	};
+	
+	this.removeUser = function(){
+		FOS_REMOVE(sm,store);
+	};
+	
+	function addUsers(users){
+		var ra = store.getRange();
+		for(var i=0;i<users.length;i++){
+			var u = users[i];
+			var bFind = false;
+			
+			for(var j=0;j<ra.length;j++){
+				if(u.get('userId')==ra[j].get('userId')){
+					bFind = true;
+					break;
+				}
+			}
+			if(!bFind){
+				var ur = new PGroupUser({id:GGUID(),grusId:GGUID(true),
+					grouId:group.get('grouId'),userId:u.get('userId')});
+				store.add(ur);
+				ur.set('rowAction','N');
+			}			
+		}		
+	};
+	
+	this.addUser = function(){
+		var win = new Fos.UserWin(addUsers);
+		win.show();
+	};	
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var grid = new  Ext.grid.GridPanel({store:store,sm:sm,
+    	cm:new Ext.grid.ColumnModel([sm,{header:C_USER_NAME,dataIndex:'userId',renderer:getUSER,width:100}])});
+	
+	Fos.GroupUserWin.superclass.constructor.call(this,{iconCls:'user',
+		title:group.get('grouName')+'-'+C_USER_LIST,modal:true,width:600,
+       height:500,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid,
+       tbar:[
+             {itemId:'TB_N',text:C_ADD_TO,disabled:NR(M1_P+A_GROU+F_M),iconCls:'add',scope:this,handler:this.addUser}, '-', 		
+             {itemId:'TB_R',text:C_REMOVE,disabled:NR(M1_P+A_GROU+F_R),iconCls:'remove',scope:this,handler:this.removeUser},'-', 
+          {itemId:'TB_S',text:C_SAVE,disabled:NR(M1_P+A_GROU+F_M),iconCls:'save',scope:this,handler:this.save}]
+       }); 
+};
+Ext.extend(Fos.GroupUserWin, Ext.Window);
+
+Fos.UserWin = function(fn) {	
+	var save = function(){
+		var a = sm.getSelections();
+		if(a.length>0){
+			fn(a);
+			this.close();
+		}
+		else
+			XMG.alert(SYS,M_NO_DATA_SELECTED);	
+			
+	};	
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var grid = new  Ext.grid.GridPanel({store:getUSER_S(),sm:sm,
+    	cm:new Ext.grid.ColumnModel([sm,{header:C_USER_NAME,dataIndex:'userName',width:100}])});
+	
+	Fos.UserWin.superclass.constructor.call(this,{iconCls:'user',
+		title:C_USER_LIST,modal:true,width:600,
+       height:500,layout:'fit',buttonAlign:'right',items:grid,
+       buttons:[
+          {text:C_ADD_TO,iconCls:'save',scope:this,handler:save},
+          {text:C_CANCEL,iconCls:'close',scope:this,handler:this.close}]
+       }); 
+};
+Ext.extend(Fos.UserWin, Ext.Window);
 
 Fos.RoleTab = function() {
 	var store = GS('ROLE_Q','PRole',PRole,'roleId','DESC','','S_ROLE','roleId',false);

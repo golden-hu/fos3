@@ -247,6 +247,7 @@ var C_FILTER_MORE='更多过滤条件';
 var C_CLEAR_FILTER='清空查询条件';
 var C_NR='没有记录';
 var C_ADD='新增';
+var C_ADD_TO='添加';
 var C_REMOVE='删除';
 var C_EDIT='编辑';
 var C_SAVE='保存';

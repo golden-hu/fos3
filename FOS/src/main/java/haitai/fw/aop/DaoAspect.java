@@ -113,10 +113,13 @@ public class DaoAspect {
 		MethodUtil.doSetMethod(entity, "Removed", Short.class, ConstUtil.FalseShort);
 		MethodUtil.doSetMethod(entity, "CompCode", String.class, compCode);
 		if (!"USER_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
-				&& !"USEP_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))) {
+				&& !"USEP_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
+				&& !"GRUS_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
+		) {
 			MethodUtil.doSetMethod(entity, "UserId", Integer.class, userId);
 		}
-		if (!"GROU_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))) {
+		if (!"GROU_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))
+				&&!"GRUS_S".equals(SessionManager.getStringAttr(SessionKeyType.ACTNAME))) {
 			MethodUtil.doSetMethod(entity, "GrouId", Integer.class, grouId);
 		}
 		MethodUtil.doSetMethod(entity, "CreateBy", Integer.class, userId);

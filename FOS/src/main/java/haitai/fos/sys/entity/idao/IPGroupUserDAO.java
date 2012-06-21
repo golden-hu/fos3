@@ -8,6 +8,8 @@ import java.util.List;
 public interface IPGroupUserDAO {
 	public void save(PGroupUser entity);
 
+	public List<PGroupUser> saveByRowAction(List<PGroupUser> entityList);
+	
 	public void delete(Integer id);
 
 	public PGroupUser update(PGroupUser entity);

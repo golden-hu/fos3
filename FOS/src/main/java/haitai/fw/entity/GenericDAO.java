@@ -45,7 +45,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 	public T findById(PK id) {
 		T entity = getJpaTemplate().find(this.persistentClass, id);
 		if (entity == null) {
-			String msg = "Uh oh, '" + this.persistentClass + "' object with id '" + id + "' not found...";
+			String msg = this.persistentClass + "' object with id '" + id + "' not found...";
 			logger.warn(msg);
 			throw new BusinessException(msg);
 		}
