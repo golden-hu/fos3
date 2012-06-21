@@ -47,7 +47,7 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (49, '商业发票', 'CUDE_INVOICE', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (50, '报关装箱单', 'CUDE_PACKING', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (51, '贸易合同', 'CUDE_CONTRACT', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
-(52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0);
+(52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0),
 (53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTask', 'B', 'P', 1, 1, 0, 0);
 
 -- 提单
