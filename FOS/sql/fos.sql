@@ -3289,6 +3289,9 @@ CREATE TABLE IF NOT EXISTS `P_GROUP_USER` (
   `GRUS_ID` int(11) NOT NULL auto_increment,
   `GROU_ID` int(11) NOT NULL,
   `USER_ID` int(11) NOT NULL,
+   `COMP_CODE` char(4) collate utf8_unicode_ci NOT NULL,
+  `VERSION` int(11) NOT NULL default '0',
+  `REMOVED` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`GRUS_ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
