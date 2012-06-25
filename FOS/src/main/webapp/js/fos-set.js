@@ -2502,6 +2502,7 @@ Fos.InitLookupWin = function(c,t) {
         items: [g]}]}); 
 };
 Ext.extend(Fos.InitLookupWin,Ext.Window);
+
 Fos.VoucItemGrid = function(p,store){
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
@@ -2571,23 +2572,53 @@ Fos.VoucItemGrid = function(p,store){
 							var voitAmountOriW = round2(voitAmountW*r[i].get('invoExRate')/r[i].get('initExRate'));
 							var voitAmountVoucW = round2(voitAmountW*r[i].get('invoExRate')/p.get('voucExRate'));
 							var rid=GGUID();
-							var it = new SVoucherItem({id:rid,voitId:rid,initId:r[i].get('initId'),invoId:r[i].get('invoId'),invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),
-							expeId:r[i].get('expeId'),expeType:r[i].get('expeType'),
-							consId:r[i].get('consId'),consNo:r[i].get('consNo'),custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
-							consVessel:r[i].get('consVessel'),consVoyage:r[i].get('consVoyage'),consSailDate:r[i].get('consSailDate'),
-							consMblNo:r[i].get('consMblNo'),consHblNo:r[i].get('consHblNo'),
-							charName:r[i].get('charName'),unitName:r[i].get('unitName'),expeCurrCode:r[i].get('expeCurrCode'),
-							expeUnitPrice:r[i].get('expeUnitPrice'),expeNum:r[i].get('expeNum'),expeExRate:r[i].get('expeExRate'),
-							expeCommission:r[i].get('expeCommission'),expeCommissionRate:r[i].get('expeCommissionRate'),
-							expeTotalAmount:r[i].get('expeTotalAmount'),initInvoiceAmount:r[i].get('initInvoiceAmount'),initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
-							initInvoiceAmountW:r[i].get('initInvoiceAmountW'),initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
-							invoCurrCode:r[i].get('invoCurrCode'),initExRate:r[i].get('initExRate'),invoExRate:r[i].get('invoExRate'),
-							voitExRate:ex,voucExRate:p.get('voucExRate'),
-							voitWriteOffNo:p.get('voucWriteOffNo'),voucId:p.get('voucId'),voucNo:p.get('voucNo'),voucDate:p.get('voucDate'),
-							voitAmountW:voitAmountW,voitAmountOriW:voitAmountOriW,voitAmountVoucW:voitAmountVoucW,voucCurrCode:p.get('currCode'),
-							voitRemarks:'',	voitWriteOffStatus:'2',voitCancelFlag:'0',rowAction:'',version:'0'});
-							store.insert(0,it);
-							it.set('rowAction','N');
+							var it = new SVoucherItem({id:rid,voitId:rid,
+								initId:r[i].get('initId'),invoId:r[i].get('invoId'),
+								invoNo:r[i].get('invoNo'),
+								invoTaxNo:r[i].get('invoTaxNo'),
+								expeId:r[i].get('expeId'),
+								expeType:r[i].get('expeType'),
+								consId:r[i].get('consId'),
+								consNo:r[i].get('consNo'),
+								custId:r[i].get('custId'),
+								custName:r[i].get('custName'),
+								custSname:r[i].get('custSname'),
+								consVessel:r[i].get('consVessel'),
+								consVoyage:r[i].get('consVoyage'),
+								consSailDate:r[i].get('consSailDate'),
+								consMblNo:r[i].get('consMblNo'),
+								consHblNo:r[i].get('consHblNo'),
+								charName:r[i].get('charName'),
+								unitName:r[i].get('unitName'),
+								expeCurrCode:r[i].get('expeCurrCode'),
+								expeUnitPrice:r[i].get('expeUnitPrice'),
+								expeNum:r[i].get('expeNum'),
+								expeExRate:r[i].get('expeExRate'),
+								expeCommission:r[i].get('expeCommission'),
+								expeCommissionRate:r[i].get('expeCommissionRate'),
+								expeTotalAmount:r[i].get('expeTotalAmount'),
+								initInvoiceAmount:r[i].get('initInvoiceAmount'),
+								initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
+								initInvoiceAmountW:r[i].get('initInvoiceAmountW'),
+								initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
+								invoCurrCode:r[i].get('invoCurrCode'),
+								initExRate:r[i].get('initExRate'),
+								invoExRate:r[i].get('invoExRate'),
+								voitExRate:ex,
+								voucExRate:p.get('voucExRate'),
+								voitWriteOffNo:p.get('voucWriteOffNo'),
+								voucId:p.get('voucId'),
+								voucNo:p.get('voucNo'),
+								voucDate:p.get('voucDate'),
+								voitAmountW:voitAmountW,
+								voitAmountOriW:voitAmountOriW,
+								voitAmountVoucW:voitAmountVoucW,
+								voucCurrCode:p.get('currCode'),
+								voitWriteOffStatus:'2',
+								voitCancelFlag:'0',
+								version:'0'});
+								store.insert(0,it);
+								it.set('rowAction','N');
 						}
 					}
 					this.reCalculate();
@@ -2705,16 +2736,27 @@ Fos.VoucherTab = function(p,prId,invoId) {
     
     this.grid=new Fos.VoucItemGrid(p,store);
     this.save=function(){    	
-    	p.beginEdit();this.getForm().updateRecord(p);p.endEdit();
+    	p.beginEdit();
+    	this.getForm().updateRecord(p);
+    	p.endEdit();
     	var title=p.get('voucType')=='R'?C_VOUC_R_AMOUNT:C_VOUC_P_AMOUNT;
-    	if(!p.get('custId')){XMG.alert(SYS,M_SEL_SETTLE_OBJ);return;};
+    	if(!p.get('custId')){
+    		XMG.alert(SYS,M_SEL_SETTLE_OBJ);
+    		return;
+    	}
 		//if(!p.get('voucAmount')){XMG.alert(SYS,title+M_REQIRED);return;};
 		//if(p.get('voucAmount')<=0){XMG.alert(SYS,title+M_GREAT_THAN_ZERO);return;};
-		if(p.get('voucWriteOffAmount')+p.get('voucFixAmount')>p.get('voucAmount')+0.5){XMG.alert(SYS,M_VOUC_AMOUNT_NOT_GREAT+title);return;};
+		if(p.get('voucWriteOffAmount')+p.get('voucFixAmount')>p.get('voucAmount')+0.5){
+			XMG.alert(SYS,M_VOUC_AMOUNT_NOT_GREAT+title);
+			return;
+		}
 		var rem=this.find('name','voucWriteOffAmountR')[0].getValue();
-		if(rem>=-0.5&&rem<=0.5) p.set('voucWriteOffStatus','2');
-		else if(rem==p.get('voucAmount')) p.set('voucWriteOffStatus','0');
-		else p.set('voucWriteOffStatus','1');
+		if(rem>=-0.5&&rem<=0.5) 
+			p.set('voucWriteOffStatus','2');
+		else if(rem==p.get('voucAmount')) 
+			p.set('voucWriteOffStatus','0');
+		else 
+			p.set('voucWriteOffStatus','1');
 		var a = store.getRange();
 		if(a.length>0){
 			p.set('voucConsNo',a[0].get('consNo'));
@@ -2727,7 +2769,10 @@ Fos.VoucherTab = function(p,prId,invoId) {
 		}
    	 	var xml = RTX(p,'SVoucher',SVoucher);   	 	
    	 	var a = this.grid.getStore().getModifiedRecords();
-		if(a.length>0){var x = ATX(a,'SVoucherItem',SVoucherItem);xml=xml+x;};		
+		if(a.length>0){
+			var x = ATX(a,'SVoucherItem',SVoucherItem);
+			xml=xml+x;
+		};		
 		var tb=this.getTopToolbar();
 		tb.getComponent('TB_A').setDisabled(true);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'VOUC_S'},
@@ -2796,6 +2841,9 @@ Fos.VoucherTab = function(p,prId,invoId) {
 				}
 		 	}
 		},stopEvent:true,scope:this});
+    
+    
+    
     Fos.VoucherTab.superclass.constructor.call(this, { 
 	id: 'T_VOUC_'+p.get('id'),title:(p.get('voucType')=='R'?C_VOUC_R:C_VOUC_P)+'-'+p.get('voucNo'),layout:'border',
 	autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,bodyStyle:'padding:0px 0px 20px 0px',border:false,width:800,
@@ -2863,10 +2911,16 @@ Fos.VoucherTab = function(p,prId,invoId) {
                 {fieldLabel:C_WRITEOFF_NO,tabIndex:15,name:'voucWriteOffNo',value:p.get('voucWriteOffNo'),xtype:'textfield',anchor:'95%',
                 listeners:{scope:this,change:function(f,nv,ov){		
 					var a = this.grid.getStore().getRange();
-					if(a.length>0){for(var i=0;i<a.length;i++){a[i].set('voitWriteOffNo',nv);};};
+					if(a.length>0){
+						for(var i=0;i<a.length;i++){
+							a[i].set('voitWriteOffNo',nv);
+						}
+					}
 				}}}]},
             {columnWidth:.25,layout: 'form',border : false,
-                items: [{fieldLabel:p.get('voucType')=='R'?C_VOUC_DATE_R:C_VOUC_DATE_P,tabIndex:4,name:'voucDate',value:p.get('voucDate'),xtype:'datefield',format:DATEF,anchor:'95%'},
+                items: [
+                {fieldLabel:p.get('voucType')=='R'?C_VOUC_DATE_R:C_VOUC_DATE_P,tabIndex:4,
+                	name:'voucDate',value:p.get('voucDate'),xtype:'datefield',format:DATEF,anchor:'95%'},
                 {fieldLabel:C_SEWA,itemCls:'required',tabIndex:8,name:'voucPaymentType',value:p.get('voucPaymentType'),store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
                 {fieldLabel:C_REMAIN_AMOUNT,tabIndex:12,name:'voucWriteOffAmountR',value:p.get('voucAmount')-p.get('voucWriteOffAmount')-p.get('voucFixAmount'),disabled:true,xtype:'numberfield',anchor:'95%'}
                 ]},
@@ -2876,6 +2930,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 	});
 };
 Ext.extend(Fos.VoucherTab,Ext.FormPanel);
+
 Fos.PrGrid = function(t){
     var store = GS('PR_X','SPr',SPr,'prDate','DESC','prDate','S_PR','id',true);
 	var a=[];

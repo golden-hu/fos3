@@ -106,7 +106,7 @@ Fos.StatSalesSumTab = function(){
 };
 Ext.extend(Fos.StatSalesSumTab, Ext.Panel);
 
-
+//单箱利润统计表
 Fos.StatContProfitTab = function(){
 	var DT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_CONS_DATE],['1',C_SAIL_DATE]]});
 	var RT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1',C_CARRIER],['2',C_BOOKER],['3',C_SALES],['4',C_SHLI]]});
@@ -507,6 +507,7 @@ Fos.StatApTab = function(){
 };
 Ext.extend(Fos.StatApTab, Ext.Panel);
 
+//业务员提成
 Fos.SalesCommissionTab = function(){
     var d=new Date();var y=d.format('Y');var m=d.format('m');    
     var t1=new Ext.form.ComboBox({width:80,value:y,displayField:'NAME',valueField:'CODE',triggerAction:'all',
@@ -563,7 +564,7 @@ Fos.SalesCommissionTab = function(){
 };
 Ext.extend(Fos.SalesCommissionTab,Ext.Panel);
 
-
+//付款计划
 Fos.StatPayPlanTab = function(t){
     var d=new Date();var y=d.format('Y');var m=d.format('m');    
     var t1=new Ext.form.ComboBox({width:80,value:y,displayField:'NAME',valueField:'CODE',triggerAction:'all',
@@ -585,6 +586,8 @@ Fos.StatPayPlanTab = function(t){
 		items:[{layout:'fit',height:600,deferredRender:false,items:[doc]}]});
 };
 Ext.extend(Fos.StatPayPlanTab, Ext.Panel);
+
+//核销明细统计表
 Fos.StatWOTab = function(t){
     var G_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_STAT_NO_GROUP],['1',C_SETTLE_OBJECT],['2',C_CONS_NO],['3',C_CURR],['4',C_WRITEOFF_DATE],['5',C_CHAR]]});
 	var T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_WRITEOFF_R],['1',C_WRITEOFF_P]]});
@@ -596,11 +599,36 @@ Fos.StatWOTab = function(t){
     var t4=new Ext.form.DateField({value:new Date(),format:DATEF});
     var consNo=new Ext.form.TextField({width:100,value:''});
     var doc=new Ext.ux.IFrameComponent({id:'STWO', url:''});
+    
+    this.getUrl=function(){
+		var custId=this.find('name','custId')[0].getValue();
+		var charName=this.find('name','charName')[0].getValue();
+		var voucWriteOffNo=this.find('name','voucWriteOffNo')[0].getValue();
+		var currCode=this.find('name','currCode')[0].getValue();
+		var voucDateF=this.find('name','voucDateF')[0].value;
+		var voucDateT=this.find('name','voucDateT')[0].value;
+		var invoNo=this.find('name','invoNo')[0].getValue();
+		var invoTaxNo=this.find('name','invoTaxNo')[0].getValue();		
+		var url = SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value+'&consNo='+consNo.getValue();
+		if(custId) url+='&custId='+custId;
+		if(charName) url+='&charName='+charName;
+		if(voucWriteOffNo) url+='&voucWriteOffNo='+voucWriteOffNo;
+		if(currCode) url+='&currCode='+currCode;
+		if(voucDateF) url+='&voucDateF='+voucDateF;
+		if(voucDateT) url+='&voucDateT='+voucDateT;
+		if(invoNo) url+='&invoNo='+invoNo;
+		if(invoTaxNo) url+='&invoTaxNo='+invoTaxNo;
+		return url;
+	};
+	
  	this.report=function(){
 		if(!t1.getValue()){XMG.alert(SYS,M_SEL_WRITEOFF_DATE,function(){t3.focus();},this);return;};
-		Ext.get('IF_STWO').dom.src=SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value+'&consNo='+consNo.getValue();
+		Ext.get('IF_STWO').dom.src=this.getUrl();
 	};
-	this.exp=function(){OWW(SERVICE_URL+'?A=REPT_WROF&format=xls&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value+'&consNo='+consNo.getValue());};
+	this.exp=function(){
+		OWW(this.getUrl());
+	};
+	
 	Fos.StatWOTab.superclass.constructor.call(this, {    
     id:'T_WROF',title:C_STAT_WRITEOFF,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
     tbar:[{xtype:'tbtext',text:C_GROUP_TYPE},t1,'-',
@@ -610,9 +638,41 @@ Fos.StatWOTab = function(t){
 		{xtype:'tbtext',text:C_CONS_NO},consNo,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_WROF+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_WROF+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.exp}]}}],
-		items:[{layout:'fit',height:600,deferredRender:false,items:[doc]}]});
+		
+	items:[{title:C_FILTER_MORE,layout:'column',name:'sf',xtype:'form',
+		layoutConfig:{columns:4},height:90,frame:true,collapsible:true,collapsed:true,items:[
+	    	{columnWidth:.25,layout:'form',labelWidth:60,labelAlign:'right',border:false,items:[
+				{fieldLabel:C_BOOKER,name:'custId',tabIndex:1,store:getCS(),
+					xtype:'combo',displayField:'custCode',valueField:'custId',
+					typeAhead:true,enableKeyEvents:true,
+					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+					triggerAction:'all',selectOnFocus:true,anchor:'95%',
+				  	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},
+			  	{fieldLabel:C_CHAR,tabIndex:5,name:'charName',store:getCHAR_S(),xtype:'combo',displayField:'charName',valueField:'charName',
+     				tpl:charTpl,itemSelector:'div.list-item',listWidth:300,listClass:'x-combo-list-small',
+     				typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'}
+	    	]},
+	    	{columnWidth:.25,layout:'form',border:false,labelWidth:60,labelAlign:'right',items:[
+	    	    {fieldLabel:C_WRITEOFF_NO,tabIndex:2,name:'voucWriteOffNo',xtype:'textfield',anchor:'95%'},
+	    	    {fieldLabel:C_CURR,tabIndex:6,name:'currCode',store:getCURR_S(),
+			    	xtype:'combo',displayField:'currCode',valueField:'currCode',
+			    	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'}
+	        ]},
+			{columnWidth:.25,layout:'form',border:false,labelWidth:100,labelAlign:'right',items:[
+				{fieldLabel:C_VOUC_DATE_F,tabIndex:3,name:'voucDateF',xtype:'datefield',format:DATEF,anchor:'95%'},
+	        	{fieldLabel:C_INVO_NO,tabIndex:7,name:'invoNo',xtype:'textfield',anchor:'95%'}
+	        ]},
+			{columnWidth:.25,layout:'form',border:false,labelWidth:100,labelAlign:'right',items:[
+			    {fieldLabel:C_VOUC_DATE_T,tabIndex:4,name:'voucDateT',xtype:'datefield',format:DATEF,anchor:'95%'},
+			    {fieldLabel:C_TAX_NO,tabIndex:8,name:'invoTaxNo',xtype:'textfield',anchor:'95%'}
+	        ]}	
+		]},
+		{layout:'fit',height:600,deferredRender:false,items:[doc]}]
+	});
 };
 Ext.extend(Fos.StatWOTab, Ext.Panel);
+
+
 Fos.StatAraTab = function(t){
     var d=new Date();var y=d.format('Y');
     var t1=new Ext.form.ComboBox({width:80,value:y,displayField:'NAME',valueField:'CODE',triggerAction:'all',
