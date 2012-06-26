@@ -597,7 +597,7 @@ Fos.StatWOTab = function(t){
          	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:T_S});
     var t3=new Ext.form.DateField({value:new Date(),format:DATEF});
     var t4=new Ext.form.DateField({value:new Date(),format:DATEF});
-    var consNo=new Ext.form.TextField({width:100,value:''});
+    var txtConsNo=new Ext.form.TextField({width:100,value:''});
     var doc=new Ext.ux.IFrameComponent({id:'STWO', url:''});
     
     this.getUrl=function(){
@@ -610,7 +610,7 @@ Fos.StatWOTab = function(t){
 		var voucDateT=this.find('name','voucDateT')[0].value;
 		var invoNo=this.find('name','invoNo')[0].getValue();
 		var invoTaxNo=this.find('name','invoTaxNo')[0].getValue();
-		var consNo=this.find('name','consNo')[0].getValue();
+		var consNo=txtConsNo.getValue();
 		var url = SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value;
 		if(consNo) url+='&consNo='+consNo;
 		if(custId) url+='&custId='+custId;
@@ -638,7 +638,7 @@ Fos.StatWOTab = function(t){
 		{xtype:'tbtext',text:C_WRITEOFF_TYPE},t2,'-',
 		{xtype:'tbtext',text:C_WRITEOFF_DATE+C_FROM},t3,'-',
 		{xtype:'tbtext',text:C_TO},t4,'-',
-		{xtype:'tbtext',text:C_CONS_NO},consNo,'-',
+		{xtype:'tbtext',text:C_CONS_NO},txtConsNo,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_WROF+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
 		{text:C_EXPORT,disabled:NR(M1_T+T_WROF+F_E),iconCls:'print',scope:this,menu:{items:[{text:'Excel',scope:this,handler:this.exp}]}}],
 		

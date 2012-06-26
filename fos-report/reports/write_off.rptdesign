@@ -97,129 +97,128 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        
-                <scalar-parameter name="custId" id="687">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">客户</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">false</property>
-                    <property name="dataType">string</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant"></value>
-                    </simple-property-list>
-                    <property name="controlType">text-box</property>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="charId" id="688">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">费用名称</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">false</property>
-                    <property name="dataType">string</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant"></value>
-                    </simple-property-list>
-                    <property name="controlType">text-box</property>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="voucWriteOffNo" id="689">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">核销号</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">false</property>
-                    <property name="dataType">string</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant"></value>
-                    </simple-property-list>
-                    <property name="controlType">text-box</property>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="currCode" id="690">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">币种</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">false</property>
-                    <property name="dataType">string</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant"></value>
-                    </simple-property-list>
-                    <property name="controlType">text-box</property>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="voucDateF" id="691">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">收/付款日期（从）</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">true</property>
-                    <property name="dataType">date</property>
-                    <property name="distinct">true</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant">2008-01-01</value>
-                    </simple-property-list>
-                    <property name="paramType">simple</property>
-                    <property name="concealValue">false</property>
-                    <property name="controlType">text-box</property>
-                    <property name="autoSuggestThreshold">1</property>
-                    <structure name="format">
-                        <property name="category">Long Date</property>
-                        <property name="pattern">Long Date</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="voucDateT" id="693">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">收/付款日期（到）</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">true</property>
-                    <property name="dataType">date</property>
-                    <property name="distinct">true</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant">2008-01-01</value>
-                    </simple-property-list>
-                    <property name="paramType">simple</property>
-                    <property name="concealValue">false</property>
-                    <property name="controlType">text-box</property>
-                    <property name="autoSuggestThreshold">1</property>
-                    <structure name="format">
-                        <property name="category">Long Date</property>
-                        <property name="pattern">Long Date</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="invoNo" id="694">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">账单号</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">false</property>
-                    <property name="dataType">string</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant"></value>
-                    </simple-property-list>
-                    <property name="controlType">text-box</property>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
-                </scalar-parameter>
-                <scalar-parameter name="invoTaxNo" id="695">
-                    <property name="hidden">true</property>
-                    <text-property name="promptText">税务发票号</text-property>
-                    <property name="valueType">static</property>
-                    <property name="isRequired">false</property>
-                    <property name="dataType">string</property>
-                    <simple-property-list name="defaultValue">
-                        <value type="constant"></value>
-                    </simple-property-list>
-                    <property name="controlType">text-box</property>
-                    <structure name="format">
-                        <property name="category">Unformatted</property>
-                    </structure>
-                </scalar-parameter>
+        <scalar-parameter name="custId" id="687">
+            <property name="hidden">true</property>
+            <text-property name="promptText">客户</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="charName" id="688">
+            <property name="hidden">true</property>
+            <text-property name="promptText">费用名称</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="voucWriteOffNo" id="689">
+            <property name="hidden">true</property>
+            <text-property name="promptText">核销号</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="currCode" id="690">
+            <property name="hidden">true</property>
+            <text-property name="promptText">币种</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="voucDateF" id="691">
+            <property name="hidden">true</property>
+            <text-property name="promptText">收/付款日期（从）</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2008-01-01</value>
+            </simple-property-list>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <property name="autoSuggestThreshold">1</property>
+            <structure name="format">
+                <property name="category">Long Date</property>
+                <property name="pattern">Long Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="voucDateT" id="693">
+            <property name="hidden">true</property>
+            <text-property name="promptText">收/付款日期（到）</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2008-01-01</value>
+            </simple-property-list>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <property name="autoSuggestThreshold">1</property>
+            <structure name="format">
+                <property name="category">Long Date</property>
+                <property name="pattern">Long Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="invoNo" id="694">
+            <property name="hidden">true</property>
+            <text-property name="promptText">账单号</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="invoTaxNo" id="695">
+            <property name="hidden">true</property>
+            <text-property name="promptText">税务发票号</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="24"
@@ -355,7 +354,8 @@ rt;</expression>
             <method name="beforeOpen"><![CDATA[var sql = this.queryText;
 if(params["dt"] == "0"){
 	sql += " and i.EXPE_TYPE = 'R'";
-}else{
+}
+else{
 	sql += " and i.EXPE_TYPE = 'P'";
 }
 if(params["F"] != ""){
@@ -369,7 +369,7 @@ if(params["consNo"].value != "0" && params["consNo"].value != ""){
 }
 
 if(params["custId"] != ""){
-	sql += " and i.CUST_ID = '" + params["custId"] + "'";
+	sql += " and i.CUST_ID = " + params["custId"];
 }
 if(params["charName"] != ""){
 	sql += " and i.CHAR_NAME = '" + params["charName"] + "'";
