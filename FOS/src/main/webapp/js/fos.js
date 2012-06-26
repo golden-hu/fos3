@@ -211,7 +211,7 @@ function getPMenu(){
 	if(!NR(M1_C)) items[items.length]=getContPanel();
 	if(!NR(M1_B)) items[items.length]=getBulkPanel();
 	if(!NR(M1_A)) items[items.length]=getAirPanel();
-	if(!NR(M1_A)) items[items.length]=getRailwayPanel();
+	if(!NR(M1_RT)) items[items.length]=getRailwayPanel();
 	if(!NR(M1_G)) items[items.length]=getCudePanel();
 	//items[items.length]=getEntryPanel();
 	//if(!NR(M1_I)) items[items.length]=getInspPanel();

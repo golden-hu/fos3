@@ -43,15 +43,12 @@ public class PUserService {
 	public List save(List entityList) {
 		List retList = new ArrayList();
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
-
-		// handle parent first
 		for (Object obj : entityList) {
 			if (obj instanceof PUser) {
 				PUser entity = (PUser) obj;
 				// 保存旧id, 对于新增的对象, id为前台传递的负数
 				Integer oldId = entity.getUserId();
-				if (entity.getRowAction() == RowAction.N) {
-					licenseUtil.checkUserAvailable();
+				if (entity.getRowAction() == RowAction.N) {					
 					entity.setUserId(null);
 					entity.setUserPassword(CryptoUtil.MD5Encode(entity.getUserPassword()));
 					entity.setUserPasswordModifyDate(TimeUtil.getNow());
@@ -61,14 +58,7 @@ public class PUserService {
 					PUser retEntity = dao.findById(entity.getUserId());
 					// 不修改密码, 有单独修改密码服务
 					entity.setUserPassword(retEntity.getUserPassword());
-					
-					//如果将用户的systemUserFlag从0改成1，检查用户license数是否够用
-					if(retEntity.getUserSystemUserFlag().equals(ConstUtil.FalseStr) &&
-							entity.getUserSystemUserFlag().equals(ConstUtil.TrueStr)){
-						licenseUtil.checkUserAvailable();
-					}
-						
-					retList.add(dao.update(entity));
+					retList.add(dao.update(entity));					
 				} else if (entity.getRowAction() == RowAction.R) {
 					PUser delEntity = dao.findById(entity.getUserId());
 					delEntity.setRowAction(RowAction.R);
@@ -80,7 +70,9 @@ public class PUserService {
 				idMap.put(oldId, entity.getUserId());
 			}
 		}
-
+		
+		licenseUtil.checkUserAvailable();
+		
 		// handle child
 		for (Object obj : entityList) {
 			if (obj instanceof PUserRole) {

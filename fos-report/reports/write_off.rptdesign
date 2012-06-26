@@ -98,9 +98,6 @@
             </structure>
         </scalar-parameter>
         
-        <parameter-group name="extraField" id="686">
-            <text-property name="displayName">extraField</text-property>
-            <parameters>
                 <scalar-parameter name="custId" id="687">
                     <property name="hidden">true</property>
                     <text-property name="promptText">客户</text-property>
@@ -128,7 +125,7 @@
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
-                </scalar-parameter>                
+                </scalar-parameter>
                 <scalar-parameter name="voucWriteOffNo" id="689">
                     <property name="hidden">true</property>
                     <text-property name="promptText">核销号</text-property>
@@ -161,41 +158,41 @@
                     <property name="hidden">true</property>
                     <text-property name="promptText">收/付款日期（从）</text-property>
                     <property name="valueType">static</property>
-		            <property name="isRequired">true</property>
-		            <property name="dataType">date</property>
-		            <property name="distinct">true</property>
-		            <simple-property-list name="defaultValue">
-		                <value type="constant">2008-01-01</value>
-		            </simple-property-list>
-		            <property name="paramType">simple</property>
-		            <property name="concealValue">false</property>
-		            <property name="controlType">text-box</property>
-		            <property name="autoSuggestThreshold">1</property>
-		            <structure name="format">
-		                <property name="category">Long Date</property>
-		                <property name="pattern">Long Date</property>
-		            </structure>
+                    <property name="isRequired">true</property>
+                    <property name="dataType">date</property>
+                    <property name="distinct">true</property>
+                    <simple-property-list name="defaultValue">
+                        <value type="constant">2008-01-01</value>
+                    </simple-property-list>
+                    <property name="paramType">simple</property>
+                    <property name="concealValue">false</property>
+                    <property name="controlType">text-box</property>
+                    <property name="autoSuggestThreshold">1</property>
+                    <structure name="format">
+                        <property name="category">Long Date</property>
+                        <property name="pattern">Long Date</property>
+                    </structure>
                 </scalar-parameter>
-                <scalar-parameter name="voucDateT" id="691">
+                <scalar-parameter name="voucDateT" id="693">
                     <property name="hidden">true</property>
                     <text-property name="promptText">收/付款日期（到）</text-property>
                     <property name="valueType">static</property>
-		            <property name="isRequired">true</property>
-		            <property name="dataType">date</property>
-		            <property name="distinct">true</property>
-		            <simple-property-list name="defaultValue">
-		                <value type="constant">2008-01-01</value>
-		            </simple-property-list>
-		            <property name="paramType">simple</property>
-		            <property name="concealValue">false</property>
-		            <property name="controlType">text-box</property>
-		            <property name="autoSuggestThreshold">1</property>
-		            <structure name="format">
-		                <property name="category">Long Date</property>
-		                <property name="pattern">Long Date</property>
-		            </structure>
+                    <property name="isRequired">true</property>
+                    <property name="dataType">date</property>
+                    <property name="distinct">true</property>
+                    <simple-property-list name="defaultValue">
+                        <value type="constant">2008-01-01</value>
+                    </simple-property-list>
+                    <property name="paramType">simple</property>
+                    <property name="concealValue">false</property>
+                    <property name="controlType">text-box</property>
+                    <property name="autoSuggestThreshold">1</property>
+                    <structure name="format">
+                        <property name="category">Long Date</property>
+                        <property name="pattern">Long Date</property>
+                    </structure>
                 </scalar-parameter>
-                <scalar-parameter name="invoNo" id="692">
+                <scalar-parameter name="invoNo" id="694">
                     <property name="hidden">true</property>
                     <text-property name="promptText">账单号</text-property>
                     <property name="valueType">static</property>
@@ -209,7 +206,7 @@
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
-               <scalar-parameter name="invoTaxNo" id="692">
+                <scalar-parameter name="invoTaxNo" id="695">
                     <property name="hidden">true</property>
                     <text-property name="promptText">税务发票号</text-property>
                     <property name="valueType">static</property>
@@ -223,8 +220,6 @@
                         <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
-            </parameters>
-        </parameter-group>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="24"
@@ -369,27 +364,27 @@ if(params["F"] != ""){
 if(params["T"] != ""){
 	sql += " and i.CREATE_TIME <= '" + params["T"] + "'";
 }
-if(params["consNo"].value != "0" &amp;&amp; params["consNo"].value != ""){
+if(params["consNo"].value != "0" && params["consNo"].value != ""){
 	sql += " and i.CONS_NO = '" + params["consNo"] + "'";
 }
 
 if(params["custId"] != ""){
-	sql += " and i.CUST_ID = " + params["custId"];
+	sql += " and i.CUST_ID = '" + params["custId"] + "'";
 }
 if(params["charName"] != ""){
-	sql += " and i.CHAR_NAME = " + params["charName"];
+	sql += " and i.CHAR_NAME = '" + params["charName"] + "'";
 }
 if(params["voucWriteOffNo"] != ""){
-	sql += " and i.VOIT_WRITE_OFF_NO = " + params["voucWriteOffNo"];
+	sql += " and i.VOIT_WRITE_OFF_NO = '" + params["voucWriteOffNo"] + "'";
 }
 if(params["currCode"] != ""){
-	sql += " and i.CURR_CODE = " + params["currCode"];
+	sql += " and i.CURR_CODE = '" + params["currCode"] + "'";
 }
 if(params["invoNo"] != ""){
-	sql += " and i.INVO_NO = " + params["invoNo"];
+	sql += " and i.INVO_NO = '" + params["invoNo"] + "'";
 }
 if(params["invoTaxNo"] != ""){
-	sql += " and i.INVO_TAX_NO = " + params["invoTaxNo"];
+	sql += " and i.INVO_TAX_NO = '" + params["invoTaxNo"] + "'";
 }
 if(params["voucDateF"] != ""){
 	sql += " and i.VOUC_DATE >= '" + params["voucDateF"] + "'";
@@ -399,9 +394,6 @@ if(params["voucDateT"] != ""){
 }
 
 sql += " and i.comp_code = '" + params["compCode"] + "'";
-
-
-
 this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
             <list-property name="resultSet">
@@ -539,6 +531,7 @@ i.invo_no,
 i.invo_tax_no,
 i.vouc_date,
 i.voit_id,
+i.create_time,
 c.cust_sname_cn
 from S_VOUCHER_ITEM i, C_CUSTOMER c, F_CONSIGN f
 where

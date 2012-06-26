@@ -601,6 +601,7 @@ Fos.StatWOTab = function(t){
     var doc=new Ext.ux.IFrameComponent({id:'STWO', url:''});
     
     this.getUrl=function(){
+    	
 		var custId=this.find('name','custId')[0].getValue();
 		var charName=this.find('name','charName')[0].getValue();
 		var voucWriteOffNo=this.find('name','voucWriteOffNo')[0].getValue();
@@ -608,8 +609,10 @@ Fos.StatWOTab = function(t){
 		var voucDateF=this.find('name','voucDateF')[0].value;
 		var voucDateT=this.find('name','voucDateT')[0].value;
 		var invoNo=this.find('name','invoNo')[0].getValue();
-		var invoTaxNo=this.find('name','invoTaxNo')[0].getValue();		
-		var url = SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value+'&consNo='+consNo.getValue();
+		var invoTaxNo=this.find('name','invoTaxNo')[0].getValue();
+		var consNo=this.find('name','consNo')[0].getValue();
+		var url = SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value;
+		if(consNo) url+='&consNo='+consNo;
 		if(custId) url+='&custId='+custId;
 		if(charName) url+='&charName='+charName;
 		if(voucWriteOffNo) url+='&voucWriteOffNo='+voucWriteOffNo;

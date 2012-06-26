@@ -7,6 +7,7 @@ import haitai.fw.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,8 @@ public class LicenseUtil {
 			int num = Integer.parseInt(licenseUsers);
 			if (num == 0) {
 				status = true;
-			} else {
+			} 
+			else {
 				IPUserDAO dao = SpringContextHolder.getBean("PUserDAO");
 				// SAAS version, get user license number from P_COMPANY
 				if ("1".equals(licenseSAAS)) {
@@ -41,8 +43,9 @@ public class LicenseUtil {
 				}
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("removed", ConstUtil.FalseStr);
-				queryMap.put("userSystemUserFlag", ConstUtil.TrueStr);
-				if (dao.findByProperties(queryMap).size() < num) {
+				queryMap.put("userSystemUserFlag", ConstUtil.TrueStr);				
+				
+				if (dao.findByProperties(queryMap).size() <= num) {
 					status = true;
 				}
 			}
@@ -51,6 +54,37 @@ public class LicenseUtil {
 			throw new BusinessException("fw.license.users");
 	}
 
+	public int getUserAvailable() {
+		String licenseUsers = licenseProps.getProperty("Users");
+		String licenseSAAS = licenseProps.getProperty("SAAS");
+		if (licenseUsers != null) {
+			int num = Integer.parseInt(licenseUsers);
+			if (num == 0) {
+				return 1000;
+			} 
+			else {
+				IPUserDAO dao = SpringContextHolder.getBean("PUserDAO");
+				if ("1".equals(licenseSAAS)) {
+					IPCompanyDAO cdao = SpringContextHolder.getBean("PCompanyDAO");
+					List<PCompany> list = cdao.findByProperties(new HashMap<String, Object>());
+					if (list.size() == 1) {
+						num = list.get(0).getCompLicenseNumber();
+					} else {
+						num = 5;
+					}
+				}
+				Map<String, Object> queryMap = new HashMap<String, Object>();
+				queryMap.put("removed", ConstUtil.FalseStr);
+				queryMap.put("userSystemUserFlag", ConstUtil.TrueStr);				
+				
+				return num - dao.findByProperties(queryMap).size();
+			}
+		}
+		else
+			return 0;
+	}
+
+	
 	public void checkLicense() {
 		if (!checkIp())
 			throw new BusinessException("fw.license.ip");

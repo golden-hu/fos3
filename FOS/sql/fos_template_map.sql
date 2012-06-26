@@ -1310,6 +1310,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (52, '业务类型', 'FConsign', 'consBizType', 'getBizType'),
 (52, '订舱客户', 'FConsign', 'custName', NULL),
 (52, '联系人', 'FConsign', 'custContact', NULL),
+(52, '客户业务号', 'FConsign', 'consRefNo', NULL),
 (52, '客户联系人', 'FConsign', 'custContact', NULL),
 (52, '客户联系电话', 'FConsign', 'custTel', NULL),
 (52, '客户传真', 'FConsign', 'custFax', NULL),
@@ -1355,6 +1356,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (52, '金额', 'SExpense', 'expeTotalAmount', NULL),
 (52, '汇率', 'SExpense', 'expeExRate', NULL),
 (52, '发票号', 'SExpense', 'expeInvoiceNo', NULL),
+(52, '税务发票号', 'SExpense', 'expeTaxInvoiceNo', NULL),
 (52, '备注', 'SExpense', 'expeRemarks', NULL)
 ;
 
