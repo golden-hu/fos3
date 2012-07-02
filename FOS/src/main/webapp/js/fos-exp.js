@@ -308,10 +308,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			for(var i=0;i<a.length;i++){
 				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
 			}
-			EXP('C','CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+			EXPC('CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
 		}
 		else{
-			EXP('C','CONS_LIST','&mt=JSON&start=0&limit=500');
+			EXPC('CONS_LIST','&mt=JSON&start=0&limit=500');
 		}
 	};
   	
@@ -802,25 +802,30 @@ Fos.BookTab = function(p) {
     if(p.get('consBizType')==BT_C) vt=1;
     else if(p.get('consBizType')==BT_B) vt=2;
     
-    var cboBookAgency={fieldLabel:C_BOOK_AGENCY,tabIndex:39,name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),store:getCS(),enableKeyEvents:true,
-    		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
-    		xtype:'combo',displayField:'custCode',valueField:'custCode',
-    		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
-    		listeners:{scope:this,
-    			blur:function(f){
-    				if(f.getRawValue()==''){
-    					f.clearValue();
-    					p.set('consBookingAgency','');
-    					p.set('consBookingAgencyName','');
-    			}},
-            	select:function(c,r,i){
-    				p.set('consBookingAgency',r.get('custId'));
-    				p.set('consBookingAgencySname',r.get('custCode'));
-    				p.set('consBookingAgencyName',r.get('custNameCn'));
-    				c.setValue(r.get('custNameCn'));    				
-    				this.find('name','consBookingAgencyContact')[0].store.reload({params:{custId:r.get('custId')}});
-    			},
-            	keydown:{fn:function(f,e){LC(f,e,'custBookingAgencyFlag');},buffer:BF}}};
+    var cboBookAgency={fieldLabel:C_BOOK_AGENCY,tabIndex:39,
+		name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),store:getCS(),enableKeyEvents:true,
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custCode',
+		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+		listeners:{scope:this,
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consBookingAgency','');
+					p.set('consBookingAgencyName','');
+				}
+			},
+        	select:function(c,r,i){
+				p.set('consBookingAgency',r.get('custId'));
+				p.set('consBookingAgencySname',r.get('custCode'));
+				p.set('consBookingAgencyName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));    				
+				this.find('name','consBookingAgencyContact')[0].store.reload({params:{custId:r.get('custId')}});
+			},
+        	keydown:{fn:function(f,e){
+        		LC(f,e,'custBookingAgencyFlag');},buffer:BF}
+		}
+	};
     var cboBookAgencyContact={fieldLabel:C_BOOK_AGENCY_CONTACT,
     		name:'consBookingAgencyContact',value:p.get('consBookingAgencyContact'),
 			tabIndex:10,store:getCUCOS(),xtype:'combo',displayField:'cucoName',valueField:'cucoName',
@@ -832,16 +837,30 @@ Fos.BookTab = function(p) {
     var txtBookAgencyTel={fieldLabel:C_BOOK_AGENCY_TEL,name:'consBookingAgencyTel',
     		tabIndex:54,value:p.get('consBookingAgencyTel'),xtype:'textfield',anchor:'99%'};
     
-	var m1={fieldLabel:C_VESS,itemCls:'needed',tabIndex:34,name:'vessName',value:p.get('vessName'),store:getVES(),enableKeyEvents:true,
+	var m1={fieldLabel:C_VESS,itemCls:'needed',tabIndex:34,
+		name:'vessName',value:p.get('vessName'),store:getVES(),enableKeyEvents:true,
 		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,
-		mode:'local',tpl:vessTpl,itemSelector:'div.list-item',listWidth:400,triggerAction:'all',selectOnFocus:true,anchor:'99%',
+		mode:'local',tpl:vessTpl,itemSelector:'div.list-item',
+		listWidth:400,triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
-			select:function(c,r,i){p.set('vessId',r.get('vessId'));p.set('vessNameCn',r.get('vessNameCn'));
+			select:function(c,r,i){
+				p.set('vessId',r.get('vessId'));
+				p.set('vessNameCn',r.get('vessNameCn'));
 				var vcn=this.find('name','vessNameCn')[0];
 				if(vcn) vcn.setValue(r.get('vessNameCn'));
-				},
-			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('vessId','');p.set('vessName','');}},
-			keydown:{fn:function(f,e){LV(f,e,vt);},buffer:BF}}};
+			},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('vessId','');
+					p.set('vessName','');
+				}
+			},
+			keydown:{fn:function(f,e){
+				LV(f,e,vt);
+			},buffer:BF}
+		}
+	};
 	var m2={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,itemClass:'needed',
 		tabIndex:p.get('consBizClass')==BC_I?42:38,
 		name:'consCarrierName',value:p.get('consCarrierName'),store:getCS(),enableKeyEvents:true,
@@ -956,18 +975,49 @@ Fos.BookTab = function(p) {
     var m18={fieldLabel:C_DESTINATION_PORT,tabIndex:48,name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
     var m19={fieldLabel:C_ISTY,tabIndex:52,name:'istyId',value:p.get('istyId'),store:getISTY_S(),xtype:'combo',displayField:'istyName',valueField:'istyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
     var m20={fieldLabel:C_BOOKING_DATE,tabIndex:56,name:'consBookingDate',value:p.get('consBookingDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
-    var m21={fieldLabel:C_CFS,tabIndex:p.get('consBizClass')==BC_I?49:60,name:'consCfsName',value:p.get('consCfsName'),store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+    
+    var m21={fieldLabel:C_CFS,tabIndex:p.get('consBizClass')==BC_I?49:60,
+    	name:'consCfsName',value:p.get('consCfsName'),store:getCS(),enableKeyEvents:true,
+		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
+		xtype:'combo',displayField:'custCode',valueField:'custNameCn',
+		typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
     	listeners:{scope:this,
-        	blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consCfs','');p.set('consCfsName','');}},
-         	select:function(c,r,i){p.set('consCfs',r.get('custId'));},
-        	keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}};   
+        	blur:function(f){
+        		if(f.getRawValue()==''){
+        			f.clearValue();
+        			p.set('consCfs','');
+        			p.set('consCfsName','');
+        		}
+        	},
+         	select:function(c,r,i){
+         		p.set('consCfs',r.get('custId'));
+         	},
+        	keydown:{fn:function(f,e){
+        		LC(f,e,'custCfsFlag');
+        		},buffer:BF}
+         }
+    };   
    
-    var m23={fieldLabel:C_CUSTOM_EXPIRY_DATE,tabIndex:41,name:'consExpiryDate',value:p.get('consExpiryDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
-    var m24={fieldLabel:C_RECEIPT_PLACE,tabIndex:45,name:'consReceiptPlace',value:p.get('consReceiptPlace'),xtype:'textfield',anchor:'99%'};
-    var m25={fieldLabel:C_DESTINATION,tabIndex:49,name:'consDestination',value:p.get('consDestination'),xtype:'textfield',anchor:'99%'};
-    var m26={fieldLabel:C_PRECARRIAGE,tabIndex:53,name:'consPrecarriage',value:p.get('consPrecarriage'),xtype:'textfield',anchor:'99%'};
-    var txtOriginalBlNum={fieldLabel:C_BL_ORI_NUM,name:'consOriginalBlNum',tabIndex:64,value:p.get('consOriginalBlNum'),xtype:'numberfield',anchor:'99%'};
+    var m23={fieldLabel:C_CUSTOM_EXPIRY_DATE,tabIndex:41,
+    	name:'consExpiryDate',value:p.get('consExpiryDate'),
+    	xtype:'datefield',format:DATEF,anchor:'99%'};
+    
+    var m24={fieldLabel:C_RECEIPT_PLACE,tabIndex:45,
+    	name:'consReceiptPlace',value:p.get('consReceiptPlace'),
+    	xtype:'textfield',anchor:'99%'};
+    
+    var m25={fieldLabel:C_DESTINATION,tabIndex:49,
+    	name:'consDestination',value:p.get('consDestination'),
+    	xtype:'textfield',anchor:'99%'};
+    
+    var m26={fieldLabel:C_PRECARRIAGE,tabIndex:53,
+    	name:'consPrecarriage',value:p.get('consPrecarriage'),
+    	xtype:'textfield',anchor:'99%'};
+    
+    var txtOriginalBlNum={fieldLabel:C_BL_ORI_NUM,
+    	name:'consOriginalBlNum',tabIndex:64,value:p.get('consOriginalBlNum'),
+    	xtype:'numberfield',anchor:'99%'};
+    
     var m28={fieldLabel:C_DO_AGENCY,name:'consDoAgencyName',tabIndex:47,
     		value:p.get('consDoAgencyName'),store:getCS(),enableKeyEvents:true,
     		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
@@ -979,11 +1029,14 @@ Fos.BookTab = function(p) {
             			f.clearValue();
             			p.set('consDoAgency','');
             			p.set('consDoAgencyName','');
+            			p.set('consDoAgencyAddress','');
             	}},
              	select:function(c,r,i){
              		p.set('consDoAgency',r.get('custId'));
              		p.set('consDoAgencyName',r.get('custNameCn'));
+             		p.set('consDoAgencyAddress',r.get('custAddress'));
              		c.setValue(r.get('custNameCn'));
+             		txtDoAgencyAddress.setValue(r.get('custAddress'));
              	},
             	keydown:{fn:function(f,e){LC(f,e,'custDoAgencyFlag');},buffer:BF}}};
    
@@ -992,11 +1045,25 @@ Fos.BookTab = function(p) {
     var txtHblNo={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,tabIndex:37,name:'consHblNo',
     		value:p.get('consHblNo'),xtype:'textarea',height:48,anchor:'99%'};
     
-    var m30={fieldLabel:C_ETA,name:'consEta',itemCls:p.get('consBizClass')==BC_I?'required':'',tabIndex:44,value:p.get('consEta'),xtype:'datefield',format:DATEF,anchor:'99%',
-        listeners:{scope:this,change:function(f,nv,ov){if(p.get('consBizClass')==BC_I) p.set('consSailDate',nv);}}};
+    var m30={fieldLabel:C_ETA,name:'consEta',itemCls:p.get('consBizClass')==BC_I?'required':'',
+    	tabIndex:44,value:p.get('consEta'),xtype:'datefield',format:DATEF,anchor:'99%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){
+        		if(p.get('consBizClass')==BC_I) 
+        			p.set('consSailDate',nv);
+        		}
+        }
+    };
     var m31={fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,
-    		itemCls:p.get('consBizClass')==BC_E?'required':'',tabIndex:37,name:'consEtd',value:p.get('consEtd'),xtype:'datefield',format:DATEF,anchor:'99%',
-        listeners:{scope:this,change:function(f,nv,ov){if(p.get('consBizClass')==BC_E) p.set('consSailDate',nv);}}};
+    	itemCls:p.get('consBizClass')==BC_E?'required':'',tabIndex:37,
+    	name:'consEtd',value:p.get('consEtd'),xtype:'datefield',format:DATEF,anchor:'99%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){
+        		if(p.get('consBizClass')==BC_E) 
+        			p.set('consSailDate',nv);
+        		}
+        }
+    };
             
     var m32={fieldLabel:C_VESS_NAME_CN,name:'vessNameCn',tabIndex:54,value:p.get('vessNameCn'),xtype:'textfield',anchor:'99%'};
     var m33={fieldLabel:C_TTER,itemCls:'required',tabIndex:58,name:'tranIdCarrier',value:p.get('tranIdCarrier'),store:p.get('consBizType')==BT_B?getTTB_S():getTTC_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
@@ -1016,7 +1083,12 @@ Fos.BookTab = function(p) {
     /*20120523 嘉兴锦诚 */
     var txtCarrierConatct={fieldLabel:C_CARRIER_CONTACT,name:'consCarrierContact',value:p.get('consCarrierContact'),xtype:'textfield',anchor:'99%'};
     var txtCarrierTel={fieldLabel:C_CARRIER_TEL,name:'consCarrierTel',value:p.get('consCarrierTel'),xtype:'textfield',anchor:'99%'};
-    var txtDoAgencyAddress={fieldLabel:C_DO_AGENCY_ADDRESS,name:'consDoAgencyAddress',value:p.get('consDoAgencyAddress'),xtype:'textfield',anchor:'99%'};
+    
+    var txtDoAgencyAddress = new Ext.form.TextField({fieldLabel:C_DO_AGENCY_ADDRESS,
+    	name:'consDoAgencyAddress',value:p.get('consDoAgencyAddress'),
+    	anchor:'99%'
+    });
+    
     var consThcFlag={fieldLabel:C_THC_FLAG,name:'consThcFlag',value:p.get('consThcFlag'),xtype:'checkbox',anchor:'99%'};
     var consPressureBoxFlag={fieldLabel:C_PRESSURE_BOX_FLAG,name:'consPressureBoxFlag',value:p.get('consPressureBoxFlag'),xtype:'checkbox',anchor:'99%'};
     

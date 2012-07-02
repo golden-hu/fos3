@@ -324,6 +324,8 @@
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
 	var locked=p.get('consStatusExp')==1||p.get('consStatusAud')!=0;
+	
+	//导出费用确认单
 	this.expConfirm=function(){
 		var a = sm.getSelections();
 		var expeIds = '';
@@ -339,6 +341,7 @@
 			EXPC('EXPE_CONFIRM','&expeType='+t+'&consId='+p.get('consId'));
 	};
 	
+	//导出费用结算单
 	this.expCheck=function(){
 		var a = sm.getSelections();
 		var expeIds = '';
@@ -368,7 +371,8 @@
 	var b3={itemId:'TB_C',text:C_SAVE+sS,iconCls:'save',disabled:NR(m+F_M)||locked,scope:this,handler:this.save};
 	var b4={itemId:'TB_D',text:C_COPY_FROM+sC,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.cp};
     var b5={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_M)||locked,scope:this,menu: {items: [
-           {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}, {text:C_EXPE_CHECK,scope:this,handler:this.expCheck}]}};
+           {text:C_EXPE_CONFIRM,scope:this,handler:this.expConfirm}, 
+           {text:C_EXPE_CHECK,scope:this,handler:this.expCheck}]}};
     var b6={itemId:'TB_F'+'F',text:C_ALLOCATION,iconCls:'broken',disabled:NR(m+F_M)||locked,scope:this,handler:this.allocate};
     
     var b7={itemId:'TB_CF',text:C_COPY_FROM_OT,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.copyFrom};
