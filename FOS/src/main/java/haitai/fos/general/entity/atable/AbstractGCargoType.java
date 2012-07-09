@@ -18,8 +18,11 @@ public abstract class AbstractGCargoType extends BaseDomain {
 	private String catyCode;
 	private String catyNameCn;
 	private String catyNameEn;
+	private String catyManuNo;
+	private String catySpec;
+	private String catyCargoType;
 	private Short catyDanagerFlag;
-	private String catyDanageNo;
+	private String catyDanagerNo;
 	private String catyDanagerProperty;
 	private String catyRemarks;
 	private Short active;
@@ -81,6 +84,34 @@ public abstract class AbstractGCargoType extends BaseDomain {
 	public void setCatyNameEn(String catyNameEn) {
 		this.catyNameEn = catyNameEn;
 	}
+	
+	@Column(name = "CATY_MANU_NO", length = 64)
+	public String getCatyManuNo() {
+		return catyManuNo;
+	}
+
+	public void setCatyManuNo(String catyManuNo) {
+		this.catyManuNo = catyManuNo;
+	}
+
+	@Column(name = "CATY_SPEC", length = 64)
+	public String getCatySpec() {
+		return catySpec;
+	}
+
+	public void setCatySpec(String catySpec) {
+		this.catySpec = catySpec;
+	}
+
+	@Column(name = "CATY_CARGO_TYPE", length = 64)
+	public String getCatyCargoType() {
+		return catyCargoType;
+	}
+
+	public void setCatyCargoType(String catyCargoType) {
+		this.catyCargoType = catyCargoType;
+	}
+
 
 	@Column(name = "CATY_DANAGER_FLAG")
 	public Short getCatyDanagerFlag() {
@@ -91,13 +122,13 @@ public abstract class AbstractGCargoType extends BaseDomain {
 		this.catyDanagerFlag = catyDanagerFlag;
 	}
 
-	@Column(name = "CATY_DANAGE_NO", length = 16)
-	public String getCatyDanageNo() {
-		return this.catyDanageNo;
+	@Column(name = "CATY_DANAGER_NO", length = 16)
+	public String getCatyDanagerNo() {
+		return this.catyDanagerNo;
 	}
 
-	public void setCatyDanageNo(String catyDanageNo) {
-		this.catyDanageNo = catyDanageNo;
+	public void setCatyDanagerNo(String catyDanagerNo) {
+		this.catyDanagerNo = catyDanagerNo;
 	}
 
 	@Column(name = "CATY_DANAGER_PROPERTY", length = 200)

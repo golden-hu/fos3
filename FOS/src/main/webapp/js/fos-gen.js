@@ -552,12 +552,25 @@ var showG_CATY = function() {
     store.load();
     var ac=ACTIVE();	
     var sm=getCSM();
-    var df = new Ext.grid.CheckColumn({header:C_IS_DANAGER,dataIndex:'catyDanagerFlag',sortable:true,width:55});
+    var df = new Ext.grid.CheckColumn({header:C_IS_DANAGER,dataIndex:'catyDanagerFlag',sortable:true,width:100});
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
     var cm=new Ext.grid.ColumnModel({columns:[sm,
-    {header:C_CUSTOM_CODE,dataIndex:'catyCode',editor:new Ext.form.TextField()},
     {header:C_CSNAME,dataIndex:'catyNameCn',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_ENAME,dataIndex:'catyNameEn',editor:new Ext.form.TextField()},
+	{header:C_MANU_NO,dataIndex:'catyManuNo',editor:new Ext.form.TextField()},
+	{header:C_SPEC,dataIndex:'catySpec',editor:new Ext.form.TextField()},
+	{header:C_CACL,dataIndex:'catyCargoType',editor:new Ext.form.ComboBox({
+		store:getCACL_S(),displayField:'caclNameCn',valueField:'caclNameCn',typeAhead:true,
+  		mode:'remote',triggerAction:'all',selectOnFocus:true,anchor:'50%',
+  		listeners:{
+  			scope:this,
+  			select:function(c,r,v){
+  				var record = sm.getSelected();
+  				record.set('catyCode',r.get('caclCode'));
+  			}
+  		}
+	})},
+	{header:C_CUSTOM_CODE,dataIndex:'catyCode',editor:new Ext.form.TextField()},
 	df,
 	{header:C_DANAGER_NO,dataIndex:'catyDanagerNo',editor:new Ext.form.TextField()},
 	{header:C_DANAGER_P,dataIndex:'catyDanagerProperty',editor:new Ext.form.TextField()},

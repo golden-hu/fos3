@@ -738,7 +738,8 @@ GVoyage = Ext.data.Record.create(
 GDocumentType = Ext.data.Record.create(['id','dotyCode','dotyId','dotyName','dotyClass','dotyReturnFlag','dotyBackFlag','compCode','active','version','rowAction']);
 GVehicleType = Ext.data.Record.create(['id','vehtId','vehtName','active','compCode','version','rowAction']);
 GCargoClass = Ext.data.Record.create(['id','caclId','caclCode','caclNameCn','caclNameEn','active','compCode','version','rowAction']);
-GCargoType = Ext.data.Record.create(['id','catyId','caclId','catyCode','catyNameCn','catyNameEn','catyDanagerFlag','catyDanagerNo','catyDanagerProperty','catyRemarks','active','compCode','version','rowAction']);
+GCargoType = Ext.data.Record.create(['id','catyId','caclId','catyCode','catyNameCn','catyNameEn','catyManuNo',
+   'catySpec','catyCargoType','catyDanagerFlag','catyDanagerNo','catyDanagerProperty','catyRemarks','active','compCode','version','rowAction']);
 GCustomsType = Ext.data.Record.create(['cutyId','cutyCode','cutyName','compCode','active','version','rowAction']);
 FDo = Ext.data.Record.create(['id','doId','doNo','consId','consNo','mblNo','hblNo',
 	'doConsignee','doPort','doHarbour',

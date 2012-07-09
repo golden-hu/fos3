@@ -1,12 +1,39 @@
 ﻿//单票界面货物信息
 Fos.CargoGrid = function(p,store,frm) {
+	var catyStore = GS('CATY_Q','GCargoType',GCargoType,'catyId','DESC','','','id',false);
 	this.sel = GSEL;
 	
 	var quitFlag=CHKCLM(C_CARG_QUIT,'cargQuitFlag');
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true}); 
 	var c1={header:C_MARKS,dataIndex:'cargMarks',editor:new Ext.form.TextField({})};
-	var c2={header:C_CARGO_NAME_EN,dataIndex:'cargNameEn',editor:new Ext.form.TextField({allowBlank:false})};
-	var c3={header:C_CARGO_NAME_CN,dataIndex:'cargNameCn',editor:new Ext.form.TextField({})};
+	var c2={header:C_CARGO_NAME_EN,dataIndex:'cargNameEn',editor:new Ext.form.ComboBox({
+	    store:catyStore,displayField:'catyNameEn',valueField:'catyNameEn',mode:'remote',typeAhead:true,
+	    selectOnfucs:true,triggerAction:'all',
+	    listeners:{
+	    	scope:this,
+	    	select:function(c,r,i){
+	    		var record = sm.getSelected();
+	    		record.set('cargNameCn',r.get('catyNameCn'));
+	    		record.set('cargSpec',r.get('catySpec'));
+	    		record.set('cargManuNo',r.get('catyManuNo'));
+  				record.set('cargNo',r.get('catyCode'));
+	    	}
+	    }
+	})};
+	var c3={header:C_CARGO_NAME_CN,dataIndex:'cargNameCn',editor:new Ext.form.ComboBox({
+		store:catyStore,displayField:'catyNameCn',valueField:'catyNameCn',mode:'remote',typeAhead:true,
+	    selectOnfucs:true,triggerAction:'all',
+	    listeners:{
+	    	scope:this,
+	    	select:function(c,r,i){
+	    		var record = sm.getSelected();
+	    		record.set('cargNameEn',r.get('catyNameEn'));
+	    		record.set('cargSpec',r.get('catySpec'));
+	    		record.set('cargManuNo',r.get('catyManuNo'));
+  				record.set('cargNo',r.get('catyCode'));
+	    	}
+	    }
+	})};
 	var c4={header:C_PACKAGES,dataIndex:'cargPackageNum',editor:new Ext.form.NumberField({allowBlank:false})};
 	var c5={header:C_PACK,dataIndex:'packId',renderer:function(v,m,r){return r.get('packName');},
 			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
