@@ -1102,7 +1102,9 @@ public class FConsignService {
 				consign.setSumRCnyWriteOff(NumberUtil.null2Zero((Double) objArray[12]));
 				consign.setSumPUsdWriteOff(NumberUtil.null2Zero((Double) objArray[13]));
 				consign.setSumPCnyWriteOff(NumberUtil.null2Zero((Double) objArray[14]));
-
+				consign.setSumPOther(NumberUtil.null2Zero((Double) objArray[15]));
+				consign.setSumROther(NumberUtil.null2Zero((Double) objArray[16]));
+				
 				if (!r.equals(ConstUtil.DoubleZero)) {
 					Double grossProfitRate = grossProfit * 100 / r;
 					consign.setGrossProfitRate(String.valueOf(grossProfitRate));

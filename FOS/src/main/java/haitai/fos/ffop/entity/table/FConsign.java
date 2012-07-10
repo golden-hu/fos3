@@ -24,6 +24,10 @@ public class FConsign extends AbstractFConsign {
 	private Double sumRCny;
 	private Double sumPUsd;
 	private Double sumPCny;
+	
+	private Double sumROther;
+	private Double sumPOther;
+	
 	private Double sumRUsdInvoice;
 	private Double sumRCnyInvoice;
 	private Double sumPUsdInvoice;
@@ -36,6 +40,24 @@ public class FConsign extends AbstractFConsign {
 	private Integer wconId;
 	private String settlementObject;
 	private Double sumExchangesFee;
+	
+	@Transient
+	public Double getSumROther() {
+		return sumROther;
+	}
+
+	public void setSumROther(Double sumROther) {
+		this.sumROther = sumROther;
+	}
+	
+	@Transient
+	public Double getSumPOther() {
+		return sumPOther;
+	}
+
+	public void setSumPOther(Double sumPOther) {
+		this.sumROther = sumPOther;
+	}
 	
 	@Transient
 	public Double getSumR() {
