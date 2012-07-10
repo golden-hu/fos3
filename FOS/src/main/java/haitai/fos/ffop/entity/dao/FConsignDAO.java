@@ -290,6 +290,17 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		sb.append(", (select sum(e.expeWriteOffAmount)");
 		sb.append(" from SExpense e where e.consId=t1.consId and e.removed='0'");
 		sb.append(" and e.expeType='P' and e.currCode='CNY') as sumPCnyWriteOff");
+		
+		//应付其他币种合计(非美元,人民币)
+		sb.append(", (select sum(e.expeTotalAmount)");
+		sb.append(" from SExpense e where e.consId=t1.consId and e.removed='0'");
+		sb.append(" and e.expeType='P' and e.currCode!='CNY' and e.currCode!='USD') as sumPOther");
+		
+		//应收其他币种合计(非美元,人民币)
+		sb.append(", (select sum(e.expeTotalAmount)");
+		sb.append(" from SExpense e where e.consId=t1.consId and e.removed='0'");
+		sb.append(" and e.expeType='R' and e.currCode!='CNY' and e.currCode!='USD') as sumROther");
+		
 		String fieldSql = sb.toString();
 		
 		String joinSql = "";
