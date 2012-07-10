@@ -2888,7 +2888,7 @@ Fos.BLGrid = function(p){
 		consId:p.get('consId'),
 		consNo:p.get('consNo'),
 		blType:t,
-		blNo:t=='MB/L'?p.get('consMblNo'):p.get('consHblNo'),
+		blNo:t=='MB/L'?(p.get('consMblNo').indexOf('/')>0?'':p.get('consMblNo')):p.get('consHblNo'),
 		mblNo:p.get('consMblNo'),		
 		consBizClass:p.get('consBizClass'),
 		consBizType:p.get('consBizType'),
