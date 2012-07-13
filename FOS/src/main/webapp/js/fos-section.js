@@ -3281,6 +3281,9 @@ Fos.BlWin = function(p,b,store) {
 	this.expExcel=function(){
 		EXPC('BL','&blId='+b.get('blId'));
 	};
+	this.expExcel1=function(){
+		EXPC('FBL_MANIFEST','&blId='+b.get('blId'));
+	};
 	this.expEmail=function(){
 				var to='';
 				var cc='';
@@ -3639,7 +3642,8 @@ Fos.BlWin = function(p,b,store) {
 		   			{text:'Excel',scope:this,handler:this.expExcel},
 		   			{text:C_EMAIL,scope:this,handler:this.expEmail}
 		   		]}},
-		   		{text:M_BOOK,scope:this,handler:this.genCons}
+		   		{text:M_BOOK,scope:this,handler:this.genCons},
+		   		{text:M_CONSIGN,scope:this,handler:this.expExcel1}
 		   		]}},'->',txtStatus
 		   	],		   	
             items:{xtype:'tabpanel',plain:true,activeTab:0,defaults:{bodyStyle:'padding:10px'},height:650,
