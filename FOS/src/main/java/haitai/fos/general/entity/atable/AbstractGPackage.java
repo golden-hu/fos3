@@ -59,7 +59,7 @@ public abstract class AbstractGPackage extends BaseDomain {
 		this.packName = packName;
 	}
 
-	@Column(name = "PACK_NAME_CN", nullable = false, length = 64)
+	@Column(name = "PACK_NAME_CN", length = 64)
 	public String getPackNameCn() {
 		return this.packNameCn;
 	}

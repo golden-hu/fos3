@@ -56,7 +56,7 @@ public class FConsign extends AbstractFConsign {
 	}
 
 	public void setSumPOther(Double sumPOther) {
-		this.sumROther = sumPOther;
+		this.sumPOther = sumPOther;
 	}
 	
 	@Transient
