@@ -2156,9 +2156,9 @@ Fos.CustomsTab = function(p) {
 		editor:new Ext.form.ComboBox({displayField:'counNameCn',valueField:'counNameCn',triggerAction: 'all',
     	mode:'remote',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOUN_S()})},
 	{header:C_UNIT_PRICE,dataIndex:'cuenUnitPrice',width:80,align:'right',
-    	renderer:numRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
+    	renderer:rateRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_TOTAL_PRICE,dataIndex:'cuenTotalPrice',width:80,align:'right',
-    	renderer:numRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
+    	renderer:rateRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_CURRENCY,dataIndex:'currCode',width:60,editor:new Ext.form.TextField()},
 	{header:C_LEVY,dataIndex:'cuenLevyType',width:80,
 		editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
@@ -2888,7 +2888,7 @@ Fos.BLGrid = function(p){
 		consId:p.get('consId'),
 		consNo:p.get('consNo'),
 		blType:t,
-		blNo:t=='MB/L'?p.get('consMblNo'):p.get('consHblNo'),
+		blNo:t=='MB/L'?(p.get('consMblNo').indexOf('/')>0?'':p.get('consMblNo')):p.get('consHblNo'),
 		mblNo:p.get('consMblNo'),		
 		consBizClass:p.get('consBizClass'),
 		consBizType:p.get('consBizType'),
@@ -3281,6 +3281,9 @@ Fos.BlWin = function(p,b,store) {
 	this.expExcel=function(){
 		EXPC('BL','&blId='+b.get('blId'));
 	};
+	this.expExcel1=function(){
+		EXPC('FBL_MANIFEST','&blId='+b.get('blId'));
+	};
 	this.expEmail=function(){
 				var to='';
 				var cc='';
@@ -3639,7 +3642,8 @@ Fos.BlWin = function(p,b,store) {
 		   			{text:'Excel',scope:this,handler:this.expExcel},
 		   			{text:C_EMAIL,scope:this,handler:this.expEmail}
 		   		]}},
-		   		{text:M_BOOK,scope:this,handler:this.genCons}
+		   		{text:M_BOOK,scope:this,handler:this.genCons},
+		   		{text:M_CONSIGN,scope:this,handler:this.expExcel1}
 		   		]}},'->',txtStatus
 		   	],		   	
             items:{xtype:'tabpanel',plain:true,activeTab:0,defaults:{bodyStyle:'padding:10px'},height:650,

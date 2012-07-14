@@ -27,14 +27,17 @@ public class FBlService {
 	@Autowired
 	private FConsignService consignService;
 
+	@SuppressWarnings("unchecked")   
 	@Transactional
-	public List<FBl> save(List<FBl> consignList) {
-		List<FBl> retList = new ArrayList<FBl>();
+	public List save(List consignList) {
+		List retList = new ArrayList();
 		Set<Integer> blIdSet = new HashSet<Integer>();
 		Set<Integer> consIdSet = new HashSet<Integer>();
 		Set<Integer> masterIdSet = new HashSet<Integer>();
 		Set<Integer> fconIdSet = new HashSet<Integer>();
-		for (FBl entity : consignList) {
+		Integer consId = null;
+		for (Object obj : consignList) {
+			FBl entity = (FBl) obj;
 			if (entity.getRowAction() == RowAction.N) {
 				entity.setBlId(null);
 				checkBlNoDuplicated(entity);
@@ -55,12 +58,32 @@ public class FBlService {
 				blIdSet.add(entity.getBlMBlId());
 			}
 			consIdSet.add(entity.getConsId());
+			consId = entity.getConsId();
 			if (entity.getConsMasterId() != null) {
 				masterIdSet.add(entity.getConsMasterId());
 			}
 			if (entity.getFconId() != null) {
 				fconIdSet.add(entity.getFconId());
 			}
+		}
+		
+		//再load对应的委托号的所有主提单
+		//主提单号拼起来保存到CONS_MBL_NO字段
+		if(consId != null){
+			Map<String, Object> queryMap = new HashMap<String, Object>();
+			queryMap.put("consId", consId);
+			queryMap.put("blType", "MB/L");
+			List<FBl> listNo = query(queryMap);
+			StringBuilder sb = new StringBuilder();
+			for (FBl MblNo : listNo) {
+				sb.append(MblNo.getBlNo()).append("/");
+			}
+			if(sb.length() > 0){
+				sb.deleteCharAt(sb.length() - 1);
+			}
+			FConsign consign = consignDao.findById(consId);
+			consign.setConsMblNo(sb.toString());
+			retList.add(consignDao.update(consign));
 		}
 		syncMasterBl(blIdSet);
 		syncConsign(consIdSet);
