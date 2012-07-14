@@ -629,7 +629,7 @@ Fos.StatWOTab = function(t){
 		Ext.get('IF_STWO').dom.src=this.getUrl();
 	};
 	this.exp=function(){
-		OWW(this.getUrl());
+		OWW(this.getUrl()+'&format=xls');
 	};
 	
 	Fos.StatWOTab.superclass.constructor.call(this, {    

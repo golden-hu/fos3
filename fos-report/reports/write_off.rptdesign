@@ -364,6 +364,7 @@ if(params["F"] != ""){
 if(params["T"] != ""){
 	sql += " and i.CREATE_TIME <= '" + params["T"] + "'";
 }
+
 if(params["consNo"].value != "0" && params["consNo"].value != ""){
 	sql += " and i.CONS_NO = '" + params["consNo"] + "'";
 }
@@ -378,7 +379,7 @@ if(params["voucWriteOffNo"] != ""){
 	sql += " and i.VOIT_WRITE_OFF_NO = '" + params["voucWriteOffNo"] + "'";
 }
 if(params["currCode"] != ""){
-	sql += " and i.CURR_CODE = '" + params["currCode"] + "'";
+	sql += " and i.VOUC_CURR_CODE = '" + params["currCode"] + "'";
 }
 if(params["invoNo"] != ""){
 	sql += " and i.INVO_NO = '" + params["invoNo"] + "'";
@@ -394,6 +395,7 @@ if(params["voucDateT"] != ""){
 }
 
 sql += " and i.comp_code = '" + params["compCode"] + "'";
+
 this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
             <list-property name="resultSet">
@@ -742,6 +744,7 @@ where COMP_CODE = ?]]></xml-property>
                                     </label>
                                 </cell>
                             </row>
+                             
                         </header>
                     </table>
                 </cell>
@@ -1304,4 +1307,5 @@ where COMP_CODE = ?]]></xml-property>
             <property name="type">report</property>
         </variable-element>
     </property>
+   
 </report>
