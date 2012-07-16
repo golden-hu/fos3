@@ -78,21 +78,28 @@ public class FContainerService {
 			}
 		}
 		//再load对应的委托号的所有箱子，其中CONT_PRE_FLAG=N,
-		//箱号拼起来保存到CONS_CONTAINER_INFO字段
+		//箱号拼起来保存到CONS_CONTAINER_NO字段
+		//铅封号拼起来保存到CONS_SEAL_NO字段
 		if(consId != null){
 			Map<String, Object> queryMap = new HashMap<String, Object>();
 			queryMap.put("consId", consId);
 			queryMap.put("contPreFlag", "N");
 			List<FContainer> listCont = query(queryMap);
 			StringBuilder sb = new StringBuilder();
+			StringBuilder sb1 = new StringBuilder();
 			for (FContainer cont : listCont) {
 				sb.append(cont.getContNo()).append("/");
+				sb1.append(cont.getContSealNo()).append("/");
 			}
 			if(sb.length() > 0){
 				sb.deleteCharAt(sb.length() - 1);
 			}
+			if(sb1.length()>0){
+				sb1.deleteCharAt(sb1.length() - 1);
+			}
 			FConsign consign = consignDao.findById(consId);
 			consign.setConsContainerNo(sb.toString());
+			consign.setConsSealNo(sb1.toString());
 			retList.add(consignDao.update(consign));
 		}
 		return retList;
