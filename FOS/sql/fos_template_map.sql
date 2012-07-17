@@ -98,7 +98,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '备注', 'FBl', 'blRemarks', NULL),
 (1, '装船日期', 'FBl', 'blLoadDate', NULL),
 (1, '到港日期', 'FBl', 'blEta', NULL),
-(1, '开航日期', 'FBl', 'blEtd', NULL),
+(1, '开航日期', 'FBl', 'blEtd', 'toLocalDate'),
 (1, '第一中转港代码', 'FBl', 'blToFirst', NULL),
 (1, '第二中转港代码', 'FBl', 'blToSecond', NULL),
 (1, '第三中转港代码', 'FBl', 'blToThird', NULL),

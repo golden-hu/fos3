@@ -2179,3 +2179,167 @@ Fos.SiteLookup = Ext.extend(Ext.form.ComboBox, {
 
 Ext.reg('siteLookup', Fos.SiteLookup);
 
+
+//自定义控件
+Fos.CustomerLookup = Ext.extend(Ext.form.ComboBox, {
+	 triggerClass:'x-form-search-trigger',
+	custType:'',	//客户类型属性
+	bizType:'',		//类务类型属性
+	
+	constructor:function(config){
+		this.custType = config['custType'];
+		this.bizType = config['bizType'];
+		Fos.CustomerLookup.superclass.constructor.apply(this, arguments);
+	},
+	initComponent:function(){
+		Fos.CustomerLookup.superclass.initComponent.call(this);        
+	},
+	
+	selectCust:function(cust,scope){
+		scope.setValue(cust.data[scope.valueField || scope.displayField]);
+		scope.fireEvent('select', this, cust, 0);
+	},
+	
+	//弹出窗口按钮
+	onTriggerClick:function(event){
+		var win = new Fos.CustomerLookWin(this.custType,this.bizType,this.selectCust,this);
+		win.show();
+	}
+});
+Ext.reg('customerLookup', Fos.CustomerLookup);
+
+
+
+
+Fos.CustomerLookWin = function(custType,bizType,fn,scope) {
+    var store = new Ext.data.Store({url:SERVICE_URL+'?_A=CUST_X&_mt=json',baseParams:{},
+		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomer',id:'id'},CCustomer),
+		remoteSort:true,sortInfo:{field:'id', direction:'desc'}});
+    store.baseParams = {};
+    
+    //委托单位
+    if(custType=='custBookerFlag')
+    	store.baseParams.custBookerFlag=1;
+    //承运人
+    else if(custType=='custCarrierFlag')
+    	store.baseParams.custCarrierFlag=1;
+    //报关行
+    else if(custType=='custCustomFlag')
+    	store.baseParams.custCustomFlag=1;
+    //海外代理
+    else if(custType=='custOverseaAgencyFlag')
+    	store.baseParams.custOverseaAgencyFlag=1;
+    //订舱代理
+    else if(custType=='custBookingAgencyFlag')
+    	store.baseParams.custBookingAgencyFlag=1;
+    //报检单位
+    else if(custType=='custInspectionFlag')
+    	store.baseParams.custInspectionFlag=1;
+    //换单代理
+    else if(custType=='custDoAgencyFlag')
+    	store.baseParams.custDoAgencyFlag=1;
+    //场站
+    else if(custType=='custCfsFlag')
+    	store.baseParams.custCfsFlag=1;
+    //仓库
+    else if(custType=='custWarehouseFlag')
+    	store.baseParams.custWarehouseFlag=1;
+    //航空公司
+    else if(custType=='custAirFlag')
+    	store.baseParams.custAirFlag=1;
+    //车队
+    else if(custType=='custTrackFlag')
+    	store.baseParams.custTrackFlag=1;
+    //箱公司
+    else if(custType=='custContainerFlag')
+    	store.baseParams.custContainerFlag=1;
+    //保险公司
+    else if(custType=='custInsuranceFlag')
+    	store.baseParams.custInsuranceFlag=1;
+    //加油站
+    else if(custType=='custOilFlag')
+    	store.baseParams.custTrackFlag=1;
+    //维修工厂
+    else if(custType=='custFactoryFlag')
+    	store.baseParams.custFactoryFlag=1;
+    //快件公司
+    else if(custType=='custExpressFlag')
+    	store.baseParams.custTrackFlag=1;
+    
+    if(bizType=='M')
+    	store.baseParams.marineFlag=1;
+    else if(bizType=='A')
+    	store.baseParams.airFlag=1;
+    else if(bizType=='E')
+    	store.baseParams.expressFlag=1;
+    else if(bizType=='C')
+    	store.baseParams.customsFlag=1;
+    else if(bizType=='W')
+    	store.baseParams.wmsFlag=1;
+    else if(bizType=='T')
+    	store.baseParams.tmsFlag=1;
+      
+    store.load({params:{start:0,limit:C_PS20}});
+	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	var cm = new Ext.grid.ColumnModel({columns:[
+    	new Ext.grid.RowNumberer(),sm,
+		{header:C_CODE,dataIndex:'custCode',width:80},
+		{header:C_CNAME,dataIndex:'custNameCn',width:100},
+		{header:C_CSNAME,dataIndex:'custSnameCn',width: 80},
+		{header:C_ENAME,dataIndex:'custNameEn',width:100},
+		{header:C_ESNAME,dataIndex:'custSnameEn',width:80},
+		{header:C_CONTACT,dataIndex:'custContact',width:100},
+		{header:C_TEL,dataIndex:'custTel',width:100},
+		{header:C_FAX,dataIndex:'custFax',width:100},
+		{header:'上级公司',dataIndex:'parentId',hidden:true,width:100},//添加上级公司id隐藏字段 ADD BY YongZhixiang 2011-07-03
+		C_CT,C_MT],defaults:{sortable:true,width:100}});
+    
+		
+	//添加按钮的代码
+    this.addCustomer = function(){
+    	var p = new CCustomer({custCode:'',custClass:'',custNameCn:'',custSnameCn:'',custNameEn:'',custSnameEn:'',
+		custArFlag:1,custApFlag:1,custIndustry:'',cucaId:'',custType:'',counCode:'CN',custProvince:'',custCity:'',
+		custAddress:'',custZip:'',custContact:'',custTel:'',custFax:'',custEmail:'',custUrl:'',custBankCny:'',
+		custAccountCny:'',custBankUsd:'',custAccountUsd:'',custInvoiceHeader:'',custActive:'1',
+		custBookerFlag:'1',custShipperFlag:'1',
+		custShipTo:'',custChargeTo:'',custCreditDay:'',
+		custCreditDay:HTStore.getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
+		custCreditAmount:HTStore.getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),custRemarks:'',
+		version:'0',rowAction:'N',uuid:HTUtil.UUID(32)});
+    	var win = new Fos.CustomerWin(p,store);
+		win.show();
+    };
+    
+    //查询按钮的代码
+	this.search = function(){
+		var w=new Fos.CustomerLW(store);w.show();
+	};
+	
+	//ok选择
+	this.sel = function(){
+		//当确实选择了一项数据时，执行传入的函数参数，并关闭窗口
+		if(sm.getSelected()){
+			fn(sm.getSelected(),scope);
+			this.close();
+		}
+		else{ 
+			Ext.Msg.alert(SYS,M_NO_DATA_SELECTED);
+		}
+	};
+	
+	//构建grid
+	var grid = new Ext.grid.GridPanel({store: store,sm:sm,cm:cm,
+		listeners:{scope:this,rowdblclick:this.sel},
+		bbar:PTB(store,C_PS20),
+		tbar:[{text:C_ADD,disabled:NR(M1_CRM),iconCls:'add',handler:this.addCustomer}, '-', 
+			{text:C_SEARCH,iconCls:'search',handler:this.search},'-']
+	});
+	
+	//配置项
+    Fos.CustomerLookWin.superclass.constructor.call(this,{title:C_CUST_SEL,width:600,height:400,layout:'fit',modal:true,items:grid,
+    	buttons:[{text:C_OK,iconCls:'ok',scope:this,handler:this.sel},
+    	         {text:C_CANCEL,iconCls:'cancel',scope:this,handler:this.close}]
+    	}
+    ); 
+};
+Ext.extend(Fos.CustomerLookWin,Ext.Window);

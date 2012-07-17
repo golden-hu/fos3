@@ -235,7 +235,7 @@ FLoadingList = Ext.data.Record.create(['id',
 	'compCode','version','rowAction']);	
 FBl = Ext.data.Record.create(['id',
 	'blId','blNo','mblNo','blType','consId','consNo','consBizClass','consTradeContractNo','consChargeRemarks','consBizType','custId','custName',
-	'blShipper','blConsignee','blNotifyParty','blNotifyParty2','blOverseaAgency',	
+	'blShipper','blConsignee','blNotifyParty','blNotifyParty2','blOverseaAgency','consShipType',	
 	'blPrecarriage','blCarrier','blCarrierName','blVessel','blVoyage','blPol','blPod','blPot',
 	{name:'blLoadDate',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'blEtd',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'blEta',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'blReceiptPlace','blDeliveryPlace','blContainerNo','blSealNo',
