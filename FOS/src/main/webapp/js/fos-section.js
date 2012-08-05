@@ -2902,6 +2902,7 @@ Fos.BLGrid = function(p){
 		blLoadDate:p.get('consLoadDate'),blEtd:p.get('consEtd'),blEta:p.get('consEta'),
 		blReceiptPlace:p.get('consReceiptPlace'),blDeliveryPlace:p.get('consDeliveryPlace'),
 		blContainerNo:p.get('consContainerNo'),
+		blSealNo:p.get('consSealNo'),
 		blPackages:p.get('consCargoPackages'),
 		consMasterId:p.get('consMasterId'),consMasterNo:p.get('consMasterNo'),
 		cargPackages:p.get('consTotalPackages'),cargGrossWeight:p.get('consTotalGrossWeight'),
@@ -3436,6 +3437,8 @@ Fos.BlWin = function(p,b,store) {
                 items: [{fieldLabel:C_TOTAL_SAY,name:'blTotalSay',value:b.get('blTotalSay'),tabIndex:26,xtype:'textfield',anchor:'99%'}]},
             {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
                 items: [{fieldLabel:C_CONTAINER_NO,name:'blContainerNo',value:b.get('blContainerNo'),tabIndex:27,xtype:'textfield',anchor:'99%'}]},
+            {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
+                items: [{fieldLabel:C_SEAL_NO,name:'blSealNo',value:b.get('blSealNo'),tabIndex:28,xtype:'textfield',anchor:'99%'}]}
             ]};
 	var t3={layout:'column',title:C_ISSUE_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,height:200,
 			items: [
