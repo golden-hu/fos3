@@ -52,13 +52,18 @@ Fos.copyConsign = function(p){
 	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');c.set('rowAction','N');
 	return c;
 };
-Fos.showConsign = function(p){
+Fos.showConsign = function(p,listStore){
 	var t = T_MAIN.getComponent('C_'+p.get("id"));
 	if(t){
 		T_MAIN.setActiveTab(t);
 	} 
-	else{
-		t = new Fos.ConsignTab(p);
+	else if(VERSION==1){
+		t = new Fos.ConsignTab(p,listStore);
+		T_MAIN.add(t);
+		T_MAIN.setActiveTab(t);
+	}
+	else if(VERSION==2){
+		t = new Fos.YsConsignTab(p,listStore);
 		T_MAIN.add(t);
 		T_MAIN.setActiveTab(t);
 	}

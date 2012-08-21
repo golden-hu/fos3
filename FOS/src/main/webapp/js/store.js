@@ -137,7 +137,7 @@
 	'compCode','version','rowAction','attr1','attr2','attr3','attr4','attr5',
 	'attr6','attr7','attr8','attr9','attr10',
 	'sumR','sumP','grossProfit','grossProfitRate','sumRUsd',
-	'sumRUsdInvoice','sumRUsdWriteOff','sumRCny',
+	'sumRUsdInvoice','sumRUsdWriteOff','sumRCny','sumROther',
 	'sumRCnyInvoice','sumRCnyWriteOff','sumPUsd','sumPUsdInvoice',
 	'sumPUsdWriteOff','sumPCny','sumPCnyInvoice','sumPCnyWriteOff','editable'
 	]);
@@ -786,8 +786,11 @@ FContainerTrace = Ext.data.Record.create(['id',
 GTrainStation = Ext.data.Record.create(['id','trainId','trainCode','trainNameEn','trainNameCn','counCode','trainType','trainTypeFlag','compCode','active','version','rowAction']); 
 
 var CONT_TYPE_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','货主SOC'],['1','我司SOC'],['2','COC']]});
-getCONT_TYPE_S = function(v){if(v>=0)return CONT_TYPE_S.getById(v).get('NAME');else return'';};
+	getCONT_TYPE_S = function(v){if(v>=0)return CONT_TYPE_S.getById(v).get('NAME');else return'';};
 
+var TRANS_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','集装箱'],['1','整车'],['2','零担']]});
+	getTRANS_S = function(v){if(v>=0)return TRANS_S.getById(v).get('NAME');else return'';};
+	
 var getTRAIN_S = function(){
 	if(Ext.StoreMgr.containsKey('S_TRAIN')){return Ext.StoreMgr.get('S_TRAIN');}
 	else {

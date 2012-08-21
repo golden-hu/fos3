@@ -432,10 +432,10 @@ var showG_TRAT = function() {
     id:'G_TRAT',iconCls:'gen',title:C_TRAT,
 	header:false,plugins:ac,clicksToEdit:1,closable:true,store:store,sm:sm,cm:cm,
 	tbar:[{
-		text:C_ADD,disabled:NR(M1_J+G_TRAT+F_M),iconCls:'add',disabled:true,handler : function(){            	
+		text:C_ADD,disabled:NR(M1_J+G_TRAT+F_M),iconCls:'add',handler : function(){            	
 			var p = new GTransType({id:GGUID(),tratId:'0',tratCode:'',tratName:'',active:1,version:'0',rowAction:'N'});            
         	grid.stopEditing();store.insert(0,p);grid.startEditing(0,1);}},'-',
-        {text:C_REMOVE,disabled:NR(M1_J+G_TRAT+F_R),iconCls:'remove',disabled:true,handler:function(){FOS_REMOVE(sm,store);}}, '-', 
+        {text:C_REMOVE,disabled:NR(M1_J+G_TRAT+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}}, '-', 
         {text:C_SAVE,disabled:NR(M1_J+G_TRAT+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GTransType',GTransType,'TRAT_S');getTRAT_S().reload();}
         }]
     }); 

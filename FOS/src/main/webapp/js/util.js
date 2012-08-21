@@ -27,6 +27,8 @@ var BC_E='E'; //出口
 var BC_D='D'; //内贸
 var BC_T='T'; //过境
 
+var C_CT={header:"创建时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"};
+var C_MT={header:"修改时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"};
 
 var XMG = Ext.MessageBox;
 var SR_TRAN='B';

@@ -10,10 +10,11 @@ import haitai.fos.ffse.entity.table.SExpense;
 import haitai.fos.ffse.entity.table.SInvoiceEntry;
 import haitai.fos.ffse.entity.table.SInvoiceItem;
 import haitai.fos.ffse.entity.table.SVoucherItem;
-import haitai.fos.general.entity.dao.GChargeDAO;
+import haitai.fos.general.entity.idao.IGTrainStationDao;
 import haitai.fos.general.entity.idao.IGChargeDAO;
 import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GCharge;
+import haitai.fos.general.entity.table.GTrainStation;
 import haitai.fos.general.entity.table.GVoyage;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
 import haitai.fos.sys.entity.idao.IPTaskTypeDAO;
@@ -101,6 +102,9 @@ public class FConsignService {
 	
 	@Autowired
 	private ISVoucherItemDAO voucherItemDao;
+	
+	@Autowired
+	private IGTrainStationDao trainStationDao;
 	
 	//手工修改业务号
 	@Transactional
@@ -236,7 +240,6 @@ public class FConsignService {
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
-
 		Integer newId = null;
 		String consNo = null;
 		// handle consign first
@@ -348,7 +351,7 @@ public class FConsignService {
 			throw new BusinessException("fw.row_action_null");
 		}
 	}
-
+	
 	private void saveConsign(FConsign entity, List<Object> retList) {
 		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);

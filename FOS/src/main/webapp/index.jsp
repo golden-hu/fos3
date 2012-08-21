@@ -27,6 +27,7 @@
 <script type="text/javascript" src="js/fos-rail.js"></script>
 <script type="text/javascript" src="js/fos-customs.js"></script>
 <script type="text/javascript" src="js/fos-ws.js"></script>
+<script type="text/javascript" src="js/ys-cont.js"></script>
 </head>
 <body id="docs">
 <div id="loading-mask" style=""></div>

@@ -208,21 +208,29 @@ function getSysPanel(){
 
 function getPMenu(){
 	var items=[];
-	if(!NR(M1_C)) items[items.length]=getContPanel();
-	if(!NR(M1_B)) items[items.length]=getBulkPanel();
-	if(!NR(M1_A)) items[items.length]=getAirPanel();
-	if(!NR(M1_RT)) items[items.length]=getRailwayPanel();
-	if(!NR(M1_G)) items[items.length]=getCudePanel();
-	//items[items.length]=getEntryPanel();
-	//if(!NR(M1_I)) items[items.length]=getInspPanel();
-	if(!NR(M1_D)) items[items.length]=getDocPanel();
-	if(!NR(M1_S)) items[items.length]=createSMTree();
-	if(!NR(M1_T)) items[items.length]=getStaPanel();
-	if(!NR(M1_V)) items[items.length]=getCusPanel();
-	if(!NR(M1_J)) items[items.length]=createGMTree();
-	if(!NR(M1_P)) items[items.length]=getSysPanel();
-	//if(VERSION==1&&!NR(M1_W)) 
-		items[items.length]=getWsPanel();
+	if(VERSION==1){
+		if(!NR(M1_C)) items[items.length]=getContPanel();
+		if(!NR(M1_B)) items[items.length]=getBulkPanel();
+		if(!NR(M1_A)) items[items.length]=getAirPanel();
+		if(!NR(M1_RT)) items[items.length]=getRailwayPanel();
+		if(!NR(M1_G)) items[items.length]=getCudePanel();
+		//items[items.length]=getEntryPanel();
+		//if(!NR(M1_I)) items[items.length]=getInspPanel();
+		if(!NR(M1_D)) items[items.length]=getDocPanel();
+		if(!NR(M1_S)) items[items.length]=createSMTree();
+		if(!NR(M1_T)) items[items.length]=getStaPanel();
+		if(!NR(M1_V)) items[items.length]=getCusPanel();
+		if(!NR(M1_J)) items[items.length]=createGMTree();
+		if(!NR(M1_P)) items[items.length]=getSysPanel();
+		//if(VERSION==1&&!NR(M1_W)) 
+			items[items.length]=getWsPanel();
+	}else if(VERSION == 2){
+		if(!NR(M1_C)) items[items.length]=getYsContPanel();
+		if(!NR(M1_D)) items[items.length]=getDocPanel();
+		if(!NR(M1_V)) items[items.length]=getCusPanel();
+		if(!NR(M1_J)) items[items.length]=createGMTree();
+		if(!NR(M1_P)) items[items.length]=getSysPanel();
+	}
 		
 	
 	return new Ext.Panel({
@@ -601,3 +609,15 @@ Ext.onReady(function(){
 	//this.runner = new Ext.util.TaskRunner();
 	//this.runner.start(task);
 });
+
+
+
+
+//北京永顺集装箱模块
+function getYsContPanel(){
+	var items = [];
+	items[items.length]=NaviMenu(C_EXP,'YS_CONS_FCL_E',function(){return new Fos.YsConsignGrid('E','C','FCL');});
+	items[items.length]=NaviMenu(C_IMP,'YS_CONS_FCL_I',function(){return new Fos.YsConsignGrid('I','C','FCL');});
+	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
+		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+}

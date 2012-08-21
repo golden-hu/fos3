@@ -124,6 +124,7 @@ html, body {
 .check {background-image:url(./images/check.gif) !important;}
 .up {background-image:url(./images/up2.gif) !important;}
 .down {background-image:url(./images/down2.gif) !important;}
+.ok{background-image:url(./images/ok.png) !important;}
 .cancel {background-image:url(./images/cancel.gif) !important;}
 .copy {background-image:url(./images/copy.png) !important;}
 .redo {background-image:url(./images/redo.png) !important;}

@@ -2184,11 +2184,8 @@ Ext.reg('siteLookup', Fos.SiteLookup);
 Fos.CustomerLookup = Ext.extend(Ext.form.ComboBox, {
 	 triggerClass:'x-form-search-trigger',
 	custType:'',	//客户类型属性
-	bizType:'',		//类务类型属性
-	
 	constructor:function(config){
 		this.custType = config['custType'];
-		this.bizType = config['bizType'];
 		Fos.CustomerLookup.superclass.constructor.apply(this, arguments);
 	},
 	initComponent:function(){
@@ -2202,19 +2199,16 @@ Fos.CustomerLookup = Ext.extend(Ext.form.ComboBox, {
 	
 	//弹出窗口按钮
 	onTriggerClick:function(event){
-		var win = new Fos.CustomerLookWin(this.custType,this.bizType,this.selectCust,this);
+		var win = new Fos.CustomerLookWin(this.custType,this.selectCust,this);
 		win.show();
 	}
 });
 Ext.reg('customerLookup', Fos.CustomerLookup);
 
-
-
-
-Fos.CustomerLookWin = function(custType,bizType,fn,scope) {
-    var store = new Ext.data.Store({url:SERVICE_URL+'?_A=CUST_X&_mt=json',baseParams:{},
-		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomer',id:'id'},CCustomer),
-		remoteSort:true,sortInfo:{field:'id', direction:'desc'}});
+Fos.CustomerLookWin = function(custType,fn,scope) {
+    var store = new Ext.data.Store({url:SERVICE_URL+'?A=CUST_X&mt=xml',baseParams:{},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'CCustomer',idProperty:'custId'},CCustomer),
+		remoteSort:true,sortInfo:{field:'custId', direction:'DESC'}});
     store.baseParams = {};
     
     //委托单位
@@ -2265,19 +2259,6 @@ Fos.CustomerLookWin = function(custType,bizType,fn,scope) {
     //快件公司
     else if(custType=='custExpressFlag')
     	store.baseParams.custTrackFlag=1;
-    
-    if(bizType=='M')
-    	store.baseParams.marineFlag=1;
-    else if(bizType=='A')
-    	store.baseParams.airFlag=1;
-    else if(bizType=='E')
-    	store.baseParams.expressFlag=1;
-    else if(bizType=='C')
-    	store.baseParams.customsFlag=1;
-    else if(bizType=='W')
-    	store.baseParams.wmsFlag=1;
-    else if(bizType=='T')
-    	store.baseParams.tmsFlag=1;
       
     store.load({params:{start:0,limit:C_PS20}});
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:true});
@@ -2291,21 +2272,20 @@ Fos.CustomerLookWin = function(custType,bizType,fn,scope) {
 		{header:C_CONTACT,dataIndex:'custContact',width:100},
 		{header:C_TEL,dataIndex:'custTel',width:100},
 		{header:C_FAX,dataIndex:'custFax',width:100},
-		{header:'上级公司',dataIndex:'parentId',hidden:true,width:100},//添加上级公司id隐藏字段 ADD BY YongZhixiang 2011-07-03
-		C_CT,C_MT],defaults:{sortable:true,width:100}});
+	    ],defaults:{sortable:true,width:100}});
     
-		
+	var rid=GGUID();	
 	//添加按钮的代码
     this.addCustomer = function(){
-    	var p = new CCustomer({custCode:'',custClass:'',custNameCn:'',custSnameCn:'',custNameEn:'',custSnameEn:'',
+    	var p = new CCustomer({id:rid,custId:rid,custCode:'',custClass:'',custNameCn:'',custSnameCn:'',custNameEn:'',custSnameEn:'',
 		custArFlag:1,custApFlag:1,custIndustry:'',cucaId:'',custType:'',counCode:'CN',custProvince:'',custCity:'',
 		custAddress:'',custZip:'',custContact:'',custTel:'',custFax:'',custEmail:'',custUrl:'',custBankCny:'',
 		custAccountCny:'',custBankUsd:'',custAccountUsd:'',custInvoiceHeader:'',custActive:'1',
 		custBookerFlag:'1',custShipperFlag:'1',
 		custShipTo:'',custChargeTo:'',custCreditDay:'',
-		custCreditDay:HTStore.getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
-		custCreditAmount:HTStore.getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),custRemarks:'',
-		version:'0',rowAction:'N',uuid:HTUtil.UUID(32)});
+		custCreditDay:getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
+		custCreditAmount:getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),custRemarks:'',
+		version:'0',rowAction:'N'});
     	var win = new Fos.CustomerWin(p,store);
 		win.show();
     };
@@ -2331,7 +2311,7 @@ Fos.CustomerLookWin = function(custType,bizType,fn,scope) {
 	var grid = new Ext.grid.GridPanel({store: store,sm:sm,cm:cm,
 		listeners:{scope:this,rowdblclick:this.sel},
 		bbar:PTB(store,C_PS20),
-		tbar:[{text:C_ADD,disabled:NR(M1_CRM),iconCls:'add',handler:this.addCustomer}, '-', 
+		tbar:[{text:C_ADD,disabled:NR(M1_V),iconCls:'add',handler:this.addCustomer}, '-', 
 			{text:C_SEARCH,iconCls:'search',handler:this.search},'-']
 	});
 	
