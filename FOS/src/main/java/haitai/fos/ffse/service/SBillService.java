@@ -144,6 +144,7 @@ public class SBillService {
 			List<FConsign> consList = consDao.findByProperties(map);
 			if(consList.size()==1){
 				FConsign c = consList.get(0);
+				item.setConsRefNo(c.getConsRefNo());
 				item.setConsCargoNameCn(c.getConsCargoNameCn());
 				item.setConsPackName(c.getPackName());				
 				item.setConsContainersInfo(c.getConsContainersInfo());

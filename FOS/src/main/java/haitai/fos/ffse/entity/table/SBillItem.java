@@ -18,6 +18,7 @@ public class SBillItem extends AbstractSBillItem  {
 
 	private static final long serialVersionUID = -4427299394511690341L;
 	
+	private String consRefNo;
 	private String consPodEn;
 	private String consPolEn;
 	private String consCargoNameCn;
@@ -28,6 +29,15 @@ public class SBillItem extends AbstractSBillItem  {
 	private Double consTotalMeasurement;
 	private String consContainersInfo;
 	private Date consSailDate;
+	
+	@Transient
+	public String getConsRefNo() {
+		return consRefNo;
+	}
+	
+	public void setConsRefNo(String consRefNo) {
+		this.consRefNo = consRefNo;
+	}
 	
 	@Transient
 	public String getConsPodEn() {
