@@ -442,6 +442,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (17, '船名', 'SBillItem', 'consVessel', NULL),
 (17, '航次', 'SBillItem', 'consVoyage', NULL),
 (17, '业务号', 'SBillItem', 'consNo', NULL),
+(17, '客户业务号', 'SBillItem', 'consRefNo', NULL),
 (17, '结算单位', 'SBillItem', 'custName', NULL),
 (17, '费用名称', 'SBillItem', 'charName', NULL),
 (17, '数量', 'SBillItem', 'expeNum', NULL),
