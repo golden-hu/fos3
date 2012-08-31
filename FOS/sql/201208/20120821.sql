@@ -1,8 +1,2 @@
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (17, '客户业务号', 'SBillItem', 'consRefNo', NULL);
-
-UPDATE `P_ACTION` SET `ACT_SERVICE` = 'PGroupUserService',
-`ACT_METHOD` = 'query' WHERE `ACT_NAME` ='GRUS_Q';
-
-INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) VALUES
-('GRUS_S', 'PGroupUserService', 'save', '组用户保存');

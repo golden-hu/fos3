@@ -30,7 +30,8 @@ public abstract class AbstractCSalesCommission extends BaseDomain {
 	private Integer modifyBy;
 	private Date modifyTime;
 	private String compCode;
-
+	private Short removed;
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "SACO_ID", unique = true, nullable = false)
@@ -153,4 +154,12 @@ public abstract class AbstractCSalesCommission extends BaseDomain {
 		this.compCode = compCode;
 	}
 
+	@Column(name = "REMOVED", nullable = false)
+	public Short getRemoved() {
+		return this.removed;
+	}
+
+	public void setRemoved(Short removed) {
+		this.removed = removed;
+	}
 }
