@@ -628,7 +628,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consInsuranceFee = consInsuranceFee;
 	}
 
-	@Column(name = "CUST_ID", nullable = false)
+	@Column(name = "CUST_ID")
 	public Integer getCustId() {
 		return this.custId;
 	}

@@ -618,6 +618,7 @@ function getYsContPanel(){
 	var items = [];
 	items[items.length]=NaviMenu(C_EXP,'YS_CONS_FCL_E',function(){return new Fos.YsConsignGrid('E','C','FCL');});
 	items[items.length]=NaviMenu(C_IMP,'YS_CONS_FCL_I',function(){return new Fos.YsConsignGrid('I','C','FCL');});
+	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid()});
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 }

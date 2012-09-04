@@ -6,7 +6,7 @@
 		sr=SR_INSP;
 	var rid=GGUID();
 	var c = new FConsign({id:rid,consId:rid,consNotifyParty:'SAME AS CONSIGNEE',
-		consNo:'N'+rid,consType:'A',consShipType:st,consActionType:'A',consMasterFlag:st=='LCL'?1:0,
+		consNo:VERSION==2?'':('N'+rid),consType:'A',consShipType:st,consActionType:'A',consMasterFlag:st=='LCL'?1:0,
 		consBizClass:bc,consBizType:bt,consSource:0,consOperatorId:'',consDate:new Date(),tranId:st=='LCL'?CFS:CY,
 		consServiceRequired:sr,version:0,consStatus:0,consStatusBooking:0,consStatusClearance:0,
 		consStatusSwitchBl:0,consStatusSplit:0,consStatusInsp:0,consStatusCont:0,

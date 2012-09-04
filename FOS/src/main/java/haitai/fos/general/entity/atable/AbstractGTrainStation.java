@@ -82,7 +82,7 @@ public abstract class AbstractGTrainStation extends BaseDomain {
 		this.active = active;
 	}
 	
-	@Column(name = "COUN_CODE", nullable = false, length = 2)
+	@Column(name = "COUN_CODE",length = 2)
 	public String getCounCode() {
 		return counCode;
 	}

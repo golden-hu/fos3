@@ -16,8 +16,10 @@ import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GCharge;
 import haitai.fos.general.entity.table.GTrainStation;
 import haitai.fos.general.entity.table.GVoyage;
+import haitai.fos.sys.entity.idao.ICCustomerDAO;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
 import haitai.fos.sys.entity.idao.IPTaskTypeDAO;
+import haitai.fos.sys.entity.table.CCustomer;
 import haitai.fos.sys.entity.table.PCompanyConfig;
 import haitai.fos.sys.entity.table.PTaskType;
 import haitai.fos.sys.entity.table.PUser;
@@ -30,6 +32,7 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
 
+import org.hibernate.mapping.Array;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
@@ -106,6 +109,8 @@ public class FConsignService {
 	@Autowired
 	private IGTrainStationDao trainStationDao;
 	
+	@Autowired
+	private ICCustomerDAO ccustDao;
 	//手工修改业务号
 	@Transactional
 	public FConsign modifyConsNo(Map<String, Object> queryMap) {
@@ -1227,5 +1232,93 @@ public class FConsignService {
 		List<FConsign> retList = new ArrayList<FConsign>();
 		retList.add(consign);
 		return retList;
+	}
+	
+	/*
+	 * 北京永顺定制的服务，只要保存业务F_CONSIGN和费用S_EXPENSE即可
+	 */
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List saveForBeijing(List entityList) {
+		List retList = new ArrayList();
+		// handle consign first
+		for (Object obj : entityList) {
+			if (obj instanceof FConsign) {
+				FConsign entity = (FConsign) obj;
+				saveSimpleConsign(entity, retList);
+				break;
+			}
+		}
+		return retList;
+	}
+	
+	private void saveSimpleConsign(FConsign entity, List<Object> retList) {
+		if (entity.getRowAction() == RowAction.N) {
+			entity.setConsId(null);
+			checkConsNoDuplicated(entity);
+			checkBlNoDuplicated(entity);
+			dao.save(entity);
+			entity.setEditable(ConstUtil.TrueShort);
+			retList.add(entity);
+		} else if (entity.getRowAction() == RowAction.M) {
+			checkBlNoDuplicated(entity);
+			FConsign retEntity = dao.update(entity);
+			retEntity.setEditable(ConstUtil.TrueShort);
+			retList.add(retEntity);
+		} else if (entity.getRowAction() == RowAction.R) {
+			FConsign delEntity = dao.findById(entity.getConsId());
+			delEntity.setRowAction(RowAction.R); 
+			dao.update(delEntity);
+		} else {
+			throw new BusinessException("fw.row_action_null");
+		}
+		//自动保存委托单位
+		String custName = entity.getCustName();
+		String custContact = entity.getCustContact();
+		String custTel = entity.getCustTel();
+		String custFax = entity.getCustFax();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("custNameCn", custName);
+		List<CCustomer> CCustomerList = ccustDao.findByProperties(map);
+		if(CCustomerList.size()==0){
+			CCustomer customer = new CCustomer();
+			customer.setCustCode(custName);
+			customer.setCustNameCn(custName);
+			customer.setCustContact(custContact);
+			customer.setCustTel(custTel);
+			customer.setCustFax(custFax);
+			customer.setCustActive("1");
+			customer.setCustApFlag((short) 1);
+			customer.setCustArFlag((short) 1);
+			customer.setCustBookerFlag((short) 1);
+			customer.setCustSalesName(entity.getConsSalesRepName());
+			customer.setCustSalesId(entity.getConsSalesRepId().shortValue());
+			ccustDao.save(customer);
+		}
+		//自动保存火车站
+		if(entity.getAttr1()!=""){
+			String originStation = entity.getAttr1();
+			map.clear();
+			map.put("trainNameCn", originStation);
+			List<GTrainStation> t = trainStationDao.findByProperties(map);
+			if(t.size()==0){
+				GTrainStation station = new GTrainStation();
+				station.setTrainCode(originStation);
+				station.setTrainNameCn(originStation);
+				station.setActive((short) 1);
+				trainStationDao.save(station);
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void checkConsNoDuplicated(FConsign entity) {
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("consNo", entity.getConsNo());
+		List<FConsign> list = query(queryMap);
+		//如果>0, 说明肯定存在了
+		if (list.size() > 0) {
+			throw new BusinessException("fos.cons_no.existing");
+		}
 	}
 }

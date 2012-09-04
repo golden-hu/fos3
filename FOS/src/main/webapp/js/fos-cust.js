@@ -2323,3 +2323,164 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
     ); 
 };
 Ext.extend(Fos.CustomerLookWin,Ext.Window);
+
+Fos.PortLookup = Ext.extend(Ext.form.ComboBox, {
+	triggerClass:'x-form-search-trigger',
+	portType:'',
+	constructor: function(config){
+		this.portType = config['portType'],
+		Fos.PortLookup.superclass.constructor.apply(this, arguments);
+	},
+	initComponent : function(){
+		Fos.PortLookup.superclass.initComponent.call(this);        
+	},
+	selectPort:function(port,scope){
+		scope.setValue(port.data[scope.valueField || scope.displayField]);
+		scope.fireEvent('select', this, port, 0);
+	},
+	onTriggerClick: function(event){
+		var win = new Fos.PortLookWin(this.portType,this.selectPort,this);
+		win.show();
+	}
+});
+
+Ext.reg('portLookup', Fos.PortLookup);
+
+Fos.PortLookWin = function(portType,fn,scope) {	
+	var store = GS('TRAIN_X', 'GTrainStation', GTrainStation, 'counCode', 'ASC', 'counCode', '', '', 'id', true);
+    store.load({params:{start:0,limit:100}});   
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});	
+	var c1 = {
+			header: C_COUN,
+			dataIndex: 'counCode',
+			renderer: getCOUN,
+			editor: new Ext.form.ComboBox({
+				displayField: 'counCode',
+				valueField: 'counCode',
+				triggerAction: 'all',
+				tpl: counTpl,
+				itemSelector: 'div.list-item',
+				listWidth: 300,
+				mode: 'remote',
+				selectOnFocus: true,
+				listClass: 'x-combo-list-small',
+				store: getCOUN_S()
+			})
+		};
+		var c2 = {
+			header: C_CODE,
+			dataIndex: 'trainCode',
+			editor: new Ext.form.TextField({
+				allowBlank: false,
+				blankText: '',
+				invalidText: ''
+			})
+		};
+		var c3 = {
+			header: C_ENAME,
+			dataIndex: 'trainNameEn',
+			editor: new Ext.form.TextField({
+				allowBlank: false,
+				blankText: '',
+				invalidText: ''
+			})
+		};
+		var c4 = {
+			header: C_CNAME,
+			dataIndex: 'trainNameCn',
+			editor: new Ext.form.TextField({
+				allowBlank: true,
+				blankText: '',
+				invalidText: ''
+			})
+		};
+		var cm = new Ext.grid.ColumnModel({
+			columns: [sm, c1, c2, c3, c4],
+			defaults: {
+				sortable: true,
+				width: 100
+			}
+		});
+	
+		var ts = new Ext.data.SimpleStore({
+			id: 0,
+			fields: ['CODE', 'NAME'],
+			data: [['trainCode', C_CODE], ['trainNameEn', C_ENAME], ['trainNameCn', C_CNAME], ['counCode', C_COUN_CODE]]
+		});
+		var st = new Ext.form.ComboBox({
+			width: 80,
+			store: ts,
+			value: 'trainNameEn',
+			displayField: 'NAME',
+			valueField: 'CODE',
+			typeAhead: true,
+			mode: 'local',
+			forceSelection: true,
+			triggerAction: 'all',
+			selectOnFocus: true
+		});
+	var kw = new Ext.form.TextField();
+	this.search = function() {
+		var t = st.getValue();
+		var k = kw.getValue();
+		if (!t || !k) {
+			XMG.alert(SYS, M_NO_QUERY_P);
+			return;
+		};
+		var a = [];
+		a[0] = {
+			key: t,
+			value: k,
+			op: 7
+		};
+		store.baseParams = {
+			mt: 'JSON',
+			xml: Ext.util.JSON.encode(FOSJ(QTJ(a)))
+		};
+		store.reload({
+			params: {
+				start: 0,
+				limit: 100
+			}
+		});
+	};
+			
+	this.sel = function(){
+		//当确实选择了一项数据时，执行传入的函数参数，并关闭窗口
+		if(sm.getSelected()){
+			fn(sm.getSelected(),scope);
+			this.close();
+		}
+		else{ 
+			Ext.Msg.alert(SYS,M_NO_DATA_SELECTED);
+		}
+	};
+	
+	this.addPort=function(){
+		var p = new GPort({id:GGUID(),trainId:'0',
+			portCode:'',portNameEn:'',portNameCn:'',counCode:'CN',portType:1,
+			active:1,version:'0',rowAction:'N'});
+    	grid.stopEditing();
+    	store.insert(0,p);
+    	grid.startEditing(0, 1);
+	};
+	this.delPort=function(){
+		HTUtil.REMOVE_SM(sm,store);
+	};
+	this.savePort = function(){
+		FOS_POST(store,'GTrainStation',GTrainStation,'TRAIN_S');getTRAIN_S().reload();
+	};
+	
+	var grid = new Ext.grid.EditorGridPanel({store:store,sm:sm,cm:cm,clicksToEdit:1,
+		bbar:PTB(store,100),
+		tbar:[st,kw,{text:C_SEARCH,iconCls:'search',scope:this,handler:this.search},'-',
+		{text:C_ADD,iconCls:'add',scope:this,handler:this.addPort},'-',
+        {text:C_REMOVE,iconCls:'remove',scope:this,handler:this.delPort},'-', 
+        {text:C_SAVE,iconCls:'save',scope:this,handler:this.savePort}]
+	});
+    Fos.PortLookWin.superclass.constructor.call(this,{title:C_STATION,width:600,height:400,
+    	layout:'fit',modal:true,items:grid,
+    	buttons:[{text:C_OK,iconCls:'ok',scope:this,handler:this.sel},
+    	         {text:C_CANCEL,iconCls:'cancel',scope:this,handler:this.close}]}); 
+};
+Ext.extend(Fos.PortLookWin,Ext.Window);
