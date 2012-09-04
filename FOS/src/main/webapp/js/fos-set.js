@@ -608,7 +608,10 @@ Fos.ExpenseTab = function(p,f){
 	var sumRcR = new Ext.form.TextField({width:80,disabled:true});
 	var sumSaleR = new Ext.form.TextField({width:80,disabled:true});
 	this.sumCnyR=0;this.sumUsdR=0;this.sumEurR=0;this.sumLocR=0;this.sumRcR=0;this.sumSaleR=0;
-	this.rs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	this.rs=new Ext.data.Store({url:SERVICE_URL+'?A='+a,baseParams:{mt:'xml'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:id},SExpense)});
+		
+		//GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	this.calcR=function(){
 		var d=this.rs.getRange();
 		this.sumCnyR=0;this.sumUsdR=0;this.sumEurR=0;this.sumLocR=0;this.sumRcR=0;this.sumSaleR=0;
@@ -643,7 +646,10 @@ Fos.ExpenseTab = function(p,f){
 	var sumRcP = new Ext.form.TextField({width:80,disabled:true});
 	var sumSaleP = new Ext.form.TextField({width:80,disabled:true});
 	this.sumCnyP=0;this.sumUsdP=0;this.sumEurP=0;this.sumLocP=0;this.sumRcP=0;this.sumSaleP=0;	
-	this.ps=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	this.ps=new Ext.data.Store({url:SERVICE_URL+'?A='+a,baseParams:{mt:'xml'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:id},SExpense)});
+		
+		//GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	this.calcP=function(){
 		var d=this.ps.getRange();
 		this.sumCnyP=0;this.sumUsdP=0;this.sumEurP=0;this.sumLocP=0;this.sumRcP=0;this.sumSaleP=0;
