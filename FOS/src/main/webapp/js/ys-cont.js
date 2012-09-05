@@ -838,10 +838,6 @@ Fos.YsConsignTab = function(p,listStore){
 			}
 		},this);
     };
-    this.showExp=function(){
-    	var win = new Fos.ExWin(p);
-    	win.show();
-    };    
     this.showDoc=function(){
     	var win = new Fos.DocWin(p);
     	win.show();
@@ -854,17 +850,17 @@ Fos.YsConsignTab = function(p,listStore){
 	var b1={text:C_SAVE+'(S)',itemId:'TB_A',iconCls:'save',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.save};
 	var b2={text:C_COPY+'(A)',itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){Fos.showConsign(Fos.copyConsign(p));}};
 	var b3={text:C_COPY_FROM,itemId:'TB_O',iconCls:'copy',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.copyFrom};
-	var b4={text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp};
-	var b5={text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc};
+	var b4={text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc};
 	var btnModifyConsignNo={text:C_MODIFY_CONS_NO,itemId:'TB_MO_CONS_NO',iconCls:'option',
 			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1,scope:this,handler:this.ModifyConsNo};
-	var tbs=[b1, '-',b2,'-',b3,'-',btnModifyConsignNo,'-',b4,'-',b5];
+	var tbs=[b1, '-',b2,'-',b3,'-',btnModifyConsignNo,'-',b4];
 	
 	Fos.YsConsignTab.superclass.constructor.call(this,{
 		id: "YS_BOOK_"+p.get('id'),title:(p.get('consBizClass')=='E'?C_EXP:C_IMP)+C_CONSIGN+'委托【'+p.get("consNo")+'】',header:false,autoScroll:true,
 		border:false,labelAlign:'right',	
+		
 		iconCls:'class',deferredRender:false,closable:true,
-		items:[bookerInfo,railInfo,maritimeInfo,automotiveInfo,ShipperInfo,new Fos.ExpenseSimpleTab(p)],
+		items:[bookerInfo,railInfo,maritimeInfo,automotiveInfo,ShipperInfo,new Fos.ExpenseSimpleTab(p,'C')],
 		tbar:tbs
 		});
 };
@@ -1087,7 +1083,7 @@ Fos.ExpenseSimpleTab = function(p,f){
 	
 	Fos.ExpenseSimpleTab.superclass.constructor.call(this, { 
 	id:"T_EXPE_"+p.get('id'),title:C_EXPE_INFO,header:true,autoScroll:true,collapsible:true,
-	height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
+	height:560,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
 	items:tbs,
 		tbar:(NR(m+S_AP+F_CV)||bVR==false)?[tb1,'-',tb2,'-']:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb8,PEur,'-',tb5,PLoc,'-',tb6,PSale,'-',tb7,PRc]
 	});
@@ -1195,13 +1191,8 @@ Fos.ExSimpleGrid = function(p,t,frm,store) {
 	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy",editor:new Ext.form.ComboBox({store:getSALE_S(),xtype:'combo',displayField:'userName',valueField:'userName',
     		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'})};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
-	var cols=[];
-	if(t=='R'){
-			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t25,t26,t23,t19,t24,t20];
-	}
-	else{
-			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t25,t26,t23,t19,t24,t20];
-	}
+	var cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t25,t26,t23,t19,t24,t20];
+	
 	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'right'}});
 	cm.defaultSortable=true;cm.defaultWidth=100;			
 	this.add=function(){
@@ -1556,7 +1547,7 @@ Fos.ExSimpleGrid = function(p,t,frm,store) {
 			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
 			this.reCalculate();}
     }},
-    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b5]:[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b6,'-',b5]});
+    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b5]:[b1, '-',b2,'-',b3,'-',b5]});
 };
 Ext.extend(Fos.ExSimpleGrid, Ext.grid.EditorGridPanel);
 
@@ -1588,16 +1579,9 @@ Fos.YsConsignAuditGrid = function() {
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
 		{header:C_AUDIT_STATUS,width:80,dataIndex:"consStatusAud",renderer:getAUST},
-		{header:C_CONS_STATUS,width:80,dataIndex:"consStatus",renderer:getCONS_STATUS},
 		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
-		{header:"F/L",width:40,dataIndex:"consShipType"},
-		{header:"P/C",width:40,dataIndex:"pateId",renderer:getPATE},
 		{header:C_BOOKER,width:200,dataIndex:"custName"},
-		{header:C_CSNAME,width:150,hidden:true,dataIndex:"custSname"},
 		{header:C_CONS_DATE,width:90,dataIndex:"consDate",renderer:formatDate},	
-		{header:C_PACKAGES,width:50,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'},
-		{header:C_GW,width:90,dataIndex:"consTotalGrossWeight",align:'right',css:'font-weight:bold;'},
-		{header:C_CBM,width:90,dataIndex:"consTotalMeasurement",align:'right',css:'font-weight:bold;'},	
 		{header:C_SUM_AR,width:80,dataIndex:"sumR",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_SUM_AP,width:80,dataIndex:"sumP",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_PROFIT,width:80,dataIndex:"grossProfit",align:'right',renderer:numRenderColor,css:'font-weight:bold;'},
@@ -1606,12 +1590,6 @@ Fos.YsConsignAuditGrid = function() {
 		{header:C_AP_USD,dataIndex:"sumPUsd",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_AR_CNY,dataIndex:"sumRCny",align:'right',renderer:numRender,css:'font-weight:bold;'},
 		{header:C_AP_CNY,dataIndex:"sumPCny",align:'right',renderer:numRender,css:'font-weight:bold;'},
-		{header:C_CONT_NUM,width:60,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
-		{header:"20'",hidden:true,dataIndex:"consContainers20",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
-		{header:"40'",hidden:true,dataIndex:"consContainers40",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
-		{header:"40'H",hidden:true,dataIndex:"consContainers40h",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
-		{header:"45'H",hidden:true,dataIndex:"consContainers45",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'},
-		{header:C_CONT_INFO,width:60,dataIndex:"consContainersInfo"},
 		{header:C_AR_USD_INVOICED,hidden:true,dataIndex:"sumRUsdInvoice",align:'right',renderer:numRender},
 		{header:C_AR_USD_WRITEOFFED,hidden:true,dataIndex:"sumRUsdWriteOff",align:'right',renderer:numRender},
 		{header:C_AR_CNY_INVOICED,hidden:true,dataIndex:"sumRCnyInvoice",align:'right',renderer:numRender},
@@ -1620,17 +1598,6 @@ Fos.YsConsignAuditGrid = function() {
 		{header:C_AP_USD_WRITEOFFED,hidden:true,dataIndex:"sumPUsdWriteOff",align:'right',renderer:numRender},		
 		{header:C_AP_CNY_INVOICED,hidden:true,dataIndex:"sumPCnyInvoice",align:'right',renderer:numRender},
 		{header:C_AP_CNY_WRITEOFFED,hidden:true,dataIndex:"sumPCnyWriteOff",align:'right',renderer:numRender},
-		{header:C_VESS,dataIndex:"vessName"},
-		{header:C_VOYA,dataIndex:"voyaName"},
-		{header:C_MBL_NO,dataIndex:"consMblNo"},
-		{header:C_HBL_NO,dataIndex:"consHblNo"},
-		{header:C_SAIL_DATE,dataIndex:"consSailDate",renderer:formatDate},
-		{header:C_POL,dataIndex:"consPolEn"},
-		{header:C_POD,dataIndex:"consPodEn"},
-		{header:C_POT,dataIndex:"consPotEn"},
-		{header:C_CARRIER,width:200,dataIndex:"consCarrierName"},
-		{header:C_BOOK_AGENCY,width:200,dataIndex:"consBookingAgencyName"},
-		{header:C_M_CONS_NO,dataIndex:"consMasterConsNo"},
 		{header:C_REMARKS,dataIndex:"consRemarks"}
 		],defaults:{sortable:true,width:100}});
 	var rowCtxEvents = {rowdblclick: function(g,r,e){this.showExpense();}};
