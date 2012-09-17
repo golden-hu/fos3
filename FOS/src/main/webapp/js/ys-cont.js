@@ -1750,3 +1750,27 @@ Fos.YsConsignAuditGrid = function() {
 		tbar:[b1,'-',b2,b6,'-',b3,b7,'-',b4,'-',b5,'-',kw,b8,'-',b9],bbar:PTB(store,C_PS)});	
 };
 Ext.extend(Fos.YsConsignAuditGrid, Ext.grid.GridPanel);
+
+Fos.BranchGrid = function(){
+	var store = GS('BRANCH_Q','PBranch',PBranch,'branchId','DESC','','','id',false);
+	store.load({params:{start:0,limit:C_PS}});
+	
+	var branchName={header:C_BRANCH,width:200,dataIndex:"branchName",editor:new Ext.form.TextField({})};
+	var sm = getCSM();
+	var cm = new Ext.grid.ColumnModel({columns:[sm,branchName],defaults: {sortable:false}});
+	
+	var grid = new  Ext.grid.EditorGridPanel({ 
+    id:'YS_BRANCH',iconCls:'gen',title:C_BRANCH,header:false,clicksToEdit:1,closable:true,	
+    store: store,sm:sm,cm:cm,loadMask:true
+    }); 
+    Fos.BranchGrid.superclass.constructor.call(this,{id:'YS_BRANCH',iconCls:'grid',
+    store:store,title:C_BRANCH,header:false,loadMask:true,closable:true,clicksToEdit:1,
+	sm:sm,cm:cm,tbar:[{
+		text:C_ADD,disabled:NR(M1_J+G_PLAC+F_M),iconCls:'add',handler:function(){
+			var p = new PBranch({id:GGUID(),branchId:'0',branchName:'',version:'0',rowAction:'N'});
+        	grid.stopEditing();store.insert(0,p);grid.startEditing(0,1);}},'-',
+        {text:C_REMOVE,disabled:NR(M1_J+G_PLAC+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}}, '-', 
+        {text:C_SAVE,disabled:NR(M1_J+G_PLAC+F_M),iconCls:'save',handler:function(){FOS_POST(store,'PBranch',PBranch,'BRANCH_S');getBRANCH_S().reload();}
+        }]});  
+};
+Ext.extend(Fos.BranchGrid,Ext.grid.EditorGridPanel);

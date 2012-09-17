@@ -1591,3 +1591,4 @@ var C_RAYWAY_IN = '国内铁运';
 var C_EXPE_STATUS='费用状态';
 var C_EXPE_SET ='费用台账';
 var C_OP_SALES='操作业务员';
+var C_BRANCH = '口岸';

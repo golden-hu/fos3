@@ -583,6 +583,8 @@ SInvoiceNo = Ext.data.Record.create(['id',
 	'compCode','version','rowAction']);
 SBalance = Ext.data.Record.create(['id','balaId','custId','custName','custSname','currCode','balaAmount','remarks','compCode','version']);
 
+PBranch = Ext.data.Record.create(['id','branchId','branchName','compCode','version','rowAction']);
+
 PComments = Ext.data.Record.create(['id','commId','objectId','objectType','commBody',
 	'commBy','createTime','removed','compCode','version']);
 
@@ -1108,6 +1110,14 @@ var getHARB_S = function(){
 		s = GS('PLAC_Q','GPlace',GPlace,'placName','ASC','','S_HARBOUR','placId');
     	s.load({params:{placType:'3',active:'1'}});return s;}
 };
+
+var getBRANCH_S = function(){
+	if(Ext.StoreMgr.containsKey('S_BRANCH')){return Ext.StoreMgr.get('S_BRANCH');}
+	else {
+		s = GS('BRANCH_Q','PBranch',PBranch,'branchName','ASC','','S_BRANCH','branchId');
+    	s.load({params:{}});return s;}
+};
+
 var getPROV_S = function(){
 	if(Ext.StoreMgr.containsKey('S_PROV')){return Ext.StoreMgr.get('S_PROV');}
 	else {

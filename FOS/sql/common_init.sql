@@ -399,7 +399,9 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('COTR_S', 'FContainerTraceService', 'save', '集装箱管理保存'),
 ('FORBEIJING_S', 'FConsignService', 'saveForBeijing', '业务保存'),
 ('TRAIN_Q', 'GTrainStationService', 'query', '火车站管理查询'),
-('TRAIN_S', 'GTrainStationService', 'save', '火车站管理保存');
+('TRAIN_S', 'GTrainStationService', 'save', '火车站管理保存'),
+('BRANCH_Q', 'PBranchService', 'query', '分公司查询'),
+('BRANCH_S', 'PBranchService', 'save', '分公司保存');
 
 
 --
