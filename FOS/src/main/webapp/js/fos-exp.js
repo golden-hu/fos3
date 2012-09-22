@@ -17,18 +17,18 @@
 		consStatusSendCont:0,consStatusLock:0,consReassignFrom:0,consStatusSettlement:0,consExternalFlag:0,		
 		consTransFlag:0,
 		consPartialFlag:0,
-		
+		attr1:'',
 		//consPol:bc==BC_E?getCFG('BASE_PORT'):'',
 		//consPolEn:bc==BC_E?getCFGD('BASE_PORT'):'',
-		consPol:bc==BC_E?BASE_PORT:'',
-		consPolEn:bc==BC_E?BASE_PORT_NAME:'',
-		consPolCn:bc==BC_E?BASE_PORT_NAME_CN:'',
+		consPol:VERSION==2?'':(bc==BC_E?BASE_PORT:''),
+		consPolEn:VERSION==2?'':(bc==BC_E?BASE_PORT_NAME:''),
+		consPolCn:VERSION==2?'':(bc==BC_E?BASE_PORT_NAME_CN:''),
 				
 		//consPod:bc==BC_I?getCFG('BASE_PORT'):'',
 		//consPodEn:bc==BC_I?getCFGD('BASE_PORT'):'',
-		consPod:bc==BC_I?BASE_PORT:'',				
-		consPodEn:bc==BC_I?BASE_PORT_NAME:'',
-		consPodCn:bc==BC_I?BASE_PORT_NAME_CN:'',
+		consPod:VERSION==2?'':(bc==BC_I?BASE_PORT:''),				
+		consPodEn:VERSION==2?'':(bc==BC_I?BASE_PORT_NAME:''),
+		consPodCn:VERSION==2?'':(bc==BC_I?BASE_PORT_NAME_CN:''),
 		deptId:getCFG('DEFAULT_DEPT_'+bt),consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
 		consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
 	return c;

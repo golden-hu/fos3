@@ -149,6 +149,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (4, '结汇方式', 'FCustomsDeclaration', 'exseCode', NULL),
 (4, '许可证号', 'FCustomsDeclaration', 'cudeApprovalNo', NULL),
 (4, '运抵国', 'FCustomsDeclaration', 'cudeDischargeCountry', NULL),
+(4, '启运国', 'FCustomsDeclaration', 'cudeLoadCountry', NULL),
 (4, '指运港', 'FCustomsDeclaration', 'cudePod', NULL),
 (4, '装货港', 'FCustomsDeclaration', 'cudePol', NULL),
 (4, '境内货源地', 'FCustomsDeclaration', 'cudePlace', NULL),
@@ -305,6 +306,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (9, '航次', 'SInvoice', 'invoVoyage', NULL),
 (9, '业务号', 'SInvoice', 'invoConsNo', NULL),
 (9, '开航日期', 'SInvoice', 'invoSailDate', NULL),
+(9, '到港日期', 'SInvoice', 'invoSailDate', NULL),
 (9, '起运港', 'SInvoice', 'invoPol', NULL),
 (9, '卸货港', 'SInvoice', 'invoPod', NULL),
 (9, '目的港', 'SInvoice', 'invoDeliveryPlace', NULL),
@@ -625,6 +627,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 
 -- 电放保函
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(22, '委托单位', 'FConsign', 'custName', NULL),
+(22, '集装箱号', 'FConsign', 'consContainerNo', NULL),
 (22, '船公司中文名', 'FConsign', 'consCarrierName', NULL),
 (22, '船公司英文名', 'FConsign', 'consCarrier', NULL),
 (22, '起运港', 'FConsign', 'consPolEn', NULL),

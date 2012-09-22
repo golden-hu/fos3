@@ -1260,6 +1260,43 @@ public class FConsignService {
 			dao.save(entity);
 			entity.setEditable(ConstUtil.TrueShort);
 			retList.add(entity);
+			//自动保存委托单位
+			String custName = entity.getCustName();
+			String custContact = entity.getCustContact();
+			String custTel = entity.getCustTel();
+			String custFax = entity.getCustFax();
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("custNameCn", custName);
+			List<CCustomer> CCustomerList = ccustDao.findByProperties(map);
+			if(CCustomerList.size()==0){
+				CCustomer customer = new CCustomer();
+				customer.setCustCode(custName);
+				customer.setCustNameCn(custName);
+				customer.setCustContact(custContact);
+				customer.setCustTel(custTel);
+				customer.setCustFax(custFax);
+				customer.setCustActive("1");
+				customer.setCustApFlag((short) 1);
+				customer.setCustArFlag((short) 1);
+				customer.setCustBookerFlag((short) 1);
+				customer.setCustSalesName(entity.getConsSalesRepName());
+				customer.setCustSalesId(entity.getConsSalesRepId().shortValue());
+				ccustDao.save(customer);
+			}
+			//自动保存火车站
+			if(entity.getAttr1()!=null){
+				String originStation = entity.getAttr1();
+				map.clear();
+				map.put("trainNameCn", originStation);
+				List<GTrainStation> t = trainStationDao.findByProperties(map);
+				if(t.size()==0){
+					GTrainStation station = new GTrainStation();
+					station.setTrainCode(originStation);
+					station.setTrainNameCn(originStation);
+					station.setActive((short) 1);
+					trainStationDao.save(station);
+				}
+			}
 		} else if (entity.getRowAction() == RowAction.M) {
 			checkBlNoDuplicated(entity);
 			FConsign retEntity = dao.update(entity);
@@ -1272,43 +1309,7 @@ public class FConsignService {
 		} else {
 			throw new BusinessException("fw.row_action_null");
 		}
-		//自动保存委托单位
-		String custName = entity.getCustName();
-		String custContact = entity.getCustContact();
-		String custTel = entity.getCustTel();
-		String custFax = entity.getCustFax();
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("custNameCn", custName);
-		List<CCustomer> CCustomerList = ccustDao.findByProperties(map);
-		if(CCustomerList.size()==0){
-			CCustomer customer = new CCustomer();
-			customer.setCustCode(custName);
-			customer.setCustNameCn(custName);
-			customer.setCustContact(custContact);
-			customer.setCustTel(custTel);
-			customer.setCustFax(custFax);
-			customer.setCustActive("1");
-			customer.setCustApFlag((short) 1);
-			customer.setCustArFlag((short) 1);
-			customer.setCustBookerFlag((short) 1);
-			customer.setCustSalesName(entity.getConsSalesRepName());
-			customer.setCustSalesId(entity.getConsSalesRepId().shortValue());
-			ccustDao.save(customer);
-		}
-		//自动保存火车站
-		if(entity.getAttr1()!=""){
-			String originStation = entity.getAttr1();
-			map.clear();
-			map.put("trainNameCn", originStation);
-			List<GTrainStation> t = trainStationDao.findByProperties(map);
-			if(t.size()==0){
-				GTrainStation station = new GTrainStation();
-				station.setTrainCode(originStation);
-				station.setTrainNameCn(originStation);
-				station.setActive((short) 1);
-				trainStationDao.save(station);
-			}
-		}
+		
 	}
 	
 	@SuppressWarnings("unchecked")

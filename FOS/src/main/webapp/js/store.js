@@ -5,7 +5,7 @@
 	'consMasterId','consMasterNo',
 	'consMergeFlag','consMergeId','consMergeNo','consRefNo','consPackingListNo',
 	'consContractNo','consSource',{name:'consDate',type:'date',dateFormat:DATEF},
-	'consSalesRepId','consSalesRepName','consOperatorId','consOperatorName',
+	'consSalesRepId','consSalesRepName','consBranchId','consBranchName','consOperatorId','consOperatorName',
 	'consTradeContractNo','consCreditNo','consInsuranceFee','custId',
 	'custName','custSname','custContact','custTel','custFax','custSalesId','custSalesName','consOverseaAgency',
 	'consOverseaAgencyName','consShipper','consConsignee','consNotifyParty','consNotifyParty2',
@@ -826,9 +826,6 @@ var getBTS=function(){
 };
 
 
-function getTS(){return new Ext.data.Store({url: SERVICE_URL+'?A=TRAIN_Q',
-	reader: new Ext.data.XmlReader({record:'GTrainStation'},GTrainStation),
-	sortInfo:{field:'trainCode',direction:'ASC'}});};
 
 /* 北京永顺   集装箱管理 END*/
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['CONS_DATE','委托生成日期'],['CONS_ETA','预计船到日期'],['CONS_SAIL_DATE','开船日期'],['BASE_TASK_D','依赖任务完成日']]});
@@ -1033,7 +1030,7 @@ var getISTY_S = function(){return getGStore('ISTY','GIssueType',GIssueType,'isty
 getISTY = function(v){var _cs= getISTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('istyName'):v; else return '';};
 
 var getTRAN_S = function(){return getGStore('TTER','GTransTerm',GTransTerm,'tranId','ASC','');};
-getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return '';};
+getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranName'):v; else return '';};
 
 var getCustomsType_S = function(){return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');};	
 getCustomsType = function(v){var _cs= getCustomsType_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; else return '';}; 
@@ -1060,7 +1057,7 @@ var getTTC_S = function(){
 };
 
 var getPATE_S = function(){return getGStore('PATE','GPaymentTerm',GPaymentTerm,'pateId','ASC','');};
-getPATE = function(v){var _cs= getPATE_S();if(v) return _cs.getById(v)?_cs.getById(v).get('pateCode'):v; else return '';};
+getPATE = function(v){var _cs= getPATE_S();if(v) return _cs.getById(v)?_cs.getById(v).get('pateName'):v; else return '';};
 
 var getUNIT_S = function(){
 	if(Ext.StoreMgr.containsKey('S_UNIT')){return Ext.StoreMgr.get('S_UNIT');}
@@ -1111,13 +1108,6 @@ var getHARB_S = function(){
     	s.load({params:{placType:'3',active:'1'}});return s;}
 };
 
-var getBRANCH_S = function(){
-	if(Ext.StoreMgr.containsKey('S_BRANCH')){return Ext.StoreMgr.get('S_BRANCH');}
-	else {
-		s = GS('BRANCH_Q','PBranch',PBranch,'branchName','ASC','','S_BRANCH','branchId');
-    	s.load({params:{}});return s;}
-};
-
 var getPROV_S = function(){
 	if(Ext.StoreMgr.containsKey('S_PROV')){return Ext.StoreMgr.get('S_PROV');}
 	else {
@@ -1165,8 +1155,13 @@ getROLE = function(v){if(v){var _cs= getROLE_S();return _cs.getById(v)?_cs.getBy
 var getUSER_S = function(){return getGStore('USER','PUser',PUser,'userId','DESC','');};
 getUSER = function(v){if(v){var _cs= getUSER_S();return _cs.getById(v)?_cs.getById(v).get('userName'):v; } else return '';}; 
 var getGROU_S = function(){return getGStore('GROU','PGroup',PGroup,'grouId','DESC','');};
-getGROU = function(v){if(v){var _cs= getGROU_S();return _cs.getById(v)?_cs.getById(v).get('grouName'):v; } else return '';}; 
+getGROU = function(v){if(v){var _cs= getGROU_S();return _cs.getById(v)?_cs.getById(v).get('grouName'):v; } else return '';};
+var getBRANCH_S = function(){return getGStore('BRANCH','PBranch',PBranch,'branchId','DESC','');};
+getBRANCH = function(v){if(v){var _cs= getBRANCH_S();return _cs.getById(v)?_cs.getById(v).get('branchName'):v; } else return '';}; 
 
+var getTS_S = function(){return getGStore('TRAIN','GTrainStation',GTrainStation,'trainId','DESC','');};
+getTS = function(v){if(v){var _cs= getBRANCH_S();return _cs.getById(v)?_cs.getById(v).get('trainNameCn'):v; } else return '';}; 
+	
 var getCOCO_S = function(){
 	if(Ext.StoreMgr.containsKey('COCO_S')){return Ext.StoreMgr.get('COCO_S');}
 	else {
@@ -1232,6 +1227,18 @@ var getCCHAR_S=function(){
 	else {
 		var s=new Ext.data.Store({storeId:'CCHAR_S',url:SERVICE_URL+'?A=CHAR_C',baseParams:{mt:'xml'},
 			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'GCharge',id:'charId'},GCharge)
+			});
+		s.load();
+		return s;
+    }
+};
+
+//口岸
+var getBRANCHR_S=function(){	
+	if(Ext.StoreMgr.containsKey('BRANCH_S')){return Ext.StoreMgr.get('BRANCH_S');}
+	else {
+		var s=new Ext.data.Store({storeId:'BRANCH_S',url:SERVICE_URL+'?A=BRANCH_Q',baseParams:{mt:'xml'},
+			reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'PBranch',id:'branchId'},PBranch)
 			});
 		s.load();
 		return s;
@@ -1324,9 +1331,11 @@ function iniStore(){
 	getROLE_S();
 	getUSER_S();
 	getSALE_S();
+	getBRANCH_S();
 	getOP_S();
 	getCHAR_S();
 	getCCHAR_S();
+	getTS_S();
 	getCHAR_PERM_R_S();
 	getCHAR_PERM_P_S();
 	var f = function(v){

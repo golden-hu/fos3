@@ -162,10 +162,10 @@ function getStaPanel(){
 };
 function getCusPanel(){
 	var items=[];
-	if(!NR(M1_V+V_PRSH+F_V)) items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
-	if(!NR(M1_V+V_SAQU+F_V)) items[items.length]=NaviMenu(C_COMMISSION,'T_COMM',function(){return new Fos.CommissionTab();});
-	if(!NR(M1_V+V_SAQU+F_V)) items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
-	if(!NR(M1_T+T_SALES)) items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
+	if(!NR(M1_V+V_PRSH+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
+	if(!NR(M1_V+V_SAQU+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_COMMISSION,'T_COMM',function(){return new Fos.CommissionTab();});
+	if(!NR(M1_V+V_SAQU+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
+	if(!NR(M1_T+T_SALES)&&VERSION!=2) items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
 	if(!NR(M1_V+V_CUST+F_V)) items[items.length]=NaviMenu(C_CUST,'G_CUST',function(){return new Fos.CustomerGrid();});
 	if(!NR(M1_V+V_CUCA+F_V)) items[items.length]=NaviMenu(C_CUCA,'G_CUCA',function(){return Fos.showCustomerCategory();});
 	return  new Ext.Panel({title:C_CUST,collapsible:true,layout:'fit',
@@ -197,11 +197,11 @@ function getSysPanel(){
 	if(!NR(M1_P+A_ROLE+F_V)) items[items.length]=NaviMenu(C_FUNC_PERMISSION,'T_ROLE',function(){return new Fos.RoleTab();});
 	if(!NR(M1_P+A_USER+F_V)) items[items.length]=NaviMenu(C_USER_MGT,'T_USER',function(){return new Fos.UserTab();});
 	if(!NR(M1_P+A_TEMP+F_V)) items[items.length]=NaviMenu(C_TEMP_MGT,'G_TEMP',function(){return showG_TEMP();});
-	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_COCO,'G_COCO',function(){return showP_COCO();});
-	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_TASK_CFG,'T_TATY',function(){return new Fos.TatyTab();});
+	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_COCO,'G_COCO',function(){return showP_COCO();});
+	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_TASK_CFG,'T_TATY',function(){return new Fos.TatyTab();});
 	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_ACT_LOG,'G_ACLO',function(){return new Fos.AcloGrid();});
-	items[items.length]=NaviMenu(C_ONLINE_USER,'W_MESS',function(){var w=new Fos.OnlineUserWin();w.show();});
-	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_MSG_TOPIC_SUB,'T_METO',function(){return new Fos.MetoTab();});
+	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_ONLINE_USER,'W_MESS',function(){var w=new Fos.OnlineUserWin();w.show();});
+	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_MSG_TOPIC_SUB,'T_METO',function(){return new Fos.MetoTab();});
 	return  new Ext.Panel({title:C_SYSTEM_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -413,7 +413,7 @@ function createGMTree(){
 		var airp = CreateNode(C_AIRP,'AIRP',M1_J+G_AIRP,function(){return showG_PORT('1');});
 		biz.appendChild(airp);
 	}*/
-	if(!NR(M1_J+G_PLAC)){
+	if(!NR(M1_J+G_PLAC)&&VERSION!=2){
 		var plac = CreateNode(C_PLAC,'PLAC',M1_J+G_PLAC,showG_PLAC);
 		biz.appendChild(plac);
 	}
@@ -425,31 +425,31 @@ function createGMTree(){
 		var shli = CreateNode(C_SHLI,'SHLI',M1_J+G_SHLI,showG_SHLI);
 		biz.appendChild(shli);
 	}
-	if(!NR(M1_J+G_UNIT)){
+	if(!NR(M1_J+G_UNIT)&&VERSION!=2){
 		var unit = CreateNode(C_UNIT,'UNIT',M1_J+G_UNIT,showG_UNIT);
 		biz.appendChild(unit);
 	}
-	if(!NR(M1_J+G_PACK)){
+	if(!NR(M1_J+G_PACK)&&VERSION!=2){
 		var pack = CreateNode(C_PACK,'PACK',M1_J+G_PACK,showG_PACK);
 		biz.appendChild(pack);
 	}
-	if(!NR(M1_J+G_COCL)){
+	if(!NR(M1_J+G_COCL)&&VERSION!=2){
 		var cocl = CreateNode(C_COCL,'COCL',M1_J+G_COCL,showG_COCL);
 		biz.appendChild(cocl);
 	}
-	if(!NR(M1_J+G_COTY)){
+	if(!NR(M1_J+G_COTY)&&VERSION!=2){
 		var coty = CreateNode(C_COTY,'COTY',M1_J+G_COTY,showG_COTY);
 		biz.appendChild(coty);
 	}
-	if(!NR(M1_J+G_CACL)){
+	if(!NR(M1_J+G_CACL)&&VERSION!=2){
 		var cacl = CreateNode(C_CACL,'CACL',M1_J+G_CACL,showG_CACL);
 		biz.appendChild(cacl);
 	}
-	if(!NR(M1_J+G_CATY)){
+	if(!NR(M1_J+G_CATY)&&VERSION!=2){
 		var caty = CreateNode(C_CATY,'CATY',M1_J+G_CATY,showG_CATY);
 		biz.appendChild(caty);
 	}
-	if(!NR(M1_J+G_TRTE)){
+	if(!NR(M1_J+G_TRTE)&&VERSION!=2){
 		var trte = CreateNode(C_TRTE,'TRTE',M1_J+G_TRTE,showG_TRTE);
 		biz.appendChild(trte);
 	}
@@ -465,45 +465,47 @@ function createGMTree(){
 		var coun = CreateNode(C_COUN,'COUN',M1_J+G_COUN,showG_COUN);
 		biz.appendChild(coun);
 	}
-	if(!NR(M1_J+G_VEHT)){
+	if(!NR(M1_J+G_VEHT)&&VERSION!=2){
 		var vety = CreateNode(C_VEHT,'VEHT',M1_J+G_VEHT,showG_VEHT);
 		biz.appendChild(vety);
 	}	
 	root.appendChild(biz);
 	
-	var cus = new Ext.tree.TreeNode({text:C_CUDE_RELATED,leaf:false});
-	if(!NR(M1_J+G_CUTY)){
-		var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
-		cus.appendChild(cuty);
+	if(VERSION!=2){
+		var cus = new Ext.tree.TreeNode({text:C_CUDE_RELATED,leaf:false});
+		if(!NR(M1_J+G_CUTY)){
+			var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
+			cus.appendChild(cuty);
+		}
+		if(!NR(M1_J+G_TRTY)){
+			var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
+			cus.appendChild(trty);
+		}
+		if(!NR(M1_J+G_USAG)){
+			var usag = CreateNode(C_USAG,'USAG',M1_J+G_USAG,showG_USAG);
+			cus.appendChild(usag);
+		}
+		if(!NR(M1_J+G_LETY)){
+			var lety = CreateNode(C_LETY,'LETY',M1_J+G_LETY,showG_LETY);
+			cus.appendChild(lety);
+		}
+		if(!NR(M1_J+G_EXSE)){
+			var exse = CreateNode(C_EXSE,'EXSE',M1_J+G_EXSE,showG_EXSE);
+			cus.appendChild(exse);
+		}
+		if(!NR(M1_J+G_TRAT)){
+			var trat = CreateNode(C_TRAT,'TRAT',M1_J+G_TRAT,showG_TRAT);
+			cus.appendChild(trat);
+		}
+		if(!NR(M1_J+G_ISTY)){
+			var isty = CreateNode(C_ISTY,'ISTY',M1_J+G_ISTY,showG_ISTY);
+			cus.appendChild(isty);	
+		}
+		root.appendChild(cus);
 	}
-	if(!NR(M1_J+G_TRTY)){
-		var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
-		cus.appendChild(trty);
-	}
-	if(!NR(M1_J+G_USAG)){
-		var usag = CreateNode(C_USAG,'USAG',M1_J+G_USAG,showG_USAG);
-		cus.appendChild(usag);
-	}
-	if(!NR(M1_J+G_LETY)){
-		var lety = CreateNode(C_LETY,'LETY',M1_J+G_LETY,showG_LETY);
-		cus.appendChild(lety);
-	}
-	if(!NR(M1_J+G_EXSE)){
-		var exse = CreateNode(C_EXSE,'EXSE',M1_J+G_EXSE,showG_EXSE);
-		cus.appendChild(exse);
-	}
-	if(!NR(M1_J+G_TRAT)){
-		var trat = CreateNode(C_TRAT,'TRAT',M1_J+G_TRAT,showG_TRAT);
-		cus.appendChild(trat);
-	}
-	if(!NR(M1_J+G_ISTY)){
-		var isty = CreateNode(C_ISTY,'ISTY',M1_J+G_ISTY,showG_ISTY);
-		cus.appendChild(isty);	
-	}
-	root.appendChild(cus);
-	
+		
 	var set = new Ext.tree.TreeNode({text:C_SETTLE_RELATED,leaf:false});
-	if(!NR(M1_J+G_SEWA)){
+	if(!NR(M1_J+G_SEWA)&&VERSION!=2){
 		var sewa = CreateNode(C_SEWA,'SEWA',M1_J+G_SEWA,showG_SEWA);
 		set.appendChild(sewa);
 	}	
@@ -616,9 +618,13 @@ Ext.onReady(function(){
 //北京永顺集装箱模块
 function getYsContPanel(){
 	var items = [];
+	if(!NR(M1_C+M2_F)) 
 	items[items.length]=NaviMenu(C_EXP,'YS_CONS_FCL_E',function(){return new Fos.YsConsignGrid('E','C','FCL');});
+	if(!NR(M1_C+M2_FE)) 
 	items[items.length]=NaviMenu(C_IMP,'YS_CONS_FCL_I',function(){return new Fos.YsConsignGrid('I','C','FCL');});
+	if(!NR(M1_C+"06")) 
 	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid()});
+	if(!NR(M1_C+"09")) 
 	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid()});
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});

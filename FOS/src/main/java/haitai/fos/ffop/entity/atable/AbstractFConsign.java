@@ -37,6 +37,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Date consDate;
 	private Integer consSalesRepId;
 	private String consSalesRepName;
+	private Integer consBranchId;
+	private String consBranchName;
 	private Integer consOperatorId;
 	private String consOperatorName;
 	private String consTradeContractNo;
@@ -583,6 +585,24 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consSalesRepName = consSalesRepName;
 	}
 
+	@Column(name = "CONS_BRANCH_ID")
+	public Integer getConsBranchId() {
+		return consBranchId;
+	}
+
+	public void setConsBranchId(Integer consBranchId) {
+		this.consBranchId = consBranchId;
+	}
+
+	@Column(name = "CONS_BRANCH_NAME", length = 32)
+	public String getConsBranchName() {
+		return consBranchName;
+	}
+
+	public void setConsBranchName(String consBranchName) {
+		this.consBranchName = consBranchName;
+	}
+	
 	@Column(name = "CONS_OPERATOR_ID")
 	public Integer getConsOperatorId() {
 		return this.consOperatorId;

@@ -671,10 +671,14 @@ Ext.extend(Fos.AttachWin,Ext.Window);
 
 //收发货人选择窗口
 Fos.ShipperWin=function(custId,shipperT,fn){
+	var bp ={custId:custId,cushType:shipperT};
+	if(VERSION==2){
+		bp={cushType:shipperT}
+	}
 	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'json',A:'CUSH_Q'},
 		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomerShipper',id:'cushId'},CCustomerShipper),
 		remoteSort:true,sortInfo:{field:'cushId', direction:'DESC'}});
-	store.load({params:{custId:custId,cushType:shipperT}});
+	store.load({params:bp});
 	
 		
 	this.selRecord = function(){

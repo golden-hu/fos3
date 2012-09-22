@@ -28,6 +28,7 @@ public abstract class AbstractPUser extends BaseDomain {
 	private String userMsn;
 	private String userQq;
 	private Integer userDefaultGroup;
+	private Integer userDefaultBranch;
 	private Integer userDefaultRole;
 	private Short userSalesFlag;
 	private Short userOperatorFlag;
@@ -141,6 +142,15 @@ public abstract class AbstractPUser extends BaseDomain {
 
 	public void setUserDefaultGroup(Integer userDefaultGroup) {
 		this.userDefaultGroup = userDefaultGroup;
+	}
+	
+	@Column(name = "USER_DEFAULT_BRANCH")
+	public Integer getUserDefaultBranch() {
+		return userDefaultBranch;
+	}
+
+	public void setUserDefaultBranch(Integer userDefaultBranch) {
+		this.userDefaultBranch = userDefaultBranch;
 	}
 
 	@Column(name = "USER_DEFAULT_ROLE")

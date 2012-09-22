@@ -50,7 +50,7 @@ public abstract class AbstractCCustomerShipper extends BaseDomain {
 		this.version = version;
 	}
 
-	@Column(name = "CUST_ID", nullable = false)
+	@Column(name = "CUST_ID")
 	public Integer getCustId() {
 		return this.custId;
 	}
