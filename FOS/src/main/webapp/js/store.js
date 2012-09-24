@@ -1331,11 +1331,17 @@ function iniStore(){
 	getROLE_S();
 	getUSER_S();
 	getSALE_S();
-	getBRANCH_S();
+	
+	if(VERSION==3){
+		getTS_S();
+		getBRANCH_S();
+	}
+		
+	
 	getOP_S();
 	getCHAR_S();
 	getCCHAR_S();
-	getTS_S();
+	
 	getCHAR_PERM_R_S();
 	getCHAR_PERM_P_S();
 	var f = function(v){
