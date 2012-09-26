@@ -33,11 +33,12 @@ public abstract class AbstractSPr extends BaseDomain {
 	private String prBank;
 	private String prAccount;
 	private String prRemarks;
-	private Integer prFinApproveBy;
+	private String prFinApproveBy;
 	private Date prFinApproveDate;
-	private Integer prApproveBy;
+	private String prApproveBy;
 	private Date prApproveDate;
 	private Short prStatus;
+	private Short prWriteOffStatus;
 	private Date prDate;
 	private Short prPrintFlag;
 	private Integer userId;
@@ -216,11 +217,11 @@ public abstract class AbstractSPr extends BaseDomain {
 	}
 
 	@Column(name = "PR_FIN_APPROVE_BY")
-	public Integer getPrFinApproveBy() {
+	public String getPrFinApproveBy() {
 		return this.prFinApproveBy;
 	}
 
-	public void setPrFinApproveBy(Integer prFinApproveBy) {
+	public void setPrFinApproveBy(String prFinApproveBy) {
 		this.prFinApproveBy = prFinApproveBy;
 	}
 
@@ -235,11 +236,11 @@ public abstract class AbstractSPr extends BaseDomain {
 	}
 
 	@Column(name = "PR_APPROVE_BY")
-	public Integer getPrApproveBy() {
+	public String getPrApproveBy() {
 		return this.prApproveBy;
 	}
 
-	public void setPrApproveBy(Integer prApproveBy) {
+	public void setPrApproveBy(String prApproveBy) {
 		this.prApproveBy = prApproveBy;
 	}
 
@@ -262,6 +263,16 @@ public abstract class AbstractSPr extends BaseDomain {
 		this.prStatus = prStatus;
 	}
 
+	
+	@Column(name = "PR_WRITE_OFF_STATUS")
+	public Short getPrWriteOffStatus() {
+		return this.prWriteOffStatus;
+	}
+
+	public void setPrWriteOffStatus(Short prWriteOffStatus) {
+		this.prWriteOffStatus = prWriteOffStatus;
+	}
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "PR_DATE", length = 10)
 	public Date getPrDate() {

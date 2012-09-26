@@ -13,6 +13,8 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.RowAction;
+import haitai.fw.util.TimeUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -133,6 +135,14 @@ public class SPrService {
 		Integer id = Integer.valueOf((String) queryMap.get("prId"));
 		Short prStatus = Short.valueOf((String) queryMap.get("prStatus"));
 		SPr entity = dao.findById(id);
+		if(prStatus == 2){
+			entity.setPrFinApproveBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
+			entity.setPrFinApproveDate(TimeUtil.getNow());
+		}
+		if(prStatus == 3){
+			entity.setPrApproveBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
+			entity.setPrApproveDate(TimeUtil.getNow());
+		}
 		entity.setPrStatus(prStatus);
 		dao.update(entity);
 		if (ConstUtil.PR_STATUS_CANCELLED.equals(prStatus)) {
