@@ -888,6 +888,7 @@ Fos.BookTab = function(p) {
 			keydown:{fn:function(f,e){
 				LC(f,e,'custCarrierFlag');
 			},buffer:BF}}};
+	
 	var m3={fieldLabel:C_OVERSEA_AGENCY,tabIndex:p.get('consBizClass')==BC_I?46:42,name:'consOverseaAgencyName',value:p.get('consOverseaAgencyName'),store:getCS(),enableKeyEvents:true,
 		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
 		xtype:'combo',displayField:'custCode',valueField:'custCode',
@@ -903,9 +904,10 @@ Fos.BookTab = function(p) {
             	p.set('consOverseaAgency',r.get('custId'));
             	p.set('consOverseaAgencyName',r.get('custNameCn'));
             	c.setValue(r.get('custNameCn'));
-            	this.find('name','consNotifyParty2')[0].setValue(r.get('custAddress2'));
+            	this.find('name','consNotifyParty2')[0].setValue(r.get('custShipper'));
  			},
 			keydown:{fn:function(f,e){LC(f,e,'custOverseaAgencyFlag');},buffer:BF}}};
+	
 	var m4={fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_D:C_COUNTRY_L,
 			tabIndex:46,disabled:true,name:'consTradeCountry',value:p.get('consTradeCountry'),
 			store:getCOUN_S(),xtype:'combo',displayField:'counNameEn',valueField:'counCode',

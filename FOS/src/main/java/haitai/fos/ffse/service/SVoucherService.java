@@ -12,6 +12,7 @@ import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.RowAction;
+import haitai.fw.util.StringUtil;
 import haitai.fw.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,12 @@ public class SVoucherService {
 	private IFConsignDAO consignDao;
 	@Autowired
 	private ISBalanceDAO balanceDao;
-
+	@Autowired
+	private ISPrDAO prDao;
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List save(List entityList) {
+	public List save(Map pmap,List entityList) {
 		List retList = new ArrayList();
 		Integer parentId = null;
 		String voucNo = null;
@@ -138,6 +141,17 @@ public class SVoucherService {
 			SVoucher voucher = dao.findById(parentId);
 			sumBalance(voucher);
 		}
+		
+		//如果是从付款申请核销，更新付款申请的状态
+		String sPrId = (String)pmap.get("prId");
+		if(StringUtil.isNotBlank(sPrId)){
+			Integer id = Integer.valueOf(sPrId);
+			SPr p = prDao.findById(id);
+			p.setPrWriteOffStatus(new Short("2"));
+			p.setRowAction(RowAction.M);
+			prDao.update(p);
+		}		
+		
 		return retList;
 	}
 
