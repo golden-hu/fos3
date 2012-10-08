@@ -1332,7 +1332,7 @@ function iniStore(){
 	getUSER_S();
 	getSALE_S();
 	
-	if(VERSION==3){
+	if(VERSION==2){
 		getTS_S();
 		getBRANCH_S();
 	}

@@ -626,6 +626,7 @@ function getYsContPanel(){
 	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid()});
 	if(!NR(M1_C+"09")) 
 	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid()});
+	items[items.length]=NaviMenu(C_EX_RATE,'YS_RATE',function(){return new Fos.YsRateTab()});
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 }

@@ -196,7 +196,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		}
 		
 		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
-				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())&& myself.getUserDefaultBranch().toString()!=null) {
+				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())&& myself.getUserDefaultBranch()!=null) {
 			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + " or t1.consBranchId = " + myself.getUserDefaultBranch() +") ";
 		} 
 		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
