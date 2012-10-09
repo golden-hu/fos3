@@ -194,7 +194,15 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 				}
 			}
 		}
-		
+		//FOR BEIJING YS 
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())
+				&& myself.getUserDefaultStation()!=null&& myself.getUserDefaultStation()!=null) {
+			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + " or t1.consBranchId = " + myself.getUserDefaultBranch()+" or t1.attr9 = " + myself.getUserDefaultStation() +") ";
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())&& myself.getUserDefaultStation()!=null) {
+			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + " or t1.attr9 = " + myself.getUserDefaultStation() +") ";
+		} 
 		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
 				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())&& myself.getUserDefaultBranch()!=null) {
 			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + " or t1.consBranchId = " + myself.getUserDefaultBranch() +") ";
@@ -204,14 +212,25 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
 		} 
 		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
-				&& myself.getUserDefaultBranch().toString()!=null) {
+				&& myself.getUserDefaultStation()!=null) {
+			joinSql += "(t1.consSalesRepId = " + uid + " or t1.attr9 = " + myself.getUserDefaultStation() + ") ";
+		} 
+		else if (myself.getUserDefaultStation()!=null
+				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+			joinSql += "(t1.attr9 = " + myself.getUserDefaultStation() +" or t1.consOperatorId = " + uid + ") ";
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+				&& myself.getUserDefaultBranch()!=null) {
 			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consBranchId = " + myself.getUserDefaultBranch() + ") ";
 		} 
-		else if (myself.getUserDefaultBranch().toString()!=null
+		else if (myself.getUserDefaultBranch()!=null
 				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
 			joinSql += "(t1.consBranchId = " + myself.getUserDefaultBranch() +" or t1.consOperatorId = " + uid + ") ";
 		} 
-		else if (myself.getUserDefaultBranch().toString()!=null){
+		else if (myself.getUserDefaultStation()!=null){
+			joinSql +="t1.attr9 = " + myself.getUserDefaultStation();
+		}
+		else if (myself.getUserDefaultBranch()!=null){
 			joinSql +="t1.consBranchId = " + myself.getUserDefaultBranch();
 		}
 		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 

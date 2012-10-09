@@ -1166,7 +1166,7 @@ var getBRANCH_S = function(){return getGStore('BRANCH','PBranch',PBranch,'branch
 getBRANCH = function(v){if(v){var _cs= getBRANCH_S();return _cs.getById(v)?_cs.getById(v).get('branchName'):v; } else return '';}; 
 
 var getTS_S = function(){return getGStore('TRAIN','GTrainStation',GTrainStation,'trainId','DESC','');};
-getTS = function(v){if(v){var _cs= getBRANCH_S();return _cs.getById(v)?_cs.getById(v).get('trainNameCn'):v; } else return '';}; 
+getTS = function(v){if(v){var _cs= getTS_S();return _cs.getById(v)?_cs.getById(v).get('trainNameCn'):v; } else return '';}; 
 	
 var getCOCO_S = function(){
 	if(Ext.StoreMgr.containsKey('COCO_S')){return Ext.StoreMgr.get('COCO_S');}

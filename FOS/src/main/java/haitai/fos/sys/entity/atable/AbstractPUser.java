@@ -28,7 +28,8 @@ public abstract class AbstractPUser extends BaseDomain {
 	private String userMsn;
 	private String userQq;
 	private Integer userDefaultGroup;
-	private Integer userDefaultBranch;
+	private Integer userDefaultBranch;//FOR BEIJING YS
+	private Integer userDefaultStation;//FOR BEIJING YS
 	private Integer userDefaultRole;
 	private Short userSalesFlag;
 	private Short userOperatorFlag;
@@ -153,6 +154,15 @@ public abstract class AbstractPUser extends BaseDomain {
 		this.userDefaultBranch = userDefaultBranch;
 	}
 
+	@Column(name = "USER_DEFAULT_STATION")
+	public Integer getUserDefaultStation() {
+		return userDefaultStation;
+	}
+
+	public void setUserDefaultStation(Integer userDefaultStation) {
+		this.userDefaultStation = userDefaultStation;
+	}
+	
 	@Column(name = "USER_DEFAULT_ROLE")
 	public Integer getUserDefaultRole() {
 		return this.userDefaultRole;

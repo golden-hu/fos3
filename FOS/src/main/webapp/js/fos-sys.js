@@ -718,13 +718,15 @@ Fos.UserTab = function() {
 	var ea=CHKCLM(C_EDIT_ALL_CONS,'userAllEditFlag',110);
 	var branch=({header:C_BRANCH,dataIndex:'userDefaultBranch',renderer:getBRANCH,editor:new Ext.form.ComboBox({displayField:'branchName',valueField:'branchId',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getBRANCH_S()})});
+    var station=({header:C_DEPARTURE_STATION,dataIndex:'userDefaultStation',renderer:getTS,editor:new Ext.form.ComboBox({displayField:'trainNameCn',valueField:'trainId',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getTS_S()})});
 	
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_FNAME,dataIndex:'userName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_SYS_USER_NAME,dataIndex:'userLoginName',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_DEFAULT_GROU,dataIndex:'userDefaultGroup',width:80,renderer:getGROU,editor:new Ext.form.ComboBox({displayField:'grouName',valueField:'grouId',triggerAction: 'all',
             allowBlank:false,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getGROU_S()})},
-            branch,systemUser,sales,operator,va,ea,vg,eg,          
+            station,branch,systemUser,sales,operator,va,ea,vg,eg,          
 		{header:C_TEL,dataIndex:'userTel',editor:new Ext.form.TextField()},
 		{header:C_MOBILE,dataIndex:'userMobile',editor:new Ext.form.TextField()},
 		{header:C_EMAIL,dataIndex:'userEmail',editor:new Ext.form.TextField()},		

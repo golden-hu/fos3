@@ -266,7 +266,13 @@ Fos.YsConsignTab = function(p,listStore){
    //始发站
 	var cboDepartureStation = {fieldLabel: C_DEPARTURE_STATION,tabIndex: 39,name: 'attr1',value: p.get('attr1'),
 		store: getTS_S(),xtype: 'combo',displayField: 'trainNameCn',valueField: 'trainNameCn',typeAhead: true,
-		mode: 'local',triggerAction: 'all',selectOnFocus: true,anchor: '99%',itemCls:'needed'
+		mode: 'local',triggerAction: 'all',selectOnFocus: true,anchor: '99%',itemCls:'needed',
+		listeners:{
+			scope:this,
+			select:function(c,r,v){
+				p.set('attr9',r.get('trainId'))
+			}
+		}
 	};
 	//中方换装站
 	var cboCTransferStation = {fieldLabel: C_CTRANSFER_STATION,tabIndex: 39,name: 'attr2',value: p.get('attr2'),

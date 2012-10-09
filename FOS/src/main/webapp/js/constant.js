@@ -5,7 +5,7 @@ SERVER_URL=wl.substr(0,idx)+'/';
 
 PUser = Ext.data.Record.create(['id','userId','userName','userLoginName',
     'userPassword','userTel','userMobile','userEmail','userMsn','userQq',
-	'userDefaultGroup','userDefaultBranch','userDefaultRole','userSalesFlag','userOperatorFlag',
+	'userDefaultGroup','userDefaultBranch','userDefaultStation','userDefaultRole','userSalesFlag','userOperatorFlag',
 	'userSystemUserFlag','userManagerFlag',
 	'userGrouViewFlag','userGrouEditFlag','userAllViewFlag','userAllEditFlag',
 	{name:'userPasswordModifyDate',type:'date',dateFormat:'Y-m-d'},
