@@ -716,10 +716,10 @@ Fos.UserTab = function() {
 	var eg=CHKCLM(C_EDIT_GROU_CONS,'userGrouEditFlag',110);	
 	var va=CHKCLM(C_VIEW_ALL_CONS,'userAllViewFlag',110);
 	var ea=CHKCLM(C_EDIT_ALL_CONS,'userAllEditFlag',110);
-	var branch=({header:C_BRANCH,dataIndex:'userDefaultBranch',renderer:getBRANCH,editor:new Ext.form.ComboBox({displayField:'branchName',valueField:'branchId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getBRANCH_S()})});
-    var station=({header:C_DEPARTURE_STATION,dataIndex:'userDefaultStation',renderer:getTS,editor:new Ext.form.ComboBox({displayField:'trainNameCn',valueField:'trainId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getTS_S()})});
+	var branch={header:C_BRANCH,dataIndex:'userDefaultBranch',editor:new Ext.form.ComboBox({displayField:'branchName',valueField:'branchId',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getBRANCH_S()}),hidden:VERSION==2?false:true,renderer:getBRANCH};
+    var station={header:C_DEPARTURE_STATION,dataIndex:'userDefaultStation',renderer:getTS,editor:new Ext.form.ComboBox({displayField:'trainNameCn',valueField:'trainId',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getTS_S()}),hidden:VERSION==2?false:true};
 	
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_FNAME,dataIndex:'userName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
