@@ -458,11 +458,19 @@ public class FConsignService {
 			}
 		} else if (entity.getRowAction() == RowAction.R) {
 			FConsign delEntity = dao.findById(entity.getConsId());
-			delEntity.setRowAction(RowAction.R);
-			dao.update(delEntity);
-			if (delEntity.getLoliId() != null && delEntity.getLoliId() > 0) {
-				updateFactQuantity(delEntity, true);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("consId", entity.getConsId().toString());
+			List<SExpense> expeList = expenseDao.findByProperties(map);
+			if(expeList.size()>0){
+				throw new BusinessException("fos.cons_expense.existing");
+			}else{
+				delEntity.setRowAction(RowAction.R);
+				dao.update(delEntity);
+				if (delEntity.getLoliId() != null && delEntity.getLoliId() > 0) {
+					updateFactQuantity(delEntity, true);
+				}
 			}
+			
 		} else {
 			throw new BusinessException("fw.row_action_null");
 		}

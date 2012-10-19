@@ -2213,7 +2213,7 @@ Fos.InvoiceTab = function(p,billNo) {
 	id: 'T_INVO_'+p.get('id'),title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),layout:'border',
 	autoScroll:true,labelAlign:'right',closable:true,labelWidth:70,bodyStyle:'padding:0px 0px 20px 0px',border:false,width:800,
 	tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
-								[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b9,'-',b10,'->','-',b8,'-'],
+								[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b7,'-',b9,'-',b10,'->','-',b8,'-'],
 	bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
 			{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
 			{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',

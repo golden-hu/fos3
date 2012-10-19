@@ -1,5 +1,7 @@
 package haitai.fos.sys.service;
 
+import haitai.fos.ffse.entity.idao.ISExpenseDAO;
+import haitai.fos.ffse.entity.table.SExpense;
 import haitai.fos.sys.entity.idao.ICCustomerContactDAO;
 import haitai.fos.sys.entity.idao.ICCustomerDAO;
 import haitai.fos.sys.entity.table.CCustomer;
@@ -25,6 +27,8 @@ public class CCustomerService {
 	private ICCustomerDAO dao;
 	@Autowired
 	private ICCustomerContactDAO contactDao;
+	@Autowired
+	private ISExpenseDAO expeDao;
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -43,8 +47,16 @@ public class CCustomerService {
 					retList.add(dao.update(entity));
 				} else if (entity.getRowAction() == RowAction.R) {
 					CCustomer delEntity = dao.findById(entity.getCustId());
-					delEntity.setRowAction(RowAction.R);
-					dao.update(delEntity);
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("custId", entity.getCustId());
+					List<SExpense> expeList = expeDao.findByProperties(map);
+					if(expeList.size()>0){
+						throw new BusinessException("fos.cust_expense.existing");
+					}
+					else{
+						delEntity.setRowAction(RowAction.R);
+						dao.update(delEntity);
+					}
 				} else {
 					throw new BusinessException("fw.row_action_null");
 				}
