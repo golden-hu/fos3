@@ -2129,7 +2129,9 @@ Fos.InvoiceTab = function(p,billNo) {
 		 	}
 		},stopEvent:true,scope:this});
     
-    
+    this.expInvoP = function(){
+    	EXPC('CREATE_NOTE','&invoId='+p.get('invoId'));
+    };
     var b1={itemId:'TB_A',text:C_SAVE+'(S)',iconCls:'save',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0',scope:this,handler:this.save};
     var b2={itemId:'TB_B',text:C_REMOVE+'(R)',iconCls:'remove',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removeInvo};
     var b3={itemId:'TB_C',text:C_AUDIT+'(C)',iconCls:'check',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.check};
@@ -2139,10 +2141,10 @@ Fos.InvoiceTab = function(p,billNo) {
     var b7={text:C_EXPORT+'(E)',iconCls:'print',disabled:p.get('invoWriteOffStatus')!='0',scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo}]}};
 	var b8={itemId:'TB_M',disabled:true,text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))};
 	var b9={itemId:'TB_G',text:C_ADD+'(N)',iconCls:'add',scope:this,handler:this.addInvoice};
-	 var b10={itemId:'TB_H',text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,iconCls:'save',			 
+	var b10={itemId:'TB_H',text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,iconCls:'save',			 
 			 disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
 			 scope:this,handler:this.genVoucher};
-	 
+	var b11={text:C_EXPORT+'(E)',iconCls:'print',disabled:p.get('invoWriteOffStatus')!='0',scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvoP}]}}; 
 	var c1={fieldLabel:HL(C_SETTLE_OBJECT),tabIndex:1,name:'custName',value:p.get('custName'),
 			store:getCS(),enableKeyEvents:true,
     		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
@@ -2213,7 +2215,7 @@ Fos.InvoiceTab = function(p,billNo) {
 	id: 'T_INVO_'+p.get('id'),title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),layout:'border',
 	autoScroll:true,labelAlign:'right',closable:true,labelWidth:70,bodyStyle:'padding:0px 0px 20px 0px',border:false,width:800,
 	tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
-								[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b7,'-',b9,'-',b10,'->','-',b8,'-'],
+								[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b11,'-',b9,'-',b10,'->','-',b8,'-'],
 	bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
 			{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
 			{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',

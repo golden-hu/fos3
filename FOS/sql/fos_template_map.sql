@@ -49,8 +49,8 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (51, '贸易合同', 'CUDE_CONTRACT', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0),
 (53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTask', 'B', 'P', 1, 1, 0, 0),
-(54, '提单十联单', 'FBL_MANIFEST', '提单十联单', 'BL_Q', 'FBl', '', 'B', 'P', 1, 1, 0, 0);
-
+(54, '提单十联单', 'FBL_MANIFEST', '提单十联单', 'BL_Q', 'FBl', '', 'B', 'P', 1, 1, 0, 0),
+(55, 'CREATE NOTE', 'CREATE_NOTE', NULL, 'INVO_Q', 'SInvoice', 'SinvoiceItem', 'B', 'P', 1, 1, 1, 0);
 -- 提单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (1, '发货人', 'FBl', 'blShipper', NULL),
@@ -1445,3 +1445,42 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (54, '备注', 'FBl', 'blRemarks', NULL),
 (54, '大写件数', 'FBl', 'blTotalSay', NULL),
 (54, '第二通知人', 'FBl', 'blNotifyParty2', NULL);
+
+-- CREATE NOTE
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(55, '账单号', 'SInvoice', 'invoNo', NULL),
+(55, '税务发票号', 'SInvoice', 'invoTaxNo', NULL),
+(55, '银行', 'SInvoice', 'invoBank', NULL),
+(55, '账号', 'SInvoice', 'invoAccount', NULL),
+(55, '结算单位', 'SInvoice', 'invoTitle', NULL),
+(55, '账单日期', 'SInvoice', 'invoDate', NULL),
+(55, '船名', 'SInvoice', 'invoVessel', NULL),
+(55, '航次', 'SInvoice', 'invoVoyage', NULL),
+(55, '业务号', 'SInvoice', 'invoConsNo', NULL),
+(55, '开航日期', 'SInvoice', 'invoSailDate', NULL),
+(55, '到港日期', 'SInvoice', 'invoSailDate', NULL),
+(55, '起运港', 'SInvoice', 'invoPol', NULL),
+(55, '卸货港', 'SInvoice', 'invoPod', NULL),
+(55, '目的港', 'SInvoice', 'invoDeliveryPlace', NULL),
+(55, '提单号', 'SInvoice', 'invoBlNo', NULL),
+(55, '货物名称', 'SInvoice', 'invoCargoName', NULL),
+(55, '件数包装', 'SInvoice', 'invoCargoPackages', NULL),
+(55, '重量', 'SInvoice', 'invoCargoGrossWeight', NULL),
+(55, '体积', 'SInvoice', 'invoCargoMeasurement', NULL),
+(55, '合同号', 'SInvoice', 'invoContractNo', NULL),
+(55, '箱型箱量', 'SInvoice', 'invoContainersInfo', NULL),
+(55, '币种', 'SInvoice', 'currCode', NULL),
+(55, '费用名称', 'SInvoiceItem', 'charName', NULL),
+(55, '费用英文名称', 'SInvoiceItem', 'charNameEn', NULL),
+(55, '数量', 'SInvoiceItem', 'expeNum', NULL),
+(55, '币种', 'SInvoiceItem', 'expeCurrCode', NULL),
+(55, '单价', 'SInvoiceItem', 'expeUnitPrice', NULL),
+(55, '金额', 'SInvoiceItem', 'initInvoiceAmountOri', NULL),
+(55, '合计金额大写', 'SInvoice', 'invoAmountCapital', NULL),
+(55, '合计金额英文', 'SInvoice', 'invoAmountCapitalEn', NULL),
+(55, '合计金额', 'SInvoice', 'invoAmount', NULL),
+(55, '付款期限', 'SInvoice', 'invoDueDate', NULL),
+(55, '制单人', 'SInvoice', 'invoIssuer', NULL),
+(55, '复核人', 'SInvoice', 'invoChecker', NULL),
+(55, '操作员', 'SInvoice', 'invoOperator', NULL),
+(55, '备注', 'SInvoice', 'invoRemarks', NULL);
