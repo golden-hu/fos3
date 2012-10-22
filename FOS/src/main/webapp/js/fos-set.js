@@ -2179,7 +2179,7 @@ Fos.InvoiceTab = function(p,billNo) {
 		this.find('name','invoAccount')[0].setValue(r.get('cobaAccount'));},
 		render:function(cbx){
 			cbx.store.filterBy(function(rec,id){return rec.get('currCode')==p.get('currCode');});}}};
-	var c6={fieldLabel:HL(C_INVO_DATE),tabIndex:6,name:'invoDate',value:p.get('invoDate'),xtype:'datefield',format:DATEF,anchor:'95%'};
+	var c6={fieldLabel:HL(C_INVO_DATE),tabIndex:6,name:'invoDate',value:p.get('invoDate'),xtype:'datefield',format:DATEF,anchor:'90%'};
 	var c7={fieldLabel:C_EX_RATE,tabIndex:7,name:'invoExRate',value:p.get('invoExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'90%',
             listeners:{scope:this,change:function(f,nv,ov){
 			var a = this.itemGrid.getStore().getRange();
