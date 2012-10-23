@@ -64,6 +64,7 @@
 	            	b.set('charId',r.get('charId'));
 	            	b.set('chclId',r.get('chclId'));
 	            	b.set('charNameEn',r.get('charNameEn'));
+	            	b.set('charName',r.get('charName'));
 	            	b.set('currCode',r.get('currCode'));
 	            	b.set('unitId',r.get('unitId'));
 	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
@@ -79,6 +80,7 @@
 	            	b.set('charId',r.get('charId'));
 	            	b.set('chclId',r.get('chclId'));
 	            	b.set('charNameEn',r.get('charNameEn'));
+	            	b.set('charName',r.get('charName'));
 	            	b.set('currCode',r.get('currCode'));
 	            	b.set('unitId',r.get('unitId'));
 	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
