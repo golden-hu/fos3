@@ -2276,8 +2276,16 @@ Fos.ConsDocGrid = function(p) {
 	}
 	else this.store.load({params:{consId:p.get('consId')}});
 	
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
-	var cm=new Ext.grid.ColumnModel({columns:[sm,
+	var releasableFlag=CHKCLM(C_DOC_RELEASABLE_FLAG,'fdocReleasableFlag');	
+	var returnFlag =CHKCLM(C_DOC_RETURN,'fdocReturnFlag');
+	returnFlag.on('click',function(c,e,r){
+		r.set('fdocReturnDate',r.get('fdocReturnFlag')==1?(new Date()):'');},this);
+	var backFlag=CHKCLM(C_DOC_BACK,'fdocBackFlag');
+	backFlag.on('click',function(c,e,r){
+		r.set('fdocBackDate',r.get('fdocBackFlag')==1?(new Date()):'');},this);
+	var cm=new Ext.grid.ColumnModel({columns:[sm,releasableFlag,returnFlag,backFlag,
 	{header:C_DOC_NAME,dataIndex:'dotyName',width:150,renderer:getDOTY,
 			editor:new Ext.form.ComboBox({displayField:'dotyCode',valueField:'dotyName',triggerAction:'all',
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
@@ -2288,13 +2296,13 @@ Fos.ConsDocGrid = function(p) {
    		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
    		triggerAction:'all',selectOnFocus:true,anchor:'99%',custType:'custBookerFlag',
      	listeners:{scope:this,
-		keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}})},
+     				select:function(c,r,i){
+     					sm.getSelected().set('fdocCompany',r.get('custNameCn'));
+     				},
+     				keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}})},
     {header:C_DOC_NO,dataIndex:'fdocNo',width:80,editor:new Ext.form.TextField()},
 	{header:C_DOC_ORI_NUM,dataIndex:'fdocOriginalNum',width:80,editor:new Ext.form.NumberField()},
 	{header:C_DOC_COPY_NUM,dataIndex:'fdocCopyNum',width:80,editor:new Ext.form.NumberField()},
-	{header:C_STATUS,dataIndex:'fdocStatus',width:80,renderer:getDOST,
-			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:DOST_S})},
 	{header:C_DOC_RECEIVE_DATE,dataIndex:'fdocRecvDate',renderer:formatDate,width:80,editor:new Ext.form.DateField({format:DATEF})},
 	{header:C_CUSTOM_AGENCY,dataIndex:'fdocSendSigner',width:80,editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
             mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
@@ -2343,7 +2351,7 @@ Fos.ConsDocGrid = function(p) {
 		this.store.insert(0,t);t.set('rowAction','N');sm.selectFirstRow();this.startEditing(0,1);
 	};
 	Fos.ConsDocGrid.superclass.constructor.call(this,{
-	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,clicksToEdit:1,
+	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,clicksToEdit:1,plugins:[releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:this.store,sortInfo:{field:'fdocId',direction:'DESC'},
 		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.add},'-',
 			{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:function(){FOS_REMOVE(sm,this.store);}},'-',

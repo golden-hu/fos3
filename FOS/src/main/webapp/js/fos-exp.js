@@ -410,7 +410,6 @@ Fos.ConsignTab = function(p){
 		items[items.length] = VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
-		items[items.length] = new Fos.ContainerTraceTab(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
 	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) items[items.length]=new Fos.WarehouseTab(p);
