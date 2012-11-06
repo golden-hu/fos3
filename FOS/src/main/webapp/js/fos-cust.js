@@ -374,15 +374,16 @@ Fos.CustomerLW = function(store) {
 		{fieldLabel:C_ENAME,name:'custNameEn',xtype:'textfield',anchor:'90%'},
 		{boxLabel:C_LOOK_SMART,name:'custNameEnM',xtype:'checkbox',labelSeparator:'',anchor:'50%'}]};
 	var t4={id:'TCL_4',title:C_LOOK_COMPLEX,layout:'column',items:[
-    	{columnWidth:.33,layout:'form',border:false,items:[	             	
+    	{columnWidth:.33,layout:'form',border:false,labelWidth:70,items:[	             	
 	    	{fieldLabel:C_CSNAME,tabIndex:1,name:'custSNameCn',xtype:'textfield',anchor:'90%'},
         	{fieldLabel:C_INDUSTRY,name:'custIndustry',xtype:'combo',store:INDU_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
         	{fieldLabel:C_CONTACT,name:'custContact',xtype:'textfield',anchor:'90%'}]},
-	    {columnWidth:.33,layout:'form',border:false,items:[
+	    {columnWidth:.33,layout:'form',border:false,labelWidth:70,items:[
 	    	{fieldLabel:C_ESNAME,tabIndex:2,name:'custSNameEn',xtype:'textfield',anchor:'90%'},
-	    	{fieldLabel:C_CPTY,name:'custType',xtype:'combo',store:COPR_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
+	    	{fieldLabel:C_CPTY,name:'custType',xtype:'combo',store:COPR_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	    	{fieldLabel:C_SALES,name:'custSalesId',xtype:'combo',store:getSALE_S(),displayField:'userLoginName',valueField:'userId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
 	     	]},
-		{columnWidth:.34,layout:'form',border:false,items:[
+		{columnWidth:.34,layout:'form',border:false,labelWidth:70,items:[
 			{fieldLabel:C_CUCA,tabIndex:3,name: 'cucaId',xtype:'combo',store:getCUCA_S(),displayField:'cucaName',valueField:'cucaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	     	{fieldLabel:C_COUN,name:'counCode',xtype:'combo',store:getCOUN_S(),
 				displayField:'counNameCn',valueField:'counCode',typeAhead: true,
@@ -442,6 +443,7 @@ Fos.CustomerLW = function(store) {
      		var custType=at.find('name','custType')[0].getValue();
      		var cucaId=at.find('name','cucaId')[0].getValue();
      		var counCode=at.find('name','counCode')[0].getValue();
+     		var custSalesId = at.find('name','custSalesId')[0].getValue();
      		
      		if(custSNameCn) a[a.length]={key:'custSNameCn',value:custSNameCn,op:op};
      		if(custIndustry) a[a.length]={key:'custIndustry',value:custIndustry,op:op};
@@ -450,6 +452,7 @@ Fos.CustomerLW = function(store) {
      		if(custType) a[a.length]={key:'custType',value:custType,op:op};
      		if(cucaId) a[a.length]={key:'cucaId',value:cucaId,op:op};
      		if(counCode) a[a.length]={key:'counCode',value:counCode,op:op};
+     		if(custSalesId) a[a.length]={key:'custSalesId',value:custSalesId,op:op};
      	}
      	else if(at.getId()=='TCL_5'){
      		var custCarrierFlag=at.find('name','custCarrierFlag')[0].getValue();
@@ -2272,7 +2275,7 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
 		{header:C_ESNAME,dataIndex:'custSnameEn',width:80},
 		{header:C_CONTACT,dataIndex:'custContact',width:100},
 		{header:C_TEL,dataIndex:'custTel',width:100},
-		{header:C_FAX,dataIndex:'custFax',width:100},
+		{header:C_FAX,dataIndex:'custFax',width:100}
 	    ],defaults:{sortable:true,width:100}});
     
 	var rid=GGUID();	
