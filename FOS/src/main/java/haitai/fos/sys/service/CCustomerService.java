@@ -1,13 +1,17 @@
 package haitai.fos.sys.service;
 
+import haitai.fos.ffop.entity.table.FConsign;
 import haitai.fos.ffse.entity.idao.ISExpenseDAO;
 import haitai.fos.ffse.entity.table.SExpense;
 import haitai.fos.sys.entity.idao.ICCustomerContactDAO;
 import haitai.fos.sys.entity.idao.ICCustomerDAO;
 import haitai.fos.sys.entity.table.CCustomer;
 import haitai.fos.sys.entity.table.CCustomerContact;
+import haitai.fos.sys.entity.table.PUser;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
+import haitai.fw.session.SessionKeyType;
+import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.NumberUtil;
 import haitai.fw.util.RowAction;
@@ -97,6 +101,18 @@ public class CCustomerService {
 	public List<CCustomer> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<CCustomer> retList;
 		List<CCustomer> list = dao.complexQuery(conditions, queryMap);
+		PUser myself = (PUser) SessionManager.getAttr(SessionKeyType.USER);
+		Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
+		for (CCustomer cust : list) {
+			Short editable = ConstUtil.FalseShort;
+			//1.有编辑所有委托权限; 2.是此票的操作员; 3.是此票的创建者, 有编辑权限
+			if (ConstUtil.TrueShort.equals(myself.getUserAllEditFlag())
+					|| uid.equals(cust.getCustSalesId())
+					|| uid.equals(cust.getCreateBy())) {
+				editable = ConstUtil.TrueShort;
+			}
+			cust.setEditable(editable);
+		}
 		//简单查询, 只返回几个参数
 		if (queryMap.containsKey("S")) {
 			retList = new ArrayList<CCustomer>();

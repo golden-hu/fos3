@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.2.v20120213 Build &lt;3.7.2.v20120214-1408></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -11,8 +11,38 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="F" id="29" extends="dsFos.F"/>
-        <scalar-parameter name="T" id="30" extends="dsFos.T"/>
+        <scalar-parameter name="F" id="29" extends="dsFos.F">
+            <text-property name="promptText">date from</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2009-01-01</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="T" id="30" extends="dsFos.T">
+            <text-property name="promptText">date to</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2015-01-01</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
         <scalar-parameter name="dt" id="138">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
@@ -219,6 +249,25 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <parameter-group name="extrField" id="697">
+            <text-property name="displayName">extrField</text-property>
+            <parameters>
+                <scalar-parameter name="consSalesRepId" id="696">
+                    <property name="hidden">true</property>
+                    <text-property name="promptText">业务员</text-property>
+                    <property name="valueType">static</property>
+                    <property name="isRequired">false</property>
+                    <property name="dataType">string</property>
+                    <simple-property-list name="defaultValue">
+               		 	<value type="constant"></value>
+            		</simple-property-list>
+            		<property name="controlType">text-box</property>
+            		<structure name="format">
+                		<property name="category">Unformatted</property>
+            		</structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="24"
@@ -247,6 +296,129 @@ rt;</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CUST_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">cust_name</text-property>
+                    <text-property name="heading">cust_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">cons_no</text-property>
+                    <text-property name="heading">cons_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_MBL_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">cons_mbl_no</text-property>
+                    <text-property name="heading">cons_mbl_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SAIL_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">cons_sail_date</text-property>
+                    <text-property name="heading">cons_sail_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CHAR_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">char_name</text-property>
+                    <text-property name="heading">char_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">INIT_INVOICE_AMOUNT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">init_invoice_amount</text-property>
+                    <text-property name="heading">init_invoice_amount</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">INVO_CURR_CODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">invo_curr_code</text-property>
+                    <text-property name="heading">invo_curr_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">INVO_EX_RATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">invo_ex_rate</text-property>
+                    <text-property name="heading">invo_ex_rate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOIT_AMOUNT_W</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">voit_amount_w</text-property>
+                    <text-property name="heading">voit_amount_w</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOUC_CURR_CODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">vouc_curr_code</text-property>
+                    <text-property name="heading">vouc_curr_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOUC_EX_RATE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">vouc_ex_rate</text-property>
+                    <text-property name="heading">vouc_ex_rate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOIT_AMOUNT_VOUC_W</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">voit_amount_vouc_w</text-property>
+                    <text-property name="heading">voit_amount_vouc_w</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOUC_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">vouc_no</text-property>
+                    <text-property name="heading">vouc_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOIT_WRITE_OFF_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">voit_write_off_no</text-property>
+                    <text-property name="heading">voit_write_off_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">INVO_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">invo_no</text-property>
+                    <text-property name="heading">invo_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">INVO_TAX_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">invo_tax_no</text-property>
+                    <text-property name="heading">invo_tax_no</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOUC_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">vouc_date</text-property>
+                    <text-property name="heading">vouc_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VOIT_ID</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">voit_id</text-property>
+                    <text-property name="heading">voit_id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CREATE_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">create_time</text-property>
+                    <text-property name="heading">create_time</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_SNAME_CN</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">cust_sname_cn</text-property>
+                    <text-property name="heading">cust_sname_cn</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -341,11 +513,16 @@ rt;</expression>
                     </structure>
                     <structure>
                         <property name="position">19</property>
+                        <property name="name">CREATE_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
                         <property name="name">CUST_SNAME_CN</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">21</property>
                         <property name="name">groupBy</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -359,18 +536,21 @@ else{
 	sql += " and i.EXPE_TYPE = 'P'";
 }
 if(params["F"] != ""){
-	sql += " and i.CREATE_TIME >= '" + params["F"] + "'";
+	sql += " and i.VOUC_DATE >= '" + params["F"] + "'";
 }
 if(params["T"] != ""){
-	sql += " and i.CREATE_TIME <= '" + params["T"] + "'";
+	sql += " and i.VOUC_DATE <= '" + params["T"] + "'";
 }
 
-if(params["consNo"].value != "0" && params["consNo"].value != ""){
+if(params["consNo"].value != "0" &amp;&amp; params["consNo"].value != ""){
 	sql += " and i.CONS_NO = '" + params["consNo"] + "'";
 }
 
 if(params["custId"] != ""){
 	sql += " and i.CUST_ID = " + params["custId"];
+}
+if(params["consSalesRepId"] != ""){
+	sql += " and f.CONS_SALES_REP_ID = " + params["consSalesRepId"];
 }
 if(params["charName"] != ""){
 	sql += " and i.CHAR_NAME = '" + params["charName"] + "'";
@@ -387,13 +567,6 @@ if(params["invoNo"] != ""){
 if(params["invoTaxNo"] != ""){
 	sql += " and i.INVO_TAX_NO = '" + params["invoTaxNo"] + "'";
 }
-if(params["voucDateF"] != ""){
-	sql += " and i.VOUC_DATE >= '" + params["voucDateF"] + "'";
-}
-if(params["voucDateT"] != ""){
-	sql += " and i.VOUC_DATE <= '" + params["voucDateT"] + "'";
-}
-
 sql += " and i.comp_code = '" + params["compCode"] + "'";
 
 this.queryText = sql;]]></method>
@@ -404,114 +577,140 @@ this.queryText = sql;]]></method>
                     <property name="name">CUST_NAME</property>
                     <property name="nativeName">CUST_NAME</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">CONS_NO</property>
                     <property name="nativeName">CONS_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">CONS_MBL_NO</property>
                     <property name="nativeName">CONS_MBL_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">CONS_SAIL_DATE</property>
                     <property name="nativeName">CONS_SAIL_DATE</property>
                     <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">CHAR_NAME</property>
                     <property name="nativeName">CHAR_NAME</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">INIT_INVOICE_AMOUNT</property>
                     <property name="nativeName">INIT_INVOICE_AMOUNT</property>
                     <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">INVO_CURR_CODE</property>
                     <property name="nativeName">INVO_CURR_CODE</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">INVO_EX_RATE</property>
                     <property name="nativeName">INVO_EX_RATE</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">VOIT_AMOUNT_W</property>
                     <property name="nativeName">VOIT_AMOUNT_W</property>
                     <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">VOUC_CURR_CODE</property>
                     <property name="nativeName">VOUC_CURR_CODE</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
                     <property name="name">VOUC_EX_RATE</property>
                     <property name="nativeName">VOUC_EX_RATE</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
                     <property name="name">VOIT_AMOUNT_VOUC_W</property>
                     <property name="nativeName">VOIT_AMOUNT_VOUC_W</property>
                     <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
                     <property name="name">VOUC_NO</property>
                     <property name="nativeName">VOUC_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
                     <property name="name">VOIT_WRITE_OFF_NO</property>
                     <property name="nativeName">VOIT_WRITE_OFF_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
                     <property name="name">INVO_NO</property>
                     <property name="nativeName">INVO_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
                     <property name="name">INVO_TAX_NO</property>
                     <property name="nativeName">INVO_TAX_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">17</property>
                     <property name="name">VOUC_DATE</property>
                     <property name="nativeName">VOUC_DATE</property>
                     <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">18</property>
                     <property name="name">VOIT_ID</property>
                     <property name="nativeName">VOIT_ID</property>
                     <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">19</property>
+                    <property name="name">CREATE_TIME</property>
+                    <property name="nativeName">CREATE_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
                     <property name="name">CUST_SNAME_CN</property>
                     <property name="nativeName">CUST_SNAME_CN</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
@@ -744,7 +943,6 @@ where COMP_CODE = ?]]></xml-property>
                                     </label>
                                 </cell>
                             </row>
-                             
                         </header>
                     </table>
                 </cell>
@@ -1307,5 +1505,4 @@ where COMP_CODE = ?]]></xml-property>
             <property name="type">report</property>
         </variable-element>
     </property>
-   
 </report>

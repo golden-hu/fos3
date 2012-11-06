@@ -639,7 +639,7 @@ CCustomer = Ext.data.Record.create(['id','custId','custCode','custClass','custNa
 	'custCarrierFlag','custBookingAgencyFlag','custCfsFlag','custWarehouseFlag','custTrackFlag',
 	'custInspectionFlag','custCustomFlag','custInsuranceFlag','custContainerFlag','custOverseaAgencyFlag','custDoAgencyFlag',
 	'custBookerFlag','custShipperFlag','custConsigneeFlag','custNotifyFlag','custAirFlag','custExpreeFlag',
-	'custSalesId','custSalesName','custActive',	
+	'custSalesId','custSalesName','custActive','editable',
 	'userId','grouId','createBy','modifyBy',{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction','attr1','attr2','attr3','attr4','attr5','attr6','attr7','attr8','attr9','attr10']);
 CPriceSheet = Ext.data.Record.create(['id','prshId','prshVendorId','prshVendorName','prshCarrier','prshCarrierName',

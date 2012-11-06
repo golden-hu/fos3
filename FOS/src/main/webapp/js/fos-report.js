@@ -606,19 +606,17 @@ Fos.StatWOTab = function(t){
 		var charName=this.find('name','charName')[0].getValue();
 		var voucWriteOffNo=this.find('name','voucWriteOffNo')[0].getValue();
 		var currCode=this.find('name','currCode')[0].getValue();
-		var voucDateF=this.find('name','voucDateF')[0].value;
-		var voucDateT=this.find('name','voucDateT')[0].value;
 		var invoNo=this.find('name','invoNo')[0].getValue();
 		var invoTaxNo=this.find('name','invoTaxNo')[0].getValue();
+		var consSalesRepId=this.find('name','consSalesRepId')[0].getValue();
 		var consNo=txtConsNo.getValue();
 		var url = SERVICE_URL+'?A=REPT_WROF&g='+t1.value+'&dt='+t2.value+'&F='+t3.value+'&T='+t4.value;
 		if(consNo) url+='&consNo='+consNo;
 		if(custId) url+='&custId='+custId;
+		if(consSalesRepId) url+='&consSalesRepId='+consSalesRepId;
 		if(charName) url+='&charName='+charName;
 		if(voucWriteOffNo) url+='&voucWriteOffNo='+voucWriteOffNo;
 		if(currCode) url+='&currCode='+currCode;
-		if(voucDateF) url+='&voucDateF='+voucDateF;
-		if(voucDateT) url+='&voucDateT='+voucDateT;
 		if(invoNo) url+='&invoNo='+invoNo;
 		if(invoTaxNo) url+='&invoTaxNo='+invoTaxNo;
 		return url;
@@ -636,7 +634,7 @@ Fos.StatWOTab = function(t){
     id:'T_WROF',title:C_STAT_WRITEOFF,iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
     tbar:[{xtype:'tbtext',text:C_GROUP_TYPE},t1,'-',
 		{xtype:'tbtext',text:C_WRITEOFF_TYPE},t2,'-',
-		{xtype:'tbtext',text:C_WRITEOFF_DATE+C_FROM},t3,'-',
+		{xtype:'tbtext',text:C_VOUC_DATE_F},t3,'-',
 		{xtype:'tbtext',text:C_TO},t4,'-',
 		{xtype:'tbtext',text:C_CONS_NO},txtConsNo,'-',
 		{text:C_GEN_REPORT,disabled:NR(M1_T+T_WROF+F_V),iconCls:'stats',scope:this,handler:this.report},'-',
@@ -662,11 +660,11 @@ Fos.StatWOTab = function(t){
 			    	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'}
 	        ]},
 			{columnWidth:.25,layout:'form',border:false,labelWidth:100,labelAlign:'right',items:[
-				{fieldLabel:C_VOUC_DATE_F,tabIndex:3,name:'voucDateF',xtype:'datefield',format:DATEF,anchor:'95%'},
-	        	{fieldLabel:C_INVO_NO,tabIndex:7,name:'invoNo',xtype:'textfield',anchor:'95%'}
+	        	{fieldLabel:C_INVO_NO,tabIndex:7,name:'invoNo',xtype:'textfield',anchor:'95%'},
+	        	{fieldLabel:C_SALES,tabIndex:6,name:'consSalesRepId',value:(USER_ALL_VIEW_FLAG==0&&USER_IS_SALES==1)?CUSER_ID:'',readOnly:(USER_ALL_VIEW_FLAG==0&&USER_IS_SALES==1),
+	            	store:getSALE_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'}
 	        ]},
 			{columnWidth:.25,layout:'form',border:false,labelWidth:100,labelAlign:'right',items:[
-			    {fieldLabel:C_VOUC_DATE_T,tabIndex:4,name:'voucDateT',xtype:'datefield',format:DATEF,anchor:'95%'},
 			    {fieldLabel:C_TAX_NO,tabIndex:8,name:'invoTaxNo',xtype:'textfield',anchor:'95%'}
 	        ]}	
 		]},
