@@ -101,7 +101,7 @@ Fos.CustomerGrid = function(sales) {
         	});
         else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
-	this.search = function(){var w=new Fos.CustomerLW(store);w.show();};	
+	this.search = function(){var w=new Fos.CustomerLW(store,sales);w.show();};	
 	new Ext.KeyMap(Ext.getDoc(), {
 		key:'nmrbf',ctrl:true,
 		handler: function(k, e) {
@@ -368,7 +368,7 @@ Fos.CustomerWin = function(p,store,wu){
 };
 Ext.extend(Fos.CustomerWin, Ext.Window);
 
-Fos.CustomerLW = function(store) {
+Fos.CustomerLW = function(store,sales) {
 	var t1={id:'TCL_1',title:C_LOOK_BY_CUST_CODE,layout:'form',items:[
 		{fieldLabel:C_CUST_CODE,name:'custCode',xtype:'textfield',anchor:'90%'},
     	{boxLabel:C_LOOK_SMART,name:'custCodeM',xtype:'checkbox',labelSeparator:'',anchor:'50%'}
@@ -498,7 +498,11 @@ Fos.CustomerLW = function(store) {
      		if(custAirFlag) a[a.length]={key:'custAirFlag',value:1,op:op};
      		if(custExpressFlag) a[a.length]={key:'custExpressFlag',value:1,op:op};
      	}
-     	store.baseParams=a.length>0?{mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))}:{mt:'JSON'};
+     	var bp = {mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	if(sales=='S'){
+       		var bp = {mt:'JSON',custSalesId:CUSER_ID,xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+       	}
+     	store.baseParams=a.length>0?bp:{mt:'JSON'};
      	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
 	};	
     Fos.CustomerLW.superclass.constructor.call(this, {title:C_LOOK_CUST,iconCls:'search',modal:true,width:600,minWidth:300,
