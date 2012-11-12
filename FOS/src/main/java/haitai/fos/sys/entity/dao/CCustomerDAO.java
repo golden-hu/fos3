@@ -1,19 +1,9 @@
 package haitai.fos.sys.entity.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import haitai.fos.sys.entity.idao.ICCustomerDAO;
 import haitai.fos.sys.entity.table.CCustomer;
-import haitai.fos.sys.entity.table.PUser;
-import haitai.fw.entity.FosQuery;
 import haitai.fw.entity.GenericDAO;
-import haitai.fw.entity.HttpHeader;
 import haitai.fw.log.FosLogger;
-import haitai.fw.session.SessionKeyType;
-import haitai.fw.session.SessionManager;
-import haitai.fw.util.ConstUtil;
-
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Component;
 
@@ -259,24 +249,5 @@ public class CCustomerDAO extends GenericDAO<CCustomer, Integer> implements ICCu
 		});
 		log.info(sql);
 		log.info("update " + num + " rows!");
-	}
-	@SuppressWarnings("unchecked")
-	public List<CCustomer> complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
-		
-		String joinSql = "";
-		PUser myself = (PUser) SessionManager.getAttr(SessionKeyType.USER);
-		String uid = SessionManager.getAttr(SessionKeyType.UID).toString();
-		if (ConstUtil.TrueShort.equals(myself.getUserAllViewFlag())) 
-		{						
-		}
-		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
-		{
-			joinSql += "t1.custSalesId = " + uid;
-		} 
-		Class clazz = CCustomer.class;
-		List retList = complexQuery(conditions, propertyMap, "t1", joinSql, clazz);
-		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, "t1", joinSql, clazz));
-		propertyMap.put(HttpHeader.ROWCOUNT, rowCount);
-		return retList;
 	}
 }
