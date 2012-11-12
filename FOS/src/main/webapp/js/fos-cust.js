@@ -15,8 +15,15 @@
     return grid;
 };
 
-Fos.CustomerGrid = function() {	
-    var store = GS('CUST_X','CCustomer',CCustomer,'custId','DESC','',true);
+Fos.CustomerGrid = function(sales) {	
+	var bp = {mt:'JSON'};
+   	if(sales=='S'){
+   		var	bp={mt:'JSON',custSalesId:CUSER_ID};
+   	}
+    var store = new Ext.data.Store({url:SERVICE_URL+'?A=CUST_X',baseParams:bp,
+    reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomer',id:'custId'},CCustomer),
+    remoteSort:true,sortInfo:{field:'custId', direction:'desc'}});
+    
     store.load({params:{start:0,limit:C_PS100}});
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel({columns:[
@@ -115,7 +122,7 @@ Fos.CustomerGrid = function() {
 		 	}
 		},stopEvent:true,scope:this});
     Fos.CustomerGrid.superclass.constructor.call(this, {
-    id:'G_CUST',store: store,iconCls:'grid',width:600,height:300,title:C_CUST,header:false,closable:true,
+    id:sales=='S'?'G_SALES_CUST':'G_CUST',store: store,iconCls:'grid',width:600,height:300,title:sales=='S'?C_SALES_CUST:C_CUST,header:false,closable:true,
     sm:sm,cm:cm,listeners:re,loadMask:true,
 	bbar:PTB(store,C_PS100),
 	tbar:[{text:C_ADD+'(N)',disabled:NR(M1_V+V_CUST+F_M),iconCls:'add',handler:this.add}, '-', 

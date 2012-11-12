@@ -161,6 +161,7 @@ function getCusPanel(){
 	if(!NR(M1_V+V_SAQU+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
 	if(!NR(M1_T+T_SALES)&&VERSION!=2) items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
 	if(!NR(M1_V+V_CUST+F_V)) items[items.length]=NaviMenu(C_CUST,'G_CUST',function(){return new Fos.CustomerGrid();});
+	if(!NR(M1_V+V_CUST+F_V)) items[items.length]=NaviMenu(C_SALES_CUST,'G_SALES_CUST',function(){return new Fos.CustomerGrid('S');});
 	if(!NR(M1_V+V_CUCA+F_V)) items[items.length]=NaviMenu(C_CUCA,'G_CUCA',function(){return Fos.showCustomerCategory();});
 	return  new Ext.Panel({title:C_CUST,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});

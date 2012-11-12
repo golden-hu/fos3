@@ -424,6 +424,7 @@ var C_SHIP_MAP='船图';
 var C_CUSTOMER_INFO='客户信息';
 var C_CUCA='客户类别';
 var C_CUST='客户供应商管理';
+var C_SALES_CUST = '业务员客户供应商管理';
 var C_VENDOR='供应商';
 var C_SHLI='航线';
 var C_PORT='港口';
