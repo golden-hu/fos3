@@ -270,7 +270,7 @@ Fos.YsConsignTab = function(p,listStore){
 		listeners:{
 			scope:this,
 			select:function(c,r,v){
-				p.set('attr9',r.get('trainId'))
+				p.set('attr9',r.get('trainId'));
 			}
 		}
 	};
@@ -791,7 +791,7 @@ Fos.YsConsignTab = function(p,listStore){
 		tbar:tbs
 		});
 };
-Ext.extend(Fos.YsConsignTab,Ext.FormPanel)
+Ext.extend(Fos.YsConsignTab,Ext.FormPanel);
 
 
 Fos.ExpenseSimpleTab = function(p,f){
@@ -816,7 +816,6 @@ Fos.ExpenseSimpleTab = function(p,f){
 	var rT={xtype:'tbtext',text:C_SUM_RC};
 	var sRT={xtype:'tbtext',text:C_SUM_SALE_R};
 	var sPT={xtype:'tbtext',text:C_SUM_SALE_P};
-	var sCT={xtype:'tbtext',text:C_SUM_SALE_C};
 	
 	var sumCnyR = new Ext.form.TextField({width:80,disabled:true});
 	var sumUsdR = new Ext.form.TextField({width:80,disabled:true});
@@ -1069,7 +1068,7 @@ Fos.ExSimpleGrid = function(p,t,frm,store) {
             	b.set('unitId',r.get('unitId'));
             	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
             	this.reCalculate();}}})};
-    var t3={header:C_UNIT,width:60,dataIndex:"unitName",align:'center',
+    var t3={header:C_UNIT,width:80,dataIndex:"unitName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'unitCode',valueField:'unitCode',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_C(),listeners:{
             scope:this,select:function(c,r,i){
@@ -1108,7 +1107,7 @@ Fos.ExSimpleGrid = function(p,t,frm,store) {
    			 editor:new Ext.form.DateField({format:DATEF})};
     var t19={header:C_CREATE_TIME,renderer:formatDateTime,dataIndex:"createTime"};
     var t20={header:C_MODIFY_TIME,renderer:formatDateTime,dataIndex:"modifyTime"};
-    var t21={header:C_COMMISION_RATE,width:60,dataIndex:"expeCommissionRate",renderer:rateRender,
+    var t21={header:C_COMMISION_RATE,width:80,dataIndex:"expeCommissionRate",renderer:rateRender,
 			editor:new Ext.form.NumberField({decimalPrecision:4,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
 	var t22={header:C_COMMISION,width:60,dataIndex:"expeCommission",renderer:numRender,
 			editor:new Ext.form.NumberField({decimalPrecision:2,selectOnFocus:true,allowBlank:false,blankText:'',invalidText:''})};
@@ -1573,7 +1572,7 @@ Fos.BranchGrid = function(){
         this.stopEditing();
     	store.insert(0,p);
     	this.startEditing(0, 1);
-	}
+	};
     Fos.BranchGrid.superclass.constructor.call(this,{id:'YS_BRANCH',iconCls:'grid',
     store:store,title:C_BRANCH,header:false,loadMask:true,closable:true,clicksToEdit:1,
 	sm:sm,cm:cm,tbar:[{

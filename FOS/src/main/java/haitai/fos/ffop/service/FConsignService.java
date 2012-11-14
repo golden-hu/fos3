@@ -1268,33 +1268,10 @@ public class FConsignService {
 			dao.save(entity);
 			entity.setEditable(ConstUtil.TrueShort);
 			retList.add(entity);
-			//自动保存委托单位
-			String custName = entity.getCustName();
-			String custContact = entity.getCustContact();
-			String custTel = entity.getCustTel();
-			String custFax = entity.getCustFax();
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("custNameCn", custName);
-			List<CCustomer> CCustomerList = ccustDao.findByProperties(map);
-			if(CCustomerList.size()==0){
-				CCustomer customer = new CCustomer();
-				customer.setCustCode(custName);
-				customer.setCustNameCn(custName);
-				customer.setCustContact(custContact);
-				customer.setCustTel(custTel);
-				customer.setCustFax(custFax);
-				customer.setCustActive("1");
-				customer.setCustApFlag((short) 1);
-				customer.setCustArFlag((short) 1);
-				customer.setCustBookerFlag((short) 1);
-				customer.setCustSalesName(entity.getConsSalesRepName());
-				customer.setCustSalesId(entity.getConsSalesRepId().shortValue());
-				ccustDao.save(customer);
-			}
 			//自动保存火车站
 			if(entity.getAttr1()!=null){
+				Map<String,Object> map = new HashMap<String,Object>();
 				String originStation = entity.getAttr1();
-				map.clear();
 				map.put("trainNameCn", originStation);
 				List<GTrainStation> t = trainStationDao.findByProperties(map);
 				if(t.size()==0){
