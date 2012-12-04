@@ -168,6 +168,7 @@ Fos.CargoGrid = function(p,store,frm) {
 		frm.find('name','consCargoNameCn')[0].setValue(cname);
 		frm.find('name','consCargoNameEn')[0].setValue(ename);
 		frm.find('name','consCargoDesc')[0].setValue(ename);
+		frm.find('name','packName')[0].setValue(pkgs);
 		p.set('packName',pkgs);
 		
 		var pw='SAY '+N2EW(p.get('consTotalPackages'))+' ('+p.get('consTotalPackages')+') '+p.get('packName')+' ONLY';
