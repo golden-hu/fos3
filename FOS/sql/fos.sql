@@ -3615,6 +3615,7 @@ CREATE TABLE IF NOT EXISTS `P_USER` (
   `USER_QQ` varchar(32) collate utf8_unicode_ci default NULL,
   `USER_DEFAULT_GROUP` int(11) default NULL,
   `USER_DEFAULT_BRANCH` INT(11) NULL DEFAULT NULL,
+  `USER_DEFAULT_STATION` INT(11) NULL DEFAULT NULL,
   `USER_DEFAULT_ROLE` int(11) default NULL,
   `USER_SALES_FLAG` tinyint(4) default NULL,
   `USER_OPERATOR_FLAG` tinyint(4) default NULL,

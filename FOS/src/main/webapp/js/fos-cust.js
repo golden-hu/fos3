@@ -359,10 +359,9 @@ Fos.CustomerWin = function(p,store,wu){
         	},t4,t5]
         }]
     });
-    var disable=p.get('editable')==0;
     Fos.CustomerWin.superclass.constructor.call(this, {title:C_CUSTOMER_INFO,modal:true,width:600,minWidth:300,
         minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items: frmCustomer,
-        buttons:[{text:C_OK,disabled:NR(M1_V+V_CUST+F_M)||disable,scope:this,handler:this.save},
+        buttons:[{text:C_OK,disabled:NR(M1_V+V_CUST+F_M),scope:this,handler:this.save},
 				{text:C_CANCEL,scope:this,handler:function(){this.close();}}]
         }); 
 };
