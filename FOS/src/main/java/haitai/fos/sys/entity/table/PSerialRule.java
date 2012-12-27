@@ -18,7 +18,7 @@ public class PSerialRule extends BaseDomain {
 	private String seruRule;
 	private Integer seruSnLength;
 	private String seruUniqSuffix;
-	private Short seruLoopPeriod;
+	private Byte seruLoopPeriod;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -86,11 +86,11 @@ public class PSerialRule extends BaseDomain {
 	}
 
 	@Column(name = "seru_loop_period", nullable = false)
-	public Short getSeruLoopPeriod() {
+	public Byte getSeruLoopPeriod() {
 		return this.seruLoopPeriod;
 	}
 
-	public void setSeruLoopPeriod(Short seruLoopPeriod) {
+	public void setSeruLoopPeriod(Byte seruLoopPeriod) {
 		this.seruLoopPeriod = seruLoopPeriod;
 	}
 }

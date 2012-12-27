@@ -6,4 +6,6 @@ public interface IPSerialNoDAO {
 	public void init();
 
 	public Long getNextSerialNo(final Map<String, Object> propertyMap);
+	
+	public Long getNextSerialNoByDate(final Map<String, Object> propertyMap);
 }

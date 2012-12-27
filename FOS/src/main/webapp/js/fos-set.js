@@ -3387,7 +3387,7 @@ Fos.PrTab = function(p) {
 	var b10={itemId:'TB_10',text:C_MANAGER_CHECK+'(M)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='2',scope:this,handler:this.check1};
 	var b11={itemId:'TB_11',text:'(V)',tooltip:C_MANAGER_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='3',scope:this,handler:this.uncheck1};
 	var b12={itemId:'TB_12',text:p.get('prType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P+'(W)',iconCls:'dollar',
-		disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_WO)||p.get('prStatus')!='3'||p.get('prStatus')!=2,scope:this,handler:this.pay};
+		disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_WO)||p.get('prStatus')!='3',scope:this,handler:this.pay};
 	var b13={itemId:'TB_13',text:C_INVALID+'(F)',iconCls:'cancel',
 			disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_F)||p.get('prStatus')=='0',
 			scope:this,handler:this.cancel};

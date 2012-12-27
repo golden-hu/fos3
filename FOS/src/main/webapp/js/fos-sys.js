@@ -946,7 +946,13 @@ var showP_COCO = function() {
     	'fdoc':new Ext.grid.GridEditor(new Ext.form.ComboBox({typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,
 			store:getDOTY_S(),displayField:'dotyName',valueField:'dotyId',
 			listeners:{scope:this,select:function(c,r,i){
-        	var b =this.grid.getSelectionModel().getSelected();b.set('cocoDesc',r.get('dotyName'));}}}))
+        	var b =this.grid.getSelectionModel().getSelected();b.set('cocoDesc',r.get('dotyName'));}}})),
+        'dateT':new Ext.grid.GridEditor(new Ext.form.ComboBox({typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,
+			store:new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','系统日期'],['2','开航日期'],['3','委托日期']]}),displayField:'NAME',valueField:'CODE',
+			listeners:{scope:this,select:function(c,r,i){
+        		var b =sm.getSelected();
+        		b.set('cocoDesc',r.get('NAME'));
+        	}}}))
 	},
 	getCellEditor: function(colIndex, rowIndex) {
 		var field = this.getDataIndex(colIndex);
@@ -979,6 +985,8 @@ var showP_COCO = function() {
 				return this.editors['grou'];
 			else if(rec.get('cocoValueType')==13) 
 				return this.editors['fdoc'];
+			else if(rec.get('cocoValueType')==14) 
+				return this.editors['dateT'];
 			else
 				return this.editors['text'];
 		}

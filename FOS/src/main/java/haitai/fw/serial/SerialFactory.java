@@ -43,6 +43,64 @@ public class SerialFactory {
 		return getSerial(code, new HashMap<String, String>());
 	}
 	
+	
+	/**
+	 * 获取序列号 code: 对应的序列号生成规则名称 paramMap: 提供的替换变量 公司简称: SerialFactory.RULE_COMP,
+	 * 如果不提供, 自动取当前公司 用户简称: SerialFactory.RULE_USER, 如果不提供, 自动取当前用户 币种简称:
+	 * SerialFactory.RULE_CURRENCY
+	 *
+	 * @param code
+	 * @param paramMap
+	 * @return
+	 */
+	public static String getConsignSerial(String code, Map<String, String> paramMap,Date consDate) {
+		/**
+		 * 1.获取需要的变量 
+		 * 2.根据rule code和company code找到对应的p_serial_rule
+		 * 3.seru_uniq_suffix, 用对应的变量替换之后, 得到seno_suffix 
+		 * 4.根据seru_code,comp_code, seno_suffix三个参数, 从p_serial_no表获取流水号 1)获取到就+1 2)未获取到,
+		 *   插入一条新记录 
+		 * 5.把取到的流水号, 根据设定的长度seru_sn_length, 补0 
+		 * 6.根据seru_rule, 替换每个变量,包括流水号 
+		 * 7.返回替换之后的最终serial
+		 */
+		// get all parameter
+		buildParamMap(paramMap);
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("seruCode", code);
+		queryMap.put("compCode", paramMap.get(RULE_COMP));
+
+		// find the rule using PSerialRuleDAO
+		PSerialRule rule = getSerialRule(queryMap);
+
+		// get unique suffix
+		// use real value of variable to replace the variable symbol
+		String senoSuffix = fillRuleByDate(rule.getSeruUniqSuffix(), paramMap,consDate);
+
+		// insert fields of serial no
+		queryMap.put("seruId", "" + rule.getId());
+		queryMap.put("senoSuffix", senoSuffix);
+		queryMap.put("senoCurrentNo", "1");
+		queryMap.put("seruCode", code);
+		// expire time of serial no
+		Byte seruLoopPeriod = rule.getSeruLoopPeriod();
+		//Calendar expire = getExpireTime(seruLoopPeriod);
+		Calendar expire = getExpireTimeByDate(seruLoopPeriod,consDate);
+		queryMap.put("senoExpire", StringUtil.date2String(expire.getTime()));
+
+		// get the next NO using PSerialNoDAO
+		Long sn = getNextNoByDate(queryMap);
+
+		// format the serial no, add 0 to the leading
+		String strSN = formatSN(sn, rule.getSeruSnLength());
+
+		// get final serial no
+		// use real value of variable to replace the variable symbol
+		paramMap.put(RULE_SERIAL, strSN);
+		String serialNo = fillRuleByDate(rule.getSeruRule(), paramMap,consDate);
+		return serialNo;
+	}
+	
 	/**
 	 * 获取序列号
 	 * code: 对应的序列号生成规则名称
@@ -85,7 +143,7 @@ public class SerialFactory {
 		queryMap.put("senoCurrentNo", (long) 1);
 		queryMap.put("seruCode", code);
 		//expire time of serial no
-		Short seruLoopPeriod = rule.getSeruLoopPeriod();
+		Byte seruLoopPeriod = rule.getSeruLoopPeriod();
 		Calendar expire = getExpireTime(seruLoopPeriod);
 		queryMap.put("senoExpire", expire.getTime());
 		
@@ -106,7 +164,7 @@ public class SerialFactory {
 	 * @param seruLoopPeriod calculate loop period
 	 * @return the expire time
 	 */
-	private static Calendar getExpireTime(Short seruLoopPeriod) {
+	private static Calendar getExpireTime(Byte seruLoopPeriod) {
 		Calendar expire = Calendar.getInstance();
 		if (LOOP_PER_YEAR.equals(seruLoopPeriod)) {
 			expire.set(expire.get(Calendar.YEAR) + 1, Calendar.JANUARY, 1, 0,
@@ -182,6 +240,19 @@ public class SerialFactory {
 		return dao.getNextSerialNo(paramMap);
 	}
 
+	
+	/**
+	 * 从流水号表中查询到最新流水号
+	 * @param paramMap the param map
+	 * @return the next serial number
+	 */
+	@Transactional
+	private static Long getNextNoByDate(Map<String, Object> paramMap) {
+		IPSerialNoDAO dao = SpringContextHolder.getBean("PSerialNoDAO");
+		return dao.getNextSerialNoByDate(paramMap);
+	}
+
+	
 	/**
 	 * 流水号补0
 	 * @param sn the number
@@ -211,5 +282,54 @@ public class SerialFactory {
 	public static void initSerial() {
 		IPSerialNoDAO dao = SpringContextHolder.getBean("PSerialNoDAO");
 		dao.init();
+	}
+	
+	/**
+	 * 替换规则中的变量
+	 *
+	 * @param rule
+	 * @param paramMap
+	 * @return
+	 */
+	private static String fillRuleByDate(String rule, Map<String, String> paramMap,Date consDate) {
+		Date now = TimeUtil.getNow();
+		if(consDate!=null){
+			now = consDate;
+		}		
+		String strNow = StringUtil.date2String(now);
+		
+		// year month day
+		rule = rule.replaceAll(RULE_YEAR_FULL, strNow.substring(0, 4));
+		rule = rule.replaceAll(RULE_YEAR_SHORT, strNow.substring(2, 4));
+		rule = rule.replaceAll(RULE_MONTH, strNow.substring(5, 7));
+		rule = rule.replaceAll(RULE_DAY, strNow.substring(8, 10));
+
+		// company code, user code, currency code, serial no
+		for (String key : paramMap.keySet()) {
+			rule = rule.replaceAll(key, paramMap.get(key));
+		}
+		return rule;
+	}
+	
+	/**
+	 * 计算规则的过期时间
+	 *
+	 * @param seruLoopPeriod
+	 * @return
+	 */
+	private static Calendar getExpireTimeByDate(Byte seruLoopPeriod,Date consDate) {
+		Calendar expire = Calendar.getInstance();
+		expire.setTime(consDate);
+		if (LOOP_PER_YEAR.equals(seruLoopPeriod)) {
+			expire.set(expire.get(Calendar.YEAR) + 1, Calendar.JANUARY, 1, 0, 0, 0);
+		} else if (LOOP_PER_MONTH.equals(seruLoopPeriod)) {
+			expire.add(Calendar.MONTH, 1);
+			expire.set(expire.get(Calendar.YEAR), expire.get(Calendar.MONTH), 1, 0, 0, 0);
+		} else if (LOOP_PER_DAY.equals(seruLoopPeriod)) {
+			expire.add(Calendar.DAY_OF_MONTH, 1);
+			expire.set(expire.get(Calendar.YEAR), expire.get(Calendar.MONTH), expire.get(Calendar.DAY_OF_MONTH), 0, 0,
+					0);
+		}
+		return expire;
 	}
 }

@@ -16,10 +16,8 @@ import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GCharge;
 import haitai.fos.general.entity.table.GTrainStation;
 import haitai.fos.general.entity.table.GVoyage;
-import haitai.fos.sys.entity.idao.ICCustomerDAO;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
 import haitai.fos.sys.entity.idao.IPTaskTypeDAO;
-import haitai.fos.sys.entity.table.CCustomer;
 import haitai.fos.sys.entity.table.PCompanyConfig;
 import haitai.fos.sys.entity.table.PTaskType;
 import haitai.fos.sys.entity.table.PUser;
@@ -32,7 +30,6 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
 
-import org.hibernate.mapping.Array;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
@@ -109,8 +106,6 @@ public class FConsignService {
 	@Autowired
 	private IGTrainStationDao trainStationDao;
 	
-	@Autowired
-	private ICCustomerDAO ccustDao;
 	//手工修改业务号
 	@Transactional
 	public FConsign modifyConsNo(Map<String, Object> queryMap) {
@@ -694,12 +689,32 @@ public class FConsignService {
 	 * @return the consign no
 	 */
 	private String getConsignNo(FConsign entity) {
+		String dateType = ""; 		
+		
+		Map<String, Object> cmap = new HashMap<String, Object>();
+		cmap.put("cocoCode","CONS_NO_SERIAL_DATE_TYPE");
+		//通过公司配置表读取流水号生产类型
+		List<PCompanyConfig> confList = companyConfigDao.findByProperties(cmap);
+		for(PCompanyConfig c : confList){
+			if(c.getCocoCode().equals("CONS_NO_SERIAL_DATE_TYPE")){
+				dateType = c.getCocoValue();
+				break;
+			}
+		}		
+		
 		Map<String, String> map = new HashMap<String, String>();
 		String bt = entity.getClassType() + entity.getConsBizClass() + entity.getExternal();		
 		map.put(SerialFactory.RULE_CONS_TYPE,getBizTypeCode(bt));
 		map.put(SerialFactory.RULE_CUST_CODE, entity.getCustSname());
+		
+		//默认流水号生产日期是系统日期
+		Date consDate = TimeUtil.getNow();
+		if(dateType.equals("2"))
+			consDate = entity.getConsSailDate();
+		else if(dateType.equals("3"))
+			consDate = entity.getConsDate();
 		boolean bExist = true;
-		String consNo = SerialFactory.getSerial("consign_no", map);
+		String consNo = SerialFactory.getConsignSerial("consign_no", map,consDate);
 		while(bExist)
 		{
 			Map<String,Object> qmap = new HashMap<String,Object>();
@@ -708,7 +723,7 @@ public class FConsignService {
 			if(consList.size()==0)
 				bExist = false;
 			else
-				consNo = SerialFactory.getSerial("consign_no", map);
+				consNo = SerialFactory.getConsignSerial("consign_no", map,consDate);
 		}
 		return consNo;
 	}

@@ -60,6 +60,39 @@ public class PSerialNoDAO extends GenericDAO<PSerialNo, Integer> implements
 		});
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	public Long getNextSerialNoByDate(final Map<String, Object> propertyMap) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("insert into P_SERIAL_NO");
+		sb.append(" (seru_id, seru_code, comp_code,");
+		sb.append(" seno_suffix,seno_current_no, seno_expire)");
+		sb.append(" values(:seruId, :seruCode, :compCode,");
+		sb.append(" :senoSuffix, :senoCurrentNo, :senoExpire)");
+		sb.append(" on duplicate key update");
+		sb.append(" seno_current_no = last_insert_id(seno_current_no + 1) ");
+		final String queryString = sb.toString();
+		return (Long) getJpaTemplate().execute(new JpaCallback() {
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				Query query = em.createNativeQuery(queryString);
+				DaoUtil.setParameters(propertyMap, PSerialNo.class, query, false);
+				int affectRows = query.executeUpdate();
+				Long id = null;
+				// add new record(not update), affectRows = 1; update the
+				// record, affectRows=3
+				if (affectRows == 1) {
+					id = Long.valueOf((String)propertyMap.get("senoCurrentNo"));
+				} else {
+					query = em.createNativeQuery("select last_insert_id()");
+					BigInteger bigId = (BigInteger) query.getSingleResult();
+					id = bigId.longValue();
+				}
+				return id;
+			}
+		});
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public void init() {
 		StringBuffer sb = new StringBuffer();
