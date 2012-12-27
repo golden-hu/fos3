@@ -930,8 +930,8 @@ INSERT INTO `P_COMPANY_CONFIG` (`COCO_CODE`, `COCO_NAME`, `COCO_VALUE`, `COCO_VA
 ('BIZ_TYPE_CODE_II', '进口报检业务类型代码', 'II', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_MH', '加工贸易业务类型代码', 'M', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_FH', '减免税业务类型代码', 'F', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
-('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0)
-;
+('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
+('CONS_NO_SERIAL_DATE_TYPE', '业务号生成日期类型', 2, 14, NULL, '业务设置', 'A', '开航日期', '{CC}', 0, 0);
 
 -- 建立公司
 insert into P_COMPANY (comp_code, comp_name_cn, comp_name_en,comp_active,comp_start_date,comp_end_date,comp_service_level, comp_email,comp_tel,comp_fax,comp_address, comp_contact,create_time, modify_time) 
