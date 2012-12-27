@@ -2882,13 +2882,14 @@ Fos.BLGrid = function(p){
 	{header:C_MODIFY_BY,dataIndex:'modifyBy',renderer:getUSER},
 	{header:C_MODIFY_DATE,dataIndex:'modifyTime',renderer:formatDateTime}
 	],defaults:{sortable:true,width:80}});	
+	
 	var newBl = function(t){
 		var rid=GGUID();
 		var bl = new FBl({id:rid,blId:rid,
 		consId:p.get('consId'),
 		consNo:p.get('consNo'),
 		blType:t,
-		blNo:t=='MB/L'?(p.get('consMblNo').indexOf('/')>0?'':p.get('consMblNo')):p.get('consHblNo'),
+		blNo:p.get('consHblNo'),
 		mblNo:p.get('consMblNo'),		
 		consBizClass:p.get('consBizClass'),
 		consBizType:p.get('consBizType'),
@@ -3201,8 +3202,14 @@ Fos.BlWin = function(p,b,store) {
 		},this);
     };
 	this.save = function(){			
-		if(this.find('name','blNo')[0].getValue()==''){
+		if(p.get('consBizType')!=BT_A){
+			if(this.find('name','blNo')[0].getValue()==''){
 			XMG.alert(SYS,M_BL_REQIRED,function(){this.find('name','blNo')[0].focus();},this);return;};
+		}else{
+			if(this.find('name','mblNo')[0].getValue()==''){
+			XMG.alert(SYS,M_BL_REQIRED,function(){this.find('name','mblNo')[0].focus();},this);return;};
+		}
+		
 		b.beginEdit();		
 		var fs = b.fields;
         fs.each(function(f){

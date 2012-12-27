@@ -950,7 +950,7 @@ Fos.BookTab = function(p) {
             		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) 
             			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
             	},
-             	keydown:{fn:LP,buffer:BF}}};
+             	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
 	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
 			value:p.get('consPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',
 			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
@@ -967,7 +967,7 @@ Fos.BookTab = function(p) {
             	if(this.find('name','consDestination')[0]) 
             		this.find('name','consDestination')[0].setValue(r.get('portNameEn'));
             	},
-         	keydown:{fn:LP,buffer:BF}}};
+         	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
     var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',
     		value:p.get('consPotEn'),xtype:'textfield',anchor:'99%'};
     var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'99%'};

@@ -395,8 +395,12 @@ function createGMTree(){
 		biz.appendChild(vess);
 	}
 	if(!NR(M1_J+G_PORT)){
-		var port = CreateNode(C_PORT,'PORT',M1_J+G_PORT,function(){return showG_PORT('0');});
+		var port = CreateNode(C_MARINEP,'PORT',M1_J+G_PORT,function(){return showG_PORT('0');});
 		biz.appendChild(port);
+	}
+	if(!NR(M1_J+G_PORT)){
+		var airPort = CreateNode(C_AIRP,'G_AIRP',M1_J+G_PORT,function(){return showG_PORT('1');});
+		biz.appendChild(airPort);
 	}
 	if(!NR(M1_J+G_PORT)){
 		var station = CreateNode(C_STATION,'STATION',M1_J+G_PORT,function(){return showG_STATION();});

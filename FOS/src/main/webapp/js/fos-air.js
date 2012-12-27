@@ -116,12 +116,12 @@
 	this.expVoya=function(){EXP('C','VOYA_LIST',store.baseParams.xml?'&mt=JSON&xml='+Ext.util.JSON.encode(store.baseParams.xml):'&mt=JSON');};
 	this.ship=function(){
 		var p=sm.getSelected();
-		if(p) ADDTAB("T_SHIP_"+p.get('voyaId'),function(){return new Fos.ShipTab(p)});
+		if(p) ADDTAB("T_SHIP_"+p.get('voyaId'),function(){return new Fos.ShipTab(p);});
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
 	this.inware=function(){
 		var p=sm.getSelected();
-		if(p) ADDTAB("T_INWARE_"+p.get('voyaId'),function(){return new Fos.FconInwareGrid(p)});
+		if(p) ADDTAB("T_INWARE_"+p.get('voyaId'),function(){return new Fos.FconInwareGrid(p);});
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
 	this.search = function(){var w=new Fos.VoyaLW(store,this.pa);w.show();};
@@ -250,7 +250,7 @@ Fos.PakingListGrid = function(T){
 	var c6={header:C_GW,width:60,dataIndex:"paliGrossWeight",align:'right',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4}),summaryType:'sum'};
 	
 	var c7={header:C_CARGO_DELIVERY_DATE,dataIndex:'paliLoadDate',width:70,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
-	var c8={header:C_PACKING_EXP_PORT,dataIndex: 'paliHarbourId',width:60,renderer:function(v,m,r){return r.get('paliHarbourName')},
+	var c8={header:C_PACKING_EXP_PORT,dataIndex: 'paliHarbourId',width:60,renderer:function(v,m,r){return r.get('paliHarbourName');},
 			editor:new Ext.form.ComboBox({xtype:'combo',store:getHARB_S(),displayField:'placName',valueField:'placId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,
 				listeners:{scope:this,select:function(c,r,i){
             	var b=sm.getSelected();if(b){b.set('paliHarbourName',r.get('placName'));}}}
@@ -296,7 +296,7 @@ Fos.PakingListGrid = function(T){
 	var c17={header:C_POD,width:60,dataIndex:"fconPodEn"};
 	var c18={header:C_RENTER,width:55,dataIndex:"charterName"};
 	var c19={header:C_SHIPPER,width:55,dataIndex:"custName"};
-	var c20={header:C_PACK,dataIndex:'packId',width:40,renderer:function(v,m,r){return r.get('packName')},
+	var c20={header:C_PACK,dataIndex:'packId',width:40,renderer:function(v,m,r){return r.get('packName');},
 		editor:new Ext.form.ComboBox({xtype:'combo',store:getPACK_S(),displayField:'packName',valueField:'packId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,
 			listeners:{scope:this,select:function(c,r,i){
         	var b=sm.getSelected();if(b){b.set('packName',r.get('packName'));}}}
@@ -561,7 +561,7 @@ Fos.PakingListGrid = function(T){
             var w = new Fos.LenWin(C_LENGTH);          
             w.addButton({text:C_OK,handler:function(){
                 var len = w.findById('len').getValue();
-                for(var i=0;i<a.length;i++){a[i].set('paliLength',len);a[i].set('paliTotalLength',len*a[i].get('paliPieces'))}
+                for(var i=0;i<a.length;i++){a[i].set('paliLength',len);a[i].set('paliTotalLength',len*a[i].get('paliPieces'));}
                 w.close();
             }},this);
             w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);
@@ -576,7 +576,7 @@ Fos.PakingListGrid = function(T){
             w.addButton({text:C_OK,handler:function(){
                 var len = w.findById('len').getValue();
                 for(var i=0;i<a.length;i++){a[i].set('paliTotalLength',len);
-                if(a[i].get('paliPieces')>0) a[i].set('paliLength',len/a[i].get('paliPieces'))}
+                if(a[i].get('paliPieces')>0) a[i].set('paliLength',len/a[i].get('paliPieces'));}
                 w.close();
             }},this);
             w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);

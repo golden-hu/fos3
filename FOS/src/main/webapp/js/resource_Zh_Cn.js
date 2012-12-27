@@ -429,6 +429,7 @@ var C_VENDOR='供应商';
 var C_SHLI='航线';
 var C_PORT='港口';
 var C_AIRP='空港';
+var C_MARINEP='海港';
 var C_VESS='船名';
 var C_VESS_NAME_CN='中文船名';
 var C_VOYA='航次';

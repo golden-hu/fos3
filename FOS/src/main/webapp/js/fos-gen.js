@@ -112,13 +112,13 @@ var showG_PORT = function(pt) {
      	store.reload({params:{start:0,limit:100}});
 	};
     var grid = new  Ext.grid.EditorGridPanel({ 
-    id:pt=='0'?'G_PORT':'G_AIRP',iconCls:'gen',title:pt=='0'?C_PORT:C_AIRP,header:false,plugins:ac,clicksToEdit:1,closable:true,	
+    id:pt=='0'?'G_PORT':'G_AIRP',iconCls:'gen',title:pt=='0'?C_MARINEP:C_AIRP,header:false,plugins:[ac],clicksToEdit:1,closable:true,	
     store: store,sm:sm,cm:cm,loadMask:true,
 	view: new Ext.grid.GroupingView(groupViewCfg),
 	bbar:PTB(store,100),
 	tbar:[{
 		text:C_ADD,disabled:NR(M1_J+(pt=='0'?G_PORT:G_AIRP)+F_M),iconCls:'add',handler : function(){
-			var p = new GPort({id:GGUID(),portId:'0',portType:'0',active:1,version:'0',rowAction:'N'});
+			var p = new GPort({id:GGUID(),portId:'0',portType:pt,active:1,version:'0',rowAction:'N'});
         	grid.stopEditing();store.insert(0,p);grid.startEditing(0, 1);}},'-',
         {text:C_REMOVE,disabled:NR(M1_J+(pt=='0'?G_PORT:G_AIRP)+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}},'-', 
         {text:C_SAVE,disabled:NR(M1_J+(pt=='0'?G_PORT:G_AIRP)+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GPort',GPort,'PORT_S');getPOL_S().reload();}},'-',

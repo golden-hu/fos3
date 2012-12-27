@@ -294,7 +294,25 @@ var LP=function(f,e){
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
 			var a=[];
-			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});			
+			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});	
+			a[1]=new QParam({key:'portType',value:'0',op:1});	
+			var xml = QTX(a);
+	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'PORT_X',S:1}:{A:'PORT_X'},
+				success: function(r,o){f.store.loadData(r.responseXML,false);f.expand();},
+				xmlData:"<FosRequest>\n<data>\n"+xml+"</data>\n</FosRequest>\n"
+			});
+		}
+		else if(q.length==0 && f.isExpanded()){f.store.removeAll();}
+	}
+};
+
+var LAP=function(f,e){
+	if(e.getKey()!=e.ENTER){	
+		var q=f.getRawValue();
+		if(q.length>1 && !f.isExpanded()){
+			var a=[];
+			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});	
+			a[1]=new QParam({key:'portType',value:'1',op:1});	
 			var xml = QTX(a);
 	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'PORT_X',S:1}:{A:'PORT_X'},
 				success: function(r,o){f.store.loadData(r.responseXML,false);f.expand();},
