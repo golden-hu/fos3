@@ -36,6 +36,7 @@ public abstract class AbstractSInvoice extends BaseDomain {
 	private Double invoAmount;
 	private String invoAmountCapital;
 	private String invoAmountCapitalEn;
+	private Double invoAmountPaid;
 	private Double invoAmountWriteOff;
 	private String invoBank;
 	private String invoAccount;
@@ -266,6 +267,15 @@ public abstract class AbstractSInvoice extends BaseDomain {
 
 	public void setInvoAmountWriteOff(Double invoAmountWriteOff) {
 		this.invoAmountWriteOff = invoAmountWriteOff;
+	}
+	
+	@Column(name = "INVO_AMOUNT_PAID", precision = 12)
+	public Double getInvoAmountPaid() {
+		return invoAmountPaid;
+	}
+
+	public void setInvoAmountPaid(Double invoAmountPaid) {
+		this.invoAmountPaid = invoAmountPaid;
 	}
 
 	@Column(name = "INVO_BANK", length = 64)

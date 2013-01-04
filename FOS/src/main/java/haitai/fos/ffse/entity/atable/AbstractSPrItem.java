@@ -29,6 +29,7 @@ public abstract class AbstractSPrItem extends BaseDomain {
 	private Double invoAmount;
 	private Double invoAmountWriteOff;
 	private Double prAmount;
+	private Double prAmountPaid;
 	private String invoBank;
 	private String inovAccount;
 	private String currCode;
@@ -150,6 +151,15 @@ public abstract class AbstractSPrItem extends BaseDomain {
 
 	public void setPrAmount(Double prAmount) {
 		this.prAmount = prAmount;
+	}
+	
+	@Column(name = "PR_AMOUNT_PAID", precision = 12, scale = 4)
+	public Double getPrAmountPaid() {
+		return prAmountPaid;
+	}
+
+	public void setPrAmountPaid(Double prAmountPaid) {
+		this.prAmountPaid = prAmountPaid;
 	}
 
 	@Column(name = "INVO_BANK", length = 64)

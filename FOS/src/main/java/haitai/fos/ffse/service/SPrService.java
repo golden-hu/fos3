@@ -39,7 +39,8 @@ public class SPrService {
 		List retList = new ArrayList();
 		Integer parentId = null;
 		String prNo = null;
-
+		Double prAmount = 0.00;
+		Double prAmountPaid = 0.00;
 		// handle parent first
 		for (Object obj : entityList) {
 			if (obj instanceof SPr) {
@@ -84,18 +85,35 @@ public class SPrService {
 			if (obj instanceof SPrItem) {
 				SPrItem entity = (SPrItem) obj;
 				if (entity.getRowAction() == RowAction.N) {
+					prAmount = entity.getPrAmount();
+					if(entity.getPrAmountPaid()!=null){
+						prAmountPaid = entity.getPrAmountPaid();
+					}
 					entity.setPritId(null);
 					entity.setPrId(parentId);
+					entity.setPrAmountPaid(prAmount+prAmountPaid);
 					itemDao.save(entity);
 					retList.add(entity);
 					//更新对应的发票状态为已生成托收单
 					SInvoice invoice = invoiceDao.findById(entity.getInvoId());
-					if(entity.getInvoAmount()-entity.getInvoAmountWriteOff()-entity.getPrAmount()==0){
+					if(entity.getInvoAmount()<=entity.getPrAmountPaid()){
 						invoice.setInvoPrFlag(ConstUtil.TrueShort);
 					}
+					invoice.setInvoAmountPaid(prAmount+prAmountPaid);
 					invoice.setInvoEntrustNo(prNo);
 					invoiceDao.update(invoice);
 				} else if (entity.getRowAction() == RowAction.M) {
+					prAmount = entity.getPrAmount();
+					if(entity.getPrAmountPaid()!=null){
+						prAmountPaid = entity.getPrAmountPaid();
+					}
+					entity.setPrAmountPaid(prAmount+prAmountPaid);
+					SInvoice invoice = invoiceDao.findById(entity.getInvoId());
+					if(entity.getInvoAmount()<=entity.getPrAmountPaid()){
+						invoice.setInvoPrFlag(ConstUtil.TrueShort);
+					}
+					invoice.setInvoAmountPaid(prAmount+prAmountPaid);
+					invoiceDao.update(invoice);
 					retList.add(itemDao.update(entity));
 				} else if (entity.getRowAction() == RowAction.R) {
 					SPrItem delEntity = itemDao.findById(entity.getPritId());

@@ -1105,6 +1105,7 @@ var C_WRITEOFF_AMOUNT='核销金额';
 var C_WRITEOFFED_AMOUNT='已核销金额';
 var C_WRITEOFFED_AMOUNT_C='本次核销金额';
 var C_PAY_AMOUNT_C='本次付款金额';
+var C_PAY_AMOUNT_P='已付款金额';
 var C_WRITEOFFED_AMOUNT_ORI='原币已核销金额';
 var C_FIX_AMOUNT='处理金额';
 var C_REMAIN_AMOUNT='余额';
