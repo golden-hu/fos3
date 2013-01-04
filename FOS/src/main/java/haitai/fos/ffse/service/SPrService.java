@@ -90,7 +90,9 @@ public class SPrService {
 					retList.add(entity);
 					//更新对应的发票状态为已生成托收单
 					SInvoice invoice = invoiceDao.findById(entity.getInvoId());
-					invoice.setInvoPrFlag(ConstUtil.TrueShort);
+					if(entity.getInvoAmount()-entity.getInvoAmountWriteOff()-entity.getPrAmount()==0){
+						invoice.setInvoPrFlag(ConstUtil.TrueShort);
+					}
 					invoice.setInvoEntrustNo(prNo);
 					invoiceDao.update(invoice);
 				} else if (entity.getRowAction() == RowAction.M) {
