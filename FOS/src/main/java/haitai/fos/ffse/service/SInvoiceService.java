@@ -38,7 +38,9 @@ public class SInvoiceService {
 		Integer parentId = null;
 		String invoNo = null;
 		String invoTaxNo = null;
+		String invoTitle =null;
 		boolean invoNoChangeFlag = false;
+		boolean invoTitleChangeFlag = false;
 		boolean isInvoDelFlag = false;
 		SInvoice retInvoice = null;
 		// handle parent first
@@ -68,6 +70,9 @@ public class SInvoiceService {
 					if (!StringUtil.isEqual(invoTaxNo, dbInvoice.getInvoTaxNo())) {
 						invoNoChangeFlag = true;
 					}
+					if(!StringUtil.isEqual(invoTitle, dbInvoice.getInvoTitle())) {
+						invoTitleChangeFlag = true;
+					}
 					retInvoice = dao.update(entity);
 					retList.add(retInvoice);
 				} else if (entity.getRowAction() == RowAction.R) {
@@ -82,6 +87,7 @@ public class SInvoiceService {
 				parentId = entity.getInvoId();
 				invoNo = entity.getInvoNo();
 				invoTaxNo = entity.getInvoTaxNo();
+				invoTitle = entity.getInvoTitle();
 				break;
 			}
 		}
@@ -112,12 +118,14 @@ public class SInvoiceService {
 					entity.setInvoId(parentId);
 					entity.setInvoNo(invoNo);
 					entity.setInvoTaxNo(invoTaxNo);
+					entity.setInvoTitle(invoTitle);
 					entity.setInitId(null);
 					itemDao.save(entity);
 					retList.add(entity);
 
 				} else if (entity.getRowAction() == RowAction.M) {
 					entity.setInvoNo(invoNo);
+					entity.setInvoTitle(invoTitle);
 					entity.setInvoTaxNo(invoTaxNo);
 					retList.add(itemDao.update(entity));
 				} else if (entity.getRowAction() == RowAction.R) {
@@ -145,6 +153,21 @@ public class SInvoiceService {
 				}
 			}
 		}
+		//修改发票头, 更新invoiceItem上的税务发票抬头
+		if (invoTitleChangeFlag) {
+			Map<String, Object> queryMap = new HashMap<String, Object>();
+			queryMap.put("invoId", parentId);
+			List<SInvoiceItem> itemList = itemDao.findByProperties(queryMap);
+			for (SInvoiceItem invoiceItem : itemList) {
+				invoiceItem.setInvoTitle(invoTitle);
+				itemDao.update(invoiceItem);
+				expenseSet.add(invoiceItem.getExpeId());
+				if (!retList.contains(invoiceItem)) {
+					retList.add(invoiceItem);
+				}
+			}
+		}
+		
 		for (Integer id : expenseSet) {
 			SExpense expense = expenseDao.findById(id);
 			syncExpense(expense);
@@ -252,6 +275,7 @@ public class SInvoiceService {
 		List<SInvoiceItem> list = itemDao.findByProperties(propertyMap);
 		String invoiceNo = "";
 		String invoTaxNo = "";
+		String invoTitle = "";
 		Double amount = (double) 0;
 		Set<String> invoiceNoSet = new HashSet<String>();
 		Set<String> invoTaxNoSet = new HashSet<String>();
@@ -267,6 +291,7 @@ public class SInvoiceService {
 			if (invoiceItem.getInitInvoiceAmountW() != null) {
 				amount += invoiceItem.getInitInvoiceAmountOri();
 			}
+			invoTitle = invoiceItem.getInvoTitle();
 		}
 		if (invoiceNo.endsWith(ConstUtil.COMMA)) {
 			invoiceNo = invoiceNo.substring(0, invoiceNo.length() - 1);
@@ -274,6 +299,7 @@ public class SInvoiceService {
 		if (invoTaxNo.endsWith(ConstUtil.COMMA)) {
 			invoTaxNo = invoTaxNo.substring(0, invoTaxNo.length() - 1);
 		}
+		expense.setExpeInvoiceTitle(invoTitle);
 		expense.setExpeInvoiceNo(invoiceNo);
 		expense.setExpeTaxInvoiceNo(invoTaxNo);
 		expense.setExpeInvoiceAmount(amount);

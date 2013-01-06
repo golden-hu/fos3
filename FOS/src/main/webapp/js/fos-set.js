@@ -29,10 +29,15 @@
             store:getCS(),enableKeyEvents:true,
             listeners:{scope:this,
             	select:function(c,r,i){
-				var b =this.getSelectionModel().getSelected();
-            	b.set('custId',r.get('custId'));
-            	b.set('custName',r.get('custNameCn'));
-            	b.set('custSname',r.get('custCode'));
+					var b =this.getSelectionModel().getSelected();
+	            	b.set('custId',r.get('custId'));
+	            	b.set('custName',r.get('custNameCn'));
+	            	b.set('custSname',r.get('custCode'));
+	            	if(r.get('custInvoiceHeader')!=""){
+		            	b.set('expeInvoiceTitle',r.get('custInvoiceHeader'));
+		            }else{
+		            	b.set('expeInvoiceTitle',r.get('custNameCn'));
+		            }
             	},
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
 	}
@@ -44,11 +49,16 @@
 	            store:getCS(),enableKeyEvents:true,
 	            listeners:{scope:this,
 	            	select:function(c,r,i){
-					var b =this.getSelectionModel().getSelected();
-	            	b.set('custId',r.get('custId'));
-	            	b.set('custName',r.get('custNameCn'));
-	            	b.set('custSname',r.get('custCode'));
-	            	},
+						var b =this.getSelectionModel().getSelected();
+		            	b.set('custId',r.get('custId'));
+		            	b.set('custName',r.get('custNameCn'));
+		            	b.set('custSname',r.get('custCode'));
+		            	if(r.get('custInvoiceHeader')!=""){
+		            		b.set('expeInvoiceTitle',r.get('custInvoiceHeader'));
+		            	}else{
+		            		b.set('expeInvoiceTitle',r.get('custNameCn'));
+		            	}
+		            },
 	           		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
 	}
 	
@@ -128,16 +138,17 @@
 	 var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
 	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
 	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
+	 var t27={header:C_INVO_TITLE,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cols=[];
 	if(t=='R'){
 		if(frm.f=='C')
 			if(VERSION==1)
-				cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
+				cols=[sm,t1,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
 			else 
-				cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t17,t23,t19,t24,t20,t25];
+				cols=[sm,t1,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t17,t23,t19,t24,t20,t25];
 		else
-			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
+			cols=[sm,t1,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
 	}
 	else{
 		if(VERSION==1){
@@ -158,7 +169,7 @@
 	this.add=function(){
 		var unit='EACH';var rid=GGUID();
 		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
-			section:'CONS',consSailDate:p.get('consSailDate'),
+			section:'CONS',consSailDate:p.get('consSailDate'),expeInvoiceTitle:p.get('custName'),
     		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
     		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
     		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',expeInvoiceStatus:'0',expeWriteOffStatus:'0',

@@ -56,6 +56,7 @@ public abstract class AbstractSInvoiceItem extends BaseDomain {
 	private Double initExRate;
 	private Double invoExRate;
 	private String voucNo;
+	private String invoTitle;
 	private Short initWriteOffStatus;
 	private String initWriteOffNo;
 	private Integer initWriteOffBy;
@@ -415,6 +416,15 @@ public abstract class AbstractSInvoiceItem extends BaseDomain {
 
 	public void setVoucNo(String voucNo) {
 		this.voucNo = voucNo;
+	}
+	
+	@Column(name = "INVO_TITLE", length = 200)
+	public String getInvoTitle() {
+		return invoTitle;
+	}
+
+	public void setInvoTitle(String invoTitle) {
+		this.invoTitle = invoTitle;
 	}
 
 	@Column(name = "INIT_WRITE_OFF_STATUS")

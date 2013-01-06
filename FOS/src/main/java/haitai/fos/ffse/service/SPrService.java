@@ -39,7 +39,6 @@ public class SPrService {
 		List retList = new ArrayList();
 		Integer parentId = null;
 		String prNo = null;
-		Double prAmount = 0.00;
 		Double prAmountPaid = 0.00;
 		// handle parent first
 		for (Object obj : entityList) {
@@ -85,36 +84,49 @@ public class SPrService {
 			if (obj instanceof SPrItem) {
 				SPrItem entity = (SPrItem) obj;
 				if (entity.getRowAction() == RowAction.N) {
-					prAmount = entity.getPrAmount();
-					if(entity.getPrAmountPaid()!=null){
-						prAmountPaid = entity.getPrAmountPaid();
-					}
 					entity.setPritId(null);
 					entity.setPrId(parentId);
-					entity.setPrAmountPaid(prAmount+prAmountPaid);
+					itemDao.save(entity);
+					Map<String, Object> queryMap = new HashMap<String, Object>();
+					queryMap.put("invoNo", entity.getInvoNo());
+					List<SPrItem> sPrItems = itemDao.findByProperties(queryMap);
+					for(SPrItem e :sPrItems){
+						prAmountPaid+=e.getPrAmount();
+					}
+					entity.setPrAmountPaid(prAmountPaid);
+					entity.setVersion(entity.getVersion()+1);
 					itemDao.save(entity);
 					retList.add(entity);
 					//更新对应的发票状态为已生成托收单
 					SInvoice invoice = invoiceDao.findById(entity.getInvoId());
 					if(entity.getInvoAmount()<=entity.getPrAmountPaid()){
 						invoice.setInvoPrFlag(ConstUtil.TrueShort);
+					}else{
+						invoice.setInvoPrFlag(ConstUtil.FalseShort);
 					}
-					invoice.setInvoAmountPaid(prAmount+prAmountPaid);
+					invoice.setInvoAmountPaid(prAmountPaid);
 					invoice.setInvoEntrustNo(prNo);
 					invoiceDao.update(invoice);
 				} else if (entity.getRowAction() == RowAction.M) {
-					prAmount = entity.getPrAmount();
-					if(entity.getPrAmountPaid()!=null){
-						prAmountPaid = entity.getPrAmountPaid();
+					itemDao.update(entity);
+					entity.setVersion(entity.getVersion()+1);
+					Map<String, Object> queryMap = new HashMap<String, Object>();
+					queryMap.put("invoNo", entity.getInvoNo());
+					List<SPrItem> sPrItems = itemDao.findByProperties(queryMap);
+					for(SPrItem e :sPrItems){
+						prAmountPaid+=e.getPrAmount();
 					}
-					entity.setPrAmountPaid(prAmount+prAmountPaid);
+					entity.setPrAmountPaid(prAmountPaid);
+					SPrItem updateList = itemDao.update(entity);
 					SInvoice invoice = invoiceDao.findById(entity.getInvoId());
 					if(entity.getInvoAmount()<=entity.getPrAmountPaid()){
 						invoice.setInvoPrFlag(ConstUtil.TrueShort);
+					}else{
+						invoice.setInvoPrFlag(ConstUtil.FalseShort);
 					}
-					invoice.setInvoAmountPaid(prAmount+prAmountPaid);
+					invoice.setInvoAmountPaid(prAmountPaid);
 					invoiceDao.update(invoice);
-					retList.add(itemDao.update(entity));
+					retList.add(updateList);
 				} else if (entity.getRowAction() == RowAction.R) {
 					SPrItem delEntity = itemDao.findById(entity.getPritId());
 					delEntity.setRowAction(RowAction.R);
