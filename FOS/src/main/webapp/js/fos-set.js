@@ -383,7 +383,7 @@
     				return;
     			}
     		}
-    		var currCode=a[0].get('currCode');
+    		var currCode='CNY';
     		for(var i=0;i<a.lenth;i++){
     			if(a[i].get('currCode')!=currCode){
     				currCode = a[i].get('currCode');
@@ -3888,7 +3888,7 @@ Fos.BillTab = function(p){
     this.genInvoice=function(){
     	var a = store.getRange();
     	if(a.length>0){
-    		var currCode=a[0].get('currCode');
+    		var currCode='CNY';
     		for(var i=0;i<a.lenth;i++){
     			if(a[i].get('currCode')!=currCode){
     				currCode = a[i].get('currCode');
@@ -3906,7 +3906,7 @@ Fos.BillTab = function(p){
         				currCode:currCode,
         				invoType:p.get('billType'),invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
         				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
-        			var tab = T_MAIN.add(new Fos.InvoiceTab(e,p.get('billNo')));
+        			var tab = T_MAIN.add(new Fos.InvoiceTab(e,p.get('billNo'),''));
         			T_MAIN.setActiveTab(tab);
         		}},this);
         		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);
@@ -3919,7 +3919,7 @@ Fos.BillTab = function(p){
     				currCode:currCode,
     				invoType:p.get('billType'),invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
     				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
-    			var tab = T_MAIN.add(new Fos.InvoiceTab(e,p.get('billNo')));
+    			var tab = T_MAIN.add(new Fos.InvoiceTab(e,p.get('billNo'),''));
     			T_MAIN.setActiveTab(tab);
     		}
     	}
