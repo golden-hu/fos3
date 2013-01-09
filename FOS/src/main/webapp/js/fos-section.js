@@ -3480,103 +3480,172 @@ Fos.BlWin = function(p,b,store) {
 				{columnWidth:.5,layout:'form',labelWidth:80,border : false,items:[
 					{fieldLabel:C_REMARKS,name:'blRemarks',value:b.get('blRemarks'),tabIndex:55,xtype:'textarea',anchor:'99%'}]}
 				]};			
-	var t4={layout:'column',title:C_BASE_INFO,layoutConfig: {columns:4},bodyStyle:'padding:2px 2px 2px',deferredRender:false,collapsible:true,
+	
+	//发货人
+	var txtShipper = new Ext.form.TextArea({name:'blShipper',hideLabel:true,
+					  value:b.get('blShipper'),tabIndex:1,height:100,anchor:'99%'});
+	
+	//收货人
+	var txtConsignee = new Ext.form.TextArea({
+	    name:'blConsignee',value:b.get('blConsignee'),hideLabel:true,
+		tabIndex:2,xtype:'textarea',height:100,anchor:'99%'
+	});
+	
+	//承运人
+	var txtCarrier = new Ext.form.TextArea({
+		name:'blCarrierName',value:b.get('blCarrierName'),hideLabel:true,
+		tabIndex:3,height:100,anchor:'99%'
+	});
+	
+	//通知人
+	var txtNotify = new Ext.form.TextArea({
+		name:'blNotifyParty',value:b.get('blNotifyParty'),hideLabel:true,
+        tabIndex:5,height:100,anchor:'99%'
+	});
+	
+	var txtBlAccountingInfo = new Ext.form.TextArea({
+		name:'blAccountingInfo',value:b.get('blAccountingInfo'),hideLabel:true,
+        tabIndex:5,height:100,anchor:'99%'
+	});
+		
+	//海外代理
+	var txtBlHandlingInfo = new Ext.form.TextArea({
+		name:'blHandlingInfo',value:b.get('blHandlingInfo'),hideLabel:true,
+        tabIndex:5,height:100,anchor:'99%'
+	});
+	var t4={layout:'column',title:C_BL_INFO,height:726,collapsible:true,layoutConfig: {columns:4},
+			padding:5,autoScroll:true,border:false,
 			items: [
 			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',items: [
-				{fieldLabel:"Shipper's Name and Address",name:'blShipper',value:b.get('blShipper'),
-					tabIndex:1,xtype:'textarea',height:100,anchor:'99%'},
-				{fieldLabel:"Consignee's Name and Address",name:'blConsignee',value:b.get('blConsignee'),
-					tabIndex:2,xtype:'textarea',height:100,anchor:'99%'}				
+				txtShipper,txtCarrier,txtBlAccountingInfo
+				
 			]},
-			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',items: [                
-                {fieldLabel:"Accounting Information",name:'blAccountingInfo',value:b.get('blAccountingInfo'),
-                	tabIndex:4,xtype:'textarea',height:100,anchor:'99%'},
-                {fieldLabel: 'Also Notify',name:'blNotifyParty2',value:b.get('blNotifyParty2'),
-                	tabIndex:5,xtype:'textarea',height:100,anchor:'99%'}    	
-            ]},            
-        	{columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
-        		{fieldLabel:'MAWB No.',name:'mblNo',value:b.get('mblNo'),
-        			tabIndex:6,xtype:'textfield',anchor:'99%'},	            	
-    			{fieldLabel:'Declared Value for Customs',name:'blDvCustoms',value:b.get('blDvCustoms'),
-                	tabIndex:11,xtype:'textfield',anchor:'99%'},
-            	{fieldLabel:'Flight',name:'blVoyage',value:b.get('blVoyage'),
-                	tabIndex:22,xtype:'textfield',anchor:'99%'}
+			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',items: [        
+                txtConsignee,txtNotify,txtBlHandlingInfo
+                
             ]},
             {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
-                {fieldLabel:'HAWB No.',name:'blNo',value:b.get('blNo'),
-                	tabIndex:6,xtype:'textfield',anchor:'99%'},
+            	{fieldLabel:'AWB MblNo.',name:'blMBlNo',value:b.get('blMBlNo'),
+            		tabIndex:6,xtype:'textfield',anchor:'99%'},
             	{fieldLabel:'Declared Value for Carriage',name:'blDvCarriage',value:b.get('blDvCarriage'),
-        			tabIndex:10,xtype:'textfield',anchor:'99%'},
-    			{fieldLabel:'Date',name:'blEtd',value:b.get('blEtd'),
-                	tabIndex:23,xtype:'datefield',format:DATEF,anchor:'99%'}	
+            		tabIndex:10,xtype:'textfield',anchor:'99%'}
+	        ]},
+            {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
+				{fieldLabel:'AWB HblNo.',name:'blNo',value:b.get('blNo'),enableKeyEvents:true,
+					tabIndex:6,xtype:'textfield',anchor:'99%',
+					listeners:{
+						scope:this,
+						keyup:function(f,e){
+							this.find('name','blNo')[0].setValue(this.find('name','blNo')[0].getValue().toUpperCase());
+						}
+					}
+					},
+            	{fieldLabel:'Account No.',name:'blAccountNo',value:b.get('blAccountNo'),
+            		tabIndex:9,xtype:'textfield',anchor:'99%'}            	
             ]},
-            {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[	          	
-              	{fieldLabel:"Agent IATA Code",name:'blAgentIataCode',value:b.get('blAgentIataCode'),
-        			tabIndex:8,xtype:'textfield',anchor:'99%'},
-    			{fieldLabel:'Air Port of Departure',name:'blPol',value:b.get('blPol'),
-	              	tabIndex:7,xtype:'textfield',anchor:'99%'},
-              	{fieldLabel:'Amount of Insurance',name:'blAmountInsurance',value:b.get('blAmountInsurance'),
-                	tabIndex:24,xtype:'textfield',anchor:'99%'}
-	          ]},
-	          {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
-	          	{fieldLabel:'Account No.',name:'blAccountNo',value:b.get('blAccountNo'),
-	              	tabIndex:9,xtype:'textfield',anchor:'99%'},
-              	{fieldLabel:'Air Port of Destination',name:'blPod',value:b.get('blPod'),
-              		tabIndex:21,xtype:'textfield',anchor:'99%'},
-          		{fieldLabel:'T/S Remarks',name:'blTsRemarks',value:b.get('blTsRemarks'),
-                	tabIndex:25,xtype:'textfield',anchor:'99%'}
-	          ]},                                   
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'To',name:'blToFirst',value:b.get('blToFirst'),tabIndex:12,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'By First Carrier',name:'blByFirst',value:b.get('blByFirst'),tabIndex:13,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'To',name:'blToSecond',value:b.get('blToSecond'),tabIndex:14,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'By',name:'blBySecond',value:b.get('blBySecond'),tabIndex:15,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'To',name:'blToThird',value:b.get('blToThird'),tabIndex:16,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'By',name:'blByThird',value:b.get('blByThird'),tabIndex:17,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Currency',name:'currCode',value:b.get('currCode'),
-            	tabIndex:18,value:p.get('currCode'),store:getCURR_S(),xtype:'combo',
-            	displayField:'currCode',valueField:'currCode',typeAhead: true,mode:'local',
-            	triggerAction: 'all',selectOnFocus:true,anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Weight/VAL',name:'blWeightPayment',value:b.get('blWeightPayment'),
-            	tabIndex:19,xtype:'textfield',anchor:'99%'}
-            ]},
-            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Other',name:'blOtherPayment',value:b.get('blOtherPayment'),
-            	tabIndex:20,xtype:'textfield',anchor:'99%'}
-            ]},            
-            {columnWidth:.5,layout:'form',border:false,labelAlign:'top',
-                items: [{fieldLabel:"Issuing Carrier's Agent Name",name:'blNotifyParty',value:b.get('blNotifyParty'),
-                	tabIndex:3,xtype:'textarea',height:100,anchor:'99%'}                        
+            {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
+				{fieldLabel:"Agent IATA Code",name:'blAgentIataCode',value:b.get('blAgentIataCode'),
+					tabIndex:8,xtype:'textfield',anchor:'99%'},
+				{fieldLabel:'Declared Value for Customs',name:'blDvCustoms',value:b.get('blDvCustoms'),
+            		tabIndex:11,xtype:'textfield',anchor:'99%'}
              ]},
-            {columnWidth:.5,layout:'form',border:false,labelAlign:'top',
-                items: [{fieldLabel:"Handling information and Others",name:'blHandlingInfo',
-                value:b.get('blHandlingInfo'),tabIndex:26,xtype:'textarea',height:100,anchor:'99%'}
+            {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
+				{fieldLabel:'Air Port of Departure',name:'blPol',value:b.get('blPol'),
+					tabIndex:7,xtype:'textfield',anchor:'99%'}                                                                    
+            ]},
+             {columnWidth:.1,layout:'form',border:false,labelAlign:'top',items:[
+             {fieldLabel:'To',name:'blToFirst',value:b.get('blToFirst'),
+             	tabIndex:12,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'By First Carrier',name:'blByFirst',value:b.get('blByFirst'),
+             	tabIndex:13,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'To',name:'blToSecond',value:b.get('blToSecond'),
+             	tabIndex:14,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'By',name:'blBySecond',value:b.get('blBySecond'),
+             	tabIndex:15,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'To',name:'blToThird',value:b.get('blToThird'),
+             	tabIndex:16,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'By',name:'blByThird',value:b.get('blByThird'),
+             	tabIndex:17,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Currency',name:'currCode',value:b.get('currCode'),
+             	tabIndex:18,
+             	store:getCURR_S(),xtype:'combo',displayField:'currCode',
+             	valueField:'currCode',typeAhead: true,mode:'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Weight/VAL',name:'blValuePayment',value:b.get('blValuePayment'),
+                store:PAYTYPE_S,displayField:'NAME',valueField:'NAME',typeAhead:true,
+                triggerAction:'all',selectOnfocus:true,mode:'local',
+             	tabIndex:19,xtype:'combo',anchor:'99%',
+             	listeners:{
+             		scope:this,
+             		select:function(c,r,i){
+             			if(r.get('NAME')=="PP"){
+             				this.find('name','blRemarks')[0].setValue('AS ARRANGED');
+             				this.find('name','blTotalCc')[0].setValue('');
+             			}
+             			else{
+             				this.find('name','blTotalPp')[0].setValue('');
+             				this.find('name','blRemarks')[0].setValue('');
+             			}
+             		}
+             	}
+             	}
+             ]},
+             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Other',name:'blOtherPayment',value:b.get('blOtherPayment'),
+                store:PAYTYPE_S,displayField:'NAME',valueField:'NAME',typeAhead:true,
+                triggerAction:'all',selectOnfocus:true,mode:'local',
+             	tabIndex:20,xtype:'combo',anchor:'80%'}
+             ]},
+             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Air Port of Destination',name:'blPod',value:b.get('blPod'),
+             	tabIndex:21,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Flight',name:'blVoyage',value:b.get('blVoyage'),
+             	tabIndex:22,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Date',name:'blEtd',value:b.get('blEtd'),
+             	tabIndex:23,xtype:'datefield',format:DATEF,anchor:'99%'}
+             ]},
+             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'Amount of Insurance',name:'blAmountInsurance',value:b.get('blAmountInsurance'),
+             	tabIndex:24,xtype:'textfield',anchor:'99%'}
+             ]},
+             {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+             {fieldLabel:'T/S Remarks',name:'blTsRemarks',value:b.get('blTsRemarks'),
+             	tabIndex:25,xtype:'textfield',anchor:'99%'}              
              ]}
-          ]};
-    var t5={layout:'column',title:C_CARGO_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,
+         ]};
+   //货物信息
+    var t5={layout:'column',title:C_CARGO_INFO,padding:5,layoutConfig: {columns:4},collapsible:true,
+    		autoScroll:true,height:215,
 			items: [
 			 {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'No of Packages',name:'blPackages',value:b.get('blPackages'),
+            {fieldLabel:'No of Packages',name:'blCargoPackages',value:b.get('blCargoPackages'),
             	tabIndex:27,xtype:'numberfield',anchor:'99%'}
             ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Gross Weight',name:'blGrossWeight',value:b.get('blGrossWeight'),
+            {columnWidth:.15,layout:'form',border : false,labelAlign:'top',items:[
+            {fieldLabel:'Gross Weight',name:'blCargoGrossWeight',value:b.get('blCargoGrossWeight'),
             	tabIndex:28,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
-            ]},            
+            ]},  
+            {columnWidth:.15,layout:'form',border : false,labelAlign:'top',items:[
+	         {fieldLabel:'Measurement',name:'blCargoMeasurement',value:b.get('blCargoMeasurement'),
+	         	tabIndex:28,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
+	         ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
             {fieldLabel:'Rate Class',name:'blRateClass',value:b.get('blRateClass'),
             	tabIndex:29,xtype:'textfield',anchor:'99%'}
@@ -3587,37 +3656,68 @@ Fos.BlWin = function(p,b,store) {
             ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
             {fieldLabel:'Rate',name:'blChargeRate',value:b.get('blChargeRate'),
-            	tabIndex:31,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
+            	tabIndex:31,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%',
+            	listeners:{
+            		scope:this,
+            		change:function(f,n,o){
+            			var r = this.find('name','blChargeWeight')[0].getValue();
+            			var t = this.find('name','blTotalCharge')[0];
+            			var ct = this.find('name','blTotalCc')[0];
+            			var p = this.find('name','blValuePayment')[0].getValue();
+            			var c = this.find('name','blOtherPayment')[0].getValue();
+            			t.setValue(r*n);
+            			if(p=="CC")
+            				ct.setValue(r*n);
+            		}
+            	}
+            	}
             ]},
-            {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
+            {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
             {fieldLabel:'Total',name:'blTotalCharge',value:b.get('blTotalCharge'),
             	tabIndex:32,xtype:'numberfield',anchor:'99%'}
             ]},
-			{columnWidth:.99,layout:'form',border:false,labelAlign:'top',
+			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',
                 items: [{fieldLabel:"Description of Goods",name:'blCargoDesc',value:b.get('blCargoDesc'),
-                tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]}
+                	tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]},
+            {columnWidth:.5,layout:'form',border:false,labelAlign:'top',
+                items: [{fieldLabel:"Mark",name:'blCargoMarks',value:b.get('blCargoMarks'),
+                	tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]}
 			]};
-	var t6={layout:'column',title:C_EXPE_INFO,layoutConfig: {columns:2},deferredRender:false,collapsible:true,
+	var t6={layout:'column',title:C_EXPE_INFO,padding:5,layoutConfig: {columns:2},
+			collapsible:true,autoScroll:true,height:215,
 			items: [
-			{columnWidth:.6,layout:'column',layoutConfig: {columns:2},labelWidth:180,border:false,items:[            	
+			{columnWidth:.6,layout:'column',layoutConfig: {columns:2},labelWidth:220,border:false,items:[ 
+			    {columnWidth:.4,layout:'form',border:false,items:[]},
+			    {columnWidth:.3,layout:'form',border:false,items:[]},
+			    {columnWidth:.3,layout:'form',border:false,items:[]},
             	{columnWidth:.7,layout:'form',border:false,items:[
-            		{html:SP(26)+'Prepaid:',xtype:'label',anchor:'99%'},
-            		{fieldLabel:'Weight Charge',name:'blWeightChargePp',value:b.get('blWeightChargePp'),tabIndex:34,xtype:'numberfield',anchor:'99%'},
-            		{fieldLabel:'Valuation Charge',name:'blValuationChargePp',value:b.get('blValuationChargePp'),tabIndex:36,xtype:'numberfield',anchor:'99%'},
+            		{hideLabels:true,text:'Prepaid',xtype:'label',anchor:'99%',style:'padding-left:226px;'},
+            		{fieldLabel:'Weight Charge',name:'blWeightChargePp',value:b.get('blWeightChargePp'),
+            			tabIndex:34,xtype:'numberfield',anchor:'99%'},
+            		{fieldLabel:'Valuation Charge',name:'blValuationChargePp',value:b.get('blValuationChargePp'),
+            			tabIndex:36,xtype:'numberfield',anchor:'99%'},
             		{fieldLabel:'Tax',name:'blTaxPp',value:b.get('blTaxPp'),tabIndex:38,xtype:'numberfield',anchor:'99%'},
-            		{fieldLabel:'Total Other Charges Due Agent',name:'blOtherDaPp',value:b.get('blOtherDaPp'),tabIndex:40,xtype:'numberfield',anchor:'99%'},
-            		{fieldLabel:'Total Other Charges Due Carrier',name:'blOtherDcPp',value:b.get('blOtherDcPp'),tabIndex:42,xtype:'numberfield',anchor:'99%'},
-            		{fieldLabel:'Total',name:'blTotalPp',value:b.get('blTotalPp'),tabIndex:44,xtype:'numberfield',anchor:'99%'}]},
+            		{fieldLabel:'Total Other Charges Due Agent',name:'blOtherDaPp',value:b.get('blOtherDaPp'),
+            			tabIndex:40,xtype:'numberfield',anchor:'99%'},
+            		{fieldLabel:'Total Other Charges Due Carrier',name:'blOtherDcPp',value:b.get('blOtherDcPp'),
+            			tabIndex:42,xtype:'numberfield',anchor:'99%'},
+            		{fieldLabel:'Total',name:'blTotalPp',value:b.get('blTotalPp'),
+            			tabIndex:44,xtype:'textfield',anchor:'99%'}]},
             	{columnWidth:.3,layout:'form',border:false,hideLabels:true,items:[
             		{text:'Collect:',xtype:'label',anchor:'99%'},
-            		{name:'blWeightChargeCc',value:b.get('blWeightChargeCc'),tabIndex:35,xtype:'numberfield',anchor:'99%'},
-            		{name:'blValuationChargeCc',value:b.get('blValuationChargeCc'),tabIndex:37,xtype:'numberfield',anchor:'99%'},
+            		{name:'blWeightChargeCc',value:b.get('blWeightChargeCc'),
+            			tabIndex:35,xtype:'numberfield',anchor:'99%'},
+            		{name:'blValuationChargeCc',value:b.get('blValuationChargeCc'),
+            			tabIndex:37,xtype:'numberfield',anchor:'99%'},
             		{name:'blTaxCc',value:b.get('blTaxCc'),tabIndex:39,xtype:'numberfield',anchor:'99%'},
-            		{name:'blOtherDaCc',value:b.get('blOtherDaCc'),tabIndex:41,xtype:'numberfield',anchor:'99%'},
-            		{name:'blOtherDcCc',value:b.get('blOtherDcCc'),tabIndex:43,xtype:'numberfield',anchor:'99%'},
-            		{name:'blTotalCc',value:b.get('blTotalCc'),tabIndex:45,xtype:'numberfield',anchor:'99%'}]}            		
+            		{name:'blOtherDaCc',value:b.get('blOtherDaCc'),
+            			tabIndex:41,xtype:'numberfield',anchor:'99%'},
+            		{name:'blOtherDcCc',value:b.get('blOtherDcCc'),
+            			tabIndex:43,xtype:'numberfield',anchor:'99%'},
+            		{name:'blTotalCc',value:b.get('blTotalCc'),
+            			tabIndex:45,xtype:'numberfield',anchor:'99%'}]}
             ]},           
-			{columnWidth:.4,layout:'form',border:false,labelAlign:'top',
+            {columnWidth:.4,layout:'form',border:false,labelAlign:'top',
                 items: [{fieldLabel:"Other Charges",name:'consChargeRemarks',value:b.get('consChargeRemarks'),tabIndex:46,xtype:'textarea',height:100,anchor:'99%'}]}
 			]};
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_BL;
@@ -3638,6 +3738,11 @@ Fos.BlWin = function(p,b,store) {
     };
     var txtStatus={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+getBLST(b.get('blStatus'))};
     
+	this.airFrm = new Ext.form.FormPanel({labelWidth:80,
+        items:{xtype:'form',plain:true,height:456,autoScroll:true,
+        	items:[t4,t5,t6,t3]}
+	});
+	
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',height:650,autoScroll:true,
 		tbar:[
 			{text:C_SAVE,itemId:'TB_SAVE',iconCls:'save',disabled:NR(m+F_M)||b.get('blStatus')>1,scope:this,handler:this.save},'-',
@@ -3657,7 +3762,7 @@ Fos.BlWin = function(p,b,store) {
 		   		]}},'->',txtStatus
 		   	],		   	
             items:{xtype:'tabpanel',plain:true,activeTab:0,defaults:{bodyStyle:'padding:10px'},height:650,
-            items:p.get('consBizType')==BT_A?[t4,t5,t6,t3]:[t2,t3]}
+            items:p.get('consBizType')==BT_A?this.airFrm:[t2,t3]}
     });
     Fos.BlWin.superclass.constructor.call(this, {title:C_BL_INFO,modal:true,
     	width:1000,height:600,autoScroll:true,maximizable:true,layout:'fit',

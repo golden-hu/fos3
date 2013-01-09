@@ -59,7 +59,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '第二通知人', 'FBl', 'blNotifyParty2', NULL),
 (1, '提单号', 'FBl', 'blNo', NULL),
 (1, 'HBLNo', 'FBl', 'blNo', NULL),
-(1, 'MBLNo', 'FBl', 'mblNo', NULL),
+(1, 'MBLNo', 'FBl', 'mblNo', 'getBlNo'),
+(1, 'MBLNO3', 'FBl', 'mblNo', 'getBlNo3'),
 (1, 'HAWBNO', 'FBl', 'blNo', NULL),
 (1, 'MAWBNO', 'FBl', 'mblNo', NULL),
 (1, '装运方式', 'FBl', 'consShipType', NULL),
@@ -124,7 +125,14 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '其它费用', 'FBl', 'consChargeRemarks', NULL),
 (1, '预付总额', 'FBl', 'blTotalPp', NULL),
 (1, '件数包装', 'FBl', 'blPackages', NULL),
-(1, '到付总额', 'FBl', 'blTotalCc', NULL)
+(1, '到付总额', 'FBl', 'blTotalCc', NULL),
+(1, '会计信息', 'FBl', 'blAccountingInfo', NULL),
+(1, 'IATA', 'FBl', 'blAgentIataCode', NULL),
+(1, '付费方式', 'FBl', 'blValuePayment', 'overridePP'),
+(1, '付款方式', 'FBl', 'blValuePayment', NULL),
+(1, '其他付款方式', 'FBl', 'blOtherPayment', NULL),
+(1, '预付其他费用', 'FBl', 'blOtherDcPp', NULL),
+(1, '到付其他费用', 'FBl', 'blOtherDcCc', NULL),
 ;
 
 -- 报关单

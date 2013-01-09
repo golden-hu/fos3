@@ -250,4 +250,33 @@ public class MappingConverterUtil {
 		return status;
 	}
 	
+	public String getBlNo3(String s) {
+		if (StringUtil.isBlank(s)) {
+			return s;
+		}
+		if (s.length() <= 3) {
+			return s;
+		}
+		return s.substring(0, 3);
+	}
+
+	public String getBlNo(String s) {
+		if (StringUtil.isBlank(s)) {
+			return s;
+		}
+		return s.substring(4);
+	}
+
+	public String overridePP(String s) {
+		String n = "";
+		if (StringUtil.isBlank(s)) {
+			return s;
+		}
+		if (s.equals("PP")) {
+			n = "FREIGHT PREPAID";
+		} else if (s.equals("CC")) {
+			n = "FREIGHT COLLECT";
+		}
+		return n;
+	}
 }

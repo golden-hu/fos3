@@ -1038,7 +1038,7 @@ var getISTY_S = function(){return getGStore('ISTY','GIssueType',GIssueType,'isty
 getISTY = function(v){var _cs= getISTY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('istyName'):v; else return '';};
 
 var getTRAN_S = function(){return getGStore('TTER','GTransTerm',GTransTerm,'tranId','ASC','');};
-getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranName'):v; else return '';};
+getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return '';};
 
 var getCustomsType_S = function(){return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');};	
 getCustomsType = function(v){var _cs= getCustomsType_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; else return '';}; 
@@ -1082,6 +1082,11 @@ getUNIT = function(v,m,r){var _cs= getUNIT_S();if(v) return _cs.getById(v)?_cs.g
 var getCURR_S = function(){return getGStore('CURR','GCurrency',GCurrency,'currCode','ASC','');};
 getCURR = function(v,m,r){var _cs= getCURR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('currName'):v; else return '';}; 
 
+//付款类型
+var	PAYTYPE_S =new Ext.data.ArrayStore({id:0,fields:['CODE','NAME'],data:[
+	            ['0','PP'],['1','CC']]});
+getPayType=function(v){return HTStore.getNameById(HTStore.PAYTYPE_S,v);};
+	
 var getCUCA_S = function(){return getGStore('CUCA','CCustomerCategory',CCustomerCategory,'cucaId','ASC','');};
 getCUCA = function(v,m,r){var _cs= getCUCA_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cucaName'):v; else return '';}; 
 
