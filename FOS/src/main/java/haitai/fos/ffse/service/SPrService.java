@@ -132,6 +132,7 @@ public class SPrService {
 					delEntity.setRowAction(RowAction.R);
 					itemDao.update(delEntity);
 					//更新对应的发票状态为已审核
+					//更新对应的已付金额
 					resetInvoiceStatus(entity);
 				} else {
 					throw new BusinessException("fw.row_action_null");
@@ -140,13 +141,25 @@ public class SPrService {
 		}
 		return retList;
 	}
+	
 
 	@Transactional
 	private void resetInvoiceStatus(SPrItem entity) {
+		Double prAmountPaid = 0.00;
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("invoNo", entity.getInvoNo());
+		List<SPrItem> sPrItems = itemDao.findByProperties(queryMap);
+		for(SPrItem e :sPrItems){
+			prAmountPaid+=e.getPrAmount();
+			e.setPrAmountPaid(entity.getPrAmount());
+			itemDao.update(e);
+		}
+		
 		SInvoice invoice = invoiceDao.findById(entity.getInvoId());
 		invoice.setInvoStatus(ConstUtil.INVOICE_STATUS_CHECKED);
 		invoice.setInvoEntrustNo(null);
 		invoice.setInvoPrFlag(ConstUtil.FalseShort);
+		invoice.setInvoAmountPaid(prAmountPaid);
 		invoiceDao.update(invoice);
 	}
 
