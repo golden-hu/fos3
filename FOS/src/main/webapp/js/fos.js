@@ -202,7 +202,7 @@ function getSysPanel(){
 
 function getPMenu(){
 	var items=[];
-	if(VERSION==1){
+	if(VERSION==1||VERSION==0){
 		if(!NR(M1_C)) items[items.length]=getContPanel();
 		if(!NR(M1_B)) items[items.length]=getBulkPanel();
 		if(!NR(M1_A)) items[items.length]=getAirPanel();

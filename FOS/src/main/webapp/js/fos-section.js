@@ -2890,7 +2890,7 @@ Fos.BLGrid = function(p){
 		consNo:p.get('consNo'),
 		blType:t,
 		blNo:p.get('consHblNo'),
-		mblNo:p.get('consMblNo'),		
+		mblNo:p.get('consMblNo'),
 		consBizClass:p.get('consBizClass'),
 		consBizType:p.get('consBizType'),
 		consShipType:p.get('consShipType'),
@@ -2920,6 +2920,61 @@ Fos.BLGrid = function(p){
 		blOriginalNum:N2EW(p.get('consOriginalBlNum')),blStatus:'1',version:'0',rowAction:'N'});
 		return bl;
 	};
+	
+	var newAirBl = function(t){
+		var rid=GGUID();
+		var bl = new FBl({id:rid,blId:rid,
+		consId:p.get('consId'),
+		consNo:p.get('consNo'),
+		blType:t,
+		blNo:p.get('consHblNo'),
+		mblNo:p.get('consMblNo'),
+		consBizClass:p.get('consBizClass'),
+		consBizType:p.get('consBizType'),
+		custId:p.get('custId'),
+		custName:p.get('custName'),
+		blShipper:p.get('consShipper'),
+		blConsignee:p.get('consConsignee'),
+		blNotifyParty:p.get('consNotifyParty'),
+		blOverseaAgency:p.get('consNotifyParty2'),
+		blCarrierName:p.get('consCarrierName'),
+		blVessel:p.get('vessName'),
+		blVoyage:p.get('voyaName'),
+		blPol:p.get('consPolEn'),
+		blPod:p.get('consPodEn'),
+		blPot:p.get('consPotEn'),
+		blLoadDate:p.get('consLoadDate'),
+		blEtd:p.get('consEtd'),
+		blEta:p.get('consEta'),
+		blReceiptPlace:p.get('consReceiptPlace'),
+		blDeliveryPlace:p.get('consDeliveryPlace'),
+		blPackages:p.get('consTotalPackages'),
+		consMasterId:p.get('consMasterId'),
+		consMasterNo:p.get('consMasterNo'),
+		unitId:p.get('unitId'),
+		unitName:p.get('unitCode'),
+		packId:p.get('packId'),
+		packName:p.get('packName'),
+		blMergeFlag:0,
+		blSplitFlag:0,
+		blMasterFlag:1,
+		blCargoDesc:p.get('consCargoDesc'),
+		blGrossWeight:p.get('consTotalGrossWeight'),
+		blMeasurement:p.get('consTotalMeasurement'),
+		blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' ('+p.get('consTotalPackages')+') '+getPACK(p.get('packId'))+' ONLY',
+		blPaymentTerm:p.get('pateName'),
+		blPaidAt:p.get('consPaidAt'),
+		blMarks:p.get('consCargoMarks'),
+		blTransTerm:getTRAN(p.get('tranId')),
+		blContainerInfo:p.get('consContainersInfo'),
+		istyId:p.get('istyId'),
+		blOriginalNum:N2EW(p.get('consOriginalBlNum')),
+		blStatus:'1',
+		version:'0',
+		rowAction:'N'});
+		return bl;
+	};
+	
 	var reloadCons=function(){
 		var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
 		reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});					
@@ -2927,29 +2982,29 @@ Fos.BLGrid = function(p){
 			if(s&&r.length>0){
 				var c=r[0];
 				p.beginEdit();
-				p.set('blCargoPackages',c.get('blCargoPackages'));
-				p.set('blCargoGrossWeight',c.get('blCargoGrossWeight'));
-				p.set('blCargoNetWeight',c.get('blCargoNetWeight'));
-				p.set('blCargoMeasurement',c.get('blCargoMeasurement'));
+				p.set('blPackages',c.get('blPackages'));
+				p.set('blGrossWeight',c.get('blGrossWeight'));
+				p.set('blNetWeight',c.get('blNetWeight'));
+				p.set('blMeasurement',c.get('blMeasurement'));
 				p.set('version',c.get('version'));	
 				p.endEdit();
 				var tc = T_MAIN.getComponent('C_'+p.get("id"));
 				var t=tc.getComponent('T_BOOK_'+p.get("id"));
-				t.find('name','blCargoPackages')[0].setValue(p.get('blCargoPackages'));
-				t.find('name','blCargoGrossWeight')[0].setValue(p.get('blCargoGrossWeight'));
-				t.find('name','blCargoNetWeight')[0].setValue(p.get('blCargoNetWeight'));
-				t.find('name','blCargoMeasurement')[0].setValue(p.get('blCargoMeasurement'));
+				t.find('name','blPackages')[0].setValue(p.get('blPackages'));
+				t.find('name','blGrossWeight')[0].setValue(p.get('blGrossWeight'));
+				t.find('name','blNetWeight')[0].setValue(p.get('blNetWeight'));
+				t.find('name','blMeasurement')[0].setValue(p.get('blMeasurement'));
 				XMG.alert(SYS,M_S);
 			}    						
 		},scope:this});
 	};
 	this.addMBl = function(){
-		var b = newBl('MB/L');
+		var b = p.get('consBizType')==BT_A?newAirBl('MB/L'):newBl('MB/L');
 		var win = new Fos.BlWin(p,b,this.store);    	
 		win.show();
 	};
 	this.addHBl = function(t){
-		var b = newBl('HB/L');
+		var b = p.get('consBizType')==BT_A?newAirBl('HB/L'):newBl('HB/L');
 		var win = new Fos.BlWin(p,b,this.store);    	
 		win.show();
 	};
@@ -3351,7 +3406,7 @@ Fos.BlWin = function(p,b,store) {
     
 
 	var t2={layout:'column',title:C_BL_INFO,layoutConfig: {columns:4},deferredRender:false,collapsible:true,
-			items: [{columnWidth:.25,layout:'form',border : false,items:[
+			items: [{columnWidth:.25,layout:'form',border:false,items:[
 				{fieldLabel:C_BL_NO,name:'blNo',itemCls:'required',tabIndex:1,
 					value:b.get('blNo'),xtype:'textfield',anchor:'90%'},
 				{fieldLabel:C_CARRIER,name:'blCarrierName',tabIndex:5,store:getCS(),enableKeyEvents:true,
@@ -3482,39 +3537,39 @@ Fos.BlWin = function(p,b,store) {
 				]};			
 	
 	//发货人
-	var txtShipper = new Ext.form.TextArea({name:'blShipper',hideLabel:true,
+	var txtShipper = new Ext.form.TextArea({fieldLabel:'Shipper`s Name and Adderess',name:'blShipper',
 					  value:b.get('blShipper'),tabIndex:1,height:100,anchor:'99%'});
 	
 	//收货人
 	var txtConsignee = new Ext.form.TextArea({
-	    name:'blConsignee',value:b.get('blConsignee'),hideLabel:true,
+		fieldLabel:'Consignee`s Name and Adderess',name:'blConsignee',value:b.get('blConsignee'),
 		tabIndex:2,xtype:'textarea',height:100,anchor:'99%'
 	});
 	
 	//承运人
 	var txtCarrier = new Ext.form.TextArea({
-		name:'blCarrierName',value:b.get('blCarrierName'),hideLabel:true,
+		fieldLabel:'Issuing Carrier`s Agent Name ',name:'blCarrierName',value:b.get('blCarrierName'),
 		tabIndex:3,height:100,anchor:'99%'
 	});
 	
 	//通知人
 	var txtNotify = new Ext.form.TextArea({
-		name:'blNotifyParty',value:b.get('blNotifyParty'),hideLabel:true,
+		fieldLabel:'Also Notify',name:'blNotifyParty',value:b.get('blNotifyParty'),
         tabIndex:5,height:100,anchor:'99%'
 	});
 	
 	var txtBlAccountingInfo = new Ext.form.TextArea({
-		name:'blAccountingInfo',value:b.get('blAccountingInfo'),hideLabel:true,
+		fieldLabel:'Accounting Infomation',name:'blAccountingInfo',value:b.get('blAccountingInfo'),
         tabIndex:5,height:100,anchor:'99%'
 	});
 		
 	//海外代理
 	var txtBlHandlingInfo = new Ext.form.TextArea({
-		name:'blHandlingInfo',value:b.get('blHandlingInfo'),hideLabel:true,
+		fieldLabel:'Handling Information and Others',name:'blHandlingInfo',value:b.get('blHandlingInfo'),
         tabIndex:5,height:100,anchor:'99%'
 	});
-	var t4={layout:'column',title:C_BL_INFO,height:726,collapsible:true,layoutConfig: {columns:4},
-			padding:5,autoScroll:true,border:false,
+	var t4={layout:'column',height:600,collapsible:true,layoutConfig: {columns:4},
+			padding:5,autoScroll:true,border:false,header:false,
 			items: [
 			{columnWidth:.5,layout:'form',border:false,labelAlign:'top',items: [
 				txtShipper,txtCarrier,txtBlAccountingInfo
@@ -3525,7 +3580,7 @@ Fos.BlWin = function(p,b,store) {
                 
             ]},
             {columnWidth:.25,layout:'form',border : false,labelAlign:'top',items:[
-            	{fieldLabel:'AWB MblNo.',name:'blMBlNo',value:b.get('blMBlNo'),
+            	{fieldLabel:'AWB MblNo.',name:'mblNo',value:b.get('mblNo'),
             		tabIndex:6,xtype:'textfield',anchor:'99%'},
             	{fieldLabel:'Declared Value for Carriage',name:'blDvCarriage',value:b.get('blDvCarriage'),
             		tabIndex:10,xtype:'textfield',anchor:'99%'}
@@ -3635,15 +3690,15 @@ Fos.BlWin = function(p,b,store) {
     		autoScroll:true,height:215,
 			items: [
 			 {columnWidth:.2,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'No of Packages',name:'blCargoPackages',value:b.get('blCargoPackages'),
+            {fieldLabel:'No of Packages',name:'blPackages',value:b.get('blPackages'),
             	tabIndex:27,xtype:'numberfield',anchor:'99%'}
             ]},
             {columnWidth:.15,layout:'form',border : false,labelAlign:'top',items:[
-            {fieldLabel:'Gross Weight',name:'blCargoGrossWeight',value:b.get('blCargoGrossWeight'),
+            {fieldLabel:'Gross Weight',name:'blGrossWeight',value:b.get('blGrossWeight'),
             	tabIndex:28,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
             ]},  
             {columnWidth:.15,layout:'form',border : false,labelAlign:'top',items:[
-	         {fieldLabel:'Measurement',name:'blCargoMeasurement',value:b.get('blCargoMeasurement'),
+	         {fieldLabel:'Measurement',name:'blMeasurement',value:b.get('blMeasurement'),
 	         	tabIndex:28,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'}
 	         ]},
             {columnWidth:.1,layout:'form',border : false,labelAlign:'top',items:[
@@ -3664,7 +3719,6 @@ Fos.BlWin = function(p,b,store) {
             			var t = this.find('name','blTotalCharge')[0];
             			var ct = this.find('name','blTotalCc')[0];
             			var p = this.find('name','blValuePayment')[0].getValue();
-            			var c = this.find('name','blOtherPayment')[0].getValue();
             			t.setValue(r*n);
             			if(p=="CC")
             				ct.setValue(r*n);
@@ -3680,7 +3734,7 @@ Fos.BlWin = function(p,b,store) {
                 items: [{fieldLabel:"Description of Goods",name:'blCargoDesc',value:b.get('blCargoDesc'),
                 	tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]},
             {columnWidth:.5,layout:'form',border:false,labelAlign:'top',
-                items: [{fieldLabel:"Mark",name:'blCargoMarks',value:b.get('blCargoMarks'),
+                items: [{fieldLabel:"Mark",name:'blMarks',value:b.get('blMarks'),
                 	tabIndex:33,xtype:'textarea',height:100,anchor:'99%'}]}
 			]};
 	var t6={layout:'column',title:C_EXPE_INFO,padding:5,layoutConfig: {columns:2},
@@ -3739,11 +3793,11 @@ Fos.BlWin = function(p,b,store) {
     var txtStatus={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+getBLST(b.get('blStatus'))};
     
 	this.airFrm = new Ext.form.FormPanel({labelWidth:80,
-        items:{xtype:'form',plain:true,height:456,autoScroll:true,
-        	items:[t4,t5,t6,t3]}
+        items:{xtype:'form',plain:true,height:500,autoScroll:true,defaults:{bodyStyle:'padding:10px'},
+        	items:p.get('consBizType')==BT_A?[t4,t5,t6,t3]:[t2,t3]}
 	});
 	
-	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',height:650,autoScroll:true,
+	var frm = new Ext.form.FormPanel({labelWidth:60,height:500,autoScroll:true,
 		tbar:[
 			{text:C_SAVE,itemId:'TB_SAVE',iconCls:'save',disabled:NR(m+F_M)||b.get('blStatus')>1,scope:this,handler:this.save},'-',
 			{text:C_CONFIRM,itemId:'TB_CONFIRM',iconCls:'check',disabled:NR(m+F_M)||b.get('blStatus')>1,scope:this,handler:this.check},'-',
@@ -3761,11 +3815,10 @@ Fos.BlWin = function(p,b,store) {
 		   		{text:M_CONSIGN,scope:this,handler:this.expExcel1}
 		   		]}},'->',txtStatus
 		   	],		   	
-            items:{xtype:'tabpanel',plain:true,activeTab:0,defaults:{bodyStyle:'padding:10px'},height:650,
-            items:p.get('consBizType')==BT_A?this.airFrm:[t2,t3]}
+            items:[this.airFrm]
     });
     Fos.BlWin.superclass.constructor.call(this, {title:C_BL_INFO,modal:true,
-    	width:1000,height:600,autoScroll:true,maximizable:true,layout:'fit',
+    	width:1000,height:580,autoScroll:true,maximizable:true,layout:'fit',
         plain:false,bodyStyle:'padding:2px;',items:frm});
 };
 Ext.extend(Fos.BlWin, Ext.Window);

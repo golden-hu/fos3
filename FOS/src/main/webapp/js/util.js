@@ -311,7 +311,7 @@ var LAP=function(f,e){
 		var q=f.getRawValue();
 		if(q.length>1 && !f.isExpanded()){
 			var a=[];
-			a[0]=new QParam({key:'portNameEn',value:q+'%',op:7});	
+			a[0]=new QParam({key:'portCode',value:q+'%',op:7});	
 			a[1]=new QParam({key:'portType',value:'1',op:1});	
 			var xml = QTX(a);
 	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'PORT_X',S:1}:{A:'PORT_X'},

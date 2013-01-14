@@ -57,7 +57,7 @@ Fos.showConsign = function(p,listStore){
 	if(t){
 		T_MAIN.setActiveTab(t);
 	} 
-	else if(VERSION==1){
+	else if(VERSION==1||VERSION==0){
 		t = new Fos.ConsignTab(p,listStore);
 		T_MAIN.add(t);
 		T_MAIN.setActiveTab(t);
@@ -937,7 +937,7 @@ Fos.BookTab = function(p) {
 	
     var m10={fieldLabel:C_POL,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?39:43,
     		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
-    		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
+    		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
     		triggerAction:'all',selectOnFocus:true,anchor:'99%',
     		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
     		listeners:{scope:this,
@@ -945,14 +945,17 @@ Fos.BookTab = function(p) {
             	select:function(c,r,i){
             		p.set('consPol',r.get('portId'));
             		p.set('consPolCn',r.get('portNameCn'));
-            		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) 
+            		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) {
             			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
-            		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) 
+            		}
+            		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) {
             			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
+            		}
             	},
              	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
 	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
-			value:p.get('consPodEn'),store:getPS(),xtype:'combo',displayField:'portNameEn',
+			value:p.get('consPodEn'),store:getPS(),xtype:'combo',
+			displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
 			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
 		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
 		listeners:{scope:this,
@@ -960,12 +963,15 @@ Fos.BookTab = function(p) {
         	select:function(c,r,i){
         		p.set('consPod',r.get('portId'));
         		p.set('consPodCn',r.get('portNameCn'));
-            	if(p.get('consBizClass')==BC_E&&this.find('name','consTradeCountry')[0]) 
+            	if(p.get('consBizClass')==BC_E&&this.find('name','consTradeCountry')[0]) {
             		this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
-            	if(this.find('name','consDeliveryPlace')[0]) 
+            	}
+            	if(this.find('name','consDeliveryPlace')[0]) {
             		this.find('name','consDeliveryPlace')[0].setValue(r.get('portNameEn'));
-            	if(this.find('name','consDestination')[0]) 
+            	}
+            	if(this.find('name','consDestination')[0]) {
             		this.find('name','consDestination')[0].setValue(r.get('portNameEn'));
+            	}
             	},
          	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
     var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',
@@ -1046,10 +1052,10 @@ Fos.BookTab = function(p) {
              	},
             	keydown:{fn:function(f,e){LC(f,e,'custDoAgencyFlag');},buffer:BF}}};
    
-    var txtMblNo={fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,height:48,
-    		name:'consMblNo',tabIndex:36,value:p.get('consMblNo'),xtype:'textarea',anchor:'99%'};
+    var txtMblNo={fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,
+    		name:'consMblNo',tabIndex:36,value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
     var txtHblNo={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,tabIndex:37,name:'consHblNo',
-    		value:p.get('consHblNo'),xtype:'textarea',height:48,anchor:'99%'};
+    		value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
     
     var m30={fieldLabel:C_ETA,name:'consEta',itemCls:p.get('consBizClass')==BC_I?'required':'',
     	tabIndex:44,value:p.get('consEta'),xtype:'datefield',format:DATEF,anchor:'99%',
