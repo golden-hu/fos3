@@ -2978,17 +2978,19 @@ Fos.VoucherTab = function(p,prId,invoId) {
                 items: [{fieldLabel:C_CHECK_NO,tabIndex:3,name:'voucCheckNo',value:p.get('voucCheckNo'),xtype:'textfield',format:DATEF,anchor:'95%'},
                 {fieldLabel:C_EX_RATE,tabIndex:7,name:'voucExRate',value:p.get('voucExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'95%',
                 listeners:{scope:this,change:function(f,nv,ov){		
-					p.set('voucExRate',nv);
+                	var sum=0;
 					var d=store.getRange();
-					var sum = 0;
 					for(var i=0;i<d.length;i++){
-						sum+=d[i].get('voitAmountW')
-						d[i].set('voucExRate',nv);
-						if(d[i].get('invoCurrCode')==p.get('currCode'))
+						d[i].set('voitAmountOriW',round2(d[i].get('voitAmountW')*d[i].get('invoExRate')/nv));
+						d[i].set('voitAmountVoucW',round2(nv*d[i].get('voitAmountW')/d[i].get('voucExRate')));
+						if(d[i].get('expeType')==p.get('voucType')){sum = round2(sum + parseFloat(d[i].get('voitAmountVoucW')));}
+						else{sum = round2(sum - parseFloat(d[i].get('voitAmountVoucW')));}
+						if(d[i].get('invoCurrCode')==p.get('currCode')){
 							d[i].set('voitExRate',nv);
+						}
 					}
-					this.find('name','voucAmount')[0].setValue(round2(sum/nv));
-					this.find('name','voucWriteOffAmount')[0].setValue(round2(sum/nv));
+					this.find('name','voucWriteOffAmount')[0].setValue(sum);
+					this.find('name','voucAmount')[0].setValue(sum);
 				}}},
                 {fieldLabel:C_FIX_AMOUNT,tabIndex:11,name:'voucFixAmount',value:p.get('voucFixAmount'),xtype:'numberfield',anchor:'95%',
                 listeners:{scope:this,change:function(f,nv,ov){		
