@@ -121,7 +121,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
          }};
     var c3={header:C_M_CONS,width:30,hidden:shipType!=ST_L,dataIndex:"consMasterFlag",renderer:boolRender};
     var c4={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS};
-    var c5={header:C_CONS_NO,width:120,dataIndex:"consNo"};
+    var c5={header:C_CONS_NO,width:150,dataIndex:"consNo"};
     var c6={header:bizType==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
     var c7={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
     var c8={header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
@@ -143,7 +143,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c23={header:C_POT,dataIndex:"consPotEn"};
     var c24={header:C_CARRIER,dataIndex:"consCarrierName"};
     var c25={header:C_BOOK_AGENCY,dataIndex:"consBookingAgencyName"};
-    var c26={header:C_M_CONS_NO,width:120,hidden:shipType!=ST_L,dataIndex:"consMasterNo"};
+    var c26={header:C_M_CONS_NO,width:150,dataIndex:"consMasterNo"};
     var c27={header:C_REMARKS,dataIndex:"consRemarks"};
     var c28={header:C_CONTRACT_NO,dataIndex:"consContractNo"};
     var c29={header:C_CARGO_OWNER,width:200,dataIndex:"consCargoOwnerName"};
@@ -158,10 +158,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c36={header:C_ETA,dataIndex:"consEta",renderer:formatDate};
     
     var cm=new Ext.grid.ColumnModel({columns:
-    	bizType==BT_B?[c1,c2,c3,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
-    	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c26,c27]:
-    	            [c1,c2,c3,c4,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
-    	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28],
+    	bizType==BT_B?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c27]:
+    	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c27,c28],
 		defaults: {sortable: true}});
     
 	this.addConsign = function(){
