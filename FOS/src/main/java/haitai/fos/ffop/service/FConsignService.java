@@ -428,7 +428,21 @@ public class FConsignService {
 						dao.update(master);
 						break;
 				}
-			} else {
+			} else if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
+					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterId()!=null){
+				StringBuilder sb = new StringBuilder();
+				Map<String,Object> map = new HashMap<String, Object>();
+				map.put("consMasterId", entity.getConsMasterId());
+				List<FConsign> consignEntity = dao.findByProperties(map);
+				Integer size = consignEntity.size();
+				String no = entity.getConsMasterNo();
+				sb.append(no);
+				sb.append("-");
+				sb.append(size.toString());
+				entity.setConsNo(sb.toString());
+				entity.setConsMasterId(0);
+				dao.save(entity);
+			}else {
 				entity = saveNormalConsign(entity);
 				generateTask(entity);
 			}

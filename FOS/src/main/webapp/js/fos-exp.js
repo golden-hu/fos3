@@ -6,8 +6,8 @@
 		sr=SR_INSP;
 	var rid=GGUID();
 	var c = new FConsign({id:rid,consId:rid,consNotifyParty:'SAME AS CONSIGNEE',
-		consNo:VERSION==2?'':('N'+rid),consType:'A',consShipType:st,consActionType:'A',consMasterFlag:st=='LCL'?1:0,
-		consBizClass:bc,consBizType:bt,consSource:0,consOperatorId:'',consDate:new Date(),tranId:st=='LCL'?CFS:CY,
+		consNo:VERSION==2?'':('N'+rid),consType:'A',consShipType:st,consActionType:'A',consMasterFlag:1,
+		consBizClass:bc,consBizType:bt,consSource:0,consDate:new Date(),tranId:st=='LCL'?CFS:CY,
 		consServiceRequired:sr,version:0,consStatus:0,consStatusBooking:0,consStatusClearance:0,
 		consStatusSwitchBl:0,consStatusSplit:0,consStatusInsp:0,consStatusCont:0,
 		consStatusCarg:0,consStatusMbl:0,consStatusHbl:0,consStatusBBook:0,
@@ -50,6 +50,9 @@ Fos.copyConsign = function(p){
 	c.set('consReassignFrom',0);c.set('consStatusLock',0);c.set('consStatusSettlement',0);c.set('rowAction','N');
 	c.set('fconId','');c.set('loliId','');c.set('consMasterFlag','0');c.set('consMasterId','');
 	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');c.set('rowAction','N');
+	//嘉禾提出将货物信息也一起带出
+	
+	
 	return c;
 };
 Fos.showConsign = function(p,listStore){
@@ -124,7 +127,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c8={header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
     var c9={header:C_PATE,dataIndex:"pateId",width:80,renderer:getPATE};
     var c10={header:C_SHIP_TYPE,dataIndex:"consShipType",width:80};
-    var c11={header:C_VESS,width:100,dataIndex:"vessName"};
+    var c11={header:C_VESS,hidden:bizType==BT_A,width:100,dataIndex:"vessName"};
     var c12={header:bizType==BT_A?C_FLIGHT:C_VOYA,width:80,dataIndex:"voyaName"};
     var c13={header:C_SAIL_DATE,dataIndex:"consEtd",renderer:formatDate};
     var c14={header:C_POL,dataIndex:"consPolEn"};
@@ -389,7 +392,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     
     if(bizType==BT_B) 
     	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
-    else if (bizType==BT_C&&bizClass==BC_E&&shipType==ST_L)
+    else if (bizType==BT_C&&bizClass==BC_E)
     	tbs=[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     
 	Fos.ConsignGrid.superclass.constructor.call(this, {
@@ -677,7 +680,9 @@ Fos.BookTab = function(p) {
 				this.find('name','custTel')[0].setValue(r.get('custTel'));
 				this.find('name','custFax')[0].setValue(r.get('custFax'));
 				this.find('name','custSalesName')[0].store.reload({params:{custId:r.get('custId')}});
-				this.find('name','consSalesRepName')[0].setValue(r.get('custSalesName'));
+				if(r.get('custSalesName')!=""){
+					this.find('name','consSalesRepName')[0].setValue(r.get('custSalesName'));
+				}
 				p.set('custId',r.get('custId'));
 				p.set('custSname',r.get('custCode'));
 				p.set('custName',r.get('custNameCn'));
@@ -885,7 +890,7 @@ Fos.BookTab = function(p) {
 				c.setValue(r.get('custNameCn'));
 			},
 			keydown:{fn:function(f,e){
-				LC(f,e,'custCarrierFlag');
+				LC(f,e,p.get('consBizType')==BT_A?'custAirFlag':'custCarrierFlag');
 			},buffer:BF}}};
 	
 	var m3={fieldLabel:C_OVERSEA_AGENCY,tabIndex:p.get('consBizClass')==BC_I?46:42,name:'consOverseaAgencyName',value:p.get('consOverseaAgencyName'),store:getCS(),enableKeyEvents:true,
