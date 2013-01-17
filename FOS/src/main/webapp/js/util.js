@@ -468,6 +468,21 @@ var SMTX4R=function(sm,t,pid){
 	sm.each(function(r){xml=xml+RTX4R(r,t,pid);});
 	return xml;
 };
+//嘉禾
+var RTX4RM=function(r,t,pid,mid){
+	var xml =''; 
+	xml=xml+'<'+t+'>\n<'+pid+'>'+r.get(pid)+'</'+pid+'>\n';	
+	xml=xml+'<'+mid+'>'+r.get(mid)+'</'+mid+'>\n';
+	xml += "<rowAction>R</rowAction>\n";
+	xml =xml+'</'+t+'>\n';
+	return xml;
+};
+var SMTX4RM=function(sm,t,pid,mid){
+	var xml ='';                			
+	sm.each(function(r){xml=xml+RTX4RM(r,t,pid,mid);});
+	return xml;
+};
+
 var STX4R=function(store,t,pid){
 	var xml ='';                			
 	var a =store.getRange();

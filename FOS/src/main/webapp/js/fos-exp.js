@@ -221,7 +221,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
        	if(a.length){
        		XMG.confirm(SYS,M_R_C,function(btn){
            	if(btn=='yes'){
-           		var xml = SMTX4R(sm,'FConsign','consId');
+           		var xml = SMTX4RM(sm,'FConsign','consId','consMasterId');
            		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
 				success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
 				failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},

@@ -430,18 +430,19 @@ public class FConsignService {
 				}
 			} else if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
 					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterId()!=null){
-				StringBuilder sb = new StringBuilder();
-				Map<String,Object> map = new HashMap<String, Object>();
-				map.put("consMasterId", entity.getConsMasterId());
-				List<FConsign> consignEntity = dao.findByProperties(map);
-				Integer size = consignEntity.size();
-				String no = entity.getConsMasterNo();
-				sb.append(no);
-				sb.append("-");
-				sb.append(size.toString());
-				entity.setConsNo(sb.toString());
-				entity.setConsMasterId(0);
-				dao.save(entity);
+					StringBuilder sb = new StringBuilder();
+					HashMap<String,Object> map = new HashMap<String, Object>();
+					map.put("consMasterId", entity.getConsMasterId());
+					List<FConsign> consignEntity = dao.findByProperties(map);
+					Integer size = consignEntity.size();
+					String no = entity.getConsMasterNo();
+					sb.append(no);
+					sb.append("-");
+					sb.append(size.toString());
+					entity.setConsNo(sb.toString());
+					entity.setConsMasterId(0);
+					entity.setConsShipType("LCL");
+					dao.save(entity);
 			}else {
 				entity = saveNormalConsign(entity);
 				generateTask(entity);
@@ -470,6 +471,12 @@ public class FConsignService {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("consId", entity.getConsId().toString());
 			List<SExpense> expeList = expenseDao.findByProperties(map);
+			map.clear();
+			map.put("consMasterId",entity.getConsMasterId());
+			List<FConsign> consignList = dao.findByProperties(map);
+			if(consignList.size()>1&&delEntity.getConsMasterFlag()!=0){
+				throw new BusinessException("fos.cons_hawb.existing");
+			}
 			if(expeList.size()>0){
 				throw new BusinessException("fos.cons_expense.existing");
 			}else{
