@@ -433,12 +433,19 @@ public class FConsignService {
 					StringBuilder sb = new StringBuilder();
 					HashMap<String,Object> map = new HashMap<String, Object>();
 					map.put("consMasterId", entity.getConsMasterId());
-					List<FConsign> consignEntity = dao.findByProperties(map);
-					Integer size = consignEntity.size();
+					List<FConsign> consignList = dao.findByProperties(map);
+					Integer size = consignList.size();
 					String no = entity.getConsMasterNo();
 					sb.append(no);
 					sb.append("-");
-					sb.append(size.toString());
+					if(size>1){
+						FConsign consItem =  consignList.get(size-1);
+						Integer i = consItem.getConsNo().indexOf("-"); 
+						Integer endInteger = Integer.parseInt(consItem.getConsNo().substring(i+1));
+						sb.append(endInteger+1);
+					}else{
+						sb.append(size.toString());
+					}
 					entity.setConsNo(sb.toString());
 					entity.setConsMasterFlag((short) 0);
 					dao.save(entity);
