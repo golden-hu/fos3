@@ -440,8 +440,7 @@ public class FConsignService {
 					sb.append("-");
 					sb.append(size.toString());
 					entity.setConsNo(sb.toString());
-					entity.setConsMasterId(0);
-					entity.setConsShipType("LCL");
+					entity.setConsMasterFlag((short) 0);
 					dao.save(entity);
 			}else {
 				entity = saveNormalConsign(entity);
