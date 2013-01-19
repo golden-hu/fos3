@@ -37,7 +37,7 @@ Fos.copyConsign = function(p){
 	var c = new FConsign({});var rid=GGUID();
 	var f = FConsign.prototype.fields;
 	for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];c.set(fn,p.get(fn));};
-	c.set('consDate',new Date());
+	c.set('consDate',new Date());c.set('consSalesRepName',p.get('consSalesRepName'));
 	c.set('consId',rid);c.set('id',rid);c.set('consNo','N'+rid);c.set('version',1);
 	c.set('consStatus',0);c.set('consStatusBooking',0);c.set('consStatusClearance',0);
 	c.set('consStatusSwitchBl',0);c.set('consStatusSplit',0);c.set('consStatusInsp',0);
@@ -500,8 +500,8 @@ Fos.BookTab = function(p) {
 			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);return;};
 		if(this.find('name','deptId')[0].getValue()==''){
 			XMG.alert(SYS,M_DEPT_REQIRED,function(){this.find('name','deptId')[0].focus();},this);return;};	
-		if(this.find('name','consSalesRepName')[0].getValue()==''){
-			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);return;};
+		if(this.find('name','consSalesRepId')[0].getValue()==''){
+			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepId')[0].focus();},this);return;};
 		if(this.find('name','consOperatorId')[0].getValue()==''){
 			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorId')[0].focus();},this);return;};
 		
@@ -648,12 +648,12 @@ Fos.BookTab = function(p) {
 	var txtDept={fieldLabel:C_DEPT,itemCls:'required',name:'deptId',value:p.get('deptId'),
 			tabIndex:2,store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',
 			typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
-	var txtSales={fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
-    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userName',
+	var txtSales={fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepId',value:p.get('consSalesRepId'),
+    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
     		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     		listeners:{scope:this,
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
-    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}};	
+    	    	select:function(c,r,i){p.set('consSalesRepName',r.get('userName'));}}};	
 	var txtOperator={fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:4,name:'consOperatorId',value:p.get('consOperatorId'),
     		store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
     		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
