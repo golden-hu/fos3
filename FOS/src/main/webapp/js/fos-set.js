@@ -138,7 +138,7 @@
 	 var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
 	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
 	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
-	 var t27={header:C_INVO_TITLE,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
+	 var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cols=[];
 	if(t=='R'){
