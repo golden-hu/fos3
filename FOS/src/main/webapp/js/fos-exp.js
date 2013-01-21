@@ -681,7 +681,7 @@ Fos.BookTab = function(p) {
 				this.find('name','custFax')[0].setValue(r.get('custFax'));
 				this.find('name','custSalesName')[0].store.reload({params:{custId:r.get('custId')}});
 				if(r.get('custSalesName')!=""){
-					this.find('name','consSalesRepName')[0].setValue(r.get('custSalesName'));
+					this.find('name','consSalesRepId')[0].setValue(r.get('custSalesId'));
 				}
 				p.set('custId',r.get('custId'));
 				p.set('custSname',r.get('custCode'));

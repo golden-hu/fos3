@@ -2979,11 +2979,12 @@ Fos.VoucherTab = function(p,prId,invoId) {
                 items: [{fieldLabel:C_CHECK_NO,tabIndex:3,name:'voucCheckNo',value:p.get('voucCheckNo'),xtype:'textfield',format:DATEF,anchor:'95%'},
                 {fieldLabel:C_EX_RATE,tabIndex:7,name:'voucExRate',value:p.get('voucExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'95%',
                 listeners:{scope:this,change:function(f,nv,ov){		
+					p.set('voucExRate',nv);
 					var d=store.getRange();
-					for(var i=0;i<d.length;i++){
-						if(d[i].get('invoCurrCode')==p.get('currCode')){
+					for(var i=0;i<d.length;i++){						
+						d[i].set('voucExRate',nv);
+						if(d[i].get('invoCurrCode')==p.get('currCode'))
 							d[i].set('voitExRate',nv);
-						}
 					}
 				}}},
                 {fieldLabel:C_FIX_AMOUNT,tabIndex:11,name:'voucFixAmount',value:p.get('voucFixAmount'),xtype:'numberfield',anchor:'95%',

@@ -214,10 +214,20 @@ public class SVoucherService {
 		Double writeOffRcAmount = (double) 0;
 		for (SVoucherItem item : list) {
 			if (item.getVoitAmountOriW() != null) {
-				writeOffAmount += item.getVoitAmountOriW();
+				if(item.getExpeCurrCode()!=item.getInvoCurrCode()&&item.getExpeCurrCode()!="CNY") {
+					writeOffAmount += item.getVoitAmountOriW()/item.getVoucExRate();
+				}else{
+					writeOffAmount += item.getVoitAmountOriW();
+				}
+					
 			}
 			if (item.getVoitAmountW() != null && item.getInitExRate() != null) {
-				writeOffRcAmount += item.getVoitAmountW() * item.getInitExRate();
+				if(item.getExpeCurrCode()!=item.getInvoCurrCode()&&item.getExpeCurrCode()!="CNY") {
+					writeOffRcAmount += item.getVoitAmountW();
+				}else{
+					writeOffRcAmount += item.getVoitAmountW() * item.getInitExRate();
+				}
+				
 			}
 		}
 		expense.setExpeWriteOffAmount(writeOffAmount);
