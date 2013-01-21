@@ -1703,8 +1703,7 @@ Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
 Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},
-		{header:C_INVO_TITLE,width:200,dataIndex:"expeTitle"},
+		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},		
 		{header:C_CONS_NO,width:120,dataIndex:"consNo"},		
 		{header:C_CHAR,width:80,dataIndex:"charName"},
 		{header:C_UNIT,width:80,dataIndex:"unitName"},
@@ -1721,6 +1720,7 @@ Fos.ExpenseLookupWin = function(store) {
 		{header:C_VESS,width:80,dataIndex:"consVessel"},
 		{header:C_VOYA,width:80,dataIndex:"consVoyage"},
 		{header:C_INVO_NO,width:100,dataIndex:"expeInvoiceNo"},
+		{header:C_INVO_TITLE,hidden:VERSION==0,width:200,dataIndex:"expeTitle"},
 		{header:C_REMARKS,width:100,dataIndex:"expeRemarks"}
 		],defaults:{sortable:true,width:100}});
 	var filters = new Ext.grid.GridFilters({
