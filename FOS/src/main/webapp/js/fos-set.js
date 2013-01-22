@@ -2981,11 +2981,22 @@ Fos.VoucherTab = function(p,prId,invoId) {
                 listeners:{scope:this,change:function(f,nv,ov){		
 					p.set('voucExRate',nv);
 					var d=store.getRange();
+					var sum = 0;
 					for(var i=0;i<d.length;i++){						
 						d[i].set('voucExRate',nv);
-						if(d[i].get('invoCurrCode')==p.get('currCode'))
+						if(d[i].get('invoCurrCode')==p.get('currCode')){
 							d[i].set('voitExRate',nv);
+						}
+						d[i].set('voitAmountOriW',round2(d[i].get('voitAmountW')*d[i].get('invoExRate')/d[i].get('voitExRate')));
+						d[i].set('voitAmountVoucW',round2(d[i].get('voitExRate')*d[i].get('voitAmountW')/nv));
+						if(d[i].get('expeType')==p.get('voucType')){
+							sum = round2(sum + parseFloat(d[i].get('voitAmountVoucW')));
+						}else{
+							sum = round2(sum - parseFloat(d[i].get('voitAmountVoucW')));
+						}
 					}
+				this.find('name','voucWriteOffAmount')[0].setValue(sum);
+				this.find('name','voucAmount')[0].setValue(sum);
 				}}},
                 {fieldLabel:C_FIX_AMOUNT,tabIndex:11,name:'voucFixAmount',value:p.get('voucFixAmount'),xtype:'numberfield',anchor:'95%',
                 listeners:{scope:this,change:function(f,nv,ov){		
