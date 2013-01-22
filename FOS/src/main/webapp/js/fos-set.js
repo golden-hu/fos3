@@ -2716,7 +2716,9 @@ Fos.VoucItemGrid = function(p,store,frm){
 	this.removeVoit=function(){
 		var r = sm.getSelections();
 		if(r.length){
-			for(var i=0;i<r.length;i++){r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');store.remove(r[i]);}
+			for(var i=0;i<r.length;i++){
+				r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');
+				store.remove(r[i]);}
 			this.reCalculate();
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
@@ -2828,8 +2830,6 @@ Fos.VoucherTab = function(p,prId,invoId) {
     		XMG.alert(SYS,M_SEL_SETTLE_OBJ);
     		return;
     	}
-		//if(!p.get('voucAmount')){XMG.alert(SYS,title+M_REQIRED);return;};
-		//if(p.get('voucAmount')<=0){XMG.alert(SYS,title+M_GREAT_THAN_ZERO);return;};
 		if(p.get('voucWriteOffAmount')+p.get('voucFixAmount')>p.get('voucAmount')+0.5){
 			XMG.alert(SYS,M_VOUC_AMOUNT_NOT_GREAT+title);
 			return;
@@ -2873,8 +2873,10 @@ Fos.VoucherTab = function(p,prId,invoId) {
 					p.set('rowAction','M');
 				}
 				p.endEdit();
-				var sa = this.grid.getStore();
-				var a = XTRA(res.responseXML,'SVoucherItem',SVoucherItem);FOSU(sa,a,SVoucherItem);
+				var a = XTRA(res.responseXML,'SVoucherItem',SVoucherItem);
+				store.removeAll();
+				store.add(a);
+				FOSU(store,a,SVoucherItem);
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);tb.getComponent('TB_A').setDisabled(false);
 			},
