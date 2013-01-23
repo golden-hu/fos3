@@ -1628,8 +1628,20 @@ Fos.InvoiceGrid = function(t) {
        		XMG.confirm(SYS,M_R_C,function(btn){
            	if(btn=='yes'){
            		var b = false;
-               	for(var i=0;i<a.length;i++){if(a[i].get('invoStatus')!='0') b=true;}
-               	if(b) XMG.alert(SYS,M_INVO_CONFIRMED);
+           		var c = false;
+               	for(var i=0;i<a.length;i++){
+               		if(a[i].get('invoStatus')!='0') {
+               			b=true;
+               		}
+               		if(a[i].get('invoWriteOffStatus')!=0){
+               			c=true;
+               		}
+               	}
+               	if(b) {
+               		XMG.alert(SYS,M_INVO_CONFIRMED);
+               	}else if(c) {
+               		XMG.alert(SYS,C_IS_WRITEOFF);
+               	}
                	else {
                		var xml = SMTX4R(sm,'SInvoice','invoId');
                		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'INVO_S'},
@@ -2874,9 +2886,11 @@ Fos.VoucherTab = function(p,prId,invoId) {
 				}
 				p.endEdit();
 				var a = XTRA(res.responseXML,'SVoucherItem',SVoucherItem);
-				store.removeAll();
-				store.add(a)
-				FOSU(store,a,SVoucherItem);
+				if(a!=""){
+					store.removeAll();
+					store.add(a);
+					FOSU(store,a,SVoucherItem);
+				}
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);tb.getComponent('TB_A').setDisabled(false);
 			},

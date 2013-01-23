@@ -347,7 +347,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var b8={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
 	var b9={text:C_TASK+'(T)',iconCls:'task',handler:this.task};
 	new Ext.KeyMap(Ext.getDoc(), {
-		key:'nmdfeq',ctrl:true,
+		key:'nmdfeq',alt:true,
 		handler: function(k, e) {
 		 	var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
 		 	if(t&&t==T_MAIN.getActiveTab())
@@ -362,9 +362,9 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
                 }
 			}
 		},
-		stopEvent: true,scope:this
+		stopEvent: false,scope:this
 	});
-	new Ext.KeyMap(Ext.getDoc(), {key:[116],
+	new Ext.KeyMap(Ext.getDoc(), {key:[116],alt:true,
         handler: function(k, e) {
             var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
             if(t&&t==T_MAIN.getActiveTab()){
@@ -373,7 +373,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
             		break;
             	}
             }
-        },stopEvent: true,scope:this
+        },stopEvent: false,scope:this
     });
     this.pagingNav=function(page){
         var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
@@ -427,6 +427,7 @@ Fos.ConsignTab = function(p){
 	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) items[items.length]=new Fos.SplitTab(p);
 	
 	new Ext.KeyMap(Ext.getDoc(), {
+		alt:true,
 		key:[112,113,114,115,116,117,118,119,120,121,122,123],
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
@@ -459,7 +460,7 @@ Fos.ConsignTab = function(p){
 					var t=tc.getComponent('T_RABL_'+p.get('id'));if(t) tc.setActiveTab(t);break;
 			}
 		},
-		stopEvent: true
+		stopEvent: false
 	});
 	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
 	if(p.get('consBizType')==BT_C){
@@ -1930,7 +1931,7 @@ Fos.BookTab = function(p) {
 	}
 	
 	var bk=new Ext.KeyMap(Ext.getDoc(), {
-		key:'sbqtgxrfa',ctrl:true,
+		key:'sbqtgxrfa',alt:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
@@ -1960,7 +1961,7 @@ Fos.BookTab = function(p) {
 				}}
 		 	}
 		},
-		stopEvent: true,scope:this
+		stopEvent: false,scope:this
 	});
 	new Ext.KeyMap(Ext.getDoc(), {
 		key:'jxhykt',alt:true,
@@ -1987,7 +1988,7 @@ Fos.BookTab = function(p) {
 				}}
 		 	}
 		},
-		stopEvent: true
+		stopEvent: false
 	});
 	Fos.BookTab.superclass.constructor.call(this, { 
 		id: "T_BOOK_"+p.get('id'),title:C_CONSIGN+"(F1)",header:false,autoScroll:true,

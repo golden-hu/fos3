@@ -260,7 +260,7 @@ new Ext.KeyMap(Ext.getDoc(), {
 			case Ext.EventObject.B:	sysPanel.expand();break;
 	 	}
 	},
-	stopEvent: true
+	stopEvent: false
 });
 new Ext.KeyMap(Ext.getDoc(), {
 	key:[Ext.EventObject.ESC],
@@ -271,7 +271,7 @@ new Ext.KeyMap(Ext.getDoc(), {
 	 		switch(k) {case Ext.EventObject.ESC:T_MAIN.remove(t);break;}
 		}	 	
 	},
-	stopEvent: true
+	stopEvent: false
 });
 
 function CreateNode(t,c,m,f){return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,listeners:{

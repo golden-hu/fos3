@@ -45,6 +45,8 @@ public class SVoucherService {
 		List retList = new ArrayList();
 		Integer parentId = null;
 		String voucNo = null;
+		Date vouchDate = null;
+		boolean isVoucherDateFlag = false;
 		Set<Integer> invoiceSet = new HashSet<Integer>();
 		Set<Integer> invoiceItemSet = new HashSet<Integer>();
 		Set<Integer> expenseSet = new HashSet<Integer>();
@@ -62,6 +64,11 @@ public class SVoucherService {
 					dao.save(entity);
 					retList.add(entity);
 				} else if (entity.getRowAction() == RowAction.M) {
+					vouchDate = entity.getVoucDate();
+					SVoucher voucher = dao.findById(entity.getVoucId());
+					if (voucher.getVoucDate().getTime()!=vouchDate.getTime()) {
+						isVoucherDateFlag = true;
+					}
 					retList.add(dao.update(entity));
 				} else if (entity.getRowAction() == RowAction.R) {
 					SVoucher delEntity = dao.findById(entity.getVoucId());
@@ -85,6 +92,7 @@ public class SVoucherService {
 				}
 				parentId = entity.getVoucId();
 				voucNo = entity.getVoucNo();
+				vouchDate = entity.getVoucDate();
 				break;
 			}
 		}
@@ -151,6 +159,21 @@ public class SVoucherService {
 			p.setRowAction(RowAction.M);
 			prDao.update(p);
 		}		
+		
+		//如果核销日期改变那么相应的核销明细表的核销日期也要改变
+		if (isVoucherDateFlag) {
+			Map<String, Object> queryMap = new HashMap<String, Object>();
+			queryMap.put("voucId", parentId);
+			List<SVoucherItem> itemList = itemDao.findByProperties(queryMap);
+			for (SVoucherItem voucherItem : itemList) {
+				voucherItem.setVoucDate(vouchDate);
+				itemDao.update(voucherItem);
+				expenseSet.add(voucherItem.getExpeId());
+				if (!retList.contains(voucherItem)) {
+					retList.add(voucherItem);
+				}
+			}
+		}
 		
 		return retList;
 	}
