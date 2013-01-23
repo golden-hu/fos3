@@ -125,6 +125,22 @@ public class SVoucherService {
 				consignSet.add(entity.getConsId());
 			}
 		}
+		
+		//如果核销日期改变那么相应的核销明细表的核销日期也要改变
+		if (isVoucherDateFlag) {
+			Map<String, Object> queryMap = new HashMap<String, Object>();
+			queryMap.put("voucId", parentId);
+			List<SVoucherItem> itemList = itemDao.findByProperties(queryMap);
+			for (SVoucherItem voucherItem : itemList) {
+				voucherItem.setVoucDate(vouchDate);
+				itemDao.update(voucherItem);
+				expenseSet.add(voucherItem.getExpeId());
+				if (!retList.contains(voucherItem)) {
+					retList.add(voucherItem);
+				}
+			}
+		}
+				
 		for (Integer id : invoiceItemSet) {
 			SInvoiceItem invoiceItem = invoiceItemDao.findById(id);
 			syncInvoiceItem(invoiceItem);
@@ -159,22 +175,6 @@ public class SVoucherService {
 			p.setRowAction(RowAction.M);
 			prDao.update(p);
 		}		
-		
-		//如果核销日期改变那么相应的核销明细表的核销日期也要改变
-		if (isVoucherDateFlag) {
-			Map<String, Object> queryMap = new HashMap<String, Object>();
-			queryMap.put("voucId", parentId);
-			List<SVoucherItem> itemList = itemDao.findByProperties(queryMap);
-			for (SVoucherItem voucherItem : itemList) {
-				voucherItem.setVoucDate(vouchDate);
-				itemDao.update(voucherItem);
-				expenseSet.add(voucherItem.getExpeId());
-				if (!retList.contains(voucherItem)) {
-					retList.add(voucherItem);
-				}
-			}
-		}
-		
 		return retList;
 	}
 
@@ -235,6 +235,7 @@ public class SVoucherService {
 		List<SVoucherItem> list = itemDao.findByProperties(queryMap);
 		Double writeOffAmount = (double) 0;
 		Double writeOffRcAmount = (double) 0;
+		Date  vouchDate = null;
 		for (SVoucherItem item : list) {
 			if (item.getVoitAmountOriW() != null) {
 				if(item.getExpeCurrCode()!=item.getInvoCurrCode()&&item.getExpeCurrCode()!="CNY") {
@@ -252,12 +253,13 @@ public class SVoucherService {
 				}
 				
 			}
+			vouchDate = item.getVoucDate();
 		}
 		expense.setExpeWriteOffAmount(writeOffAmount);
 		Short status = caclWriteOffStatus(expense.getExpeTotalAmount(), writeOffAmount);
 		expense.setExpeWriteoffStatus(status);
 		expense.setExpeWriteOffRcAmount(writeOffRcAmount);
-		expense.setExpeWriteOffDate(TimeUtil.getNow());
+		expense.setExpeWriteOffDate(vouchDate);
 		expense.setExpeWriteOffBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
 	}
 
