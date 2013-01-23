@@ -39,9 +39,11 @@ public class SInvoiceService {
 		String invoNo = null;
 		String invoTaxNo = null;
 		String invoTitle =null;
+		Date invoDate = null;
 		boolean invoNoChangeFlag = false;
 		boolean invoTitleChangeFlag = false;
 		boolean isInvoDelFlag = false;
+		boolean invoDateFlag = false;
 		SInvoice retInvoice = null;
 		// handle parent first
 		for (Object obj : entityList) {
@@ -64,6 +66,7 @@ public class SInvoiceService {
 					dao.save(entity);
 					retList.add(entity);
 				} else if (entity.getRowAction() == RowAction.M) {
+					invoDate =entity.getInvoDate();
 					invoTaxNo = entity.getInvoTaxNo();
 					checkTaxNoDuplicated(entity);
 					SInvoice dbInvoice = dao.findById(entity.getInvoId());
@@ -72,6 +75,9 @@ public class SInvoiceService {
 					}
 					if(!StringUtil.isEqual(invoTitle, dbInvoice.getInvoTitle())) {
 						invoTitleChangeFlag = true;
+					}
+					if(invoDate.getTime()!= dbInvoice.getInvoDate().getTime()){
+						invoDateFlag =true;
 					}
 					retInvoice = dao.update(entity);
 					retList.add(retInvoice);
@@ -88,6 +94,7 @@ public class SInvoiceService {
 				invoNo = entity.getInvoNo();
 				invoTaxNo = entity.getInvoTaxNo();
 				invoTitle = entity.getInvoTitle();
+				invoDate = entity.getInvoDate();
 				break;
 			}
 		}
@@ -140,26 +147,14 @@ public class SInvoiceService {
 			}
 		}
 		//修改发票头, 更新invoiceItem上的税务发票号
-		if (invoNoChangeFlag) {
+		if (invoNoChangeFlag||invoTitleChangeFlag||invoDateFlag) {
 			Map<String, Object> queryMap = new HashMap<String, Object>();
 			queryMap.put("invoId", parentId);
 			List<SInvoiceItem> itemList = itemDao.findByProperties(queryMap);
 			for (SInvoiceItem invoiceItem : itemList) {
 				invoiceItem.setInvoTaxNo(invoTaxNo);
-				itemDao.update(invoiceItem);
-				expenseSet.add(invoiceItem.getExpeId());
-				if (!retList.contains(invoiceItem)) {
-					retList.add(invoiceItem);
-				}
-			}
-		}
-		//修改发票头, 更新invoiceItem上的税务发票抬头
-		if (invoTitleChangeFlag) {
-			Map<String, Object> queryMap = new HashMap<String, Object>();
-			queryMap.put("invoId", parentId);
-			List<SInvoiceItem> itemList = itemDao.findByProperties(queryMap);
-			for (SInvoiceItem invoiceItem : itemList) {
 				invoiceItem.setInvoTitle(invoTitle);
+				invoiceItem.setInvoDate(invoDate);
 				itemDao.update(invoiceItem);
 				expenseSet.add(invoiceItem.getExpeId());
 				if (!retList.contains(invoiceItem)) {
@@ -276,6 +271,7 @@ public class SInvoiceService {
 		String invoiceNo = "";
 		String invoTaxNo = "";
 		String invoTitle = "";
+		Date invoDate = null;
 		Double amount = (double) 0;
 		Set<String> invoiceNoSet = new HashSet<String>();
 		Set<String> invoTaxNoSet = new HashSet<String>();
@@ -292,6 +288,7 @@ public class SInvoiceService {
 				amount += invoiceItem.getInitInvoiceAmountOri();
 			}
 			invoTitle = invoiceItem.getInvoTitle();
+			invoDate = invoiceItem.getInvoDate();
 		}
 		if (invoiceNo.endsWith(ConstUtil.COMMA)) {
 			invoiceNo = invoiceNo.substring(0, invoiceNo.length() - 1);
@@ -306,7 +303,7 @@ public class SInvoiceService {
 		//核销状态		
 		Short status = caclInvoiceStatus(expense.getExpeTotalAmount(), amount);
 		expense.setExpeInvoiceStatus(status);
-		expense.setExpeInvoiceDate(TimeUtil.getNow());
+		expense.setExpeInvoiceDate(invoDate);
 		expense.setExpeInvoiceBy(SessionManager.getStringAttr(SessionKeyType.USERNAME));
 	}
 
