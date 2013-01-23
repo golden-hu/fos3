@@ -2589,22 +2589,22 @@ Ext.extend(Fos.InitLookupWin,Ext.Window);
 Fos.VoucItemGrid = function(p,store,frm){
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-		{header:C_EXPE_TYPE,width:60,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
-		{header:C_INVO_NO,width:90,dataIndex:'invoNo'},
+		{header:C_EXPE_TYPE,width:80,dataIndex:"expeType",renderer:function(v){return v=='R'?C_AR:C_AP;}},
+		{header:C_INVO_NO,width:120,dataIndex:'invoNo'},
 		{header:C_TAX_NO,width:90,dataIndex:'invoTaxNo'},
 		{header:C_CHAR,width:80,dataIndex:'charName'},
 		{header:C_CURR_BASE,width:50,dataIndex:'expeCurrCode'},
 		{header:C_ORI_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:'expeTotalAmount'},	
-		{header:C_INVO_CURR,width:60,dataIndex:'invoCurrCode'},
-		{header:C_INVO_EX_RATE,width:60,align:'right',renderer:rateRender,dataIndex:'initExRate'},	
-		{header:C_INVO_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount'},
-		{header:C_WRITEOFFED_AMOUNT,width:80,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountW'},
-		{header:C_WRITEOFFED_AMOUNT_C,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountW',css:'background: #ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
-		{header:C_VOUC_EX_RATE,width:60,align:'right',renderer:rateRender,dataIndex:'voitExRate',css:'background: #ffaa66;',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
+		{header:C_INVO_CURR,width:80,dataIndex:'invoCurrCode'},
+		{header:C_INVO_EX_RATE,width:80,align:'right',renderer:rateRender,dataIndex:'initExRate'},	
+		{header:C_INVO_AMOUNT,width:100,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount'},
+		{header:C_WRITEOFFED_AMOUNT,width:110,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountW'},
+		{header:C_WRITEOFFED_AMOUNT_C,width:120,align:'right',renderer:numRender,dataIndex:'voitAmountW',css:'background: #ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_VOUC_EX_RATE,width:80,align:'right',renderer:rateRender,dataIndex:'voitExRate',css:'background: #ffaa66;',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
 		{header:C_EX_AMOUNT,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountVoucW'},
-		{header:C_EX_AMOUNT_ORI,width:100,align:'right',renderer:numRender,dataIndex:'voitAmountOriW'},
+		{header:C_EX_AMOUNT_ORI,width:120,align:'right',renderer:numRender,dataIndex:'voitAmountOriW'},
 		{header:C_UNIT,hidden:true,width:60,dataIndex:'unitName'},
-		{header:C_UNIT_PRICE,width:60,align:'right',renderer:rateRender,dataIndex:'expeUnitPrice'},
+		{header:C_UNIT_PRICE,width:80,align:'right',renderer:rateRender,dataIndex:'expeUnitPrice'},
 		{header:C_QUANTITY,width:60,dataIndex:'expeNum'},
 		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,width:80,dataIndex:'consVessel'},
@@ -2742,8 +2742,8 @@ Fos.VoucItemGrid = function(p,store,frm){
     	}
     	else if(f=='voitExRate'){
     		var voucExRate = frm.find('name','voucExRate')[0].getValue();
-    		r.set('voitAmountOriW',round2(r.get('voitAmountW')*r.get('invoExRate')/e.value));
 			r.set('voitAmountVoucW',round2(e.value*r.get('voitAmountW')/voucExRate));
+			r.set('voitAmountOriW',round2(r.get('voitAmountW')*r.get('invoExRate')/e.value));
 			this.reCalculate();
     	}
     }},
@@ -2875,7 +2875,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 				p.endEdit();
 				var a = XTRA(res.responseXML,'SVoucherItem',SVoucherItem);
 				store.removeAll();
-				store.add(a);
+				store.add(a)
 				FOSU(store,a,SVoucherItem);
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);tb.getComponent('TB_A').setDisabled(false);
@@ -2989,8 +2989,8 @@ Fos.VoucherTab = function(p,prId,invoId) {
 						if(d[i].get('invoCurrCode')==p.get('currCode')){
 							d[i].set('voitExRate',nv);
 						}
+						d[i].set('voitAmountVoucW',round2(d[i].get('voitExRate')*d[i].get('voitAmountW')/d[i].get('voucExRate')));
 						d[i].set('voitAmountOriW',round2(d[i].get('voitAmountW')*d[i].get('invoExRate')/d[i].get('voitExRate')));
-						d[i].set('voitAmountVoucW',round2(d[i].get('voitExRate')*d[i].get('voitAmountW')/nv));
 						if(d[i].get('expeType')==p.get('voucType')){
 							sum = round2(sum + parseFloat(d[i].get('voitAmountVoucW')));
 						}else{
