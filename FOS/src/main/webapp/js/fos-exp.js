@@ -496,6 +496,7 @@ Fos.BookTab = function(p) {
 		}
 	};    
     this.save = function(){    	
+    	var tb=this.getTopToolbar();
     	if(this.find('name','custName')[0].getValue()==''){
 			XMG.alert(SYS,M_CUST_REQIRED,function(){this.find('name','custName')[0].focus();},this);return;};
 		if(!p.get('custId')){
@@ -603,7 +604,7 @@ Fos.BookTab = function(p) {
 			var x = ATX(cargos,'FCargo',FCargo);
 			xml=xml+x;
 		};
-		
+		tb.getComponent('TB_A').setDisabled(true);
    	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:p.get('wconId')?'WCON_S':'CONS_S'},
 			success: function(res){
 				var c = XTR(res.responseXML,'FConsign',FConsign);
@@ -639,8 +640,9 @@ Fos.BookTab = function(p) {
 				}
 				XMG.alert(SYS,M_S);
 				Fos.showConsignTabs(p);
+				tb.getComponent('TB_A').setDisabled(false);
 			},
-			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+			failure: function(res){XMG.alert(SYS,M_F+res.responseText);tb.getComponent('TB_A').setDisabled(false);},
 			xmlData:FOSX(xml)
 		});
     };    
