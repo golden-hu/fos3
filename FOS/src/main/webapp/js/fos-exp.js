@@ -38,7 +38,7 @@ Fos.copyConsign = function(p){
 	var f = FConsign.prototype.fields;
 	for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];c.set(fn,p.get(fn));};
 	c.set('consDate',new Date());c.set('consSalesRepName',p.get('consSalesRepName'));
-	c.set('consId',rid);c.set('id',rid);c.set('consNo','N'+rid);c.set('consMasterNo','');
+	c.set('consId',rid);c.set('id',rid);c.set('consNo','N'+rid);
 	c.set('version',1);c.set('consStatus',0);c.set('consStatusBooking',0);
 	c.set('consStatusClearance',0);c.set('consStatusSwitchBl',0);c.set('consStatusSplit',0);
 	c.set('consStatusInsp',0);c.set('consStatusCont',0);c.set('consStatusCarg',0);
@@ -49,11 +49,11 @@ Fos.copyConsign = function(p){
 	c.set('consStatusReassign',0);c.set('consStatusInCy',0);c.set('consStatusInCfs',0);
 	c.set('consStatusOnBoard',0);c.set('consStatusEir',0);c.set('consStatusSendCont',0);
 	c.set('consReassignFrom',0);c.set('consStatusLock',0);c.set('consStatusSettlement',0);c.set('rowAction','N');
-	c.set('fconId','');c.set('loliId','');c.set('consMasterFlag','0');c.set('consMasterId','');
+	c.set('fconId','');c.set('loliId','');c.set('consMasterFlag',p.get('consMasterFlag')==0?0:1);
+	c.set('consMasterId',p.get('consMasterFlag')==0?p.get('consMasterId'):'');
+	c.set('consMasterNo',p.get('consMasterFlag')==0?p.get('consMasterNo'):'');
 	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');c.set('rowAction','N');
 	//嘉禾提出将货物信息也一起带出
-	
-	
 	return c;
 };
 Fos.showConsign = function(p,listStore){
@@ -168,7 +168,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	this.addConsign = function(){
 		var c=sm.getSelected();
 		if(c.get('consMasterFlag')=='1'){
-			var b=Fos.newConsign(bizClass,bizType,shipType);
+			var b=Fos.copyConsign(c);
 			b.set('consMasterFlag','0');
 			b.set('consMasterId',c.get('consId'));
 			b.set('consMasterNo',c.get('consNo'));

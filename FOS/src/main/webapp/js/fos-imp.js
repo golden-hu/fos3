@@ -167,7 +167,9 @@ Fos.CargoGrid = function(p,store,frm) {
 		frm.find('name','consCargoMarks')[0].setValue(mark);
 		frm.find('name','consCargoNameCn')[0].setValue(cname);
 		frm.find('name','consCargoNameEn')[0].setValue(ename);
-		frm.find('name','consCargoDesc')[0].setValue(ename);
+		if(p.get('consBizType')!='A'||VERSION!=0){
+			frm.find('name','consCargoDesc')[0].setValue(ename);
+		}
 		frm.find('name','packName')[0].setValue(pkgs);
 		p.set('packName',pkgs);
 		
