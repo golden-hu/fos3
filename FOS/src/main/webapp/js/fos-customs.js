@@ -27,8 +27,12 @@ Fos.InspectionGrid = function() {
     var c9={header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"};
     var c10={header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};  
     var c11={header:C_SALES,width:80,dataIndex:"consSalesRepName"};
-    
-    var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11],
+    var c12={header:C_VESS,width:120,dataIndex:"vessName"};
+    var c13 ={header:C_VOYA,width:60,dataIndex:"voyaName"};
+    var c14={header:C_PACKAGES,width:60,dataIndex:"consTotalPackages"};
+    var c15={header:C_GW_S,width:60,dataIndex:"consTotalGrossWeight"};
+    var c16={header:C_BL_NO,width:120,dataIndex:"consMbl"};
+    var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c12,c13,c14,c15,c16,c8,c9,c10,c11],
 		defaults: {sortable: true}});
 	
     showInspConsign = function(p){
@@ -673,7 +677,12 @@ Fos.CustomsGrid = function(bizClass) {
         {header:C_BOOKER,width:200,dataIndex:"custName"},
         {header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate},
         {header:C_CONS_CLOSE_DATE,dataIndex:"consCloseDate",renderer:formatDate},
-        {header:C_CUSTOMS_DECLEARATION_NO,dataIndex:"consCustomsDeclearationNo"},
+        {header:C_VESS,width:120,dataIndex:"vessName"},
+        {header:C_VOYA,width:60,dataIndex:"voyaName"},
+        {header:C_PACKAGES,width:60,dataIndex:"consTotalPackages"},
+        {header:C_GW_S,width:60,dataIndex:"consTotalGrossWeight"},
+        {header:C_BL_NO,width:120,dataIndex:"consMbl"},
+        {header:C_CUSTOMS_DECLEARATION_NO,width:120,dataIndex:"consCustomsDeclearationNo"},
         {header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"},
         {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"},
         {header:C_SALES,width:80,dataIndex:"consSalesRepName"}
@@ -1260,7 +1269,20 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
  		var consStatusExp=panel.find('name','consStatusExp')[0].getValue();        		
  		if(consStatusExp) 
  			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
-     	
+     	var vessName=panel.find('name','vessName')[0].getValue();        		
+ 		if(vessName) 
+ 			a[a.length]=new QParam({key:'vessName',value:vessName,op:op});
+ 		var voyaName=panel.find('name','voyaName')[0].getValue();        		
+ 		if(voyaName) 
+ 			a[a.length]=new QParam({key:'voyaName',value:voyaName,op:op});
+ 		var consTotalPackages=panel.find('name','consTotalPackages')[0].getValue();        		
+ 		if(consTotalPackages) 
+ 			a[a.length]=new QParam({key:'consTotalPackages',value:consTotalPackages,op:op});
+ 		var consTotalGrossWeight=panel.find('name','consTotalGrossWeight')[0].getValue();        		
+ 		if(consTotalGrossWeight) 
+ 			a[a.length]=new QParam({key:'consTotalGrossWeight',value:consTotalGrossWeight,op:op});
+ 		
+ 			
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -1303,7 +1325,11 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
               	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
          	{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',
               	store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+              	{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
+        		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+        	{fieldLabel:C_PACKAGES,name:'consTotalPackages',xtype:'textfield',anchor:'90%'}]},
       	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
    		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -1313,9 +1339,11 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
 			{fieldLabel:C_INVO_STATUS_R,name:'consStatusInvoR',xtype:'combo',
         		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-			{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
-        		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}]},
+        	{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
+         		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+         	{fieldLabel:C_GW_S,name:'consTotalGrossWeight',xtype:'textfield',anchor:'90%'}
+			]},
 		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_TO,name:'consCloseDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -1324,13 +1352,12 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
 			{fieldLabel:C_EXPE_CONFIRM_STATUS,name:'consStatusExp',xtype:'combo',
          		store:EXPC_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
          		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-			{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
-         		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
+         	{fieldLabel:C_VESS,name:'vessName',xtype:'textfield',anchor:'90%'},
+         	{fieldLabel:C_VOYA,name:'voyaName',xtype:'textfield',anchor:'90%'}
 		]}
 	]});
     Fos.CustomsConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
-    	width:800,height:260,buttonAlign:'right',items:panel,
+    	width:800,height:290,buttonAlign:'right',items:panel,
 		buttons:[{text:C_OK,scope:this,handler:this.reload},
 		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 
