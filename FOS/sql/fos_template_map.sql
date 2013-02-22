@@ -464,8 +464,9 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (17, '单价', 'SBillItem', 'expeUnitPrice', NULL),
 (17, '金额', 'SBillItem', 'expeTotalAmount', NULL),
 (17, '汇率', 'SBillItem', 'expeExRate', NULL),
-(17, '装货港', 'SBillItem', 'consPodEn', NULL),
-(17, '卸货港', 'SBillItem', 'consPolEn', NULL),
+(17, '装货港', 'SBillItem', 'consPolEn', NULL),
+(17, '卸货港', 'SBillItem', 'consPodEn', NULL),
+(17, '目的港', 'SBillItem', 'consPotEn', NULL),
 (17, '品名', 'SBillItem', 'consCargoNameCn', NULL),
 (17, '包装', 'SBillItem', 'consPackName', NULL),
 (17, '件数', 'SBillItem', 'consTotalPackages', NULL),
@@ -474,6 +475,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (17, '体积', 'SBillItem', 'consTotalMeasurement', NULL),
 (17, '箱型箱量', 'SBillItem', 'consContainersInfo', NULL),
 (17, '开航日期', 'SBillItem', 'consSailDate', NULL),
+(17, '到港日期', 'SBillItem', 'consSailDate', NULL),
 (17, '费用备注', 'SBillItem', 'expeRemarks', NULL);
 
 -- 装箱通知单

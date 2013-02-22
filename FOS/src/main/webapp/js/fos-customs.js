@@ -31,7 +31,7 @@ Fos.InspectionGrid = function() {
     var c13 ={header:C_VOYA,width:60,dataIndex:"voyaName"};
     var c14={header:C_PACKAGES,width:60,dataIndex:"consTotalPackages"};
     var c15={header:C_GW_S,width:60,dataIndex:"consTotalGrossWeight"};
-    var c16={header:C_BL_NO,width:120,dataIndex:"consMbl"};
+    var c16={header:C_BL_NO,width:120,dataIndex:"consMblNo"};
     var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c12,c13,c14,c15,c16,c8,c9,c10,c11],
 		defaults: {sortable: true}});
 	
@@ -681,7 +681,7 @@ Fos.CustomsGrid = function(bizClass) {
         {header:C_VOYA,width:60,dataIndex:"voyaName"},
         {header:C_PACKAGES,width:60,dataIndex:"consTotalPackages"},
         {header:C_GW_S,width:60,dataIndex:"consTotalGrossWeight"},
-        {header:C_BL_NO,width:120,dataIndex:"consMbl"},
+        {header:C_BL_NO,width:120,dataIndex:"consMblNo"},
         {header:C_CUSTOMS_DECLEARATION_NO,width:120,dataIndex:"consCustomsDeclearationNo"},
         {header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"},
         {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"},
@@ -1029,7 +1029,47 @@ Fos.CustomsDeclearTab = function(p,store) {
 			itemCls:VERSION==0?'required':'',
 			name:'consSailDate',value:p.get('consSailDate'),
 			xtype:'datefield',format:DATEF,anchor:'99%'});
-	
+	var cboPolEn = {fieldLabel:C_POL,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?39:43,
+    		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
+    		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
+    		triggerAction:'all',selectOnFocus:true,anchor:'99%',
+    		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
+    		listeners:{scope:this,
+    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
+            	select:function(c,r,i){
+            		p.set('consPol',r.get('portId'));
+            		p.set('consPolCn',r.get('portNameCn'));
+            		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) {
+            			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+            		}
+            		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) {
+            			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
+            		}
+            	},
+             	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
+    var cboPodEn = {fieldLabel:C_POD,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
+			value:p.get('consPodEn'),store:getPS(),xtype:'combo',
+			displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
+			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
+		listeners:{scope:this,
+			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
+        	select:function(c,r,i){
+        		p.set('consPod',r.get('portId'));
+        		p.set('consPodCn',r.get('portNameCn'));
+            	if(p.get('consBizClass')==BC_E&&this.find('name','consTradeCountry')[0]) {
+            		this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+            	}
+            	if(this.find('name','consDeliveryPlace')[0]) {
+            		this.find('name','consDeliveryPlace')[0].setValue(r.get('portNameEn'));
+            	}
+            	if(this.find('name','consDestination')[0]) {
+            		this.find('name','consDestination')[0].setValue(r.get('portNameEn'));
+            	}
+            	},
+         	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
+    var txtPotEn = {fieldLabel:C_DESTINATION_PORT,name:'consDeliveryPlace',
+    		value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		padding:5,labelAlign:'right',
@@ -1103,7 +1143,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 	    	   				c.setValue(r.get('custNameCn'));
 	    	   			},
 	    	   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}},
-	    	   			txtVessName
+	    	   			txtVessName,cboPolEn
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
              	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
@@ -1120,7 +1160,7 @@ Fos.CustomsDeclearTab = function(p,store) {
          			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
          			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',
          				value:p.get('consCustomsContact'),xtype:'textfield',anchor:'99%'},
-         			txtVoyage
+         			txtVoyage,cboPodEn
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
              		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -1139,7 +1179,7 @@ Fos.CustomsDeclearTab = function(p,store) {
      			   {xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
 		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP},
 		     	  {fieldLabel:C_CUDE_TEL,name:'consCustomsTel',value:p.get('consCustomsTel'),xtype:'textfield',anchor:'99%'},
-		     	 txtSailDate
+		     	 txtSailDate,txtPotEn
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
              		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
@@ -1152,7 +1192,7 @@ Fos.CustomsDeclearTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
              			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF},
-                     {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'90%'}
+                     {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'99%'}
          		]}
          	    ]},
          	   {header:false,border:false,layout:'column',items:[
