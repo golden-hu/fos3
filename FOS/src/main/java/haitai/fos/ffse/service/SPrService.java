@@ -88,9 +88,10 @@ public class SPrService {
 					entity.setPrId(parentId);
 					itemDao.save(entity);
 					Map<String, Object> queryMap = new HashMap<String, Object>();
-					queryMap.put("invoNo", entity.getInvoNo());
+					queryMap.put("invoId", entity.getInvoId());
 					List<SPrItem> sPrItems = itemDao.findByProperties(queryMap);
 					for(SPrItem e :sPrItems){
+						prAmountPaid = e.getPrAmountPaid();
 						prAmountPaid+=e.getPrAmount();
 					}
 					entity.setPrAmountPaid(prAmountPaid);
@@ -111,7 +112,7 @@ public class SPrService {
 					itemDao.update(entity);
 					entity.setVersion(entity.getVersion()+1);
 					Map<String, Object> queryMap = new HashMap<String, Object>();
-					queryMap.put("invoNo", entity.getInvoNo());
+					queryMap.put("invoId", entity.getInvoId());
 					List<SPrItem> sPrItems = itemDao.findByProperties(queryMap);
 					for(SPrItem e :sPrItems){
 						prAmountPaid+=e.getPrAmount();
