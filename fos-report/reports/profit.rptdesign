@@ -20,6 +20,7 @@
             <property name="namespace">dsFos</property>
         </structure>
     </list-property>
+    
     <parameters>
         <scalar-parameter name="F" id="43">
             <property name="hidden">true</property>
@@ -127,22 +128,7 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dsFos" id="6"
- extends="dsFos.dsFos">
-            <list-property name="privateDriverProperties">
-                <ex-property>
-                    <name>contentBidiFormatStr</name>
-                    <value>ILYNN</value>
-                </ex-property>
-                <ex-property>
-                    <name>metadataBidiFormatStr</name>
-                    <value>ILYNN</value>
-                </ex-property>
-            </list-property>
-            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://localhost/fos</property>
-            <property name="odaUser">fos</property>
-            <encrypted-property name="odaPassword" encryptionID="base64">Zm9z</encrypted-property>
-        </oda-data-source>
+ extends="dsFos.dsFos"/>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsProfit" id="24">
