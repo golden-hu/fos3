@@ -1021,6 +1021,8 @@ Fos.CustomsDeclearTab = function(p,store) {
     var bSaveConsignee = new Ext.Button({text:'保存',handler:function(){saveShipper(2);}});
     var bSearchConsignee = new Ext.Button({text:'选择',handler:function(){selShipper(2);}});
     
+    var txtConsMblNo = {fieldLabel:C_M_BL_NO,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
+    var txtConsHblNo = {fieldLabel:C_H_BL_NO,name:'consHblNo',value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
     var txtVessName={fieldLabel:C_VESS,tabIndex:17,
     		name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'99%'};
 	var txtVoyage={fieldLabel:C_VOYA,tabIndex:18,
@@ -1070,6 +1072,25 @@ Fos.CustomsDeclearTab = function(p,store) {
          	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
     var txtPotEn = {fieldLabel:C_DESTINATION_PORT,name:'consDeliveryPlace',
     		value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
+    var txtCargoNameEn={columnWidth:.5,layout:'form',labelWidth:80,border:false,
+			items:[{fieldLabel:C_CARGO_NAME_CN_EN,tabIndex:61,name:'consCargoNameEn',
+				value:p.get('consCargoNameEn'),xtype:'textarea',anchor:'99%'}
+			]};
+	
+    var txtTotalPackages={fieldLabel:C_PACKAGES,tabIndex:61,name:'consTotalPackages',value:p.get('consTotalPackages'),
+    			xtype:'numberfield',anchor:'99%'};
+	
+	var numGrossWeight = {fieldLabel:C_GW_S,
+		name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'
+		};
+	var numNetWeight = {fieldLabel:C_MW_S,
+		name:'consTotalNetWeight',value:p.get('consTotalNetWeight'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'};
+	var numMeasurement = {fieldLabel:C_CBM_S,
+		name:'consTotalMeasurement',value:p.get('consTotalMeasurement'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'};
+	
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		padding:5,labelAlign:'right',
@@ -1112,8 +1133,6 @@ Fos.CustomsDeclearTab = function(p,store) {
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	       
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
  			     		xtype:'datefield',format:DATEF,anchor:'99%'},
-	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:17,name:'consVerificationNo',value:p.get('consVerificationNo'),
- 	    	    	xtype:'textfield',anchor:'99%'},
     	    	{fieldLabel:C_CUSTOM_AGENCY,tabIndex:21,name:'consCustomsVendorName',
     	    		value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
     	    		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
@@ -1157,7 +1176,6 @@ Fos.CustomsDeclearTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
-         			{fieldLabel:C_BL_NO,tabIndex:18,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
          			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',
          				value:p.get('consCustomsContact'),xtype:'textfield',anchor:'99%'},
          			txtVoyage,cboPodEn
@@ -1173,13 +1191,13 @@ Fos.CustomsDeclearTab = function(p,store) {
  	    	    	{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
              			xtype:'textfield',anchor:'99%'},
          	       {fieldLabel:C_CUSTOMS_DECLEARATION_NO,tabIndex:11,name:'consCustomsDeclearationNo',value:p.get('consCustomsDeclearationNo'),
-         	    	    	xtype:'textfield',anchor:'99%'}, 	    	    	
-			       {fieldLabel:C_GOODS_NAME,tabIndex:15,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
-          			    xtype:'textfield',anchor:'99%'},
+         	    	    	xtype:'textfield',anchor:'99%'}, 	 
+         	       {fieldLabel:C_VERIFICATION_NO,tabIndex:17,name:'consVerificationNo',value:p.get('consVerificationNo'),
+ 	    	    	xtype:'textfield',anchor:'99%'},
+ 	    	    	{fieldLabel:C_CUDE_TEL,name:'consCustomsTel',value:p.get('consCustomsTel'),xtype:'textfield',anchor:'99%'},
+ 	    	    	txtConsMblNo,txtPotEn,
      			   {xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
-		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP},
-		     	  {fieldLabel:C_CUDE_TEL,name:'consCustomsTel',value:p.get('consCustomsTel'),xtype:'textfield',anchor:'99%'},
-		     	 txtSailDate,txtPotEn
+		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
              		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
@@ -1190,12 +1208,23 @@ Fos.CustomsDeclearTab = function(p,store) {
          			    xtype:'datefield',format:DATEF,anchor:'99%'},         			
          			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
              			xtype:'textfield',anchor:'99%'},
-             		{xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
-             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF},
-                     {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'99%'}
+                     {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'99%'},
+                     txtConsHblNo,txtSailDate,
+                     {xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
+             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF}
          		]}
          	    ]},
-         	   {header:false,border:false,layout:'column',items:[
+         	 {header:false,border:false,layout:'column',items:[
+         	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+         	     txtCargoNameEn]
+         	   },
+         	   {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
+         	     txtTotalPackages,numGrossWeight]
+         	   }, 
+         	   {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
+         	     numMeasurement,numNetWeight]
+         	   }]},
+         	 {header:false,border:false,layout:'column',items:[
          	   {columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[
            	    	{fieldLabel:C_SHIPPER,tabIndex:23,
            	    		id:p.get('consId')+'CONS_SHIPPER',name:'consShipper',value:p.get('consShipper'),
