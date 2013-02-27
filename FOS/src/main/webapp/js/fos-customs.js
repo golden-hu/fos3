@@ -31,8 +31,10 @@ Fos.InspectionGrid = function() {
     var c13 ={header:C_VOYA,width:60,dataIndex:"voyaName"};
     var c14={header:C_PACKAGES,width:60,dataIndex:"consTotalPackages"};
     var c15={header:C_GW_S,width:60,dataIndex:"consTotalGrossWeight"};
-    var c16={header:C_BL_NO,width:120,dataIndex:"consMblNo"};
-    var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c12,c13,c14,c15,c16,c8,c9,c10,c11],
+    var c16={header:C_M_BL_NO,width:120,dataIndex:"consMblNo"};
+    var c17={header:C_POL,dataIndex:"consPolEn"};
+    var c18={header:C_POD,width:100,dataIndex:"consPodEn"};
+    var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c17,c18,c12,c13,c14,c15,c16,c8,c9,c10,c11],
 		defaults: {sortable: true}});
 	
     showInspConsign = function(p){
@@ -336,7 +338,67 @@ Fos.InspectionDeclTab = function(p,store) {
 			itemCls:VERSION==0?'required':'',
 			name:'consSailDate',value:p.get('consSailDate'),
 			xtype:'datefield',format:DATEF,anchor:'99%'});
-    
+  	var txtConsMblNo = {fieldLabel:C_M_BL_NO,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
+    var txtConsHblNo = {fieldLabel:C_H_BL_NO,name:'consHblNo',value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
+	var cboPolEn = {fieldLabel:C_POL,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?39:43,
+    		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
+    		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
+    		triggerAction:'all',selectOnFocus:true,anchor:'99%',
+    		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
+    		listeners:{scope:this,
+    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
+            	select:function(c,r,i){
+            		p.set('consPol',r.get('portId'));
+            		p.set('consPolCn',r.get('portNameCn'));
+            		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) {
+            			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+            		}
+            		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) {
+            			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
+            		}
+            	},
+             	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
+    var cboPodEn = {fieldLabel:C_POD,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
+			value:p.get('consPodEn'),store:getPS(),xtype:'combo',
+			displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
+			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
+		listeners:{scope:this,
+			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
+        	select:function(c,r,i){
+        		p.set('consPod',r.get('portId'));
+        		p.set('consPodCn',r.get('portNameCn'));
+            	if(p.get('consBizClass')==BC_E&&this.find('name','consTradeCountry')[0]) {
+            		this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+            	}
+            	if(this.find('name','consDeliveryPlace')[0]) {
+            		this.find('name','consDeliveryPlace')[0].setValue(r.get('portNameEn'));
+            	}
+            	if(this.find('name','consDestination')[0]) {
+            		this.find('name','consDestination')[0].setValue(r.get('portNameEn'));
+            	}
+            	},
+         	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
+    var txtPotEn = {fieldLabel:C_DESTINATION_PORT,name:'consDeliveryPlace',
+    		value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
+    var txtCargoNameEn={columnWidth:.5,layout:'form',labelWidth:70,border:false,
+			items:[{fieldLabel:C_CARGO_NAME_CN_EN,tabIndex:61,name:'consCargoNameEn',
+				value:p.get('consCargoNameEn'),xtype:'textarea',anchor:'99.5%'}
+			]};
+	
+    var txtTotalPackages={fieldLabel:C_PACKAGES,tabIndex:61,name:'consTotalPackages',value:p.get('consTotalPackages'),
+    			xtype:'numberfield',anchor:'99%'};
+	
+	var numGrossWeight = {fieldLabel:C_GW_S,
+		name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'
+		};
+	var numNetWeight = {fieldLabel:C_MW_S,
+		name:'consTotalNetWeight',value:p.get('consTotalNetWeight'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'};
+	var numMeasurement = {fieldLabel:C_CBM_S,
+		name:'consTotalMeasurement',value:p.get('consTotalMeasurement'),
+		xtype:'numberfield',decimalPrecision:4,anchor:'99%'};  
 	Fos.InspectionDeclTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_INSPECTION+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		padding:5,border:false,labelAlign:'right',layout:'column',
@@ -378,7 +440,7 @@ Fos.InspectionDeclTab = function(p,store) {
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	     
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
  			     		xtype:'datefield',format:DATEF,anchor:'99%'},
- 			    txtVessName,
+ 			    txtVessName,cboPolEn,
 	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:21,name:'consVerificationNo',value:p.get('consVerificationNo'),
  	    	    	xtype:'textfield',anchor:'99%'},
     	    	{fieldLabel:C_INSP_AGENCY,tabIndex:25,name:'consInspectionVendorName',
@@ -412,11 +474,10 @@ Fos.InspectionDeclTab = function(p,store) {
              			xtype:'textfield',anchor:'99%'},
              		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
-           			txtVoyage,
-         			{fieldLabel:C_BL_NO,tabIndex:22,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'},
+           			txtVoyage,cboPodEn,
          			//将美线仓单申报号在此用作申请号
        			   {fieldLabel:C_APPLICATION_NO,tabIndex:26,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),
-           			    xtype:'textfield',anchor:'99%'} 
+           			    xtype:'textfield',anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -429,15 +490,11 @@ Fos.InspectionDeclTab = function(p,store) {
              		{fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),
              			xtype:'textfield',anchor:'99%'},             		
              		{fieldLabel:C_INSPECTION_NO,tabIndex:11,name:'consCustomsDeclearationNo',value:p.get('consCustomsDeclearationNo'),
-         	    	    	xtype:'textfield',anchor:'99%'}, 	    	    	
-			       {fieldLabel:C_GOODS_NAME,tabIndex:15,name:'consCargoNameCn',value:p.get('consCargoNameCn'),
-          			    xtype:'textfield',anchor:'99%'},
-          			  txtSailDate,
-      			   {fieldLabel:C_CERT,tabIndex:23,name:'consCertNo',value:p.get('consCertNo'),
-          			    xtype:'textfield',anchor:'99%'},
-          		   //将attr1用作我司发票号
+         	    	    	xtype:'textfield',anchor:'99%'}, 	
+         	    	//将attr1用作我司发票号
       			   {fieldLabel:C_MYCOMPANY_INVOICE,tabIndex:23,name:'attr2',value:p.get('attr2'),
-          			    xtype:'textfield',anchor:'99%'}
+          			    xtype:'textfield',anchor:'99%'},
+          			txtConsMblNo,txtPotEn,txtSailDate
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
 					{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),
@@ -448,12 +505,25 @@ Fos.InspectionDeclTab = function(p,store) {
          			    xtype:'datefield',format:DATEF,anchor:'99%'},         			
          			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
              			xtype:'textfield',anchor:'99%'},
+             		txtConsHblNo,
      			    {fieldLabel:C_CONTRACT_NO,tabIndex:24,name:'consContractNo',value:p.get('consContractNo'),
          			    xtype:'textfield',anchor:'99%'},
         			  //将贸易合同号在此用作商检发票号    
      			    {fieldLabel:C_COMMODITY_NO,tabIndex:27,name:'consTradeContractNo',value:p.get('consTradeContractNo'),
          			    xtype:'textfield',anchor:'99%'}
          		]},
+         		{columnWidth:.75,layout:'form',labelWidth:70,border:false,items:[
+           			{fieldLabel:C_CERT,tabIndex:23,name:'consCertNo',value:p.get('consCertNo'),
+          			    xtype:'textfield',anchor:'33%'}]},
+         	   {columnWidth:.5,layout:'form',labelWidth:70,border:false,items:[
+         	     txtCargoNameEn]
+         	   },
+         	   {columnWidth:.25,layout:'form',labelWidth:70,border:false,items:[
+         	     txtTotalPackages,numGrossWeight]
+         	   }, 
+         	   {columnWidth:.25,layout:'form',labelWidth:70,border:false,items:[
+         	     numMeasurement,numNetWeight]
+         	   },
          	    {columnWidth:.99,layout:'form',labelWidth:70,border:false,items:[
          	    	{fieldLabel:C_REMARKS,tabIndex:25,name:'consRemarks',value:p.get('consRemarks'),
          	    		xtype:'textarea',height:150,anchor:'99%'}
@@ -677,11 +747,13 @@ Fos.CustomsGrid = function(bizClass) {
         {header:C_BOOKER,width:200,dataIndex:"custName"},
         {header:C_CONS_DATE,width:70,dataIndex:"consDate",renderer:formatDate},
         {header:C_CONS_CLOSE_DATE,dataIndex:"consCloseDate",renderer:formatDate},
+      	{header:C_POL,width:100,dataIndex:"consPolEn"},
+   		{header:C_POD,width:100,dataIndex:"consPodEn"},
         {header:C_VESS,width:120,dataIndex:"vessName"},
         {header:C_VOYA,width:60,dataIndex:"voyaName"},
         {header:C_PACKAGES,width:60,dataIndex:"consTotalPackages"},
         {header:C_GW_S,width:60,dataIndex:"consTotalGrossWeight"},
-        {header:C_BL_NO,width:120,dataIndex:"consMblNo"},
+        {header:C_M_BL_NO,width:120,dataIndex:"consMblNo"},
         {header:C_CUSTOMS_DECLEARATION_NO,width:120,dataIndex:"consCustomsDeclearationNo"},
         {header:C_BIZ_COMPANY,width:200,dataIndex:"consCompany"},
         {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"},
@@ -1031,6 +1103,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 			itemCls:VERSION==0?'required':'',
 			name:'consSailDate',value:p.get('consSailDate'),
 			xtype:'datefield',format:DATEF,anchor:'99%'});
+	
 	var cboPolEn = {fieldLabel:C_POL,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?39:43,
     		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
     		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
