@@ -31,6 +31,7 @@ public abstract class AbstractPUser extends BaseDomain {
 	private Integer userDefaultBranch;//FOR BEIJING YS
 	private Integer userDefaultStation;//FOR BEIJING YS
 	private Integer userDefaultRole;
+	private Short userNetworkFlag;
 	private Short userSalesFlag;
 	private Short userOperatorFlag;
 	private Short userSystemUserFlag;
@@ -172,6 +173,15 @@ public abstract class AbstractPUser extends BaseDomain {
 		this.userDefaultRole = userDefaultRole;
 	}
 
+	@Column(name = "USER_NETWORK_FLAG")
+	public Short getUserNetworkFlag() {
+		return userNetworkFlag;
+	}
+
+	public void setUserNetworkFlag(Short userNetworkFlag) {
+		this.userNetworkFlag = userNetworkFlag;
+	}
+	
 	@Column(name = "USER_SALES_FLAG")
 	public Short getUserSalesFlag() {
 		return this.userSalesFlag;

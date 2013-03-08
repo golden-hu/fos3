@@ -1,4 +1,12 @@
-﻿Fos.ExGrid = function(p,t,frm,store) {
+﻿﻿Fos.ExGrid = function(p,t,frm,store) {
+	var expeType = 'R';
+	if(t=='R'){
+		expeType = 'R';
+	}else if(t=='P'){
+		expeType = 'P';
+	}else if(t=='D'){
+		expeType = 'D';
+	}
 	this.reCalculate = function(){
 		if(t=='R') 
 			frm.calcR(); 
@@ -139,16 +147,26 @@
 	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
 	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
 	 var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
+	 var t28={header:C_WHETHER_INVOICING,hidden:VERSION==0,dataIndex:'expeInvoiceFlag',align:'center',width:100,renderer:getY_O_N,
+	 		editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',store:Y_O_N,triggerAction:'all',typeAhead:true,
+            mode:'local',selectOnFocus:true,
+            listeners:{scope:this,
+            	select:function(c,r,i){
+            		var b=this.getSelectionModel().getSelected();
+            		b.set('expeInvoiceTitle',r.get('CODE')==1?p.get('custName'):'');
+            	}
+            }})}
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cols=[];
 	if(t=='R'){
 		if(frm.f=='C')
 			if(VERSION==1)
-				cols=[sm,t1,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
+				cols=[sm,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
 			else 
-				cols=[sm,t1,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t17,t23,t19,t24,t20,t25];
+				cols=[sm,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t17,t23,t19,t24,t20,t25];
 		else
-			cols=[sm,t1,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
+			cols=[sm,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
 	}
 	else{
 		if(VERSION==1){
@@ -164,7 +182,7 @@
 			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t23,t19,t24,t20,t25];
 		}
 	}
-	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'right'}});
+	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'center'}});
 	cm.defaultSortable=true;cm.defaultWidth=100;			
 	this.add=function(){
 		var unit='EACH';var rid=GGUID();
@@ -177,9 +195,9 @@
     		custName:t=='R'?p.get('custName'):p.get('consBookingAgencyName'),
     		custSname:t=='R'?p.get('custSname'):p.get('consBookingAgencySname'),
     		consCustId:p.get('custId'),consCustName:p.get('custName'),chclId:'',charId:'',charName:'',
-    		expeType:t=='R'?'R':'P',pateId:PPID,pateCode:'P',unitName:unit,currCode:'CNY',expeUnitPrice:'',
+    		expeType:expeType,pateId:PPID,pateCode:'P',unitName:unit,currCode:'CNY',expeUnitPrice:'',
     		expeCommissionRate:'',expeCommission:'',expeInnerPrice:'',expeExRate:'1.0000',expeRemarks:'',expeDate:new Date(),
-    		expeAllocationFlag:'0',expeAllocatedFlag:'0',
+    		expeAllocationFlag:'0',expeAllocatedFlag:'0',expeInvoiceFlag:'1',
     		expeInvoiceAmount:'0',expeWriteOffAmount:'0',expeWriteOffRcAmount:'0',expeInnerAmount:'0',expeRcAmount:'0',
     		expeTotalAmount:'0',expeNum:'1',version:'0'});
     	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
@@ -528,7 +546,16 @@
     	if(tb.getComponent('TB_D')) tb.getComponent('TB_D').setDisabled(NR(m+F_M)||locked);
     	if(tb.getComponent('TB_CF')) tb.getComponent('TB_CF').setDisabled(NR(m+F_M)||locked);
 	};
-	
+	 
+	var topBar = [];
+	if(expeType == 'R'){
+		topBar = [b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b9,'-',b5]
+	}else if(expeType == 'P'){
+		topBar = [b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b6,'-',b5]
+	}else if (expeType == 'D'){
+		topBar = [b1,'-',b2,'-',b3]
+	}
+	var editable = sm.getSelected();
 	Fos.ExGrid.superclass.constructor.call(this, {id:'G_EXOE_'+p.get('consNo')+t,
 	border:true,autoScroll:true,clicksToEdit:1,height:200,
     stripeRows:true,store:store,sm:sm,cm:cm,listeners:{scope:this,
@@ -572,7 +599,7 @@
 			r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
 			this.reCalculate();}
     }},
-    tbar:t=='R'?[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b9,'-',b5]:[b1, '-',b2,'-',b3,'-',b4,'-',b8,'-',b7,'-',b6,'-',b5]});
+    tbar:topBar});
 };
 Ext.extend(Fos.ExGrid, Ext.grid.EditorGridPanel);
 
@@ -992,6 +1019,10 @@ Fos.ExpenseTab2 = function(p,f){
 		bbar:[cT,sumCnyP,'-',uT,sumUsdP,'-',lT,sumLocP,'-',rT,sumRcP]
 	});
 	
+	this.ds=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	this.dg=new Fos.ExGrid(p,'D',this,this.ds);
+	var pD=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_D,collapsible:true,border:false,items:[this.dg]
+	});	
 	this.reCalculate = function(){		
 		PCny.setValue(round2(this.sumCnyR-this.sumCnyP));
 		PUsd.setValue(round2(this.sumUsdR-this.sumUsdP));
@@ -1007,8 +1038,12 @@ Fos.ExpenseTab2 = function(p,f){
 					if(!NR(m+S_AR+F_V))
 						this.rs.add(a[i]);
 				}
-				else if(!NR(m+S_AP+F_V))
-					this.ps.add(a[i]);
+				else if(a[i].get('expeType')=='P'){
+				 	if(!NR(m+S_AP+F_V))
+						this.ps.add(a[i]);
+				}else if(!NR(m+S_AP+F_V)){
+						this.ds.add(a[i]);
+				}
 			}
 			this.calcR();
 			this.calcP();
@@ -1059,7 +1094,7 @@ Fos.ExpenseTab2 = function(p,f){
 	Fos.ExpenseTab2.superclass.constructor.call(this, { 
 		id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'||f=='T'?'(F3)':('-'+p.get("consNo"))),header:false,autoScroll:true,closable:f=='C'||f=='T'?false:true,
 		height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
-		items: f=='T'?[pR,pP]:[pBiz,pR,pP],
+		items: f=='T'?[pR,pP]:[pBiz,pR,pP,pD],
 		tbar:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
 	});
 };

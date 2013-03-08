@@ -709,6 +709,7 @@ Fos.UserTab = function() {
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,listeners:re1});
 	var active =ACTIVE();
+	var network = CHKCLM(C_NETWORK_ALLOW_ACCESS,'userNetworkFlag',100);
 	var sales =CHKCLM(C_SALES,'userSalesFlag');
 	var operator = CHKCLM(C_OPERATOR,'userOperatorFlag');
 	var systemUser = CHKCLM(C_SYSTEM_USER,'userSystemUserFlag',80);
@@ -726,7 +727,7 @@ Fos.UserTab = function() {
 		{header:C_SYS_USER_NAME,dataIndex:'userLoginName',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_DEFAULT_GROU,dataIndex:'userDefaultGroup',width:80,renderer:getGROU,editor:new Ext.form.ComboBox({displayField:'grouName',valueField:'grouId',triggerAction: 'all',
             allowBlank:false,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getGROU_S()})},
-            station,branch,systemUser,sales,operator,va,ea,vg,eg,          
+            station,branch,systemUser,sales,operator,network,va,ea,vg,eg,          
 		{header:C_TEL,dataIndex:'userTel',editor:new Ext.form.TextField()},
 		{header:C_MOBILE,dataIndex:'userMobile',editor:new Ext.form.TextField()},
 		{header:C_EMAIL,dataIndex:'userEmail',editor:new Ext.form.TextField()},		
@@ -739,7 +740,7 @@ Fos.UserTab = function() {
 	this.addUser=function(){
 		var uid=GGUID();
 		var r = new PUser({id:uid,userId:uid,userPassword:'123456',userSystemUserFlag:'0',
-		userSalesFlag:'0',userOperatorFlag:'0',
+		userSalesFlag:'0',userOperatorFlag:'0',userNetworkFlag:'1',
 		userGrouViewFlag:'0',userGrouEditFlag:'0',userAllViewFlag:'0',userAllEditFlag:'0',
 		active:'1',version:'0',rowAction:'N'});
     	ug.stopEditing();
@@ -762,7 +763,7 @@ Fos.UserTab = function() {
 	
 	var ug = new Ext.grid.EditorGridPanel({id:'G_USER',title:C_USER_LIST,
 		clicksToEdit:1,border:true,height:475,store:store,sm:sm,cm:cm,
-		plugins:[systemUser,sales,operator,va,ea,vg,eg,active],
+		plugins:[systemUser,sales,operator,network,va,ea,vg,eg,active],
 		tbar:tbItems
 	});
 	

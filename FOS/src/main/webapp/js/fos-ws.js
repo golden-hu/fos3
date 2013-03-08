@@ -370,12 +370,20 @@ Fos.WusrGrid = function(){
 			}
 		}
     };
+    this.haved = function(){
+    	var record =  sm.getSelected();
+    	if(record){
+    		var win = new  Fos.WsCustomerWin(record);
+    		win.show();
+    	}
+    };
     Fos.WusrGrid.superclass.constructor.call(this, {
     id:'G_WUSR',store:store,iconCls:'grid',width:600,height:300,title:'注册用户列表',header:false,closable:true,
     sm:sm,cm:cm,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
 	tbar:[
-		{text:C_WS_USER_ACCEPT,iconCls:'renew',handler:this.accept},'->',
+		{text:C_WS_USER_ACCEPT,iconCls:'renew',handler:this.accept},
+		{text:C_WS_USER_HAVED,iconCls:'redo',handler:this.haved},'->',
 		new Ext.PagingToolbar({pageSize:20,store:store})]
     }); 
 };

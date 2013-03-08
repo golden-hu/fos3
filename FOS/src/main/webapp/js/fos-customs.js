@@ -120,6 +120,7 @@ Fos.InspectionGrid = function() {
 		}
 		else
  			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+     	queryParams = a;
      	store.baseParams={mt:'xml',xml:FOSX(QTX(queryParams))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
@@ -249,6 +250,7 @@ Fos.InspectionDeclTab = function(p,store) {
 		locked=p.get('consStatusLock')==1;
 		if(tb.getComponent('TB_S')) tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
+    	if(tb.getComponent('TB_CC')) tb.getComponent('TB_CC').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
     	if(tb.getComponent('TB_M')) tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
@@ -260,6 +262,7 @@ Fos.InspectionDeclTab = function(p,store) {
     };
     
     this.check=function(){this.updateStatus('1');};
+    this.cancelCheck=function(){this.updateStatus('0');};
     this.finish=function(){this.updateStatus('2');};
     this.cancel=function()
     {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
@@ -532,6 +535,7 @@ Fos.InspectionDeclTab = function(p,store) {
 		tbar:[
 		      {text:C_SAVE,itemId:'TB_S',iconCls:'save',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.save},'-',
 		      {text:C_BOOK_CONFIRM,itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.check},'-',
+		      {text:C_CANCEL_CONFIRM,itemId:'TB_CC',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',scope:this,handler:this.cancelCheck},'-',
 		      {text:C_CONS_CLOSED,itemId:'TB_F',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.finish},'-',
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
@@ -638,6 +642,9 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
  		var consContractNo=panel.find('name','consContractNo')[0].getValue();        		
  		if(consContractNo) 
  			a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:op});
+ 		var consMblNo=panel.find('name','consMblNo')[0].getValue();        		
+ 		if(consMblNo) 
+ 			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:7});
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -708,7 +715,8 @@ Fos.InspConsLookupWin = function(store,setQueryParams){
 			{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
          		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
          		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
- 			{fieldLabel:C_CERT,name:'consCertNo',xtype:'textfield',anchor:'90%'}]}
+ 			{fieldLabel:C_CERT,name:'consCertNo',xtype:'textfield',anchor:'90%'},
+ 			{fieldLabel:C_M_BL_NO,name:'consMblNo',xtype:'textfield',anchor:'90%'}]}
 	]});
     Fos.InspConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
     	width:800,height:300,buttonAlign:'right',items:panel,
@@ -970,6 +978,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		locked=p.get('consStatusLock')==1;
 		if(tb.getComponent('TB_S')) tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
+    	if(tb.getComponent('TB_CC')) tb.getComponent('TB_CC').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_M')) tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
@@ -982,6 +991,7 @@ Fos.CustomsDeclearTab = function(p,store) {
     };
     
     this.check=function(){this.updateStatus('1');};
+    this.cancelCheck = function(){this.updateStatus('0');};
     this.finish=function(){this.updateStatus('2');};
     this.cancel=function()
     {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
@@ -1323,6 +1333,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		tbar:[
 		      {text:C_SAVE,itemId:'TB_S',iconCls:'save',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.save},'-',
 		      {text:C_BOOK_CONFIRM,itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.check},'-',
+		       {text:C_CANCEL_CONFIRM,itemId:'TB_CC',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',scope:this,handler:this.cancelCheck},'-',
 		      {text:C_CONS_CLOSED,itemId:'TB_F',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.finish},'-',
 		      {text:C_REMOVE,itemId:'TB_R',iconCls:'remove',
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
@@ -1401,7 +1412,7 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams){
  			a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
  		var consMblNo=panel.find('name','consMblNo')[0].getValue();
  		if(consMblNo) 
- 			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:op});
+ 			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:7});
  		var consStatusInvoR=panel.find('name','consStatusInvoR')[0].getValue();        		
  		if(consStatusInvoR) 
  			a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});

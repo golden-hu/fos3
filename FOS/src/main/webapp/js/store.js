@@ -457,7 +457,7 @@ SExpense = Ext.data.Record.create(['id',
 	{name:'expeInnerAmount',type:'float'},{name:'expeCommission',type:'float'},{name:'expeCommissionRate',type:'float'},
 	{name:'expeTotalAmount',type:'float'},{name:'expeRcAmount',type:'float'},
 	{name:'expeExRate',type:'float'},'expeBillNo','expeBillStatus','expeInvoiceNo','expeTaxInvoiceNo',
-	{name:'expeInvoiceDate',type:'date',dateFormat:DATEF},'expeInvoiceTitle',
+	{name:'expeInvoiceDate',type:'date',dateFormat:DATEF},'expeInvoiceTitle','expeInvoiceFlag',
 	{name:'expeInvoiceAmount',type:'float'},'expeInvoiceStatus',
 	{name:'expeWriteOffDate',type:'date',dateFormat:DATEF},
 	{name:'expeWriteOffAmount',type:'float'},{name:'expeWriteOffRcAmount',type:'float'},
@@ -984,6 +984,9 @@ var INST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未
 getINST = function(v){if(v>=0) return INST_S.getById(v).get('NAME'); else return '';};
 var EXPC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认']]});
 getEXPC = function(v){if(v>=0) return EXPC_S.getById(v).get('NAME'); else return '';};
+
+var Y_O_N=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','否'],['1','是']]});
+getY_O_N = function(v){if(v>=0) return Y_O_N.getById(v).get('NAME'); else return '';};
 
 var EXHI_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','应收账单'],['1','应付帐单'],['2','收款核销'],['3','付款核销']]});
 getEXHI_T = function(v){if(v>=0) return EXHI_T_S.getById(v).get('NAME'); else return '';};

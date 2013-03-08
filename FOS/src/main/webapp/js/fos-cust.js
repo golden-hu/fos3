@@ -134,6 +134,52 @@ Fos.CustomerGrid = function(sales) {
     }); 
 };
 Ext.extend(Fos.CustomerGrid,Ext.grid.GridPanel);
+Fos.WsCustomerWin = function(wu){
+	var store = new Ext.data.Store({url:SERVICE_URL+'?A=CUST_X',baseParams:{mt:'JSON'},
+    reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomer',id:'custId'},CCustomer),
+    remoteSort:true,sortInfo:{field:'custId', direction:'desc'}});
+    store.load({params:{start:0,limit:C_PS100}});
+	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var cm = new Ext.grid.ColumnModel({columns:[
+    	new Ext.grid.RowNumberer(),sm,
+		{header:C_CODE,dataIndex:'custCode',width:80},
+		{header:C_CNAME,dataIndex:'custNameCn',width:100},
+		{header:C_CSNAME,dataIndex:'custSnameCn',width: 80},
+		{header:C_ENAME,dataIndex:'custNameEn',width:100},
+		{header:C_ESNAME,dataIndex:'custSnameEn',width:80},
+		{header:C_CONTACT,dataIndex:'custContact',width:100},
+		{header:C_TEL,dataIndex:'custTel',width:100},
+		{header:C_FAX,dataIndex:'custFax',width:100},
+		{header:C_SALES,dataIndex:'custSalesName',width:100},
+		{header:C_INDUSTRY,dataIndex:'custIndustry',width:100,renderer:getINDU},
+		{header:C_CPTY,dataIndex:'custType',width:100,renderer:getCOPR},
+		{header:C_CUCA,dataIndex:'cucaId',width:100,renderer:getCUCA},
+		{header:C_COUN,dataIndex:'counCode',width:100,renderer:getCOUN},CCT,CMT],defaults:{sortable:true,width:100}});
+	this.save = function(){
+		var record = sm.getSelected();
+		var xml=RTX(record,'CCustomer',CCustomer);
+		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_CUST_S',wusrId:wu.get('wusrId')},
+			success: function(r,o){
+                if(wu){wu.beginEdit();wu.set('version',wu.get('version')+1);wu.set('wusrStatus',1);wu.set('custId',record.get('custId'));wu.endEdit();}
+				XMG.alert(SYS,M_S);
+				this.close();
+			},
+			failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+			xmlData:FOSX(xml)
+		})};
+	var g = new Ext.grid.GridPanel({ 
+    iconCls:'gen',header:false,height:300,width:600,store:store,sm:sm,cm:cm,loadMask: true});	
+    
+	Fos.WsCustomerWin.superclass.constructor.call(this, {title:C_CUST,modal:true,layout:'fit',width:600,minWidth:300,
+        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:[{layout:'fit',border:false,
+        items: [g]}],
+        bbar:PTB(store,C_PS20),
+        buttons:[{text:C_OK,scope:this,handler:this.save},
+				{text:C_CANCEL,scope:this,handler:function(){this.close();}}]
+        }); 
+}
+Ext.extend(Fos.WsCustomerWin,Ext.Window);
+
 Fos.CustMergeWin = function() {    
 	this.custId='';
 	var frm = new Ext.form.FormPanel({labelWidth: 60,bodyStyle:'padding:5px',

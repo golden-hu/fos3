@@ -36,6 +36,9 @@ public class PUserService {
 	@Autowired
 	@Qualifier(value = "appConfig")
 	private Properties appConfig;
+	@Autowired
+	@Qualifier(value = "licenseProps")
+	private Properties licenseProps;
 	private static FosLogger logger = new FosLogger(PUserService.class);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -244,6 +247,9 @@ public class PUserService {
 		// String compCode = (String) queryMap.get("compCode");
 		String userLoginName = (String) queryMap.get("userLoginName");
 		String userPassword = (String) queryMap.get("userPassword");
+		String licenseIp = licenseProps.getProperty("IP");
+		Integer result1 = licenseIp.compareTo("0");
+		Integer result = licenseIp.compareTo(NetworkInfo.getIpAddress());
 		if (StringUtil.isBlank(userLoginName) || StringUtil.isBlank(userPassword)) {
 			throw new BusinessException("fw.login.fail");
 		}
@@ -255,7 +261,8 @@ public class PUserService {
 				throw new BusinessException("fw.login.user_deactived");
 			if (ConstUtil.FalseShort.equals(user.getUserSystemUserFlag()))
 				throw new BusinessException("fw.login.fail");
-			
+			if (ConstUtil.FalseShort.equals(user.getUserNetworkFlag())&&result!=0&&result1!=0)
+				throw new BusinessException("fw.license.allow_access");
 			checkPasswordExpire(user);
 			if (ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 				checkRepeatLogin(user);

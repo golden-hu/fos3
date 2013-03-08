@@ -61,6 +61,7 @@ public abstract class AbstractSExpense extends BaseDomain {
 	private Short expeBillStatus;
 	private String expeInvoiceNo;
 	private String expeInvoiceTitle;
+	private String expeInvoiceFlag;
 	private String expeTaxInvoiceNo;
 	private Date expeInvoiceDate;
 	private Double expeInvoiceAmount;
@@ -487,6 +488,15 @@ public abstract class AbstractSExpense extends BaseDomain {
 
 	public void setExpeInvoiceTitle(String expeInvoiceTitle) {
 		this.expeInvoiceTitle = expeInvoiceTitle;
+	}
+	
+	@Column(name = "EXPE_INVOICE_FLAG", length = 4)
+	public String getExpeInvoiceFlag() {
+		return expeInvoiceFlag;
+	}
+
+	public void setExpeInvoiceFlag(String expeInvoiceFlag) {
+		this.expeInvoiceFlag = expeInvoiceFlag;
 	}
 	
 	@Column(name = "EXPE_TAX_INVOICE_NO", length = 200)
