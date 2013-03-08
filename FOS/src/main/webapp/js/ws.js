@@ -1526,7 +1526,7 @@ BillTab = function(){
 	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
 	
 	BillTab.superclass.constructor.call(this, {    
-    id:'T_BL',title:'网上对账',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+    id:'T_BILL',title:'网上对账',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
     items:[
     	{layout:'column',name:'sf',xtype:'form',title:'对账单查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
     		listeners:{scope:this,
