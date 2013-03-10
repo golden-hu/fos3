@@ -113,6 +113,7 @@ var C_EX_AMOUNT='折算金额';
 var C_MBL_NO='M B/L No.';
 var C_HBL_NO='H B/L No.';
 var M_NOT_FOUND = '没有找到数据！';
+var M_R_C = '确认要删除所选记录码?';
 var SR_TRAN='B';var SR_WARE='E';var SR_INSP='D';var SR_CUDE='C';
 var DATEF='Y-m-d';
 var C_LW=400;
