@@ -17,6 +17,8 @@ var CCUST=loadSession('WCUST_ID');
 var COMP_CODE='ECG';
 var SYS= 'FOS3.0网上服务系统';
 var M_NO_DATA_SELECTED='请先选择一条记录!';
+var M_S = '数据保存成功';
+var M_F = '数据保存失败';
 
 var C_BC='业务类型';
 var C_BT='运输方式';
@@ -120,6 +122,19 @@ var C_LW=400;
 var BF=500;var EQ=1;var LT=2;var LE=3;var GT=4;var GE=5;var NE=6;var LI=7;var IN=8;
 var formatDate = function(v){return v ? v.dateFormat(DATEF) : '';};
 var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
+
+var RTX4R=function(r,t,pid){
+	var xml =''; 
+	xml=xml+'<'+t+'>\n<'+pid+'>'+r.get(pid)+'</'+pid+'>\n';		             				
+	xml += "<rowAction>R</rowAction>\n";
+	xml =xml+'</'+t+'>\n';
+	return xml;
+};
+var SMTX4R=function(sm,t,pid){
+	var xml ='';                			
+	sm.each(function(r){xml=xml+RTX4R(r,t,pid);});
+	return xml;
+};
 
 QParam = Ext.data.Record.create(['key','op','value']);
 WUser = Ext.data.Record.create(['id','wusrId','wusrName','wusrPassword','wusrFirstName','wusrLastName',
@@ -670,11 +685,11 @@ InquiryGrid = function() {
 		if (sm.getSelections().length > 0)
         	XMG.confirm(SYS,M_R_C,function(btn){
             	if(btn == 'yes') {
-            	var json=SMTJ4R(sm,'WInquiry','winqId');
-        		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WINQ_S',mt:'JSON'},
+            	var xml = SMTX4R(sm,'WInquiry','winqId');
+        		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WINQ_S',mt:'xml'},
 					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
 					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
-					jsonData:FOSJ(json)});
+					xmlData:FOSX(xml)});
             	}
         	});
         else XMG.alert(SYS,'操作失败！');
@@ -825,11 +840,11 @@ WconGrid = function() {
 		if (sm.getSelections().length > 0)
         	XMG.confirm(SYS,M_R_C,function(btn){
             	if(btn == 'yes') {
-            	var json=SMTJ4R(sm,'WConsign','wconId');
-        		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WCON_S',mt:'JSON'},
+            	var xml =SMTX4R(sm,'WConsign','wconId');
+        		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_WCON_S',mt:'xml'},
 					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
 					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
-					jsonData:FOSJ(json)});
+					xmlData:FOSX(xml)});
             	}
         	});
         else XMG.alert(SYS,'操作失败！');
@@ -903,7 +918,7 @@ WconWin = function(p,store) {
         		{boxLabel: '拖车', id: 'SR_TRAN',checked:p.get('consServiceRequired').indexOf(SR_TRAN)!=-1},
         		{boxLabel: '仓储', id: 'SR_WARE', checked:p.get('consServiceRequired').indexOf(SR_WARE)!=-1},
         		{boxLabel: '报关', id: 'SR_CUDE',checked:p.get('consServiceRequired').indexOf(SR_CUDE)!=-1},
-        		{boxLabel: '报检', id: 'SR_INSP',checked:p.get('consServiceRequired').indexOf(SR_INSP)!=-1},
+        		{boxLabel: '报检', id: 'SR_INSP',checked:p.get('consServiceRequired').indexOf(SR_INSP)!=-1}
     			]}
 		]}
       ]
@@ -1174,7 +1189,7 @@ ConsTab = function(){
     			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 					{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'95%'},
 	     			{fieldLabel:C_TRADE_CONTRACT_NO,name:'consTradeContractNo',xtype:'textfield',anchor:'95%'},
-	     			{fieldLabel:C_SAIL_DATE,name:'consEtd',xtype:'datefield',format:DATEF,anchor:'95%'},
+	     			{fieldLabel:C_SAIL_DATE,name:'consEtd',xtype:'datefield',format:DATEF,anchor:'95%'}
 	            ]},
     			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
     			    {fieldLabel:C_CONT_NO,name:'contNo',xtype:'textfield',anchor:'95%'},
@@ -1441,7 +1456,7 @@ BLMWin = function(b,p) {
 		}},
 	{fieldLabel:'原值',tabIndex:1,name:'wblmValueOld',value:p.get('wblmValueOld'),readOnly:true,xtype:'textarea',height:100,anchor:'95%'},
 	{fieldLabel:'新值',tabIndex:1,name:'wblmValueNew',value:p.get('wblmValueNew'),xtype:'textarea',height:100,anchor:'95%'},
-	{fieldLabel:'修改原因',tabIndex:1,name:'wblmReason',value:p.get('wblmReason'),xtype:'textarea',height:100,anchor:'95%'},
+	{fieldLabel:'修改原因',tabIndex:1,name:'wblmReason',value:p.get('wblmReason'),xtype:'textarea',height:100,anchor:'95%'}
 	]});
 	this.save=function(){
 		b.beginEdit();
