@@ -37,6 +37,7 @@ var M_CARGO_RELEASE_C = '您确认要将该单票的状态设为已放行吗？'
 var M_CARGO_SEND_C = '您确认要将该单票的状态设为已送货吗？';
 var M_CONS_CANCEL_C = '您确认要将该单票作废吗？';
 var M_CONS_CONFIRMED = '不可以删除已确认的单票!';
+var M_CONS_CONFIRMED_F = '您确认要将该单票的状态设为已完成吗？';
 var M_REMOVE_EXP_INVOICED = '不可以删除已生成账单的费用!';
 var M_FCON_SHIPPED = '不可以删除已配船的租船合同!';
 var M_BL_CONFIRMED = '该提单已确认，不可以删除!';

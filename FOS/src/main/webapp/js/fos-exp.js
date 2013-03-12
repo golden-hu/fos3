@@ -104,6 +104,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	queryParams[queryParams.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
 	queryParams[queryParams.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
 	queryParams[queryParams.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+	queryParams[queryParams.length]= new QParam({key:'consStatus',value:7,op:2});
+	
 	if(shipType!='') 
 		queryParams[queryParams.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
@@ -121,7 +123,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
                if(v==1) return '<div class="locked"></div>'; else return '';
          }};
     var c3={header:C_M_CONS,width:30,hidden:shipType!=ST_L,dataIndex:"consMasterFlag",renderer:boolRender};
-    var c4={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getCONS_STATUS};
+    var c4={header:C_STATUS,width:100,dataIndex:"consStatus",renderer:getCONS_STATUS};
     var c5={header:C_CONS_NO,width:150,dataIndex:"consNo"};
     var c6={header:bizType==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
     var c7={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
@@ -462,6 +464,7 @@ Fos.ConsignTab = function(p){
 		},
 		stopEvent: false
 	});
+	var status={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
 	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
 	if(p.get('consBizType')==BT_C){
 	   if(p.get('consBizClass')==BC_I&&p.get('consShipType')=='LCL') title+=C_SWITCH; 
@@ -469,7 +472,7 @@ Fos.ConsignTab = function(p){
 	}
 	title+=C_CONSIGN+'-'+p.get("consNo");
 	Fos.ConsignTab.superclass.constructor.call(this,{id:"C_" + p.get("id"),items:items,
-	title:title,iconCls:'class',deferredRender:false,closable:true,activeTab:0,bbar:getMB(p),
+	title:title,iconCls:'class',deferredRender:false,closable:true,activeTab:0,bbar:[getMB(p),'->',status],
 	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}}
 	});
 };
@@ -1783,6 +1786,14 @@ Fos.BookTab = function(p) {
     		},
     	this);
     };
+    this.finished = function(){
+    	XMG.confirm(SYS,M_CONS_CONFIRMED_F,
+    		function(btn){
+    			if(btn=='yes') 
+    				this.updateStatus('7');
+    		},
+    	this);
+    };
     this.arrive=function(){XMG.confirm(SYS,M_CONS_ARRIVE_C,function(btn){if(btn=='yes') this.updateStatus('1');},this);};
     this.release=function(){XMG.confirm(SYS,M_CONS_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('2');},this);};
     this.releaseCargo=function(){XMG.confirm(SYS,M_CARGO_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('3');},this);};
@@ -1860,13 +1871,13 @@ Fos.BookTab = function(p) {
 	this.updateToolBar = function(s){
 		var tb=this.getTopToolbar();
 		locked=p.get('consStatusLock')==1;
-		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(m+F_M)||locked||disable);
+		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(m+F_M)||locked||disable||p.get('consStatus')==7);
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(m+F_M)||locked||disable||s!=0);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=1);
     	if(tb.getComponent('TB_D')) tb.getComponent('TB_D').setDisabled(NR(m+F_M)||locked||disable||s!=2);
     	if(tb.getComponent('TB_E')) tb.getComponent('TB_E').setDisabled(NR(m+F_M)||locked||disable||s!=2);
-    	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s==5);
-    	if(tb.getComponent('TB_G')) tb.getComponent('TB_G').setDisabled(NR(m+F_M)||locked||disable||s<2);
+    	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s==5||s==7);
+    	if(tb.getComponent('TB_G')) tb.getComponent('TB_G').setDisabled(NR(m+F_M)||locked||disable||s<2||s==7);
     	if(tb.getComponent('TB_H')) tb.getComponent('TB_H').setDisabled(NR(m+F_F)||locked||disable||s!=2);    	
     	
     	if(tb.getComponent('TB_I')) tb.getComponent('TB_I').setDisabled(NR(m+F_M)||locked||disable||p.get('consStatus')!=0);
@@ -1874,17 +1885,18 @@ Fos.BookTab = function(p) {
     	if(tb.getComponent('TB_K')) tb.getComponent('TB_K').setDisabled(NR(m+F_M)||locked||disable||p.get('consStatus')!=2);
     	if(tb.getComponent('TB_L')) tb.getComponent('TB_L').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=3);  	
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
-    	tb.getComponent('TB_M').setText(C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus'))));
+    	if(tb.getComponent('TB_N')) tb.getComponent('TB_N').setDisabled(NR(m+F_M)||p.get('consStatus')==7);
+    	if(tb.getComponent('TB_M_CONS_NO')) tb.getComponent('TB_M_CONS_NO').setDisabled(NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7);
     };
-	var b1={text:C_SAVE+'(S)',itemId:'TB_A',iconCls:'save',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.save};
-	var b2={text:C_BOOK_START+'(B)',itemId:'TB_B',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.start};
-	var b3={text:C_BOOK_CONFIRM+'(Q)',itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.check};
-	var b4={text:C_BOOK_EXIT+'(T)',itemId:'TB_D',iconCls:'exit',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.exit};
-	var b5={text:C_BOOK_REASSIGN+'(G)',itemId:'TB_E',iconCls:'redo',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.renew};
-	var b6={text:C_BOOK_QUIT+'(X)',itemId:'TB_F',iconCls:'consCancel',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==5,scope:this,handler:this.quit};
-	var b7={text:C_BOOK_RENEW+'(R)',itemId:'TB_G',iconCls:'renew',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')<2,scope:this,handler:this.rebook};
-	var b8={text:C_INVALID+'(F)',itemId:'TB_H',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.cancel};
-	var b9={text:C_COPY+'(A)',itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){Fos.showConsign(Fos.copyConsign(p));}};
+	var b1={text:C_SAVE,itemId:'TB_A',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==7,scope:this,handler:this.save};
+	var b2={text:C_BOOK_START,itemId:'TB_B',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.start};
+	var b3={text:C_BOOK_CONFIRM,itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.check};
+	var b4={text:C_BOOK_EXIT,itemId:'TB_D',iconCls:'exit',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.exit};
+	var b5={text:C_BOOK_REASSIGN,itemId:'TB_E',iconCls:'redo',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.renew};
+	var b6={text:C_BOOK_QUIT,itemId:'TB_F',iconCls:'consCancel',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==5||p.get('consStatus')==7,scope:this,handler:this.quit};
+	var b7={text:C_BOOK_RENEW,itemId:'TB_G',iconCls:'renew',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')<2||p.get('consStatus')==7,scope:this,handler:this.rebook};
+	var b8={text:C_INVALID,itemId:'TB_H',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.cancel};
+	var b9={text:C_COPY,itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){Fos.showConsign(Fos.copyConsign(p));}};
 	var b16={text:C_COPY_FROM,itemId:'TB_O',iconCls:'copy',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.copyFrom};
 	
 	var b11={text:C_ARRIVE,itemId:'TB_I',iconCls:'plane',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.arrive};
@@ -1894,9 +1906,10 @@ Fos.BookTab = function(p) {
 	var b15={text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable,scope:this,handler:this.cancel};
 	
 	var b17={text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock};
+	var b18={text:C_FINISHED,itemId:'TB_N',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==7,scope:this,handler:this.finished};
 	
 	var btnModifyConsignNo={text:C_MODIFY_CONS_NO,itemId:'TB_M_CONS_NO',iconCls:'option',
-			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1,scope:this,handler:this.MoidfyConsNo};
+			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7,scope:this,handler:this.MoidfyConsNo};
 	
 	var exp1=CREATE_E_MENU(M_ARRIVE_ADVICE,function(){this.expExcel('ARAD');},function(){this.expEmail('ARAD',M_ARRIVE_ADVICE);},function(){this.expFax('ARAD',M_ARRIVE_ADVICE);},this);
 	var exp2=CREATE_E_MENU(M_BOOK,function(){this.expExcel('CONS_B');},function(){this.expEmail('CONS_B',M_BOOK);},function(){this.expFax('CONS_B',M_BOOK);},this);
@@ -1918,16 +1931,15 @@ Fos.BookTab = function(p) {
 		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6];
 	var b10={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E)||locked,scope:this,menu:{items:expM}};
 	
-	var b20={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
 	var tbs=[];
 	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){
-		tbs=[b1,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b17,'->',b20,'-'];
+		tbs=[b1,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b17];
 	}
 	else{
 		if(p.get('consBizClass')==BC_I) 
-			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b17,'->',b20,'-'];
+			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b18,'-',b17];
 		else if(p.get('consBizClass')==BC_E) 
-			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b17,'->',b20,'-'];
+			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b18,'-',b17];
 		else if(p.get('consBizClass')==BC_T)
 			tbs=[b1,'-',b15,'-',b9,'-',btnModifyConsignNo,'-',b10,'-',b17];
 	}
