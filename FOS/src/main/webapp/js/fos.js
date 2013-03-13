@@ -324,6 +324,10 @@ function createSMTree(){
 	if(!NR(M1_S+S_BILL_R)||!NR(M1_S+S_INVO_R)||!NR(M1_S+S_PR_R)||!NR(M1_S+S_VOUC_R)){
 		var arN = new Ext.tree.TreeNode({text:C_SETTLE_AR,leaf:false,expanded:true});
 		if(!NR(M1_S+S_BILL_R)){
+			var expenseR = CreateNode(C_CUST_FEE,'EXPENSE_R',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('R');});
+			arN.appendChild(expenseR);
+		}
+		if(!NR(M1_S+S_BILL_R)){
 			var billR = CreateNode(C_BILL_R,'BILL_R',M1_S+S_BILL_R+F_V,function(){return new Fos.BillGrid('R');});
 			arN.appendChild(billR);
 		}

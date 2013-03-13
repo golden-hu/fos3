@@ -2508,7 +2508,7 @@ Fos.VoucherGrid = function(t){
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
-		{header:C_STATUS,width:60,dataIndex:"voucStatus",renderer:getVOST},
+		{header:C_STATUS,width:80,dataIndex:"voucStatus",renderer:getVOST},
 		{header:C_WRITEOFF_STATUS,width:60,dataIndex:"voucWriteOffStatus",renderer:getWRST},
 		{header:t=='R'?C_VOUC_NO_R:C_VOUC_NO_P,width:100,dataIndex:"voucNo"},		
 		{header:C_SETTLE_OBJECT,width:180,dataIndex:"custName"},		
@@ -2584,8 +2584,16 @@ Fos.VoucherGrid = function(t){
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
+    var title = '';
+    if(t=='R'){
+    	title = C_VOUC_R_MGT;
+    }else if(t=='P'){
+    	title = C_VOUC_P_MGT;
+    }else{
+    	title = C_VOUC_D_MGT;
+    }
 	Fos.VoucherGrid.superclass.constructor.call(this, {    
-    id:'G_VOUC_'+t,iconCls:'grid',store: store,title:t=='R'?C_VOUC_R_MGT:C_VOUC_P_MGT,header:false,autoScroll:true,height:300,
+    id:'G_VOUC_'+t,iconCls:'grid',store: store,title:title,header:false,autoScroll:true,height:300,
 	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
 	tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M),handler:this.add}, '-', 
 		{text:C_EDIT+'(M)',iconCls:'option',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M),handler:this.edit},'-',
@@ -3078,6 +3086,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 };
 Ext.extend(Fos.VoucherTab,Ext.FormPanel);
 
+//应付账单申请列表
 Fos.PrGrid = function(t){
     var store = GS('PR_X','SPr',SPr,'prDate','DESC','prDate','S_PR','id',true);
 	var a=[];
@@ -3431,6 +3440,7 @@ Fos.PrItemLookupWin = function(c,t,curr) {
 };
 Ext.extend(Fos.PrItemLookupWin,Ext.Window);
 
+//应付账单申请
 Fos.PrTab = function(p) {
 	var store = GS('PRIT_Q','SPrItem',SPrItem,'pritId','DESC','','','id',false);
 	if(p.get('rowAction')!='N') 
@@ -3635,6 +3645,7 @@ Fos.PrTab = function(p) {
 };
 Ext.extend(Fos.PrTab, Ext.FormPanel);
 
+//对帐单列表
 Fos.BillGrid = function(t) {
 	var store = GS('BILL_X','SBill',SBill,'billDate','DESC','billDate','S_BILL','id',true);
 	var a=[];
@@ -3768,6 +3779,7 @@ Fos.BillGrid = function(t) {
 };    
 Ext.extend(Fos.BillGrid,Ext.grid.GridPanel);
 
+//对帐单
 Fos.BillTab = function(p){
     var store = GS('BIIT_Q','SBillItem',SBillItem,'biitId','DESC','','','id',false);
 	if(p.get('rowAction')!='N') 
@@ -4599,3 +4611,218 @@ Fos.SectionExGrid = function(p,section,parent) {
     tbar:[b1, '-',b2,'-',b3]});
 };
 Ext.extend(Fos.SectionExGrid, Ext.grid.EditorGridPanel);
+
+
+
+//应收应付代垫费用管理
+Fos.ExpenseGrid = function(t){
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL,baseParams:{A:'EXPE_X',mt:'xml',expeType:t},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:'expeId'},SExpense),
+		sortInfo:{field:'consNo', direction:'DESC'},remoteSort:true,autoLoad:false});
+	
+	var consNo = {header:C_CONS_NO,dataIndex:'consNo',width:150};
+	if( VERSION==1){
+		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center'};
+	}
+	else{
+		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center'};
+	}
+	
+	if( VERSION==1){
+		t2={header:C_CHAR,width:80,dataIndex:"charName"};
+	}
+    var t3={header:C_UNIT,dataIndex:"unitName"};
+    var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:expenseNumRender};
+	var t5={header:C_UNIT_PRICE,dataIndex:"expeUnitPrice",renderer:expenseNumRender};
+	var t6={header:C_CURR,dataIndex:'currCode',width:50};
+	var t7={header:C_EX_RATE,width:60,dataIndex:"expeExRate",renderer:rateRender};	
+	var t8={header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender};	
+	var t9={header:C_COST_PRICE,width:80,dataIndex:"expeInnerPrice",renderer:rateRender};
+	var t10={header:C_COST_TOTAL,width:80,dataIndex:"expeInnerAmount",renderer:numRender};	
+	var t11={header:C_PPCC,dataIndex:'pateCode',width:40};
+    var t12={header:C_INVO_NO,align:'center',dataIndex:"expeInvoiceNo"};
+    var t13={header:C_TAX_NO,align:'center',dataIndex:"expeTaxInvoiceNo"};
+    var t14={header:C_INVOICED_AMOUNT,renderer:rateRender,dataIndex:"expeInvoiceAmount"};   
+    var t15={header:C_WRITEOFFED_AMOUNT,renderer:rateRender,dataIndex:"expeWriteOffAmount"};    
+    var t16={header:C_REMARKS,width:100,dataIndex:"expeRemarks"};
+    var t17={header:C_INVO_DATE,width:100,renderer:formatDate,dataIndex:"expeInvoiceDate"};
+    var t18={header:C_WRITEOFF_DATE,renderer:formatDate,dataIndex:"expeWriteOffDate"};
+    var t19={header:C_CREATE_TIME,renderer:formatDateTime,dataIndex:"createTime"};
+    var t20={header:C_MODIFY_TIME,renderer:formatDateTime,dataIndex:"modifyTime"};
+    var t21={header:C_COMMISION_RATE,width:80,dataIndex:"expeCommissionRate",renderer:rateRender};
+	var t22={header:C_COMMISION,width:60,dataIndex:"expeCommission"};
+	 var t23={header:C_CREATE_BY,renderer:getUSER,dataIndex:"createBy"};
+	 var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
+	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
+	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
+	 var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
+	 var t28={header:C_WHETHER_INVOICING,hidden:VERSION==0,dataIndex:'expeInvoiceFlag',renderer:getY_O_N};
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var cols=[];
+	if(t=='R'){
+			if(VERSION==1)
+				cols=[sm,consNo,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
+			else 
+				cols=[sm,consNo,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t17,t23,t19,t24,t20,t25];
+	}
+	else{
+		if(VERSION==1){
+			cols=[sm,consNo,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
+		}
+		else{
+			cols=[sm,consNo,t1,t2,t3,t4,t5,t6,t21,t22,t8,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t23,t19,t24,t20,t25];
+		}
+	}
+	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'center'}});
+	cm.defaultSortable=true;cm.defaultWidth=100;		
+	var title = "";
+		if(t=="R"){
+			title=C_EXPE_R;
+		}else if(t=="P"){
+			title=C_EXPE_P;
+		}else{
+			title=C_EXPE_D;
+		}
+	this.genInvoice=function(){
+    	var a = sm.getSelections();
+    	if(a.length>0){
+    		for(var j=0;j < a.length;j++){
+    			if(a[j].get('rowAction')=='N'){
+    				XMG.alert(SYS,M_SAVE_FIRST);
+    				return;
+    			}else if(a[j].get('expeInvoiceNo').length>0){
+    				XMG.alert(SYS,C_INVOCIE_NO_EXISTED);
+    				return;
+    			}
+    		}
+    		var currCode='CNY';
+    		for(var i=0;i<a.lenth;i++){
+    			if(a[i].get('currCode')!=currCode){
+    				currCode = a[i].get('currCode');
+    				break;
+    			}
+    		}
+    		if(currCode != a[0].get('currCode')){
+    			var w=new Fos.CurrencyWin();
+        		w.addButton({text:C_OK,scope:this,handler:function(){
+        			currCode = w.findById('currCode').getValue();
+        			w.close();
+        			var id=GGUID();
+        			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
+        				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
+        				currCode:currCode,
+        				invoType:'R',invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
+        				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+        			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
+        			T_MAIN.setActiveTab(tab);
+        		}},this);
+        		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);
+        		w.show();
+    		}
+    		else{
+    			var id=GGUID();
+    			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
+    				custId:a[0].get('custId'),custName:a[0].get('custName'),custSname:a[0].get('custSname'),invoTitle:a[0].get('custName'),
+    				currCode:currCode,
+    				invoType:'R',invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
+    				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+    			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
+    			T_MAIN.setActiveTab(tab);
+    		}
+    	}else{
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
+    	}
+    };
+    
+	var genInvoice = {text:C_GEN_INVOICE,iconCls:'save',scope:this,handler:this.genInvoice};
+	//
+	var custLabel = {text:C_SETTLE_OBJECT};
+	var custNameCn = new Ext.form.ComboBox({width:120,name:'custId',store:getCS(),displayField:'custNameCn',valueField:'custId',
+				  typeAhead:true,enableKeyEvents:true,mode:'local',tpl:custTpl,itemSelector:'div.list-item',
+				  listWidth:400,triggerAction:'all',selectOnFocus:true,
+	              listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}});
+	//
+	var consLabel = {text:C_CONS_NO};
+	var consNo = new Ext.form.TextField({width:100,name:'consNo'});
+	//
+	var invoRLabel = {text:C_INVO_STATUS_R};
+	var invoStatusR = new Ext.form.ComboBox({width:100,name:'consStatusInvoR',store:INST_S,displayField:'NAME',
+	valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true});
+	//
+	var writeOffStatusRLabel = {text:C_WRITEOFF_STATUS_R};
+	var writeOffStatusR =new Ext.form.ComboBox({width:100,name:'consStatusAr',store:WRST_S,displayField:'NAME',valueField:'CODE',
+		typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true});
+	//
+	var whetherInvoicingLabel = {text:C_WHETHER_INVOICING};
+	var whetherInvoicing = new Ext.form.ComboBox({width:100,name:'expeInvoiceFlag',displayField:'NAME',valueField:'CODE',typeAhead: true,
+	mode:'local',triggerAction:'all',selectOnFocus:true,store:Y_O_N});
+
+	//
+	var invoLabel = {text:C_INVO_NO};
+	var invoNo = new Ext.form.TextField({name:'expeInvoiceNo',width:100});
+	//
+	var currCodeLabel = {text:C_CURR};
+	var currCode = new Ext.form.ComboBox({width:100,name:'currCode',displayField:'currCode',valueField:'currCode',triggerAction: 'all',
+         mode:'local',selectOnFocus:true,store:getCURR_S(),typeAhead:true});
+    //
+    var invoDateLabel = {text:C_INVO_DATE};
+    var from = {text:C_FROM};
+    var invoDate = new Ext.form.DateField({width:100,name:'expeInvoiceDate',format:DATEF});
+    var to = {text:C_TO};
+    var invoDate2 = new Ext.form.DateField({width:100,name:'expeInvoiceDate2',format:DATEF});
+    //
+    var voucDateLabel = {text:C_WRITEOFF_DATE};
+    var expeWriteOffDate = new Ext.form.DateField({width:100,name:'expeWriteOffDate',format:DATEF});
+    var expeWriteOffDate2 = new Ext.form.DateField({width:100,name:'expeWriteOffDate2',format:DATEF});
+    //
+    this.reload=function(){
+     	var a=[];     	
+     	var op=1;     
+ 		var custId=custNameCn.getValue();
+ 		if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:op});
+ 		var consStatusInvoR=invoStatusR.getValue();        		
+ 		if(consStatusInvoR) a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
+ 		
+ 		var expeInvoiceDate=invoDate.getValue();
+ 		var expeInvoiceDate2=invoDate2.getValue();
+ 		if(expeInvoiceDate && expeInvoiceDate2){
+ 			a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate2.format(DATEF),op:3});
+ 		}
+ 		else if(expeInvoiceDate) a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate,op:op});
+ 		var writeOffDate=expeWriteOffDate.getValue();
+ 		var writeOffDate2=expeWriteOffDate2.getValue();
+ 		if(writeOffDate && writeOffDate2){
+ 			a[a.length]=new QParam({key:'expeWriteOffDate',value:writeOffDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'expeWriteOffDate',value:writeOffDate2.format(DATEF),op:3});
+ 		}
+ 		else if(writeOffDate) a[a.length]=new QParam({key:'expeWriteOffDate',value:writeOffDate,op:op});
+   
+     	store.baseParams={A:'EXPE_X',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
+     	store.reload({params:{start:0,limit:C_PS},
+     		callback:function(r){
+     			if(r.length==0) 
+     				XMG.alert(SYS,M_NOT_FOUND);
+     			}
+     	});
+    };
+    var search = {text:C_SEARCH,iconCls:'search',scope:this,handler:this.reload};
+    //
+	var queryBar = new Ext.Toolbar({items:[invoLabel,invoNo,'-',invoDateLabel,from,invoDate,to,invoDate2,'-',
+	voucDateLabel,from,expeWriteOffDate,to,expeWriteOffDate2,'-',search,'-',genInvoice
+	]});
+	Fos.ExpenseGrid.superclass.constructor.call(this,{
+		id:'EXPENSE_'+t,title:title,sm:sm,cm:cm,store:store,autoScroll:true,
+		view:new Ext.grid.GroupingView(groupViewCfg),closable:true,
+		tbar:[consLabel,consNo,'-',custLabel,custNameCn,'-',whetherInvoicingLabel,whetherInvoicing,'-',
+		currCodeLabel,currCode,'-',invoRLabel,invoStatusR,'-',writeOffStatusRLabel,writeOffStatusR],
+	    listeners: {scope:this,
+                    render: function(){  
+                        queryBar.render(this.tbar);  
+                    }  
+                }  
+	});
+	store.load({params:{start:0,limit:C_PS}});
+};
+Ext.extend(Fos.ExpenseGrid,Ext.grid.GridPanel);
