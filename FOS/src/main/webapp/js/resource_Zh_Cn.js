@@ -1605,4 +1605,7 @@ var C_OP_SALES='操作业务员';
 var C_BRANCH = '口岸';
 
 var C_INVOCIE_NO_EXISTED = '选择的费用中，有些费用已开过账单';
+var C_BILL_NO_EXISTED = '选择的费用中，有些费用已开过对账单';
 var C_IS_WRITEOFF = '不可以删除已核销的账单';
+var C_SETTLE_OBJECT_DIFFERENT = '结算单位必须一致';
+var C_GEN_BILL = '生成对帐单';
