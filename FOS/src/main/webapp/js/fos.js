@@ -324,8 +324,12 @@ function createSMTree(){
 	if(!NR(M1_S+S_BILL_R)||!NR(M1_S+S_INVO_R)||!NR(M1_S+S_PR_R)||!NR(M1_S+S_VOUC_R)){
 		var arN = new Ext.tree.TreeNode({text:C_SETTLE_AR,leaf:false,expanded:true});
 		if(!NR(M1_S+S_BILL_R)){
-			var expenseR = CreateNode(C_CUST_FEE,'EXPENSE_R',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('R');});
+			var expenseR = CreateNode(C_EXPE_R,'EXPENSE_R',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('R');});
 			arN.appendChild(expenseR);
+		}
+		if(!NR(M1_S+S_BILL_R)){
+			var expenseD = CreateNode(C_EXPE_D,'EXPENSE_D',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('D');});
+			arN.appendChild(expenseD);
 		}
 		if(!NR(M1_S+S_BILL_R)){
 			var billR = CreateNode(C_BILL_R,'BILL_R',M1_S+S_BILL_R+F_V,function(){return new Fos.BillGrid('R');});
@@ -347,6 +351,10 @@ function createSMTree(){
 	}
 	if(!NR(M1_S+S_BILL_P)||!NR(M1_S+S_INVO_P)||!NR(M1_S+S_PR_P)||!NR(M1_S+S_VOUC_P)){
 		var apN= new Ext.tree.TreeNode({text:C_SETTLE_AP,leaf:false,expanded:true});
+		if(!NR(M1_S+S_BILL_R)){
+			var expenseP = CreateNode(C_EXPE_P,'EXPENSE_P',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('P');});
+			apN.appendChild(expenseP);
+		}
 		if(!NR(M1_S+S_BILL_P)){
 			var billP = CreateNode(C_BILL_P,'BILL_P',M1_S+S_BILL_P+F_V,function(){return new Fos.BillGrid('P');});	
 			apN.appendChild(billP);

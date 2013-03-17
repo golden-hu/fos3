@@ -3663,7 +3663,7 @@ Fos.BillGrid = function(t) {
 	var showBill= function(p){
 		var tab = T_MAIN.getComponent("T_BILL_" + p.get("id"));
 		if(tab) {T_MAIN.setActiveTab(tab);}
-		else {tab = T_MAIN.add(new Fos.BillTab(p));
+		else {tab = T_MAIN.add(new Fos.BillTab(p,''));
 		T_MAIN.setActiveTab(tab);tab.doLayout();}
 	};
 	this.search = function(){
@@ -3693,7 +3693,7 @@ Fos.BillGrid = function(t) {
     	var id = GGUID();
 		var r = new SBill({id:id,billId:id,billNo:'N'+id,
 			billType:t,billDate:new Date(),currCode:'CNY',billStatus:'0',version:'0',rowAction:'N'});
-		var tab = T_MAIN.add(new Fos.BillTab(r));
+		var tab = T_MAIN.add(new Fos.BillTab(r,''));
 		T_MAIN.setActiveTab(tab);
     };
 	this.edit=function(){var p=sm.getSelected();if(p){showBill(p);} else XMG.alert(SYS,M_NO_DATA_SELECTED);};
@@ -4753,7 +4753,7 @@ Fos.ExpenseGrid = function(t){
         			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
         				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
         				currCode:currCode,
-        				invoType:'R',invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
+        				invoType:t,invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
         				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
         			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
         			T_MAIN.setActiveTab(tab);
@@ -4766,7 +4766,7 @@ Fos.ExpenseGrid = function(t){
     			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
     				custId:a[0].get('custId'),custName:a[0].get('custName'),custSname:a[0].get('custSname'),invoTitle:a[0].get('custName'),
     				currCode:currCode,
-    				invoType:'R',invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
+    				invoType:t,invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
     				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
     			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
     			T_MAIN.setActiveTab(tab);
@@ -4796,43 +4796,32 @@ Fos.ExpenseGrid = function(t){
     	}
     };
 	//业务号
-	var txtConsNoLabel = {text:C_CONS_NO};
-	var txtConsNo = new Ext.form.TextField({width:100,name:'consNo'});
+	var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,anchor:"90%",name:'consNo'});
 	//结算单位
-	var cboCustIdLabel = {text:C_SETTLE_OBJECT};
-	var cboCustId = new Ext.form.ComboBox({width:120,name:'custId',store:getCS(),displayField:'custNameCn',valueField:'custId',
+	var cboCustId = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,anchor:"90%",name:'custId',store:getCS(),displayField:'custNameCn',valueField:'custId',
 				  typeAhead:true,enableKeyEvents:true,mode:'local',tpl:custTpl,itemSelector:'div.list-item',
 				  listWidth:400,triggerAction:'all',selectOnFocus:true,
 	              listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}});
 	//是否开发票
-	var cboExpeInvoiceFlagLabel = {text:C_WHETHER_INVOICING};
-	var cboExpeInvoiceFlag = new Ext.form.ComboBox({width:100,name:'expeInvoiceFlag',displayField:'NAME',valueField:'CODE',typeAhead: true,
+	var cboExpeInvoiceFlag = new Ext.form.ComboBox({fieldLabel:C_WHETHER_INVOICING,anchor:"90%",name:'expeInvoiceFlag',displayField:'NAME',valueField:'CODE',typeAhead: true,
 		mode:'local',triggerAction:'all',selectOnFocus:true,store:Y_O_N});
 	//账单状态
-	var cboExpeInvoiceStatusLabel = {text:C_INVO_STATUS_R};
-	var cboExpeInvoiceStatus = new Ext.form.ComboBox({width:100,name:'expeInvoiceStatus',store:INST_S,displayField:'NAME',
+	var cboExpeInvoiceStatus = new Ext.form.ComboBox({fieldLabel:C_INVO_STATUS_R,anchor:"90%",name:'expeInvoiceStatus',store:INST_S,displayField:'NAME',
 		valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true});
 	//核销状态
-	var cboExpeWriteoffStatusLabel = {text:C_WRITEOFF_STATUS_R};
-	var cboExpeWriteoffStatus =new Ext.form.ComboBox({width:100,name:'expeWriteoffStatus',store:WRST_S,displayField:'NAME',valueField:'CODE',
+	var cboExpeWriteoffStatus =new Ext.form.ComboBox({fieldLabel:C_WRITEOFF_STATUS_R,anchor:"90%",name:'expeWriteoffStatus',store:WRST_S,displayField:'NAME',valueField:'CODE',
 		typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true});
 	//账单号
-	var txtExpeInvoiceNoLabel = {text:C_INVO_NO};
-	var txtExpeInvoiceNo = new Ext.form.TextField({name:'expeInvoiceNo',width:100});
+	var txtExpeInvoiceNo = new Ext.form.TextField({fieldLabel:C_INVO_NO,name:'expeInvoiceNo',anchor:"90%"});
 	//币种
-	var cboCurrCodeLabel = {text:C_CURR};
-	var cboCurrCode = new Ext.form.ComboBox({width:100,name:'currCode',displayField:'currCode',valueField:'currCode',triggerAction: 'all',
+	var cboCurrCode = new Ext.form.ComboBox({fieldLabel:C_CURR,anchor:"90%",name:'currCode',displayField:'currCode',valueField:'currCode',triggerAction: 'all',
          mode:'local',selectOnFocus:true,store:getCURR_S(),typeAhead:true});
     //账单日期
-    var dtExpeInvoiceDateLabel = {text:C_INVO_DATE};
-    var from = {text:C_FROM};
-    var dtExpeInvoiceDate = new Ext.form.DateField({width:100,name:'expeInvoiceDate',format:DATEF});
-    var to = {text:C_TO};
-    var dtExpeInvoiceDate2 = new Ext.form.DateField({width:100,name:'expeInvoiceDate2',format:DATEF});
+    var dtExpeInvoiceDate = new Ext.form.DateField({fieldLabel:C_INVO_DATE+C_FROM,anchor:"90%",name:'expeInvoiceDate',format:DATEF});
+    var dtExpeInvoiceDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'expeInvoiceDate2',format:DATEF});
     //核销单日期
-    var dtExpeWriteOffDateLabel = {text:C_WRITEOFF_DATE};
-    var dtExpeWriteOffDate = new Ext.form.DateField({width:100,name:'expeWriteOffDate',format:DATEF});
-    var dtExpeWriteOffDate2 = new Ext.form.DateField({width:100,name:'expeWriteOffDate2',format:DATEF});
+    var dtExpeWriteOffDate = new Ext.form.DateField({fieldLabel:C_WRITEOFF_DATE+C_FROM,anchor:"90%",name:'expeWriteOffDate',format:DATEF});
+    var dtExpeWriteOffDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'expeWriteOffDate2',format:DATEF});
     
     //查询方法
     this.reload=function(){
@@ -4884,30 +4873,47 @@ Fos.ExpenseGrid = function(t){
      			}
      	});
     };
-    //查询按钮
-    var search = {text:C_SEARCH,iconCls:'search',scope:this,handler:this.reload};
+   
     //生成账单按钮
-	var genInvoice = {text:C_GEN_INVOICE,iconCls:'save',scope:this,handler:this.genInvoice};
+	var genInvoice = {text:C_GEN_INVOICE,iconCls:'save',scope:this,disabled:t=='D'?true:false,handler:this.genInvoice};
 	//生成对帐单
-	var genBill = {text:C_GEN_BILL,iconCls:'save',scope:this,handler:this.genBill};
-    //第二行的Toolbar
-	var queryBar = new Ext.Toolbar({items:[txtExpeInvoiceNoLabel,txtExpeInvoiceNo,'-',dtExpeInvoiceDateLabel,from,dtExpeInvoiceDate,to,dtExpeInvoiceDate2,'-',
-		dtExpeWriteOffDateLabel,from,dtExpeWriteOffDate,to,dtExpeWriteOffDate2,'-',search,'-',genInvoice,'-',genBill
-	]});
+	var genBill = {text:C_GEN_BILL,iconCls:'save',scope:this,disabled:t=='D'?true:false,handler:this.genBill};
+	 //查询按钮
+	var searchButton = {text:C_SEARCH,iconCls:'search',scope:this,handler:this.reload};
+	var selectPanel = new Ext.Panel({plain:true,height:100,layout:'column',region:'north',
+		defaults:{bodyStyle:'padding:10px'},items:[
+			{columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+		    	items:[
+		    		txtConsNo,dtExpeInvoiceDate,cboExpeInvoiceFlag
+		    		]
+		    },
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+		    	items:[
+		    		cboCustId,dtExpeInvoiceDate2,cboExpeInvoiceStatus
+		    		]
+		    },
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+		    	items:[
+		    		cboCurrCode,dtExpeWriteOffDate,cboExpeWriteoffStatus
+		    		]
+		    },
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
+		    	items:[
+		    		txtExpeInvoiceNo,dtExpeWriteOffDate2
+		    		]
+		    }]
+		});
+	this.grid = new Ext.grid.GridPanel({sm:sm,cm:cm,store:store,autoScroll:true,header:false,layout:'fit',
+		view:new Ext.grid.GroupingView(groupViewCfg),region:'center',
+		tbar:[genInvoice,'-',genBill,'-',searchButton],
+		bbar:PTB(store,C_PS)
+		})
 	//base.superclass.constructor.call(this,config);
     //这个意思就是调用父类的构造函数 作用域是当前子类 传入config参数 将来config中有什么属性 会为子类构造出什么属性
 	Fos.ExpenseGrid.superclass.constructor.call(this,{
-		id:'EXPENSE_'+t,title:title,sm:sm,cm:cm,store:store,autoScroll:true,
-		view:new Ext.grid.GroupingView(groupViewCfg),closable:true,
-		tbar:[txtConsNoLabel,txtConsNo,'-',cboCustIdLabel,cboCustId,'-',cboCurrCodeLabel,
-		cboCurrCode,'-',cboExpeInvoiceFlagLabel,cboExpeInvoiceFlag,'-',
-		cboExpeInvoiceStatusLabel,cboExpeInvoiceStatus,'-',cboExpeWriteoffStatusLabel,cboExpeWriteoffStatus],
-	    listeners: {scope:this,
-                    render: function(){  
-                        queryBar.render(this.tbar);  
-                    }  
-                }  
+		id:'EXPENSE_'+t,title:title,closable:true,layout:'border',
+		items:[selectPanel,this.grid]
 	});
 	store.load({params:{start:0,limit:C_PS}});
 };
-Ext.extend(Fos.ExpenseGrid,Ext.grid.GridPanel);
+Ext.extend(Fos.ExpenseGrid,Ext.Panel);
