@@ -133,7 +133,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '付款方式', 'FBl', 'blValuePayment', NULL),
 (1, '其他付款方式', 'FBl', 'blOtherPayment', NULL),
 (1, '预付其他费用', 'FBl', 'blOtherDcPp', NULL),
-(1, '到付其他费用', 'FBl', 'blOtherDcCc', NULL),
+(1, '到付其他费用', 'FBl', 'blOtherDcCc', NULL)
 ;
 
 -- 报关单

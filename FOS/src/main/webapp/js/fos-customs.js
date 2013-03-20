@@ -825,7 +825,7 @@ Fos.CustomsGrid = function(bizClass) {
     	queryParams = a;
     };
 	this.search = function(){
-		var w=new Fos.CustomsConsLookupWin(store,setQueryParams);
+		var w=new Fos.CustomsConsLookupWin(store,setQueryParams,bizClass);
 		w.show();
 	};
 	
@@ -1215,7 +1215,12 @@ Fos.CustomsDeclearTab = function(p,store) {
  	 			     	},
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	       
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%',listeners:{
+ 			     			select:function(t,d){
+ 			     				txtSailDate.setValue(d);
+ 			     			}
+ 			     		}
+ 			     },
     	    	{fieldLabel:C_CUSTOM_AGENCY,tabIndex:21,name:'consCustomsVendorName',
     	    		value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
     	    		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
@@ -1348,10 +1353,11 @@ Fos.CustomsDeclearTab = function(p,store) {
 };
 Ext.extend(Fos.CustomsDeclearTab,Ext.FormPanel);
 
-Fos.CustomsConsLookupWin = function(store,setQueryParams){    
+Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){    
 	this.reload=function(){
      	var a=[];var op=1;
      	a[a.length]=new QParam({key:'consBizType',value:BT_G,op:1});
+     	a[a.length]=new QParam({key:'consBizClass',value:bizClass,op:1});
      	
  		var custId=panel.find('name','custId')[0].getValue();
  		if(custId) 

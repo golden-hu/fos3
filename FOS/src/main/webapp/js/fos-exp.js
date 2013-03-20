@@ -8,6 +8,7 @@
 	var c = new FConsign({id:rid,consId:rid,consNotifyParty:'SAME AS CONSIGNEE',
 		consNo:VERSION==2?'':('N'+rid),consType:'A',consShipType:st,consActionType:'A',consMasterFlag:1,
 		consBizClass:bc,consBizType:bt,consSource:0,consDate:new Date(),tranId:st=='LCL'?CFS:CY,
+		consSailDate:bt==BT_G||BT_I?new Date():'',
 		consServiceRequired:sr,version:0,consStatus:0,consStatusBooking:0,consStatusClearance:0,
 		consStatusSwitchBl:0,consStatusSplit:0,consStatusInsp:0,consStatusCont:0,
 		consStatusCarg:0,consStatusMbl:0,consStatusHbl:0,consStatusBBook:0,
