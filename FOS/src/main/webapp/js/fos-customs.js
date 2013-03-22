@@ -442,7 +442,10 @@ Fos.InspectionDeclTab = function(p,store) {
  	 			     	},
  	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	     
  			     {fieldLabel:C_CONS_DATE,tabIndex:13,name:'consDate',value:p.get('consDate'),
- 			     		xtype:'datefield',format:DATEF,anchor:'99%'},
+ 			     		xtype:'datefield',format:DATEF,anchor:'99%',listeners:{
+ 			     			select:function(t,d){
+ 			     				txtSailDate.setValue(d);
+ 			     			}}},
  			    txtVessName,cboPolEn,
 	     		{fieldLabel:C_VERIFICATION_NO,tabIndex:21,name:'consVerificationNo',value:p.get('consVerificationNo'),
  	    	    	xtype:'textfield',anchor:'99%'},
