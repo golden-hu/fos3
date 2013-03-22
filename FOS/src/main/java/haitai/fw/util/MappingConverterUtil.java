@@ -12,6 +12,8 @@ import haitai.fw.log.FosLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -276,6 +278,28 @@ public class MappingConverterUtil {
 			n = "FREIGHT PREPAID";
 		} else if (s.equals("CC")) {
 			n = "FREIGHT COLLECT";
+		}
+		return n;
+	}
+	
+	public String getOperatorName(String userId){
+		if(StringUtil.isBlank(userId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(userId);
+		PUser user = userDao.findById(id);
+		return user.getUserName();
+	}
+	public String getBillofLadingWay(String istyId){
+		String n = "";
+		if(StringUtil.isBlank(istyId)){
+			return "";
+		}
+		Integer id = Integer.parseInt(istyId);
+		if(id==2){
+			n = "是";
+		}else{
+			n = "否";
 		}
 		return n;
 	}
