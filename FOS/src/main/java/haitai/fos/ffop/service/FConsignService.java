@@ -956,6 +956,7 @@ public class FConsignService {
 			Short editable = ConstUtil.FalseShort;
 			//1.有编辑所有委托权限; 2.是此票的操作员; 3.是此票的创建者, 有编辑权限
 			if (ConstUtil.TrueShort.equals(myself.getUserAllEditFlag())
+					||ConstUtil.TrueShort.equals(myself.getUserGrouEditFlag())
 					|| uid.equals(consign.getConsOperatorId())
 					|| uid.equals(consign.getCreateBy())) {
 				editable = ConstUtil.TrueShort;
@@ -1178,6 +1179,10 @@ public class FConsignService {
 	private void checkBlNoDuplicated(FConsign entity) {
 		//散货不检查提单号的唯一性
 		if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())) {
+			return;
+		}
+		//空运不检查提单号的唯一性
+		if (ConstUtil.CONS_BIZ_TYPE_AIR.equals(entity.getConsBizType())) {
 			return;
 		}
 		if (StringUtil.isBlank(entity.getConsMblNo())) {
