@@ -1931,7 +1931,7 @@ Fos.BookTab = function(p) {
 	}
 	else 
 		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6];
-	var b10={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E)||locked,scope:this,menu:{items:expM}};
+	var b10={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E),scope:this,menu:{items:expM}};
 	
 	var tbs=[];
 	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){

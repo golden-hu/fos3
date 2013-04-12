@@ -127,6 +127,7 @@ function getDocPanel(){
 	if(!NR(M1_D+F_V)) items[items.length]=NaviMenu(C_DOC_NOT_RETURN,'G_DOC_B',function(){return new Fos.DocGrid('B');});
 	if(!NR(M1_D+F_V)) items[items.length]=NaviMenu(C_DOC_RETURN_NOT_BACK,'G_DOC_C',function(){return new Fos.DocGrid('C');});
 	if(!NR(M1_D+F_V)) items[items.length]=NaviMenu(C_DOC_BACK,'G_DOC_D',function(){return new Fos.DocGrid('D');});
+	if(!NR(M1_D+F_V)) items[items.length]=NaviMenu(C_CUSTOMS_FLAG,'G_DOC_E',function(){return new Fos.DocGrid('E');});
 	return new Ext.Panel({title:C_DOC_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };

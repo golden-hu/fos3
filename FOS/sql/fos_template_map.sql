@@ -367,7 +367,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (15, '启运港', 'FConsign', 'consPolEn', NULL),
 (15, '目的港', 'FConsign', 'consPodEn', NULL),
 (15, '中转港', 'FConsign', 'consPotEn', NULL),
-(15, '承运人', 'FConsign', 'consCarrier', NULL),
+(15, '承运人', 'FConsign', 'consCarrierName', NULL),
 (15, '订舱代理', 'FConsign', 'consBookingAgency', NULL),
 (15, '运费条款', 'FConsign', 'pateId', NULL),
 (15, '主委托号', 'FConsign', 'consMasterNo', NULL),
@@ -481,6 +481,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 
 -- 装箱通知单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(18, '装箱备注', 'FConsign', 'consTrackRemarks', NULL),
 (18, '客户', 'FConsign', 'custName', NULL),
 (18, '客户联系人', 'FConsign', 'custContact', NULL),
 (18, '客户编号', 'FConsign', 'consRefNo', NULL),

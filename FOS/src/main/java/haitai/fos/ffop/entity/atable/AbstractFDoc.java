@@ -53,6 +53,9 @@ public abstract class AbstractFDoc extends BaseDomain {
 
 	private String fdocCompany;
 	private String fdocRemark;
+	private Short fdocReturnWay;
+	private String fdocExpressNo;
+	private Short fdocCustomsFlag;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -386,4 +389,30 @@ public abstract class AbstractFDoc extends BaseDomain {
 	public void setFdocRemark(String fdocRemark) {
 		this.fdocRemark = fdocRemark;
 	}
+	
+	@Column(name = "FDOC_RETURN_WAY", length = 4)
+	public Short getFdocReturnWay() {
+		return fdocReturnWay;
+	}
+	public void setFdocReturnWay(Short fdocReturnWay) {
+		this.fdocReturnWay = fdocReturnWay;
+	}
+	
+	@Column(name = "FDOC_EXPRESS_NO", length = 32)
+	public String getFdocExpressNo() {
+		return fdocExpressNo;
+	}
+	public void setFdocExpressNo(String fdocExpressNo) {
+		this.fdocExpressNo = fdocExpressNo;
+	}
+	
+	@Column(name = "FDOC_CUSTOMS_FLAG", length = 4)
+	public Short getFdocCustomsFlag() {
+		return fdocCustomsFlag;
+	}
+	public void setFdocCustomsFlag(Short fdocCustomsFlag) {
+		this.fdocCustomsFlag = fdocCustomsFlag;
+	}
+	
+	
 }

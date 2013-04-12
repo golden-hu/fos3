@@ -1609,3 +1609,6 @@ var C_IS_WRITEOFF = '不可以删除已核销的账单';
 var C_SETTLE_OBJECT_DIFFERENT = '结算单位必须一致';
 var C_GEN_BILL = '生成对账单';
 var C_GEN_INVOICE='生成账单';
+var C_EXPRESS_NO = '快递单号';
+var C_RETURN_WAY = '退还方式';
+var C_CUSTOMS_FLAG = '客户自报关';

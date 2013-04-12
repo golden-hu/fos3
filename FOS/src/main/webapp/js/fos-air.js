@@ -2278,6 +2278,7 @@ Fos.ConsDocGrid = function(p) {
 	
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
+	var customsFlag = CHKCLM(C_CUSTOMS_FLAG,'fdocCustomsFlag',100);
 	var releasableFlag=CHKCLM(C_DOC_RELEASABLE_FLAG,'fdocReleasableFlag');	
 	var returnFlag =CHKCLM(C_DOC_RETURN,'fdocReturnFlag');
 	returnFlag.on('click',function(c,e,r){
@@ -2285,7 +2286,7 @@ Fos.ConsDocGrid = function(p) {
 	var backFlag=CHKCLM(C_DOC_BACK,'fdocBackFlag');
 	backFlag.on('click',function(c,e,r){
 		r.set('fdocBackDate',r.get('fdocBackFlag')==1?(new Date()):'');},this);
-	var cm=new Ext.grid.ColumnModel({columns:[sm,releasableFlag,returnFlag,backFlag,
+	var cm=new Ext.grid.ColumnModel({columns:[sm,customsFlag,releasableFlag,returnFlag,backFlag,
 	{header:C_DOC_NAME,dataIndex:'dotyName',width:150,renderer:getDOTY,
 			editor:new Ext.form.ComboBox({displayField:'dotyCode',valueField:'dotyName',triggerAction:'all',
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
@@ -2316,11 +2317,16 @@ Fos.ConsDocGrid = function(p) {
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},	
 	{header:C_DOC_RETURN_DATE,dataIndex:'fdocReturnDate',renderer:formatDate,width:80,editor:new Ext.form.DateField({format:DATEF})},
+	{header:C_RETURN_WAY,dataIndex:'fdocReturnWay',renderer:getITTY,width:80,
+		editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
+	{header:C_EXPRESS_NO,dataIndex:'fdocExpressNo',width:80,editor:new Ext.form.TextField({})},
 	{header:C_DOC_BACK_DATE,dataIndex:'fdocBackDate',renderer:formatDate,width:80,editor:new Ext.form.DateField({format:DATEF})},
 	{header:C_DOC_BACK_TYPE,dataIndex:'fdocBackType',width:80,renderer:getITTY,
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
-    {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()}
+    {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()},
+    {header:C_REMARKS,dataIndex:'fdocRemarks',width:80,editor:new Ext.form.TextField()}
 	],defaults:{sortable:true,width:100}});
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_DOC;
 	new Ext.KeyMap(Ext.getDoc(), {
@@ -2347,11 +2353,11 @@ Fos.ConsDocGrid = function(p) {
 		var t = new FDoc({id:rid,fdocId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consBizClass:p.get('consBizClass'),consShipType:p.get('consShipType'),
 		dotyId:'',dotyClass:'',fdocNo:'',fdocOriginalNum:'1',fdocCopyNum:0,fdocStatus:1,fdocRecvDate:new Date(),fdocSendDate:new Date(),fdocSendType:'',fdocSendSigner:'',
 		fdocReturnDate:'',fdocBackDate:'',fdocBackType:'',fdocBackSigner:'',
-		fdocReturnFlag:0,fdocBackFlag:0,fdocReleasableFlag:0,version:0});
+		fdocCustomsFlag:0,fdocReturnFlag:0,fdocBackFlag:0,fdocReleasableFlag:0,version:0});
 		this.store.insert(0,t);t.set('rowAction','N');sm.selectFirstRow();this.startEditing(0,1);
 	};
 	Fos.ConsDocGrid.superclass.constructor.call(this,{
-	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,clicksToEdit:1,plugins:[releasableFlag,returnFlag,backFlag],
+	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,clicksToEdit:1,plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:this.store,sortInfo:{field:'fdocId',direction:'DESC'},
 		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.add},'-',
 			{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:function(){FOS_REMOVE(sm,this.store);}},'-',
@@ -2389,7 +2395,11 @@ Fos.DocGrid = function(s) {
 	else if(s=='D'){
 		title=C_DOC_BACK;
 		a[a.length]=new QParam({key:'fdocBackFlag',value:'1',op:EQ});
-	}	
+	}
+	else if(s=='E'){
+		title=C_CUSTOMS_FLAG;
+		a[a.length]=new QParam({key:'fdocCustomsFlag',value:'1',op:EQ})
+	}
 	
 	var bp=a.length?{mt:'xml',xml:FOSX(QTX(a))}:{mt:'xml'};
 	
@@ -2405,13 +2415,14 @@ Fos.DocGrid = function(s) {
 		w.show();
 	};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
+    var customsFlag = CHKCLM(C_CUSTOMS_FLAG,'fdocCustomsFlag',100);
 	var releasableFlag=CHKCLM(C_DOC_RELEASABLE_FLAG,'fdocReleasableFlag');	
 	var returnFlag =CHKCLM(C_DOC_RETURN,'fdocReturnFlag');
 	returnFlag.on('click',function(c,e,r){r.set('fdocReturnDate',r.get('fdocReturnFlag')==1?(new Date()):'');},this);
 	var backFlag=CHKCLM(C_DOC_BACK,'fdocBackFlag');
 	backFlag.on('click',function(c,e,r){r.set('fdocBackDate',r.get('fdocBackFlag')==1?(new Date()):'');},this);
 	
-	var cm=new Ext.grid.ColumnModel({columns:[sm,releasableFlag,returnFlag,backFlag,
+	var cm=new Ext.grid.ColumnModel({columns:[sm,customsFlag,releasableFlag,returnFlag,backFlag,
 	{header:C_DOC_NAME,dataIndex:'dotyName',width:100,renderer:getDOTY,
 			editor:new Ext.form.ComboBox({displayField:'dotyCode',valueField:'dotyName',triggerAction:'all',
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
@@ -2433,11 +2444,15 @@ Fos.DocGrid = function(s) {
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
 	{header:C_DOC_RETURN_DATE,dataIndex:'fdocReturnDate',renderer:formatDate,width:80,editor:new Ext.form.DateField({format:DATEF})},
-	{header:C_DOC_BACK_DATE,dataIndex:'fdocBackDate',renderer:formatDate,width:80,editor:new Ext.form.DateField({format:DATEF})},
+	{header:C_RETURN_WAY,dataIndex:'fdocReturnWay',renderer:getITTY,width:80,
+		editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
+	{header:C_EXPRESS_NO,dataIndex:'fdocExpressNo',width:80,editor:new Ext.form.TextField()},
 	{header:C_DOC_BACK_TYPE,dataIndex:'fdocBackType',width:80,renderer:getITTY,
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
-    {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()},    
+    {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()},  
+    {header:C_REMARKS,dataIndex:'fdocRemarks',width:80,editor:new Ext.form.TextField()},
     {header:C_VESS,dataIndex:'vessName',width:120},
     {header:C_VOYA,dataIndex:'voyaName',width:80},
     {header:C_BL_NO,dataIndex:'consMblNo',width:120},
@@ -2481,7 +2496,10 @@ Fos.DocGrid = function(s) {
     	}
     	else if(s=='D'){
     		a[a.length]=new QParam({key:'fdocBackFlag',value:'1',op:EQ});
-    	}	
+    	}
+    	else if(s=='E'){
+			a[a.length]=new QParam({key:'fdocCustomsFlag',value:'1',op:EQ})
+		}
         a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});        
         store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
         store.reload({params:{start:0,limit:C_PS},
@@ -2529,7 +2547,7 @@ Fos.DocGrid = function(s) {
         scope:this
     });
 	Fos.DocGrid.superclass.constructor.call(this,{clicksToEdit:1,
-	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[releasableFlag,returnFlag,backFlag],
+	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
 		view:new Ext.grid.GroupingView(vc),
 		tbar:[{text:C_SAVE+'(S)',disabled:NR(M1_D+F_M),iconCls:'save',disabled:NR(M1_D+F_M),
