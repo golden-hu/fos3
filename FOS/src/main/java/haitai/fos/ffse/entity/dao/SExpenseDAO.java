@@ -65,6 +65,17 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<SExpense> complexQuerySingle(final List<FosQuery> conditions,
+			final Map<String, Object> propertyMap) {
+		final Class t1 = SExpense.class;
+		List retList = complexQuery(conditions, propertyMap, "t1","", t1);
+		String rowCount = String.valueOf(complexQuerySize(conditions,
+				propertyMap, "t1", "", t1));
+		propertyMap.put(HttpHeader.ROWCOUNT, rowCount);
+		return retList;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<SExpense> complexQueryRelease(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SExpense.class;

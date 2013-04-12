@@ -221,6 +221,12 @@ public class SExpenseService {
 	public List<SExpense> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		return dao.complexQuery(conditions, queryMap);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<SExpense> complexQuerySingle(List<FosQuery> conditions, Map queryMap) {
+		return dao.complexQuerySingle(conditions, queryMap);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)

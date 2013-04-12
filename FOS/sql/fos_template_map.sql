@@ -59,7 +59,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '第二通知人', 'FBl', 'blNotifyParty2', NULL),
 (1, '提单号', 'FBl', 'blNo', NULL),
 (1, 'HBLNo', 'FBl', 'blNo', NULL),
-(1, 'MBLNo', 'FBl', 'mblNo', 'getBlNo'),
+(1, 'MBLNo', 'FBl', 'mblNo', NULL),
 (1, 'MBLNO3', 'FBl', 'mblNo', 'getBlNo3'),
 (1, 'HAWBNO', 'FBl', 'blNo', NULL), 
 (1, 'MAWBNO', 'FBl', 'mblNo', 'getBlNo'),

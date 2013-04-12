@@ -8,3 +8,5 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '提单类型', 'FBl', 'blType', NULL),
 (1, '是否电放提单', 'FBl', 'istyId', 'getBillofLadingWay'),
 (1, '操作员', 'FBl', 'userId', 'getOperatorName');
+
+UPDATE S_EXPENSE SET EXPE_INVOICE_FLAG = 1;

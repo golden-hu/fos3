@@ -35,6 +35,11 @@ public interface ISExpenseDAO {
 	public abstract List<SExpense> complexQuery(
 			final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap);
+	
+	public abstract List<SExpense> complexQuerySingle(
+			final List<FosQuery> conditions,
+			final Map<String, Object> propertyMap);
+
 
 	public abstract List<SExpense> complexQueryRelease(
 			final List<FosQuery> conditions,

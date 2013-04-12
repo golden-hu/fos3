@@ -277,6 +277,7 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('EXPE_S', 'SExpenseService', 'save', '费用保存'),
 ('EXPE_Q', 'SExpenseService', 'query', '费用查询'),
 ('EXPE_X', 'SExpenseService', 'complexQuery', '费用综合查询'),
+('EXPE_X_S', 'SExpenseService', 'complexQuerySingle', '费用单表复杂查询'),
 ('EXPB_X', 'SExpenseService', 'complexQueryExpenseB', '费用修改历史综合查询'),
 ('EXPE_INV_Q', 'SExpenseService', 'invoiceCreateQuery', '费用生成发票查询'),
 ('EXPE_WROF_Q', 'SExpenseService', 'queryWriteOff', '费用已开票未核销查询'),
