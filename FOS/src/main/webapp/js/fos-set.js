@@ -6,6 +6,8 @@
 		expeType = 'P';
 	}else if(t=='D'){
 		expeType = 'D';
+	}else if (t=='C'){
+		expeType='P';
 	}
 	this.reCalculate = function(){
 		if(t=='R') 
@@ -1633,6 +1635,7 @@ Fos.InvoiceGrid = function(t) {
 		{header:C_BANK_ACCOUNT,width:120,dataIndex:"invoAccount"},
 		{header:C_BIZ_TYPE,dataIndex:"invoBizClass",renderer:getBC},		
 		{header:C_CONS_NO,width:120,dataIndex:"invoConsNo"},
+		{header:C_SAIL_DATE,width:120,dataIndex:"invoSailDate",renderer:formatDate},
 		{header:C_VESS,width:120,dataIndex:"invoVessel"},
 		{header:C_VOYA,dataIndex:"invoVoyage"},
 		{header:C_BL_NO,dataIndex:"invoBlNo"},		
@@ -4653,7 +4656,7 @@ Ext.extend(Fos.SectionExGrid, Ext.grid.EditorGridPanel);
 
 //应收应付代垫费用管理
 Fos.ExpenseGrid = function(t){
-	var store = new Ext.data.GroupingStore({url:SERVICE_URL,baseParams:{A:'EXPE_X',mt:'xml',expeType:t},
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL,baseParams:{A:'EXPE_X_S',mt:'xml',expeType:t},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:'expeId'},SExpense),
 		sortInfo:{field:'consNo', direction:'DESC'},remoteSort:true,autoLoad:false});
 	
@@ -4665,9 +4668,7 @@ Fos.ExpenseGrid = function(t){
 		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center'};
 	}
 	
-	if( VERSION==1){
-		t2={header:C_CHAR,width:80,dataIndex:"charName"};
-	}
+	var t2={header:C_CHAR,width:80,dataIndex:"charName"};
     var t3={header:C_UNIT,dataIndex:"unitName"};
     var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:expenseNumRender};
 	var t5={header:C_UNIT_PRICE,dataIndex:"expeUnitPrice",renderer:expenseNumRender};
@@ -4829,7 +4830,7 @@ Fos.ExpenseGrid = function(t){
      	var op=1; 
      	//业务号
      	var consNo=txtConsNo.getValue();
- 		if(consNo) a[a.length]=new QParam({key:'consNo',value:consNo,op:op});
+ 		if(consNo) a[a.length]=new QParam({key:'consNo',value:consNo,op:7});
  		//结算单位
  		var custId=cboCustId.getValue();
  		if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:op});
@@ -4865,7 +4866,7 @@ Fos.ExpenseGrid = function(t){
  		}
  		else if(expeWriteOffDate) a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate,op:op});
    
-     	store.baseParams={A:'EXPE_X',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
+     	store.baseParams={A:'EXPE_X_S',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) 
