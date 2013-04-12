@@ -981,9 +981,14 @@ Fos.ContainerTab = function(p) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,scope:this,listeners:re});	
 	var soc = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CONT_NO,dataIndex:'contNo',width:100,validator:checkContainerNo,
-		editor:new Ext.form.TextField({allowBlank:false,blankText:'',
-		invalidText:'集装箱编码格式不正确，请重新输入！'})},
+	{header:C_CONT_NO,dataIndex:'contNo',width:100,
+		editor:new Ext.form.TextField({
+		listeners:{
+			blur:function(t){
+				if(!chkcntrno(t.getValue(),0)){
+					XMG.alert(SYS,'集装箱编码格式不正确，请重新输入！');
+				}
+		}}})},
 	{header:C_SEAL_NO,dataIndex:'contSealNo',width:100,
 		editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_COTY,dataIndex:'cotyCode',width:60,renderer:getCOTY,

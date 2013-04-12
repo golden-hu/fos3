@@ -68,13 +68,6 @@ function gf_trim(as_string)
    while(as_string.length > 0 && as_string.lastIndexOf(" ")==(as_string.length-1)) as_string = as_string.substr(0,as_string.length-1);
    return as_string;
 }
-//去除字符串的空格
-function gf_trim(as_string)
-{
-   while(as_string.length > 0 && as_string.indexOf(" ")==0) as_string = as_string.substr(1);
-   while(as_string.length > 0 && as_string.lastIndexOf(" ")==(as_string.length-1)) as_string = as_string.substr(0,as_string.length-1);
-   return as_string;
-}
 //集装箱箱号验证
 //功能：验证集装箱箱号：
 //参数：
