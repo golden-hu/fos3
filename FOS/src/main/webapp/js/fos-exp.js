@@ -1886,9 +1886,10 @@ Fos.BookTab = function(p) {
     	if(tb.getComponent('TB_K')) tb.getComponent('TB_K').setDisabled(NR(m+F_M)||locked||disable||p.get('consStatus')!=2);
     	if(tb.getComponent('TB_L')) tb.getComponent('TB_L').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=3);  	
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
-    	if(tb.getComponent('TB_N')) tb.getComponent('TB_N').setDisabled(NR(m+F_M)||p.get('consStatus')==7);
+    	if(tb.getComponent('TB_P')) tb.getComponent('TB_P').setDisabled(NR(m+F_M)||p.get('consStatus')==7);
     	if(tb.getComponent('TB_M_CONS_NO')) tb.getComponent('TB_M_CONS_NO').setDisabled(NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7);
     };
+    //TopBar
 	var b1={text:C_SAVE,itemId:'TB_A',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==7,scope:this,handler:this.save};
 	var b2={text:C_BOOK_START,itemId:'TB_B',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.start};
 	var b3={text:C_BOOK_CONFIRM,itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.check};
@@ -1907,7 +1908,7 @@ Fos.BookTab = function(p) {
 	var b15={text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable,scope:this,handler:this.cancel};
 	
 	var b17={text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock};
-	var b18={text:C_FINISHED,itemId:'TB_N',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==7,scope:this,handler:this.finished};
+	var b18={text:C_FINISHED,itemId:'TB_P',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==7,scope:this,handler:this.finished};
 	
 	var btnModifyConsignNo={text:C_MODIFY_CONS_NO,itemId:'TB_M_CONS_NO',iconCls:'option',
 			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7,scope:this,handler:this.MoidfyConsNo};
