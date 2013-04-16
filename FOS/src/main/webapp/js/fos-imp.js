@@ -246,7 +246,7 @@ Fos.ContainerGrid = function(p,store) {
 	var c12={header:C_CONT_NO,dataIndex:'contNo',validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，前四位应为字母，后七位为数字，请重新输入！'})};
 	var c13={header:C_SEAL_NO,dataIndex:'contSealNo',editor:new Ext.form.TextField()};
 	var cm=new Ext.grid.ColumnModel({columns:p.get('consBizClass')==BC_I?[sm,c1,c2,c12,c13,c3,checkSOC,c5,c6,c7,c8,c9,c10,c11]:
-		[sm,c1,c2,c3,checkSOC,checkPOF,c4,c5,c6,c7,c8,c9,c10,c11],defaults:{sortable:true,width:100}});
+		[sm,c1,c2,c3,checkSOC,checkPOF,c4,c5,c6,c7,c8,c9,c10,c11],defaults:{sortable:false,width:100}});
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;	
 	
 	Fos.ContainerGrid.superclass.constructor.call(this, { 
@@ -261,6 +261,8 @@ Fos.ContainerGrid = function(p,store) {
 			contCargoNameEn:p.get('consBizClass')==BC_I?p.get('consCargoNameEn'):'',
 			contCargoNameCn:p.get('consBizClass')==BC_I?p.get('consCargoNameCn'):'',
 			contFl:p.get('consShipType')==ST_L?ST_L:ST_F,packId:'',contSocFlag:0,
+			contMConsNo:p.get('consMasterFlag')==0?p.get('consMasterNo'):'',
+			contMConsId:p.get('consMasterFlag')==0?p.get('consMasterId'):'',
 			contPartOfFlag:p.get('consShipType')==ST_L?1:0,version:'0',rowAction:'N'});
         		store.insert(0,c);this.startEditing(0, 1);}},'-',
 		{text:C_REMOVE,iconCls:'remove',disabled:NR(m+F_M),scope:this,handler:function(){FOS_REMOVE(sm,store);}}

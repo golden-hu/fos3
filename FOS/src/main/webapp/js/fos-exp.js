@@ -38,7 +38,7 @@ Fos.copyConsign = function(p){
 	var c = new FConsign({});var rid=GGUID();
 	var f = FConsign.prototype.fields;
 	for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];c.set(fn,p.get(fn));};
-	c.set('consDate',new Date());c.set('consSalesRepName',p.get('consSalesRepName'));
+	c.set('consDate',new Date());
 	c.set('consId',rid);c.set('id',rid);c.set('consNo','N'+rid);
 	c.set('version',1);c.set('consStatus',0);c.set('consStatusBooking',0);
 	c.set('consStatusClearance',0);c.set('consStatusSwitchBl',0);c.set('consStatusSplit',0);
@@ -53,7 +53,8 @@ Fos.copyConsign = function(p){
 	c.set('fconId','');c.set('loliId','');c.set('consMasterFlag',p.get('consMasterFlag')==0?0:1);
 	c.set('consMasterId',p.get('consMasterFlag')==0?p.get('consMasterId'):'');
 	c.set('consMasterNo',p.get('consMasterFlag')==0?p.get('consMasterNo'):'');
-	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');c.set('rowAction','N');
+	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');
+	c.set('rowAction','N');
 	//嘉禾提出将货物信息也一起带出
 	return c;
 };
@@ -167,7 +168,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
     	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c27,c28],
 		defaults: {sortable: true}});
-    
+	
 	this.addConsign = function(){
 		var c=sm.getSelected();
 		if(c.get('consMasterFlag')=='1'){
@@ -398,13 +399,19 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     else if (bizType==BT_C&&bizClass==BC_E)
     	tbs=[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
-    
+    var groupViewCfg4Color = {forceFit:false,
+						 getRowClass:function(row,idx) {
+							if(row.data.consStatus==0)
+								return 'red-row';
+						    },
+						  groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+						 };
 	Fos.ConsignGrid.superclass.constructor.call(this, {
     id:'G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''),iconCls:'grid',
     store: store,title:title,header:false,loadMask:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,ddGroup:'consGridDDGroup',enableDragDrop:shipType=='LCL'?true:false,	
 	listeners:rowCtxEvents,
-	view:new Ext.grid.GroupingView(groupViewCfg),
+	view:new Ext.grid.GroupingView(groupViewCfg4Color),
 	tbar:tbs,bbar:PTB(store,C_PS)});    
 };
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
@@ -491,13 +498,23 @@ Fos.BookTab = function(p) {
     	}
     }
     if(p.get('rowAction')!='N'){
-		this.carg_s.load({params:{consId:p.get('consId')}});
-		if(p.get('consBizType')==BT_C){
-			this.cont_s.load({params:{consId:p.get('consId'),
-				contPreFlag:p.get('consBizClass')==BC_I?'N':'Y'}});
-			if(p.get('consBizClass')==BC_I)
+    	if(p.get('consMasterFlag')==1){
+    		this.carg_s.load({params:{consMasterId:p.get('consMasterId')}});
+			if(p.get('consBizType')==BT_C){
+				this.cont_s.load({params:{contMConsId:p.get('consMasterId'),
+										  contPreFlag:p.get('consBizClass')==BC_I?'N':'Y'}});
+			}
+    	}
+		else{
+			this.carg_s.load({params:{consId:p.get('consId')}});
+			if(p.get('consBizType')==BT_C){
+				this.cont_s.load({params:{consId:p.get('consId'),
+				contPreFlag:p.get('consBizClass')==BC_I?'N':'Y'}
+				})
+			}
+		};
+		if(p.get('consBizClass')==BC_I)
 				this.hbl_s.load({params:{consId:p.get('consId'),blType:'H/BL'}});
-		}
 	};    
     this.save = function(){    	
     	var tb=this.getTopToolbar();
