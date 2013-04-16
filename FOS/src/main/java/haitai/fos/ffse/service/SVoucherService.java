@@ -238,7 +238,7 @@ public class SVoucherService {
 		Date  vouchDate = null;
 		for (SVoucherItem item : list) {
 			if (item.getVoitAmountOriW() != null) {
-				if(item.getExpeCurrCode()!=item.getInvoCurrCode()&&item.getExpeCurrCode()!="CNY") {
+				if(!item.getExpeCurrCode().equals(item.getInvoCurrCode())&&!item.getExpeCurrCode().equals("CNY")) {
 					writeOffAmount += item.getVoitAmountOriW()/item.getVoucExRate();
 				}else{
 					writeOffAmount += item.getVoitAmountOriW();
@@ -246,7 +246,7 @@ public class SVoucherService {
 					
 			}
 			if (item.getVoitAmountW() != null && item.getInitExRate() != null) {
-				if(item.getExpeCurrCode()!=item.getInvoCurrCode()&&item.getExpeCurrCode()!="CNY") {
+				if(!item.getExpeCurrCode().equals(item.getInvoCurrCode())&&!item.getExpeCurrCode().equals("CNY")) {
 					writeOffRcAmount += item.getVoitAmountW();
 				}else{
 					writeOffRcAmount += item.getVoitAmountW() * item.getInitExRate();
