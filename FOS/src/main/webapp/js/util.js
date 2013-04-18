@@ -58,7 +58,7 @@ var numRender = function(v){v=parseFloat(v);v=v.toFixed(2);if(v=='NaN') v='0.00'
 var rateRender = function(v){v=parseFloat(v);v=v.toFixed(4);if(v=='NaN') v='0.0000';return v;};
 var boolRender = function(v, p, record){p.css += ' x-grid3-check-col-td';return '<div class="x-grid3-check-col'+(v==1?'-on':'')+' x-grid3-cc-'+this.id+'">&#160;</div>';};
 var consRender  = function(v){return "<a href=\"javascript:openCons('"+v+"');\">"+v+"</a>";};
-
+var nullRender = function(v){if(v=='null') v=''; return v};
 var expenseNumRender = function(v){v=parseFloat(v);v=v.toFixed(4);if(v=='NaN') v='';return v;};
 
 //去除字符串的空格

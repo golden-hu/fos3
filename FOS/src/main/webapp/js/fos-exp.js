@@ -46,7 +46,7 @@ Fos.copyConsign = function(p){
 	c.set('consStatusMbl',0);c.set('consStatusHbl',0);c.set('consStatusBBook',0);
 	c.set('consStatusDepa',0);c.set('consStatusDocs',0);c.set('consStatusExp',0);
 	c.set('consStatusAud',0);c.set('consStatusAr',0);c.set('consStatusAp',0);
-	c.set('consStatusInvoR',0);c.set('consStatusInvoP',0);
+	c.set('consStatusInvoR',0);c.set('consStatusInvoP',0);c.set('consMblNo','');
 	c.set('consStatusReassign',0);c.set('consStatusInCy',0);c.set('consStatusInCfs',0);
 	c.set('consStatusOnBoard',0);c.set('consStatusEir',0);c.set('consStatusSendCont',0);
 	c.set('consReassignFrom',0);c.set('consStatusLock',0);c.set('consStatusSettlement',0);c.set('rowAction','N');
@@ -100,7 +100,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',baseParams:{mt:'xml'},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
 		remoteSort:true,autoLoad:false,
-		sortInfo:{field:((bizClass==BC_E&&shipType==ST_L)||bizType==BT_B)?'consMasterNo':'consDate', direction:'DESC'}
+		sortInfo:{field:'consMasterNo', direction:'DESC'}
 	});		
 	var queryParams=[];
 	queryParams[queryParams.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
@@ -143,7 +143,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c19={header:C_GW,width:80,dataIndex:"consTotalGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
     var c20={header:C_CBM,width:80,dataIndex:"consTotalMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
     
-    var c21={header:C_CONT_INFO,width:80,dataIndex:"consContainersInfo"};
+    var c21={header:C_CONT_INFO,width:80,dataIndex:"consContainersInfo",renderer:nullRender};
     var c22={header:C_CONT_NUM,width:80,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'};
     var c23={header:C_POT,dataIndex:"consPotEn"};
     var c24={header:C_CARRIER,dataIndex:"consCarrierName"};
@@ -399,19 +399,12 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     else if (bizType==BT_C&&bizClass==BC_E)
     	tbs=[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
-    var groupViewCfg4Color = {forceFit:false,
-						 getRowClass:function(row,idx) {
-							if(row.data.consStatus==0)
-								return 'red-row';
-						    },
-						  groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
-						 };
 	Fos.ConsignGrid.superclass.constructor.call(this, {
     id:'G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''),iconCls:'grid',
     store: store,title:title,header:false,loadMask:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,ddGroup:'consGridDDGroup',enableDragDrop:shipType=='LCL'?true:false,	
 	listeners:rowCtxEvents,
-	view:new Ext.grid.GroupingView(groupViewCfg4Color),
+	view:new Ext.grid.GroupingView(groupViewCfg),
 	tbar:tbs,bbar:PTB(store,C_PS)});    
 };
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
