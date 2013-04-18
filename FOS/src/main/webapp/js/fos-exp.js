@@ -342,7 +342,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&bizType==BT_B&&NR(m+F_CM))
 			||(bizType==BT_C&&shipType==''),
 			iconCls:'add',handler:this.newConsign};
-	var b2={text:C_CONSOLIDATE+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
+	var b2={text:C_FIGHT_SINGLE+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
 	var b3={text:C_EDIT+'(M)',disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b4={text:C_REMOVE+'(D)',disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
 	var b5={text:C_SEARCH+'(F)',iconCls:'search',handler:this.search};	

@@ -198,8 +198,8 @@ Fos.CargoGrid = function(p,store,frm) {
 		var rid=GGUID();
 		var c = new FCargo({id:rid,cargId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
 		consMasterId:p.get('consMasterId'),consMasterNo:p.get('consMasterNo'),cargMarks:'',cargSpec:'',
-		cargManuNo:'',cargNo:'',packId:'',cargPackageNum:'',cargNameCn:'',cargNameEn:'',cargGrossWeight:'',cargNetWeight:'',
-			cargMeasurement:'',cargUnit:'',version:'0',rowAction:'N'});
+		cargManuNo:'',cargNo:'',packId:'',cargPackageNum:0,cargNameCn:'',cargNameEn:'',cargGrossWeight:0,cargNetWeight:0,
+			cargMeasurement:0,cargUnit:'',version:'0',rowAction:'N'});
     		store.insert(0,c);sm.selectFirstRow();this.startEditing(0, 2);}},'-',
 		{text:C_REMOVE,iconCls:'remove',disabled:p.get('consBizType')=='T'?false:NR(m+F_M),iconCls:'remove',scope:this,handler:function(){
 				var r = sm.getSelections();

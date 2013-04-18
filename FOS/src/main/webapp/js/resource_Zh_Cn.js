@@ -1612,3 +1612,5 @@ var C_GEN_INVOICE='生成账单';
 var C_EXPRESS_NO = '快递单号';
 var C_RETURN_WAY = '退还方式';
 var C_CUSTOMS_FLAG = '客户自报关';
+var C_FIGHT_SINGLE ='拼单';
+var C_INVOICE_FLAG_REQUIRED = '请选择是否开发票！';

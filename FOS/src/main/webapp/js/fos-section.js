@@ -1143,7 +1143,7 @@ Fos.ContainerTab = function(p) {
 		var a =this.store.getModifiedRecords();
 		if(a.length){
 			for(var i=0;i<a.length;i++){
-				if(checkContainerNo(a[i].get('contNo')) == false){
+				if(!chkcntrno(a[i].get('contNo'),0)){
 					XMG.alert(SYS,'集装箱编码格式不正确，请重新输入！');
 					return;
 				}

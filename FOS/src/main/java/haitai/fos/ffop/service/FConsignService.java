@@ -355,10 +355,6 @@ public class FConsignService {
 	private void saveConsign(FConsign entity, List<Object> retList) {
 		StringBuilder sb = new StringBuilder();
 		Integer consContainerNum = 0;
-		Double consTotalGrossWeight = 0.0;
-		Double consTotalMeasurement = 0.0;
-		Integer consTotalPackages = 0;
-		
 		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);
 			checkBlNoDuplicated(entity);
@@ -525,7 +521,15 @@ public class FConsignService {
 	 * @param entity the consign
 	 */
 	private void syncBranchConsign(FConsign entity, StringBuilder sb,Integer consContainerNum){
+		Double consTotalGrossWeight = 0.0;
+		Double consTotalMeasurement = 0.0;
+		Double consTotalNetWeight = 0.0;
+		Integer consTotalPackages = 0;
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		StringBuilder sbMarks = new StringBuilder();
+		StringBuilder sbNameCn = new StringBuilder();
+		StringBuilder sbNameEn = new StringBuilder();
+		StringBuilder sbCargoDesc = new StringBuilder();
 		FConsign masterConsigns = dao.findById(entity.getConsMasterId());
 		map.put("consMasterId",entity.getConsMasterId());
 		List<FConsign> branchConsigns = dao.findByProperties(map);
@@ -533,10 +537,26 @@ public class FConsignService {
 			if(branch.getConsId().intValue()!=branch.getConsMasterId().intValue()){
 				sb.append(branch.getConsContainersInfo());
 				consContainerNum +=branch.getConsTotalContainers();
+				consTotalGrossWeight+=branch.getConsTotalGrossWeight();
+				consTotalNetWeight+=branch.getConsTotalNetWeight();
+				consTotalMeasurement+=branch.getConsTotalMeasurement();
+				consTotalPackages+=branch.getConsTotalPackages();
+				sbMarks.append(branch.getConsCargoMarks());
+				sbNameCn.append(branch.getConsCargoNameCn());
+				sbNameEn.append(branch.getConsCargoNameEn());
+				sbCargoDesc.append(branch.getConsCargoDesc());
 			}
 		}
 		masterConsigns.setConsTotalContainers(consContainerNum);
 		masterConsigns.setConsContainersInfo(sb.toString());
+		masterConsigns.setConsTotalGrossWeight(consTotalGrossWeight);
+		masterConsigns.setConsTotalMeasurement(consTotalMeasurement);
+		masterConsigns.setConsTotalNetWeight(consTotalNetWeight);;
+		masterConsigns.setConsTotalPackages(consTotalPackages);
+		masterConsigns.setConsCargoMarks(sbMarks.toString());
+		masterConsigns.setConsCargoNameCn(sbNameCn.toString());
+		masterConsigns.setConsCargoNameEn(sbNameEn.toString());
+		masterConsigns.setConsCargoDesc(sbCargoDesc.toString());
 		dao.update(masterConsigns);
 		
 	}

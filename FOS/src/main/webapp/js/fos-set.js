@@ -220,6 +220,7 @@
 			for(var i=0;i<a.length;i++){
 				if(a[i].get('rowAction')!='R'&&a[i].get('rowAction')!='D'){
 				if(a[i].get('custId')==''){XMG.alert(SYS,M_SETTLE_OBJECT_REQIRED);return;}
+				else if(a[i].get('expeInvoiceFlag')==''){XMG.alert(SYS,C_INVOICE_FLAG_REQUIRED);return;}
 				else if(a[i].get('charId')==''){XMG.alert(SYS,M_CHAR_REQIRED);return;}
 				else if(a[i].get('expeNum')==''||a[i].get('expeNum')=='0'){XMG.alert(SYS,M_QUANTITY_REQIRED);return;}
 				else if(a[i].get('expeUnitPrice')==''||a[i].get('expeUnitPrice')=='0'){XMG.alert(SYS,M_UNIT_PRICE_REQIRED);return;}
