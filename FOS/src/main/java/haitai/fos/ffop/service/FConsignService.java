@@ -355,6 +355,10 @@ public class FConsignService {
 	private void saveConsign(FConsign entity, List<Object> retList) {
 		StringBuilder sb = new StringBuilder();
 		Integer consContainerNum = 0;
+		Double consTotalGrossWeight = 0.0;
+		Double consTotalMeasurement = 0.0;
+		Integer consTotalPackages = 0;
+		
 		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);
 			checkBlNoDuplicated(entity);
@@ -432,40 +436,9 @@ public class FConsignService {
 				}
 			} else if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
 					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterId()!=null){
-					HashMap<String,Object> map = new HashMap<String, Object>();
-					map.put("consMasterId", entity.getConsMasterId());
-					List<FConsign> consignList = dao.findByProperties(map);
-					FConsign consignMaster = dao.findById(entity.getConsMasterId());
-					Integer size = consignList.size();
-					String no = entity.getConsMasterNo();
-					sb.append(no);
-					sb.append("-");
-					if(size>1){
-						FConsign consItem =  consignList.get(size-1);
-						Integer i = consItem.getConsNo().indexOf("-"); 
-						Integer endInteger = Integer.parseInt(consItem.getConsNo().substring(i+1));
-						sb.append(endInteger+1);
-					}else{
-						sb.append(size.toString());
-					}
-					entity.setConsNo(sb.toString());
-					entity.setConsMasterNo(consignMaster.getConsMasterNo());
-					entity.setConsMasterFlag((short) 0);
-					dao.save(entity);
+					FCLFightSingle(entity,sb);
 					sb.delete(0, sb.length());
-					if(entity.getConsId().intValue()!=entity.getConsMasterId().intValue()
-							&&StringUtil.isNotBlank(entity.getConsContainersInfo())&&entity.getConsTotalContainers()!=null){
-						sb.append(entity.getConsContainersInfo());
-						if(StringUtil.isNotBlank(consignMaster.getConsContainersInfo())){
-							sb.append(consignMaster.getConsContainersInfo());
-						}
-						if(consignMaster.getConsTotalContainers()!=null){
-							consContainerNum = consignMaster.getConsTotalContainers();
-						}
-						consignMaster.setConsContainersInfo(sb.toString());
-						consignMaster.setConsTotalContainers(consContainerNum+entity.getConsTotalContainers());
-					}
-					dao.update(consignMaster);
+					syncBranchConsign(entity,sb,consContainerNum);
 			}else {
 				entity = saveNormalConsign(entity);
 				generateTask(entity);
@@ -484,21 +457,7 @@ public class FConsignService {
 			FConsign retEntity = dao.update(entity);
 			retEntity.setEditable(ConstUtil.TrueShort);
 			retList.add(retEntity);
-			FConsign masterConsigns = dao.findById(entity.getConsMasterId());
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.clear();
-			map.put("consMasterId",entity.getConsMasterId());
-			List<FConsign> branchConsigns = dao.findByProperties(map);
-			sb.delete(0, sb.length());
-			for(FConsign branch :branchConsigns){
-				if(branch.getConsId().intValue()!=branch.getConsMasterId().intValue()){
-					sb.append(branch.getConsContainersInfo());
-					consContainerNum +=branch.getConsTotalContainers();
-				}
-			}
-			masterConsigns.setConsTotalContainers(consContainerNum);
-			masterConsigns.setConsContainersInfo(sb.toString());
-			dao.update(masterConsigns);
+			syncBranchConsign(entity,sb,consContainerNum);
 			if (retEntity.getLoliId() != null && entity.getLoliId() > 0) {
 				syncLoadingList(entity);
 				syncPackingList(entity);
@@ -519,23 +478,10 @@ public class FConsignService {
 				throw new BusinessException("fos.cons_expense.existing");
 			}else{
 				sb.delete(0, sb.length());
-				
 				deleteFCargoAndFContainer(delEntity);
 				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
-				FConsign masterConsigns = dao.findById(entity.getConsMasterId());
-				map.clear();
-				map.put("consMasterId",entity.getConsMasterId());
-				List<FConsign> branchConsigns = dao.findByProperties(map);
-				for(FConsign branch :branchConsigns){
-					if(branch.getConsId().intValue()!=branch.getConsMasterId().intValue()){
-						sb.append(branch.getConsContainersInfo());
-						consContainerNum +=branch.getConsTotalContainers();
-					}
-				}
-				masterConsigns.setConsTotalContainers(consContainerNum);
-				masterConsigns.setConsContainersInfo(sb.toString());
-				dao.update(masterConsigns);
+				syncBranchConsign(entity,sb,consContainerNum);
 				if (delEntity.getLoliId() != null && delEntity.getLoliId() > 0) {
 					updateFactQuantity(delEntity, true);
 				}
@@ -545,6 +491,56 @@ public class FConsignService {
 			throw new BusinessException("fw.row_action_null");
 		}
 	}
+	
+	/**
+	 *整箱拼单
+	 * @param entity the consign
+	 */
+	
+	private void FCLFightSingle(FConsign entity,StringBuilder sb){
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("consMasterId", entity.getConsMasterId());
+		List<FConsign> consignList = dao.findByProperties(map);
+		FConsign consignMaster = dao.findById(entity.getConsMasterId());
+		Integer size = consignList.size();
+		String no = entity.getConsMasterNo();
+		sb.append(no);
+		sb.append("-");
+		if(size>1){
+			FConsign consItem =  consignList.get(size-1);
+			Integer i = consItem.getConsNo().indexOf("-"); 
+			Integer endInteger = Integer.parseInt(consItem.getConsNo().substring(i+1));
+			sb.append(endInteger+1);
+		}else{
+			sb.append(size.toString());
+		}
+		entity.setConsNo(sb.toString());
+		entity.setConsMasterNo(consignMaster.getConsMasterNo());
+		entity.setConsMasterFlag((short) 0);
+		dao.save(entity);
+	}
+
+	/**
+	 *分单新增 、删除或修改箱信息和货物信息时主单的箱信息和货物信息也变化
+	 * @param entity the consign
+	 */
+	private void syncBranchConsign(FConsign entity, StringBuilder sb,Integer consContainerNum){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		FConsign masterConsigns = dao.findById(entity.getConsMasterId());
+		map.put("consMasterId",entity.getConsMasterId());
+		List<FConsign> branchConsigns = dao.findByProperties(map);
+		for(FConsign branch :branchConsigns){
+			if(branch.getConsId().intValue()!=branch.getConsMasterId().intValue()){
+				sb.append(branch.getConsContainersInfo());
+				consContainerNum +=branch.getConsTotalContainers();
+			}
+		}
+		masterConsigns.setConsTotalContainers(consContainerNum);
+		masterConsigns.setConsContainersInfo(sb.toString());
+		dao.update(masterConsigns);
+		
+	}
+	
 
 	/**
 	 * 删除业务单票的时候将相应的箱信息和货物信息也删除
