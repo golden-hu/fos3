@@ -482,7 +482,7 @@ Ext.extend(Fos.ConsignTab,Ext.TabPanel);
 Fos.BookTab = function(p) {
 	this.carg_s = GS('CARG_Q','FCargo',FCargo,'cargId','ASC');
 	this.cargoGrid = new Fos.CargoGrid(p,this.carg_s,this);	
-	if(p.get('consBizType')==BT_C){
+	if(p.get('consBizType')==BT_C||p.get('consBizType')==BT_A){
 		this.cont_s = GS('CONT_Q','FContainer',FContainer,'contId','ASC');
     	this.contGrid = new Fos.ContainerGrid(p,this.cont_s);
     	if(p.get('consBizClass')==BC_I){
@@ -491,7 +491,7 @@ Fos.BookTab = function(p) {
     	}
     }
     if(p.get('rowAction')!='N'){
-    	if(p.get('consMasterFlag')==1){
+    	if(p.get('consMasterId')!=p.get('consId')){
     		this.carg_s.load({params:{consMasterId:p.get('consMasterId')}});
 			if(p.get('consBizType')==BT_C){
 				this.cont_s.load({params:{contMConsId:p.get('consMasterId'),

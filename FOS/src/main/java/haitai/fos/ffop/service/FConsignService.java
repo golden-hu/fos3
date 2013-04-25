@@ -453,7 +453,10 @@ public class FConsignService {
 			FConsign retEntity = dao.update(entity);
 			retEntity.setEditable(ConstUtil.TrueShort);
 			retList.add(retEntity);
-			syncBranchConsign(entity,sb,consContainerNum);
+			if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
+					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterFlag().intValue()==0){
+				syncBranchConsign(entity,sb,consContainerNum);
+			}
 			if (retEntity.getLoliId() != null && entity.getLoliId() > 0) {
 				syncLoadingList(entity);
 				syncPackingList(entity);
@@ -477,7 +480,10 @@ public class FConsignService {
 				deleteFCargoAndFContainer(delEntity);
 				delEntity.setRowAction(RowAction.R);
 				dao.update(delEntity);
-				syncBranchConsign(entity,sb,consContainerNum);
+				if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
+						ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterFlag().intValue()==0){
+					syncBranchConsign(entity,sb,consContainerNum);
+				}
 				if (delEntity.getLoliId() != null && delEntity.getLoliId() > 0) {
 					updateFactQuantity(delEntity, true);
 				}
