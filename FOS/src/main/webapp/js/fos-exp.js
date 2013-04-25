@@ -1932,7 +1932,7 @@ Fos.BookTab = function(p) {
 			tbs=[b1,'-',b15,'-',b9,'-',btnModifyConsignNo,'-',b10,'-',b17];
 	}
 	
-	var bk=new Ext.KeyMap(Ext.getDoc(), {
+	/*var bk=new Ext.KeyMap(Ext.getDoc(), {
 		key:'sbqtgxrfa',alt:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
@@ -1964,8 +1964,8 @@ Fos.BookTab = function(p) {
 		 	}
 		},
 		stopEvent: false,scope:this
-	});
-	new Ext.KeyMap(Ext.getDoc(), {
+	});*/
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'jxhykt',alt:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
@@ -1991,7 +1991,7 @@ Fos.BookTab = function(p) {
 		 	}
 		},
 		stopEvent: false
-	});
+	});*/
 	Fos.BookTab.superclass.constructor.call(this, { 
 		id: "T_BOOK_"+p.get('id'),title:C_CONSIGN+"(F1)",header:false,autoScroll:true,
 		border:false,labelAlign:'right',bodyStyle:'padding:2px 10px 10px 2px',tbar:tbs,		
