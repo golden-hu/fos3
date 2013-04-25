@@ -763,7 +763,7 @@ var CREATE_E_MENU=function(t,fd,fe,ff,s){
 };
 
 var CREATE_KM=function(id,s,g){
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'nrs',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent(id);
@@ -783,7 +783,7 @@ var CREATE_KM=function(id,s,g){
 					}
 			 	}
 		 	}
-		},stopEvent:true,scope:s});
+		},stopEvent:true,scope:s});*/
 };
 function getCSM(){return new Ext.grid.CheckboxSelectionModel({singleSelect:false});};
 function PTB(s,ps){return new Ext.PagingToolbar({pageSize:ps,store:s,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:C_NR});};

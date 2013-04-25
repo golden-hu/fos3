@@ -156,7 +156,7 @@
     };
 	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};    
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
         key:'ndspqf',ctrl:true,
         handler: function(k, e) {
             var tc = T_MAIN.getComponent('G_VOYA');
@@ -191,7 +191,7 @@
         home: this.pagingNav.createDelegate(this,['first']),
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
-    });
+    });*/
 	this.grid = new  Ext.grid.EditorGridPanel({ 
     id:'G_VOYA',iconCls:'gen',title:C_SHIP_DATE,header:false,plugins:[sailed,shipMap],clicksToEdit:1,closable:true,	
     store: store,sm:sm,cm:cm,loadMask: true,
@@ -645,7 +645,7 @@ Fos.PakingListGrid = function(T){
         w.show();
     };
     
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'sdczf',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_PALI_X');
@@ -664,7 +664,7 @@ Fos.PakingListGrid = function(T){
 					if(!tb.getComponent('TB_F').disabled) this.search();break;
 				}
 		 	}
-		},stopEvent:true,scope:this});
+		},stopEvent:true,scope:this});*/
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
    
     this.fastSearch=function(){
@@ -692,7 +692,7 @@ Fos.PakingListGrid = function(T){
     };
     var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',scope:this,handler:this.fastSearch}; 
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-    new Ext.KeyMap(Ext.getDoc(), {
+   /* new Ext.KeyMap(Ext.getDoc(), {
         key:[116],
         handler: function(k, e) {
            var tc = T_MAIN.getComponent('G_PALI_X');
@@ -712,7 +712,7 @@ Fos.PakingListGrid = function(T){
         home: this.pagingNav.createDelegate(this,['first']),
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
-    });
+    });*/
 	Fos.PakingListGrid.superclass.constructor.call(this, {id:'G_PALI_X_'+T,title:C_PACKING_LIST+'-'+(T=='N'?C_NOT_SAILED:C_SAILED),
 		border:true,autoScroll:true,clicksToEdit:1,view:gv,plugins:[arrived,transFlag,summary],
 	    stripeRows:true,store:store,sm:sm,cm:cm,closable:true,listeners:{scope:this,
@@ -1232,7 +1232,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 			xmlData:FOSX(xml)
 		});
 	};
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'nsdczi',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_PALI_'+p.get('id'));
@@ -1256,7 +1256,7 @@ Fos.PaliGrid = function(p,store,loliS,frm){
 					}
 			 	}
 		 	}
-		},stopEvent:true,scope:this});
+		},stopEvent:true,scope:this});*/
 	this.reset=function(){store.reload();};
 	Fos.PaliGrid.superclass.constructor.call(this, {id:'G_PALI_'+p.get('id'),
 		border:true,autoScroll:true,clicksToEdit:1,view:gv,plugins:[arrived,transFlag,summary],
@@ -1680,7 +1680,7 @@ Fos.ShipTab = function(p) {
 		{text:C_SAVE+('(S)'),itemId:'TB_C',disabled:NR(M1_B+M2_V+F_SH+F_M),iconCls:'save',scope:this,handler:this.save},'-',
     	{text:C_GEN_CONS+'(G)',itemId:'TB_D',disabled:NR(M1_B+M2_V+F_SH+F_F),iconCls:'gears',scope:this,handler:this.gear},'-',    	
 		{text:C_EXPORT+'(E)',itemId:'TB_E',disabled:NR(M1_B+M2_V+F_SH+F_E),iconCls:'print',scope:this,handler:this.exp}]});		
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'arsge',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_SHIP_'+p.get('voyaId'));
@@ -1698,7 +1698,7 @@ Fos.ShipTab = function(p) {
 					if(!NR(M1_B+M2_V+F_SH+F_E)) this.exp();break;
 				}
 		 	}
-		},stopEvent:true,scope:this});
+		},stopEvent:true,scope:this});*/
 	Fos.ShipTab.superclass.constructor.call(this, { 
 	id:'T_SHIP_'+p.get('voyaId'),title:C_SHIP_LIST+'-'+p.get("vessName"),header:false,deferredRender:false,autoScroll:true,closable:true,
 	labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,layout:'border',
@@ -2013,7 +2013,7 @@ Fos.ContractListTab = function(T){
 	var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};
 	var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
 	var re= {scope:this,rowdblclick: function(g,r,e){var c=sm.getSelected();if(c){this.showFcon(c,store);}}};
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'nmdcflq',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_FCON_'+T);
@@ -2057,7 +2057,7 @@ Fos.ContractListTab = function(T){
         home: this.pagingNav.createDelegate(this,['first']),
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
-    });
+    });*/
     this.expStation=function(){
     	var w = new Fos.StationWin();
 		w.addButton({text:C_OK,handler:function(){
@@ -2240,7 +2240,7 @@ Fos.FConTab = function(p,store) {
 		}
 		else{frmValidatePrompt();}
 	};
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'s',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('T_FCON_'+p.get('id'));
@@ -2254,7 +2254,7 @@ Fos.FConTab = function(p,store) {
 					}
 			 	}
 		 	}
-		},stopEvent:true,scope:this});
+		},stopEvent:true,scope:this});*/
     Fos.FConTab.superclass.constructor.call(this, {id:'T_FCON_'+p.get('id'),title:C_FCON+'-'+p.get('fconId'),modal:true,width:800,minWidth:600,
         minHeight:200,plain:false,bodyStyle:'padding:10px;',buttonAlign:'right',closable:true,items:frm,autoScroll:true,
         tbar:[{itemId:'TB_S',text:C_SAVE+'(S)',iconCls:'save',disabled:NR(M1_B+M2_R+F_M),scope:this,handler:this.save},'->',
@@ -2329,7 +2329,7 @@ Fos.ConsDocGrid = function(p) {
     {header:C_REMARKS,dataIndex:'fdocRemarks',width:80,editor:new Ext.form.TextField()}
 	],defaults:{sortable:true,width:100}});
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_DOC;
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'nds',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
@@ -2347,7 +2347,7 @@ Fos.ConsDocGrid = function(p) {
 					}
 			 	}
 		 	}
-		},stopEvent:true,scope:this});
+		},stopEvent:true,scope:this});*/
 	this.add=function(){
 		var rid=GGUID();
 		var t = new FDoc({id:rid,fdocId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consBizClass:p.get('consBizClass'),consShipType:p.get('consShipType'),
@@ -2510,7 +2510,7 @@ Fos.DocGrid = function(s) {
     };
 	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};    
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'fse',ctrl:true,
 		handler: function(k, e) {
 		 	var tc = T_MAIN.getComponent('G_DOC_'+s);
@@ -2545,7 +2545,7 @@ Fos.DocGrid = function(s) {
         home: this.pagingNav.createDelegate(this,['first']),
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
-    });
+    });*/
 	Fos.DocGrid.superclass.constructor.call(this,{clicksToEdit:1,
 	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},

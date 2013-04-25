@@ -469,7 +469,7 @@
     var b8={itemId:'TB_CT',text:t=='R'?C_COPY_TO_P:C_COPY_TO_R,iconCls:'copy',disabled:NR(m+F_M)||locked,scope:this,handler:this.cpTo};
     var b9={itemId:'TB_I',text:C_GEN_INVOICE,iconCls:'save',scope:this,handler:this.genInvoice};
     
-    if(t=='R'){
+    /*if(t=='R'){
 	    new Ext.KeyMap(Ext.getDoc(), {
 			key:'nrsc',ctrl:true,
 			handler: function(k, e) {
@@ -542,7 +542,7 @@
 					}}
 			 	}
 			},stopEvent:true,scope:this});
-    }    	
+    }    	*/
     this.updateTB=function(){
 		var tb=this.getTopToolbar();
 		var locked=p.get('consStatusExp')==1||p.get('consStatusAud')!=0;

@@ -350,7 +350,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var b7={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};	
 	var b8={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
 	var b9={text:C_TASK+'(T)',iconCls:'task',handler:this.task};
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'nmdfeq',alt:true,
 		handler: function(k, e) {
 		 	var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
@@ -378,8 +378,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
             	}
             }
         },stopEvent: false,scope:this
-    });
-    this.pagingNav=function(page){
+    });*/
+    /*this.pagingNav=function(page){
         var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
         if(t&&t==T_MAIN.getActiveTab()){
             var pt = this.getBottomToolbar();
@@ -392,7 +392,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
         home: this.pagingNav.createDelegate(this,['first']),
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
-    });
+    });*/
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     
     if(bizType==BT_B) 
@@ -429,7 +429,7 @@ Fos.ConsignTab = function(p){
 	if(p.get('consServiceRequired').indexOf(SR_RABL)!=-1) items[items.length]=new Fos.RailwayBlTab(p);
 	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) items[items.length]=new Fos.SplitTab(p);
 	
-	new Ext.KeyMap(Ext.getDoc(), {
+	/*new Ext.KeyMap(Ext.getDoc(), {
 		alt:true,
 		key:[112,113,114,115,116,117,118,119,120,121,122,123],
 		handler: function(k, e) {
@@ -464,7 +464,7 @@ Fos.ConsignTab = function(p){
 			}
 		},
 		stopEvent: false
-	});
+	});*/
 	var status={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
 	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
 	if(p.get('consBizType')==BT_C){
@@ -503,7 +503,7 @@ Fos.BookTab = function(p) {
 			if(p.get('consBizType')==BT_C){
 				this.cont_s.load({params:{consId:p.get('consId'),
 				contPreFlag:p.get('consBizClass')==BC_I?'N':'Y'}
-				})
+				});
 			}
 		};
 		if(p.get('consBizClass')==BC_I)
