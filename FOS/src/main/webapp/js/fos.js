@@ -234,7 +234,7 @@ function getPMenu(){
 };
 var P_MENU = getPMenu();
 
-new Ext.KeyMap(Ext.getDoc(), {
+/*new Ext.KeyMap(Ext.getDoc(), {
 	key:[49,50,51,52,53,54,55,56,57,61,62,63,65,66,67,68,72,73,83],alt:true,
 	handler: function(k, e) {
 	 	var t=T_MAIN.getActiveTab();
@@ -273,7 +273,7 @@ new Ext.KeyMap(Ext.getDoc(), {
 		}	 	
 	},
 	stopEvent: false
-});
+});*/
 
 function CreateNode(t,c,m,f){return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,listeners:{
 	click:function(n,e){
