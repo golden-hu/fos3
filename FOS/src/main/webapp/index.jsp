@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.util.*" %>
-<%!String PhotoAddress="images/fos.png" ;%>
-<%if(session.getAttribute("UserName")==null){response.sendRedirect("login.html");}
-	else if(session.getAttribute("CompCode").equals("CNWL")){PhotoAddress ="images/CNWL.png";}%>
+
+<%
+	String PhotoAddress="images/fos.png" ;
+	if(session.getAttribute("UserName")==null){
+		response.sendRedirect("login.html");
+	}
+
+	if(session.getAttribute("CompCode").equals("CNWL")){
+		PhotoAddress ="images/CNWL.png";
+	}
+%>
 <html>
 <head>
 <title>FOS3.0货代运营系统 上海海钛软件科技有限公司</title>
