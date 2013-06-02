@@ -938,6 +938,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (34, '客户联系人', 'FConsign', 'custTel', NULL),
 (34, '客户传真', 'FConsign', 'custFax', NULL),
 (34, '箱型箱量', 'FConsign', 'consContainersInfo', NULL),
+(34, '箱号', 'FConsign', 'consContainerNo', NULL),
 (34, '开航日期', 'FConsign', 'consSailDate', NULL),
 (34, '人民币合计', 'FConsign', 'sumRCny', NULL),
 (34, '人民币合计大写', 'FConsign', 'sumRCny', 'getAmountCap'),

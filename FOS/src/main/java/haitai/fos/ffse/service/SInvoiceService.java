@@ -126,6 +126,7 @@ public class SInvoiceService {
 					entity.setInvoNo(invoNo);
 					entity.setInvoTaxNo(invoTaxNo);
 					entity.setInvoTitle(invoTitle);
+					entity.setInvoDate(invoDate);
 					entity.setInitId(null);
 					itemDao.save(entity);
 					retList.add(entity);

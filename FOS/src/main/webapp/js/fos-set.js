@@ -220,7 +220,7 @@
 			for(var i=0;i<a.length;i++){
 				if(a[i].get('rowAction')!='R'&&a[i].get('rowAction')!='D'){
 				if(a[i].get('custId')==''){XMG.alert(SYS,M_SETTLE_OBJECT_REQIRED);return;}
-				else if(a[i].get('expeInvoiceFlag')==''){XMG.alert(SYS,C_INVOICE_FLAG_REQUIRED);return;}
+				else if(a[i].get('expeInvoiceFlag')==''&&a[i].get('expeType')=='R'){XMG.alert(SYS,C_INVOICE_FLAG_REQUIRED);return;}
 				else if(a[i].get('charId')==''){XMG.alert(SYS,M_CHAR_REQIRED);return;}
 				else if(a[i].get('expeNum')==''||a[i].get('expeNum')=='0'){XMG.alert(SYS,M_QUANTITY_REQIRED);return;}
 				else if(a[i].get('expeUnitPrice')==''||a[i].get('expeUnitPrice')=='0'){XMG.alert(SYS,M_UNIT_PRICE_REQIRED);return;}
@@ -1756,7 +1756,8 @@ Fos.InvoiceGrid = function(t) {
 Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
 Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
-	var cm=new Ext.grid.ColumnModel({columns:[sm,
+	var rowNum = new Ext.grid.RowNumberer();
+	var cm=new Ext.grid.ColumnModel({columns:[rowNum,sm,
 		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},		
 		{header:C_CONS_NO,width:120,dataIndex:"consNo"},		
 		{header:C_CHAR,width:80,dataIndex:"charName"},
@@ -1784,14 +1785,15 @@ Fos.ExpenseLookupWin = function(store) {
 		    {type: 'date',  dataIndex: 'consSailDate'},
 		    {type: 'numeric', dataIndex: 'expeTotalAmount'}]});
     this.grid = new Ext.grid.GridPanel({ 
-    header:false,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true});	
+    header:false,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true,view:new Ext.grid.GroupingView(groupViewCfg)});	
    
     Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:900,
-        height:600,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid}); 
+        height:600,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid
+    }); 
 };
 Ext.extend(Fos.ExpenseLookupWin,Ext.Window);
 Fos.InvoItemGrid = function(p,frm,billNo,arr){
-	var store = GS('INIT_Q','SInvoiceItem',SInvoiceItem,'initId','Desc','','',false);
+	var store = GS('INIT_Q','SInvoiceItem',SInvoiceItem,'invoNo','Desc','','',false);
 	var showInvoiceItem = function(){
 		Ext.Ajax.request({url:SERVICE_URL,method:'POST',
 			params:{A:'EXPE_INV_Q',expeBillNo:billNo},scope:this,
@@ -1864,13 +1866,12 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 	};
 	this.add=function(){
 		if(p.get('custId')){
-			var eStore = new Ext.data.Store({url:SERVICE_URL+'?A=EXPE_INV_Q',
+			var eStore = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=EXPE_INV_Q',
 				baseParams:{mt:'xml',custId:p.get('custId'),pateCode:'P',expeAllocatedFlag:0,
 					expeType:p.get('invoType')},
 				reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:'expeId'},SExpense),
-				remoteSort:true,sortInfo:{field:'expeId', direction:'DESC'}});	
-			eStore.load();	
-			
+				remoteSort:true,sortInfo:{field:'consNo', direction:'DESC'},groupField:'consNo'});
+				eStore.load();
 			var win = new Fos.ExpenseLookupWin(eStore);
 			win.addButton({text:C_OK,scope:this,handler:function(){
 				var g = win.grid;

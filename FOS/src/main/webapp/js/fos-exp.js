@@ -663,18 +663,18 @@ Fos.BookTab = function(p) {
     
     var txtConsNo={fieldLabel:C_CONS_NO,style:'{font-weight:bold;color:green;}',readOnly:true,
 			tabIndex:1,name:'consNo',value:p.get('consNo'),xtype:'textfield',anchor:'99%'};
-	var txtDept={fieldLabel:C_DEPT,itemCls:'required',name:'deptId',value:p.get('deptId'),
+	var txtDept={fieldLabel:C_DEPT,itemCls:'required',name:'deptId',value:p.get('deptId'),editable:false,
 			tabIndex:2,store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',
 			typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var txtSales={fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepId',value:p.get('consSalesRepId'),
     		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',editable:false,
     		listeners:{scope:this,
     			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
     	    	select:function(c,r,i){p.set('consSalesRepName',r.get('userName'));}}};	
 	var txtOperator={fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:4,name:'consOperatorId',value:p.get('consOperatorId'),
     		store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',editable:false,
     		listeners:{scope:this,
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
     	select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}};
@@ -726,7 +726,7 @@ Fos.BookTab = function(p) {
     var txtCustTel={fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),xtype:'textfield',anchor:'99%'};
     var txtCustFax={xtype:'textfield',tabIndex:8,fieldLabel:C_FAX,name:'custFax',value:p.get('custFax'),anchor:'99%'};
     
-    var txtConsDate={fieldLabel:C_CONS_DATE,tabIndex:9,name:'consDate',value:p.get('consDate'),
+    var txtConsDate={fieldLabel:C_CONS_DATE,tabIndex:9,name:'consDate',value:p.get('consDate'),editable:false,
     		xtype:'datefield',format:DATEF,anchor:'99%'};
     var txtCustSales={fieldLabel:C_CUST_SALES,name:'custSalesName',value:p.get('custSalesName'),
 			tabIndex:10,store:getCUCOS(),xtype:'combo',displayField:'cucoName',valueField:'cucoName',
@@ -1090,7 +1090,7 @@ Fos.BookTab = function(p) {
         }
     };
     var m31={fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,
-    	itemCls:p.get('consBizClass')==BC_E?'required':'',tabIndex:37,
+    	itemCls:p.get('consBizClass')==BC_E?'required':'',tabIndex:37,editable:false,
     	name:'consEtd',value:p.get('consEtd'),xtype:'datefield',format:DATEF,anchor:'99%',
         listeners:{scope:this,
         	change:function(f,nv,ov){
@@ -1622,6 +1622,9 @@ Fos.BookTab = function(p) {
 			}},
 			select:function(c,r,i){
 				p.set('consCustomsVendor',r.get('custId'));
+				this.find('name','consCustomsContact')[0].setValue('custContact');
+				this.find('name','consCustomsAddress')[0].setValue('custAddress');
+				this.find('name','consCustomsTel')[0].setValue('custTel');
 				p.set('consCustomsVendorName',r.get('custNameCn'));
 				c.setValue(r.get('custNameCn'));
 			},
