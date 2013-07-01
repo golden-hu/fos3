@@ -876,6 +876,9 @@ var C_TASK_LIST='任务列表';
 var C_CARGO_LIST='货物列表';
 var C_TASK_D='依赖任务';
 
+var C_TASK_LIST_E = '出口单票状态';
+var C_TASK_LIST_I = '进口单票状态';
+
 var C_TASK_LIST_BULK_E='散货出口单票状态';
 var C_TASK_LIST_BULK_I ='散货进口单票状态';
 

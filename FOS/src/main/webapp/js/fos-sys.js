@@ -1193,7 +1193,7 @@ Fos.TaskWin = function(p) {
 	};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
 	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);
 	ff.on('click',function(c,e,r){
@@ -1421,12 +1421,11 @@ Ext.extend(Fos.TatyTab,Ext.TabPanel);
 
 Fos.TaskList = function(cn,store) {	
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'taskEstimatedDate',width:200,renderer:formatDate};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:200,renderer:formatDate};
 	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:200,renderer:formatDate};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);	
 	var list = new Ext.ListView({
     	store: store,
-    	emptyText: 'No images to display',
     	reserveScrollOffset: true,
     	columns: [c1,c2,c3,ff]
 	});

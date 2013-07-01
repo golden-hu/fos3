@@ -51,13 +51,13 @@ function getContPanel(){
 		items[items.length]=NaviMenu(C_EXP_L,'G_CONS_E_C_LCL',function(){return new Fos.ConsignGrid('E','C','LCL');});
 	
 	if(!NR(M1_C+M2_F)||!NR(M1_C+M2_L)) 
-		items[items.length] = NaviMenu(C_TASK_LIST_CONTAINER_E,'TASK_E_C',
+		items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_C',
 			function(){
 				return new Fos.TaskTab(BC_E,BT_C);
 			}
 		);
 	if(!NR(M1_C+M2_FE)||!NR(M1_C+M2_LE)) 
-		items[items.length] = NaviMenu(C_TASK_LIST_CONTAINER_I,'TASK_I_C',
+		items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_C',
 			function(){
 				return new Fos.TaskTab(BC_I,BT_C);
 			}
@@ -81,14 +81,14 @@ function getBulkPanel(){
 			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('I','B','');});
 		
 		if(!NR(M1_B+M2_BV)) 
-			items[items.length] = NaviMenu(C_TASK_LIST_BULK_E,'TASK_E_B',
+			items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_B',
 				function(){
 					return new Fos.TaskTab(BC_E,BT_B);
 				}
 			);
 		
 		if(!NR(M1_B+M2_BV)) 
-			items[items.length] = NaviMenu(C_TASK_LIST_BULK_I,'TASK_I_B',
+			items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_B',
 				function(){
 					return new Fos.TaskTab(BC_I,BT_B);
 				}
@@ -108,13 +108,13 @@ function getAirPanel(){
 	if(!NR(M1_A+M2_E)) items[items.length]=NaviMenu(C_EXP_AIR,'G_CONS_E_A',function(){return new Fos.ConsignGrid('E','A','');});
 	
 	if(!NR(M1_A+M2_I)) 
-		items[items.length] = NaviMenu(C_TASK_LIST_AIR_I,'TASK_I_A',
+		items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_A',
 			function(){
 				return new Fos.TaskTab(BC_I,BT_A);
 			}
 		);
 	if(!NR(M1_A+M2_E)) 
-		items[items.length] = NaviMenu(C_TASK_LIST_AIR_E,'TASK_E_A',
+		items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_A',
 			function(){
 				return new Fos.TaskTab(BC_E,BT_A);
 			}
