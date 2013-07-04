@@ -767,6 +767,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (26, '提单号', 'FConsign', 'consMblNo', NULL),
 (26, '提单备注', 'FConsign', 'consBlRemarks', NULL),
 (26, '箱型箱量', 'FConsign', 'consContainersInfo', NULL);
+(26, '委托日期', 'FConsign', 'consDate', NULL);
 
 -- 进口到货通知
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
