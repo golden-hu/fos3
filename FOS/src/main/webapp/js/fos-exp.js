@@ -82,6 +82,9 @@ Fos.showConsignTabs = function(p){
 		};
 		if(!tc.getComponent('T_EXPE_'+p.get('id'))){
 			tc.add(VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C')));
+		};		
+		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
+			tc.add(new Fos.AttachTab(p));
 		};
 	}
 	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){tc.add(new Fos.TransTab(p));};	
@@ -350,49 +353,6 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var b7={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};	
 	var b8={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
 	var b9={text:C_TASK+'(T)',iconCls:'task',handler:this.task};
-	/*new Ext.KeyMap(Ext.getDoc(), {
-		key:'nmdfeq',alt:true,
-		handler: function(k, e) {
-		 	var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
-		 	if(t&&t==T_MAIN.getActiveTab())
-		 	{
-		 	    switch(k) {
-				case Ext.EventObject.N: this.newConsign();break;
-				case Ext.EventObject.M: this.editConsign();break;
-				case Ext.EventObject.D: this.removeConsign();break;
-				case Ext.EventObject.F: this.search();break;
-				case Ext.EventObject.E: this.exp();break;
-				case Ext.EventObject.Q: this.fastSearch();break;
-                }
-			}
-		},
-		stopEvent: false,scope:this
-	});
-	new Ext.KeyMap(Ext.getDoc(), {key:[116],alt:true,
-        handler: function(k, e) {
-            var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
-            if(t&&t==T_MAIN.getActiveTab()){
-            	switch(k) {
-            		case Ext.EventObject.F5:this.reset();
-            		break;
-            	}
-            }
-        },stopEvent: false,scope:this
-    });*/
-    /*this.pagingNav=function(page){
-        var t = T_MAIN.getComponent('G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''));
-        if(t&&t==T_MAIN.getActiveTab()){
-            var pt = this.getBottomToolbar();
-            if (!pt[page].disabled) pt.onClick(page);
-         }
-    };
-    this.nav = new Ext.KeyNav(Ext.getDoc(),{
-        pageDown: this.pagingNav.createDelegate(this,['next']),
-        pageUp: this.pagingNav.createDelegate(this, ['prev']),
-        home: this.pagingNav.createDelegate(this,['first']),
-        end: this.pagingNav.createDelegate(this,['last']),
-        scope:this
-    });*/
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     
     if(bizType==BT_B) 
@@ -429,42 +389,7 @@ Fos.ConsignTab = function(p){
 	if(p.get('consServiceRequired').indexOf(SR_RABL)!=-1) items[items.length]=new Fos.RailwayBlTab(p);
 	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) items[items.length]=new Fos.SplitTab(p);
 	
-	/*new Ext.KeyMap(Ext.getDoc(), {
-		alt:true,
-		key:[112,113,114,115,116,117,118,119,120,121,122,123],
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-		 	if(tc==T_MAIN.getActiveTab())
-		 	switch(k) {
-				case Ext.EventObject.F1:
-					var t=tc.getComponent('T_BOOK_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F2:
-					var t=tc.getComponent('T_DOC_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F3:
-					var t=tc.getComponent('T_EXPE_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F4:
-					var t=tc.getComponent('T_TRAN_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F5:
-					var t=tc.getComponent('T_WARE_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F6:
-					var t=tc.getComponent('T_CONT_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F7:
-					var t=tc.getComponent('T_BL_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F8:
-					var t=tc.getComponent('T_INSP_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F9:					
-					var t=tc.getComponent('T_CUDE_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F10:
-					var ts=tc.getComponent('T_SPLIT_'+p.get('id'));if(ts) tc.setActiveTab(ts);
-					var t=tc.getComponent('T_BBOOK_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F11:
-					var t=tc.getComponent('T_SESH_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-				case Ext.EventObject.F12:
-					var t=tc.getComponent('T_RABL_'+p.get('id'));if(t) tc.setActiveTab(t);break;
-			}
-		},
-		stopEvent: false
-	});*/
+	
 	var status={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
 	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
 	if(p.get('consBizType')==BT_C){

@@ -1297,6 +1297,17 @@ var getTATY_S=function(){
     	s.load({params:{tatyBizType:BT_B,tatyBizClass:BC_E}});return s;
     }
 };
+
+var getBizTaskTypeStore = function(bc,bt){	
+	if(Ext.StoreMgr.containsKey('TATY_S_'+bc+"_"+bt)){
+		return Ext.StoreMgr.get('TATY_S_'+bc+"_"+bt);}
+	else {
+		s = GS('TATY_Q','PTaskType',PTaskType,'tatyId','ASC','','TATY_S_'+bc+"_"+bt,'tatyId');
+    	s.load({params:{tatyBizType:bt,tatyBizClass:bc}});
+    	return s;
+    }
+};
+
 var getOP_S=function(){
 	if(Ext.StoreMgr.containsKey('OP_S')){return Ext.StoreMgr.get('OP_S');}
 	else {
@@ -1332,6 +1343,16 @@ function iniStore(){
 	getTRTE_S();
 	getTRTY_S();
 	getTATY_S();
+	
+	getBizTaskTypeStore('E','B');
+	getBizTaskTypeStore('I','B');
+	
+	getBizTaskTypeStore('E','C');
+	getBizTaskTypeStore('I','C');
+	
+	getBizTaskTypeStore('E','A');
+	getBizTaskTypeStore('I','A');
+	
 	getISTY_S();
 	getPATE_S();
 	getTRAN_S();

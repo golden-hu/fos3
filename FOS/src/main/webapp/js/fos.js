@@ -36,16 +36,33 @@ function getContPanel(){
 	var items=[];
 	if(VERSION==0&&!NR(M1_C+M2_A)) 
 		items[items.length]=NaviMenu(C_IMP_A,'G_CONS_I_C',function(){return new Fos.ConsignGrid('I','C','');});
+	
 	if(!NR(M1_C+M2_F)) 
 		items[items.length]=NaviMenu(C_IMP_F,'G_CONS_I_C_FCL',function(){return new Fos.ConsignGrid('I','C','FCL');});
 	if(!NR(M1_C+M2_L)) 
 		items[items.length]=NaviMenu(C_IMP_L,'G_CONS_I_C_LCL',function(){return new Fos.ConsignGrid('I','C','LCL');});
+	
 	if(VERSION==0&&!NR(M1_C+M2_AE)) 
 		items[items.length]=NaviMenu(C_EXP_A,'G_CONS_E_C',function(){return new Fos.ConsignGrid('E','C','');});
+	
 	if(!NR(M1_C+M2_FE)) 
 		items[items.length]=NaviMenu(C_EXP_F,'G_CONS_E_C_FCL',function(){return new Fos.ConsignGrid('E','C','FCL');});
 	if(!NR(M1_C+M2_LE)) 
 		items[items.length]=NaviMenu(C_EXP_L,'G_CONS_E_C_LCL',function(){return new Fos.ConsignGrid('E','C','LCL');});
+	
+	if(!NR(M1_C+M2_F)||!NR(M1_C+M2_L)) 
+		items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_C',
+			function(){
+				return new Fos.TaskTab(BC_E,BT_C);
+			}
+		);
+	if(!NR(M1_C+M2_FE)||!NR(M1_C+M2_LE)) 
+		items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_C',
+			function(){
+				return new Fos.TaskTab(BC_I,BT_C);
+			}
+		);
+	
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -58,8 +75,25 @@ function getBulkPanel(){
 		var items=[];
 		if(!NR(M1_B+M2_E))
 			items[items.length]=NaviMenu(C_EXP_BULK,'CONS_E_B',function(){return new Fos.ConsignGrid('E','B','');});
+		
+		
 		if(!NR(M1_B+M2_I)) 
 			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('I','B','');});
+		
+		if(!NR(M1_B+M2_BV)) 
+			items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_B',
+				function(){
+					return new Fos.TaskTab(BC_E,BT_B);
+				}
+			);
+		
+		if(!NR(M1_B+M2_BV)) 
+			items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_B',
+				function(){
+					return new Fos.TaskTab(BC_I,BT_B);
+				}
+			);
+		
 		if(!NR(M1_B+M2_BV)) 
 			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return Fos.showG_VOYA();});
 		
@@ -72,6 +106,20 @@ function getAirPanel(){
 	var items=[];
 	if(!NR(M1_A+M2_I)) items[items.length]=NaviMenu(C_IMP_AIR,'G_CONS_I_A',function(){return new Fos.ConsignGrid('I','A','');});
 	if(!NR(M1_A+M2_E)) items[items.length]=NaviMenu(C_EXP_AIR,'G_CONS_E_A',function(){return new Fos.ConsignGrid('E','A','');});
+	
+	if(!NR(M1_A+M2_I)) 
+		items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_A',
+			function(){
+				return new Fos.TaskTab(BC_I,BT_A);
+			}
+		);
+	if(!NR(M1_A+M2_E)) 
+		items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_A',
+			function(){
+				return new Fos.TaskTab(BC_E,BT_A);
+			}
+		);
+	
 	return new Ext.Panel({title:C_AIR,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -234,51 +282,19 @@ function getPMenu(){
 };
 var P_MENU = getPMenu();
 
-/*new Ext.KeyMap(Ext.getDoc(), {
-	key:[49,50,51,52,53,54,55,56,57,61,62,63,65,66,67,68,72,73,83],alt:true,
-	handler: function(k, e) {
-	 	var t=T_MAIN.getActiveTab();
-	 	if(t)
-	 	{
-	 		switch(k) {
-				case Ext.EventObject.C:T_MAIN.remove(t);break;
-				case Ext.EventObject.ESC:T_MAIN.remove(t);break;
-	 		}
+function CreateNode(t,c,m,f){
+	return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,
+		listeners:{
+			click:function(n,e){
+				if(NR(m)){
+					XMG.alert(SYS,M_NR);
+					return
+				}
+				T_MAIN.setActiveTab(T_MAIN.getComponent('G_'+c)?T_MAIN.getComponent('G_'+c):T_MAIN.add(f()));
+			}
 		}
-	 	switch(k) {
-			case Ext.EventObject.H:	P_MENU.collapse();break;
-			case Ext.EventObject.S:	P_MENU.expand();break;
-			case Ext.EventObject.ONE:	contPanel.expand();break;
-			case Ext.EventObject.TWO:	bulkPanel.expand();break;
-			case Ext.EventObject.THREE:	airPanel.expand();break;
-			case Ext.EventObject.FOUR:	cudePanel.expand();break;
-			case Ext.EventObject.FIVE:	inspPanel.expand();break;
-			case Ext.EventObject.SIX:	docPanel.expand();break;
-			case Ext.EventObject.SEVEN:	setPanel.expand();break;
-			case Ext.EventObject.EIGHT:	staPanel.expand();break;
-			case Ext.EventObject.NINE:	cusPanel.expand();break;
-			case Ext.EventObject.A:	genPanel.expand();break;
-			case Ext.EventObject.B:	sysPanel.expand();break;
-	 	}
-	},
-	stopEvent: false
-});
-new Ext.KeyMap(Ext.getDoc(), {
-	key:[Ext.EventObject.ESC],
-	handler: function(k, e) {
-	 	var t=T_MAIN.getActiveTab();
-	 	if(t)
-	 	{
-	 		switch(k) {case Ext.EventObject.ESC:T_MAIN.remove(t);break;}
-		}	 	
-	},
-	stopEvent: false
-});*/
-
-function CreateNode(t,c,m,f){return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,listeners:{
-	click:function(n,e){
-		if(NR(m)){XMG.alert(SYS,M_NR);return}
-		T_MAIN.setActiveTab(T_MAIN.getComponent('G_'+c)?T_MAIN.getComponent('G_'+c):T_MAIN.add(f()));}}})};
+	});
+};
 		
 function createBulkTree(){
 	var root=new Ext.tree.TreeNode({text:C_BULK,leaf:false});

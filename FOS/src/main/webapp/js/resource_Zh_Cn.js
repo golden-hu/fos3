@@ -876,6 +876,18 @@ var C_TASK_LIST='任务列表';
 var C_CARGO_LIST='货物列表';
 var C_TASK_D='依赖任务';
 
+var C_TASK_LIST_E = '出口单票状态';
+var C_TASK_LIST_I = '进口单票状态';
+
+var C_TASK_LIST_BULK_E='散货出口单票状态';
+var C_TASK_LIST_BULK_I ='散货进口单票状态';
+
+var C_TASK_LIST_CONTAINER_E='集装箱出口单票状态';
+var C_TASK_LIST_CONTAINER_I ='集装箱进口单票状态';
+
+var C_TASK_LIST_AIR_E='空运出口单票状态';
+var C_TASK_LIST_AIR_I ='空运进口单票状态';
+
 var C_WARE_BILL='仓储联系单';
 var C_WARE_NO='仓储联系单号';
 var C_WARE_INFO='仓储联系单信息';
@@ -1340,6 +1352,7 @@ var C_TASK_ORDER='序号';
 var C_TASK_NAME='任务名称';
 var C_TASK_DESC='任务描述';
 var C_TASK_DATE_TYPE='时间节点';
+
 var C_TASK_DATE_ESTIMATED='预计天数';
 var C_TASK_TRRIGER='触发事件';
 var C_MY_TASK='我的任务';

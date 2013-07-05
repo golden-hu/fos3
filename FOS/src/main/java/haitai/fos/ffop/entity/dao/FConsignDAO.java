@@ -268,9 +268,11 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		String joinSql = "";
 		if (ConstUtil.TrueStr.equals(sailedFlag)) {
 			joinSql += "t1.consSailDate < '" + TimeUtil.getDay() + "'";
-		} else {
+		} 
+		else if (ConstUtil.FalseStr.equals(sailedFlag)){
 			joinSql += "(t1.consSailDate >= '" + TimeUtil.getDay() + "' or t1.consSailDate is null)";
 		}
+		
 		Class clazz = FConsign.class;
 		List retList = complexQuery(conditions, propertyMap, "t1", joinSql, clazz);
 		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, "t1", joinSql, clazz));

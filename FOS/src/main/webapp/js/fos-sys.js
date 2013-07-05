@@ -1193,7 +1193,7 @@ Fos.TaskWin = function(p) {
 	};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
 	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);
 	ff.on('click',function(c,e,r){
@@ -1244,6 +1244,7 @@ Fos.TaskPanel = function(p) {
 	store.load({params:{consId:p.get('consId')},scope:this});
 	var ad=new Ext.form.DateField({value:p.get('consEta'),format:DATEF,width:120,disabled:false});
 	var sd=new Ext.form.DateField({value:p.get('consSailDate'),format:DATEF,width:120,disabled:false});
+	
 	var saveT=function(r){
 		r.set('rowAction','M');
 		var x=RTX(r,'FTask',FTask);
@@ -1260,17 +1261,21 @@ Fos.TaskPanel = function(p) {
 			xmlData:FOSX(x)
 		});
 	};
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
 	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);
+	
 	ff.on('click',function(c,e,r){
 		r.set('taskFinishedDate',r.get('taskFinishedFlag')==1?(new Date()):'');
 		r.set('rowAction','N');
 		saveT(r);
 	},this);
+	
 	var cm=new Ext.grid.ColumnModel({columns:[sm,c1,c2,ff,c3],defaults:{sortable:true,width:100}});
+	
 	this.save=function(){
 		p.beginEdit();
 		p.set('consEta',ad.getValue());
@@ -1297,13 +1302,16 @@ Fos.TaskPanel = function(p) {
             else if (record.get('taskFinishedFlag')==0&&getElapsed(record.get('taskEstimatedDate'))>=0) return 'red-font-row';
             else return '';
         }});
+	
 	Fos.TaskPanel.superclass.constructor.call(this,{iconCls:'task',title:C_TASK_LIST,
 		autoScroll:true,clicksToEdit:1,plugins:[ff],
 	    stripeRows:true,store:store,sm:sm,cm:cm, view:gv,
-	    listeners:{scope:this,afteredit:this.saveTask},
+	    listeners:{scope:this,
+	    	afteredit:this.saveTask
+	    },
 	    tbar:[{xtype:'tbtext',text:C_ETA_V},ad,'-',
 			{xtype:'tbtext',text:C_SAIL_DATE},sd,'-',
-			{text:C_SAVE,iconCls:'save',scope:this,handler:this.saveTask},'-'
+			{text:C_SAVE,iconCls:'save',scope:this,handler:this.save},'-'
 			]
 	}); 
 };
@@ -1326,11 +1334,23 @@ Fos.TatyGrid = function(t,bt,bc) {
 		ss.insert(0,r);
 	}});
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
-	var c0={header:C_TASK_ORDER,width:50,dataIndex:"tatyOrder",editor:new Ext.form.NumberField()};
-	var c1={header:C_TASK_NAME,width:100,dataIndex:"tatyName",editor:new Ext.form.TextField()};
-	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'tatyDateType',renderer:getDATY,editor:new Ext.form.ComboBox({xtype:'combo',store:DATY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true})};
-	var c3={header:C_TASK_DATE_ESTIMATED,dataIndex:"tatyDateEstimated",align:'right',editor:new Ext.form.NumberField()};
-	var c4={header:C_TASK_D,dataIndex: 'tatyDName',editor:new Ext.form.ComboBox({xtype:'combo',store:ss,displayField:'tatyName',valueField:'tatyName',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,
+	var c0={header:C_TASK_ORDER,width:80,dataIndex:"tatyOrder",
+			editor:new Ext.form.NumberField()
+	};
+	var c1={header:C_TASK_NAME,width:120,dataIndex:"tatyName",
+			editor:new Ext.form.TextField()
+	};
+	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'tatyDateType',renderer:getDATY,width:120,
+			editor:new Ext.form.ComboBox({xtype:'combo',
+				store:DATY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
+				mode:'local',triggerAction:'all',selectOnFocus:true})
+	};
+	var c3={header:C_TASK_DATE_ESTIMATED,dataIndex:"tatyDateEstimated",align:'right',width:120,
+			editor:new Ext.form.NumberField()
+	};
+	var c4={header:C_TASK_D,dataIndex: 'tatyDName',width:120,
+		editor:new Ext.form.ComboBox({xtype:'combo',store:ss,
+			displayField:'tatyName',valueField:'tatyName',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,
 		listeners:{scope:this,select:function(c,r,i){
 	            	var b=sm.getSelected();
 	            	if(b){b.set('tatyDId',r.get('tatyId'));}}}
@@ -1379,19 +1399,21 @@ Ext.extend(Fos.TatyGrid, Ext.grid.EditorGridPanel);
 Fos.TatyTab = function(){	
 	var gCE=new Fos.TatyGrid(C_EXP_CONT,BT_C,BC_E);
 	var gCI=new Fos.TatyGrid(C_IMP_CONT,BT_C,BC_I);
+	
 	var gBE=new Fos.TatyGrid(C_EXP_BULK,BT_B,BC_E);
 	var gBI=new Fos.TatyGrid(C_IMP_BULK,BT_B,BC_I);
 	
 	var gAE=new Fos.TatyGrid(C_EXP_AIR,BT_A,BC_E);
 	var gAI=new Fos.TatyGrid(C_IMP_AIR,BT_A,BC_I);
-	var gGE=new Fos.TatyGrid(C_EXP_CUDE,BT_G,BC_E);
-	var gGI=new Fos.TatyGrid(C_IMP_CUDE,BT_G,BC_I);
-	var gIE=new Fos.TatyGrid(C_EXP_INSP,BT_I,BC_E);
-	var gII=new Fos.TatyGrid(C_IMP_INSP,BT_I,BC_I);
+	
+	//var gGE=new Fos.TatyGrid(C_EXP_CUDE,BT_G,BC_E);
+	//var gGI=new Fos.TatyGrid(C_IMP_CUDE,BT_G,BC_I);
+	//var gIE=new Fos.TatyGrid(C_EXP_INSP,BT_I,BC_E);
+	//var gII=new Fos.TatyGrid(C_IMP_INSP,BT_I,BC_I);
 	
 	Fos.TatyTab.superclass.constructor.call(this,{id:'T_TATY',
 	title:C_TASK_CFG,iconCls:'class',deferredRender:false,closable:true,activeTab:0,autoScroll:true,
-	items:[gBE,gBI,gCE,gCI,gAE,gAI,gGE,gGI,gIE,gII],
+	items:[gBE,gBI,gCE,gCI,gAE,gAI],
 	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}}
 	});
 };
@@ -1399,12 +1421,11 @@ Ext.extend(Fos.TatyTab,Ext.TabPanel);
 
 Fos.TaskList = function(cn,store) {	
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_DATE_TYPE,dataIndex: 'taskEstimatedDate',width:200,renderer:formatDate};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:200,renderer:formatDate};
 	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:200,renderer:formatDate};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);	
 	var list = new Ext.ListView({
     	store: store,
-    	emptyText: 'No images to display',
     	reserveScrollOffset: true,
     	columns: [c1,c2,c3,ff]
 	});
@@ -1444,8 +1465,15 @@ Fos.TaskTab = function(bc,bt) {
 	
 	this.reLoad=function(){
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
-			params:{A:'CONS_T_X',consMasterFlag:1,mt:'XML',dir:'DESC',consBizClass:bc,consBizType:bt,voyaSailedFlag:0,
-				start:((this.page-1)*10),limit:10,sort:'consNo'},
+			params:{A:'CONS_T_X',
+				//consMasterFlag:bt=BT_B?1:'',
+				mt:'XML',dir:'DESC',
+				consBizClass:bc,
+				consBizType:bt,
+				tatyBizClass:bc,
+				tatyBizType:bt,
+				voyaSailedFlag:-1,
+				start:((this.page-1)*20),limit:20,sort:'consNo'},
 				success: function(res){				
 					this.totalPage=Math.ceil(XRC(res.responseXML)/10);					
 					var a = XTRA(res.responseXML,'FConsign',FConsign);
@@ -1489,26 +1517,49 @@ Fos.TaskTab = function(bc,bt) {
 		});
 	};
 	
-	var ts=getTATY_S();
+	var ts=getBizTaskTypeStore(bc,bt);
+	
 	var store = new Ext.data.GroupingStore({
    		reader:new Ext.data.ArrayReader({idIndex: 0},FConsign),
    		sortInfo:{field:'consNo', direction:'DESC'},
    		groupField:'voyaName'});
+	
 	var ca=ts.getRange();
 	var cols=[];
-	cols[0]={header:C_VESS,width:100,dataIndex:"vessName"};
-    cols[1]={header:C_VOYA,width:80,dataIndex:"voyaName"};
-    cols[2]={header:C_CONS_NO,width:120,dataIndex:"consNo"};
-    cols[3]={header:bt==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
+	//cols[cols.length]={header:C_VESS,width:100,dataIndex:"vessName"};
+    //cols[cols.length]={header:C_VOYA,width:80,dataIndex:"voyaName"};
+    cols[cols.length]={header:C_CONS_NO,width:120,dataIndex:"consNo"};
+    cols[cols.length]={header:bt==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
     for(var i=0;i<ca.length;i++){
     	cols[cols.length]={header:ca[i].get('tatyName'),width:100,dataIndex:'TATY_'+ca[i].get('tatyId')};
     }
     var cm=new Ext.grid.ColumnModel(cols);
     var sm=new Ext.grid.RowSelectionModel({singleSelect:true});
-	Fos.TaskTab.superclass.constructor.call(this, {
-    id:'TASK_B',iconCls:'task',store: store,title:C_TASK_LIST,
+    
+	var title = "";
+	if(bt==BT_B&&bc==BC_E)
+		title = C_TASK_LIST_BULK_E;
+	
+	else if(bt==BT_B&&bc==BC_I)
+		title = C_TASK_LIST_BULK_I;
+	
+	else if(bt==BT_C&&bc==BC_E)
+		title = C_TASK_LIST_CONTAINER_E;
+	
+	else if(bt==BT_C&&bc==BC_I)
+		title = C_TASK_LIST_CONTAINER_I;
+	
+	else if(bt==BT_A&&bc==BC_E)
+		title = C_TASK_LIST_AIR_E;
+	
+	else if(bt==BT_A&&bc==BC_I)
+		title = C_TASK_LIST_AIR_I;
+    
+    Fos.TaskTab.superclass.constructor.call(this, {
+    id:'TASK_'+bc+"_"+bt,iconCls:'task',store: store,
+    title:title,
 	sm:sm,cm:cm,stripeRows:true,closable:true,border:true,autoScroll:true,
-	view:new Ext.grid.GroupingView(groupViewCfg),
+	//view:new Ext.grid.GroupingView(groupViewCfg),
 	bbar:[{itemId:'TB_F',disabled:this.page==1,iconCls:'page-first',scope:this,handler:this.moveFirst},'-',
         {itemId:'TB_P',disabled:this.page==1,iconCls:'page-prev',scope:this,handler:this.movePrev},'-',
         {itemId:'TB_M',text:'Page '+this.page+' of '+this.totalPage},'-',

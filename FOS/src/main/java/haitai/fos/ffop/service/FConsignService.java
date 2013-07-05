@@ -1137,20 +1137,33 @@ public class FConsignService {
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked","rawtypes"})
 	@Transactional(readOnly = true)
 	public List complexQueryTask(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		List retList = new ArrayList();
 		List<FConsign> objList = dao.complexQueryTask(conditions, queryMap);
-		String consIds = "";
-		for (FConsign consign : objList) {
-			consIds += consign.getConsId() + ConstUtil.COMMA;
-		}
-		List<FosQuery> taskConditions = new ArrayList<FosQuery>();
-		taskConditions.add(new FosQuery("consId", ConstUtil.SQL_OP_IN, consIds));
-		List<FTask> taskList = taskDao.complexQuery(taskConditions,new HashMap<String, Object>());
 		retList.addAll(objList);
-		retList.addAll(taskList);
+		
+		if(objList.size()==1){
+			FConsign consign = objList.get(0);	
+			Map<String,Object> qmap = new HashMap<String, Object>();
+			qmap.put("consId", ""+consign.getConsId());			
+			List<FTask> taskList = taskDao.complexQuery(null,qmap);		
+			
+			retList.addAll(taskList);
+		}
+		else if(objList.size()>1){
+			String consIds = "";
+			for (FConsign consign : objList) {
+				consIds += consign.getConsId() + ConstUtil.COMMA;
+			}
+			List<FosQuery> taskConditions = new ArrayList<FosQuery>();
+			taskConditions.add(new FosQuery("consId", ConstUtil.SQL_OP_IN, consIds));
+			List<FTask> taskList = taskDao.complexQuery(taskConditions,new HashMap<String, Object>());	
+			
+			retList.addAll(taskList);
+		}
+		
 		return retList;
 	}
 	
