@@ -534,7 +534,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (18, '仓库联系电话', 'FConsign', 'consWarehouseTel', NULL),
 (18, '仓库地址', 'FConsign', 'consWarehouseAddress', NULL),
 (18, '装箱地址', 'FConsign', 'consWarehouseAddress', NULL),
-(18, '内装要求', 'FConsign', 'consWarehouseRemarks', NULL);
+(18, '内装要求', 'FConsign', 'consWarehouseRemarks', NULL),
+(18, '运输方式', 'FConsign', 'tranCode', NULL);
 
 -- 订舱确认书
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES

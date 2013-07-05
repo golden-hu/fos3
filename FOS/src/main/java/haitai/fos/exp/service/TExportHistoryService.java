@@ -267,7 +267,7 @@ public class TExportHistoryService {
 		for (TInvoice item : invoiceList) {
 			rowData = new Object[]{item.getExhiId(), item.getInvoId(), item.getCustId(),
 					item.getCurrCode(), item.getInvoAmount(), "0", item.getInvoBlNo(),
-					item.getInvoNo(), item.getInvoDate(), item.getInvoExRate(), "1", 0};
+					item.getInvoTaxNo(), item.getInvoDate(), item.getInvoExRate(), "1", 0};
 			rowList.add(rowData);
 		}
 		fillSheet(sheet, rowList);

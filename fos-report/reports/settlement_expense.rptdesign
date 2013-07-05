@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.2.v20120213 Build &lt;3.7.2.v20120214-1408></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <property name="units">in</property>
     <text-property name="displayName">Blank Report</text-property>
@@ -330,6 +330,129 @@
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">EXPE_ID</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">EXPE_ID</text-property>
+                    <text-property name="heading">EXPE_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_SNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CUST_SNAME</text-property>
+                    <text-property name="heading">CUST_SNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_CODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CUST_CODE</text-property>
+                    <text-property name="heading">CUST_CODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VESSEL_VOYAGE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">VESSEL_VOYAGE</text-property>
+                    <text-property name="heading">VESSEL_VOYAGE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONS_NO</text-property>
+                    <text-property name="heading">CONS_NO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_REF_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONS_REF_NO</text-property>
+                    <text-property name="heading">CONS_REF_NO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CHAR_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CHAR_NAME</text-property>
+                    <text-property name="heading">CHAR_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CURR_CODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CURR_CODE</text-property>
+                    <text-property name="heading">CURR_CODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_TOTAL_AMOUNT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">EXPE_TOTAL_AMOUNT</text-property>
+                    <text-property name="heading">EXPE_TOTAL_AMOUNT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_INVOICE_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">EXPE_INVOICE_DATE</text-property>
+                    <text-property name="heading">EXPE_INVOICE_DATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NOT_WRITE_OFF_AMOUNT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">NOT_WRITE_OFF_AMOUNT</text-property>
+                    <text-property name="heading">NOT_WRITE_OFF_AMOUNT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_MBL_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONS_MBL_NO</text-property>
+                    <text-property name="heading">CONS_MBL_NO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_HBL_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONS_HBL_NO</text-property>
+                    <text-property name="heading">CONS_HBL_NO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_SAIL_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONS_SAIL_DATE</text-property>
+                    <text-property name="heading">CONS_SAIL_DATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONS_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONS_DATE</text-property>
+                    <text-property name="heading">CONS_DATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_INVOICE_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">EXPE_INVOICE_NO</text-property>
+                    <text-property name="heading">EXPE_INVOICE_NO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">EXPE_TAX_INVOICE_NO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">EXPE_TAX_INVOICE_NO</text-property>
+                    <text-property name="heading">EXPE_TAX_INVOICE_NO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">USER_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">USER_NAME</text-property>
+                    <text-property name="heading">USER_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUST_CREDIT_DAY</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CUST_CREDIT_DAY</text-property>
+                    <text-property name="heading">CUST_CREDIT_DAY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">GROU_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">GROU_NAME</text-property>
+                    <text-property name="heading">GROU_NAME</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -375,60 +498,65 @@
                     <structure>
                         <property name="position">9</property>
                         <property name="name">EXPE_TOTAL_AMOUNT</property>
-                        <property name="dataType">decimal</property>
+                        <property name="dataType">float</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
-                        <property name="name">NOT_WRITE_OFF_AMOUNT</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">EXPE_INVOICE_DATE</property>
+                        <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">NOT_WRITE_OFF_AMOUNT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">CONS_MBL_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">CONS_HBL_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">CONS_SAIL_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">CONS_DATE</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">EXPE_INVOICE_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">EXPE_TAX_INVOICE_NO</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">USER_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">18</property>
+                        <property name="position">19</property>
                         <property name="name">CUST_CREDIT_DAY</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">19</property>
+                        <property name="position">20</property>
                         <property name="name">GROU_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">21</property>
                         <property name="name">timeSpan</property>
                         <property name="dataType">integer</property>
                     </structure>
@@ -494,120 +622,146 @@ this.queryText = sql;]]></method>
                     <property name="name">EXPE_ID</property>
                     <property name="nativeName">EXPE_ID</property>
                     <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">CUST_SNAME</property>
                     <property name="nativeName">CUST_SNAME</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">CUST_CODE</property>
                     <property name="nativeName">CUST_CODE</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">VESSEL_VOYAGE</property>
                     <property name="nativeName">VESSEL_VOYAGE</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">CONS_NO</property>
                     <property name="nativeName">CONS_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">CONS_REF_NO</property>
                     <property name="nativeName">CONS_REF_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">CHAR_NAME</property>
                     <property name="nativeName">CHAR_NAME</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">CURR_CODE</property>
                     <property name="nativeName">CURR_CODE</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">EXPE_TOTAL_AMOUNT</property>
                     <property name="nativeName">EXPE_TOTAL_AMOUNT</property>
-                    <property name="dataType">decimal</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
-                    <property name="name">NOT_WRITE_OFF_AMOUNT</property>
-                    <property name="nativeName">NOT_WRITE_OFF_AMOUNT</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">EXPE_INVOICE_DATE</property>
+                    <property name="nativeName">EXPE_INVOICE_DATE</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">CONS_MBL_NO</property>
-                    <property name="nativeName">CONS_MBL_NO</property>
-                    <property name="dataType">string</property>
+                    <property name="name">NOT_WRITE_OFF_AMOUNT</property>
+                    <property name="nativeName">NOT_WRITE_OFF_AMOUNT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">CONS_HBL_NO</property>
-                    <property name="nativeName">CONS_HBL_NO</property>
+                    <property name="name">CONS_MBL_NO</property>
+                    <property name="nativeName">CONS_MBL_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">CONS_SAIL_DATE</property>
-                    <property name="nativeName">CONS_SAIL_DATE</property>
-                    <property name="dataType">date</property>
+                    <property name="name">CONS_HBL_NO</property>
+                    <property name="nativeName">CONS_HBL_NO</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">CONS_DATE</property>
-                    <property name="nativeName">CONS_DATE</property>
+                    <property name="name">CONS_SAIL_DATE</property>
+                    <property name="nativeName">CONS_SAIL_DATE</property>
                     <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">EXPE_INVOICE_NO</property>
-                    <property name="nativeName">EXPE_INVOICE_NO</property>
-                    <property name="dataType">string</property>
+                    <property name="name">CONS_DATE</property>
+                    <property name="nativeName">CONS_DATE</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
-                    <property name="name">EXPE_TAX_INVOICE_NO</property>
-                    <property name="nativeName">EXPE_TAX_INVOICE_NO</property>
+                    <property name="name">EXPE_INVOICE_NO</property>
+                    <property name="nativeName">EXPE_INVOICE_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">17</property>
-                    <property name="name">USER_NAME</property>
-                    <property name="nativeName">USER_NAME</property>
+                    <property name="name">EXPE_TAX_INVOICE_NO</property>
+                    <property name="nativeName">EXPE_TAX_INVOICE_NO</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">18</property>
-                    <property name="name">CUST_CREDIT_DAY</property>
-                    <property name="nativeName">CUST_CREDIT_DAY</property>
-                    <property name="dataType">integer</property>
+                    <property name="name">USER_NAME</property>
+                    <property name="nativeName">USER_NAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">19</property>
+                    <property name="name">CUST_CREDIT_DAY</property>
+                    <property name="nativeName">CUST_CREDIT_DAY</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
                     <property name="name">GROU_NAME</property>
                     <property name="nativeName">GROU_NAME</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select e.EXPE_ID, e.CUST_SNAME, cu2.CUST_CODE,
 CONCAT(e.CONS_VESSEL, ' ', e.CONS_VOYAGE) as VESSEL_VOYAGE,
 e.CONS_NO, c.CONS_REF_NO, e.CHAR_NAME, 
-e.CURR_CODE, e.EXPE_TOTAL_AMOUNT,
+e.CURR_CODE, e.EXPE_TOTAL_AMOUNT,e.EXPE_INVOICE_DATE,
 (e.EXPE_TOTAL_AMOUNT-EXPE_WRITE_OFF_AMOUNT) as NOT_WRITE_OFF_AMOUNT,
 e.CONS_MBL_NO, e.CONS_HBL_NO, c.CONS_SAIL_DATE, c.CONS_DATE,
 e.EXPE_INVOICE_NO, e.EXPE_TAX_INVOICE_NO, u.USER_NAME,
@@ -1332,6 +1486,24 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <expression name="expression">dataSetRow["CUST_CODE"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
+                            <structure>
+                                <property name="name">EXPE_TOTAL_AMOUNT_1</property>
+                                <text-property name="displayName">EXPE_TOTAL_AMOUNT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["EXPE_TOTAL_AMOUNT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NOT_WRITE_OFF_AMOUNT_1</property>
+                                <text-property name="displayName">NOT_WRITE_OFF_AMOUNT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NOT_WRITE_OFF_AMOUNT"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                            <structure>
+                                <property name="name">EXPE_INVOICE_DATE</property>
+                                <expression name="expression" type="javascript">dataSetRow["EXPE_INVOICE_DATE"]</expression>
+                                <property name="dataType">date</property>
+                                <property name="allowExport">true</property>
+                            </structure>
                         </list-property>
                         <property name="pageBreakInterval">50</property>
                         <column id="1162"/>
@@ -1377,8 +1549,15 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                         </column>
                         <column id="121"/>
                         <column id="122"/>
-                        <column id="1047"/>
-                        <column id="1059"/>
+                        <column id="1305">
+                            <property name="width">0.3541666666666667in</property>
+                        </column>
+                        <column id="1047">
+                            <property name="width">0.71875in</property>
+                        </column>
+                        <column id="1059">
+                            <property name="width">0.6875in</property>
+                        </column>
                         <column id="1087"/>
                         <column id="123"/>
                         <column id="124"/>
@@ -1607,6 +1786,24 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <label id="54">
                                         <text-property name="text">委托日期</text-property>
                                     </label>
+                                </cell>
+                                <cell id="1297">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <text id="1306">
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[账单日期]]></text-property>
+                                    </text>
                                 </cell>
                                 <cell id="1038">
                                     <property name="borderBottomColor">#000000</property>
@@ -1850,6 +2047,14 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                         <property name="borderRightStyle">solid</property>
                                         <property name="borderRightWidth">thin</property>
                                     </cell>
+                                    <cell id="1298">
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                    </cell>
                                     <cell id="1148">
                                         <property name="borderLeftColor">#000000</property>
                                         <property name="borderLeftStyle">solid</property>
@@ -2054,6 +2259,17 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                         <property name="borderTopWidth">thin</property>
                                     </cell>
                                     <cell id="1248">
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                        <property name="borderTopColor">#000000</property>
+                                        <property name="borderTopStyle">solid</property>
+                                        <property name="borderTopWidth">thin</property>
+                                    </cell>
+                                    <cell id="1301">
                                         <property name="borderLeftColor">#000000</property>
                                         <property name="borderLeftStyle">solid</property>
                                         <property name="borderLeftWidth">thin</property>
@@ -2297,6 +2513,17 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                         <property name="borderRightStyle">solid</property>
                                         <property name="borderRightWidth">thin</property>
                                     </cell>
+                                    <cell id="1302">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                    </cell>
                                     <cell id="1269">
                                         <property name="borderBottomColor">#000000</property>
                                         <property name="borderBottomStyle">solid</property>
@@ -2494,6 +2721,14 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                         <property name="borderRightWidth">thin</property>
                                     </cell>
                                     <cell id="1226">
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                    </cell>
+                                    <cell id="1299">
                                         <property name="borderLeftColor">#000000</property>
                                         <property name="borderLeftStyle">solid</property>
                                         <property name="borderLeftWidth">thin</property>
@@ -2732,6 +2967,20 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <property name="borderRightWidth">thin</property>
                                     <data id="87">
                                         <property name="resultSetColumn">CONS_DATE</property>
+                                    </data>
+                                </cell>
+                                <cell id="1300">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <data id="1309">
+                                        <property name="resultSetColumn">EXPE_INVOICE_DATE</property>
                                     </data>
                                 </cell>
                                 <cell id="1040">
@@ -3001,6 +3250,17 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
                                 </cell>
+                                <cell id="1303">
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                </cell>
                                 <cell id="1045">
                                     <property name="borderLeftColor">#000000</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3227,6 +3487,17 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <property name="borderRightWidth">thin</property>
                                 </cell>
                                 <cell id="1032">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                </cell>
+                                <cell id="1304">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>

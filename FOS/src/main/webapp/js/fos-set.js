@@ -2219,6 +2219,8 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     		tb.getComponent('TB_F').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     	tb.getComponent('TB_M').setText(C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus')));
     	tb.getComponent('TB_H').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
+    	this.itemGrid.getTopToolbar().getComponent('TB_A').setDisabled(p.get('invoStatus')!='0');
+    	this.itemGrid.getTopToolbar().getComponent('TB_B').setDisabled(p.get('invoStatus')!='0');
     };
     this.expInvo=function(){EXPC('INVO','&invoId='+p.get('invoId'));};
     this.genVoucher=function(){
@@ -2810,8 +2812,8 @@ Fos.VoucItemGrid = function(p,store,frm){
 			this.reCalculate();
     	}
     }},
-    tbar:[{text:C_ADD+'(A)',iconCls:'add',disabled:p.get('voucStatus')!='0',scope:this,handler:this.add}, '-', 		
-		{text:C_REMOVE+'(R)',iconCls:'remove',disabled:p.get('voucStatus')!='0',scope:this,handler:this.removeVoit
+    tbar:[{text:C_ADD+'(A)',itemId:'TB_A',iconCls:'add',disabled:p.get('voucStatus')!='0',scope:this,handler:this.add}, '-', 		
+		{text:C_REMOVE+'(R)',itemId:'TB_B',iconCls:'remove',disabled:p.get('voucStatus')!='0',scope:this,handler:this.removeVoit
 	}]});
 };    
 Ext.extend(Fos.VoucItemGrid,Ext.grid.EditorGridPanel);
@@ -2937,11 +2939,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 				}
 				p.endEdit();
 				var a = XTRA(res.responseXML,'SVoucherItem',SVoucherItem);
-				if(a!=""){
-					store.removeAll();
-					store.add(a);
 					FOSU(store,a,SVoucherItem);
-				}
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);tb.getComponent('TB_A').setDisabled(false);
 			},
@@ -2975,6 +2973,8 @@ Fos.VoucherTab = function(p,prId,invoId) {
     	tb.getComponent('TB_D').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='1');
     	tb.getComponent('TB_E').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_F)||p.get('voucStatus')!='1');
     	tb.getComponent('TB_M').setText(C_STATUS_C+getVOST(p.get('voucStatus'))+'/'+getWRST(p.get('voucWriteOffStatus')));
+    	this.grid.getTopToolbar().getComponent('TB_A').setDisabled(p.get('voucStatus')!='0');
+    	this.grid.getTopToolbar().getComponent('TB_B').setDisabled(p.get('voucStatus')!='0');
     };
     new Ext.KeyMap(Ext.getDoc(), {
 		key:'sdcufe',ctrl:true,
