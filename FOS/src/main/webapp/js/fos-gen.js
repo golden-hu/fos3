@@ -93,7 +93,7 @@ var showG_PORT = function(pt) {
 	var sm=getCSM();
 	var c1={header:C_COUN,dataIndex: 'counCode',renderer:getCOUN,
 			editor:new Ext.form.ComboBox({displayField:'counCode',valueField:'counCode',triggerAction: 'all',
-				tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'remote',selectOnFocus:true,
+				tpl:counTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,
 				listClass:'x-combo-list-small',store:getCOUN_S()})};
     var c2={header:C_CODE,dataIndex: 'portCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})};
     var c3={header:C_ENAME,dataIndex: 'portNameEn',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})};

@@ -21,7 +21,7 @@
 	
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	var x=S_AR;
-	if(t=='P') 
+	if(t=='P'||t=='D') 
 		x=S_AP; 
 	else if(t=='R')  
 		x=S_AR; 
@@ -3491,15 +3491,15 @@ Fos.PrTab = function(p) {
 	var b2={itemId:'TB_2',text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_R)||p.get('prStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removePr};
 	var b3={itemId:'TB_3',text:C_SEND_BANK+'(B)',iconCls:'out',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0',scope:this,handler:this.send};
 	var b4={itemId:'TB_4',text:C_BACK_BANK+'(H)',iconCls:'in',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1',scope:this,handler:this.back};
-	var b5={itemId:'TB_5',text:C_ARRIVE_BANK+'(A)',iconCls:'dollar',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1',scope:this,handler:this.arrive};
-	var b6={itemId:'TB_6',text:C_RECEIPT_FAILED+'(X)',iconCls:'cancel',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1',scope:this,handler:this.fail};
+	var b5={itemId:'TB_5',text:C_ARRIVE_BANK+'(A)',iconCls:'dollar',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='2',scope:this,handler:this.arrive};
+	var b6={itemId:'TB_6',text:C_RECEIPT_FAILED+'(X)',iconCls:'cancel',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0',scope:this,handler:this.fail};
 	var b7={itemId:'TB_7',text:C_COMMIT+'(T)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.submit};
 	var b8={itemId:'TB_8',text:C_FIN_CHECK+'(C)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_A)||p.get('prStatus')!='1',scope:this,handler:this.check};
 	var b9={itemId:'TB_9',text:'(U)',tooltip:C_FIN_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_A)||p.get('prStatus')!='2',scope:this,handler:this.uncheck};
 	var b10={itemId:'TB_10',text:C_MANAGER_CHECK+'(M)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='2',scope:this,handler:this.check1};
 	var b11={itemId:'TB_11',text:'(V)',tooltip:C_MANAGER_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='3',scope:this,handler:this.uncheck1};
 	var b12={itemId:'TB_12',text:p.get('prType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P+'(W)',iconCls:'dollar',
-		disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_WO)||p.get('prStatus')!='3',scope:this,handler:this.pay};
+		disabled:NR(M1_S+(p.get('prType')=='R'?(S_PR_R+F_M):(S_PR_P+F_WO)))||p.get('prStatus')!='3',scope:this,handler:this.pay};
 	var b13={itemId:'TB_13',text:C_INVALID+'(F)',iconCls:'cancel',
 			disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_F)||p.get('prStatus')=='0',
 			scope:this,handler:this.cancel};
@@ -3513,8 +3513,9 @@ Fos.PrTab = function(p) {
     	if(p.get('prType')=='R'){
 	    	tb.getComponent('TB_3').setDisabled(NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0');
 	    	tb.getComponent('TB_4').setDisabled(NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1');
-	    	tb.getComponent('TB_5').setDisabled(NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1');
-	    	tb.getComponent('TB_6').setDisabled(NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1');
+	    	tb.getComponent('TB_5').setDisabled(NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='2');
+	    	tb.getComponent('TB_6').setDisabled(NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0');
+	    	
     	}
     	if(p.get('prType')=='P'){
 	    	tb.getComponent('TB_7').setDisabled(NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='0'||p.get('rowAction')=='N');
@@ -3524,7 +3525,7 @@ Fos.PrTab = function(p) {
 	    	tb.getComponent('TB_11').setDisabled(NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='3');
 	    	tb.getComponent('TB_16').setDisabled(NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='1');	
     	}
-    	tb.getComponent('TB_12').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_WO)||p.get('prStatus')!='3');
+    	tb.getComponent('TB_12').setDisabled(NR(M1_S+(p.get('prType')=='R'?(S_PR_R+F_M):(S_PR_P+F_WO)))||p.get('prStatus')!='3');
     	tb.getComponent('TB_13').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_F)||p.get('prStatus')!='0');
     	tb.getComponent('TB_14').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_E));
     	tb.getComponent('TB_15').setText(C_STATUS_C+p.get('prType')=='R'?getERST(p.get('prStatus')):getPRST(p.get('prStatus')));

@@ -250,6 +250,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (7, '目的地', 'FConsign', 'consDestination', NULL),
 (7, '标记唛码', 'FConsign', 'consCargoMarks', NULL),
 (7, '箱型箱量', 'FConsign', 'consContainersInfo', NULL),
+(7, '箱封号', 'FConsign', 'consSealNo', NULL),
 (7, '件数包装', 'FConsign', 'consCargoPackages', NULL),
 (7, '货物描述', 'FConsign', 'consCargoDesc', NULL),
 (7, '毛重', 'FConsign', 'consCargoGrossWeight', NULL),
@@ -771,7 +772,10 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (26, '提单号', 'FConsign', 'consMblNo', NULL),
 (26, '提单备注', 'FConsign', 'consBlRemarks', NULL),
 (26, '箱型箱量', 'FConsign', 'consContainersInfo', NULL),
-(26, '委托日期', 'FConsign', 'consDate', NULL);
+(26, '委托日期', 'FConsign', 'consDate', NULL),
+(26, '箱号', 'FConsign', 'consContainerNo', NULL),
+(26, '箱封号', 'FConsign', 'consSealNo', NULL)
+;
 
 -- 进口到货通知
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES

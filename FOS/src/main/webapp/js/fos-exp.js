@@ -1870,9 +1870,10 @@ Fos.BookTab = function(p) {
 	var exp8=CREATE_E_MENU(M_SGS_ADVICE,function(){this.expExcel('SGS_INFO');},function(){this.expEmail('SGS_INFO',M_SGS_ADVICE);},function(){this.expFax('SGS_INFO',M_SGS_ADVICE);},this);
 	var exp9=CREATE_E_MENU(M_SHIP_ADVICE,function(){this.expExcel('SHIP_INFO');},function(){this.expEmail('SHIP_INFO',M_SHIP_ADVICE);},function(){this.expFax('SHIP_INFO',M_SHIP_ADVICE);},this);
 	var exp10=CREATE_E_MENU(M_BUSSINESS_PROCESS,function(){this.expExcel('BUSINESS_PROCESS');},function(){this.expEmail('BUSINESS_PROCESS',M_BUSSINESS_PROCESS);},function(){this.expFax('BUSINESS_PROCESS',M_BUSSINESS_PROCESS);},this);
+	var exp11=CREATE_E_MENU(C_BL_CONFIRM,function(){this.expExcel('CONS_B');},function(){this.expEmail('CONS_B',C_BL_CONFIRM);},function(){this.expFax('CONS_B',C_BL_CONFIRM);},this);
 	var expM=[];
 	if(p.get('consBizType')==BT_C) 
-		expM=p.get('consBizClass')==BC_I?[exp1,exp10]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9];		
+		expM=p.get('consBizClass')==BC_I?[exp1,exp10]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9,exp11];		
 	else if(p.get('consBizType')==BT_A){
 		expM=p.get('consBizClass')==BC_I?[exp1]:[exp2,exp3,exp5,exp6,exp7];
 	}
