@@ -554,6 +554,8 @@ Fos.BookTab = function(p) {
 		tb.getComponent('TB_A').setDisabled(true);
    	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:p.get('wconId')?'WCON_S':'CONS_S'},
 			success: function(res){
+				tb.getComponent('TB_A').setDisabled(false);
+				
 				var c = XTR(res.responseXML,'FConsign',FConsign);
 				var ra=p.get('rowAction');
 				var f = FConsign.prototype.fields;
@@ -586,10 +588,12 @@ Fos.BookTab = function(p) {
 					FOSU(this.hbl_s,c,FBl);
 				}
 				XMG.alert(SYS,M_S);
-				Fos.showConsignTabs(p);
+				Fos.showConsignTabs(p);				
+			},
+			failure: function(res){
+				XMG.alert(SYS,M_F+res.responseText);
 				tb.getComponent('TB_A').setDisabled(false);
 			},
-			failure: function(res){XMG.alert(SYS,M_F+res.responseText);tb.getComponent('TB_A').setDisabled(false);},
 			xmlData:FOSX(xml)
 		});
     };    

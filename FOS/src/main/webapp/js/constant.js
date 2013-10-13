@@ -54,30 +54,78 @@ Cookies.getCookieVal = function(offset){
 };
 
 var isIE = !!document.all;
-if(isIE) document.documentElement.addBehavior("#default#userdata");
+
+if(isIE) 
+	document.documentElement.addBehavior("#default#userdata");
+
 function  saveUserData(key, value){
-    var ex; 
     if(isIE){
         with(document.documentElement)
-        	try {load(key);setAttribute("value", value);save(key);return  getAttribute("value");}
-        	catch (ex){alert(ex.message);}
+    	try {
+    		load(key);
+    		setAttribute("value", value);
+    		save(key);
+    		return  getAttribute("value");
+    	}
+    	catch (ex){
+    		alert(ex.message);
+    	}
     }
     else if(window.sessionStorage){
-        try{sessionStorage.setItem(key,value);} catch (ex){alert(ex);}
-    }else{alert("当前浏览器不支持userdata或者sessionStorage特性");}
+        try{
+        	sessionStorage.setItem(key,value);
+        } 
+        catch (ex){
+        	alert(ex);
+        }
+    }
+    else{
+    	alert("当前浏览器不支持userdata或者sessionStorage特性");
+    }
 };
 
 function loadUserData(key){
-    var ex; 
-    if(isIE){with(document.documentElement)try{load(key);return getAttribute("value");}catch (ex){alert(ex.message);return null;}
-    }else if(window.sessionStorage){try{return sessionStorage.getItem(key);}catch (ex){alert(ex);}}
+    if(isIE){
+    	with(document.documentElement)
+    	try{
+    		load(key);
+    		return getAttribute("value");
+    	}
+    	catch (ex){
+    		alert(ex.message);
+    		return null;
+    	}
+    }
+    else if(window.sessionStorage){
+    	try{
+    		return sessionStorage.getItem(key);
+    	}
+    	catch (ex){
+    		alert(ex);
+    	}
+    }
 };
 function  deleteUserData(key){
-    var ex; 
-    if(isIE){with(document.documentElement)try{load(key);expires = new Date(315532799000).toUTCString();save(key);}
-        catch (ex){alert(ex.message);}
+    if(isIE){
+    	with(document.documentElement)
+    	try{
+    		load(key);
+    		expires = new Date(315532799000).toUTCString();
+    		save(key);
+    	}
+        catch (ex){
+        	alert(ex.message);
+        }
     }
-    else if(window.sessionStorage){try{sessionStorage.removeItem(key);}catch (ex){alert(ex);}}};
+    else if(window.sessionStorage){
+    	try{
+    		sessionStorage.removeItem(key);
+	    }
+	    catch (ex){
+	    	alert(ex);
+	    }
+    }
+};
 var checkBrowser=function(){if(!Ext.isGecko&&!Ext.isIE8&&!Ext.isChrome) alert('您的浏览器版本太低，请升级到Firefox4/IE8/Chrome!');};
 var login = function(f){
 	//checkBrowser();	
@@ -104,16 +152,19 @@ var login = function(f){
 };
 var loadSession=function(k){
 	var p='';
-	if(document.all) p=loadUserData(k);
-	else if(window.sessionStorage) p+=window.sessionStorage.getItem(k);
-	else p+=Cookies.get(k);
+	if(window.sessionStorage) 
+		p+=window.sessionStorage.getItem(k);	
+	else if(document.all) 
+		p=loadUserData(k);
+	else 
+		p+=Cookies.get(k);
 	return p;
 };
-var saveSession=function(k,v){
-	if(document.all)
-		saveUserData(k,v);
-	else if(window.sessionStorage)
+var saveSession=function(k,v){	 
+	if(window.sessionStorage)
 		window.sessionStorage.setItem(k,v);
+	else if(document.all)
+		saveUserData(k,v);
 	else
 		Cookies.set(k,v);
 };

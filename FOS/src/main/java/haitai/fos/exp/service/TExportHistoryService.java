@@ -260,63 +260,17 @@ public class TExportHistoryService {
 		Workbook wb = new HSSFWorkbook();
 		Sheet sheet = wb.createSheet("Invoices");
 		List<Object[]> rowList = new ArrayList<Object[]>();
-		Object[] rowData = new Object[]{"CNTBTCH", "CNTITEM", "IDCUST",
-				"CODECURN", "BASETAX1", "AMTTAXTOT", "INVCDESC",
-				"IDINVC", "DATEINVC", "EXCHRATEHC", "TEXTTRX", "AMTTAX1"};
+		Object[] rowData = new Object[]{"CUST_CODE", "CURR", "EX_RATE",
+				"INVOICE_DATE", "INVOICE_NO", "ACCOUNT", "DUE_DATE",
+				"DENTRY_DATE", "ENTRY_USER", "AMOUNT"};
 		rowList.add(rowData);
 		for (TInvoice item : invoiceList) {
-			rowData = new Object[]{item.getExhiId(), item.getInvoId(), item.getCustId(),
-					item.getCurrCode(), item.getInvoAmount(), "0", item.getInvoBlNo(),
+			rowData = new Object[]{item.getCustSname(), item.getCurrCode(), item.getInvoExRate(),
+					item.getInvoDate(), item.getInvoAmount(), "0", item.getInvoBlNo(),
 					item.getInvoTaxNo(), item.getInvoDate(), item.getInvoExRate(), "1", 0};
 			rowList.add(rowData);
 		}
 		fillSheet(sheet, rowList);
-
-		sheet = wb.createSheet("Invoice_Details");
-		rowData = new Object[]{"CNTBTCH", "CNTITEM", "CNTLINE", "AMTEXTN",
-				"AMTTXBL", "TOTTAX", "BASETAX1", "IDACCTREV", "TEXTDESC"};
-		rowList.clear();
-		rowList.add(rowData);
-		for (TInvoiceItem item : invoiceItemList) {
-			rowData = new Object[]{
-					item.getExhiId(),
-					item.getInvoId(),
-					item.getExhiLine(),
-					item.getInitInvoiceAmount(),
-					item.getInitInvoiceAmount(),
-					"0",
-					item.getInitInvoiceAmount(),
-					getChargeMapping(item.getInvoCurrCode(), item.getExpeType()),
-					item.getConsNo()};
-			rowList.add(rowData);
-		}
-		fillSheet(sheet, rowList);
-
-		sheet = wb.createSheet("Invoice_Payment_Schedules");
-		rowData = new Object[]{"CNTBTCH", "CNTITEM", "CNTPAYM", "DATEDUE", "AMTDUE"};
-		rowList.clear();
-		rowList.add(rowData);
-		fillSheet(sheet, rowList);
-
-		sheet = wb.createSheet("Invoice_Optional_Fields");
-		rowData = new Object[]{"CNTBTCH", "CNTITEM", "OPTFIELD", "VALUE",
-				"TYPE", "LENGTH", "DECIMALS", "ALLOWNULL", "VALIDATE", "SWSET",
-				"VALINDEX", "VALIFTEXT", "VALIFMONEY", "VALIFNUM", "VALIFLONG",
-				"VALIFBOOL", "VALIFDATE", "VALIFTIME", "FDESC", "VDESC"};
-		rowList.clear();
-		rowList.add(rowData);
-		fillSheet(sheet, rowList);
-
-		sheet = wb.createSheet("Invoice_Detail_Optional_Fields");
-		rowData = new Object[]{"CNTBTCH", "CNTITEM", "CNTLINE", "OPTFIELD",
-				"VALUE", "TYPE", "LENGTH", "DECIMALS", "ALLOWNULL", "VALIDATE",
-				"SWSET", "VALINDEX", "VALIFTEXT", "VALIFMONEY", "VALIFNUM",
-				"VALIFLONG", "VALIFBOOL", "VALIFDATE", "VALIFTIME", "FDESC",
-				"VDESC"};
-		rowList.clear();
-		rowList.add(rowData);
-		fillSheet(sheet, rowList);
-
 		return wb;
 	}
 

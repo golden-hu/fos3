@@ -7,9 +7,9 @@
 		response.sendRedirect("login.html");
 	}
 
-	if(session.getAttribute("CompCode").equals("CNWL")){
-		PhotoAddress ="images/CNWL.png";
-	}
+// 	if(session.getAttribute("CompCode").equals("CNWL")){
+// 		PhotoAddress ="images/CNWL.png";
+// 	}
 %>
 <html>
 <head>

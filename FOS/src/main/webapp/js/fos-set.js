@@ -35,7 +35,7 @@
 	if( VERSION==1||VERSION==2){
 		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'custNameCn',valueField:'custNameCn',triggerAction:'all',
-            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
+            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
             invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
             store:getCS(),enableKeyEvents:true,
             listeners:{scope:this,
@@ -55,8 +55,8 @@
 	else{
 		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
-	            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
-	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',typeAhead:true,
+	            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
+	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
 	            store:getCS(),enableKeyEvents:true,
 	            listeners:{scope:this,
 	            	select:function(c,r,i){
@@ -76,7 +76,7 @@
 	if( VERSION==1){
 		t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',
-				triggerAction:'all',tpl:charTpl,itemSelector:'div.list-item',listWidth:300,
+				triggerAction:'all',tpl:charTpl,itemSelector:'div.list-item',listWidth:350,
 	            allowBlank:false,blankText:'',invalidText:'',mode:'local',
 	            selectOnFocus:true,listClass:'x-combo-list-small',
 	            store:getCHAR_S(),
@@ -94,7 +94,8 @@
 	else{
 	   t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
-	            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+	            tpl:charTpl,itemSelector:'div.list-item',listWidth:350,
+	            allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
 	            store:t=='C'?getCCHAR_S():(t=='R'?getCHAR_PERM_R_S():getCHAR_PERM_P_S()),
 	            listeners:{scope:this,select:function(c,r,i){
 	            	var b =this.getSelectionModel().getSelected();
@@ -4647,12 +4648,12 @@ Fos.ExpenseGrid = function(t){
     var t20={header:C_MODIFY_TIME,renderer:formatDateTime,dataIndex:"modifyTime"};
     var t21={header:C_COMMISION_RATE,width:80,dataIndex:"expeCommissionRate",renderer:rateRender};
 	var t22={header:C_COMMISION,width:60,dataIndex:"expeCommission"};
-	 var t23={header:C_CREATE_BY,renderer:getUSER,dataIndex:"createBy"};
-	 var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
-	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
-	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
-	 var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
-	 var t28={header:C_WHETHER_INVOICING,hidden:VERSION==0,dataIndex:'expeInvoiceFlag',renderer:getY_O_N};
+	var t23={header:C_CREATE_BY,renderer:getUSER,dataIndex:"createBy"};
+	var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
+	var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
+	var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
+	var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
+	var t28={header:C_WHETHER_INVOICING,hidden:VERSION==0,dataIndex:'expeInvoiceFlag',renderer:getY_O_N};
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cols=[];
@@ -4672,14 +4673,18 @@ Fos.ExpenseGrid = function(t){
 	}
 	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'center'}});
 	cm.defaultSortable=true;cm.defaultWidth=100;		
+	
 	var title = "";
-		if(t=="R"){
-			title=C_EXPE_R;
-		}else if(t=="P"){
-			title=C_EXPE_P;
-		}else{
-			title=C_EXPE_D;
-		}
+	if(t=="R"){
+		title=C_EXPE_R;
+	}
+	else if(t=="P"){
+		title=C_EXPE_P;
+	}
+	else{
+		title=C_EXPE_D;
+	}
+	
 	//生成账单
 	this.genInvoice=function(){
     	var a = sm.getSelections();
@@ -4710,10 +4715,20 @@ Fos.ExpenseGrid = function(t){
         			w.close();
         			var id=GGUID();
         			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
-        				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
+        				custId:p.get('custId'),
+        				custName:p.get('custName'),
+        				custSname:p.get('custSname'),
+        				invoTitle:p.get('custName'),
         				currCode:currCode,
-        				invoType:t,invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
-        				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+        				invoType:t,
+        				invoDate:new Date(),
+        				invoExRate:getExRate(currCode,'CNY'),
+        				invoWriteOffStatus:'0',
+        				invoPrFlag:'0',
+        				invoUploadFlag:'0',
+        				invoStatus:'0',
+        				version:'0',
+        				rowAction:'N'});
         			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
         			T_MAIN.setActiveTab(tab);
         		}},this);
@@ -4723,10 +4738,19 @@ Fos.ExpenseGrid = function(t){
     		else{
     			var id=GGUID();
     			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
-    				custId:a[0].get('custId'),custName:a[0].get('custName'),custSname:a[0].get('custSname'),invoTitle:a[0].get('custName'),
+    				custId:a[0].get('custId'),
+    				custName:a[0].get('custName'),
+    				custSname:a[0].get('custSname'),
+    				invoTitle:a[0].get('custName'),
     				currCode:currCode,
-    				invoType:t,invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
-    				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+    				invoType:t,
+    				invoDate:new Date(),
+    				invoExRate:getExRate(currCode,'CNY'),
+    				invoWriteOffStatus:'0',
+    				invoPrFlag:'0',
+    				invoUploadFlag:'0',
+    				invoStatus:'0',
+    				version:'0',rowAction:'N'});
     			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
     			T_MAIN.setActiveTab(tab);
     		}
@@ -4834,41 +4858,39 @@ Fos.ExpenseGrid = function(t){
     };
    
     //生成账单按钮
-	var genInvoice = {text:C_GEN_INVOICE,iconCls:'save',scope:this,disabled:t=='D'?true:false,handler:this.genInvoice};
+	var genInvoice = new Ext.Button({text:C_GEN_INVOICE,iconCls:'save',
+		scope:this,handler:this.genInvoice});
+	
 	//生成对帐单
-	var genBill = {text:C_GEN_BILL,iconCls:'save',scope:this,disabled:t=='D'?true:false,handler:this.genBill};
+	var genBill = new Ext.Button({text:C_GEN_BILL,iconCls:'save',scope:this,
+			handler:this.genBill});
+	
 	 //查询按钮
 	var searchButton = {text:C_SEARCH,iconCls:'search',scope:this,handler:this.reload};
+	
 	var selectPanel = new Ext.Panel({plain:true,height:100,layout:'column',region:'north',
 		defaults:{bodyStyle:'padding:10px'},items:[
 			{columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[
-		    		txtConsNo,dtExpeInvoiceDate,cboExpeInvoiceFlag
-		    		]
+		    	items:[txtConsNo,dtExpeInvoiceDate,cboExpeInvoiceFlag]
 		    },
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[
-		    		cboCustId,dtExpeInvoiceDate2,cboExpeInvoiceStatus
-		    		]
+		    	items:[cboCustId,dtExpeInvoiceDate2,cboExpeInvoiceStatus]
 		    },
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[
-		    		cboCurrCode,dtExpeWriteOffDate,cboExpeWriteoffStatus
-		    		]
+		    	items:[cboCurrCode,dtExpeWriteOffDate,cboExpeWriteoffStatus]
 		    },
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[
-		    		txtExpeInvoiceNo,dtExpeWriteOffDate2
-		    		]
+		    	items:[txtExpeInvoiceNo,dtExpeWriteOffDate2]
 		    }]
 		});
-	this.grid = new Ext.grid.GridPanel({sm:sm,cm:cm,store:store,autoScroll:true,header:false,layout:'fit',
+	
+	this.grid = new Ext.grid.GridPanel({sm:sm,cm:cm,
+		store:store,autoScroll:true,header:false,layout:'fit',
 		view:new Ext.grid.GroupingView(groupViewCfg),region:'center',
 		tbar:[genInvoice,'-',genBill,'-',searchButton],
 		bbar:PTB(store,C_PS)
-		})
-	//base.superclass.constructor.call(this,config);
-    //这个意思就是调用父类的构造函数 作用域是当前子类 传入config参数 将来config中有什么属性 会为子类构造出什么属性
+	});
+
 	Fos.ExpenseGrid.superclass.constructor.call(this,{
 		id:'EXPENSE_'+t,title:title,closable:true,layout:'border',
 		items:[selectPanel,this.grid]
