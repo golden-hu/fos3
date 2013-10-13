@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.2.v20120213 Build &lt;3.7.2.v20120214-1408></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -484,7 +484,7 @@ if(params["consPod"] != ""){
 	sql += " and c.CONS_POD = '" + params["consPod"] + "'";
 }
 if(params["grouId"] != ""){
-	sql += " and c.GROU_ID = '" + params["grouId"] + "'";
+	sql += " and c.DEPT_ID = '" + params["grouId"] + "'";
 }
 sql += " and c.comp_code = '" + params["compCode"] + "'";
 sql += " and e.comp_code = '" + params["compCode"] + "'";

@@ -2072,7 +2072,9 @@ Ext.extend(Fos.InspectionWin,Ext.Window);
 //报关单
 Fos.CustomsTab = function(p) {
 	this.sel =GSEL;
-	this.store = GS('CUDE_Q','FCustomsDeclaration',FCustomsDeclaration,'cudeId','DESC','','','cudeId',false);
+	this.store =  new Ext.data.Store({url:SERVICE_URL,baseParams:{A:'CUDE_Q',mt:'xml'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FCustomsDeclaration',id:'id'},FCustomsDeclaration),
+		remoteSort:false,sortInfo:{field:'cudeId', direction:'desc'}});
 	this.store.load({params:{consId:p.get('consId')}});	
 	this.entryStore = GS('CUEN_Q','FCustomsEntry',FCustomsEntry,'cuenId','DESC','','S_CUEN','cuenId');
 	this.entryStore.load({params:{consId:p.get('consId')}});	
@@ -2400,35 +2402,12 @@ Fos.CustomsTab = function(p) {
     		tb.getComponent('TB_D').setDisabled(NR(m+F_M)||s!=1);
     		tb.getComponent('TB_E').setDisabled(NR(m+F_M)||s!=2);
     		tb.getComponent('TB_F').setDisabled(NR(m+F_M)||s!=3);
+    		tb.getComponent('TB_CD').setDisabled(NR(m+F_M)||s!=2);
+    		tb.getComponent('TB_CE').setDisabled(NR(m+F_M)||s!=3);
+    		tb.getComponent('TB_CF').setDisabled(NR(m+F_M)||s!=4);
 		}
     };
-    new Ext.KeyMap(Ext.getDoc(), {
-		key:'ndsbpte',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-			 	var te=tc.getComponent('T_CUDE_'+p.get('id'));
-			 	if(te==tc.getActiveTab())
-			 	{
-			 		switch(k) {
-					case Ext.EventObject.N:
-						if(!NR(m+F_M)) this.addCude();break;
-					case Ext.EventObject.D:
-						if(!NR(m+F_R)) this.removeCude();break;
-					case Ext.EventObject.S:
-						if(!NR(m+F_M)) this.save();break;
-					case Ext.EventObject.B:
-						if(!NR(m+F_M)) this.updateStatus('2');break;
-					case Ext.EventObject.P:
-						if(!NR(m+F_M)) this.updateStatus('3');break;
-					case Ext.EventObject.T:
-						if(!NR(m+F_M)) this.updateStatus('4');break;
-					case Ext.EventObject.E:
-						if(!NR(m+F_M)) this.expExcel();break;
-					}
-			 	}
-		 	}
-		},stopEvent:true,scope:this});
+    
 	this.save = function(){
 		this.grid.stopEditing();
 		this.entryGrid.stopEditing();
@@ -2809,8 +2788,11 @@ Fos.CustomsTab = function(p) {
 	{text:C_REMOVE+'(D)',itemId:'TB_B',disabled:NR(m+F_R),iconCls:'remove',scope:this,handler:this.removeCude},'-',
 	{text:C_SAVE+'(S)',itemId:'TB_C',disabled:NR(m+F_M),iconCls:'save',scope:this,handler:this.save},'-',
 	{text:C_APPLY+'(B)',itemId:'TB_D',disabled:NR(m+F_M),iconCls:'docpass',scope:this,handler:function(){this.updateStatus('2');}},'-',
+	{text:C_CANCEL_APPLY+'(CB)',itemId:'TB_CD',disabled:NR(m+F_M),iconCls:'renew',scope:this,handler:function(){this.updateStatus('1');}},'-',
 	{text:C_CUSTOMS_PASSED+'(P)',itemId:'TB_E',disabled:NR(m+F_M),iconCls:'pass',scope:this,handler:function(){this.updateStatus('3');}},'-',
+	{text:C_CANCEL_PASSED+'(CP)',itemId:'TB_CE',disabled:NR(m+F_M),iconCls:'renew',scope:this,handler:function(){this.updateStatus('2');}},'-',
 	{text:C_CUSTOMS_EXIT+'(T)',itemId:'TB_F',disabled:NR(m+F_M),iconCls:'exit',scope:this,handler:function(){this.updateStatus('4');}},'-',
+	{text:C_CANCEL_EXIT+'(CT)',itemId:'TB_CF',disabled:NR(m+F_M),iconCls:'renew',scope:this,handler:function(){this.updateStatus('3');}},'-',
 	{text:C_EXPORT+'(E)',disabled:NR(m+F_E),iconCls:'print',scope:this,
 				menu: {items: 
 				[

@@ -86,6 +86,9 @@ Fos.showConsignTabs = function(p){
 		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
 			tc.add(new Fos.AttachTab(p));
 		};
+		if(!tc.getComponent('G_SECURITY_ATTACH'+p.get('id'))){
+			tc.add(new Fos.SecurityAttachTab(p));
+		};
 	}
 	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){tc.add(new Fos.TransTab(p));};	
 	if(!tc.getComponent('T_WARE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_WARE)!=-1){tc.add(new Fos.WarehouseTab(p));};	
@@ -130,7 +133,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c3={header:C_M_CONS,width:30,hidden:shipType!=ST_L,dataIndex:"consMasterFlag",renderer:boolRender};
     var c4={header:C_STATUS,width:100,dataIndex:"consStatus",renderer:getCONS_STATUS};
     var c5={header:C_CONS_NO,width:150,dataIndex:"consNo"};
-    var c6={header:bizType==BT_B?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
+    var c6={header:(bizType==BT_B||bizType==BT_O)?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
     var c7={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
     var c8={header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
     var c9={header:C_PATE,dataIndex:"pateId",width:80,renderer:getPATE};
@@ -166,7 +169,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c36={header:C_ETA,dataIndex:"consEta",renderer:formatDate};
     
     var cm=new Ext.grid.ColumnModel({columns:
-    	bizType==BT_B?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	(bizType==BT_B||bizType==BT_O)?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
     	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c27]:
     	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
     	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c27,c28],
@@ -342,7 +345,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
   	title+=C_CONS_LIST;
   	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
-	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&bizType==BT_B&&NR(m+F_CM))
+	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&(bizType==BT_B||bizType==BT_O)&&NR(m+F_CM))
 			||(bizType==BT_C&&shipType==''),
 			iconCls:'add',handler:this.newConsign};
 	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE)+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
@@ -355,7 +358,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var b9={text:C_TASK+'(T)',iconCls:'task',handler:this.task};
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     
-    if(bizType==BT_B) 
+    if(bizType==BT_B||bizType==BT_O) 
     	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     else if (bizType==BT_C&&bizClass==BC_E)
     	tbs=[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
@@ -370,6 +373,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
 
 Fos.ConsignTab = function(p){
+	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	var items=[];
 	items[0]=new Fos.BookTab(p);
 	if(p.get('rowAction')!='N'){
@@ -377,6 +381,10 @@ Fos.ConsignTab = function(p){
 		items[items.length] = VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
+	}
+	
+	if(!NR(m+M3_ATTACH)&&p.get('rowAction')!='N'){
+		items[items.length] = new Fos.SecurityAttachTab(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
 	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) items[items.length]=new Fos.WarehouseTab(p);
@@ -447,7 +455,7 @@ Fos.BookTab = function(p) {
 		if(this.find('name','consOperatorId')[0].getValue()==''){
 			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorId')[0].focus();},this);return;};
 		
-		if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B ||p.get('consBizType')==BT_C){
+		if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O ||p.get('consBizType')==BT_C){
 			if(this.find('name','consPolEn')[0].getValue()==''){
 				XMG.alert(SYS,M_POD_REQIRED,function(){this.find('name','consPodEn')[0].focus();},this);return;};
 			if(this.find('name','consPodEn')[0].getValue()==''){
@@ -565,7 +573,7 @@ Fos.BookTab = function(p) {
 					p.set('rowAction','M');
 				}
 				p.endEdit();
-				if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B || p.get('consBizType')==BT_C){
+				if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B || p.get('consBizType')==BT_O|| p.get('consBizType')==BT_C){
 					var a = XTRA(res.responseXML,'FCargo',FCargo);
 					FOSU(this.carg_s,a,FCargo);
 				}
@@ -604,7 +612,7 @@ Fos.BookTab = function(p) {
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
     	select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}};
 	
-	var txtCust={fieldLabel:p.get('consBizType')==BT_B?C_CHARTER:C_BOOKER,itemCls:'required',
+	var txtCust={fieldLabel:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_CHARTER:C_BOOKER,itemCls:'required',
     		tabIndex:5,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
        		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
@@ -619,6 +627,7 @@ Fos.BookTab = function(p) {
          		}
          	},
          	select:function(c,r,i){
+         		this.find('name','custName')[0].setValue(r.get('custCname'));
 				this.find('name','custContact')[0].setValue(r.get('custContact'));
 				this.find('name','custTel')[0].setValue(r.get('custTel'));
 				this.find('name','custFax')[0].setValue(r.get('custFax'));
@@ -671,7 +680,7 @@ Fos.BookTab = function(p) {
         	select:function(c,r,i){p.set('pateName',r.get('pateName'));}}};   
     var txtPaidAt={fieldLabel:C_PAID_AT,tabIndex:16,name:'consPaidAt',value:p.get('consPaidAt'),xtype:'textfield',anchor:'99%'};
 	
-	var txtTranTerm={fieldLabel:C_TTER,itemCls:'needed',tabIndex:17,name:'tranId',value:p.get('tranId'),store:p.get('consBizType')==BT_B?getTTB_S():getTTC_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+	var txtTranTerm={fieldLabel:C_TTER,itemCls:'needed',tabIndex:17,name:'tranId',value:p.get('tranId'),store:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?getTTB_S():getTTC_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranId','');}},
     	select:function(c,r,i){p.set('tranCode',r.get('tranCode'));}}};
@@ -743,6 +752,9 @@ Fos.BookTab = function(p) {
  	if(p.get('consBizType')==BT_B&&p.get('consBizClass')==BC_E){
  		srTab=[s1,s2,s3,s5,s6,s7,s8,s9,s10];
  	}
+ 	else if(p.get('consBizType')==BT_O&&p.get('consBizClass')==BC_E){
+ 		srTab=[s1,s2,s3,s5,s6,s7,s8,s9,s10];
+ 	}
  	else if(p.get('consBizType')==BT_A){
  		srTab=[s1,s2,s3,s5,s6,s7];
  	}
@@ -753,6 +765,7 @@ Fos.BookTab = function(p) {
     var vt='';
     if(p.get('consBizType')==BT_C) vt=1;
     else if(p.get('consBizType')==BT_B) vt=2;
+    else if(p.get('consBizType')==BT_O) vt=2;
     
     var cboBookAgency={fieldLabel:C_BOOK_AGENCY,tabIndex:39,
 		name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),store:getCS(),enableKeyEvents:true,
@@ -1026,7 +1039,7 @@ Fos.BookTab = function(p) {
     };
             
     var m32={fieldLabel:C_VESS_NAME_CN,name:'vessNameCn',tabIndex:54,value:p.get('vessNameCn'),xtype:'textfield',anchor:'99%'};
-    var m33={fieldLabel:C_TTER,itemCls:'required',tabIndex:58,name:'tranIdCarrier',value:p.get('tranIdCarrier'),store:p.get('consBizType')==BT_B?getTTB_S():getTTC_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+    var m33={fieldLabel:C_TTER,itemCls:'required',tabIndex:58,name:'tranIdCarrier',value:p.get('tranIdCarrier'),store:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?getTTB_S():getTTC_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     	listeners:{scope:this,
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranIdCarrier','');}},
     	select:function(c,r,i){p.set('tranCodeCarrier',r.get('tranCodeCarrier'));}}};
@@ -1070,6 +1083,12 @@ Fos.BookTab = function(p) {
             t133=[txtMblNo,m11,m30,m7];
             t134=[txtHblNo,m12,m31];
         }
+		else if(p.get('consBizType')==BT_O){
+            t131=[m1,m4,m2,m3];
+            t132=[m8,m10,m17];
+            t133=[txtMblNo,m11,m30,m7];
+            t134=[txtHblNo,m12,m31];
+        }
 	}
 	else{
 		t131=[m1,m31,m3,m4,m2,m5,m6,m7];
@@ -1083,6 +1102,12 @@ Fos.BookTab = function(p) {
 			t134=[txtHblNo,m31,m3];
 		}	
 		else if(p.get('consBizType')==BT_B){
+			t131=[m1,m2,m3,m4,m5,m32,m33,m35,txtOriginalBlNum];
+			t132=[m8,cboBookAgency,m10,m11,m12,m13,m34,m36];
+			t133=[txtMblNo,cboBookAgencyContact,m16,m17,m18,m19,m20,m37];
+			t134=[m31,txtBookAgencyTel,m30,m24,m25,m26,m23,m38];
+		}
+		else if(p.get('consBizType')==BT_O){
 			t131=[m1,m2,m3,m4,m5,m32,m33,m35,txtOriginalBlNum];
 			t132=[m8,cboBookAgency,m10,m11,m12,m13,m34,m36];
 			t133=[txtMblNo,cboBookAgencyContact,m16,m17,m18,m19,m20,m37];
@@ -1211,7 +1236,7 @@ Fos.BookTab = function(p) {
 				value:p.get('consTotalPackagesInWord'),xtype:'textfield',anchor:'99%'}
 			]};	
 	
-	var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),
+	var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW+((p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_MT:C_KGS),
 		tabIndex:61,name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),
 		xtype:'numberfield',decimalPrecision:4,anchor:'99%',
 		listeners:{scope:this,change:function(f,nv,ov){				
@@ -1221,7 +1246,7 @@ Fos.BookTab = function(p) {
 	var txtTotalGrossWeight={columnWidth:.25,layout:'form',labelWidth:90,border:false,
 			items:[numGrossWeight]};
 	
-	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),
+	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_NW+((p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_MT:C_KGS),
 		tabIndex:61,name:'consTotalNetWeight',value:p.get('consTotalNetWeight'),
 		xtype:'numberfield',decimalPrecision:4,anchor:'99%'});
 	var txtTotalNetWeight={columnWidth:.25,layout:'form',labelWidth:90,border:false,
@@ -1469,7 +1494,7 @@ Fos.BookTab = function(p) {
         {fieldLabel:C_WARE_TEL,tabIndex:11,name:'consWarehouseTel',
         value:p.get('consWarehouseTel'),xtype:'textfield',anchor:'99%'}]};
 	var r12={columnWidth:.5,layout:'form',border:false,items:[
-		{fieldLabel:p.get('consBizType')==BT_B?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
+		{fieldLabel:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
 	    tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'99%'}]};
 	var r13={columnWidth:.5,layout:'form',border:false,items:[
 	    {fieldLabel:C_WARE_ADDRESS,tabIndex:13,
@@ -1480,7 +1505,7 @@ Fos.BookTab = function(p) {
       	    name:'consWarehouseNo',value:p.get('consWarehouseNo'),anchor:'99%'}]};
 	
 	var r14={columnWidth:.25,layout:'form',border:false,items:[
-	        {fieldLabel:p.get('consBizType')==BT_B?C_WARE_DATE:
+	        {fieldLabel:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_WARE_DATE:
 	        	(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,
 	        	name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),
 	        	xtype:'datefield',format:DATEF,anchor:'99%'}]};
@@ -1510,9 +1535,9 @@ Fos.BookTab = function(p) {
          		},
 				keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}}]};
 	
-	var t43={title:p.get('consBizType')==BT_B?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
+	var t43={title:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
 			layout:'column',padding:5,border:false,collapsible:true,labelWidth:90,
-			items:p.get('consBizType')==BT_B?[r9,r10,r11,r12,r13,r14,txtWarehouseNo]:
+			items:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?[r9,r10,r11,r12,r13,r14,txtWarehouseNo]:
 				[r9,r10,r11,r12,r13,r14,txtContainerLoadTime,txtWarehouseNo,txtCFS]};
 	
 	var r15={fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',

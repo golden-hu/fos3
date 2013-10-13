@@ -31,8 +31,9 @@
 		m=m+M3_EXPE+x; 
 	else 
 		m=M1_S+S_EXPE+x;
+	var t1='';
 	if( VERSION==1||VERSION==2){
-		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
+		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'custNameCn',valueField:'custNameCn',triggerAction:'all',
             mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
             invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
@@ -52,15 +53,15 @@
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
 	}
 	else{
-		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center',
+		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
 	            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
-	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',typeAhead:true,
 	            store:getCS(),enableKeyEvents:true,
 	            listeners:{scope:this,
 	            	select:function(c,r,i){
 						var b =this.getSelectionModel().getSelected();
-		            	b.set('custId',r.get('custId'));
+						b.set('custId',r.get('custId'));
 		            	b.set('custName',r.get('custNameCn'));
 		            	b.set('custSname',r.get('custCode'));
 		            	if(r.get('custInvoiceHeader')!=""){
@@ -71,7 +72,7 @@
 		            },
 	           		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
 	}
-	
+	var t2='';
 	if( VERSION==1){
 		t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',
@@ -91,7 +92,7 @@
 	            	this.reCalculate();}}})};
 	}
 	else{
-		var t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
+	   t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
 	            tpl:charTpl,itemSelector:'div.list-item',listWidth:300,allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
 	            store:t=='C'?getCCHAR_S():(t=='R'?getCHAR_PERM_R_S():getCHAR_PERM_P_S()),
@@ -2982,7 +2983,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 						var v = round2(nv-p.get('voucWriteOffAmount')-p.get('voucFixAmount'));
 						this.find('name','voucWriteOffAmountR')[0].setValue(v);
 					}}},
-				{fieldLabel:C_BANK_ACCOUNT,tabIndex:13,name:'voucBank',value:p.get('voucBank'),store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+				{fieldLabel:C_BANK,tabIndex:13,name:'voucBank',value:p.get('voucBank'),store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
                 	listeners:{scope:this,select:function(c,r,i){
                 		this.find('name','voucAccount')[0].setValue(r.get('cobaAccount'));}}
 				}]},
@@ -4617,11 +4618,12 @@ Fos.ExpenseGrid = function(t){
 		sortInfo:{field:'consNo', direction:'DESC'},remoteSort:true,autoLoad:false});
 	
 	var consNo = {header:C_CONS_NO,dataIndex:'consNo',width:150};
+	var t1='';
 	if( VERSION==1){
-		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center'};
+		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center'};
 	}
 	else{
-		var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center'};
+		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center'};
 	}
 	
 	var t2={header:C_CHAR,width:80,dataIndex:"charName"};

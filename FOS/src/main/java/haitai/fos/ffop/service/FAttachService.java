@@ -51,6 +51,10 @@ public class FAttachService {
 		String uploadDir = ConfigUtil.getRealAttachDir();
 		String consId = paramMap.get("consId");
 		String consNo = paramMap.get("consNo");
+	    String securityFlag = paramMap.get("securityFlag");
+	    if(securityFlag.equals("1")){
+	    	uploadDir = ConfigUtil.getRealSecurityAttachDir();
+	    }
 
 		File f = new File(uploadDir);
 		if (!f.exists()) {
@@ -67,6 +71,8 @@ public class FAttachService {
 			fa.setAttachFileName(oriFileName);
 			fa.setConsId(Integer.parseInt(consId));
 			fa.setConsNo(consNo);
+			fa.setSecurityFlag(Short.parseShort(securityFlag));
+
 			dao.save(fa);
 			//String filename = fa.getAttachId() + extName;
 			try {
@@ -80,17 +86,21 @@ public class FAttachService {
 
 	public void downAttach(Map<String, String> paramMap) {
 		String sid = paramMap.get(ConstUtil.ATTACH_PARAM_ID);
+		String securityFlag =paramMap.get("securityFlag");
 		if (StringUtil.isNotBlank(sid)) {
 			Integer id = Integer.parseInt(sid);
 			FAttach fa = dao.findById(id);
 			String oriFileName = fa.getAttachFileName();
 
 			File f = new File(ConfigUtil.getRealAttachDir() + ConstUtil.DIR_SEP + oriFileName);
+			if(securityFlag.equals("1")){
+				f = new File(ConfigUtil.getRealSecurityAttachDir() + ConstUtil.DIR_SEP + oriFileName);
+			}
 			if (!f.exists()) {
 				throw new BusinessException("sys.file.not_exist");
 			}
 
-			String filename = ConfigUtil.getAttachDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(oriFileName);
+			String filename = ConfigUtil.getSecurityAttachDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(oriFileName);
 
 			paramMap.put(ConstUtil.REDIRECT_URL, filename);
 		}

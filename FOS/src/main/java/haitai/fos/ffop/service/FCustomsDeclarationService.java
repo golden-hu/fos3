@@ -59,8 +59,8 @@ public class FCustomsDeclarationService {
 				}
 				consId = entity.getConsId();
 				num += Integer.parseInt(entity.getCudePackageNum());
-				weight += Integer.parseInt(entity.getCudeGrossWeight());
-				netWeight += Integer.parseInt(entity.getCudeNetWeight());
+				weight += Double.parseDouble(entity.getCudeGrossWeight());
+				netWeight += Double.parseDouble(entity.getCudeNetWeight());
 				idMap.put(oldId, entity.getCudeId());
 			}
 		}

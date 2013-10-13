@@ -358,7 +358,7 @@ public class FConsignService {
 		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);
 			checkBlNoDuplicated(entity);
-			if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType()) && entity.getVoyaId() != null) {
+			if ((ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())||ConstUtil.CONS_BIZ_TYPE_OVERSEAS.equals(entity.getConsBizType())) && entity.getVoyaId() != null) {
 				Map<String, Object> queryMap = new HashMap<String, Object>();
 				queryMap.put("custId", String.valueOf(entity.getCustId()));
 				queryMap.put("voyaId", String.valueOf(entity.getVoyaId()));
@@ -1283,8 +1283,16 @@ public class FConsignService {
 		if (ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())) {
 			return;
 		}
+		//散货不检查提单号的唯一性
+		if (ConstUtil.CONS_BIZ_TYPE_OVERSEAS.equals(entity.getConsBizType())) {
+			return;
+		}
 		//空运不检查提单号的唯一性
 		if (ConstUtil.CONS_BIZ_TYPE_AIR.equals(entity.getConsBizType())) {
+			return;
+		}
+		//报关不检查提单号的唯一性
+		if (ConstUtil.CONS_BIZ_TYPE_BAOGUAN.equals(entity.getConsBizType())) {
 			return;
 		}
 		if (StringUtil.isBlank(entity.getConsMblNo())) {

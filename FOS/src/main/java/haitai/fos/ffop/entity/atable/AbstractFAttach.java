@@ -20,6 +20,7 @@ public abstract class AbstractFAttach extends BaseDomain {
 	private String attachName;
 	private String attachFileName;
 	private String attachDesc;
+	private Short securityFlag;
 	
 	private Integer consId;
 	private String consNo;
@@ -98,6 +99,15 @@ public abstract class AbstractFAttach extends BaseDomain {
 
 	public void setAttachDesc(String attachDesc) {
 		this.attachDesc = attachDesc;
+	}
+	
+	@Column(name = "SECURITY_FLAG")
+	public Short getSecurityFlag() {
+		return securityFlag;
+	}
+
+	public void setSecurityFlag(Short securityFlag) {
+		this.securityFlag = securityFlag;
 	}
 	
 	@Column(name = "CREATE_BY")

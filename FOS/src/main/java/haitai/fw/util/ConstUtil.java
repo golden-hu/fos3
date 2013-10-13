@@ -17,6 +17,7 @@ public class ConstUtil {
 	public static final String CONS_BIZ_CLASS_IMP = "I";
 	public static final String CONS_BIZ_TYPE_CONTAINER = "C";
 	public static final String CONS_BIZ_TYPE_BULK = "B";
+	public static final String CONS_BIZ_TYPE_OVERSEAS ="O";
 	public static final String CONS_BIZ_TYPE_AIR = "A";
 	public static final String CONS_BIZ_TYPE_BAOGUAN = "G";
 	public static final String CONS_BIZ_TYPE_BAOJIAN = "I";
@@ -39,6 +40,7 @@ public class ConstUtil {
 	
 	public static final String CONFIG_DATA_DIR = "DataDir";
 	public static final String CONFIG_ATTACH_DIR = "AttachDir";
+	public static final String CONFIG_SECURITY_ATTACH_DIR = "SecurityAttachDir";
 	public static final String CONFIG_TEMPLATE_DIR = "TemplateDir";
 	public static final String CONFIG_TEMP_DIR = "TempDir";
 	public static final String CONFIG_EXPORT_DIR = "ExportDir";

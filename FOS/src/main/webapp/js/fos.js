@@ -102,6 +102,13 @@ function getBulkPanel(){
 	}
 };
 
+function getOverseasPanel(){
+	var items=[];
+	items[items.length]=NaviMenu(C_OVERSEAS+C_EXP,'CONS_E_O',function(){return new Fos.ConsignGrid('E','O','');});
+	items[items.length]=NaviMenu(C_OVERSEAS+C_IMP,'CONS_I_O',function(){return new Fos.ConsignGrid('I','O','');});
+	return new Ext.Panel({title:C_OVERSEAS,collapsible:true,layout:'fit',
+		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+}
 function getAirPanel(){
 	var items=[];
 	if(!NR(M1_A+M2_I)) items[items.length]=NaviMenu(C_IMP_AIR,'G_CONS_I_A',function(){return new Fos.ConsignGrid('I','A','');});
@@ -254,7 +261,9 @@ function getPMenu(){
 	if(VERSION==1||VERSION==0){
 		if(!NR(M1_C)) items[items.length]=getContPanel();
 		if(!NR(M1_B)) items[items.length]=getBulkPanel();
+		if(!NR(M1_O)) items[items.length]=getOverseasPanel();
 		if(!NR(M1_A)) items[items.length]=getAirPanel();
+		
 		if(!NR(M1_G)) items[items.length]=getCudePanel();
 		//items[items.length]=getEntryPanel();
 		//if(!NR(M1_I)) items[items.length]=getInspPanel();

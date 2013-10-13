@@ -9,6 +9,7 @@ var CFS=9;
 
 var BT_C='C';
 var BT_B='B';
+var BT_O='O';
 var BT_A='A';
 var BT_G='G';
 var BT_I='I';
@@ -322,7 +323,7 @@ var OWW=function(url){window.open(url,'','height=800,width=600,top=0,left=0,tool
 var LC=function(f,e,t,s){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
-		if(q.length>1 && !f.isExpanded()){
+		if(VERSION==0?(q.length>=1):(q.length>1) && !f.isExpanded()){
 			var a=[];			
 			a[0]=new QParam({key:'custCode',value:q+'%',op:LI});
 			if(t!='') a[1]=new QParam({key:t,value:'1',op:EQ});

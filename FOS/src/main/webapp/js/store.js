@@ -776,7 +776,7 @@ WInquiry = Ext.data.Record.create(['id','winqId','winqCompany','winqCargoDesc','
      	{name:'modiryTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	'winqStatus','wusrId','wusrFirstName','wusrMobile','wusrCompanyName','wusrTel','compCode','version','rowAction']);
 FAttach = Ext.data.Record.create(['attachId','attachName','attachFileName','attachDesc',
-	'consId','consNo','createBy','modifyBy',
+	'consId','consNo','createBy','modifyBy','securityFlag',
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	'compCode','version','rowAction']);
@@ -850,7 +850,7 @@ var TRACK_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','
 getTRACK_T = function(v){if(v) return TRACK_T_S.getById(v).get('NAME'); else return '';};
 
 var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','集装箱'],['B','散货'],['A','空运'],['T','铁运'],
-                ['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册']]});
+                ['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册'],['O','海外业务']]});
 getBT = function(v){if(v) return BT_S.getById(v).get('NAME'); else return '';};
 
 var PLTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','省'],['2','市/县'],['3','港区']]});
@@ -1472,6 +1472,7 @@ var M1_F='0014';//减免税
 var M1_R='0015';//企业注册
 var M1_RT ='0016';//铁运联运
 var M1_E='0017';//进境
+var M1_O='0018';//嘉禾海外业务
 
 var M2_TC='01';//进境集装箱
 var M2_TB='02';//进境散货

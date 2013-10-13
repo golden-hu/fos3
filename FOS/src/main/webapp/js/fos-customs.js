@@ -173,6 +173,7 @@ Fos.InspectionGrid = function() {
 Ext.extend(Fos.InspectionGrid, Ext.grid.GridPanel);
 
 Fos.InspectionDeclTab = function(p,store) {
+	
     this.save = function(){
     	if(this.find('name','custName')[0].getValue()==''){
 			XMG.alert(SYS,M_CUST_REQIRED,function(){this.find('name','custName')[0].focus();},this);
@@ -258,6 +259,7 @@ Fos.InspectionDeclTab = function(p,store) {
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
     	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
     	if(tb.getComponent('TB_ATT')) tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
+    	if(tb.getComponent('TB_S_ATT')) tb.getComponent('TB_S_ATT').setDisabled(NR(m1+M3_ATTACH));
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
     };
     
@@ -323,6 +325,10 @@ Fos.InspectionDeclTab = function(p,store) {
     	var win = new Fos.AttachWin(p);
     	win.show();
     };
+    this.showSecurityAttach=function(){
+    	var win = new Fos.SecurityAttachWin(p);
+    	win.show();
+    };
     
     this.showInsp = function(){
     	var win = new Fos.InspectionWin(p);
@@ -332,7 +338,7 @@ Fos.InspectionDeclTab = function(p,store) {
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;   
-   
+    var m1 =getRM(p.get('consBizClass'),BT_G,'');
 	var txtVessName={fieldLabel:C_VESS,tabIndex:17,
     		name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'99%'};
 	var txtVoyage={fieldLabel:C_VOYA,tabIndex:18,
@@ -547,7 +553,8 @@ Fos.InspectionDeclTab = function(p,store) {
 		      {text:C_INSP_BILL,itemId:'TB_INSP',iconCls:'dollar',disabled:p.get('rowAction')=='N',scope:this,handler:this.showInsp},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
 		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
-		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-'
+		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-',
+		      {text:C_SECURITY_ATTACH,itemId:'TB_S_ATT',iconCls:'attach',disabled:NR(m1+M3_ATTACH)||p.get('rowAction')=='N',scope:this,handler:this.showSecurityAttach},'-'
 		     ]
 	});
 };
@@ -989,13 +996,14 @@ Fos.CustomsDeclearTab = function(p,store) {
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
     	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
     	if(tb.getComponent('TB_ATT')) tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
+    	if(tb.getComponent('TB_S_ATT')) tb.getComponent('TB_S_ATT').setDisabled(NR(m1+M3_ATTACH));
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
     	
     };
     
     this.check=function(){this.updateStatus('1');};
     this.cancelCheck = function(){this.updateStatus('0');};
-    this.finish=function(){this.updateStatus('2');};
+    this.finish=function(){this.updateStatus('2');};s
     this.cancel=function()
     {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
     		{if(btn=='yes')
@@ -1056,6 +1064,10 @@ Fos.CustomsDeclearTab = function(p,store) {
     	var win = new Fos.AttachWin(p);
     	win.show();
     };    
+    this.showSecurityAttach=function(){
+    	var win = new Fos.SecurityAttachWin(p);
+    	win.show();
+    };
     this.showCude = function(){
     	var win = new Fos.CustomsWin(p);
     	win.show();    	
@@ -1064,7 +1076,7 @@ Fos.CustomsDeclearTab = function(p,store) {
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
-   
+    var m1 = getRM(p.get('consBizClass'),BT_G,'');
     function saveShipper(shipperT){
     	var cushName = '';
     	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').getValue();
@@ -1350,7 +1362,8 @@ Fos.CustomsDeclearTab = function(p,store) {
 		      {text:C_CUSTOM_BILL,itemId:'TB_CUDE',iconCls:'doc',disabled:p.get('rowAction')=='N',scope:this,handler:this.showCude},'-',
 		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
 		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
-		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-'
+		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-',
+		      {text:C_SECURITY_ATTACH,itemId:'TB_S_ATT',iconCls:'attach',disabled:NR(m1+M3_ATTACH)||p.get('rowAction')=='N',scope:this,handler:this.showSecurityAttach},'-'
 		     ]
 	});
 };

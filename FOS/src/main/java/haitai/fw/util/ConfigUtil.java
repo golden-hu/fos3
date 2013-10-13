@@ -21,6 +21,12 @@ public class ConfigUtil implements ServletContextAware {
 				+ SessionManager.getStringAttr(SessionKeyType.COMPCODE) + ConstUtil.DIR_SEP
 				+ getAppConfig().getProperty(ConstUtil.CONFIG_ATTACH_DIR);
 	}
+	
+	public static String getSecurityAttachDir() {
+		return getAppConfig().getProperty(ConstUtil.CONFIG_DATA_DIR) + ConstUtil.DIR_SEP
+				+ SessionManager.getStringAttr(SessionKeyType.COMPCODE) + ConstUtil.DIR_SEP
+				+ getAppConfig().getProperty(ConstUtil.CONFIG_SECURITY_ATTACH_DIR);
+	}
 
 	public static String getTemplateDir() {
 		return getAppConfig().getProperty(ConstUtil.CONFIG_DATA_DIR) + ConstUtil.DIR_SEP
@@ -44,6 +50,9 @@ public class ConfigUtil implements ServletContextAware {
 		return contextPath + ConstUtil.DIR_SEP + getAttachDir();
 	}
 
+	public static String getRealSecurityAttachDir() {
+		return contextPath + ConstUtil.DIR_SEP + getSecurityAttachDir();
+	}
 
 	public static String getRealTemplateDir() {
 		return contextPath + ConstUtil.DIR_SEP + getTemplateDir();
