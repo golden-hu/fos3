@@ -18,6 +18,7 @@ import haitai.fos.general.entity.table.GTrainStation;
 import haitai.fos.general.entity.table.GVoyage;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
 import haitai.fos.sys.entity.idao.IPTaskTypeDAO;
+import haitai.fos.sys.entity.idao.IPUserDAO;
 import haitai.fos.sys.entity.table.PCompanyConfig;
 import haitai.fos.sys.entity.table.PTaskType;
 import haitai.fos.sys.entity.table.PUser;
@@ -105,6 +106,9 @@ public class FConsignService {
 	
 	@Autowired
 	private IGTrainStationDao trainStationDao;
+	
+	@Autowired
+	private IPUserDAO userDao;
 	
 	//手工修改业务号
 	@Transactional
@@ -357,6 +361,7 @@ public class FConsignService {
 		Integer consContainerNum = 0;
 		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);
+			checkSalesIdNotNull(entity);
 			checkBlNoDuplicated(entity);
 			if ((ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())||ConstUtil.CONS_BIZ_TYPE_OVERSEAS.equals(entity.getConsBizType())) && entity.getVoyaId() != null) {
 				Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -447,6 +452,7 @@ public class FConsignService {
 				updateFactQuantity(entity, false);
 			}
 		} else if (entity.getRowAction() == RowAction.M) {
+			checkSalesIdNotNull(entity);
 			checkBlNoDuplicated(entity);
 			syncTask(entity);
 			syncExp(entity);
@@ -1420,6 +1426,7 @@ public class FConsignService {
 	private void saveSimpleConsign(FConsign entity, List<Object> retList) {
 		if (entity.getRowAction() == RowAction.N) {
 			entity.setConsId(null);
+			checkSalesIdNotNull(entity);
 			checkConsNoDuplicated(entity);
 			checkBlNoDuplicated(entity);
 			dao.save(entity);
@@ -1440,6 +1447,7 @@ public class FConsignService {
 				}
 			}
 		} else if (entity.getRowAction() == RowAction.M) {
+			checkSalesIdNotNull(entity);
 			checkBlNoDuplicated(entity);
 			FConsign retEntity = dao.update(entity);
 			retEntity.setEditable(ConstUtil.TrueShort);
@@ -1464,4 +1472,20 @@ public class FConsignService {
 			throw new BusinessException("fos.cons_no.existing");
 		}
 	}
+	
+	//检查业务员ID是否为空且业务员的名字是否与业务员ID匹配
+	private void checkSalesIdNotNull(FConsign entity) {
+		if(entity.getConsSalesRepId()==null){
+			throw new BusinessException("fos.cons_sales_id.null");
+		}else{
+			Integer consSalesId = entity.getConsSalesRepId();
+			PUser user = userDao.findById(consSalesId);
+		    Integer userId = user.getUserId();
+		    String userName = user.getUserName();
+	        if(!userId.equals(entity.getConsSalesRepId())||!userName.equals(entity.getConsSalesRepName())){
+	             throw new BusinessException("fos.cons_sales_id.not_match");
+	        }
+		}
+	}
+	
 }

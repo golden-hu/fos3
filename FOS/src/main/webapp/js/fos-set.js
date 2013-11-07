@@ -31,9 +31,8 @@
 		m=m+M3_EXPE+x; 
 	else 
 		m=M1_S+S_EXPE+x;
-	var t1='';
 	if( VERSION==1||VERSION==2){
-		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
+	var	t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'custNameCn',valueField:'custNameCn',triggerAction:'all',
             mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
             invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
@@ -53,7 +52,7 @@
            		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
 	}
 	else{
-		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center',
+	var	t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center',
 				editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
 	            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
 	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
@@ -179,9 +178,9 @@
 		}
 		else if(NR(m+F_CV)){
 			if(frm.f=='C')
-				cols=[sm,t1,t2,t3,t4,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t17,t19,t20,t25];
+				cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t17,t19,t20,t25];
 			else
-				cols=[sm,t1,t2,t3,t4,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t18,t19,t20,t25,t26];
+				cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t18,t19,t20,t25,t26];
 		}
 		else{
 			cols=[sm,t1,t2,t3,t4,t5,t6,t21,t22,t8,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t23,t19,t24,t20,t25];

@@ -146,7 +146,7 @@ public abstract class AbstractSExpense extends BaseDomain {
 		this.section = section;
 	}
 	
-	@Column(name = "CONS_MBL_NO", length = 32)
+	@Column(name = "CONS_MBL_NO", length = 256)
 	public String getConsMblNo() {
 		return this.consMblNo;
 	}
@@ -155,7 +155,7 @@ public abstract class AbstractSExpense extends BaseDomain {
 		this.consMblNo = consMblNo;
 	}
 
-	@Column(name = "CONS_HBL_NO", length = 32)
+	@Column(name = "CONS_HBL_NO", length = 256)
 	public String getConsHblNo() {
 		return this.consHblNo;
 	}

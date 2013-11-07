@@ -194,6 +194,10 @@ var checkPassEx=function(){
 		//XMG.alert(SYS,msg);
 	}
 };
+/*
+ * a:action, r:root, o: record, s: field, d:direction, 
+ * g:groupField, sid:storeId, id:id, rs:remoteSort
+*/
 function GS(a,r,o,s,d,g,sid,id,rs){
 	if(g==''){
 		if(s!=='')

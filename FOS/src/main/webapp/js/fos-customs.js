@@ -191,8 +191,8 @@ Fos.InspectionDeclTab = function(p,store) {
 			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);
 			return;
 		}
-		if(this.find('name','consOperatorId')[0].getValue()==''){
-			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorId')[0].focus();},this);
+		if(this.find('name','consOperatorName')[0].getValue()==''){
+			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorName')[0].focus();},this);
 			return;
 		}
 		if(VERSION==0&&txtSailDate.getValue()==''){
@@ -475,12 +475,12 @@ Fos.InspectionDeclTab = function(p,store) {
 	    	   			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}}
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-					{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
-					  	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
+					{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorName',value:p.get('consOperatorName'),
+					  	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userName',
 					  	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',editable:false,
 					  	listeners:{scope:this,
 							blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
-							select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+							select:function(c,r,i){p.set('consOperatorId',r.get('userId'));}}},
              	 	{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_REF_NO,tabIndex:10,name:'consRefNo',value:p.get('consRefNo'),
              			xtype:'textfield',anchor:'99%'},
@@ -931,8 +931,8 @@ Fos.CustomsDeclearTab = function(p,store) {
 			XMG.alert(SYS,M_DEPT_REQIRED,function(){this.find('name','deptId')[0].focus();},this);return;};	
 		if(this.find('name','consSalesRepName')[0].getValue()==''){
 			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);return;};
-		if(this.find('name','consOperatorId')[0].getValue()==''){
-			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorId')[0].focus();},this);return;};
+		if(this.find('name','consOperatorName')[0].getValue()==''){
+			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorName')[0].focus();},this);return;};
 		if(VERSION==0&&txtSailDate.getValue()==''){
 			XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
 				function(){txtSailDate.focus();},this);
@@ -1268,12 +1268,12 @@ Fos.CustomsDeclearTab = function(p,store) {
 	    	   			txtVessName,cboPolEn
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
+             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorName',value:p.get('consOperatorName'),
      			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
      			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',editable:false,
      			     	listeners:{scope:this,
      	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
-     	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
+     	    			select:function(c,r,i){p.set('consOperatorId',r.get('userId'));}}},
      	    		{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
              	 	{fieldLabel:C_REF_NO,tabIndex:10,name:'consRefNo',value:p.get('consRefNo'),
              			xtype:'textfield',anchor:'99%'},
