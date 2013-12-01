@@ -157,7 +157,7 @@
             listeners:{scope:this,
             	select:function(c,r,i){
             		var b=this.getSelectionModel().getSelected();
-            		b.set('expeInvoiceTitle',r.get('CODE')==1?p.get('custName'):'');
+            		b.set('expeInvoiceTitle',r.get('CODE')==1?b.get('custName'):'');
             	}
             }})};
 	
@@ -880,7 +880,7 @@ Fos.ExpenseTab2 = function(p,f){
 	var c2={fieldLabel:C_CARRIER,name:'consCarrier',value:p.get('consCarrierName'),xtype:'textfield',anchor:'95%'};
 	var c3={fieldLabel:C_POL,name:'consPol',value:p.get('consPolEn'),xtype:'textfield',anchor:'95%'};
 	var c4={fieldLabel:C_CONT_NUM,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'95%'};
-	var c5={fieldLabel:p.get('consBizClass')==BC_I?C_SAIL_DATE:C_ETA,name:'consSailDate',value:p.get('consSailDate'),xtype:'datefield',format:DATEF,anchor:'95%'};
+	var c5={fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETA,name:'consSailDate',value:p.get('consSailDate'),xtype:'datefield',format:DATEF,anchor:'95%'};
 	var c6={fieldLabel:C_TTER,tabIndex:17,name:'tranId',value:p.get('tranId'),store:getTRAN_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'};
 	var c7={fieldLabel:C_ACCOUNT,name:'custSname',value:p.get('custSname'),xtype:'textfield',anchor:'95%'};
 	
@@ -4783,7 +4783,7 @@ Fos.ExpenseGrid = function(t){
 	var cboCustId = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,anchor:"90%",name:'custId',store:getCS(),displayField:'custNameCn',valueField:'custId',
 				  typeAhead:true,enableKeyEvents:true,mode:'local',tpl:custTpl,itemSelector:'div.list-item',
 				  listWidth:400,triggerAction:'all',selectOnFocus:true,
-	              listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}});
+	              listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}});
 	//是否开发票
 	var cboExpeInvoiceFlag = new Ext.form.ComboBox({fieldLabel:C_WHETHER_INVOICING,anchor:"90%",name:'expeInvoiceFlag',displayField:'NAME',valueField:'CODE',typeAhead: true,
 		mode:'local',triggerAction:'all',selectOnFocus:true,store:Y_O_N});
