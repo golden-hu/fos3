@@ -389,6 +389,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (15, '报关类型', 'FConsign', 'consCertNo', NULL),
 (15, '报关日期', 'FConsign', 'consCustomsDeclearDate', NULL),
 (15, '报关单号', 'FConsign', 'consCustomsDeclearationNo', NULL),
+(15, '收货人信息', 'FConsign', 'consConsignee', NULL),
 (15, '备注', 'FConsign', 'consRemarks', NULL);
 
 -- 单票审核

@@ -427,6 +427,7 @@ Fos.InspectionDeclTab = function(p,store) {
  			     			p.set('custId','');
  			     			p.set('custName','');}},
  			     	select:function(c,r,i){
+ 			     		this.find('name','custName')[0].setValue(r.get('custNameCn'));
  			     		this.find('name','custContact')[0].setValue(r.get('custContact'));
  			     		this.find('name','custTel')[0].setValue(r.get('custTel'));
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
@@ -1003,7 +1004,7 @@ Fos.CustomsDeclearTab = function(p,store) {
     
     this.check=function(){this.updateStatus('1');};
     this.cancelCheck = function(){this.updateStatus('0');};
-    this.finish=function(){this.updateStatus('2');};s
+    this.finish=function(){this.updateStatus('2');};
     this.cancel=function()
     {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
     		{if(btn=='yes')
@@ -1188,6 +1189,18 @@ Fos.CustomsDeclearTab = function(p,store) {
 	var numMeasurement = {fieldLabel:C_CBM_S,
 		name:'consTotalMeasurement',value:p.get('consTotalMeasurement'),
 		xtype:'numberfield',decimalPrecision:4,anchor:'99%'};
+	//装船日期用作换单日期
+	var dtExchangeSingle = {fieldLabel:C_EXCHANGE_DATE,tabIndex:13,name:'consLoadDate',
+	    value:p.get('consLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'
+		};
+	//截关日期用作三检日期
+	var dtThreeInspection = {fieldLabel:C_THREE_INSPECTION,tabIndex:13,name:'consExpiryDate',
+		value:p.get('consExpiryDate'),xtype:'datefield',format:DATEF,anchor:'99%'
+		};
+	//送货日期
+	var dtDeliveryDate = {fieldLabel:C_DELIVERY_DATE,tabIndex:13,name:'consDeliveryDate',
+			value:p.get('consDeliveryDate'),xtype:'datefield',format:DATEF,anchor:'99%'
+			};
 	
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
@@ -1209,6 +1222,7 @@ Fos.CustomsDeclearTab = function(p,store) {
  			     			p.set('custId','');
  			     			p.set('custName','');}},
  			     	select:function(c,r,i){
+ 			     		this.find('name','custName')[0].setValue(r.get('custNameCn'));
  			     		this.find('name','custContact')[0].setValue(r.get('custContact'));
  			     		this.find('name','custTel')[0].setValue(r.get('custTel'));
  			     		this.find('name','custFax')[0].setValue(r.get('custFax'));
@@ -1265,7 +1279,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 	    	   				c.setValue(r.get('custNameCn'));
 	    	   			},
 	    	   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}},
-	    	   			txtVessName,cboPolEn
+	    	   			txtVessName,cboPolEn,dtExchangeSingle
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
              	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorName',value:p.get('consOperatorName'),
@@ -1281,7 +1295,7 @@ Fos.CustomsDeclearTab = function(p,store) {
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
          			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',
          				value:p.get('consCustomsContact'),xtype:'textfield',anchor:'99%'},
-         			txtVoyage,cboPodEn
+         			txtVoyage,cboPodEn,dtThreeInspection
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
              		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -1298,9 +1312,8 @@ Fos.CustomsDeclearTab = function(p,store) {
          	       {fieldLabel:C_VERIFICATION_NO,tabIndex:17,name:'consVerificationNo',value:p.get('consVerificationNo'),
  	    	    	xtype:'textfield',anchor:'99%'},
  	    	    	{fieldLabel:C_CUDE_TEL,name:'consCustomsTel',value:p.get('consCustomsTel'),xtype:'textfield',anchor:'99%'},
- 	    	    	txtConsMblNo,txtPotEn,
-     			   {xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
-		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP}
+ 	    	    	txtConsMblNo,txtPotEn,dtDeliveryDate
+     			   
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
              		{fieldLabel:C_DEPT,itemCls:'required',tabIndex:4,name:'deptId',value:p.get('deptId'),editable:false,
@@ -1314,7 +1327,9 @@ Fos.CustomsDeclearTab = function(p,store) {
                      {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'99%'},
                      txtConsHblNo,txtSailDate,
                      {xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
-             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF}
+             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF},
+             			{xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
+    		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP}
          		]}
          	    ]},
          	 {header:false,border:false,layout:'column',items:[
@@ -1457,7 +1472,34 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
  		if(consTotalGrossWeight) 
  			a[a.length]=new QParam({key:'consTotalGrossWeight',value:consTotalGrossWeight,op:op});
  		
- 			
+ 		var consLoadDate=panel.find('name','consLoadDate')[0].getValue();
+ 		var consLoadDate2=panel.find('name','consLoadDate2')[0].getValue();
+ 		if(consLoadDate && consLoadDate2){
+ 			a[a.length]=new QParam({key:'consLoadDate',value:consLoadDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consLoadDate',value:consLoadDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consLoadDate) 
+ 			a[a.length]=new QParam({key:'consLoadDate',value:consLoadDate.format(DATEF),op:op});
+ 		
+ 		
+ 		var consExpiryDate=panel.find('name','consExpiryDate')[0].getValue();
+ 		var consExpiryDate2=panel.find('name','consExpiryDate2')[0].getValue();
+ 		if(consExpiryDate && consExpiryDate2){
+ 			a[a.length]=new QParam({key:'consExpiryDate',value:consExpiryDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consExpiryDate',value:consExpiryDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consExpiryDate) 
+ 			a[a.length]=new QParam({key:'consExpiryDate',value:consExpiryDate.format(DATEF),op:op});
+ 		
+ 		var consDeliveryDate=panel.find('name','consDeliveryDate')[0].getValue();
+ 		var consDeliveryDate2=panel.find('name','consDeliveryDate2')[0].getValue();
+ 		if(consDeliveryDate && consDeliveryDate2){
+ 			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consDeliveryDate) 
+ 			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:op});
+ 		
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -1504,7 +1546,11 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
               	{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
         		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-        	{fieldLabel:C_PACKAGES,name:'consTotalPackages',xtype:'textfield',anchor:'90%'}]},
+        	{fieldLabel:C_PACKAGES,name:'consTotalPackages',xtype:'textfield',anchor:'90%'},
+        	{fieldLabel:C_GW_S,name:'consTotalGrossWeight',xtype:'textfield',anchor:'90%'},
+     	 {fieldLabel:C_DELIVERY_DATE,tabIndex:13,name:'consDeliveryDate',
+     				xtype:'datefield',format:DATEF,anchor:'90%'
+     				}]},
       	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
    		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -1517,7 +1563,15 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
         	{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
          		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
          		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-         	{fieldLabel:C_GW_S,name:'consTotalGrossWeight',xtype:'textfield',anchor:'90%'}
+         	{fieldLabel:C_EXCHANGE_DATE,tabIndex:13,name:'consLoadDate',
+         		    xtype:'datefield',format:DATEF,anchor:'90%'
+         			},
+         	{fieldLabel:C_THREE_INSPECTION,tabIndex:13,name:'consExpiryDate',
+             	xtype:'datefield',format:DATEF,anchor:'90%'
+             },
+             {fieldLabel:C_TO,tabIndex:13,name:'consDeliveryDate2',
+  				xtype:'datefield',format:DATEF,anchor:'90%'
+  				}
 			]},
 		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -1528,11 +1582,17 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
          		store:EXPC_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
          		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
          	{fieldLabel:C_VESS,name:'vessName',xtype:'textfield',anchor:'90%'},
-         	{fieldLabel:C_VOYA,name:'voyaName',xtype:'textfield',anchor:'90%'}
+         	{fieldLabel:C_VOYA,name:'voyaName',xtype:'textfield',anchor:'90%'},
+         	{fieldLabel:C_TO,tabIndex:13,name:'consLoadDate2',
+     		    xtype:'datefield',format:DATEF,anchor:'90%'
+     			},
+     	    {fieldLabel:C_TO,tabIndex:13,name:'consExpiryDate2',
+         		xtype:'datefield',format:DATEF,anchor:'90%'
+             },
 		]}
 	]});
     Fos.CustomsConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
-    	width:800,height:290,buttonAlign:'right',items:panel,
+    	width:800,height:350,buttonAlign:'right',items:panel,
 		buttons:[{text:C_OK,scope:this,handler:this.reload},
 		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 

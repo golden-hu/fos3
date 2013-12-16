@@ -1,0 +1,2 @@
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(15, '收货人信息', 'FConsign', 'consConsignee', NULL);

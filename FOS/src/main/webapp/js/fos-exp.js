@@ -383,7 +383,7 @@ Fos.ConsignTab = function(p){
 		items[items.length] = new Fos.TaskPanel(p);
 	}
 	
-	if(!NR(m+M3_ATTACH)&&p.get('rowAction')!='N'){
+	if(!NR(m+M3_ATTACH)&&p.get('rowAction')!='N' && VERSION==0){
 		items[items.length] = new Fos.SecurityAttachTab(p);
 	}
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
@@ -616,7 +616,7 @@ Fos.BookTab = function(p) {
 	
 	var txtCust={fieldLabel:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?C_CHARTER:C_BOOKER,itemCls:'required',
     		tabIndex:5,name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-       		xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
+       		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
        		triggerAction:'all',selectOnFocus:true,anchor:'99%',
          	listeners:{scope:this,
@@ -1759,14 +1759,11 @@ Fos.BookTab = function(p) {
     		},
     	this);
     };
-    this.pigeonhole = function(){
-    	XMG.confirm(SYS,M_CONS_CONFIRMED_P,
-    		function(btn){
-    			if(btn=='yes') 
-    				this.updateStatus('8');
-    		},
-    	this);
+    this.cancelFinish = function(btn){
+    			this.updateStatus('2');
     };
+
+
     this.arrive=function(){XMG.confirm(SYS,M_CONS_ARRIVE_C,function(btn){if(btn=='yes') this.updateStatus('1');},this);};
     this.release=function(){XMG.confirm(SYS,M_CONS_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('2');},this);};
     this.releaseCargo=function(){XMG.confirm(SYS,M_CARGO_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('3');},this);};
@@ -1858,7 +1855,7 @@ Fos.BookTab = function(p) {
     	if(tb.getComponent('TB_K')) tb.getComponent('TB_K').setDisabled(NR(m+F_M)||locked||disable||p.get('consStatus')!=2);
     	if(tb.getComponent('TB_L')) tb.getComponent('TB_L').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=3);  	
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
-    	if(tb.getComponent('TB_P')) tb.getComponent('TB_P').setDisabled(NR(m+F_M)||p.get('consStatus')==7||p.get('consStatus')==8);
+    	if(tb.getComponent('TB_P')) tb.getComponent('TB_P').setDisabled(NR(m+F_M)||p.get('consStatus')==7);
     	if(tb.getComponent('TB_M_CONS_NO')) tb.getComponent('TB_M_CONS_NO').setDisabled(NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7||p.get('consStatus')==8);
     };
     //TopBar
@@ -1880,8 +1877,8 @@ Fos.BookTab = function(p) {
 	var b15={text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable,scope:this,handler:this.cancel};
 	
 	var b17={text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock};
-	var b18={text:C_FINISHED,itemId:'TB_P',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==7||p.get('consStatus')==8,scope:this,handler:this.finished};
-	var b19={text:C_PIGEONHOLE,itemId:'TB_Q',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==8,scope:this,handler:this.pigeonhole};
+	var b18={text:C_FINISHED,itemId:'TB_P',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==7,scope:this,handler:this.finished};
+	var b19={text:C_CANCEL_FINISHED,itemId:'TB_Q',iconCls:'renew',scope:this,handler:this.cancelFinish};
 	
 	var btnModifyConsignNo={text:C_MODIFY_CONS_NO,itemId:'TB_M_CONS_NO',iconCls:'option',
 			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7,scope:this,handler:this.MoidfyConsNo};
