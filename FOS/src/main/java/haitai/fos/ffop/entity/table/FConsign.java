@@ -246,7 +246,7 @@ public class FConsign extends AbstractFConsign {
 		return settlementObject;
 	}
 
-	public void setSettlement(String settlementObject) {
+	public void setSettlementObject(String settlementObject) {
 		this.settlementObject = settlementObject;
 	}
 	

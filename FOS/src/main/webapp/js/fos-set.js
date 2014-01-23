@@ -569,6 +569,7 @@ Fos.ExCopyWin = function(t) {
 Ext.extend(Fos.ExCopyWin,Ext.Window);
 
 Fos.ExpenseTab = function(p,f){
+	
 	this.f=f;
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	if(this.f=='C') 
@@ -660,7 +661,7 @@ Fos.ExpenseTab = function(p,f){
 	this.rg=new Fos.ExGrid(p,'R',this,this.rs);
 	var pR=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_R,collapsible:true,border:false,
 			items:[this.rg],
-		bbar:NR(m+S_AP+F_CV)?[sRT,sumSaleR]:[cT,sumCnyR,'-',uT,sumUsdR,'-',eT,sumEurR,'-',lT,sumLocR,'-',sRT,sumSaleR,'-',rT,sumRcR]
+		bbar:[cT,sumCnyR,'-',uT,sumUsdR,'-',eT,sumEurR,'-',lT,sumLocR,'-',sRT,sumSaleR,'-',rT,sumRcR]
 	});	
 	
 	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
@@ -694,7 +695,7 @@ Fos.ExpenseTab = function(p,f){
 	};
 	this.pg=new Fos.ExGrid(p,'P',this,this.ps);
 	var pP=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_P,collapsible:true,border:false,items:[this.pg],
-		bbar:NR(m+S_AP+F_CV)?[sPT,sumSaleP]:[cT,sumCnyP,'-',uT,sumUsdP,'-',eT,sumEurP,'-',lT,sumLocP,'-',sPT,sumSaleP,'-',rT,sumRcP]
+		bbar:[cT,sumCnyP,'-',uT,sumUsdP,'-',eT,sumEurP,'-',lT,sumLocP,'-',sPT,sumSaleP,'-',rT,sumRcP]
 	});
 	var sumCnyC = new Ext.form.TextField({width:80,disabled:true});
 	var sumUsdC = new Ext.form.TextField({width:80,disabled:true});
@@ -727,7 +728,7 @@ Fos.ExpenseTab = function(p,f){
 	};
 	this.cg=new Fos.ExGrid(p,'C',this,this.cs);
 	var pC=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_C,collapsible:true,border:false,items:[this.cg],
-		bbar:NR(m+S_AP+F_CV)?[sCT,sumSaleC]:[cT,sumCnyC,'-',uT,sumUsdC,'-',eT,sumEurC,'-',lT,sumLocC,'-',sCT,sumSaleC,'-',rT,sumRcC]
+		bbar:[cT,sumCnyC,'-',uT,sumUsdC,'-',eT,sumEurC,'-',lT,sumLocC,'-',sCT,sumSaleC,'-',rT,sumRcC]
 	});	
 	
 	this.reCalculate = function(){		
