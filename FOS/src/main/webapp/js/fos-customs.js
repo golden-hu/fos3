@@ -1201,7 +1201,14 @@ Fos.CustomsDeclearTab = function(p,store) {
 	var dtDeliveryDate = {fieldLabel:C_DELIVERY_DATE,tabIndex:13,name:'consDeliveryDate',
 			value:p.get('consDeliveryDate'),xtype:'datefield',format:DATEF,anchor:'99%'
 			};
-	
+	//装货日期用作海关查验日期
+	var dtConsTrackLoadDate = {fieldLabel:C_CUSTOMS_INSPECTION,tabIndex:13,name:'consTrackLoadDate',
+			value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'
+	};
+	//装箱日期用作商检日期
+	var dtconsContainerLoadDate = {fieldLabel:C_DATE_OF_INSPECTION,tabIndex:13,name:'consContainerLoadDate',
+			value:p.get('consContainerLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'
+	};
 	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),header:false,closable:true,autoScroll:true,
 		padding:5,labelAlign:'right',
@@ -1279,7 +1286,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 	    	   				c.setValue(r.get('custNameCn'));
 	    	   			},
 	    	   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}},
-	    	   			txtVessName,cboPolEn,dtExchangeSingle
+	    	   			txtVessName,cboPolEn,dtExchangeSingle,dtconsContainerLoadDate
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
              	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorName',value:p.get('consOperatorName'),
@@ -1295,7 +1302,9 @@ Fos.CustomsDeclearTab = function(p,store) {
            			     xtype:'datefield',format:DATEF,anchor:'99%'},
          			{fieldLabel:C_CUDE_CONTACT,tabIndex:22,name:'consCustomsContact',
          				value:p.get('consCustomsContact'),xtype:'textfield',anchor:'99%'},
-         			txtVoyage,cboPodEn,dtThreeInspection
+         			txtVoyage,cboPodEn,dtThreeInspection,
+         			{xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
+                 	name:'consRequireRelief',checked:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
              		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
@@ -1312,7 +1321,9 @@ Fos.CustomsDeclearTab = function(p,store) {
          	       {fieldLabel:C_VERIFICATION_NO,tabIndex:17,name:'consVerificationNo',value:p.get('consVerificationNo'),
  	    	    	xtype:'textfield',anchor:'99%'},
  	    	    	{fieldLabel:C_CUDE_TEL,name:'consCustomsTel',value:p.get('consCustomsTel'),xtype:'textfield',anchor:'99%'},
- 	    	    	txtConsMblNo,txtPotEn,dtDeliveryDate
+ 	    	    	txtConsMblNo,txtPotEn,dtDeliveryDate,
+            		 {xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',checked:p.get('consRequireVerification')==1,
+   		     		boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP}
      			   
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
@@ -1325,11 +1336,7 @@ Fos.CustomsDeclearTab = function(p,store) {
          			{fieldLabel:C_HS_CODE,tabIndex:16,name:'cargHsCode',value:p.get('cargHsCode'),
              			xtype:'textfield',anchor:'99%'},
                      {fieldLabel:C_CONTAINER_INFO,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'99%'},
-                     txtConsHblNo,txtSailDate,
-                     {xtype:'checkbox',tabIndex:20,hidden:p.get('consBizClass')=='I',labelSeparator:'',
-             			name:'consRequireRelief',check:p.get('consRequireRelief')==1,boxLabel:C_REQUIRE_RELIEF},
-             			{xtype:'checkbox',labelSeparator:'',tabIndex:19,name:'consRequireVerification',check:p.get('consRequireVerification')==1,
-    		     			boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP}
+                     txtConsHblNo,txtSailDate,dtConsTrackLoadDate
          		]}
          	    ]},
          	 {header:false,border:false,layout:'column',items:[
@@ -1500,6 +1507,23 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
  		else if(consDeliveryDate) 
  			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:op});
  		
+ 		var consTrackLoadDate=panel.find('name','consTrackLoadDate')[0].getValue();
+ 		var consTrackLoadDate2=panel.find('name','consTrackLoadDate2')[0].getValue();
+ 		if(consTrackLoadDate && consTrackLoadDate2){
+ 			a[a.length]=new QParam({key:'consTrackLoadDate',value:consTrackLoadDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consTrackLoadDate',value:consTrackLoadDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consTrackLoadDate) 
+ 			a[a.length]=new QParam({key:'consTrackLoadDate',value:consTrackLoadDate.format(DATEF),op:op});
+ 		
+ 		var consContainerLoadDate=panel.find('name','consContainerLoadDate')[0].getValue();
+ 		var consContainerLoadDate2=panel.find('name','consContainerLoadDate2')[0].getValue();
+ 		if(consContainerLoadDate && consContainerLoadDate2){
+ 			a[a.length]=new QParam({key:'consContainerLoadDate',value:consContainerLoadDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consContainerLoadDate',value:consContainerLoadDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consContainerLoadDate) 
+ 			a[a.length]=new QParam({key:'consContainerLoadDate',value:consContainerLoadDate.format(DATEF),op:op});
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -1548,9 +1572,15 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
         	{fieldLabel:C_PACKAGES,name:'consTotalPackages',xtype:'textfield',anchor:'90%'},
         	{fieldLabel:C_GW_S,name:'consTotalGrossWeight',xtype:'textfield',anchor:'90%'},
-     	 {fieldLabel:C_DELIVERY_DATE,tabIndex:13,name:'consDeliveryDate',
-     				xtype:'datefield',format:DATEF,anchor:'90%'
-     				}]},
+     	    {fieldLabel:C_DELIVERY_DATE,tabIndex:13,name:'consDeliveryDate',
+     			xtype:'datefield',format:DATEF,anchor:'90%'
+     		},
+     		{fieldLabel:C_CUSTOMS_INSPECTION,tabIndex:13,name:'consTrackLoadDate',
+     			xtype:'datefield',format:DATEF,anchor:'90%'
+     		},
+     		{fieldLabel:C_DATE_OF_INSPECTION,tabIndex:13,name:'consContainerLoadDate',
+     			xtype:'datefield',format:DATEF,anchor:'90%'
+     		},]},
       	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
    		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
         	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -1571,7 +1601,13 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
              },
              {fieldLabel:C_TO,tabIndex:13,name:'consDeliveryDate2',
   				xtype:'datefield',format:DATEF,anchor:'90%'
-  				}
+  			 },
+  			{fieldLabel:C_TO,tabIndex:13,name:'consTrackLoadDate2',
+   				xtype:'datefield',format:DATEF,anchor:'90%'
+   			 },
+   			{fieldLabel:C_TO,tabIndex:13,name:'consContainerLoadDate2',
+   				xtype:'datefield',format:DATEF,anchor:'90%'
+   			 }
 			]},
 		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
@@ -1592,7 +1628,7 @@ Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){
 		]}
 	]});
     Fos.CustomsConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
-    	width:800,height:350,buttonAlign:'right',items:panel,
+    	width:800,height:400,buttonAlign:'right',items:panel,
 		buttons:[{text:C_OK,scope:this,handler:this.reload},
 		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 
@@ -1817,6 +1853,29 @@ Fos.TradeTab = function(p,store) {
     	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
     	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
     	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
+    };
+    
+    this.unlock=function(){
+    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
+		success: function(r){
+			p.set('consStatusLock',0);
+			this.updateToolBar(p.get('consStatus'));
+			
+			XMG.alert(SYS,M_S);
+			var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+					reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+			sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+				if(s&&r.length>0){
+					var c=r[0];
+					p.beginEdit();					
+					p.set('version',c.get('version'));
+					p.endEdit();
+					XMG.alert(SYS,M_S);
+				}    						
+			},scope:this});				
+		},
+		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
     
     this.check=function(){this.updateStatus('1');};

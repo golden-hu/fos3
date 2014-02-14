@@ -1636,3 +1636,5 @@ var C_INVOICE_FLAG_REQUIRED = '请选择是否开发票！';
 var C_OVERSEAS='海外业务';
 var C_EXCHANGE_DATE = '换单日期';
 var C_THREE_INSPECTION = '三检日期';
+var C_CUSTOMS_INSPECTION = '海关查验日期';
+var C_DATE_OF_INSPECTION = '商检日期';

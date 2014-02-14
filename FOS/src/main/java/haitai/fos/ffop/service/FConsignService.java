@@ -1113,23 +1113,34 @@ public class FConsignService {
 		Double sumRUsd = 0.0;
 		Double sumPCny = 0.0;
 		Double sumPUsd = 0.0;
+		Double sumPOther = 0.0;
+		Double sumROther = 0.0;
+		Double sumR =0.0;
+		Double sumP =0.0;
 		for(SExpense e : expeList){
 			if(settlementObject.equals(""))
 				settlementObject = e.getCustName();
 			if(e.getExpeType().equals(ConstUtil.PR_TYPE_RECEIVE)){
+				sumR +=e.getExpeTotalAmount()*e.getExpeExRate();
 				if(e.getCurrCode().equals("CNY")){
 					sumRCny += e.getExpeTotalAmount();
 				}
 				else if(e.getCurrCode().equals("USD")){
 					sumRUsd += e.getExpeTotalAmount();
+				}else{
+					sumROther += e.getExpeTotalAmount();
 				}
 			}
 			else{
+				sumP +=e.getExpeTotalAmount()*e.getExpeExRate();
 				if(e.getCurrCode().equals("CNY")){
 					sumPCny += e.getExpeTotalAmount();
 				}
 				else if(e.getCurrCode().equals("USD")){
 					sumPUsd += e.getExpeTotalAmount();
+				}
+				else{
+					sumPOther += e.getExpeTotalAmount();
 				}
 			}
 		}
@@ -1137,7 +1148,11 @@ public class FConsignService {
 		c.setSumRUsd(sumRUsd);
 		c.setSumPCny(sumPCny);
 		c.setSumPUsd(sumPUsd);
-		c.setSettlement(settlementObject);
+		c.setSumPOther(sumPOther);
+		c.setSumROther(sumROther);
+		c.setSumR(sumR);
+		c.setSumP(sumP);
+		c.setSettlementObject(settlementObject);
 		retList.add(c);		
 		retList.addAll(expeList);
 		return retList;
