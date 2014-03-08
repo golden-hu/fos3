@@ -1,4 +1,5 @@
-﻿Fos.newConsign = function(bc,bt,st){
+﻿//新建委托
+Fos.newConsign = function(bc,bt,st){
 	var sr='';
 	if(bt==BT_G) 
 		sr=SR_CUDE; 
@@ -34,6 +35,8 @@
 		consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
 	return c;
 };
+
+//复制委托
 Fos.copyConsign = function(p){
 	var c = new FConsign({});var rid=GGUID();
 	var f = FConsign.prototype.fields;
@@ -58,6 +61,8 @@ Fos.copyConsign = function(p){
 	//嘉禾提出将货物信息也一起带出
 	return c;
 };
+
+//显示委托
 Fos.showConsign = function(p,listStore){
 	var t = T_MAIN.getComponent('C_'+p.get("id"));
 	if(t){
@@ -74,6 +79,7 @@ Fos.showConsign = function(p,listStore){
 		T_MAIN.setActiveTab(t);
 	}
 };
+
 Fos.showConsignTabs = function(p){
 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 	if(p.get('rowAction')!='N'){
@@ -90,16 +96,47 @@ Fos.showConsignTabs = function(p){
 			tc.add(new Fos.SecurityAttachTab(p));
 		};
 	}
-	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){tc.add(new Fos.TransTab(p));};	
-	if(!tc.getComponent('T_WARE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_WARE)!=-1){tc.add(new Fos.WarehouseTab(p));};	
-	if(!tc.getComponent('T_CONT_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_CONT)!=-1 && (p.get('consShipType')==ST_F||(p.get('consShipType')==ST_L&& p.get('consMasterFlag')=='1'))){tc.add(new Fos.ContainerTab(p));};	
-	if(!tc.getComponent('T_BL_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_BL)!=-1 ){tc.add(new Fos.BLTab(p));};
-	if(!tc.getComponent('T_INSP_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_INSP)!=-1){tc.add(new Fos.InspectionTab(p));};
-	if(!tc.getComponent('T_CUDE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){tc.add(new Fos.CustomsTab(p));};
-	if(!tc.getComponent('T_SPLIT_'+p.get('id')) && p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L){tc.add(new Fos.SplitTab(p));};
-	if(!tc.getComponent('T_BBOOK_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1){tc.add(new Fos.BBookingTab(p));};
-	if(!tc.getComponent('T_RABL_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_RABL)!=-1){tc.add(new Fos.RailwayBlTab(p));};
-	if(!tc.getComponent('T_SESH_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_SESH)!=-1){tc.add(new Fos.SecondShipTab(p));};
+	
+	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){
+		tc.add(new Fos.TransTab(p));
+	};
+	
+	if(!tc.getComponent('T_WARE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_WARE)!=-1){
+		tc.add(new Fos.WarehouseTab(p));
+	};
+	
+	if(!tc.getComponent('T_CONT_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_CONT)!=-1 && 
+			(p.get('consShipType')==ST_F||(p.get('consShipType')==ST_L&& p.get('consMasterFlag')=='1'))){
+		tc.add(new Fos.ContainerTab(p));
+	};
+	
+	if(!tc.getComponent('T_BL_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_BL)!=-1 ){
+		tc.add(new Fos.BLTab(p));
+	};
+	
+	if(!tc.getComponent('T_INSP_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_INSP)!=-1){
+		tc.add(new Fos.InspectionTab(p));
+	};
+	
+	if(!tc.getComponent('T_CUDE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){
+		tc.add(new Fos.CustomsTab(p));
+	};
+	
+	if(!tc.getComponent('T_SPLIT_'+p.get('id')) && p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L){
+		tc.add(new Fos.SplitTab(p));
+	};
+	
+	if(!tc.getComponent('T_BBOOK_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1){
+		tc.add(new Fos.BBookingTab(p));
+	};
+	
+	if(!tc.getComponent('T_RABL_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_RABL)!=-1){
+		tc.add(new Fos.RailwayBlTab(p));
+	};
+	
+	if(!tc.getComponent('T_SESH_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_SESH)!=-1){
+		tc.add(new Fos.SecondShipTab(p));
+	};
 };
 
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	
@@ -374,8 +411,10 @@ Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
 
 Fos.ConsignTab = function(p){
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
+	
 	var items=[];
 	items[0]=new Fos.BookTab(p);
+	
 	if(p.get('rowAction')!='N'){
 		items[items.length] = new Fos.ConsDocGrid(p);
 		items[items.length] = VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
@@ -386,28 +425,58 @@ Fos.ConsignTab = function(p){
 	if(!NR(m+M3_ATTACH)&&p.get('rowAction')!='N' && VERSION==0){
 		items[items.length] = new Fos.SecurityAttachTab(p);
 	}
-	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) items[items.length]=new Fos.TransTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) items[items.length]=new Fos.WarehouseTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_CONT)!=-1 && (p.get('consShipType')==ST_F||(p.get('consShipType')==ST_L&& p.get('consMasterFlag')=='1'))) items[items.length]=new Fos.ContainerTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_BL)!=-1) items[items.length]=new Fos.BLTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1) items[items.length]=new Fos.InspectionTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1) items[items.length]=new Fos.CustomsTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1) items[items.length]=new Fos.BBookingTab(p);	
-	if(p.get('consServiceRequired').indexOf(SR_SESH)!=-1) items[items.length]=new Fos.SecondShipTab(p);
-	if(p.get('consServiceRequired').indexOf(SR_RABL)!=-1) items[items.length]=new Fos.RailwayBlTab(p);
-	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) items[items.length]=new Fos.SplitTab(p);
 	
+	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) 
+		items[items.length]=new Fos.TransTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1) 
+		items[items.length]=new Fos.WarehouseTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_CONT)!=-1 && (p.get('consShipType')==ST_F||(p.get('consShipType')==ST_L&& p.get('consMasterFlag')=='1'))) 
+		items[items.length]=new Fos.ContainerTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_BL)!=-1) 
+		items[items.length]=new Fos.BLTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1) 
+		items[items.length]=new Fos.InspectionTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1) 
+		items[items.length]=new Fos.CustomsTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1) 
+		items[items.length]=new Fos.BBookingTab(p);	
+	
+	if(p.get('consServiceRequired').indexOf(SR_SESH)!=-1) 
+		items[items.length]=new Fos.SecondShipTab(p);
+	
+	if(p.get('consServiceRequired').indexOf(SR_RABL)!=-1) 
+		items[items.length]=new Fos.RailwayBlTab(p);
+	
+	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) 
+		items[items.length]=new Fos.SplitTab(p);	
 	
 	var status={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
+	
 	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
 	if(p.get('consBizType')==BT_C){
 	   if(p.get('consBizClass')==BC_I&&p.get('consShipType')=='LCL') title+=C_SWITCH; 
 	   else title+=getSHTY(p.get('consShipType'));
 	}
+	
 	title+=C_CONSIGN+'-'+p.get("consNo");
-	Fos.ConsignTab.superclass.constructor.call(this,{id:"C_" + p.get("id"),items:items,
-	title:title,iconCls:'class',deferredRender:false,closable:true,activeTab:0,bbar:[getMB(p),'->',status],
-	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}}
+	
+	Fos.ConsignTab.superclass.constructor.call(this,{id:"C_" + p.get("id"),
+		items:items,
+		title:title,
+		iconCls:'class',
+		deferredRender:false,
+		closable:true,
+		activeTab:0,
+		bbar:[getMB(p),'->',status],
+		listeners:{scope:this,
+			tabchange:function(m,a){a.doLayout();}
+		}
 	});
 };
 Ext.extend(Fos.ConsignTab,Ext.TabPanel);
@@ -1054,7 +1123,6 @@ Fos.BookTab = function(p) {
 	var m37={fieldLabel:C_BL_NW,name:'blCargoNetWeight',value:p.get('blCargoNetWeight'),disabled:true,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'};
     var m38={fieldLabel:C_BL_CBM,name:'blCargoMeasurement',value:p.get('blCargoMeasurement'),disabled:true,xtype:'numberfield',allowDecimals:true,decimalPrecision:4,anchor:'99%'};
     
-    /*20120523 嘉兴锦诚 */
     var txtCarrierConatct={fieldLabel:C_CARRIER_CONTACT,name:'consCarrierContact',value:p.get('consCarrierContact'),xtype:'textfield',anchor:'99%'};
     var txtCarrierTel={fieldLabel:C_CARRIER_TEL,name:'consCarrierTel',value:p.get('consCarrierTel'),xtype:'textfield',anchor:'99%'};
     

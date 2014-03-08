@@ -31,7 +31,14 @@
 <script type="text/javascript" src="js/fos-cust.js"></script>
 <script type="text/javascript" src="js/fos-set.js"></script>
 <script type="text/javascript" src="js/fos-exp.js"></script>
+
 <script type="text/javascript" src="js/fos-section.js"></script>
+<script type="text/javascript" src="js/fos-trans.js"></script>
+<script type="text/javascript" src="js/fos-warehouse.js"></script>
+<script type="text/javascript" src="js/fos-container.js"></script>
+<script type="text/javascript" src="js/fos-inspection.js"></script>
+<script type="text/javascript" src="js/fos-bl.js"></script>
+
 <script type="text/javascript" src="js/fos-imp.js"></script>
 <script type="text/javascript" src="js/fos-air.js"></script>
 <script type="text/javascript" src="js/fos-rail.js"></script>

@@ -27,6 +27,8 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -227,7 +229,12 @@ public class PTemplateService {
 					handleParent(fieldMap, parentEntity, sheet, varMap);
 				}
 				if (StringUtil.isNotBlank(child) && childList.size() > 0) {
-					handleChild(ptt, fieldMap, childList, sheet, varMap);
+					try{
+						handleChild(ptt, fieldMap, childList, sheet, varMap);
+					}
+					catch(Exception e){
+						
+					}
 				}
 				FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
 				reCalcFormula(sheet, evaluator);
@@ -842,7 +849,18 @@ public class PTemplateService {
 				|| obj instanceof Short) {
 			s = String.valueOf(((Number) obj).longValue());
 		} else if (obj instanceof Date) {
-			s = obj.toString();
+			//s = obj.toString();
+			
+			String from = "yyyy-MM-dd";
+			SimpleDateFormat fromFormat = new SimpleDateFormat(from);
+			try {
+				Date date = (Date) obj;
+				
+				s  = fromFormat.format(date);
+			} catch (Exception e) {
+				s = obj.toString();
+			}
+			
 		}
 		return s;
 	}

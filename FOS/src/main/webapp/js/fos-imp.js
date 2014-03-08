@@ -45,7 +45,7 @@ Fos.CargoGrid = function(p,store,frm) {
 	            })};
 	var c6={header:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargGrossWeight',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
 	var c7={header:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargNetWeight',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,invalidText:''})};
-	var c8={header:C_UNIT,dataIndex:'unitId',renderer:function(v,m,r){return r.get('unitName')},
+	var c8={header:C_UNIT,dataIndex:'unitId',renderer:function(v,m,r){return r.get('unitName');},
 			editor:new Ext.form.ComboBox({displayField:'unitName',valueField:'unitId',triggerAction:'all',
 		        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_S(),
 		        listeners:{scope:this,select:function(c,r,i){
@@ -753,7 +753,7 @@ Ext.extend(Fos.SecurityAttachWin,Ext.Window);
 Fos.ShipperWin=function(custId,shipperT,fn){
 	var bp ={custId:custId,cushType:shipperT};
 	if(VERSION==2){
-		bp={cushType:shipperT}
+		bp={cushType:shipperT};
 	}
 	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'json',A:'CUSH_Q'},
 		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomerShipper',id:'cushId'},CCustomerShipper),
