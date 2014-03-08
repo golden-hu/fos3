@@ -169,6 +169,7 @@ function getCudePanel(){
 	return new Ext.Panel({title:C_BIZ_CUSTOMS,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getInspPanel(){
 	var items=[];
 	if(!NR(M1_I+M2_I)) items[items.length]=NaviMenu(C_IMP_INSP,'G_CONS_I_I',function(){return new Fos.ConsignGrid('I','I','');});
@@ -176,6 +177,7 @@ function getInspPanel(){
 	return new Ext.Panel({title:C_SR_INSP,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getDocPanel(){
 	var items=[];
 	if(!NR(M1_D+F_V)) items[items.length]=NaviMenu(C_DOC_ALL,'G_DOC_A',function(){return new Fos.DocGrid('A');});
@@ -186,6 +188,7 @@ function getDocPanel(){
 	return new Ext.Panel({title:C_DOC_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getStaPanel(){
 	var items=[];
 	if(!NR(M1_T+T_BUSI)) items[items.length]=NaviMenu(C_STAT_BIZ_SUM,'REPT_BUSI',function(){return new Fos.StatSumTab('REPT_BUSI');});
@@ -210,6 +213,7 @@ function getStaPanel(){
 	return new Ext.Panel({title:C_STAT,collapsible:true,autoScroll:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getCusPanel(){
 	var items=[];
 	if(!NR(M1_V+V_PRSH+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
@@ -221,6 +225,7 @@ function getCusPanel(){
 	return  new Ext.Panel({title:C_CUST,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getWsPanel(){
 	var items=[];
 	//if(!NR(M1_W+W_WUSR)) 
@@ -235,10 +240,20 @@ function getWsPanel(){
 
 	
 function CreateMenu2(t,c,m,f){
- 	return {text:t,iconCls :'grid',scope:this,handler:function(){
- 		if(''==GR()) {XMG.alert(SYS,M_SESSION_TIMEOUT);logout();return}
- 		if(NR(m)){XMG.alert(SYS,M_NR);return}
-		f();}};
+ 	return {text:t,iconCls :'grid',scope:this,
+ 		handler:function(){
+	 		if(''==GR()) {
+	 			XMG.alert(SYS,M_SESSION_TIMEOUT);
+	 			logout();
+	 			return;
+	 		}
+	 		if(NR(m)){
+	 			XMG.alert(SYS,M_NR);
+	 			return;
+	 		}
+			f();
+		}
+ 	};
 };
 
 function getSysPanel(){
@@ -341,6 +356,7 @@ function createBulkTree(){
 	});
 	return tree;
 };
+
 function createSMTree(){
 	var root=new Ext.tree.TreeNode({text:C_SETTLE,leaf:false});
 	if(!NR(M1_S+S_COAU+F_V)){
@@ -424,6 +440,8 @@ function createSMTree(){
 	});
 	return tree;
 };
+
+
 function createGMTree(){	
 	var root=new Ext.tree.TreeNode({text:C_MASTER_DATA,leaf:false});
 	
@@ -566,6 +584,8 @@ function createGMTree(){
 	});
 	return tree;
 };
+
+
 function createFunctionTree(store,nodeListener){
 	var tree = new Ext.tree.TreePanel({
 		animate:true,
@@ -575,7 +595,8 @@ function createFunctionTree(store,nodeListener){
 		listeners:nodeListener
 	});
 	var fp = {};
-	var maxDep = 0;var root;
+	var maxDep = 0;
+	var root = null;
 	var a = store.getRange();
 	for(var i=0;i<a.length;i++){
 		var fc=a[i].get('funcCode');
@@ -597,6 +618,7 @@ function createFunctionTree(store,nodeListener){
 	tree.setRootNode(root);
 	return tree;
 };
+
 function addChiledNode(n,a){
 	var nid = n.id;
 	for(var i=0;i<a.length;i++){
@@ -606,25 +628,34 @@ function addChiledNode(n,a){
 		}
 	}
 };
+
 function loadMsg(){
 	var store = GS('MESS_Q','PMessage',PMessage,'messId','DESC','','','',false);
-	store.load({params:{messToUserId:CUSER_ID,messSendFlag:0,messType:2},callback:function(r,o,s){
+	store.load({params:{messToUserId:CUSER_ID,
+		messSendFlag:0,
+		messType:2
+		},
+		callback:function(r,o,s){
 		if(r.length){
     		for(var i=0;i<r.length;i++){    			
-                var w=Ext.getCmp('W_MSG'+r[i].get('messFromUserId'));
-                if(w) w.show();
+                var w = Ext.getCmp('W_MSG'+r[i].get('messFromUserId'));
+                if(w) 
+                	w.show();
                 else{
                 	var w= new Fos.MsgWin(r[i].get('messFromUserId'),r[i].get('messFromUserName'));
                 	w.show();
                 }
                 w.onMsg(r[i].get('messBody','R'));
+                
                 r[i].set('messSendFlag',1);r[i].set('rowAction','M');
         		var x = RTX(r[i],'PMessage',PMessage);
         		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'MESS_S'},xmlData:FOSX(x)});
     		}
 		}
-	}});
+	}
+	});
 };
+
 Ext.onReady(function(){
 	Ext.state.Manager.setProvider(new Fos.HttpProvider());
     Ext.QuickTips.init();
@@ -633,7 +664,8 @@ Ext.onReady(function(){
 	var viewport = new Ext.Viewport({layout:'border',items:[tBar,P_MENU,T_MAIN]});
 	//T_MAIN.setActiveTab(T_MAIN.add(new Fos.TaskTab()));
 	
-	setTimeout(function(){Ext.get('loading').remove();Ext.get('loading-mask').fadeOut({remove:true});},50);
+	setTimeout(function(){Ext.get('loading').remove();
+	Ext.get('loading-mask').fadeOut({remove:true});},50);
 	iniStore();
 	checkPassEx();
 	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
@@ -658,10 +690,10 @@ function getYsContPanel(){
 	if(!NR(M1_C+M2_FE)) 
 	items[items.length]=NaviMenu(C_IMP,'YS_CONS_FCL_I',function(){return new Fos.YsConsignGrid('I','C','FCL');});
 	if(!NR(M1_C+"06")) 
-	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid()});
+	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid();});
 	if(!NR(M1_C+"09")) 
-	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid()});
-	items[items.length]=NaviMenu(C_EX_RATE,'YS_RATE',function(){return new Fos.YsRateTab()});
+	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid();});
+	items[items.length]=NaviMenu(C_EX_RATE,'YS_RATE',function(){return new Fos.YsRateTab();});
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 }
