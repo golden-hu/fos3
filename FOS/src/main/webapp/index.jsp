@@ -29,7 +29,15 @@
 
 <script type="text/javascript" src="js/fos.js"></script>
 <script type="text/javascript" src="js/fos-cust.js"></script>
-<script type="text/javascript" src="js/fos-set.js"></script>
+
+<script type="text/javascript" src="js/set/fos-set.js"></script>
+<script type="text/javascript" src="js/set/consign_audit.js"></script>
+<script type="text/javascript" src="js/set/expense.js"></script>
+<script type="text/javascript" src="js/set/invoice.js"></script>
+<script type="text/javascript" src="js/set/voucher.js"></script>
+<script type="text/javascript" src="js/set/pr.js"></script>
+<script type="text/javascript" src="js/set/bill.js"></script>
+
 <script type="text/javascript" src="js/fos-exp.js"></script>
 
 <script type="text/javascript" src="js/fos-section.js"></script>

@@ -2,9 +2,10 @@
 Fos.TransTab = function(p) {
 	this.tranId=0;
 	this.sel =GSEL;
-	var sumPK = new Ext.form.TextField({name:'tranTotalPackages',disabled:true});
-	var sumGW = new Ext.form.TextField({name:'tranTotalGrossWeight',disabled:true});
-	var sumMM = new Ext.form.TextField({name:'tranTotalMeasurement',disabled:true});
+	
+	var sumPK = new Ext.form.TextField({name:'tranTotalPackages',readOnly:true,width:100});
+	var sumGW = new Ext.form.TextField({name:'tranTotalGrossWeight',readOnly:true,width:100});
+	var sumMM = new Ext.form.TextField({name:'tranTotalMeasurement',readOnly:true,width:100});
 	
 	this.addKeyMap = function(){
 		var map = new Ext.KeyMap(this.el,[
@@ -32,11 +33,14 @@ Fos.TransTab = function(p) {
 				this.sel=record.get('tranId');
 				this.getForm().reset();
 				this.getForm().loadRecord(record);
+				
 				sumPK.setValue(record.get('tranTotalPackages'));
-				sumGW.setValue(record.get('tranTotalGrossWeight'));
-				sumMM.setValue(record.get('tranTotalMeasurement'));				
+				sumGW.setValue(numRender(record.get('tranTotalGrossWeight')));
+				sumMM.setValue(numRender(record.get('tranTotalMeasurement')));	
+				
 				var a = this.taskStore.getRange();
 				var ts = this.taskGrid.getStore();
+				
 				ts.removeAll();
 				for(var i=0;i<a.length;i++){
 					if(a[i].get('tranId')==this.sel) 
@@ -45,7 +49,10 @@ Fos.TransTab = function(p) {
 				var ca = this.cargoStore.getRange();
 				var cs = this.cargoGrid.getStore();
 				cs.removeAll();
-				for(var i=0;i<ca.length;i++){if(ca[i].get('tranId')==this.sel) cs.add(ca[i]);}
+				for(var i=0;i<ca.length;i++){
+					if(ca[i].get('tranId')==this.sel) 
+						cs.add(ca[i]);
+				}
 			}
 		},
 		rowdeselect:function(s,row,r){
@@ -106,7 +113,11 @@ Fos.TransTab = function(p) {
 				}
 				else XMG.alert(SYS,M_NO_DATA_SELECTED);
 			}},'-',
-			{text:C_REMOVE,iconCls:'remove',scope:this,handler:function(){FOS_REMOVE(sm2,this.taskGrid.getStore());}}
+			{text:C_REMOVE,iconCls:'remove',scope:this,
+				handler:function(){
+					FOS_REMOVE(sm2,this.taskGrid.getStore());
+				}
+			}
 		]
 	});
 	
@@ -115,13 +126,27 @@ Fos.TransTab = function(p) {
 		{header:C_MBL_NO,dataIndex:'consMblNo',width:100,editor:new Ext.form.TextField({})},                                         
 		{header:C_CATY,dataIndex:'trcaCargoName',width:80,editor:new Ext.form.TextField({})},
 		{header:C_PACK,dataIndex:'packId',width:80,renderer:getPACK,
-				editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
-	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
-	            listeners:{scope:this,select:function(c,r,i){this.cargoGrid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
-		{header:C_PACKAGES,dataIndex:'trcaPackageNum',width:60,editor:new Ext.form.NumberField({allowBlank:false})},
-		{header:C_GW,dataIndex:'trcaGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},	
-		{header:C_SIZE,dataIndex:'trcaMeasurement',width:60,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
-		{header:C_REMARKS,dataIndex:'trcaRemarks',width:100,editor:new Ext.form.TextField()}
+			editor:new Ext.form.ComboBox({displayField:'packName',
+				valueField:'packId',
+				triggerAction:'all',
+	            mode:'local',
+	            selectOnFocus:true,
+	            listClass:'x-combo-list-small',
+	            store:getPACK_S(),
+	            listeners:{scope:this,
+	            	select:function(c,r,i){
+	            		this.cargoGrid.getSelectionModel().getSelected().set('packName',r.get('packName'));
+	            	}
+				}
+			})
+		},
+		{header:C_PACKAGES,dataIndex:'trcaPackageNum',width:60,
+			editor:new Ext.form.NumberField({allowBlank:false})},
+		{header:C_GW+'(KGS)',dataIndex:'trcaGrossWeight',width:120,renderer:numRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},	
+		{header:C_SIZE+'(CBM)',dataIndex:'trcaMeasurement',width:120,renderer:numRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_REMARKS,dataIndex:'trcaRemarks',width:200,editor:new Ext.form.TextField()}
 		],
 		defaults:{sortable:true,width:100}
 	});
@@ -190,8 +215,8 @@ Fos.TransTab = function(p) {
 				else XMG.alert(SYS,M_R_P);
 			}},'->',
 			{xtype:'tbtext',text:C_SUM_PACK},sumPK,'-',
-			{xtype:'tbtext',text:C_SUM_GW},sumGW,'-',
-			{xtype:'tbtext',text:C_SUM_CBM},sumMM
+			{xtype:'tbtext',text:C_SUM_GW+'(KGS)'},sumGW,'-',
+			{xtype:'tbtext',text:C_SUM_CBM+'(CBM)'},sumMM
 		]
 	});
 	

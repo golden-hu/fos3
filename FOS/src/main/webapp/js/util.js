@@ -1,8 +1,27 @@
-﻿var C_PS=20;var C_PS20=20;var C_PS50=50;var C_PS100=100;
+﻿var C_PS=20;
+var C_PS20=20;
+var C_PS50=50;
+var C_PS100=100;
 var GUID=0;
-var GGUID=function(k){if(!k) GUID=GUID-1;return GUID;};
+
+var GGUID = function(k){
+	if(!k) 
+		GUID=GUID-1;
+	return GUID;
+};
+
 var GSEL=-10000;
-var BF=500;var C_LW=400;var EQ=1;var LT=2;var LE=3;var GT=4;var GE=5;var NE=6;var LI=7;var IN=8;
+var BF=500;
+var C_LW=400;
+var EQ=1;
+var LT=2;
+var LE=3;
+var GT=4;
+var GE=5;
+var NE=6;
+var LI=7;
+var IN=8;
+
 var PPID=1;
 var CY=1;
 var CFS=9;
@@ -44,23 +63,42 @@ var SR_SESH='N';
 
    
 var groupViewCfg = {forceFit:false,
-//		 templates:{   
-//			    cell: new Ext.Template( 
-//			      '<td height=24 class="x-grid3-col x-grid3-cellx-grid3-td-{id}   x-selectable{css}" style="{style}"  tabIndex="0" {cellAttr}>',
-//			      '<div style="padding-top:4px;" class="x-grid3-cell-innerx-grid3-col-{id}" {attr}>{value}</div>',
-//			      '</td>'
-//			       )
-//			    },
-		groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'};
+		groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+	};
+
+function round2(v){return (Math.round(v*100)/100);};
+function round4(v){return (Math.round(v*10000)/10000);};
+
 var formatDate = function(v){return v ? v.dateFormat(DATEF) : '';};
 var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
 var numRenderColor  = function(v,m,r){v = parseFloat(v);if(v=='NaN') return '0.00';m.css=(v>0?'green-b':'red-b');return v.toFixed(2);};
-var numRender = function(v){v=parseFloat(v);v=v.toFixed(2);if(v=='NaN') v='0.00';return v;};
-var rateRender = function(v){v=parseFloat(v);v=v.toFixed(4);if(v=='NaN') v='0.0000';return v;};
+
+var numRender = function(v){
+	v=parseFloat(v);
+	v=v.toFixed(2);
+	if(v=='NaN') 
+		v='0.00';
+	return v;
+};
+
+var rateRender = function(v){
+	v=parseFloat(v);
+	v=v.toFixed(4);
+	if(v=='NaN') 
+		v='0.0000';
+	return v;
+};
 var boolRender = function(v, p, record){p.css += ' x-grid3-check-col-td';return '<div class="x-grid3-check-col'+(v==1?'-on':'')+' x-grid3-cc-'+this.id+'">&#160;</div>';};
 var consRender  = function(v){return "<a href=\"javascript:openCons('"+v+"');\">"+v+"</a>";};
-var nullRender = function(v){if(v=='null') v=''; return v};
-var expenseNumRender = function(v){v=parseFloat(v);v=v.toFixed(4);if(v=='NaN') v='';return v;};
+var nullRender = function(v){if(v=='null') v=''; return v;};
+
+var expenseNumRender = function(v){
+	v=parseFloat(v);
+	v=v.toFixed(4);
+	if(v=='NaN') 
+		v='';
+	return v;
+};
 
 //去除字符串的空格
 function gf_trim(as_string)
@@ -69,6 +107,7 @@ function gf_trim(as_string)
    while(as_string.length > 0 && as_string.lastIndexOf(" ")==(as_string.length-1)) as_string = as_string.substr(0,as_string.length-1);
    return as_string;
 }
+
 //集装箱箱号验证
 //功能：验证集装箱箱号：
 //参数：
@@ -77,52 +116,61 @@ function gf_trim(as_string)
 //举例：gf_chkcntrno( 'TEXU2982987', 0 )     
 function chkcntrno(as_cntrno,ai_choice)
 {
- var fi_ki;
- var fi_numsum;
- var fi_nummod;
- var fai_num = new Array(11);
- var fb_errcntrno=false;
+	var fi_ki;
+	var fi_numsum;
+	var fi_nummod;
+	var fai_num = new Array(11);
+	var fb_errcntrno=false;
 
- if (as_cntrno==null) return true; //null不进行验证
- if (gf_trim(as_cntrno)=="") return true; //空不进行验证
+	if (as_cntrno==null) 
+		return true; //null不进行验证
  
- if (as_cntrno.length == 11)   //国际标准为11位，最后一位是校验位，若不是11位肯定不是标准箱
- { for(fi_ki=1;fi_ki<=11;fi_ki++)
-   fai_num[fi_ki] = 0;
-  for(fi_ki=1;fi_ki<=4;fi_ki++)     //根据国际标准验证法则处理箱号前面的4个英文字母
-  {
-   fch_char=as_cntrno.charAt(fi_ki-1).toUpperCase();
-   switch(true)
-   { case (fch_char=="A"):{fai_num[fi_ki] = 10;break;}
-    case (fch_char>="V" && fch_char<="Z"):{fai_num[fi_ki] = fch_char.charCodeAt() - 52;break;}
-    case (fch_char>="L" && fch_char<="U"):{fai_num[fi_ki] = fch_char.charCodeAt() - 53;break;}
-    default:{fai_num[fi_ki] = fch_char.charCodeAt() - 54;break;}
-   }
-  }
-  for(fi_ki=5;fi_ki<=11;fi_ki++)
-  {  fch_char=as_cntrno.charAt(fi_ki-1);
-   fai_num[fi_ki] = parseInt(fch_char); //ctype((mid(as_cntrno, fi_ki, 1)), integer)
-      }
-  fi_numsum = 0
+	if (gf_trim(as_cntrno)=="") 
+		return true; //空不进行验证
+ 
+	if (as_cntrno.length == 11)   //国际标准为11位，最后一位是校验位，若不是11位肯定不是标准箱
+	{ 
+		for(fi_ki=1;fi_ki<=11;fi_ki++)
+			fai_num[fi_ki] = 0;
+		for(fi_ki=1;fi_ki<=4;fi_ki++)     //根据国际标准验证法则处理箱号前面的4个英文字母
+		{
+			fch_char=as_cntrno.charAt(fi_ki-1).toUpperCase();
+			switch(true)
+			{ 
+				case (fch_char=="A"):{fai_num[fi_ki] = 10;break;}
+				case (fch_char>="V" && fch_char<="Z"):{fai_num[fi_ki] = fch_char.charCodeAt() - 52;break;}
+				case (fch_char>="L" && fch_char<="U"):{fai_num[fi_ki] = fch_char.charCodeAt() - 53;break;}
+				default:{fai_num[fi_ki] = fch_char.charCodeAt() - 54;break;}
+			}
+		}
+		for(fi_ki=5;fi_ki<=11;fi_ki++)
+		{  
+			fch_char=as_cntrno.charAt(fi_ki-1);
+			fai_num[fi_ki] = parseInt(fch_char); //ctype((mid(as_cntrno, fi_ki, 1)), integer)
+		}
+		fi_numsum = 0;
   
-  for(fi_ki=1;fi_ki<=10;fi_ki++)
-  { 
-   fi_sqr = 1;
-   for(i=1;i<fi_ki;i++){fi_sqr *=2;}
-   fi_numsum += fai_num[fi_ki] * fi_sqr;
-  }
+		for(fi_ki=1;fi_ki<=10;fi_ki++)
+		{ 
+			fi_sqr = 1;
+			for(var i=1;i<fi_ki;i++){
+				fi_sqr *=2;
+			}
+			fi_numsum += fai_num[fi_ki] * fi_sqr;
+		}
 
-  if (as_cntrno.substr(0,4) == "HLCU") fi_numsum = fi_numsum - 2; //hapaq lloyd的柜号与国际标准相差2
-  fi_nummod = fi_numsum % 11;
-  if (fi_nummod == 10) fi_nummod = 0;
-  if (fi_nummod == fai_num[11]) fb_errcntrno = true;
-  return fb_errcntrno;
- }else{
-    return fb_errcntrno;
- }  
-} 
-
-
+		if (as_cntrno.substr(0,4) == "HLCU") 
+			fi_numsum = fi_numsum - 2; //hapaq lloyd的柜号与国际标准相差2
+		fi_nummod = fi_numsum % 11;
+		if (fi_nummod == 10) fi_nummod = 0;
+		if (fi_nummod == fai_num[11]) 
+			fb_errcntrno = true;
+		return fb_errcntrno;
+	}
+	else{
+		return fb_errcntrno;
+	}  
+};
 
 var invoRender  = function(v){
 	if(!Ext.isDefined(v)){
@@ -177,11 +225,16 @@ var getUUID=function(){
 	s[8] = s[13] = s[18] = s[23] = '-';
 	return s.join('');
 };
+
+//检查密码过期
 var checkPassEx=function(){
 	var d='';
-	if(document.all) d=loadUserData('USER_PASS_CHANGE_DATE');
-	else if(window.sessionStorage) d+=window.sessionStorage.getItem('USER_PASS_CHANGE_DATE');
-	else d+=Cookies.get('USER_PASS_CHANGE_DATE');
+	if(document.all) 
+		d=loadUserData('USER_PASS_CHANGE_DATE');
+	else if(window.sessionStorage) 
+		d+=window.sessionStorage.getItem('USER_PASS_CHANGE_DATE');
+	else 
+		d+=Cookies.get('USER_PASS_CHANGE_DATE');
 	
 	var md=Date.parseDate(d,DATEF);
 	var ed=md.add(Date.DAY,30);
@@ -190,10 +243,11 @@ var checkPassEx=function(){
 	var bP=td.between(pd,ed);
 	if(bP){
 		var t=new Ext.Template(M_PASS_EXP);
-		var msg=t.apply([ed.format(DATEF)]);
-		//XMG.alert(SYS,msg);
+		var msg = t.apply([ed.format(DATEF)]);
+		XMG.alert(SYS,msg);
 	}
 };
+
 /*
  * a:action, r:root, o: record, s: field, d:direction, 
  * g:groupField, sid:storeId, id:id, rs:remoteSort
@@ -224,7 +278,15 @@ function GS(a,r,o,s,d,g,sid,id,rs){
 				return new Ext.data.GroupingStore({url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),groupField:g});
 	}
 };
-var SP=function(n){var s='';for(var i=0;i<n;i++){s+='&nbsp;';};return s;};
+
+var SP=function(n){
+	var s='';
+	for(var i=0;i<n;i++){
+		s+='&nbsp;';
+	};
+	return s;
+};
+
 Date.patterns = {ISO8601Long:"Y-m-d H:i:s",ISO8601Short:"Y-m-d",ShortDate: "n/j/Y",LongDate: "l, F d, Y",FullDateTime: "l, F d, Y g:i:s A",MonthDay: "F d",ShortTime: "g:i A",LongTime: "g:i:s A",SortableDateTime: "Y-m-d\\TH:i:s",UniversalSortableDateTime: "Y-m-d H:i:sO",YearMonth: "F, Y"};
 Ext.grid.CheckColumn = function(config){
 	this.addEvents({click:true});
@@ -253,9 +315,15 @@ Ext.grid.CheckColumn = function(config){
 Ext.extend(Ext.grid.CheckColumn, Ext.util.Observable);
 
 Ext.ux.IFrameComponent = Ext.extend(Ext.BoxComponent,{onRender:function(ct, position){this.el=ct.createChild({tag:'iframe',id:'IF_'+ this.id,frameBorder:0,src:this.url});}});
+
 Ext.ux.TabCloseMenu = function(){
     var tabs, menu, ctxItem;
-    this.init = function(tp){tabs = tp;tabs.on('contextmenu', onContextMenu);};
+    
+    this.init = function(tp){
+    	tabs = tp;
+    	tabs.on('contextmenu', onContextMenu);
+    };
+    
     function onContextMenu(ts, item, e){
         if(!menu){
             menu = new Ext.menu.Menu([
@@ -275,6 +343,7 @@ Ext.ux.TabCloseMenu = function(){
         menu.showAt(e.getPoint());
     }
 };
+
 var CCT={header:"创建时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"};
 var CMT={header:"修改时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"};
 var getUN=function(p){
@@ -530,11 +599,13 @@ var RTX4R=function(r,t,pid){
 	xml =xml+'</'+t+'>\n';
 	return xml;
 };
+
 var SMTX4R=function(sm,t,pid){
 	var xml ='';                			
 	sm.each(function(r){xml=xml+RTX4R(r,t,pid);});
 	return xml;
 };
+
 //嘉禾
 var RTX4RM=function(r,t,pid,mid){
 	var xml =''; 
@@ -544,6 +615,7 @@ var RTX4RM=function(r,t,pid,mid){
 	xml =xml+'</'+t+'>\n';
 	return xml;
 };
+
 var SMTX4RM=function(sm,t,pid,mid){
 	var xml ='';                			
 	sm.each(function(r){xml=xml+RTX4RM(r,t,pid,mid);});
@@ -555,11 +627,13 @@ var STX4R=function(store,t,pid){
 	var a =store.getRange();
 	if(a.length>0){
 		for(var i=0;i<a.length;i++){
-			if(a[i].get('rowAction')!='D' && a[i].get('rowAction')!='N') xml=xml+RTX4R(a[i],t,pid);
+			if(a[i].get('rowAction')!='D' && a[i].get('rowAction')!='N') 
+				xml=xml+RTX4R(a[i],t,pid);
 		}
 	}
 	return xml;
 };
+
 var RTX = function(r,t,rt){
 	var f=rt.prototype.fields;
 	var x='<'+t+'>\n';
@@ -619,11 +693,15 @@ var QTX=function(a){
 	var x='';
 	for(var i=0;i<a.length;i++)
 	{
-		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n'
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n';
 	}
 	return x;
 };
-var QTJ=function(a){return {fosQuery:a};};
+
+var QTJ=function(a){
+	return {fosQuery:a};
+};
+
 var JTR = function(json,rt){
 	var fields = rt.prototype.fields;	
 	var values = {};
@@ -636,6 +714,7 @@ var JTR = function(json,rt){
 	var record = new rt(values);
 	return record;
 };
+
 var RTJ = function(r,rt){
 	var f=rt.prototype.fields;	
 	if(r.get('rowAction') == ''||r.get('rowAction') == undefined) r.set('rowAction','M');
@@ -658,19 +737,43 @@ var RTJ = function(r,rt){
 	}
 	return v;
 };
-var RJ= function(rj,t){var j={};j[t]=rj;return j;};
+
+var RJ = function(rj,t){
+	var j={};
+	j[t]=rj;
+	return j;
+};
+
 var ATJ = function(a,rt){
-	var f=rt.prototype.fields;
 	var ra=[];
 	for(var j=0;j<a.length;j++)
 	{
-		if(a[j].get('rowAction')!='D'){var rj=RTJ(a[j],rt);ra[ra.length]=rj;}
+		if(a[j].get('rowAction')!='D'){
+			var rj=RTJ(a[j],rt);
+			ra[ra.length]=rj;
+		}
 	}
 	return ra;
 };
-var FOSX=function(x){return "<FosRequest>\n<data>\n"+x+"</data>\n</FosRequest>"};
-var FOSJ=function(x){return {FosRequest:{data:x}}};
-var FOSJA=function(o,t){if(o[t].length) return o; else{var d={};d[t]=[o[t]];return d;}};
+
+var FOSX=function(x){
+	return "<FosRequest>\n<data>\n"+x+"</data>\n</FosRequest>";
+};
+
+var FOSJ = function(x){
+	return {FosRequest:{data:x}};
+};
+
+var FOSJA = function(o,t){
+	if(o[t].length) 
+		return o; 
+	else{
+		var d={};
+		d[t]=[o[t]];
+		return d;
+	}
+};
+
 var FOSU=function(store,a,rt){
 	var fields = rt.prototype.fields;
 	//var sa=store.getModifiedRecords();
@@ -760,9 +863,11 @@ var FOS_REMOVE=function(sm,store){
 		}
 	else XMG.alert(SYS,M_R_P);
 };
+
 var FOS_REMOVE_A=function(a,store){
 	for(var i=0;i<a.length;i++){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');store.remove(a[i]);}
 };
+
 var CREATE_E_MENU=function(t,fd,fe,ff,s){
 	return {text:t,menu:{items:[{text:'Excel',scope:s,handler:fd},{text:C_EMAIL,scope:s,handler:fe},{text:'传真',scope:s,handler:ff}]}};
 };
@@ -790,15 +895,24 @@ var CREATE_KM=function(id,s,g){
 		 	}
 		},stopEvent:true,scope:s});*/
 };
+
 function getCSM(){return new Ext.grid.CheckboxSelectionModel({singleSelect:false});};
 function PTB(s,ps){return new Ext.PagingToolbar({pageSize:ps,store:s,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:C_NR});};
 function ACTIVE(){return new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',width:55});};
 function CHKCLM(t,d,w){return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});};
 
 function CreateNode(t,c,m,f){
- 	return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,listeners:{
-		click:function(n,e){if(NR(m)){XMG.alert(SYS,M_NR);return}
-  		T_MAIN.setActiveTab(T_MAIN.getComponent('G_'+c)?T_MAIN.getComponent('G_'+c):T_MAIN.add(f()));}}})
+ 	return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,
+ 		listeners:{
+ 			click:function(n,e){
+ 				if(NR(m)){
+ 					XMG.alert(SYS,M_NR);
+ 					return;
+ 				}
+ 				T_MAIN.setActiveTab(T_MAIN.getComponent('G_'+c)?T_MAIN.getComponent('G_'+c):T_MAIN.add(f()));
+ 			}
+ 		}
+ 	});
 };
 
 function createSMTree(){
@@ -1061,8 +1175,7 @@ function checkContainerNo(n){
     if(r!=a[10]) return false;*/
     return true;
 };
-function round2(v){return (Math.round(v*100)/100);};
-function round4(v){return (Math.round(v*10000)/10000);};
+
 
 function N2W(dValue,maxDec){
     dValue = dValue.toString().replace(/,/g, "");  
@@ -1134,6 +1247,7 @@ function N2D(input){
 	if(c) s+=' '+N2EW(c)+' CENTS';
 	return s;
 };
+
 function N2EW(input){
 	if(!input) return '';
 	input=parseInt(input).toString();
@@ -1142,23 +1256,75 @@ function N2EW(input){
 	var d2=['','','TWENTY ','THIRTY ','FORTY ','FIFTY ','SIXTY ','SEVENTY ','EIGHTY ','NINETY '];
 	var d3=['TEN ','ELEVEN ','TWELVE ','THIRTEEN ','FOURTEEN ','FIFTEEN ','SIXTEEN','SEVENTEEN ','EIGHTEEN ','NINETEEN '];
 	var x = 0;
-	var teen1 = "",teen2 = "",teen3 = "",numName = "",invalidNum = "";
+	var teen1 = "",teen2 = "",teen3 = "",numName = "";
 	var a1 = "",a2 = "",a3 = "",a4 = "",a5 = "";
 	var digit = new Array(inputlength);
-	for (var i = 0; i < inputlength; i++){digit[inputlength - i] = input.charAt(i)};
+	
+	for (var i = 0; i < inputlength; i++){
+		digit[inputlength - i] = input.charAt(i);
+	}
+	
 	var store = new Array(9);
 	for (var i = 0; i < inputlength; i++) {
 		x= inputlength - i;
 		switch (x) {
 			case x=9: store[x] = d1[digit[x]]; break;
-			case x=8: if(digit[x] == "1"){teen3 = "yes"} else {teen3 = ""}; store[x]=d2[digit[x]]; break;
-			case x=7: if (teen3 == "yes"){teen3 = "";store[x] = d3[digit[x]];} else {store[x] =d1[digit[x]]};break;
+			case x=8: 
+				if(digit[x] == "1"){
+					teen3 = "yes";
+				} 
+				else {
+					teen3 = "";
+				}; 
+				store[x]=d2[digit[x]]; 
+				break;
+			case x=7: 
+				if (teen3 == "yes"){
+					teen3 = "";
+					store[x] = d3[digit[x]];
+				} 
+				else {
+					store[x] =d1[digit[x]];
+				};
+				break;
 			case x=6: store[x] = d1[digit[x]]; break;
-			case x=5: if (digit[x] == "1") {teen2 = "yes"} else {teen2 = ""}; store[x] = d2[digit[x]]; break;
-			case x=4: if (teen2 == "yes") {teen2 = ""; store[x] =d3[digit[x]]}  else {store[x] =d1[digit[x]]}; break;
+			case x=5: 
+				if (digit[x] == "1") {
+					teen2 = "yes";
+				} 
+				else {
+					teen2 = "";
+				}; 
+				store[x] = d2[digit[x]]; 
+				break;
+			case x=4: 
+				if (teen2 == "yes") {
+					teen2 = ""; 
+					store[x] =d3[digit[x]];
+				}  
+				else {
+					store[x] =d1[digit[x]];
+				}; 
+				break;
 			case x=3: store[x] = d1[digit[x]]; break;
-			case x=2: if (digit[x] == "1") {teen1 = "yes"} else {teen1 = ""};store[x] = d2[digit[x]]; break;
-			case x=1: if (teen1 == "yes") {teen1 = "";store[x] =d3[digit[x]]} else {store[x] =d1[digit[x]]}; break;
+			case x=2: 
+				if (digit[x] == "1") {
+					teen1 = "yes";
+				} 
+				else {
+					teen1 = "";
+				};
+				store[x] = d2[digit[x]]; 
+				break;
+			case x=1: 
+				if (teen1 == "yes") {
+					teen1 = "";
+					store[x] =d3[digit[x]];
+				} 
+				else {
+					store[x] =d1[digit[x]];
+				}; 
+				break;
 		}
 		switch (inputlength){
 			case 1:   store[2] = ""; 
@@ -1170,15 +1336,31 @@ function N2EW(input){
 			case 7:   store[8] = "";
 			case 8:   store[9] = "";
 		}
-		if (store[9] != "") { a1 ="HUNDRED "} else {a1 = ""};
-		if ((store[9] != "")||(store[8] != "")||(store[7] != "")) { a2 ="MILLION "} else {a2 = ""};
-		if (store[6] != "") { a3 ="HUNDRED "} else {a3 = ""};
-		if ((store[6] != "")||(store[5] != "")||(store[4] != "")) { a4 ="THOUSAND "} else {a4 = ""};
+		if (store[9] != "") { 
+			a1 ="HUNDRED ";
+		} 
+		else {
+			a1 = "";
+		};
+		if ((store[9] != "")||(store[8] != "")||(store[7] != "")) { 
+			a2 ="MILLION ";
+		} 
+		else {
+			a2 = "";
+		};
+		if (store[6] != "") { 
+			a3 ="HUNDRED ";
+		} 
+		else {a3 = "";};
+		if ((store[6] != "")||(store[5] != "")||(store[4] != "")) { 
+			a4 ="THOUSAND ";
+		} 
+		else {a4 = "";};
 		if (store[3] != ""){
 			if(store[2] != "" || store[1] != "") a5 = "HUNDRED AND ";
 			else a5 ="HUNDRED ";			
 		} 
-		else {a5 = ""};
+		else {a5 = "";};
 	}	
 	numName =  store[9] + a1 + store[8] + store[7] + a2 + store[6] + a3 + store[5] + store[4] + a4 + store[3] + a5 + store[2] + store[1];
 	store[1] = ""; store[2] = ""; store[3] = ""; 
@@ -1195,6 +1377,7 @@ Ext.override(Ext.grid.RowSelectionModel, {
             last = g.lastEdit,
             ed = g.activeEditor,
             ae, last, r, c;
+        
         var shift = e.shiftKey;
         if(k == e.LEFT){
 			e.stopEvent(); ed.completeEdit();
@@ -1212,7 +1395,8 @@ Ext.override(Ext.grid.RowSelectionModel, {
             }else{
                 newCell = g.walkCells(ed.row, ed.col+1, 1, this.acceptsNav, this);
             }
-        }else if(k == e.ENTER){
+        }
+        else if(k == e.ENTER){
             //if(this.moveEditorOnEnter !== false){
                 if(shift){
                     newCell = g.walkCells(last.row - 1, last.col, -1, this.acceptsNav, this);
@@ -1658,7 +1842,11 @@ Ext.extend(Ext.menu.RangeMenu, Ext.menu.Menu, {
 
 Ext.grid.GridFilters = function(config){		
 	this.filters = new Ext.util.MixedCollection();
-	this.filters.getKey = function(o) {return o ? o.dataIndex : null};	
+	
+	this.filters.getKey = function(o) {
+		return o ? o.dataIndex : null;
+	};
+	
 	for(var i=0, len=config.filters.length; i<len; i++) {
 		this.addFilter(config.filters[i]);
 	}  
@@ -2073,7 +2261,7 @@ Ext.grid.filter.ListFilter = Ext.extend(Ext.grid.filter.Filter, {
 	},	
 	isActivatable: function() {return this.value.length > 0;},	
 	setValue: function(value) {
-		var value = this.value = [].concat(value);
+		this.value = [].concat(value);
 		if(this.loaded) {
 			this.menu.items.each(function(item) {
 				item.setChecked(false, true);
@@ -2191,7 +2379,11 @@ Ext.extend(Ext.form.ColorField, Ext.form.TriggerField,  {
         return !this.menu || !this.menu.isVisible();
     },
     getValue : function(){
-        return Ext.form.ColorField.superclass.getValue.call(this) || "";
+    	var  v = Ext.form.ColorField.superclass.getValue.call(this);
+    	if(v)
+    		return v;
+    	else 
+    		return  "";
     },
     setValue : function(color){
         Ext.form.ColorField.superclass.setValue.call(this, this.formatColor(color));
@@ -2376,8 +2568,8 @@ Ext.extend(Fos.HttpProvider, Ext.state.Provider, {
 Fos.clone = function(o) {
     if(!o || 'object' !== typeof o) {return o;}
     var c = '[object Array]' === Object.prototype.toString.call(o) ? [] : {};
-    var p, v;
-    for(p in o) {
+    var v;
+    for(var p in o) {
         if(o.hasOwnProperty(p)) {
             v = o[p];
             if(v && 'object' === typeof v) {c[p] = Fos.clone(v);}
