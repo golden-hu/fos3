@@ -34,9 +34,9 @@ wuStatusRender = function(v){return v==1?C_WS_USER_ACCEPTED:C_WS_USER_NOT_ACCEPT
 var S_BC=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
 var S_ST=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
 var S_BT=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','海运'],['A','空运']]});
-var getWS_BC=function(v){if(v) return S_BC.getById(v).get('NAME'); else return ''};
-var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return ''};
-var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return ''};
+var getWS_BC=function(v){if(v) return S_BC.getById(v).get('NAME'); else return '';};
+var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return '';};
+var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return '';};
 
 InquiryWin = function(p) {
 	var store = new Ext.data.Store({

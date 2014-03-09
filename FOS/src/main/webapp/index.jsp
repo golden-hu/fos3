@@ -44,9 +44,7 @@
 <script type="text/javascript" src="js/gen/gen-set.js"></script>
 
 <script type="text/javascript" src="js/fos-report.js"></script>
-
 <script type="text/javascript" src="js/fos.js"></script>
-
 
 <script type="text/javascript" src="js/crm/customer.js"></script>
 <script type="text/javascript" src="js/crm/price.js"></script>
@@ -69,6 +67,7 @@
 <script type="text/javascript" src="js/biz/bl.js"></script>
 <script type="text/javascript" src="js/biz/section.js"></script>
 <script type="text/javascript" src="js/biz/cargo.js"></script>
+<script type="text/javascript" src="js/biz/imp.js"></script>
 
 <script type="text/javascript" src="js/bulk/contract.js"></script>
 <script type="text/javascript" src="js/bulk/packingList.js"></script>
@@ -80,9 +79,7 @@
 <script type="text/javascript" src="js/customs/reliefTax.js"></script>
 <script type="text/javascript" src="js/customs/entReg.js"></script>
 
-<script type="text/javascript" src="js/fos-imp.js"></script>
-
-<script type="text/javascript" src="js/fos-ws.js"></script>
+<script type="text/javascript" src="js/ws/fos-ws.js"></script>
 
 </head>
 <body id="docs">

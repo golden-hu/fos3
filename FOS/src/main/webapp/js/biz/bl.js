@@ -990,3 +990,13 @@ Fos.BlWin = function(p,b,store) {
         plain:false,bodyStyle:'padding:2px;',items:frm});
 };
 Ext.extend(Fos.BlWin, Ext.Window);
+
+//数量选择窗口
+Fos.NumWin = function(T) {
+    var frm = new Ext.form.FormPanel({labelWidth:100,bodyStyle:'padding:5px',items:[
+        {fieldLabel:T,id:'NUM',xtype:'numberfield',anchor:'90%'}]
+    });
+    Fos.LenWin.superclass.constructor.call(this, {title:SYS,modal:true,width:300,
+        height:100,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:frm});
+};
+Ext.extend(Fos.NumWin,Ext.Window);

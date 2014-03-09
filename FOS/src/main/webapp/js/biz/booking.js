@@ -1572,3 +1572,63 @@ Fos.BookTab = function(p) {
 	});
 };
 Ext.extend(Fos.BookTab,Ext.FormPanel);
+
+//收发货人选择窗口
+Fos.ShipperWin=function(custId,shipperT,fn){
+	var bp ={custId:custId,cushType:shipperT};
+	if(VERSION==2){
+		bp={cushType:shipperT};
+	}
+	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'json',A:'CUSH_Q'},
+		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomerShipper',id:'cushId'},CCustomerShipper),
+		remoteSort:true,sortInfo:{field:'cushId', direction:'DESC'}});
+	store.load({params:bp});
+	
+		
+	this.selRecord = function(){
+		var b =sm.getSelected();
+		if(b){
+			fn(shipperT,b.get('cushName'));
+			this.close();
+		}
+	};
+		    
+	this.removeRecord=function(){	
+		var a =sm.getSelections();
+       	if(a.length){
+       		XMG.confirm(SYS,M_R_C,function(btn){
+           	if(btn=='yes'){           		
+               		var xml = SMTX4R(sm,'CCustomerShipper','cushId');
+               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CUSH_S'},
+					success: function(){
+               			store.load({params:{custId:custId,cushType:shipperT}});
+               			XMG.alert(SYS,M_S);
+               		},
+					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+					xmlData:FOSX(xml)});
+           }});
+		}
+       	else XMG.alert(SYS,M_R_P);		
+	};
+	
+	 var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	    var cm=new Ext.grid.ColumnModel({columns:[sm,
+		{header:C_FILE_NAME,dataIndex:'cushName',width:200},
+		{header:C_CREATE_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"}
+		],defaults:{sortable:true,width:100}});
+
+	    
+	var panel = new Ext.grid.GridPanel({header:false,
+		closable:false,store:store,sm:sm,cm:cm});
+	
+	Fos.ShipperWin.superclass.constructor.call(this,{buttonAlign:'right',
+		title:C_SHIPPER_AND_CONSIGNEE_INFO,layout:'fit',
+		width:600,height:400,modal:true,
+	  	items:[panel],
+	  	buttons:[{text:C_SEL,iconCls:'check',scope:this,handler:this.selRecord},
+	  	       {text:C_REMOVE,iconCls:'remove',scope:this,handler:this.removeRecord},
+		  	       {text:C_CANCEL,iconCls:'cancel',scope:this,handler:this.close}]
+	});
+};
+Ext.extend(Fos.ShipperWin, Ext.Window);
+
