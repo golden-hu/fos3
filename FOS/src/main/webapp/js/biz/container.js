@@ -1,4 +1,3 @@
-
 //装箱
 Fos.ContainerTab = function(p) {
 	this.sel =GSEL;
@@ -316,3 +315,55 @@ Fos.ContainerTab = function(p) {
 	}]});
 };
 Ext.extend(Fos.ContainerTab, Ext.FormPanel);
+
+
+//预配箱信息
+Fos.ContainerGrid = function(p,store) {
+	var checkSOC = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
+	var checkPOF = new Ext.grid.CheckColumn({header: "Part Of",dataIndex:'contPartOfFlag',width:55});
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
+	var c1={header:C_COTY,dataIndex:'cotyId',width:60,renderer:getCOTY,
+			editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyId',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S()})};
+	var c2={header:C_QUANTITY,dataIndex:'contNum',width:60,editor:new Ext.form.NumberField({})};
+	var c3={header:C_FL,dataIndex:'contFl',width:40,
+			editor:new Ext.form.ComboBox({displayField:'CODE',valueField:'CODE',triggerAction: 'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:FL_S})};
+    var c4={header:C_M_CONS_NO,dataIndex:'contMConsNo',editor:new Ext.form.TextField()};
+    var c5={header:C_PACK,hidden:true,dataIndex:'packId',renderer:getPACK,
+			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
+            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S()})};
+    var c6={header:C_PACKAGES,hidden:true,dataIndex:'contPackageNum',width:60,editor:new Ext.form.NumberField({})};
+    var c7={header:C_GW+C_KGS,hidden:true,dataIndex:'contGrossWeight',width:60,editor:new Ext.form.NumberField({})};
+    var c8={header:C_CBM,hidden:true,dataIndex:'contMeasurement',width:60,editor:new Ext.form.NumberField({})};
+    var c9={header:C_CARGO_NAME_EN,hidden:true,dataIndex:'contCargoNameEn',editor:new Ext.form.TextField()};
+    var c10={header:C_CARGO_NAME_EN,hidden:true,dataIndex:'contCargoNameEn',editor:new Ext.form.TextField()};
+    var c11={header:C_REMARKS,dataIndex:'contRemarks',editor:new Ext.form.TextField({})};	
+	var c12={header:C_CONT_NO,dataIndex:'contNo',validator:checkContainerNo,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:'集装箱编码格式不正确，前四位应为字母，后七位为数字，请重新输入！'})};
+	var c13={header:C_SEAL_NO,dataIndex:'contSealNo',editor:new Ext.form.TextField()};
+	var cm=new Ext.grid.ColumnModel({columns:p.get('consBizClass')==BC_I?[sm,c1,c2,c12,c13,c3,checkSOC,c5,c6,c7,c8,c9,c10,c11]:
+		[sm,c1,c2,c3,checkSOC,checkPOF,c4,c5,c6,c7,c8,c9,c10,c11],defaults:{sortable:false,width:100}});
+	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;	
+	
+	Fos.ContainerGrid.superclass.constructor.call(this, { 
+	id:'G_CONT_EXP'+p.get('id'),border:false,plugins:[checkSOC,checkPOF],autoScroll:true,
+	clicksToEdit:1,height:500,
+    store: store,sm:sm,cm:cm,
+    tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
+			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,
+			contPreFlag:p.get('consBizClass')==BC_I?'N':'Y',
+			consId:p.get('consId'),
+			consNo:p.get('consNo'),
+			contCargoNameEn:p.get('consBizClass')==BC_I?p.get('consCargoNameEn'):'',
+			contCargoNameCn:p.get('consBizClass')==BC_I?p.get('consCargoNameCn'):'',
+			contFl:p.get('consShipType')==ST_L?ST_L:ST_F,packId:'',contSocFlag:0,
+			contMConsNo:p.get('consMasterFlag')==0?p.get('consMasterNo'):'',
+			contMConsId:p.get('consMasterFlag')==0?p.get('consMasterId'):'',
+			contPartOfFlag:p.get('consShipType')==ST_L?1:0,version:'0',rowAction:'N'});
+        		store.insert(0,c);this.startEditing(0, 1);}},'-',
+		{text:C_REMOVE,iconCls:'remove',disabled:NR(m+F_M),scope:this,handler:function(){FOS_REMOVE(sm,store);}}
+		]
+	});
+};
+Ext.extend(Fos.ContainerGrid, Ext.grid.EditorGridPanel);

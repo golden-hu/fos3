@@ -923,3 +923,55 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	});
 };
 Ext.extend(Fos.InvoiceTab, Ext.FormPanel);
+
+//发票查询
+Fos.InvoLookupWin = function(t) {    
+	var frmLookup = new Ext.form.FormPanel({labelWidth:70,labelAlign:"right",
+    	items:[{id:'T_INVO_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:200,defaults:{bodyStyle:'padding:10px'},
+            items:[{id:'T_INVO_LOOK_1',title:C_LOOK_BY_INVO_NO,layout:'form',
+				items:[{fieldLabel:C_INVO_NO,name:'invoNo',xtype:'textarea',anchor:'90%'},
+            	{boxLabel:C_LOOK_SMART,name:'invoNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
+       			]},
+       			{id:'T_INVO_LOOK_2',title:C_LOOK_BY_TAX_NO,layout:'form',
+				items: [
+					{fieldLabel:C_TAX_NO,name:'invoTaxNo',xtype:'textarea',anchor:'90%'},
+					{boxLabel:C_LOOK_SMART,name:'invoTaxNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
+				]},
+        		{id:'T_INVO_LOOK_3',title:C_LOOK_COMPLEX,layout:'column',items:[
+        			{columnWidth:.33,layout:'form',border:false,
+	             	items:[
+	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
+	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
+	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+        			{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'90%'},
+        			{fieldLabel:C_BL_NO,name:'consMblNo',xtype:'textfield',anchor:'90%'},
+        			{fieldLabel:C_INVO_STATUS,tabIndex:10,name:'invoStatus',store:IVST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+        			{fieldLabel:C_WRITEOFF_STATUS,name:'invoWriteOffStatus',xtype:'combo',store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
+	             	]},
+	             	{columnWidth:.33,layout:'form',border:false,
+	             	items:[
+	             	{fieldLabel:C_INVO_DATE,name:'invoDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_DUE_DATE,name:'invoDueDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_SAIL_DATE,name:'consSailDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_VESS,name:'vessName',store:getVES(),enableKeyEvents:true,
+	             		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	             		listeners:{scope:this,keydown:{fn:function(f,e){LV(f,e);},buffer:500}}},
+	             	{fieldLabel:C_INVO_AMOUNT,name:'invoAmount',xtype:'numberfield',anchor:'90%'}
+	             	]},
+	             	{columnWidth:.34,layout:'form',border:false,
+	             	items:[	             	
+	             	{fieldLabel:C_TO,name:'invoDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_TO,name:'invoDueDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_TO,name:'consSailDate2',xtype:'datefield',format:DATEF,anchor:'90%'}	,
+	             	{fieldLabel:C_VOYA,tabIndex:10,name:'voyaName',xtype:'textfield',anchor:'90%'},
+	             	{fieldLabel:C_TO,name:'invoAmount2',xtype:'numberfield',anchor:'90%'}
+	             	]}
+	        	]}
+        	]}
+        ]
+    });
+    Fos.InvoLookupWin.superclass.constructor.call(this, {title:C_INVO_QUERY,iconCls:'search',modal:true,width:600,minWidth:300,
+        minHeight:200,plain:true,bodyStyle:'padding:0px;',buttonAlign:'right',items:frmLookup}); 
+};
+Ext.extend(Fos.InvoLookupWin, Ext.Window);

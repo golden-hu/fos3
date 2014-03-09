@@ -1,5 +1,5 @@
 ﻿Ext.namespace('Fos');
-Ext.BLANK_IMAGE_URL = 'js/ext/resources/images/default/s.gif';
+Ext.BLANK_IMAGE_URL = 'ext/resources/images/default/s.gif';
 Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8"; 
 frmValidatePrompt = function(){Ext.Msg.show({title:SYS,msg:M_DATA_NOT_COMPLETE,modal:true,buttons: Ext.Msg.OK});};
 var DATEF='Y-m-d';

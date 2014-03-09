@@ -449,3 +449,91 @@ Fos.BillTab = function(p,arr){
 };
 Ext.extend(Fos.BillTab, Ext.FormPanel);
 
+//对账单查询
+Fos.BillLookupWin = function(store,t) {
+	var t1={id:'T_BILL_LOOK_1',title:C_LOOK_BY_BILL_NO,layout:'form',items:[
+		{fieldLabel:C_BILL_NO,name:'billNo',xtype:'textarea',anchor:'90%'},
+    	{boxLabel:C_LOOK_SMART,name:'billNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}]};
+    var t2={id:'T_BILL_LOOK_2',title:C_LOOK_COMPLEX,layout:'column',items:[
+		{columnWidth:.5,layout:'form',border:false,labelWidth:80,labelAlign:'right',items:[
+			{fieldLabel:C_BILL_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
+		    	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+		    	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},		 	
+			{fieldLabel:C_BILL_DATE,name:'billDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+			{fieldLabel:C_SAIL_DATE,name:'billSailDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+			{fieldLabel:C_CONS_NO,name:'billConsNo',xtype:'textfield',anchor:'90%'},
+			{fieldLabel:C_VESS,tabIndex:5,name:'billVessel',store:getVES(),enableKeyEvents:true,
+		    	xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	     		listeners:{scope:this,keydown:{fn:function(f,e){LV(f,e);},buffer:500}}},
+	     	{fieldLabel:C_STATUS,tabIndex:3,name:'billStatus',store:BIST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}]},
+		{columnWidth:.5,layout:'form',border:false,labelWidth:80,labelAlign:'right',items:[
+			{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+			{fieldLabel:C_TO,name:'billDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+			{fieldLabel:C_TO,name:'billSailDate2',xtype:'datefield',format:DATEF,anchor:'90%'},		
+			{fieldLabel:C_BL_NO,name:'billBlNo',xtype:'textfield',anchor:'90%'},
+			{fieldLabel:C_VOYA,tabIndex:35,name:'billVoyage',xtype:'textfield',anchor:'90%'}]}
+		]};
+	var tab = new Ext.TabPanel({id:'T_BILL_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:340,
+		defaults:{bodyStyle:'padding:10px'},items:[t1,t2]});
+	this.reload=function(){
+		var xml = '';
+     	var at = tab.getActiveTab();
+     	var a=[];var op=1;
+		a[0]={key:'billType',value:t,op:1};
+       	if(at.getId()=='T_BILL_LOOK_1'){
+       		var billNo=at.find('name','billNo')[0].getValue();
+       		var billNoM=at.find('name','billNoM')[0].getValue();
+       		var c=billNo.indexOf(',');
+    		var b=billNo.indexOf('..');
+    		if(c>=0){
+    			a[1]={key:'billNo',value:billNo,op:IN};
+    		}
+    		else if(b>=0){
+    			var ra=billNo.split('..');
+    			a[1]={key:'billNo',value:ra[0],op:GE};
+    			a[2]={key:'billNo',value:ra[1],op:LE};
+    		}
+    		else if(billNoM){
+       			a[1]={key:'billNo',value:billNo,op:LI};
+    		}
+       	}
+       	else if(at.getId()=='T_BILL_LOOK_2'){
+       		var custId=at.find('name','custId')[0].getValue();
+       		if(custId) a[a.length]={key:'custId',value:custId,op:op};
+       		var currCode=at.find('name','currCode')[0].getValue();        		
+       		if(currCode) a[a.length]={key:'currCode',value:currCode,op:op};
+       		var billStatus=at.find('name','billStatus')[0].getValue();        		
+       		if(billStatus) a[a.length]={key:'billStatus',value:billStatus,op:op};
+       		var billConsNo=at.find('name','billConsNo')[0].getValue();        		
+       		if(billConsNo) a[a.length]={key:'billConsNo',value:billConsNo,op:op};
+       		var billBlNo=at.find('name','billBlNo')[0].getValue();        		
+       		if(billBlNo) a[a.length]={key:'billBlNo',value:billBlNo,op:op};
+       		var billVessel=at.find('name','billVessel')[0].getValue();        		
+       		if(billVessel) a[a.length]={key:'billVessel',value:billVessel,op:op};
+       		var billVoyage=at.find('name','billVoyage')[0].getValue();        		
+       		if(billVoyage) a[a.length]={key:'billVoyage',value:billVoyage,op:op};
+       		
+       		var billDate=at.find('name','billDate')[0].getValue();
+       		var billDate2=at.find('name','billDate2')[0].getValue();
+       		if(billDate && billDate2){
+       			a[a.length]={key:'billDate',value:billDate.format(DATEF),op:5};
+       			a[a.length]={key:'billDate',value:billDate2.format(DATEF),op:3};
+       		}
+       		else if(billDate) a[a.length]={key:'billDate',value:billDate,op:op};        		
+       		var billSailDate=at.find('name','billSailDate')[0].getValue();
+       		var billSailDate2=at.find('name','billSailDate')[0].getValue();
+       		if(billSailDate && billSailDate2){
+       			a[a.length]={key:'billSailDate',value:billSailDate.format(DATEF),op:5};
+       			a[a.length]={key:'billSailDate',value:billSailDate2.format(DATEF),op:3};
+       		}
+       		else if(billSailDate) a[a.length]={key:'billSailDate',value:billSailDate,op:op};       		
+       	}
+       	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
+	};
+    Fos.BillLookupWin.superclass.constructor.call(this, {title:C_BILL_QUERY,iconCls:'search',modal:true,width:600,height:300,minWidth:300,
+        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:tab,
+		buttons:[{text:C_OK,scope:this,handler:this.reload},{text:C_CANCEL,scope:this,handler:this.close}]
+	}); 
+};
+Ext.extend(Fos.BillLookupWin, Ext.Window);

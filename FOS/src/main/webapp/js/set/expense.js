@@ -1991,3 +1991,133 @@ Fos.ExpenseGrid = function(t){
 	store.load({params:{start:0,limit:C_PS}});
 };
 Ext.extend(Fos.ExpenseGrid,Ext.Panel);
+
+//费用查询
+Fos.ExSearchWin = function(c,t) {
+	this.store = GS('EXPE_X','SExpense',SExpense,'expeId','DESC','','','id',false);
+    this.store.load({params:{custId:c,expeType:t,expeBillStatus:'0'}});
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
+	var cm=new Ext.grid.ColumnModel({columns:[sm,
+		{header:C_SETTLE_OBJECT,width:180,dataIndex:"custName"},
+		{header:C_CONS_NO,width:100,dataIndex:"consNo"},
+		{header:C_CHAR,width:80,dataIndex:"charName"},		
+		{header:C_QUANTITY,width:60,dataIndex:"expeNum",align:'right'},
+		{header:C_UNIT_PRICE,width:80,dataIndex:"expeUnitPrice",align:'right'},
+		{header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",align:'right'},
+		{header:C_CURR,dataIndex:'currCode',width:60},	
+		{header:C_EX_RATE,width:60,dataIndex:"expeExRate",align:'right'},
+		{header:C_UNIT,width:80,dataIndex:"unitName"},
+		{header:C_VESS,width:100,dataIndex:"consVessel"},
+		{header:C_VOYA,width:80,dataIndex:"consVoyage"},
+		{header:C_MBL_NO,width:80,dataIndex:"consMblNo"},
+		{header:C_HBL_NO,width:80,dataIndex:"consHblNo"},
+		{header:C_INVO_NO,width:100,dataIndex:"expeInvoiceNo"},
+		{header:C_INVOICED_AMOUNT,width:100,dataIndex:"expeInvoiceAmount"},
+		{header:C_WRITEOFFED_AMOUNT,width:100,dataIndex:"expeWriteOffAmount"},
+		{header:C_REMARKS,width:100,dataIndex:"expeRemarks"}
+		],defaults:{sortable:true,width:80}});
+    this.grid = new Ext.grid.GridPanel({height:340,autoScroll:true,store:this.store,sm:sm,cm:cm,loadMask:true});	
+	this.search=function(){
+      	var a=[];var op=1;      	
+      		a[a.length]={key:'expeType',value:t,op:op};
+      		a[a.length]={key:'expeBillStatus',value:'0',op:op};
+    		var custId=this.find('name','custId')[0].getValue();
+    		if(custId) a[a.length]={key:'t2.custId',value:custId,op:op};
+    		var consCustId=this.find('name','consCustId')[0].getValue();
+    		if(consCustId) a[a.length]={key:'consCustId',value:consCustId,op:op};
+    		var consBizType=this.find('name','consBizType')[0].getValue();        		
+    		if(consBizType) a[a.length]={key:'consBizType',value:consBizType,op:op};
+    		var consBizClass=this.find('name','consBizClass')[0].getValue();        		
+    		if(consBizClass) a[a.length]={key:'consBizClass',value:consBizClass,op:op};
+    		var consShipType=this.find('name','consShipType')[0].getValue();        		
+    		if(consShipType) a[a.length]={key:'consShipType',value:consShipType,op:op};
+    		var consSalesRepId=this.find('name','consSalesRepId')[0].getValue();        		
+    		if(consSalesRepId) a[a.length]={key:'consSalesRepId',value:consSalesRepId,op:op};      		
+    		var consDate=this.find('name','consDate')[0].getValue();
+    		var consDate2=this.find('name','consDate2')[0].getValue();
+    		if(consDate && consDate2){
+    			a[a.length]={key:'consDate',value:consDate.format(DATEF),op:5};
+    			a[a.length]={key:'consDate',value:consDate2.format(DATEF),op:3};
+    		}
+    		else if(consDate) a[a.length]={key:'consDate',value:consDate,op:op};
+    		var consEtd=this.find('name','consEtd')[0].getValue();
+    		var consEtd2=this.find('name','consEtd2')[0].getValue();
+    		if(consEtd && consEtd2){
+    			a[a.length]={key:'consEtd',value:consEtd.format(DATEF),op:5};
+    			a[a.length]={key:'consEtd',value:consEtd2.format(DATEF),op:3};
+    		}
+    		else if(consEtd) a[a.length]={key:'consEtd',value:consEtd,op:op};    		
+    		var consPod=this.find('name','consPod')[0].getValue();        		
+    		if(consPod) a[a.length]={key:'consPod',value:consPod,op:op};
+    		var consMblNo=this.find('name','consMblNo')[0].getValue();        		
+    		if(consMblNo) a[a.length]={key:'consMblNo',value:consMblNo,op:op};
+    		var consRefNo=this.find('name','consRefNo')[0].getValue();        		
+    		if(consRefNo) a[a.length]={key:'consRefNo',value:consRefNo,op:op};
+    		var vessId=this.find('name','vessId')[0].getValue();        		
+    		if(vessId) a[a.length]={key:'vessId',value:vessId,op:op};
+    		var consVoyage=this.find('name','consVoyage')[0].getValue();        		
+    		if(consVoyage) a[a.length]={key:'consVoyage',value:voyaId,op:op};    		
+    		var charId=this.find('name','charId')[0].getValue();        		
+    		if(charId) a[a.length]={key:'charId',value:charId,op:op};
+    		var currCode=this.find('name','currCode')[0].getValue();        		
+    		if(currCode) a[a.length]={key:'currCode',value:currCode,op:op};
+    		var expeType=this.find('name','expeType')[0].getValue();        		
+    		if(expeType) a[a.length]={key:'expeType',value:expeType,op:op};
+    		var expeStatus=this.find('name','expeStatus')[0].getValue();        		
+    		if(expeStatus) a[a.length]={key:'expeStatus',value:expeStatus,op:op};
+    		var pateId=this.find('name','pateId')[0].getValue();        		
+    		if(pateId) a[a.length]={key:'pateId',value:pateId,op:op};
+   		this.store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	this.store.load({callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+	};
+	this.clear=function(){this.form.getForm().reset();};
+	this.form = new Ext.FormPanel({title:C_FILTER_BY,layout:'column',name:'sf',xtype:'form',height:160,
+				layoutConfig:{columns:4},region:'north',collapsible:true,
+				items:[{columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[
+	            	{fieldLabel:C_BOOKER,tabIndex:1,name:'consCustId',store:getCS(),enableKeyEvents:true,
+	            	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead: true,mode: 'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	            	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
+     				{fieldLabel:C_CHAR,tabIndex:5,name:'charId',store:getCHAR_S(),
+	            		xtype:'combo',displayField:'charCode',valueField:'charId',
+	            		tpl:charTpl,itemSelector:'div.list-item',
+	            		listWidth:300,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+     				{fieldLabel:C_VESS,tabIndex:9,name:'vessId',store:getVES(),enableKeyEvents:true,
+     					xtype:'combo',displayField:'vessNameEn',valueField:'vessId',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+     					listeners:{scope:this,keydown:{fn:function(f,e){LV(f,e);},buffer:500}}},     				
+     				{fieldLabel:C_CONS_DATE,tabIndex:17,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},     				
+     				{fieldLabel:C_SAIL_DATE,tabIndex:19,name:'consEtd',xtype:'datefield',format:DATEF,anchor:'90%'}
+     			]},
+	        	{columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[
+	            	{fieldLabel:C_SETTLE_OBJECT,tabIndex:2,name:'custId',store:getCS(),enableKeyEvents:true,
+	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
+					{fieldLabel:C_BIZ_TYPE,tabIndex:7,name:'consBizType',store:BT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	            	{fieldLabel:C_VOYA,tabIndex:10,name:'consVoyage',xtype:'textfield',anchor:'90%'},	            	
+                	{fieldLabel:C_TO,tabIndex:18,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+                	{fieldLabel:C_TO,tabIndex:20,name:'consEtd2',xtype:'datefield',format:DATEF,anchor:'90%'}
+	            ]},
+    			{columnWidth:.25,layout:'form',labelWidth:60,border:false,items:[
+	            	{fieldLabel:C_CURR,tabIndex:3,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	           		{fieldLabel:C_SHIP_TYPE,tabIndex:7,name:'consShipType',store:SHTY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	            	{fieldLabel:C_BL_NO,tabIndex:11,name:'consMblNo',xtype:'textfield',anchor:'90%'},
+	            	{fieldLabel:C_POD,tabIndex:47,name:'consPod',store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+              		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,listeners:{scope:this,keydown:{fn:LP,buffer:BF}}},
+              		{fieldLabel:C_SALES,tabIndex:13,name:'consSalesRepId',store:getSALE_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
+	            ]},
+    			{columnWidth:.25,layout:'form',labelWidth:70,border:false,items:[
+	            	{fieldLabel:C_CHAR_TYPE,tabIndex:4,name:'expeType',store:new Ext.data.SimpleStore({fields:['CODE','NAME'],data:[['','所有'],['R','应收'],['P','应付']]}),xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	            	{fieldLabel:C_BIZ_CLASS,tabIndex:6,name:'consBizClass',store:BC_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	            	{fieldLabel:C_PATE,tabIndex:8,name:'pateId',store:getPATE_S(),xtype:'combo',displayField:'pateName',valueField:'pateId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+	            	{fieldLabel:C_STATUS,tabIndex:12,name:'expeStatus',store:EXST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+	            	{fieldLabel:C_CUST_CONS_NO,tabIndex:16,name:'consRefNo',xtype:'textfield',anchor:'90%'}	            	
+	            ]}
+	    	]});        
+    Fos.ExSearchWin.superclass.constructor.call(this,{title:C_EXPE_QUERY,modal:true,width:900,
+    	height:500,listeners:{maximize:function(w){w.doLayout();}},
+        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',layout:'border',
+        tbar:[{text:C_SEARCH,iconCls:'refresh',scope:this,handler:this.search},'-',
+			{text:C_CLEAR_FILTER,iconCls:'rotate',scope:this,handler:this.clear}],
+        items:[this.form,
+        {title:'',layout:'fit',region:'center',deferredRender:false,bodyStyle:'padding:0px',items:[this.grid]}]}); 
+};
+Ext.extend(Fos.ExSearchWin,Ext.Window);
