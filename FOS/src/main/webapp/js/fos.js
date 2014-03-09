@@ -1,11 +1,119 @@
-﻿var getUN=function(p){var a=[];a[a.length]=['EACH','1'];if(p.get('consTotalMeasurement')){a[a.length]=['CBM',p.get('consTotalMeasurement')];}if(p.get('consTotalGrossWeight')){a[a.length]=['KG',p.get('consTotalGrossWeight')];}var s=p.get('consContainersInfo');if(s){s=s.replace(/(^\s*)|(\s*$)/g, "");var idx=s.indexOf(' ');if(idx==0){var b=s.split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}else{var c=s.split(' ');for(var i=0;i<c.length;i++){var b=c[i].split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}}}return a;};
+﻿Ext.onReady(function(){
+	Ext.state.Manager.setProvider(new Fos.HttpProvider());
+    Ext.QuickTips.init();
+    Ext.form.Field.prototype.msgTarget = 'side';
+    var tBar=new Ext.BoxComponent({region:'north',el:'north',height:60});   
+	var viewport = new Ext.Viewport({layout:'border',items:[tBar,P_MENU,T_MAIN]});
+	//T_MAIN.setActiveTab(T_MAIN.add(new Fos.TaskTab()));
+	
+	setTimeout(function(){Ext.get('loading').remove();
+	Ext.get('loading-mask').fadeOut({remove:true});},50);
+	iniStore();
+	checkPassEx();
+	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
+	P_MENU.on('expand',function(){T_MAIN.getActiveTab().doLayout();});
+	T_MAIN.on('tabchange',function(m,a){a.doLayout();});
+	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));
+	viewport.doLayout();
+	
+	//var task={run:loadMsg,interval:10000};
+	//this.runner = new Ext.util.TaskRunner();
+	//this.runner.start(task);
+});
+
+var getGStore=function(c,r,o,s,d,id){
+	if(Ext.StoreMgr.containsKey(c+'_S')){return Ext.StoreMgr.get(c+'_S');}
+	else {var store = GS(c+'_Q',r,o,s,d,'',c+'_S',id?id:s);store.load({params:{active:'1'}});return store;}
+};
+
+function iniStore(){
+	Ext.MessageBox.show({
+		title:'Please wait',
+		msg:'初始化数据...',
+		progressText:'Loading...',
+		width:300,
+		progress:true,
+		closable:false
+	});
+	getEXRA_S();
+	getCURR_S;
+	getSEWA_S();
+	getUNIT_S();
+	getCOBA_S();
+	getDOTY_S();
+	getCUCA_S();
+	getTETY_S();
+	getTRTE_S();
+	getTRTY_S();
+	getTATY_S();
+	
+	getBizTaskTypeStore('E','B');
+	getBizTaskTypeStore('I','B');
+	
+	getBizTaskTypeStore('E','C');
+	getBizTaskTypeStore('I','C');
+	
+	getBizTaskTypeStore('E','A');
+	getBizTaskTypeStore('I','A');
+	
+	getISTY_S();
+	getPATE_S();
+	getTRAN_S();
+	getPACK_S();
+	getCACL_S();
+	getSHLI_S();
+	getCOTY_S();
+	
+	if(!NR(M1_P+A_ROLE+F_V)) 
+		getFUNC_S();
+	
+	getTEMP_S();
+	getCHCL_S();
+	getCOCO_S();
+	getGROU_S();
+	getROLE_S();
+	getUSER_S();
+	getSALE_S();
+	
+	if(VERSION==2){
+		getTS_S();
+		getBRANCH_S();
+	}
+		
+	
+	getOP_S();
+	getCHAR_S();
+	getCCHAR_S();
+	
+	getCHAR_PERM_R_S();
+	getCHAR_PERM_P_S();
+	
+	var f = function(v){
+		return function(){
+			if(v == 12){
+				Ext.MessageBox.hide();} 
+			else {
+				var i = v/11;
+				Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+			}
+		};
+	};
+	
+	for(var i=1;i<13;i++){
+		setTimeout(f(i),i*300);
+	}
+};
+
+
+var getUN=function(p){var a=[];a[a.length]=['EACH','1'];if(p.get('consTotalMeasurement')){a[a.length]=['CBM',p.get('consTotalMeasurement')];}if(p.get('consTotalGrossWeight')){a[a.length]=['KG',p.get('consTotalGrossWeight')];}var s=p.get('consContainersInfo');if(s){s=s.replace(/(^\s*)|(\s*$)/g, "");var idx=s.indexOf(' ');if(idx==0){var b=s.split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}else{var c=s.split(' ');for(var i=0;i<c.length;i++){var b=c[i].split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}}}return a;};
 var openCons=function(n){var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',reader:new Ext.data.XmlReader({record:'FConsign'}, FConsign)});store.load({params:{consNo:n},callback:function(re,o,s){if(s&&re.length>0)Fos.showConsign(re[0]);}});};
 var openInvo=function(n){
 	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'INVO_Q',reader:new Ext.data.XmlReader({record:'SInvoice'}, SInvoice)});
 	store.load({params:{invoNo:n},callback:function(re,o,s){if(s&&re.length>0)	showInvoice(re[0]);}});
 };
 
-var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',deferredRender:false,plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
+var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',deferredRender:false,
+	plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
 
 function CreateMenu(t,c,m,f){
  	return {text:t,iconCls :'grid',scope:this,
@@ -655,31 +763,6 @@ function loadMsg(){
 	}
 	});
 };
-
-Ext.onReady(function(){
-	Ext.state.Manager.setProvider(new Fos.HttpProvider());
-    Ext.QuickTips.init();
-    Ext.form.Field.prototype.msgTarget = 'side';
-    var tBar=new Ext.BoxComponent({region:'north',el:'north',height:60});   
-	var viewport = new Ext.Viewport({layout:'border',items:[tBar,P_MENU,T_MAIN]});
-	//T_MAIN.setActiveTab(T_MAIN.add(new Fos.TaskTab()));
-	
-	setTimeout(function(){Ext.get('loading').remove();
-	Ext.get('loading-mask').fadeOut({remove:true});},50);
-	iniStore();
-	checkPassEx();
-	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
-	P_MENU.on('expand',function(){T_MAIN.getActiveTab().doLayout();});
-	T_MAIN.on('tabchange',function(m,a){a.doLayout();});
-	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));
-	viewport.doLayout();
-	
-	//var task={run:loadMsg,interval:10000};
-	//this.runner = new Ext.util.TaskRunner();
-	//this.runner.start(task);
-});
-
-
 
 
 //北京永顺集装箱模块

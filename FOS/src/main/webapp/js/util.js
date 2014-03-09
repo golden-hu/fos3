@@ -1,4 +1,23 @@
-﻿var C_PS=20;
+﻿Ext.namespace('Fos');
+Ext.BLANK_IMAGE_URL = 'ext/resources/images/default/s.gif';
+Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8"; 
+
+frmValidatePrompt = function(){
+	Ext.Msg.show({title:SYS,msg:M_DATA_NOT_COMPLETE,modal:true,buttons: Ext.Msg.OK});
+};
+
+var DATEF='Y-m-d';
+var GR=function(){return loadSession('USER_PERM');};
+var NR=function(c){
+	var p=GR();
+	return p.indexOf(c+',')==-1?true:false;	
+};
+var CUSER_ID=loadSession('USER_ID');
+var CUSER_NAME=loadSession('USER_NAME');
+var USER_IS_SALES=loadSession('USER_IS_SALES');
+var USER_ALL_VIEW_FLAG=loadSession('USER_ALL_VIEW_FLAG');
+
+var C_PS=20;
 var C_PS20=20;
 var C_PS50=50;
 var C_PS100=100;
@@ -9,6 +28,15 @@ var GGUID = function(k){
 		GUID=GUID-1;
 	return GUID;
 };
+
+function UUID(){
+	var guid='';
+	for (var i=0;i<10;i++){
+		guid += Math.floor(Math.random()*6).toString();
+	};
+	return guid;
+};
+
 
 var GSEL=-10000;
 var BF=500;
@@ -47,6 +75,45 @@ var BC_E='E'; //出口
 var BC_D='D'; //内贸
 var BC_T='T'; //过境
 
+//获得委托模块代码
+function getRM(bizClass,bizType,shipType){
+	var m1 = '';
+	var m2 = '';
+	if(bizClass=='T'){
+		m1=M1_E;	
+		m2=eval('M2_T'+bizType);
+	}
+	else if(bizClass=='H'){
+		m1 = eval('M1_'+bizType);
+		m2 = "";
+	}
+	else{
+		m1 = eval('M1_'+bizType);	
+		m2=eval('M2_'+bizClass);
+	}	
+	
+	if(bizType=='C'){
+		if(shipType=='FCL' && bizClass=='I') m2='02';
+		else if(shipType=='LCL' && bizClass=='I') m2='03';
+		else if(shipType=='FCL' && bizClass=='E') m2='05';
+		else if(shipType=='LCL' && bizClass=='E') m2='06';
+	}
+	
+	
+	if(bizType=='G'||bizType=='I')
+		return ""+m1;
+	else
+		return m1+m2;
+};
+
+function getCStatistic(ct){
+	var s = ct.substr(0,2);
+	if(s=='20') return s;
+	if(s=='40'){if(ct.indexOf('H')!=-1) return '40H';else return '40';};
+	if(s=='45' && ct.indexOf('H')!=-1) return '45H';
+	return '00';
+};
+
 var C_CT={header:"创建时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"};
 var C_MT={header:"修改时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"};
 
@@ -61,7 +128,7 @@ var SR_BBOOK='L';
 var SR_RABL='M';
 var SR_SESH='N';
 
-   
+
 var groupViewCfg = {forceFit:false,
 		groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
 	};

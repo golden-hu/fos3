@@ -735,3 +735,98 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
     ); 
 };
 Ext.extend(Fos.CustomerLookWin,Ext.Window);
+
+
+
+//客户地址选择窗口
+Fos.CustomerSiteWin=function(siteType,custId,fn,scope){
+	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'json',A:'CUSI_Q'},
+		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomerSite',id:'cusiId'},CCustomerSite),
+		remoteSort:true,sortInfo:{field:'cusiId', direction:'DESC'}});
+	store.load({params:{custId:custId,cusiType:siteType}});
+	
+		
+	this.selRecord = function(){
+		var b =sm.getSelected();
+		if(b){
+			fn(b,scope);
+			this.close();
+		}
+	};
+		    
+	this.removeRecord=function(){	
+		var a =sm.getSelections();
+       	if(a.length){
+       		XMG.confirm(SYS,M_R_C,function(btn){
+           	if(btn=='yes'){           		
+               		var xml = SMTX4R(sm,'CCustomerSite','cusiId');
+               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CUSI_S'},
+					success: function(){
+               			store.load({params:{custId:custId,siteType:siteType}});
+               			XMG.alert(SYS,M_S);
+               		},
+					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+					xmlData:FOSX(xml)});
+           }});
+		}
+       	else XMG.alert(SYS,M_R_P);		
+	};
+	
+	 var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	    var cm=new Ext.grid.ColumnModel({columns:[sm,
+		{header:C_NAME,dataIndex:'cusiName',width:200,editor:new Ext.form.TextField()},
+		{header:C_CONTACT,dataIndex:'cusiContact',width:100,editor:new Ext.form.TextField()},
+		{header:C_TEL,dataIndex:'cusiTel',width:100,editor:new Ext.form.TextField()},
+		{header:C_ADDRESS,dataIndex:'cusiAddress',width:200,editor:new Ext.form.TextField()}
+		],defaults:{sortable:true,width:100}});	
+	
+	this.addSite=function(){
+		var p = new CCustomerSite({id:GGUID(),cusiId:0,custId:custId,cusiType:siteType,version:'0',rowAction:'N'});
+		grid.stopEditing();
+		store.insert(0,p);
+		grid.startEditing(0, 1);
+	};
+	this.save = function(){
+		FOS_POST(store,'CCustomerSite',CCustomerSite,'CUSI_S');
+		store.load({params:{custId:custId,cusiType:siteType}});
+	};
+	
+	var grid = new  Ext.grid.EditorGridPanel({header:false,width:600,height:400,
+	    clicksToEdit:1,closable:true,store:store,sm:sm,cm:cm,loadMask:true}); 
+	
+	Fos.CustomerSiteWin.superclass.constructor.call(this,{buttonAlign:'right',
+		title:'',layout:'fit',
+		width:600,height:400,modal:true,
+	  	items:[grid],
+	  	buttons:[{text:C_ADD,iconCls:'add',handler:this.addSite},	  	         
+	  	       {text:C_REMOVE,iconCls:'remove',scope:this,handler:this.removeRecord},
+	  	       {text:C_SAVE,disabled:NR(M1_J+G_VESS+F_M),iconCls:'save',handler:this.save},
+		  	   {text:C_CLOSE,iconCls:'cancel',scope:this,handler:this.close},
+		  	   {text:C_SEL,iconCls:'check',scope:this,handler:this.selRecord}]
+	});
+};
+Ext.extend(Fos.CustomerSiteWin, Ext.Window);
+
+Fos.SiteLookup = Ext.extend(Ext.form.ComboBox, {
+	triggerClass:'x-form-search-trigger',
+	siteType:'',
+	custId:'',
+	constructor: function(config){
+		this.siteType = config['siteType'];
+		this.custId = config['custId'];
+		Fos.SiteLookup.superclass.constructor.apply(this, arguments);
+	},
+	initComponent : function(){
+		Fos.SiteLookup.superclass.initComponent.call(this);        
+	},
+	selectSite:function(site,scope){
+		scope.setValue(site.data['cusiName']);
+		scope.fireEvent('select', this, site, 0);
+	},
+	onTriggerClick: function(event){
+		var win = new Fos.CustomerSiteWin(this.siteType,this.custId,this.selectSite,this);
+		win.show();
+	}
+});
+
+Ext.reg('siteLookup', Fos.SiteLookup);

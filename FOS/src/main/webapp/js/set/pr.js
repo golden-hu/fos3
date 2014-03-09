@@ -557,3 +557,52 @@ Fos.PrTab = function(p) {
         ]});
 };
 Ext.extend(Fos.PrTab, Ext.FormPanel);
+
+
+Fos.PrLookupWin = function(t) {    
+	var frmLookup = new Ext.form.FormPanel({labelWidth:70,labelAlign:"right",
+    	items:[{id:'T_PR_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:200,defaults:{bodyStyle:'padding:10px'},
+            items:[{id:'T_PR_LOOK_1',title:t=='R'?C_LOOK_BY_PR_NO_R:C_LOOK_BY_PR_NO_P,layout:'form',
+				items:[{fieldLabel:t=='R'?C_PR_NO_R:C_PR_NO_P,name:'prNo',xtype:'textarea',anchor:'90%'},
+            	{boxLabel:C_LOOK_SMART,name:'prNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
+       			]},
+       			{id:'T_PR_LOOK_2',title:C_LOOK_BY_INVO_NO,layout:'form',
+				items: [
+					{fieldLabel:C_INVO_NO,name:'invoNo',xtype:'textarea',anchor:'90%'},
+					{boxLabel:C_LOOK_SMART,name:'invoNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
+				]},
+				{id:'T_PR_LOOK_3',title:C_LOOK_BY_TAX_NO,layout:'form',
+				items: [
+					{fieldLabel:C_TAX_NO,name:'invoTaxNo',xtype:'textarea',anchor:'90%'},
+					{boxLabel:C_LOOK_SMART,name:'invoTaxNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
+				]},
+        		{id:'T_PR_LOOK_4',title:C_LOOK_COMPLEX,layout:'column',items:[
+        			{columnWidth:.33,layout:'form',border:false,
+	             	items:[
+	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
+	             		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,
+						keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
+	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	             	{fieldLabel:C_SEWA,tabIndex:3,name:'prPaymentType',store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	             	{fieldLabel:C_STATUS,tabIndex:3,name:'prStatus',store:t=='R'?ERST_S:PRST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}]},
+	             	{columnWidth:.33,layout:'form',border:false,
+	             	items:[
+	             	{fieldLabel:t=='R'?C_PR_DATE_R:C_PR_DATE_P,name:'prDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_AMOUNT,name:'prAmount',xtype:'numberfield',anchor:'90%'},
+	             	{fieldLabel:C_BANK,tabIndex:5,name:'prBank',store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
+	             	]},
+	             	{columnWidth:.34,layout:'form',border:false,
+	             	items:[	             	
+	             	{fieldLabel:C_TO,name:'prDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_TO,name:'prAmount2',xtype:'numberfield',anchor:'90%'},
+	             	{fieldLabel:C_BANK_ACCOUNT,tabIndex:6,name:'prAccount',xtype:'textfield',anchor:'90%'}
+	             	]}
+	        	]}
+        	]}
+        ]
+    });
+    Fos.PrLookupWin.superclass.constructor.call(this, {title:t=='R'?C_PR_R_QUERY:C_PR_P_QUERY,iconCls:'search',modal:true,width:600,minWidth:300,
+        minHeight:200,plain:true,bodyStyle:'padding:0px;',buttonAlign:'right',items:frmLookup}); 
+};
+Ext.extend(Fos.PrLookupWin, Ext.Window);

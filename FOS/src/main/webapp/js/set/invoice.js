@@ -975,3 +975,52 @@ Fos.InvoLookupWin = function(t) {
         minHeight:200,plain:true,bodyStyle:'padding:0px;',buttonAlign:'right',items:frmLookup}); 
 };
 Ext.extend(Fos.InvoLookupWin, Ext.Window);
+
+
+//发票号码管理
+Fos.InvoNoGrid = function() {
+	var store = GS('INNO_Q','SInvoiceNo',SInvoiceNo,'innoId','DESC','','S_INNO','id',false);
+	store.load();
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+	var cm=new Ext.grid.ColumnModel({columns:[sm,
+	new Ext.grid.RowNumberer(),
+	{header:C_INNO_PREFIX,dataIndex:'innoPrefix',editor:new Ext.form.TextField()},
+	{header:C_INNO_START,dataIndex:'innoStartNo',editor:new Ext.form.NumberField()},
+	{header:C_INNO_END,dataIndex:'innoEndNo',editor:new Ext.form.NumberField()},
+	{header:C_INNO_NEXT,dataIndex:'innoNextNo',editor:new Ext.form.NumberField()},
+	{header:C_ACTIVE,dataIndex:'active',renderer:function(v){return v==1?'Y':'N';}},
+	{header:C_ACTIVE_DATE,dataIndex:'innoStartDate',renderer:formatDate,width:80}],defaults:{sortable:true,width:80}});
+	this.active=function(){
+		var b =sm.getSelected();
+		if(b){
+			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'INNO_U',innoId:b.get('innoId')},
+			success: function(r){store.reload();XMG.alert(SYS,M_S);},
+			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});			
+		}
+		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
+	Fos.InvoNoGrid.superclass.constructor.call(this,{
+	id:'G_INNO',title:C_INNO_MGT,closable:true,
+		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'innoId',direction:'DESC'},
+		tbar:[{text:C_ADD,disabled:NR(M1_S+S_INNO+F_M),iconCls:'add',scope:this,handler:function(){				
+				var r = new SInvoiceNo({id:GGUID(),innoId:0,innoPrefix:'',innoStartNo:'',innoEndNo:'',innoNextNo:'',
+				innoStartDate:'',active:'0',version:'0'});
+				store.insert(0,r);r.set('rowAction','N');sm.selectFirstRow();this.startEditing(0,1);
+			}},'-',
+			{text:C_REMOVE,disabled:NR(M1_S+S_INNO+F_R),iconCls:'remove',scope:this,handler:function(){FOS_REMOVE(sm,store);}},'-',
+			{text:C_SAVE,disabled:NR(M1_S+S_INNO+F_M),iconCls:'save',handler:function(){FOS_POST(store,'SInvoiceNo',SInvoiceNo,'INNO_S');}},'-',
+			{text:C_ACTIVE,disabled:NR(M1_S+S_INNO+F_A),iconCls:'check',scope:this,handler:this.active}
+		]
+	});
+};
+Ext.extend(Fos.InvoNoGrid, Ext.grid.EditorGridPanel);
+
+
+Fos.CurrencyWin = function() {
+    Fos.CurrencyWin.superclass.constructor.call(this, {title:C_CURR_P,modal:true,width:180,
+        height:90,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:[
+        {fieldLabel:C_CURR,id:'currCode',value:'CNY',allowBlank:false,store:getCURR_S(),xtype:'combo',
+        	displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',
+        	selectOnFocus:true,anchor:'99%'}]}); 
+};
+Ext.extend(Fos.CurrencyWin, Ext.Window);

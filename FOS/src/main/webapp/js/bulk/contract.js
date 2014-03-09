@@ -532,3 +532,117 @@ Fos.FConTab = function(p,store) {
     });
 };
 Ext.extend(Fos.FConTab,Ext.FormPanel);
+
+Fos.FConLookup = function(store,T){
+	this.reload=function(){
+     	var a=[];
+     	var custId=t.find('name','custId')[0].getValue();
+     	if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:EQ});     		
+     	var shliId=t.find('name','shliId')[0].getValue();
+     	if(shliId) a[a.length]=new QParam({key:'shliId',value:shliId,op:EQ});
+     	var fconStatus=t.find('name','fconStatus')[0].getValue();
+     	if(fconStatus) a[a.length]=new QParam({key:'fconStatus',value:fconStatus,op:EQ});
+     	var fconPol=t.find('name','fconPol')[0].getValue();        		
+     	if(fconPol) a[a.length]=new QParam({key:'fconPol',value:fconPol,op:EQ});
+     	var fconPod=t.find('name','fconPod')[0].getValue();        		
+     	if(fconPod) a[a.length]=new QParam({key:'fconPod',value:fconPod,op:EQ});
+     	var fconContractNo=t.find('name','fconContractNo')[0].getValue();        		
+     	if(fconContractNo) a[a.length]=new QParam({key:'fconContractNo',value:fconContractNo,op:EQ});     	
+     	var fconCarrier=t.find('name','fconCarrier')[0].getValue();        		
+     	if(fconCarrier) a[a.length]=new QParam({key:'fconCarrier',value:fconCarrier,op:LI});
+     	var fconVesselVoyage=t.find('name','fconVesselVoyage')[0].getValue();        		
+     	if(fconVesselVoyage) a[a.length]=new QParam({key:'fconVesselVoyage',value:fconVesselVoyage,op:LI});     	
+     	var fconForcastQuantity=t.find('name','fconForcastQuantity')[0].getValue();
+     	var fconForcastQuantity2=t.find('name','fconForcastQuantity2')[0].getValue();
+   		if(fconForcastQuantity && fconForcastQuantity2){
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity,op:GE});
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity2,op:LE});
+   		}
+   		else if(fconForcastQuantity) 
+   			a[a.length]=new QParam({key:'fconForcastQuantity',value:fconForcastQuantity,op:EQ});
+   		
+     	var fconLoadDate=t.find('name','fconLoadDate')[0].getValue();
+     	var fconLoadDate2=t.find('name','fconLoadDate2')[0].getValue();
+   		if(fconLoadDate && fconLoadDate2){
+   			a[a.length]=new QParam({key:'fconLoadDate',value:fconLoadDate.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'fconLoadDate',value:fconLoadDate2.format(DATEF),op:LE});
+   		}
+   		else if(fconLoadDate) a[a.length]=new QParam({key:'fconLoadDate',value:fconLoadDate.format(DATEF),op:EQ});
+     	
+     	var fconShipDateF=t.find('name','fconShipDateF')[0].getValue();
+     	var fconShipDateT=t.find('name','fconShipDateT')[0].getValue();
+   		if(fconShipDateF && fconShipDateT){
+   			a[a.length]=new QParam({key:'fconShipDateF',value:fconShipDateF.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'fconShipDateT',value:fconShipDateT.format(DATEF),op:LE});
+   		}
+   		else if(fconShipDateF) 
+   			a[a.length]=new QParam({key:'fconShipDateF',value:fconShipDateF.format(DATEF),op:EQ});
+   		
+   		var voyaShipDateF=t.find('name','voyaShipDateF')[0].getValue();
+     	var voyaShipDateT=t.find('name','voyaShipDateT')[0].getValue();
+   		if(voyaShipDateF && voyaShipDateT){
+   			a[a.length]=new QParam({key:'voyaShipDateF',value:voyaShipDateF.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'voyaShipDateT',value:voyaShipDateT.format(DATEF),op:LE});
+   		}
+   		else if(voyaShipDateF) 
+   			a[a.length]=new QParam({key:'voyaShipDateF',value:voyaShipDateF.format(DATEF),op:EQ});
+   		
+   		var voyaSailDate=t.find('name','voyaSailDate')[0].getValue();
+     	var voyaSailDate2=t.find('name','voyaSailDate2')[0].getValue();
+   		if(voyaSailDate && voyaSailDate2){
+   			a[a.length]=new QParam({key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:GE});
+   			a[a.length]=new QParam({key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:LE});
+   		}
+   		else if(voyaSailDate) 
+   			a[a.length]=new QParam({key:'voyaSailDate',value:voyaSailDate.format(DATEF),op:EQ});
+
+		var voyaSailedFlag=t.find('name','voyaSailedFlag')[0].getValue();
+   		if(voyaSailedFlag) a[a.length]=new QParam({key:'voyaSailedFlag',value:'0',op:EQ});
+   		
+   		a[a.length]=new QParam({key:'fconStatus',value:2,op:T=='S'?EQ:NE});
+     	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
+     	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});this.close();
+	};	
+	var t = new Ext.Panel({layout:'column',
+		items:[{columnWidth:.5,layout:'form',border:false,labelWidth:100,labelAlign:"right",
+	    	items:[{fieldLabel:C_BOOKER,name:'custId',store:getCS(),
+	        		xtype:'combo',displayField:'custCode',valueField:'custId',
+	        		typeAhead:true,enableKeyEvents:true,
+	        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
+	        		triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	              	listeners:{scope:this,
+	              		keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},	        	
+				{fieldLabel:C_SHLI,name:'shliId',store:getSHLI_S(),xtype:'combo',displayField:'shliName',valueField:'shliId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+				{fieldLabel:C_POL,name:'fconPol',store:getPOL_S(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	        	{fieldLabel:C_FORCAST_QUANTITY+'(>=)',name:'fconForcastQuantity',xtype:'numberfield',anchor:'90%'},
+	        	{fieldLabel:C_FORCAST_LOAD_DATE,name:'fconLoadDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_FORCAST_SHIP_DATE,tabIndex:8,name:'fconShipDateF',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_SHIP_DATE_F,tabIndex:8,name:'voyaShipDateF',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_SAIL_DATE,tabIndex:8,name:'voyaSailDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_CARRIER,name:'fconCarrier',store:getCS(),enableKeyEvents:true,
+	        		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	        		listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custCarrierFlag');},buffer:BF}}},
+     			{fieldLabel:C_NOT_SAILED,name:'voyaSailedFlag',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
+	        	]},
+	      	{columnWidth:.5,layout:'form',border:false,labelWidth:100,labelAlign:"right",
+	   		items:[{fieldLabel:C_CONTRACT_NO,name:'fconContractNo',xtype:'textfield',anchor:'90%'},	
+	   		    {fieldLabel:C_STATUS,name:'fconStatus',store:CTST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	   		    {fieldLabel:C_POD,tabIndex:47,name:'fconPod',store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+              		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,listeners:{scope:this,
+              			keydown:{fn:LP,buffer:BF}}},
+              	{fieldLabel:C_FORCAST_QUANTITY+'(<=)',name:'fconForcastQuantity2',xtype:'numberfield',anchor:'90%'},
+	        	{fieldLabel:C_TO,name:'fconLoadDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_TO,tabIndex:9,name:'fconShipDateT',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_TO,tabIndex:9,name:'voyaShipDateT',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_TO,tabIndex:8,name:'voyaSailDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_VESS_VOYA,name:'fconVesselVoyage',xtype:'textfield',anchor:'90%'}
+	        	]}
+			]});
+		
+    Fos.FConLookup.superclass.constructor.call(this, {title:C_FCON_QUERY,iconCls:'search',modal:true,width:600,minWidth:300,
+        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:t,
+		buttons:[{text:C_OK,scope:this,handler:this.reload},{text:C_CANCEL,scope:this,handler:this.close}]
+	}); 
+};
+Ext.extend(Fos.FConLookup, Ext.Window);
+

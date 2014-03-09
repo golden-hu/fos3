@@ -1512,3 +1512,75 @@ Fos.ShipTab = function(p) {
 };
 Ext.extend(Fos.ShipTab, Ext.Panel);
 
+
+Fos.PaliLookup = function(store,T){
+	this.reload=function(){
+     	var a=[];
+     	a[0]={key:'voyaSailedFlag',value:T=='N'?0:1,op:EQ};
+     	var custId=t.find('name','custId')[0].getValue();
+     	if(custId) a[a.length]={key:'custId',value:custId,op:EQ};
+     	var charterId=t.find('name','charterId')[0].getValue();
+     	if(charterId) a[a.length]={key:'charterId',value:charterId,op:EQ};
+     	var fconPod=t.find('name','fconPod')[0].getValue();
+     	if(fconPod) a[a.length]={key:'fconPod',value:fconPod,op:EQ};
+     	var fconContractNo=t.find('name','fconContractNo')[0].getValue();
+     	if(fconContractNo) a[a.length]={key:'fconContractNo',value:fconContractNo,op:LI};
+     	var paliHarbourId=t.find('name','paliHarbourId')[0].getValue();
+     	if(paliHarbourId) a[a.length]={key:'paliHarbourId',value:paliHarbourId,op:EQ};
+     	var vessName=t.find('name','vessName')[0].getValue();
+     	if(vessName) a[a.length]={key:'vessName',value:vessName,op:LI};
+     	var voyaName=t.find('name','voyaName')[0].getValue();
+     	if(voyaName) a[a.length]={key:'voyaName',value:voyaName,op:LI};
+     	var paliStationId=t.find('name','paliStationId')[0].getValue();
+     	if(paliStationId) a[a.length]={key:'paliStationId',value:paliStationId,op:EQ};
+     	var paliTransFlag=t.find('name','paliTransFlag')[0].getValue();
+     	if(paliTransFlag) a[a.length]={key:'paliTransFlag',value:'1',op:EQ};
+     	
+     	var paliArriveDate=t.find('name','paliArriveDate')[0].getValue();
+     	if(paliArriveDate) a[a.length]={key:'paliArriveDate',value:paliArriveDate.format(DATEF),op:EQ};
+     	var paliTrackType=t.find('name','paliTrackType')[0].getValue();
+     	if(paliTrackType) a[a.length]={key:'paliTrackType',value:paliTrackType,op:EQ};
+     	var vessNameCn=t.find('name','vessNameCn')[0].getValue();
+     	if(vessNameCn) a[a.length]={key:'vessNameCn',value:vessNameCn,op:LI};
+     	var paliTrackNo=t.find('name','paliTrackNo')[0].getValue();
+     	if(paliTrackNo) a[a.length]={key:'paliTrackNo',value:paliTrackNo,op:EQ};     	
+     	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+     	if(T=='N')
+        	store.reload({callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
+        else
+     		store.reload({params:{start:0,limit:C_PS100},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});     	
+     	this.close();
+	};	
+	var t = new Ext.Panel({layout:'column',
+		items:[{columnWidth:.5,layout:'form',border:false,labelWidth:100,labelAlign:"right",
+	    	items:[{fieldLabel:C_SHIPPER,name:'custId',store:getCS(),
+	        		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,enableKeyEvents:true,
+	        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	              	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},	        	
+				{fieldLabel:C_PACKING_TRACK_NO,name:'paliTrackNo',xtype:'textfield',anchor:'90%'},				
+				{fieldLabel:C_PACKING_EXP_PORT,name:'paliHarbourId',xtype:'combo',store:getHARB_S(),displayField:'placName',valueField:'placId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+				{fieldLabel:C_VESS,name:'vessName',xtype:'textfield',anchor:'90%'},
+				{fieldLabel:C_VESS_NAME_CN,name:'vessNameCn',xtype:'textfield',anchor:'90%'},
+				{fieldLabel:C_PACKING_STATION,name:'paliStationId',xtype:'combo',store:getHARB_S(),displayField:'placName',valueField:'placId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+				{fieldLabel:C_TRANS_FLAG,name:'paliTransFlag',xtype:'checkbox',anchor:'90%'}
+	        	]},
+	      	{columnWidth:.5,layout:'form',border:false,labelWidth:100,labelAlign:"right",
+	   		items:[
+			{fieldLabel:C_RENTER,name:'charterId',store:getCS(),enableKeyEvents:true,
+				tpl:custTpl,itemSelector:'div.list-item',listWidth:400,xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+				listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},
+	   		    {fieldLabel:C_CONTRACT_NO,name:'fconContractNo',xtype:'textfield',anchor:'90%'},	
+	        	{fieldLabel:C_POD,tabIndex:47,name:'fconPod',store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+              		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,listeners:{scope:this,keydown:{fn:LP,buffer:BF}}},
+              	{fieldLabel:C_VOYA,name:'voyaName',xtype:'textfield',anchor:'90%'},
+              	{fieldLabel:C_PACKING_ARRIVE_DATE,name:'paliArriveDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+              	{fieldLabel:C_TRACK_TYPE,name:'paliTrackType',xtype:'combo',store:TRACK_T_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
+	        	]}
+			]});
+		
+    Fos.PaliLookup.superclass.constructor.call(this, {title:C_PALI_QUERY,iconCls:'search',modal:true,width:600,minWidth:300,
+        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:t,
+		buttons:[{text:C_OK,scope:this,handler:this.reload},{text:C_CANCEL,scope:this,handler:this.close}]
+	}); 
+};
+Ext.extend(Fos.PaliLookup, Ext.Window);

@@ -763,3 +763,83 @@ Fos.VoucLookupWin = function(t) {
         minHeight:200,plain:true,bodyStyle:'padding:0px;',buttonAlign:'right',items:frmLookup}); 
 };
 Ext.extend(Fos.VoucLookupWin,Ext.Window);
+
+
+//客户余额
+Fos.BalaGrid = function() {
+	var store = GS('BALA_Q','SBalance',SBalance,'balaId','DESC','','','',false);
+	store.load({params:{start:0,limit:C_PS}});
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	var cm=new Ext.grid.ColumnModel({columns:[new Ext.grid.RowNumberer(),sm,
+	{header:C_CUST_NAME,dataIndex:'custName',width:200},
+	{header:C_CUST_SNAME,dataIndex:'custSname',width:120},
+	{header:C_CURR,dataIndex:'currCode',width:80},
+	{header:C_BALANCE,dataIndex:'balaAmount',width:80,renderer:numRender},
+	{header:C_REMARKS,dataIndex:'remarks',editor:new Ext.form.TextField(),width:80}
+	],defaults:{sortable:true,width:100}});
+	this.list=function(){
+        var b = sm.getSelected();
+        if(b){var frm = new Fos.BaliWin(b);frm.show();}
+        else XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
+	var rowCtxEvents = {rowdblclick: this.list};
+	
+	this.save=function(){
+		var a = store.getModifiedRecords();		
+		if(a.length){			
+			var x = ATX(a,'SBalance',SBalance);
+			if(x!=''){
+				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'BALA_S'},
+					success: function(res){
+						var a = XTRA(res.responseXML,'SBalance',SBalance);
+						FOSU(store,a,SBalance);
+						XMG.alert(SYS,M_S);
+					},
+					failure: function(res){
+						XMG.alert(SYS,M_F+res.responseText);
+					},
+					xmlData:FOSX(x)
+				});
+			}
+		}
+		else 
+			XMG.alert(SYS,M_NC);
+	};	
+	
+	Fos.BalaGrid.superclass.constructor.call(this,{
+	id:'G_BALA',title:C_CUST_BALANCE,closable:true,border:false,autoScroll:true,
+	cm:cm,sm:sm,store:store,clicksToEdit:1,
+	listeners:rowCtxEvents,tbar:[
+	    {text:C_BALA_LIST,iconCls:'grid',scope:this,handler:this.list},
+	    {text:C_SAVE,iconCls:'save',scope:this,handler:this.save}
+	],
+	bbar:PTB(store,C_PS)});
+};
+Ext.extend(Fos.BalaGrid, Ext.grid.EditorGridPanel);
+
+//客户余额明细
+Fos.BaliWin = function(b){
+    var store = GS('VOUC_X','SVoucher',SVoucher,'voucDate','DESC','voucDate','S_VOUC','id',true);
+    var a=[];
+    a[0]={key:'voucFixAmount',value:0,op:NE};
+    a[1]={key:'custId',value:b.get('custId'),op:EQ};
+    a[2]={key:'currCode',value:b.get('currCode'),op:EQ};
+    store.baseParams = {mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
+    store.load({params:{start:0,limit:C_PS}}); 
+    
+    var cm=new Ext.grid.ColumnModel({columns:[
+        new Ext.grid.RowNumberer(),
+        {header:C_VOUC_NO,width:100,dataIndex:"voucNo"},
+        {header:C_DATE,dataIndex:"voucDate",renderer:formatDate},
+        {header:C_CHAR_TYPE,dataIndex:"voucType",renderer:function(v){return v=='R'?C_R:C_P;}},        
+        {header:C_CURR,width:60,dataIndex:"currCode"},
+        {header:C_FIX_AMOUNT,align:'right',renderer:numRender,dataIndex:"voucFixAmount"},
+        {header:C_INVO_NO,dataIndex:"voucInvoiceNo"},
+        {header:C_TAX_NO,dataIndex:"voucTaxInvoiceNo"},
+        {header:C_REMARKS,dataIndex:"voucRemarks"}
+        ],defaults:{sortable:true,width:80}});
+    var g=new Ext.grid.GridPanel({store:store,autoScroll:true,cm:cm,stripeRows:true});
+    Fos.BaliWin.superclass.constructor.call(this, {title:C_FIX_LIST,modal:true,width:600,
+        height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',layout:'fit',items:g}); 
+};
+Ext.extend(Fos.BaliWin,Ext.Window);

@@ -3206,3 +3206,27 @@ Fos.RailConsLookupWin = function(store, setQueryParams) {
 	});
 };
 Ext.extend(Fos.RailConsLookupWin, Ext.Window);
+
+var BASE_STATION = '';
+var BASE_TRAINNAME_EN = '';
+var BASE_TRAINNAME_CN = '';
+
+var getBTS=function(){
+	if(BASE_STATION!='') 
+		return BASE_STATION;
+	else{
+		var bc=getCFG('BASE_STATION');
+		var s=getTRAIN_S();
+		var a=s.getRange();
+		for(var i=0;i<a.length;i++){
+			if(a[i].get('trainCode')==bc){
+				BASE_STATION=a[i].get('trainId');
+				BASE_TRAINNAME_EN=a[i].get('trainNameEn');
+				BASE_TRAINNAME_CN=a[i].get('trainNameCn');
+				break;
+			}
+		}
+		return BASE_STATION;
+	}
+};
+

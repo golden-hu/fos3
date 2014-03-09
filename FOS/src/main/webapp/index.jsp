@@ -2,14 +2,10 @@
 <%@ page import="java.util.*" %>
 
 <%
-	String PhotoAddress="images/fos.png" ;
+	String PhotoAddress="images/fos.png";
 	if(session.getAttribute("UserName")==null){
 		response.sendRedirect("login.html");
 	}
-
-// 	if(session.getAttribute("CompCode").equals("CNWL")){
-// 		PhotoAddress ="images/CNWL.png";
-// 	}
 %>
 <html>
 <head>
@@ -23,20 +19,40 @@
 <script type="text/javascript" src="js/resource_Zh_Cn.js"></script>
 <script type="text/javascript" src="js/version.js"></script>
 <script type="text/javascript" src="js/constant.js"></script>
-<script type="text/javascript" src="js/fos-sys.js"></script>
-<script type="text/javascript" src="js/store.js"></script>
-<script type="text/javascript" src="js/fos-gen.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
+
+<script type="text/javascript" src="js/store/store-biz.js"></script>
+<script type="text/javascript" src="js/store/store-bulk.js"></script>
+<script type="text/javascript" src="js/store/store-crm.js"></script>
+<script type="text/javascript" src="js/store/store-set.js"></script>
+<script type="text/javascript" src="js/store/store-sys.js"></script>
+<script type="text/javascript" src="js/store/store-gen.js"></script>
+
+<script type="text/javascript" src="js/sys/actionLog.js"></script>
+<script type="text/javascript" src="js/sys/config.js"></script>
+<script type="text/javascript" src="js/sys/group.js"></script>
+<script type="text/javascript" src="js/sys/mailList.js"></script>
+<script type="text/javascript" src="js/sys/message.js"></script>
+<script type="text/javascript" src="js/sys/role.js"></script>
+<script type="text/javascript" src="js/sys/task.js"></script>
+<script type="text/javascript" src="js/sys/template.js"></script>
+<script type="text/javascript" src="js/sys/user.js"></script>
+
+<script type="text/javascript" src="js/gen/gen-biz.js"></script>
+<script type="text/javascript" src="js/gen/gen-custom.js"></script>
+<script type="text/javascript" src="js/gen/gen-place.js"></script>
+<script type="text/javascript" src="js/gen/gen-set.js"></script>
+
 <script type="text/javascript" src="js/fos-report.js"></script>
 
 <script type="text/javascript" src="js/fos.js"></script>
 
-<script type="text/javascript" src="js/fos-cust.js"></script>
 
 <script type="text/javascript" src="js/crm/customer.js"></script>
 <script type="text/javascript" src="js/crm/price.js"></script>
+<script type="text/javascript" src="js/crm/commission.js"></script>
 
-<script type="text/javascript" src="js/set/fos-set.js"></script>
+<script type="text/javascript" src="js/set/finInterface.js"></script>
 <script type="text/javascript" src="js/set/consign_audit.js"></script>
 <script type="text/javascript" src="js/set/expense.js"></script>
 <script type="text/javascript" src="js/set/invoice.js"></script>
@@ -52,18 +68,19 @@
 <script type="text/javascript" src="js/biz/inspection.js"></script>
 <script type="text/javascript" src="js/biz/bl.js"></script>
 <script type="text/javascript" src="js/biz/section.js"></script>
+<script type="text/javascript" src="js/biz/cargo.js"></script>
 
 <script type="text/javascript" src="js/bulk/contract.js"></script>
 <script type="text/javascript" src="js/bulk/packingList.js"></script>
 <script type="text/javascript" src="js/bulk/ship.js"></script>
 
-<script type="text/javascript" src="js/fos-customs.js"></script>
+<script type="text/javascript" src="js/customs/cude.js"></script>
+<script type="text/javascript" src="js/customs/insp.js"></script>
+<script type="text/javascript" src="js/customs/trade.js"></script>
+<script type="text/javascript" src="js/customs/reliefTax.js"></script>
+<script type="text/javascript" src="js/customs/entReg.js"></script>
 
 <script type="text/javascript" src="js/fos-imp.js"></script>
-<script type="text/javascript" src="js/fos-rail.js"></script>
-
-
-<script type="text/javascript" src="js/ys-cont.js"></script>
 
 <script type="text/javascript" src="js/fos-ws.js"></script>
 
