@@ -1,7 +1,9 @@
 ﻿//订舱
 Fos.BookTab = function(p) {
 	this.carg_s = GS('CARG_Q','FCargo',FCargo,'cargId','ASC');
+	
 	this.cargoGrid = new Fos.CargoGrid(p,this.carg_s,this);	
+	
 	if(p.get('consBizType')==BT_C||p.get('consBizType')==BT_A){
 		this.cont_s = GS('CONT_Q','FContainer',FContainer,'contId','ASC');
     	this.contGrid = new Fos.ContainerGrid(p,this.cont_s);
@@ -10,6 +12,7 @@ Fos.BookTab = function(p) {
     		this.hblGrid = new Fos.ImpHblGrid(p,this.hbl_s); 
     	}
     }
+	
     if(p.get('rowAction')!='N'){
     	if(p.get('consMasterId')!=p.get('consId')){
     		this.carg_s.load({params:{consMasterId:p.get('consMasterId')}});
@@ -28,27 +31,62 @@ Fos.BookTab = function(p) {
 		};
 		if(p.get('consBizClass')==BC_I)
 				this.hbl_s.load({params:{consId:p.get('consId'),blType:'H/BL'}});
-	};    
+	};
+	
     this.save = function(){    	
     	var tb=this.getTopToolbar();
 		if(!p.get('custId')){
-			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);return;};
+			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);
+			return;
+		};
+		
 		if(this.find('name','deptId')[0].getValue()==''){
-			XMG.alert(SYS,M_DEPT_REQIRED,function(){this.find('name','deptId')[0].focus();},this);return;};	
+			XMG.alert(SYS,M_DEPT_REQIRED,function(){
+				this.find('name','deptId')[0].focus();
+			},this);
+			return;
+		};	
+		
 		if(this.find('name','consSalesRepName')[0].getValue()==''){
-			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);return;};
+			XMG.alert(SYS,M_SALES_REQIRED,function(){
+				this.find('name','consSalesRepName')[0].focus();},this);
+			return;
+		};
+		
 		if(this.find('name','consOperatorName')[0].getValue()==''){
-			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorName')[0].focus();},this);return;};
+			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){
+				this.find('name','consOperatorName')[0].focus();},this);
+			return;
+		};
 		
 		if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O ||p.get('consBizType')==BT_C){
 			if(this.find('name','consPolEn')[0].getValue()==''){
-				XMG.alert(SYS,M_POD_REQIRED,function(){this.find('name','consPodEn')[0].focus();},this);return;};
+				XMG.alert(SYS,M_POD_REQIRED,function(){
+					this.find('name','consPodEn')[0].focus();
+				},this);
+				return;
+			};
+			
 			if(this.find('name','consPodEn')[0].getValue()==''){
-				XMG.alert(SYS,M_POD_REQIRED,function(){this.find('name','consPodEn')[0].focus();},this);return;};
+				XMG.alert(SYS,M_POD_REQIRED,function(){
+					this.find('name','consPodEn')[0].focus();
+				},this);
+				return;
+			};
+			
 			if(p.get('consBizClass')==BC_E&&this.find('name','consEtd')[0].getValue()==''){
-				XMG.alert(SYS,M_ETD_REQIRED,function(){this.find('name','consEtd')[0].focus();},this);return;};
+				XMG.alert(SYS,M_ETD_REQIRED,function(){
+					this.find('name','consEtd')[0].focus();
+				},this);
+				return;
+			};
+			
 			if(p.get('consBizClass')==BC_I && this.find('name','consEta')[0].getValue()==''){
-				XMG.alert(SYS,M_ETA_REQIRED,function(){this.find('name','consEta')[0].focus();},this);return;};
+				XMG.alert(SYS,M_ETA_REQIRED,function(){
+					this.find('name','consEta')[0].focus();
+				},this);
+				return;
+			};
 		}
 			
 		var f = FConsign.prototype.fields;
@@ -77,17 +115,27 @@ Fos.BookTab = function(p) {
    	 	}
    	 	else{
 	  	 	var consServiceRequired = '';   	 	
-	  	 	if(this.find('name','SR_TRAN')[0]) consServiceRequired+=this.find('name','SR_TRAN')[0].getValue()?SR_TRAN:'';
-	  	 	if(this.find('name','SR_WARE')[0]) consServiceRequired+=this.find('name','SR_WARE')[0].getValue()?SR_WARE:'';
-	  	 	if(this.find('name','SR_INSP')[0]) consServiceRequired+=this.find('name','SR_INSP')[0].getValue()?SR_INSP:'';
-	  	 	if(this.find('name','SR_CUDE')[0]) consServiceRequired+=this.find('name','SR_CUDE')[0].getValue()?SR_CUDE:'';
-	  	 	if(this.find('name','SR_CONT')[0]) consServiceRequired+=this.find('name','SR_CONT')[0].getValue()?SR_CONT:'';
-	  	 	if(this.find('name','SR_BL')[0]) consServiceRequired+=this.find('name','SR_BL')[0].getValue()?SR_BL:'';
-	  	 	if(this.find('name','SR_BBOOK')[0]) consServiceRequired+=this.find('name','SR_BBOOK')[0].getValue()?SR_BBOOK:'';
-	  	 	if(this.find('name','SR_RABL')[0]) consServiceRequired+=this.find('name','SR_RABL')[0].getValue()?SR_RABL:'';
-	  	 	if(this.find('name','SR_SESH')[0]) consServiceRequired+=this.find('name','SR_SESH')[0].getValue()?SR_SESH:'';
+	  	 	if(this.find('name','SR_TRAN')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_TRAN')[0].getValue()?SR_TRAN:'';
+	  	 	if(this.find('name','SR_WARE')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_WARE')[0].getValue()?SR_WARE:'';
+	  	 	if(this.find('name','SR_INSP')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_INSP')[0].getValue()?SR_INSP:'';
+	  	 	if(this.find('name','SR_CUDE')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_CUDE')[0].getValue()?SR_CUDE:'';
+	  	 	if(this.find('name','SR_CONT')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_CONT')[0].getValue()?SR_CONT:'';
+	  	 	if(this.find('name','SR_BL')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_BL')[0].getValue()?SR_BL:'';
+	  	 	if(this.find('name','SR_BBOOK')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_BBOOK')[0].getValue()?SR_BBOOK:'';
+	  	 	if(this.find('name','SR_RABL')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_RABL')[0].getValue()?SR_RABL:'';
+	  	 	if(this.find('name','SR_SESH')[0]) 
+	  	 		consServiceRequired+=this.find('name','SR_SESH')[0].getValue()?SR_SESH:'';
 	  	 	p.set('consServiceRequired',consServiceRequired);
    	 	}
+   	 	
    	 	if(p.get('consBizType')==BT_C){
 	   	 	var c =this.cont_s.getModifiedRecords();
 	   	 	if(c.length>0){
@@ -137,15 +185,21 @@ Fos.BookTab = function(p) {
 			xml=xml+x;
 		};
 		tb.getComponent('TB_A').setDisabled(true);
-   	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:p.get('wconId')?'WCON_S':'CONS_S'},
+   	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,
+   	 		method:'POST',
+   	 		params:{A:p.get('wconId')?'WCON_S':'CONS_S'},
 			success: function(res){
 				tb.getComponent('TB_A').setDisabled(false);
 				
 				var c = XTR(res.responseXML,'FConsign',FConsign);
 				var ra=p.get('rowAction');
 				var f = FConsign.prototype.fields;
+				
 				p.beginEdit();
-   				for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];p.set(fn,c.get(fn));};   				
+   				for (var i = 0; i < f.keys.length; i++) {
+   					var fn = ''+f.keys[i];
+   					p.set(fn,c.get(fn));
+   				}
 				if(ra=='N'){
 					var t = T_MAIN.getComponent('C_'+ p.get('id'));
 					var title=getBT(p.get('consBizType'))+getBC(p.get('consBizClass'))+getSHTY(p.get('consShipType'))+'委托【'+p.get("consNo")+'】';
@@ -160,6 +214,7 @@ Fos.BookTab = function(p) {
 					p.set('rowAction','M');
 				}
 				p.endEdit();
+				
 				if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B || p.get('consBizType')==BT_O|| p.get('consBizType')==BT_C){
 					var a = XTRA(res.responseXML,'FCargo',FCargo);
 					FOSU(this.carg_s,a,FCargo);
@@ -1261,11 +1316,16 @@ Fos.BookTab = function(p) {
 	};
 	
 	this.expEmail=function(code,sub){
-		var to='';var cc='';var msg='';
+		var to='';
+		var cc='';
+		var msg='';
 		EXPM(to,cc,sub,msg,code,'consId='+p.get('consId'));
 	};
+	
 	this.expFax=function(code,sub){
-        var to=p.get('custFax');var cc='';var msg='';
+        var to=p.get('custFax');
+        var cc='';
+        var msg='';
         EXPM(to,cc,sub,msg,code,'consId='+p.get('consId'),3);
     };
     this.expExcel=function(c){
@@ -1319,16 +1379,33 @@ Fos.BookTab = function(p) {
 		},
 		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
-    this.start=function(){this.updateStatus('1');};
-    this.check=function(){this.updateStatus('2');};
-    this.exit=function(){this.updateStatus('3');};
-    this.renew=function(){this.updateStatus('4');};
+    
+    this.start=function(){
+    	this.updateStatus('1');
+    };
+    
+    this.check=function(){
+    	this.updateStatus('2');
+    };
+    
+    this.exit=function(){
+    	this.updateStatus('3');
+    };
+    
+    this.renew=function(){
+    	this.updateStatus('4');
+    };
+    
     this.quit=function(){
     	XMG.confirm(SYS,M_CONS_QUIT_C,function(btn){
     		if(btn=='yes') this.updateStatus('5');
     	},this);
     };
-    this.rebook=function(){this.updateStatus('1');};
+    
+    this.rebook=function(){
+    	this.updateStatus('1');
+    };
+    
     this.cancel=function(){
     	XMG.confirm(SYS,M_CONS_CANCEL_C,
     		function(btn){
@@ -1337,6 +1414,7 @@ Fos.BookTab = function(p) {
     		},
     	this);
     };
+    
     this.finished = function(){
     	XMG.confirm(SYS,M_CONS_CONFIRMED_F,
     		function(btn){
@@ -1345,15 +1423,40 @@ Fos.BookTab = function(p) {
     		},
     	this);
     };
+    
     this.cancelFinish = function(btn){
-    			this.updateStatus('2');
+    	this.updateStatus('2');
     };
 
 
-    this.arrive=function(){XMG.confirm(SYS,M_CONS_ARRIVE_C,function(btn){if(btn=='yes') this.updateStatus('1');},this);};
-    this.release=function(){XMG.confirm(SYS,M_CONS_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('2');},this);};
-    this.releaseCargo=function(){XMG.confirm(SYS,M_CARGO_RELEASE_C,function(btn){if(btn=='yes') this.updateStatus('3');},this);};
-    this.sendCargo=function(){XMG.confirm(SYS,M_CARGO_SEND_C,function(btn){if(btn=='yes') this.updateStatus('4');},this);};
+    this.arrive=function(){
+    	XMG.confirm(SYS,M_CONS_ARRIVE_C,function(btn){
+    		if(btn=='yes') 
+    			this.updateStatus('1');
+    		},this);
+    };
+    
+    this.release=function(){
+    	XMG.confirm(SYS,M_CONS_RELEASE_C,function(btn){
+    		if(btn=='yes') 
+    			this.updateStatus('2');
+    		},this);
+    };
+    
+    this.releaseCargo=function(){
+    	XMG.confirm(SYS,M_CARGO_RELEASE_C,function(btn){
+    		if(btn=='yes') 
+    			this.updateStatus('3');
+    		},this);
+    };
+    
+    this.sendCargo=function(){
+    	XMG.confirm(SYS,M_CARGO_SEND_C,function(btn){
+    		if(btn=='yes') 
+    			this.updateStatus('4');
+    		},this);
+    };
+    
     this.copyFrom=function(){
     	XMG.prompt(SYS,C_CONS_NO,function(b,v){
 			if(b=='ok'){
@@ -1390,6 +1493,7 @@ Fos.BookTab = function(p) {
 			}
 		},this);
     };
+    
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;
@@ -1444,6 +1548,7 @@ Fos.BookTab = function(p) {
     	if(tb.getComponent('TB_P')) tb.getComponent('TB_P').setDisabled(NR(m+F_M)||p.get('consStatus')==7);
     	if(tb.getComponent('TB_M_CONS_NO')) tb.getComponent('TB_M_CONS_NO').setDisabled(NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7||p.get('consStatus')==8);
     };
+    
     //TopBar
 	var b1={text:C_SAVE,itemId:'TB_A',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==7||p.get('consStatus')==8,scope:this,handler:this.save};
 	var b2={text:C_BOOK_START,itemId:'TB_B',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.start};
@@ -1480,6 +1585,7 @@ Fos.BookTab = function(p) {
 	var exp9=CREATE_E_MENU(M_SHIP_ADVICE,function(){this.expExcel('SHIP_INFO');},function(){this.expEmail('SHIP_INFO',M_SHIP_ADVICE);},function(){this.expFax('SHIP_INFO',M_SHIP_ADVICE);},this);
 	var exp10=CREATE_E_MENU(M_BUSSINESS_PROCESS,function(){this.expExcel('BUSINESS_PROCESS');},function(){this.expEmail('BUSINESS_PROCESS',M_BUSSINESS_PROCESS);},function(){this.expFax('BUSINESS_PROCESS',M_BUSSINESS_PROCESS);},this);
 	var exp11=CREATE_E_MENU(C_BL_CONFIRM,function(){this.expExcel('CONS_B');},function(){this.expEmail('CONS_B',C_BL_CONFIRM);},function(){this.expFax('CONS_B',C_BL_CONFIRM);},this);
+	
 	var expM=[];
 	if(p.get('consBizType')==BT_C) 
 		expM=p.get('consBizClass')==BC_I?[exp1,exp10]:[exp2,exp3,exp4,exp5,exp6,exp7,exp8,exp9,exp11];		
@@ -1501,68 +1607,8 @@ Fos.BookTab = function(p) {
 			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b18,'-',b19,'-',b17];
 		else if(p.get('consBizClass')==BC_T)
 			tbs=[b1,'-',b15,'-',b9,'-',btnModifyConsignNo,'-',b10,'-',b17];
-	}
+	}	
 	
-	/*var bk=new Ext.KeyMap(Ext.getDoc(), {
-		key:'sbqtgxrfa',alt:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-			 	var tb=tc.getComponent('T_BOOK_'+p.get('id'));
-			 	if(tb&&tb==tc.getActiveTab())
-			 	{
-			 		tb=this.getTopToolbar();
-			 		switch(k) {
-					case Ext.EventObject.S:
-						if(!tb.getComponent('TB_A').disabled) this.save();break;
-					case Ext.EventObject.B:
-						if(!tb.getComponent('TB_B').disabled) this.start();break;
-					case Ext.EventObject.Q:
-						if(!tb.getComponent('TB_C').disabled) this.check();break;
-					case Ext.EventObject.T:
-						if(!tb.getComponent('TB_D').disabled) this.exit();break;
-					case Ext.EventObject.G:
-						if(!tb.getComponent('TB_E').disabled) this.renew();break;
-					case Ext.EventObject.X:
-						if(!tb.getComponent('TB_F').disabled) this.quit();break;
-					case Ext.EventObject.R:
-						if(!tb.getComponent('TB_G').disabled) this.rebook();break;
-					case Ext.EventObject.F:
-						if(!tb.getComponent('TB_H').disabled) this.cancel();break;
-					case Ext.EventObject.A:
-						if(!tb.getComponent('TB_N').disabled) Fos.showConsign(Fos.copyConsign(p));break;					
-				}}
-		 	}
-		},
-		stopEvent: false,scope:this
-	});*/
-	/*new Ext.KeyMap(Ext.getDoc(), {
-		key:'jxhykt',alt:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-			 	var tb=tc.getComponent('T_BOOK_'+p.get('id'));
-			 	var tbt=tb.getComponent('T_BOOK_T_'+p.get('id'));
-			 	if(tb==tc.getActiveTab())
-			 	{
-			 	switch(k) {
-					case Ext.EventObject.J:
-						var t=tbt.getComponent('C_B_J_'+p.get('id'));if(t) tbt.setActiveTab(t);break;
-					case Ext.EventObject.X:
-						var t=tbt.getComponent('C_B_X_'+p.get('id'));if(t) tbt.setActiveTab(t);break;
-					case Ext.EventObject.H:
-						var t=tbt.getComponent('C_B_H_'+p.get('id'));if(t) tbt.setActiveTab(t);break;
-					case Ext.EventObject.Y:
-						var t=tbt.getComponent('C_B_Y_'+p.get('id'));if(t) tbt.setActiveTab(t);break;
-					case Ext.EventObject.K:
-						var t=tbt.getComponent('C_B_K_'+p.get('id'));if(t) tbt.setActiveTab(t);break;
-					case Ext.EventObject.T:
-						var t=tbt.getComponent('C_B_T_'+p.get('id'));if(t) tbt.setActiveTab(t);break;				
-				}}
-		 	}
-		},
-		stopEvent: false
-	});*/
 	Fos.BookTab.superclass.constructor.call(this, { 
 		id: "T_BOOK_"+p.get('id'),title:C_CONSIGN+"(F1)",header:false,autoScroll:true,
 		border:false,labelAlign:'right',bodyStyle:'padding:2px 10px 10px 2px',tbar:tbs,		

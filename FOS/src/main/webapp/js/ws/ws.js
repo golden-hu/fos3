@@ -3,6 +3,8 @@ var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 
+var COMP_CODE='JAH';
+
 var GUID=0;
 var GGUID=function(k){
 	if(!k) GUID=GUID-1;
@@ -14,7 +16,7 @@ var GGUID=function(k){
 var CUSER=loadSession('WUSER_ID');
 var CCUST=loadSession('WCUST_ID');
 
-var COMP_CODE='ECG';
+
 var SYS= 'FOS3.0网上服务系统';
 var M_NO_DATA_SELECTED='请先选择一条记录!';
 var M_S = '数据保存成功';
@@ -369,9 +371,11 @@ var RTJ = function(r,rt){
 	}
 	return v;
 };
+
 var FOSJ=function(x){
 	return {FosRequest:{data:x}};
 };
+
 var RTX = function(r,t,rt){
 	var f=rt.prototype.fields;
 	var x='<'+t+'>\n';
@@ -431,11 +435,13 @@ var QTX=function(a){
 	var x='';
 	for(var i=0;i<a.length;i++)
 	{
-		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n'
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n';
 	}
 	return x;
 };
-var FOSX=function(x){return "<FosRequest>\n<data>\n"+x+"</data>\n</FosRequest>"};
+var FOSX=function(x){
+	return "<FosRequest>\n<data>\n"+x+"</data>\n</FosRequest>";
+};
 
 var QTX=function(a){
 	var x='';
@@ -445,7 +451,10 @@ var QTX=function(a){
 	}
 	return x;
 };
-var QTJ=function(a){return {fosQuery:a};};
+
+var QTJ=function(a){
+	return {fosQuery:a};
+};
 
 var portTpl = new Ext.XTemplate('<tpl for="."><div class="list-item"><h3><span>{portCode}</span>{portNameEn}</h3></div></tpl>');
 function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_Q',

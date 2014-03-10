@@ -2,7 +2,7 @@ var wl=window.location.href;
 var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
-var COMP_CODE='ECG';
+var COMP_CODE='JAH';
 
 var formatDate = function(v){return v ? v.dateFormat('Y-m-d') : '';};
 var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
@@ -272,10 +272,20 @@ RegWin = function() {
 			return;
 		}		
 			
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_REG',wusrName:r.get('wusrName'),
-			wusrPassword:r.get('wusrPassword'),wusrFirstName:r.get('wusrFirstName'),wusrTitle:r.get('wusrTitle'),
-			wusrDept:r.get('wusrDept'),wusrEmail:r.get('wusrEmail'),wusrCompanyName:r.get('wusrCompanyName'),
-			wusrTel:r.get('wusrTel'),wusrMobile:r.get('wusrMobile'),compCode:COMP_CODE},
+		Ext.Ajax.request({url:SERVICE_URL,
+			method:'POST',
+			scope:this,
+			params:{A:'WS_REG',mt:'json',
+				wusrName:r.get('wusrName'),
+				wusrPassword:r.get('wusrPassword'),
+				wusrFirstName:r.get('wusrFirstName'),
+				wusrTitle:r.get('wusrTitle'),
+				wusrDept:r.get('wusrDept'),
+				wusrEmail:r.get('wusrEmail'),
+				wusrCompanyName:r.get('wusrCompanyName'),
+				wusrTel:r.get('wusrTel'),
+				wusrMobile:r.get('wusrMobile'),
+				compCode:COMP_CODE},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
 				saveSession('WUSER_ID',user.WUser[0].wusrId);

@@ -382,8 +382,6 @@ function getPMenu(){
 		if(!NR(M1_A)) items[items.length]=getAirPanel();
 		
 		if(!NR(M1_G)) items[items.length]=getCudePanel();
-		//items[items.length]=getEntryPanel();
-		//if(!NR(M1_I)) items[items.length]=getInspPanel();
 		if(!NR(M1_D)) items[items.length]=getDocPanel();
 		if(!NR(M1_S)) items[items.length]=createSMTree();
 		if(!NR(M1_T)) items[items.length]=getStaPanel();
@@ -392,7 +390,8 @@ function getPMenu(){
 		if(!NR(M1_P)) items[items.length]=getSysPanel();
 		//if(VERSION==1&&!NR(M1_W)) 
 			items[items.length]=getWsPanel();
-	}else if(VERSION == 2){
+	}
+	else if(VERSION == 2){
 		if(!NR(M1_C)) items[items.length]=getYsContPanel();
 		if(!NR(M1_D)) items[items.length]=getDocPanel();
 		if(!NR(M1_V)) items[items.length]=getCusPanel();

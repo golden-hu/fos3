@@ -86,15 +86,18 @@ Fos.showConsignTabs = function(p){
 		if(!tc.getComponent('T_DOC_'+p.get('id'))){
 			tc.add(new Fos.ConsDocGrid(p));
 		};
+		
 		if(!tc.getComponent('T_EXPE_'+p.get('id'))){
 			tc.add(VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C')));
-		};		
+		};
+		
 		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
 			tc.add(new Fos.AttachTab(p));
 		};
-		if(!tc.getComponent('G_SECURITY_ATTACH'+p.get('id'))){
+		
+		/*if(!tc.getComponent('G_SECURITY_ATTACH'+p.get('id'))){
 			tc.add(new Fos.SecurityAttachTab(p));
-		};
+		};*/
 	}
 	
 	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){
@@ -137,6 +140,7 @@ Fos.showConsignTabs = function(p){
 	if(!tc.getComponent('T_SESH_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_SESH)!=-1){
 		tc.add(new Fos.SecondShipTab(p));
 	};
+	
 };
 
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	

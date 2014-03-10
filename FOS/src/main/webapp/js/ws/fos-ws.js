@@ -4,12 +4,16 @@ WUser = Ext.data.Record.create(['id','wusrId','wusrName','wusrPassword','wusrFir
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	{name:'wusrLastLoginTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	'custId','compCode','version','rowAction']);
-WInquiry = Ext.data.Record.create(['id','winqId','winqCargoDesc','winqCargoPackages','winqCargoGw','winqCargoMeasurement',
+
+WInquiry = Ext.data.Record.create(['id','winqId','winqCargoDesc',
+        'winqCargoPackages','winqCargoGw','winqCargoMeasurement',
         'winqReceiptPlace','winqDeliveryPlace','winqPol','winqPolEn','winqPod','winqPodEn',
         'tranId','tranCode','pateId','pateName','winqBizType','winqRemarks',
      	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
      	{name:'modiryTime',type:'date',dateFormat:'Y-m-d H:i:s'},
-     	'winqStatus','wusrId','wusrName','wusrFirstName','wusrMobile','wusrCompanyName','wusrTel','compCode','version','rowAction']);
+     	'winqStatus','wusrId','wusrName','wusrFirstName','wusrMobile',
+     	'wusrCompanyName','wusrTel','compCode','version','rowAction']);
+
 WConsign = Ext.data.Record.create(['id','wconId','wconNo',
 	'consId','consNo','consShipType','consBizClass','consBizType',
 	'consRefNo','consContractNo',{name:'consDate',type:'date',dateFormat:DATEF},
@@ -29,20 +33,49 @@ WConsign = Ext.data.Record.create(['id','wconId','wconNo',
 	'consOriginalBlNum','consRemarks','consServiceRequired','consStatus',
 	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},
 	{name:'modifyTime',type:'date',dateFormat:'Y-m-d H:i:s'},
-	'wusrId','compCode','version','rowAction','wusrId','wusrName','wusrFirstName','wusrMobile','wusrCompanyName','wusrTel']);
-wuStatusRender = function(v){return v==1?C_WS_USER_ACCEPTED:C_WS_USER_NOT_ACCEPTED;};
-var S_BC=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['E','出口'],['I','进口']]});
-var S_ST=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
-var S_BT=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['C','海运'],['A','空运']]});
-var getWS_BC=function(v){if(v) return S_BC.getById(v).get('NAME'); else return '';};
-var getWS_BT=function(v){if(v) return S_BT.getById(v).get('NAME'); else return '';};
-var getWS_ST=function(v){if(v) return S_ST.getById(v).get('NAME'); else return '';};
+	'wusrId','compCode','version','rowAction','wusrId','wusrName',
+	'wusrFirstName','wusrMobile','wusrCompanyName','wusrTel']);
+
+wuStatusRender = function(v){
+	return v==1?C_WS_USER_ACCEPTED:C_WS_USER_NOT_ACCEPTED;
+};
+
+var S_BC=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
+	data:[['E','出口'],['I','进口']]});
+
+var S_ST=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
+	data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]});
+
+var S_BT=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
+	data:[['C','海运'],['A','空运']]});
+
+var getWS_BC=function(v){
+	if(v) 
+		return S_BC.getById(v).get('NAME'); 
+	else 
+		return '';
+};
+
+var getWS_BT=function(v){
+	if(v) 
+		return S_BT.getById(v).get('NAME'); 
+	else return '';
+};
+
+var getWS_ST=function(v){
+	if(v) 
+		return S_ST.getById(v).get('NAME'); 
+	else return '';
+};
 
 InquiryWin = function(p) {
 	var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=PCOM_Q',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PComments'}, PComments),remoteSort:true,
-    	sortInfo:{field:'commId', direction:'ASC'}});
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PComments'}, PComments),
+    	remoteSort:true,
+    	sortInfo:{field:'commId', direction:'ASC'}
+	});
+	
     store.load({params:{mt:'JSON',objectType:'WINQ',objectId:p.get('winqId')}});
     
 	var html = '<div style="padding:5px;"><table class="reference" width="100%">';
@@ -135,7 +168,8 @@ Ext.extend(InquiryWin,Ext.Window);
 Fos.WinqGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WINQ_X',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WInquiry'}, WInquiry),remoteSort:true,
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WInquiry'}, WInquiry),
+    	remoteSort:true,
     	sortInfo:{field:'winqId', direction:'DESC'}});
     store.load({params:{start:0,limit:20,mt:'JSON'}});
     
@@ -184,6 +218,7 @@ Fos.WinqGrid = function() {
     }); 
 };
 Ext.extend(Fos.WinqGrid,Ext.grid.GridPanel);
+
 WconWin = function(p,store) {
 	var frm = new Ext.form.FormPanel({labelWidth:60,bodyStyle:'padding:5px',layout:'column',border:false,items:[
 		{columnWidth:.6,layout:'form',border:false,defaultType:'textfield',items: [
@@ -228,8 +263,12 @@ WconWin = function(p,store) {
         }); 
 };
 Ext.extend(WconWin,Ext.Window);
+
 var W2F=function(r){	
-   	if(!r.get('custId')){alert('该订单用户不是正式客户，请先将该用户转为正式客户。');return;}
+   	if(!r.get('custId')){
+   		alert('该订单用户不是正式客户，请先将该用户转为正式客户。');
+   		return;
+   	}
    	else{
     	var rid=GGUID();								
 		var bt=r.get('consBizType');
@@ -237,6 +276,7 @@ var W2F=function(r){
 		if(st=='BULK') bt='B';
 		var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CUST_Q',
 			reader: new Ext.data.XmlReader({record:'CCustomer'}, CCustomer)});
+		
 		sc.load({params:{custId:r.get('custId')},callback:function(rec,o,s){
 			if(s&&rec.length>0){
 				var cust=rec[0];
@@ -245,39 +285,90 @@ var W2F=function(r){
 				custContact=cust.get('custContact');
 				custTel=cust.get('custTel');
 				custFax=cust.get('custFax');
-				var c = new FConsign({id:rid,consId:rid,custId:r.get('custId'),custName:custName,wconId:r.get('wconId'),
-				custSname:custSname,custContact:custContact,custTel:custTel,custFax:custFax,
-				consPol:r.get('consPol'),consPolEn:r.get('consPolEn'),consPod:r.get('consPod'),consPodEn:r.get('consPodEn'),
-				consPot:r.get('consPot'),consPotEn:r.get('consPotEn'),
+				var c = new FConsign({id:rid,consId:rid,
+					custId:r.get('custId'),
+					custName:custName,
+					wconId:r.get('wconId'),
+				custSname:custSname,
+				custContact:custContact,
+				custTel:custTel,
+				custFax:custFax,
+				consPol:r.get('consPol'),
+				consPolEn:r.get('consPolEn'),
+				consPod:r.get('consPod'),
+				consPodEn:r.get('consPodEn'),
+				consPot:r.get('consPot'),
+				consPotEn:r.get('consPotEn'),
 				consDeliveryPlace:r.get('consDeliveryPlace'),
-				consReceiptPlace:r.get('consReceiptPlace'),consDestination:r.get('consDestination'),consTradeCountry:r.get('consTradeCountry'),
-				vessId:r.get('vessId'),vessName:r.get('vessName'),vessNameCn:r.get('vessNameCn'),
-				voyaId:r.get('voyaId'),voyaName:r.get('voyaName'),consMblNo:r.get('consMblNo'),
-				consMblNo:r.get('consMblNo'),consCargoDesc:r.get('consCargoDesc'),
-				consCargoMarks:r.get('consCargoMarks'),consTotalPackages:r.get('consTotalPackages'),
-				consTotalGrossWeight:r.get('consTotalGrossWeight'),consTotalMeasurement:r.get('consTotalMeasurement'),
-				cargBigFlag:r.get('cargBigFlag'),cargReeterFlag:r.get('cargReeterFlag'),cargDanagerFlag:r.get('cargDanagerFlag'),
-				consTransFlag:r.get('consTransFlag'),consPartialFlag:r.get('consPartialFlag'),
-				consContainerInfo:r.get('consContainerInfo'),consOriginalBlNum:r.get('consOriginalBlNum'),
-				consRemarks:r.get('consRemarks'),consServiceRequired:r.get('consServiceRequired'),
-				consShipper:r.get('consShipper'),consConsignee:r.get('consConsignee'),consNotifyParty:r.get('consNotifyParty'),consNotifyParty2:r.get('consNotifyParty2'),
-				consNo:'N'+rid,consType:'A',consShipType:r.get('consShipType'),consActionType:'A',consMasterFlag:r.get('consShipType')=='LCL'?1:0,
-				consBizClass:r.get('consBizClass'),consBizType:r.get('consBizType'),consSource:0,consOperatorId:'',
-				consDate:new Date(),tranId:r.get('tranId'),tranCode:r.get('tranCode'),pateId:r.get('pateId'),pateName:r.get('pateName'),					
-				version:0,consStatus:0,consStatusBooking:0,consStatusClearance:0,
-				consStatusSwitchBl:0,consStatusSplit:0,consStatusInsp:0,consStatusCont:0,
-				consStatusCarg:0,consStatusMbl:0,consStatusHbl:0,consStatusBBook:0,
-				consStatusDepa:0,consStatusDocs:0,consStatusExp:0,consStatusAr:0,consStatusAp:0,
-				consStatusInvoR:0,consStatusInvoP:0,consStatusAud:0,consStatusReassign:0,
-				consStatusInCy:0,consStatusInCfs:0,consStatusOnBoard:0,consStatusEir:0,
-				consStatusSendCont:0,consStatusLock:0,consReassignFrom:0,consStatusSettlement:0,consExternalFlag:0,
-				deptId:getCFG('DEFAULT_DEPT_'+bt),consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
-				consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
+				consReceiptPlace:r.get('consReceiptPlace'),
+				consDestination:r.get('consDestination'),
+				consTradeCountry:r.get('consTradeCountry'),
+				vessId:r.get('vessId'),
+				vessName:r.get('vessName'),
+				vessNameCn:r.get('vessNameCn'),
+				voyaId:r.get('voyaId'),
+				voyaName:r.get('voyaName'),
+				consMblNo:r.get('consMblNo'),
+				consMblNo:r.get('consMblNo'),
+				consCargoDesc:r.get('consCargoDesc'),
+				consCargoMarks:r.get('consCargoMarks'),
+				consTotalPackages:r.get('consTotalPackages'),
+				consTotalGrossWeight:r.get('consTotalGrossWeight'),
+				consTotalMeasurement:r.get('consTotalMeasurement'),
+				cargBigFlag:r.get('cargBigFlag'),
+				cargReeterFlag:r.get('cargReeterFlag'),
+				cargDanagerFlag:r.get('cargDanagerFlag'),
+				consTransFlag:r.get('consTransFlag'),
+				consPartialFlag:r.get('consPartialFlag'),
+				consContainerInfo:r.get('consContainerInfo'),
+				consOriginalBlNum:r.get('consOriginalBlNum'),
+				consRemarks:r.get('consRemarks'),
+				consServiceRequired:r.get('consServiceRequired'),
+				consShipper:r.get('consShipper'),
+				consConsignee:r.get('consConsignee'),
+				consNotifyParty:r.get('consNotifyParty'),
+				consNotifyParty2:r.get('consNotifyParty2'),
+				consNo:'N'+rid,
+				consType:'A',
+				consShipType:r.get('consShipType'),
+				consActionType:'A',
+				consMasterFlag:r.get('consShipType')=='LCL'?1:0,
+				consBizClass:r.get('consBizClass'),
+				consBizType:r.get('consBizType'),
+				consSource:0,consOperatorId:'',
+				consDate:new Date(),
+				tranId:r.get('tranId'),
+				tranCode:r.get('tranCode'),
+				pateId:r.get('pateId'),
+				pateName:r.get('pateName'),					
+				version:0,
+				consStatus:0,
+				consStatusBooking:0,
+				consStatusClearance:0,
+				consStatusSwitchBl:0,
+				consStatusSplit:0,
+				consStatusInsp:0,consStatusCont:0,
+				consStatusCarg:0,consStatusMbl:0,
+				consStatusHbl:0,consStatusBBook:0,
+				consStatusDepa:0,consStatusDocs:0,
+				consStatusExp:0,consStatusAr:0,consStatusAp:0,
+				consStatusInvoR:0,consStatusInvoP:0,
+				consStatusAud:0,consStatusReassign:0,
+				consStatusInCy:0,consStatusInCfs:0,
+				consStatusOnBoard:0,consStatusEir:0,
+				consStatusSendCont:0,consStatusLock:0,
+				consReassignFrom:0,consStatusSettlement:0,
+				consExternalFlag:0,
+				deptId:getCFG('DEFAULT_DEPT_'+bt),
+				consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
+				consFumigateFlag:0,consQuarantineFlag:0,
+				consTransferringFlag:0,rowAction:'N'});
 				Fos.showConsign(c);
 			}    						
 		},scope:this});				
 	}
 };
+
 Fos.WconGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WCON_X',
