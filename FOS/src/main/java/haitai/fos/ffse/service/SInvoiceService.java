@@ -223,7 +223,7 @@ public class SInvoiceService {
 		invoice.setInvoCargoName(firstConsign.getConsCargoNameEn());
 		invoice.setInvoCargoPackages(""+firstConsign.getConsTotalPackages()+firstConsign.getPackName());
 		invoice.setInvoCargoGrossWeight(""+firstConsign.getConsTotalGrossWeight());
-		invoice.setInvoCargoMeasurement(""+firstConsign.getConsTotalMeasurementCustomer());
+		invoice.setInvoCargoMeasurement(""+firstConsign.getConsTotalMeasurement());
 		invoice.setInvoContainersInfo(firstConsign.getConsContainersInfo());
 		invoice.setInvoOperator(firstConsign.getConsOperatorName());
 		invoice.setInvoContractNo(firstConsign.getConsContractNo());
