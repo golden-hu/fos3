@@ -45,6 +45,7 @@
 
 <script type="text/javascript" src="js/fos-report.js"></script>
 <script type="text/javascript" src="js/fos.js"></script>
+<script type="text/javascript" src="js/doc.js"></script>
 
 <script type="text/javascript" src="js/crm/customer.js"></script>
 <script type="text/javascript" src="js/crm/price.js"></script>

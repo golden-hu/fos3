@@ -73,13 +73,7 @@ function iniStore(){
 	getGROU_S();
 	getROLE_S();
 	getUSER_S();
-	getSALE_S();
-	
-	if(VERSION==2){
-		getTS_S();
-		getBRANCH_S();
-	}
-		
+	getSALE_S();		
 	
 	getOP_S();
 	getCHAR_S();

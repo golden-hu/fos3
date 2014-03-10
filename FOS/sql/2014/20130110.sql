@@ -8,10 +8,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (34, '应收美元合计', 'FConsign', 'sumRUsd', NULL),
 (34, '合同号', 'FConsign', 'consContractNo', NULL),
 (34, '操作员', 'FConsign', 'consOperatorName', NULL),
-(34, '货物描述', 'FConsign', 'consCargoDesc', NULL);
-
-
-INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(34, '货物描述', 'FConsign', 'consCargoDesc', NULL),
 (34, '人名币金额', 'SExpense', 'expeRcAmount', NULL)
 ;
 
