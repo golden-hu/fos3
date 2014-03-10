@@ -490,22 +490,27 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
 	var t1={id:'T_CONS_LOOK_1',title:C_LOOK_BY_NO,layout:'form',labelWidth:70,labelAlign:"right",
 		items:[{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textarea',anchor:'90%'},
     		{boxLabel:C_LOOK_SMART,name:'consNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}]};
+	
 	var t6={id:'T_CONS_LOOK_6',title:C_LOOK_BY_CONT_NO,layout:'form',labelWidth:70,labelAlign:"right",
 		items: [{fieldLabel:C_CONT_NO,name:'contNo',xtype:'textarea',anchor:'90%'},
 			{boxLabel:C_LOOK_SMART,name:'contNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}]};	
+	
 	var t2={id:'T_CONS_LOOK_2',title:C_LOOK_BY_MBL,layout:'form',labelWidth:70,labelAlign:"right",
 		items: [{fieldLabel:'M/BL No.',name:'consMblNo',xtype:'textarea',anchor:'90%'},
 			{boxLabel:C_LOOK_SMART,name:'consMblNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}]};
+	
 	var t3={id:'T_CONS_LOOK_3',title:C_LOOK_BY_HBL,layout:'form',labelWidth:70,labelAlign:"right",
 		items: [{fieldLabel:'H/BL No.',name:'consHblNo',xtype:'textarea',anchor:'90%'},
 			{boxLabel:C_LOOK_SMART,name:'consHblNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}]};
+	
 	var t4={id:'T_CONS_LOOK_4',title:C_LOOK_BY_VOYA,layout:'form',labelWidth:70,labelAlign:"right",
 		items:[{fieldLabel:HL(C_VESS),tabIndex:5,name:'vessName',store:getVES(),
           		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,enableKeyEvents:true,
           		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'50%',
               		listeners:{scope:this,keydown:{fn:function(f,e){LV(f,e);},buffer:500}}},
         	{fieldLabel:C_VOYA,tabIndex:10,name:'voyaName',xtype:'textfield',anchor:'50%'}]};
-    var t5={id:'T_CONS_LOOK_5',title:C_LOOK_COMPLEX,layout:'column',
+    
+	var t5={id:'T_CONS_LOOK_5',title:C_LOOK_COMPLEX,layout:'column',
     	items:[{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 	    	items:[{fieldLabel:C_BOOKER,name:'custId',store:getCS(),
 	        		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,enableKeyEvents:true,
@@ -541,6 +546,7 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
 			items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
 	        	{fieldLabel:C_TO,name:'consEtd2',xtype:'datefield',format:DATEF,anchor:'90%'},
 	        	{fieldLabel:C_TO,name:'consEta2',xtype:'datefield',format:DATEF,anchor:'90%'},
+	        	{fieldLabel:C_DESTINATION_PORT,name:'consDeliveryPlace',xtype:'textfield',anchor:'90%'},
 	        	{fieldLabel:C_CARGO_SOURCE,name:'consSource',store:SOUR_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
 	         	{fieldLabel:C_REF_NO,name:'consRefNo',xtype:'textfield',anchor:'90%'},	        	
 	        	{fieldLabel:C_BOOK_AGENCY,name:'consBookingAgency',store:getCS(),
@@ -554,9 +560,10 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
 				{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
 			]}
 		]};
+	
 	var tabs;
 	if(action=='CONS_X'){
-		tabs=(bizClass==BC_E)?[t1,t6,t2,t3,t4,t5]:[t1,t2,t3,t4,t5];
+		tabs=(bizClass==BC_E)?[t5,t1,t6,t2,t3,t4]:[t5,t1,t2,t3,t4];
 	}
 	else if(action=='CONS_CHECK_X'){
 		tabs=[t1,t2,t3,t4,t5];
@@ -564,13 +571,16 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
 	
 	this.reload=function(){
      	var a=[];     	
-     	var op=1;     	
+     	var op=1;	
      	if(bizClass!='')
      		a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+     	
      	if(bizType!='')
      		a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+     	
      	if(shipType!='')
      		a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+     	
      	var at = t.getActiveTab();
      	if(at.getId()=='T_CONS_LOOK_1'){
      		var consNo=at.find('name','consNo')[0].getValue();
@@ -609,31 +619,52 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
      	}
      	else if(at.getId()=='T_CONS_LOOK_5'){
      		var custId=at.find('name','custId')[0].getValue();
-     		if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:op});
+     		if(custId) 
+     			a[a.length]=new QParam({key:'custId',value:custId,op:op});
+     		
      		var consBizType=at.find('name','consBizType')[0].getValue();        		
-     		if(consBizType) a[a.length]=new QParam({key:'consBizType',value:consBizType,op:op});
+     		if(consBizType) 
+     			a[a.length]=new QParam({key:'consBizType',value:consBizType,op:op});
+     		
      		var consPol=at.find('name','consPol')[0].getValue();        		
-     		if(consPol) a[a.length]=new QParam({key:'consPol',value:consPol,op:op});
+     		if(consPol) 
+     			a[a.length]=new QParam({key:'consPol',value:consPol,op:op});
+     		
      		var deptId=at.find('name','deptId')[0].getValue();        		
-     		if(deptId) a[a.length]=new QParam({key:'deptId',value:deptId,op:op});
+     		if(deptId) 
+     			a[a.length]=new QParam({key:'deptId',value:deptId,op:op});
+     		
      		var consSalesRepId=at.find('name','consSalesRepId')[0].getValue();        		
-     		if(consSalesRepId) a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
+     		if(consSalesRepId) 
+     			a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
+     		
      		var consTradeContractNo=at.find('name','consTradeContractNo')[0].getValue();        		
      		if(consTradeContractNo) 
      			a[a.length]=new QParam({key:'consTradeContractNo',value:consTradeContractNo,op:op});
      		
      		var consStatusAud=at.find('name','consStatusAud')[0].getValue();        		
-     		if(consStatusAud) a[a.length]=new QParam({key:'consStatusAud',value:consStatusAud,op:op});
+     		if(consStatusAud) 
+     			a[a.length]=new QParam({key:'consStatusAud',value:consStatusAud,op:op});
+     		
      		var consStatusAr=at.find('name','consStatusAr')[0].getValue();        		
-     		if(consStatusAr) a[a.length]=new QParam({key:'consStatusAr',value:consStatusAr,op:op});
+     		if(consStatusAr) 
+     			a[a.length]=new QParam({key:'consStatusAr',value:consStatusAr,op:op});
+     		
      		var consStatusAp=at.find('name','consStatusAp')[0].getValue();        		
-     		if(consStatusAp) a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
+     		if(consStatusAp) 
+     			a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
+     		
      		var consStatusInvoR=at.find('name','consStatusInvoR')[0].getValue();        		
-     		if(consStatusInvoR) a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
+     		if(consStatusInvoR) 
+     			a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
+     		
      		var consStatusInvoP=at.find('name','consStatusInvoP')[0].getValue();        		
-     		if(consStatusInvoP) a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
+     		if(consStatusInvoP) 
+     			a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
+     		
      		var consStatusExp=at.find('name','consStatusExp')[0].getValue();        		
-     		if(consStatusExp) a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
+     		if(consStatusExp) 
+     			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
      		
      		var consDate=at.find('name','consDate')[0].getValue();
      		var consDate2=at.find('name','consDate2')[0].getValue();
@@ -641,14 +672,17 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
      			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
      			a[a.length]=new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
      		}
-     		else if(consDate) a[a.length]=new QParam({key:'consDate',value:consDate,op:op});
+     		else if(consDate) 
+     			a[a.length]=new QParam({key:'consDate',value:consDate,op:op});
+     		
      		var consEtd=at.find('name','consEtd')[0].getValue();
      		var consEtd2=at.find('name','consEtd2')[0].getValue();
      		if(consEtd && consEtd2){
      			a[a.length]=new QParam({key:'consEtd',value:consEtd.format(DATEF),op:5});
      			a[a.length]=new QParam({key:'consEtd',value:consEtd2.format(DATEF),op:3});
      		}
-     		else if(consEtd) a[a.length]=new QParam({key:'consEtd',value:consEtd,op:op});
+     		else if(consEtd) 
+     			a[a.length]=new QParam({key:'consEtd',value:consEtd,op:op});
      		
      		var consEta=at.find('name','consEta')[0].getValue();
      		var consEta2=at.find('name','consEta2')[0].getValue();
@@ -656,35 +690,63 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
      			a[a.length]=new QParam({key:'consEta',value:consEta.format(DATEF),op:5});
      			a[a.length]=new QParam({key:'consEta',value:consEta2.format(DATEF),op:3});
      		}
-     		else if(consEta) a[a.length]=new QParam({key:'consEta',value:consEta,op:op}); 
+     		else if(consEta) 
+     			a[a.length]=new QParam({key:'consEta',value:consEta,op:op}); 
      		
      		var consOperatorId=at.find('name','consOperatorId')[0].getValue();        		
-     		if(consOperatorId) a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:op});
+     		if(consOperatorId) 
+     			a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:op});
+     		
      		var consContractNo=at.find('name','consContractNo')[0].getValue();        		
-     		if(consContractNo) a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:7});
+     		if(consContractNo) 
+     			a[a.length]=new QParam({key:'consContractNo',value:consContractNo,op:7});
+     		
      		var consPod=at.find('name','consPod')[0].getValue();        		
-     		if(consPod) a[a.length]=new QParam({key:'consPod',value:consPod,op:op});
+     		if(consPod) 
+     			a[a.length]=new QParam({key:'consPod',value:consPod,op:op});
+     		
+     		
+     		var consDeliveryPlace = at.find('name','consDeliveryPlace')[0].getValue();
+     		if(consDeliveryPlace) 
+     			a[a.length]=new QParam({key:'consDeliveryPlace',value:consDeliveryPlace,op:op});
+     		
      		var consSource=at.find('name','consSource')[0].getValue();        		
-     		if(consSource) a[a.length]=new QParam({key:'consSource',value:consSource,op:op});
+     		if(consSource) 
+     			a[a.length]=new QParam({key:'consSource',value:consSource,op:op});
+     		
      		var consRefNo=at.find('name','consRefNo')[0].getValue();        		
-     		if(consRefNo) a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:op});
+     		if(consRefNo) 
+     			a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:op});
+     		
      		var consSoNo=at.find('name','consSoNo')[0].getValue();
-     		if(consSoNo) a[a.length]=new QParam({key:'consSoNo',value:consSoNo,op:op});
+     		if(consSoNo) 
+     			a[a.length]=new QParam({key:'consSoNo',value:consSoNo,op:op});
+     		
      		var consCarrier=at.find('name','consCarrier')[0].getValue();        		
-     		if(consCarrier) a[a.length]=new QParam({key:'consCarrier',value:consCarrier,op:op});
+     		if(consCarrier) 
+     			a[a.length]=new QParam({key:'consCarrier',value:consCarrier,op:op});
+     		
      		var consOverseaAgency=at.find('name','consOverseaAgency')[0].getValue();        		
-     		if(consOverseaAgency) a[a.length]=new QParam({key:'consOverseaAgency',value:consOverseaAgency,op:op});
+     		if(consOverseaAgency) 
+     			a[a.length]=new QParam({key:'consOverseaAgency',value:consOverseaAgency,op:op});
+     		
      		var consBookingAgency=at.find('name','consBookingAgency')[0].getValue();        		
-     		if(consBookingAgency) a[a.length]=new QParam({key:'consBookingAgency',value:consBookingAgency,op:op});
+     		if(consBookingAgency) 
+     			a[a.length]=new QParam({key:'consBookingAgency',value:consBookingAgency,op:op});
+     		
      		var consContainerCompany=at.find('name','consContainerCompany')[0].getValue();        		
-     		if(consContainerCompany) a[a.length]=new QParam({key:'consContainerCompany',value:consContainerCompany,op:op});
+     		if(consContainerCompany) 
+     			a[a.length]=new QParam({key:'consContainerCompany',value:consContainerCompany,op:op});
      	}
      	else if(at.getId()=='T_CONS_LOOK_6'){
      		var consMblNo=at.find('name','contNo')[0].getValue();
      		var consMblNoM=at.find('name','contNoM')[0].getValue();
-     		if(consMblNoM) op=7;action='CONS_CONTNO_X';
+     		if(consMblNoM) 
+     			op=7;
+     		action='CONS_CONTNO_X';
      		a[a.length]=new QParam({key:'consContainerNo',value:consMblNo,op:op});
      	}
+     	
      	setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -695,11 +757,28 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
      	});
      	this.close();
 	};	
-	var t = new Ext.TabPanel({id:'T_CONS_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:340,
-		defaults:{bodyStyle:'padding:10px'},items:tabs});
-    Fos.ConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,width:800,height:360,minWidth:400,
-        minHeight:300,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:t,
-		buttons:[{text:C_OK,scope:this,handler:this.reload},{text:C_CANCEL,scope:this,handler:this.close}]
+	
+	var t = new Ext.TabPanel({id:'T_CONS_LOOK',
+		xtype:'tabpanel',
+		plain:true,
+		activeTab:0,
+		height:340,
+		defaults:{bodyStyle:'padding:10px'},
+		items:tabs
+	});
+	
+    Fos.ConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,
+    	iconCls:'search',
+    	modal:true,
+    	width:800,
+    	height:400,
+    	minWidth:400,
+        minHeight:300,
+        plain:false,
+        buttonAlign:'right',
+        items:t,
+		buttons:[{text:C_OK,scope:this,handler:this.reload},
+		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 
 };
 Ext.extend(Fos.ConsLookupWin, Ext.Window);
