@@ -34,7 +34,10 @@ Fos.CargoGrid = function(p,store,frm) {
 	    	}
 	    }
 	})};
-	var c4={header:C_PACKAGES,dataIndex:'cargPackageNum',editor:new Ext.form.NumberField({allowBlank:false})};
+	
+	var c4={header:C_PACKAGES,dataIndex:'cargPackageNum',
+			editor:new Ext.form.NumberField({allowBlank:false})};
+	
 	var c5={header:C_PACK,dataIndex:'packId',renderer:function(v,m,r){return r.get('packName');},
 			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
 	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
@@ -43,20 +46,44 @@ Fos.CargoGrid = function(p,store,frm) {
 						this.getSelectionModel().getSelected().set('packCode',r.get('packCode'));
 					}}
 	            })};
-	var c6={header:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargGrossWeight',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
-	var c7={header:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargNetWeight',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,invalidText:''})};
+	var c6={header:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargGrossWeight',
+			renderer:rateRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,
+				allowBlank:false,blankText:'',invalidText:''})};
+	
+	var c7={header:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargNetWeight',
+			renderer:rateRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,invalidText:''})};
+	
 	var c8={header:C_UNIT,dataIndex:'unitId',renderer:function(v,m,r){return r.get('unitName');},
-			editor:new Ext.form.ComboBox({displayField:'unitName',valueField:'unitId',triggerAction:'all',
-		        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getUNIT_S(),
-		        listeners:{scope:this,select:function(c,r,i){
-						this.getSelectionModel().getSelected().set('unitName',r.get('unitName'));}}
-		        })};
-	var c9={header:C_CBM,dataIndex:'cargMeasurement',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})};
+			editor:new Ext.form.ComboBox({displayField:'unitName',
+				valueField:'unitId',triggerAction:'all',
+		        mode:'local',selectOnFocus:true,
+		        listClass:'x-combo-list-small',
+		        store:getUNIT_S(),
+		        listeners:{scope:this,
+		        	select:function(c,r,i){
+						this.getSelectionModel().getSelected().set('unitName',r.get('unitName'));
+					}
+		        }
+		    })};
+	
+	var c9={header:C_CBM,dataIndex:'cargMeasurement',renderer:rateRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4,
+				allowBlank:false,blankText:'',invalidText:''})};
+	
 	var c10={header:C_MANU_NO,dataIndex:'cargManuNo',editor:new Ext.form.TextField()};
+	
 	var c11={header:C_SPEC,dataIndex:'cargSpec',editor:new Ext.form.TextField()};
+	
 	var c12={header:C_HS_CODE,dataIndex:'cargNo',editor:new Ext.form.TextField()};
-	var cm=new Ext.grid.ColumnModel({columns:[sm,quitFlag,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12],defaults:{sortable:true,width:80}});
+	
+	var cm=new Ext.grid.ColumnModel({columns:[sm,quitFlag,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12],
+		defaults:{sortable:true,width:80}
+	});
+	
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;	
+	
 	this.addMBl = function(){
 	    if(p.get('consServiceRequired').indexOf(SR_BL)!=-1){
 		    var b = sm.getSelected();
@@ -69,6 +96,7 @@ Fos.CargoGrid = function(p,store,frm) {
 			else XMG.alert(SYS,M_NO_DATA_SELECTED);
 		}
 	};
+	
 	this.addHBl = function(){
 		if(p.get('consServiceRequired').indexOf(SR_BL)!=-1){
 			var b = sm.getSelected();
@@ -81,6 +109,7 @@ Fos.CargoGrid = function(p,store,frm) {
 			else XMG.alert(SYS,M_NO_DATA_SELECTED);
 		}
 	};
+	
 	this.addCude = function(){
 		if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){
 			var b = sm.getSelected();
@@ -93,6 +122,7 @@ Fos.CargoGrid = function(p,store,frm) {
 			else XMG.alert(SYS,M_NO_DATA_SELECTED);
 		}
 	};
+	
 	this.genCons = function(){		
 		var b = sm.getSelected();
 		if(b){
@@ -100,6 +130,7 @@ Fos.CargoGrid = function(p,store,frm) {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.showPali = function(){
 		var t=T_MAIN.getComponent('G_CONS_PALI_'+p.get("consId"));if(t){T_MAIN.setActiveTab(t);}
 		else {t=T_MAIN.add(new Fos.ConsPaliGrid(p.get("consId")));T_MAIN.setActiveTab(t);t.doLayout();}

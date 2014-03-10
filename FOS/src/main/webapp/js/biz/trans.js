@@ -245,6 +245,7 @@ Fos.TransTab = function(p) {
 		b.set('tranTotalPackages',sumP);
 		b.set('tranTotalGrossWeight',sumG);
 		b.set('tranTotalMeasurement',sumM);
+		b.set('packName',packName);
 		b.endEdit();
 	};
 	

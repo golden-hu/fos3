@@ -432,16 +432,17 @@ Fos.WusrGrid = function(){
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
 		{header:C_WS_USR_NAME,dataIndex:'wusrName',width:80},
+		{header:C_WS_COMPANY,dataIndex:'wusrCompanyName',width:200},
+		{header:C_WS_TEL,dataIndex:'wusrTel',width: 150},
 		{header:C_WS_FIRST_NAME,dataIndex:'wusrFirstName',width:80},
 		{header:C_WS_TITLE,dataIndex:'wusrTitle',width:80},		
-		{header:C_WS_COMPANY,dataIndex:'wusrCompanyName',width:100},
-		{header:C_WS_TEL,dataIndex:'wusrTel',width: 80},
+		
 		{header:C_WS_FAX,dataIndex:'wusrFax',width:100},
 		{header:C_WS_DEPT,dataIndex:'wusrDept',width:80},
 		{header:C_WS_MOBILE,dataIndex:'wusrMobile',width:100},
 		{header:C_WS_CITY,dataIndex:'wusrCity',width:100},
 		{header:C_WS_REG_TIME,dataIndex:'createTime',width:100,renderer:formatDateTime},
-		{header:C_WS_REG_TIME,dataIndex:'wusrStatus',width:100,renderer:wuStatusRender}]);
+		{header:C_STATUS,dataIndex:'wusrStatus',width:100,renderer:wuStatusRender}]);
 	cm.defaultSortable=true;	
 	this.accept=function(){		
     	var u=sm.getSelected();

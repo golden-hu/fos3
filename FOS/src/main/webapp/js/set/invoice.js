@@ -2,9 +2,14 @@
 
 var showInvoice= function(p){
 	var tab = T_MAIN.getComponent("T_INVO_" + p.get("id"));
-	if(tab) {T_MAIN.setActiveTab(tab);}
-	else {tab = T_MAIN.add(new Fos.InvoiceTab(p));
-	T_MAIN.setActiveTab(tab);tab.doLayout();}
+	if(tab) {
+		T_MAIN.setActiveTab(tab);
+	}
+	else {
+		tab = T_MAIN.add(new Fos.InvoiceTab(p));
+		T_MAIN.setActiveTab(tab);
+		tab.doLayout();
+	}
 };
 
 Fos.InvoiceGrid = function(t) {
@@ -12,8 +17,7 @@ Fos.InvoiceGrid = function(t) {
 		baseParams:{A:'INVO_Q',mt:'xml',invoType:t},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'invoId'},SInvoice),
 		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'}
-		//,groupField:'invoDate'
-		});	
+	});	
     store.load({params:{start:0,limit:C_PS}});
     
     var a=[];
@@ -130,7 +134,16 @@ Fos.InvoiceGrid = function(t) {
 		win.addButton({text:C_CANCEL,handler : function(){win.close();}},this);
 		win.show();
     };
-    var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
+    
+    var kw = new Ext.form.TextField({
+    	listeners:{scope:this,
+    		specialkey:function(c,e){
+    			if(e.getKey()==Ext.EventObject.ENTER) 
+    				this.fastSearch();
+    			}
+    	}
+    });
+    
     this.fastSearch=function(){
         var invoTaxNo=kw.getValue();
         if(!invoTaxNo){
@@ -184,24 +197,47 @@ Fos.InvoiceGrid = function(t) {
 		{header:C_SIGN_DATE,dataIndex:"invoSignDate",renderer:formatDate},		
 		{header:C_REMARKS,dataIndex:"invoRemarks"}
 		],defaults:{sortable:true,width:90}});
-	var rowCtxEvents={rowdblclick:function(grid, rowIndex, event){var c= grid.getSelectionModel().getSelected();if(c){showInvoice(c);}}};
+	
+	var rowCtxEvents={rowdblclick:function(grid, rowIndex, event){
+		var c= grid.getSelectionModel().getSelected();
+		if(c){
+			showInvoice(c);
+		}
+	}};
+	
 	this.add=function(){
     	var currCode='CNY';var w=new Fos.CurrencyWin();
 		w.addButton({text:C_OK,scope:this,handler:function(){
 			currCode = w.findById('currCode').getValue();
 			w.close();var id=GGUID();
-			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,currCode:currCode,
-				invoType:t,invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
-				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+			var e = new SInvoice({invoId:id,id:id,
+				invoNo:'N'+id,
+				currCode:currCode,
+				invoType:t,
+				invoDate:new Date(),
+				invoExRate:getExRate(currCode,'CNY'),
+				invoWriteOffStatus:'0',
+				invoPrFlag:'0',
+				invoUploadFlag:'0',
+				invoStatus:'0',
+				version:'0',
+				rowAction:'N'
+			});
 			var tab = T_MAIN.add(new Fos.InvoiceTab(e));
 			T_MAIN.setActiveTab(tab);
 		}},this);
 		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);w.show();
     };
+    
 	this.edit=function(){
 		var p=sm.getSelected();
-		if(p){showInvoice(p);}
-		else XMG.alert(SYS,M_NO_DATA_SELECTED);};
+		if(p){
+			showInvoice(p);
+		}
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
+		
     this.removeInvo=function(){
     	var a =sm.getSelections();
        	if(a.length>0){
@@ -233,6 +269,7 @@ Fos.InvoiceGrid = function(t) {
 		}
        	else XMG.alert(SYS,M_R_P);
     };
+    
     new Ext.KeyMap(Ext.getDoc(), {
 		key:'nmdfe',ctrl:true,
 		handler: function(k, e) {
@@ -292,6 +329,7 @@ Fos.InvoiceGrid = function(t) {
 	bbar:PTB(store,C_PS)});
 };
 Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
+
 Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var rowNum = new Ext.grid.RowNumberer();
