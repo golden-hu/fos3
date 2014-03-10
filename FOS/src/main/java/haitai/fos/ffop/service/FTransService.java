@@ -28,7 +28,7 @@ public class FTransService {
 	@Autowired
 	private IFTransCargoDAO cargoDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -100,13 +100,13 @@ public class FTransService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FTrans> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<Object> queryWithCargo(Map queryMap) {
 		List<Object> objList = new ArrayList<Object>();
@@ -119,13 +119,13 @@ public class FTransService {
 		return objList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FTransTask> queryTask(Map queryMap) {
 		return taskDao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FTransCargo> queryCargo(Map queryMap) {
 		return cargoDao.findByProperties(queryMap);

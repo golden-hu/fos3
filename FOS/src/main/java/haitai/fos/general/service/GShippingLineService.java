@@ -20,7 +20,7 @@ public class GShippingLineService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GShippingLine> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

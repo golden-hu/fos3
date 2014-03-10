@@ -23,7 +23,7 @@ public class CPriceSheetDAO extends GenericDAO<CPriceSheet, Integer> implements 
 		super(CPriceSheet.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<CPriceSheet> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = CPriceSheet.class;
@@ -40,7 +40,7 @@ public class CPriceSheetDAO extends GenericDAO<CPriceSheet, Integer> implements 
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVoyaName(final Integer voyaId, final String voyaName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update CPriceSheet t1 set t1.voyaName = ?, t1.version = t1.version + 1 ");
@@ -56,7 +56,7 @@ public class CPriceSheetDAO extends GenericDAO<CPriceSheet, Integer> implements 
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer vessId, final String vessName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update CPriceSheet t1 set t1.vessName = ?, t1.version = t1.version + 1 ");
@@ -72,7 +72,7 @@ public class CPriceSheetDAO extends GenericDAO<CPriceSheet, Integer> implements 
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer voyaId, final Integer newVessId,
 			final String newVessName) {
 		StringBuffer sb = new StringBuffer();

@@ -22,14 +22,14 @@ public class PSerialNoDAO extends GenericDAO<PSerialNo, Integer> implements
 		super(PSerialNo.class);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<PSerialNo> findByProperties(
 			final Map<String, Object> propertyMap) {
 		List retList = query(propertyMap, PSerialNo.class);
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public Long getNextSerialNo(final Map<String, Object> propertyMap) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("insert into P_SERIAL_NO");
@@ -61,7 +61,7 @@ public class PSerialNoDAO extends GenericDAO<PSerialNo, Integer> implements
 	}
 
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public Long getNextSerialNoByDate(final Map<String, Object> propertyMap) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("insert into P_SERIAL_NO");
@@ -93,7 +93,7 @@ public class PSerialNoDAO extends GenericDAO<PSerialNo, Integer> implements
 	}
 	
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void init() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("delete from P_SERIAL_NO p");

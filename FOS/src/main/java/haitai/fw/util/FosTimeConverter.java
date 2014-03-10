@@ -68,7 +68,7 @@ public class FosTimeConverter extends AbstractSingleValueConverter {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	@Override
 	public boolean canConvert(Class type) {
 		return type.equals(java.sql.Timestamp.class);

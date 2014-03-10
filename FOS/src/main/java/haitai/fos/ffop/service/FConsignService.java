@@ -240,7 +240,7 @@ public class FConsignService {
 	}
 	
 		
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -967,7 +967,7 @@ public class FConsignService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List query(Map queryMap) {
 		List retList = new ArrayList();
@@ -982,7 +982,6 @@ public class FConsignService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public void updateStatusById(Map<String, Object> queryMap) {
 		String ids = (String) queryMap.get("consId");
@@ -1066,7 +1065,7 @@ public class FConsignService {
 		return dao.complexQueryByContNo(conditions, queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List complexQueryCheck(List<FosQuery> conditions, Map<String, Object> queryMap) {
 		List retList = new ArrayList();
@@ -1089,7 +1088,7 @@ public class FConsignService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List queryForBill(Map queryMap) {
 		List retList = new ArrayList();
@@ -1188,7 +1187,7 @@ public class FConsignService {
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<Object> queryWithTask(Map queryMap) {
 		List<Object> objList = new ArrayList<Object>();	
@@ -1260,7 +1259,7 @@ public class FConsignService {
 	 * @param retList the consign list
 	 * @param objList the object list
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	private void checkMergeStatistics(List<FConsign> retList, List objList) {
 		for (Object obj : objList) {
 			if (obj instanceof Object[]) {
@@ -1423,7 +1422,7 @@ public class FConsignService {
 	/*
 	 * 北京永顺定制的服务，只要保存业务F_CONSIGN和费用S_EXPENSE即可
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List saveForBeijing(List entityList) {
 		List retList = new ArrayList();

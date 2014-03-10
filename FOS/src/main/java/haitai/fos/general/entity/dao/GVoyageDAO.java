@@ -17,7 +17,7 @@ public class GVoyageDAO extends GenericDAO<GVoyage, Integer> implements IGVoyage
 		super(GVoyage.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer vessId, final String vessName, final String vessNameCn) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update GVoyage t1 set t1.vessName = ?, t1.vessNameCn = ?, t1.version = t1.version + 1 ");

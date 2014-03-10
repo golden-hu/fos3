@@ -20,7 +20,7 @@ public class SExpenseBDAO extends GenericDAO<SExpenseB, Integer> implements
 		super(SExpenseB.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SExpenseB> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FConsign.class;

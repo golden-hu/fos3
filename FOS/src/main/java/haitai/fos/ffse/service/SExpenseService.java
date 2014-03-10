@@ -84,7 +84,7 @@ public class SExpenseService {
 		bakDao.save(bakEntityB);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExpense> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
@@ -210,31 +210,31 @@ public class SExpenseService {
 		return isOwner;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExpense> invoiceCreateQuery(Map queryMap) {
 		return dao.complexQueryInvoiceCreate(null, queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExpense> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		return dao.complexQuery(conditions, queryMap);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExpense> complexQuerySingle(List<FosQuery> conditions, Map queryMap) {
 		return dao.complexQuerySingle(conditions, queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExpenseB> complexQueryExpenseB(List<FosQuery> conditions, Map queryMap) {
 		return bakDao.complexQuery(conditions, queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExpense> queryWriteOff(Map queryMap) {
 		return dao.complexQueryWriteOff(null, queryMap);

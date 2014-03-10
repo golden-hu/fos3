@@ -29,7 +29,7 @@ public class ProxoolListener implements ServletContextListener {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public void contextInitialized(ServletContextEvent contextEvent) {
 		ServletContext context = contextEvent.getServletContext();
 		String appDir = contextEvent.getServletContext().getRealPath("/");

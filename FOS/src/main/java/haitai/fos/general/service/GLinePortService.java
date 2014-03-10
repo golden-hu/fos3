@@ -20,7 +20,7 @@ public class GLinePortService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GLinePort> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

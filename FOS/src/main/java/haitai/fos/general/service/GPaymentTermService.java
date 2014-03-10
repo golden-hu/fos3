@@ -20,7 +20,7 @@ public class GPaymentTermService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GPaymentTerm> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

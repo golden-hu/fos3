@@ -19,7 +19,7 @@ public class CCustomerShipperService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CCustomerShipper> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

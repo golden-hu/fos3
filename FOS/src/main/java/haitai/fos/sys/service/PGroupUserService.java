@@ -2,17 +2,13 @@ package haitai.fos.sys.service;
 
 import haitai.fos.sys.entity.idao.IPGroupUserDAO;
 import haitai.fos.sys.entity.table.PGroupUser;
-import haitai.fw.exception.BusinessException;
-import haitai.fw.util.NumberUtil;
-import haitai.fw.util.RowAction;
+
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class PGroupUserService {
@@ -40,7 +36,7 @@ public class PGroupUserService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PGroupUser> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -20,7 +20,7 @@ public class GCurrencyService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GCurrency> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

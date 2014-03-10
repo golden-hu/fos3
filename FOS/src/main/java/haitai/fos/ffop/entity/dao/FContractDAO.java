@@ -26,7 +26,7 @@ public class FContractDAO extends GenericDAO<FContract, Integer> implements
 		super(FContract.class);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateSailDate(final Integer voyaId, final Date voyaSailDate,
 			final Date voyaShipDateF, final Date voyaShipDateT) {
 		StringBuffer sb = new StringBuffer();
@@ -56,7 +56,7 @@ public class FContractDAO extends GenericDAO<FContract, Integer> implements
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateConsNoByConsId(final Integer consId, final String consNo) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FContract t1 set ");
@@ -73,7 +73,7 @@ public class FContractDAO extends GenericDAO<FContract, Integer> implements
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateSailedFlag(final Integer voyaId, final Short voyaSailedFlag) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FContract t1 set t1.voyaSailedFlag = ?, t1.version = t1.version + 1 ");
@@ -90,7 +90,7 @@ public class FContractDAO extends GenericDAO<FContract, Integer> implements
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FContract> queryByVoyaId(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FContract.class;
@@ -102,7 +102,7 @@ public class FContractDAO extends GenericDAO<FContract, Integer> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<Object> queryByVoyaIdAndCustId(final Integer voyaId, final Integer custId) {
 		final Class t1 = FContract.class;
 		final Class t2 = FLoadingList.class;

@@ -21,7 +21,7 @@ import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
  */
 public class DoubleConverter extends AbstractSingleValueConverter {
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public boolean canConvert(Class type) {
         return type.equals(double.class) || type.equals(Double.class);
     }

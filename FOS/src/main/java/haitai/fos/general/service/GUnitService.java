@@ -25,7 +25,7 @@ public class GUnitService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GUnit> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

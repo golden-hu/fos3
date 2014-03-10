@@ -25,7 +25,7 @@ public class PMessageDAO extends GenericDAO<PMessage, Long> implements IPMessage
 		return getJpaTemplate().merge(entity);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<PMessage> queryOwn(Map<String, Object> propertyMap){
 		Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
 		String tid = (String) propertyMap.get("userId");

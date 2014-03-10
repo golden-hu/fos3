@@ -20,7 +20,7 @@ public class PActionLogService {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PActionLog> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

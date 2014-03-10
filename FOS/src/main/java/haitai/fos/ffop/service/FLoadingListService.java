@@ -196,7 +196,7 @@ public class FLoadingListService {
 		return status;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FLoadingList> query(Map queryMap) {
 		List<FosQuery> conditions = new ArrayList<FosQuery>();

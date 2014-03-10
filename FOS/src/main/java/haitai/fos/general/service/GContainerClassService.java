@@ -20,7 +20,7 @@ public class GContainerClassService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GContainerClass> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

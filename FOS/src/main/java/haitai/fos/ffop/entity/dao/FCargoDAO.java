@@ -19,7 +19,7 @@ public class FCargoDAO extends GenericDAO<FCargo, Integer> implements
 		super(FCargo.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FCargo> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		Class t1 = FConsign.class;

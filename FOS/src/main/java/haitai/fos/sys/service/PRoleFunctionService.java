@@ -36,7 +36,7 @@ public class PRoleFunctionService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PRoleFunction> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

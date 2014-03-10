@@ -27,7 +27,6 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -80,7 +79,7 @@ public class PTemplateService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void uploadTemplate(Map<String, String> paramMap) {
 		String uploadDir = ConfigUtil.getRealTemplateDir();
 		File f = new File(uploadDir);
@@ -118,7 +117,7 @@ public class PTemplateService {
 	 *
 	 * @param paramMap query conditions
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public void importTemplate(Map<String, String> paramMap) {
 		List<FileItem> fileItems;
@@ -185,7 +184,7 @@ public class PTemplateService {
 	 * @param paramMap the query map
 	 * @return the file name
 	 */
-	@SuppressWarnings({"unchecked"})
+	@SuppressWarnings({ "rawtypes"})
 	public String exportTemplate(List<FosQuery> conditions, Map<String, String> paramMap) {
 		String tempFileName = null;
 		logger.info("export template with param: " + paramMap);
@@ -323,7 +322,7 @@ public class PTemplateService {
 		return recordList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	private void fillEntity(Object entity, Map<String, String> paramMap) {
 		Map<String, Method> setMethodMap = MethodUtil.getSetMethods(entity);
 		for (String key : paramMap.keySet()) {
@@ -738,7 +737,7 @@ public class PTemplateService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	private List executeAction(PTemplateType ptt, Object... param) {
 		String queryActionName = ptt.getTetyAction();
 		SessionManager.setAttr(SessionKeyType.ACTNAME, queryActionName);
@@ -899,7 +898,7 @@ public class PTemplateService {
 		return s;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PTemplate> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

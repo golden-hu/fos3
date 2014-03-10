@@ -18,9 +18,9 @@ public interface ICSalesCommissionDAO {
 
 	public List<CSalesCommission> findByProperties(final Map<String, Object> propertyMap);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public abstract List queryAllCommission(final Map<String, Object> propertyMap);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public abstract List queryCommissionDetail(final Map<String, Object> propertyMap);
 }

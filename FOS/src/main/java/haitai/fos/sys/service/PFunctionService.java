@@ -33,7 +33,7 @@ public class PFunctionService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PFunction> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

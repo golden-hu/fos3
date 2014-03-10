@@ -14,7 +14,7 @@ public class FDoService {
 	@Autowired
 	private IFDoDAO dao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FDo> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -28,7 +28,7 @@ public class FContainerService {
 	@Autowired
 	private IFConsignDAO consignDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -105,7 +105,7 @@ public class FContainerService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FContainer> query(Map queryMap) {
 		List retList = new ArrayList();
@@ -116,7 +116,7 @@ public class FContainerService {
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<Object> complexQueryByVoyaId(Map queryMap) {
 		List retList = new ArrayList();

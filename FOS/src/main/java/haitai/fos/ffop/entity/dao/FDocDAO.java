@@ -24,7 +24,7 @@ public class FDocDAO extends GenericDAO<FDoc, Integer> implements IFDocDAO {
 		super(FDoc.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
 		final Class t1 = FDoc.class;
 		final Class t2 = FConsign.class;
@@ -36,7 +36,7 @@ public class FDocDAO extends GenericDAO<FDoc, Integer> implements IFDocDAO {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FDoc> complexQueryNeedRelease(final List<FosQuery> conditions, final Map<String,
 			Object> propertyMap) {
 		final Class t1 = FDoc.class;
@@ -55,7 +55,7 @@ public class FDocDAO extends GenericDAO<FDoc, Integer> implements IFDocDAO {
 		return complexQuery(conditions, propertyMap, "t1", joinSql, t1, t2);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	public void updateConsNoByConsId(final Integer consId, final String consNo) {
 		StringBuilder sb = new StringBuilder();

@@ -19,7 +19,7 @@ public class CSalesQuotaService {
 		return dao.saveByRowAction(vedCatList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CSalesQuota> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

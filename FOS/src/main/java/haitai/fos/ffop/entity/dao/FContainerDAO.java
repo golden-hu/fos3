@@ -22,7 +22,7 @@ public class FContainerDAO extends GenericDAO<FContainer, Integer> implements
 		super(FContainer.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<Object> complexQueryByVoyaId(
 			final Map<String, Object> propertyMap) {
 		final List<FosQuery> conditions = new ArrayList<FosQuery>();

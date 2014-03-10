@@ -16,7 +16,7 @@ public interface IPUserDAO {
 
 	public List<PUser> findByProperties(final Map<String, Object> propertyMap);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public List queryFuncCode();
 
 	public abstract List<PUser> queryByNameOrEmail(final String name,

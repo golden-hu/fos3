@@ -20,7 +20,7 @@ public class GPlaceService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GPlace> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

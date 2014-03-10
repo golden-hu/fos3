@@ -69,7 +69,7 @@ public class MethodUtil {
 		return getIdMethod;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public static void doSetMethod(Object entity, String fieldName, Class paramClass, Object paramValue) {
 		Set<String> methodSet = getMethodsName(entity);
 		if (methodSet.contains("set" + StringUtil.capitalize(fieldName))) {
@@ -83,7 +83,7 @@ public class MethodUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public static void doSetMethodNull(Object entity, String fieldName) {
 		Set<String> methodSet = getMethodsName(entity);
 		String methodName = "set" + StringUtil.capitalize(fieldName);
@@ -118,7 +118,7 @@ public class MethodUtil {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public static Map<String, Method> getSetMethods(Object obj) {
 		Class clazz = obj.getClass();
 		Map<String, Method> methodMap = methodSetCache.get(clazz.getSimpleName());

@@ -27,7 +27,7 @@ public class FBlDAO extends GenericDAO<FBl, Integer> implements IFBlDAO {
 		super(FBl.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateStatusById(final Integer id, final Short blStatus) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FBl t1 set t1.blStatus = :blStatus, t1.version = t1.version + 1 where ");
@@ -50,7 +50,7 @@ public class FBlDAO extends GenericDAO<FBl, Integer> implements IFBlDAO {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FBl> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FConsign.class;
@@ -66,7 +66,7 @@ public class FBlDAO extends GenericDAO<FBl, Integer> implements IFBlDAO {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FBl> complexQueryForWs(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FBl.class;
@@ -78,7 +78,7 @@ public class FBlDAO extends GenericDAO<FBl, Integer> implements IFBlDAO {
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	public void updateConsNoByConsId(final Integer consId, final String consNo) {
 		StringBuffer sb = new StringBuffer();

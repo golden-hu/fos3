@@ -21,7 +21,7 @@ public class WConsignDAO extends GenericDAO<WConsign, Integer> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = WConsign.class;

@@ -25,7 +25,7 @@ public class FAttachService {
 
 	private static FosLogger logger = new FosLogger(FAttachService.class);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FAttach> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
@@ -45,7 +45,6 @@ public class FAttachService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public void uploadAttach(Map<String, String> paramMap) {
 		String uploadDir = ConfigUtil.getRealAttachDir();

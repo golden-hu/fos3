@@ -30,7 +30,7 @@ public class FCustomsDeclarationService {
 	@Autowired
 	private IFConsignDAO consDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		Integer consId = null;
@@ -110,7 +110,7 @@ public class FCustomsDeclarationService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List query(Map queryMap) {
 		List retList = new ArrayList();
@@ -152,13 +152,13 @@ public class FCustomsDeclarationService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FCustomsDoc> queryDoc(Map queryMap) {
 		return docDao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FCustomsEntry> queryEntry(Map queryMap) {
 		return entDao.findByProperties(queryMap);
@@ -173,7 +173,7 @@ public class FCustomsDeclarationService {
 		docDao.update(entity);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FCustomsDeclaration> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		return dao.complexQuery(conditions, queryMap);

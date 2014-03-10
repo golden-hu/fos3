@@ -61,7 +61,7 @@ public class SInterestRateService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SInterestRate> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

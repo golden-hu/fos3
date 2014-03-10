@@ -34,7 +34,7 @@ public class GCountryService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GCountry> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

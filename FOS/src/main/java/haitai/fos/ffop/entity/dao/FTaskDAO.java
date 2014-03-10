@@ -18,7 +18,7 @@ public class FTaskDAO extends GenericDAO<FTask, Integer> implements IFTaskDAO {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FTask> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FTask.class;

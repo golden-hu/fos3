@@ -126,19 +126,19 @@ public class FContractService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FContract> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FContract> complexQueryByVoyaId(List<FosQuery> conditions, Map queryMap) {
 		return dao.queryByVoyaId(conditions, queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FContract> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<FContract> list;
@@ -164,7 +164,7 @@ public class FContractService {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List complexQueryPlace(List<FosQuery> conditions, Map queryMap) {
 		String placId = (String) queryMap.get("placId");

@@ -21,7 +21,7 @@ public class SVoucherDAO extends GenericDAO<SVoucher, Integer> implements
 		super(SVoucher.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SVoucher> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		Class clazz = SVoucher.class;
@@ -38,7 +38,7 @@ public class SVoucherDAO extends GenericDAO<SVoucher, Integer> implements
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public Double getBalance(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		List retList = complexQuery(conditions, propertyMap, "sum(t1.voucFixAmount)",

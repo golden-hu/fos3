@@ -23,7 +23,7 @@ public class PMessageSubscribeService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PMessageSubscribe> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

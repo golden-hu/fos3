@@ -19,7 +19,7 @@ public class CVendorCategoryService {
 		return dao.saveByRowAction(vedCatList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CVendorCategory> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

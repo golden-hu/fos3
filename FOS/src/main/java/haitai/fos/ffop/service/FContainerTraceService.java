@@ -1,27 +1,24 @@
 package haitai.fos.ffop.service;
 
-import haitai.fos.ffop.entity.table.FContainerTrace;
 import haitai.fos.ffop.entity.idao.IFContainerTraceDAO;
-
+import haitai.fos.ffop.entity.table.FContainerTrace;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.util.RowAction;
-import haitai.fw.util.TimeUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class FContainerTraceService {
 	@Autowired
 	private IFContainerTraceDAO dao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -46,7 +43,7 @@ public class FContainerTraceService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FContainerTrace> query(Map queryMap) {
 		List retList = new ArrayList();

@@ -12,7 +12,7 @@ public class FosLogger {
 		this.logger = LoggerFactory.getLogger(name);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public FosLogger(Class clazz) {
 		this(clazz.getName());
 	}
@@ -61,7 +61,7 @@ public class FosLogger {
 		logNestedException(msg, t);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	void logNestedException(Object msg, Throwable t) {
 		if (t == null)
 			return;

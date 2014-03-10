@@ -20,7 +20,7 @@ public class GIssueTypeService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GIssueType> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

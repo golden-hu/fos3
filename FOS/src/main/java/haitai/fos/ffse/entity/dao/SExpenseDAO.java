@@ -24,7 +24,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 		super(SExpense.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQueryInvoiceCreate(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SExpense.class;
@@ -35,7 +35,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQueryWriteOff(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SExpense.class;
@@ -49,7 +49,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SExpense> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FConsign.class;
@@ -64,7 +64,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SExpense> complexQuerySingle(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SExpense.class;
@@ -75,7 +75,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SExpense> complexQueryRelease(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SExpense.class;
@@ -86,7 +86,7 @@ public class SExpenseDAO extends GenericDAO<SExpense, Integer> implements ISExpe
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	public void updateConsNoByConsId(final Integer consId, final String consNo) {
 		StringBuffer sb = new StringBuffer();

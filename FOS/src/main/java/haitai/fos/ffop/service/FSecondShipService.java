@@ -19,7 +19,7 @@ public class FSecondShipService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FSecondShip> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -17,7 +17,7 @@ public class PUserRoleDAO extends GenericDAO<PUserRole, Integer> implements IPUs
 		super(PUserRole.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public List<PUserRole> findByProperties(final Map<String, Object> propertyMap) {
 		List<PUserRole> retList = new ArrayList<PUserRole>();
 		List list = queryEager(propertyMap, PUserRole.class);
@@ -31,7 +31,7 @@ public class PUserRoleDAO extends GenericDAO<PUserRole, Integer> implements IPUs
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	private List queryEager(final Map<String, Object> propertyMap,
 			final Class clazz) {
 		Class t1 = PUserRole.class;

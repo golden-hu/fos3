@@ -31,7 +31,7 @@ public class SInvoiceService {
 	@Autowired
 	private IFConsignDAO consignDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -218,6 +218,7 @@ public class SInvoiceService {
 		invoice.setInvoSailDate(firstConsign.getConsSailDate());
 		invoice.setInvoPol(firstConsign.getConsPolEn());
 		invoice.setInvoPod(firstConsign.getConsPodEn());
+		invoice.setInvoDeliveryPlace(firstConsign.getConsDeliveryPlace());
 		invoice.setInvoConsNo(firstConsign.getConsNo());
 		invoice.setInvoCargoName(firstConsign.getConsCargoNameEn());
 		invoice.setInvoCargoPackages(""+firstConsign.getConsTotalPackages()+firstConsign.getPackName());
@@ -396,7 +397,7 @@ public class SInvoiceService {
 		return status;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List query(Map queryMap) {
 		List retList = new ArrayList();
@@ -408,13 +409,13 @@ public class SInvoiceService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SInvoiceEntry> queryEntry(Map queryMap) {
 		return entryDao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SInvoiceItem> queryItem(Map queryMap) {
 		return itemDao.findByProperties(queryMap);
