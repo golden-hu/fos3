@@ -578,6 +578,8 @@ Fos.BookTab = function(p) {
             	}
             	},
          	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
+	
+	//中转港
     var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',
     		value:p.get('consPotEn'),xtype:'textfield',anchor:'99%'};
     var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'99%'};
@@ -681,11 +683,21 @@ Fos.BookTab = function(p) {
         }
     };
             
-    var m32={fieldLabel:C_VESS_NAME_CN,name:'vessNameCn',tabIndex:54,value:p.get('vessNameCn'),xtype:'textfield',anchor:'99%'};
-    var m33={fieldLabel:C_TTER,itemCls:'required',tabIndex:58,name:'tranIdCarrier',value:p.get('tranIdCarrier'),store:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?getTTB_S():getTTC_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+    var m32={fieldLabel:C_VESS_NAME_CN,name:'vessNameCn',
+    		tabIndex:54,
+    		value:p.get('vessNameCn'),
+    		xtype:'textfield',
+    		anchor:'99%'};
+   
+    var m33={fieldLabel:C_TTER,itemCls:'required',
+    	tabIndex:58,name:'tranIdCarrier',
+    	value:p.get('tranIdCarrier'),
+    	store:(p.get('consBizType')==BT_B|| p.get('consBizType')==BT_O)?getTTB_S():getTTC_S(),
+    	xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     	listeners:{scope:this,
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('tranIdCarrier','');}},
     	select:function(c,r,i){p.set('tranCodeCarrier',r.get('tranCodeCarrier'));}}};
+    
     var m34={fieldLabel:C_PATE,itemCls:'required',tabIndex:59,name:'pateIdP',value:p.get('pateIdP'),store:getPATE_S(),xtype:'combo',displayField:'pateName',valueField:'pateId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     	listeners:{scope:this,
 		blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('pateIdP','');}},
@@ -705,6 +717,7 @@ Fos.BookTab = function(p) {
     });
     
     var consThcFlag={fieldLabel:C_THC_FLAG,name:'consThcFlag',value:p.get('consThcFlag'),xtype:'checkbox',anchor:'99%'};
+    
     var consPressureBoxFlag={fieldLabel:C_PRESSURE_BOX_FLAG,name:'consPressureBoxFlag',value:p.get('consPressureBoxFlag'),xtype:'checkbox',anchor:'99%'};
     
     var t131=[];var t132=[];var t133=[];var t134=[];
@@ -1063,40 +1076,62 @@ Fos.BookTab = function(p) {
 				c.setValue(r.get('custNameCn'));
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}});
+	
 	var txtTranContact = new Ext.form.TextField({fieldLabel:C_TRAN_CONTACT,tabIndex:4,
 		name:'consTrackContact',value:p.get('consTrackContact'),anchor:'99%'});
+	
 	var txtTranTel = new Ext.form.TextField({fieldLabel:C_TRAN_TEL,tabIndex:5,
 		name:'consTrackTel',value:p.get('consTrackTel'),anchor:'99%'});
+	
 	txtLoadAddress = new Ext.form.TextArea({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,
 			tabIndex:6,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textarea',anchor:'99%'});
 	
 	var r3={columnWidth:.25,layout:'form',border:false,items:[cboTrackVendor]};
+	
 	var r4={columnWidth:.25,layout:'form',border:false,items:[txtTranContact]};
+	
 	var r5={columnWidth:.25,layout:'form',border:false,items:[txtTranTel]};		
+	
 	var r7={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:7,
 		name:'consTrackRemarks',value:p.get('consTrackRemarks'),xtype:'textarea',anchor:'99%'}]};
+	
 	var txtLoadDate={columnWidth:.25,layout:'form',border:false,items:[
 	       {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,tabIndex:8,
 	        name:'consTrackLoadDate',value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'}]};
+	
 	var txtLoadTime={columnWidth:.25,layout:'form',border:false,items:[
        {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_TIME:C_FETCH_TIME,tabIndex:8,
         name:'consTrackLoadTime',value:p.get('consTrackLoadTime'),xtype:'timefield',increment:30,anchor:'99%'}]};
 
 	
-	var txtLoadFactory = {columnWidth:.25,layout:'form',hidden:p.get('consBizClass')!=BC_E,border:false,items:[
-	    	{fieldLabel:C_LOAD_FACTORY,name:'consLoadFactory',value:p.get('consLoadFactory'),
-	    		xtype:'siteLookup',siteType:1,custId:p.get('custId'),
-	        	typeAhead:true,mode:'local',triggerAction: 'all',
-	        	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
+	var txtLoadFactory = {columnWidth:.25,layout:'form',
+			hidden:p.get('consBizClass')!=BC_E,border:false,items:[
+	    	{fieldLabel:C_LOAD_FACTORY,
+	    		name:'consLoadFactory',
+	    		value:p.get('consLoadFactory'),
+	    		xtype:'siteLookup',
+	    		siteType:1,
+	    		consign:p,
+	        	typeAhead:true,
+	        	mode:'local',
+	        	triggerAction: 'all',
+	        	selectOnFocus:true,
+	        	anchor:'99%',
+	        	listWidth:200,
+	        	pageSize:30,
 	    		listeners:{scope:this,	    			
 	    			select:function(c,r,i){
 	    				txtLoadContact.setValue(r.get('cusiContact'));
 	    				txtLoadTel.setValue(r.get('cusiTel'));
 	    				txtLoadAddress.setValue(r.get('cusiAddress'));
-	    			}}}]};
+	    			}
+	    		}
+	    	}
+	    ]};
 	
 	var txtLoadContact=new Ext.form.TextField({fieldLabel:C_LOAD_CONTACT,tabIndex:4,name:'consLoadContact',
 	    	value:p.get('consLoadContact'),xtype:'textfield',anchor:'99%'});
+	
 	var txtLoadTel=new Ext.form.TextField({fieldLabel:C_LOAD_TEL,tabIndex:5,name:'consLoadTel',
 	        value:p.get('consLoadTel'),xtype:'textfield',anchor:'99%'});
 

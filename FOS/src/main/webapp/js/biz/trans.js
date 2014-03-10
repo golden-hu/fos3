@@ -436,15 +436,26 @@ Fos.TransTab = function(p) {
 			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}};
 	
 	var txtLoadTime={fieldLabel:C_LOAD_TIME,name:'tranLoadTime',tabIndex:26,xtype:'timefield',increment:30,anchor:'99%'};
-	var c4={fieldLabel:C_LOAD_PLACE,name:'tranLoadFactory',tabIndex:9,xtype:'siteLookup',
-			custId:p.get('custId'),siteType:3,typeAhead:true,mode:'remote',triggerAction:'all',
-        	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
+	
+	var c4={fieldLabel:C_LOAD_PLACE,name:'tranLoadFactory',
+			tabIndex:9,
+			xtype:'siteLookup',
+			consign:p,
+			siteType:3,
+			typeAhead:true,
+			mode:'remote',
+			triggerAction:'all',
+        	selectOnFocus:true,
+        	anchor:'99%',
+        	listWidth:200,
+        	pageSize:30,
     		listeners:{scope:this,	    			
     			select:function(c,r,i){
     				this.find('name','tranLoadContact')[0].setValue(r.get('cusiContact'));
     				this.find('name','tranLoadTel')[0].setValue(r.get('cusiTel'));
     				this.find('name','tranLoadAddress')[0].setValue(r.get('cusiAddress'));
     			}}};
+	
 	var txtLoadAddress={fieldLabel:C_LOAD_ADDRESS,name:'tranLoadAddress',tabIndex:13,xtype:'textfield',anchor:'99%'};	
 	var c7={fieldLabel:C_DRAW_CY,name:'tranCyDraw',tabIndex:25,xtype:'textfield',anchor:'99%'};	
 	var c8={fieldLabel:C_TRAN_CONTACT,name:'tranVendorContact',tabIndex:2,xtype:'textfield',anchor:'99%'};
@@ -500,7 +511,7 @@ Fos.TransTab = function(p) {
 	var txtDeliveryPlace = {fieldLabel:C_DELIVERY_PLACE,name:'tranDeliveryPlace',
 		tabIndex:24,
 		xtype:'siteLookup',
-		custId:p.get('custId'),
+		consign:p,
 		siteType:2,
 		typeAhead:true,
 		mode:'remote',

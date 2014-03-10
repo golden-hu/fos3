@@ -739,11 +739,14 @@ Ext.extend(Fos.CustomerLookWin,Ext.Window);
 
 
 //客户地址选择窗口
-Fos.CustomerSiteWin=function(siteType,custId,fn,scope){
-	var store = new Ext.data.Store({url:SERVICE_URL,baseParams:{mt:'json',A:'CUSI_Q'},
-		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'CCustomerSite',id:'cusiId'},CCustomerSite),
+Fos.CustomerSiteWin=function(siteType,_consign,fn,scope){
+	var store = new Ext.data.Store({url:SERVICE_URL,
+		baseParams:{mt:'json',A:'CUSI_Q'},
+		reader:new Ext.data.JsonReader({totalProperty:'rowCount',
+			root:'CCustomerSite',id:'cusiId'},CCustomerSite),
 		remoteSort:true,sortInfo:{field:'cusiId', direction:'DESC'}});
-	store.load({params:{custId:custId,cusiType:siteType}});
+	
+	//store.load({params:{custId:_consign.get('custId'),cusiType:siteType}});
 	
 		
 	this.selRecord = function(){
@@ -762,7 +765,7 @@ Fos.CustomerSiteWin=function(siteType,custId,fn,scope){
                		var xml = SMTX4R(sm,'CCustomerSite','cusiId');
                		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CUSI_S'},
 					success: function(){
-               			store.load({params:{custId:custId,siteType:siteType}});
+               			store.load({params:{custId:_consign.get('custId'),siteType:siteType}});
                			XMG.alert(SYS,M_S);
                		},
 					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
@@ -781,14 +784,20 @@ Fos.CustomerSiteWin=function(siteType,custId,fn,scope){
 		],defaults:{sortable:true,width:100}});	
 	
 	this.addSite=function(){
-		var p = new CCustomerSite({id:GGUID(),cusiId:0,custId:custId,cusiType:siteType,version:'0',rowAction:'N'});
+		var p = new CCustomerSite({id:GGUID(),
+			cusiId:0,
+			custId:_consign.get('custId'),
+			cusiType:siteType,
+			version:'0',
+			rowAction:'N'
+		});
 		grid.stopEditing();
 		store.insert(0,p);
 		grid.startEditing(0, 1);
 	};
 	this.save = function(){
 		FOS_POST(store,'CCustomerSite',CCustomerSite,'CUSI_S');
-		store.load({params:{custId:custId,cusiType:siteType}});
+		store.load({params:{custId:_consign.get('custId'),cusiType:siteType}});
 	};
 	
 	var grid = new  Ext.grid.EditorGridPanel({header:false,width:600,height:400,
@@ -802,7 +811,12 @@ Fos.CustomerSiteWin=function(siteType,custId,fn,scope){
 	  	       {text:C_REMOVE,iconCls:'remove',scope:this,handler:this.removeRecord},
 	  	       {text:C_SAVE,disabled:NR(M1_J+G_VESS+F_M),iconCls:'save',handler:this.save},
 		  	   {text:C_CLOSE,iconCls:'cancel',scope:this,handler:this.close},
-		  	   {text:C_SEL,iconCls:'check',scope:this,handler:this.selRecord}]
+		  	   {text:C_SEL,iconCls:'check',scope:this,handler:this.selRecord}],
+		 listeners:{scope:this,
+			 'show':function(){
+				 store.load({params:{custId:_consign.get('custId'),cusiType:siteType}});
+			 }
+		 }
 	});
 };
 Ext.extend(Fos.CustomerSiteWin, Ext.Window);
@@ -810,10 +824,10 @@ Ext.extend(Fos.CustomerSiteWin, Ext.Window);
 Fos.SiteLookup = Ext.extend(Ext.form.ComboBox, {
 	triggerClass:'x-form-search-trigger',
 	siteType:'',
-	custId:'',
+	consign:'',
 	constructor: function(config){
 		this.siteType = config['siteType'];
-		this.custId = config['custId'];
+		this.consign = config['consign'];
 		Fos.SiteLookup.superclass.constructor.apply(this, arguments);
 	},
 	initComponent : function(){
@@ -824,7 +838,7 @@ Fos.SiteLookup = Ext.extend(Ext.form.ComboBox, {
 		scope.fireEvent('select', this, site, 0);
 	},
 	onTriggerClick: function(event){
-		var win = new Fos.CustomerSiteWin(this.siteType,this.custId,this.selectSite,this);
+		var win = new Fos.CustomerSiteWin(this.siteType,this.consign,this.selectSite,this);
 		win.show();
 	}
 });

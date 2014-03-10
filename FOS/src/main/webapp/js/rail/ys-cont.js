@@ -578,9 +578,18 @@ Fos.YsConsignTab = function(p,listStore){
 	var dtDeliveryTime={fieldLabel:C_DELIVERY_TIME,name:'consContainerLoadTime',
 			value:p.get('consContainerLoadTime'),xtype:'timefield',increment: 30,anchor:'99%'};
 	//装货地点
-	var cboTranLoadFactory={fieldLabel:C_LOAD_PLACE,name:'consLoadFactory',value:p.get('consLoadFactory'),xtype:'siteLookup',
-			custId:p.get('custId'),siteType:3,typeAhead:true,mode:'remote',triggerAction:'all',
-        	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
+	var cboTranLoadFactory={fieldLabel:C_LOAD_PLACE,
+			name:'consLoadFactory',
+			value:p.get('consLoadFactory'),
+			xtype:'siteLookup',
+			consign:p,
+			siteType:3,
+			typeAhead:true,
+			mode:'remote',
+			triggerAction:'all',
+        	selectOnFocus:true,
+        	anchor:'99%',
+        	listWidth:200,pageSize:30,
     		listeners:{scope:this,	    			
     			select:function(c,r,i){
     				this.find('name','consLoadContact')[0].setValue(r.get('cusiContact'));
@@ -594,8 +603,14 @@ Fos.YsConsignTab = function(p,listStore){
 	//装货地址
 	var txtLoadAddress={fieldLabel:C_LOAD_ADDRESS,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textfield',anchor:'99%'};	
 	//送货地点
-	var cboDeliveryPlace={fieldLabel:C_DELIVERY_PLACE,name:'consWarehouseName',value:p.get('consWarehouseName'),xtype:'siteLookup',
-			custId:p.get('custId'),siteType:2,typeAhead:true,mode:'remote',triggerAction:'all',
+	var cboDeliveryPlace={fieldLabel:C_DELIVERY_PLACE,name:'consWarehouseName',
+			value:p.get('consWarehouseName'),
+			xtype:'siteLookup',
+			consign:p,
+			siteType:2,
+			typeAhead:true,
+			mode:'remote',
+			triggerAction:'all',
         	selectOnFocus:true,anchor:'99%',listWidth:200,pageSize:30,
     		listeners:{scope:this,	    			
     			select:function(c,r,i){

@@ -667,6 +667,7 @@ Fos.InvoEntryGrid = function(p,frm) {
 		 		}
 		 	}
 		},stopEvent:true,scope:this});
+	
 	Fos.InvoEntryGrid.superclass.constructor.call(this, {
 	id:'G_INVO_E'+p.get('id'),border:true,autoScroll:true,clicksToEdit:1,header:false,height:270,stripeRows:true,
     store: store,sm:sm,cm:cm,
@@ -801,17 +802,36 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     	this.itemGrid.getTopToolbar().getComponent('TB_A').setDisabled(p.get('invoStatus')!='0');
     	this.itemGrid.getTopToolbar().getComponent('TB_B').setDisabled(p.get('invoStatus')!='0');
     };
-    this.expInvo=function(){EXPC('INVO','&invoId='+p.get('invoId'));};
+    
+    this.expInvo=function(){
+    	EXPC('INVO','&invoId='+p.get('invoId'));
+    };
+    
     this.genVoucher=function(){
 		var rid=GGUID();
-		var e = new SVoucher({id:rid,voucId:rid,voucNo:'N'+rid,currCode:p.get('currCode'),
-			voucType:p.get('invoType'),voucDate:new Date(),voucExRate:getExRate(p.get('currCode'),'CNY'),
-			custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),
-			voucAmount:p.get('invoAmount'),voucWriteOffAmount:p.get('invoAmount'),voucFixAmount:0,
-			voucUploadFlag:'0',voucStatus:'0',voucWriteOffStatus:'0',version:'0',rowAction:'N'});
-			var t = T_MAIN.add(new Fos.VoucherTab(e,'',p.get('invoId')));
-			T_MAIN.setActiveTab(t);
-	};	
+		var e = new SVoucher({id:rid,
+			voucId:rid,
+			voucNo:'N'+rid,
+			currCode:p.get('currCode'),
+			voucType:p.get('invoType'),
+			voucDate:new Date(),
+			voucExRate:getExRate(p.get('currCode'),'CNY'),
+			custId:p.get('custId'),
+			custName:p.get('custName'),
+			custSname:p.get('custSname'),
+			voucAmount:p.get('invoAmount'),
+			voucWriteOffAmount:p.get('invoAmount'),
+			voucFixAmount:0,
+			voucUploadFlag:'0',
+			voucStatus:'0',
+			voucWriteOffStatus:'0',
+			version:'0',
+			rowAction:'N'
+		});
+		var t = T_MAIN.add(new Fos.VoucherTab(e,'',p.get('invoId')));
+		T_MAIN.setActiveTab(t);
+	};
+	
     new Ext.KeyMap(Ext.getDoc(), {
 		key:'srcufmea',ctrl:true,
 		handler: function(k, e) {
@@ -845,13 +865,26 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     this.expInvoP = function(){
     	EXPC('CREATE_NOTE','&invoId='+p.get('invoId'));
     };
-    var b1={itemId:'TB_A',text:C_SAVE+'(S)',iconCls:'save',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0',scope:this,handler:this.save};
-    var b2={itemId:'TB_B',text:C_REMOVE+'(R)',iconCls:'remove',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removeInvo};
+    
+    var b1={itemId:'TB_A',text:C_SAVE+'(S)',iconCls:'save',
+    	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0',
+    	scope:this,
+    	handler:this.save
+    };
+    
+    var b2={itemId:'TB_B',text:C_REMOVE+'(R)',iconCls:'remove',
+    	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
+    	scope:this,handler:this.removeInvo};
+    
     var b3={itemId:'TB_C',text:C_AUDIT+'(C)',iconCls:'check',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.check};
     var b4={itemId:'TB_D',text:C_CANCEL_AUDIT+'(U)',iconCls:'renew',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')==2,scope:this,handler:this.renew};
     var b5={itemId:'TB_E',text:C_INVALID+'(F)',iconCls:'cancel',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0',scope:this,handler:this.cancel};
     var b6={itemId:'TB_F',text:C_MODIFY_INVO_NO+'(M)',iconCls:'option',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.editTax};
-    var b7={text:C_EXPORT+'(E)',iconCls:'print',disabled:p.get('invoWriteOffStatus')!='0',scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo}]}};
+    
+    var b7={text:C_EXPORT+'(E)',iconCls:'print',
+    		disabled:p.get('invoWriteOffStatus')!='0',
+    		scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo}]}};
+    
 	var b8={itemId:'TB_M',disabled:true,text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))};
 	var b9={itemId:'TB_G',text:C_ADD+'(N)',iconCls:'add',scope:this,handler:this.addInvoice};
 	var b10={itemId:'TB_H',text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,iconCls:'save',			 
@@ -917,47 +950,62 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		 	{
 		 	switch(k) {
 				case Ext.EventObject.E:
-					var t=tb.getComponent('T_INV_EN_'+p.get('id'));if(t) tb.setActiveTab(t);break;
+					var t=tb.getComponent('T_INV_EN_'+p.get('id'));
+					if(t) 
+						tb.setActiveTab(t);
+					break;
 				case Ext.EventObject.L:
-					var t=tb.getComponent('T_INV_LI_'+p.get('id'));if(t) tb.setActiveTab(t);break;							
+					var t=tb.getComponent('T_INV_LI_'+p.get('id'));
+					if(t) 
+						tb.setActiveTab(t);
+					break;							
 			}}
 		},
 		stopEvent: true
 	});
+	
 	Fos.InvoiceTab.superclass.constructor.call(this, { 
-	id: 'T_INVO_'+p.get('id'),title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),layout:'border',
-	autoScroll:true,labelAlign:'right',closable:true,labelWidth:70,bodyStyle:'padding:0px 0px 20px 0px',border:false,width:800,
-	tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
-								[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b11,'-',b9,'-',b10,'->','-',b8,'-'],
-	bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
-			{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
-			{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',
-			{xtype:'tbtext',text:C_MODIFY_TIME_C+formatDateTime(p.get('modifyTime'))},'-',
-			{xtype:'tbtext',text:C_AUDIT_BY_C+getUSER(p.get('invoChecker'))},'-',
-			{xtype:'tbtext',text:C_AUDIT_TIME_C+formatDate(p.get('invoCheckDate'))}],
-	items: [{region:'north',layout:'column',height:200,layoutConfig:{columns:4},bodyStyle:'padding:5px 0px 0px 0px',title:'头信息',collapsible:true,
-    	items:p.get('invoType')=='R'?[    		
-    		{columnWidth:.5,layout:'form',border:false,items:[c1]},
-        	{columnWidth:.5,layout:'form',border:false,items:[c2]},
-        	{columnWidth:.25,layout:'form',border:false,items:[c3,c4,c5]},
-            {columnWidth:.25,layout:'form',border:false,items: [c6,c7,c8]},
-            {columnWidth:.25,layout: 'form',border : false,items: [c9,c10,c14]},
-            {columnWidth:.25,layout: 'form',border : false,items: [c11,c12,c15]},
-            {columnWidth:.99,layout:'form',border:false,items:[c13]}
-            ]:[
-            {columnWidth:.5,layout:'form',border:false,items:[c1]},
-			{columnWidth:.25,layout:'form',border:false,items:[c3]},
-			{columnWidth:.25,layout:'form',border:false,items:[c9]},				
-            {columnWidth:.25,layout:'form',border:false,items:[c4,c5]},
-            {columnWidth:.25,layout:'form',border:false,items: [c7,c8]},
-            {columnWidth:.25,layout: 'form',border:false,items: [c10,c14]},
-            {columnWidth:.25,layout: 'form',border : false,items: [c12,c15]},
-            {columnWidth:.99,layout:'form',border:false,items:[c13]}
-        ]},
-		{id:'T_INV_T_'+p.get('id'),xtype:'tabpanel',plain:true,region:'center',activeTab:0,
-            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
-            {id:'T_INV_LI_'+p.get('id'),layout:'fit',title:C_INVO_LINE+'(L)',items:[this.entryGrid]}]:[{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
-        ]
+		id: 'T_INVO_'+p.get('id'),
+		title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),
+		layout:'border',
+		autoScroll:true,
+		labelAlign:'right',
+		closable:true,
+		labelWidth:70,
+		bodyStyle:'padding:0px 0px 20px 0px',
+		border:false,
+		width:800,
+		tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
+									[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b11,'-',b9,'-',b10,'->','-',b8,'-'],
+		bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
+				{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
+				{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',
+				{xtype:'tbtext',text:C_MODIFY_TIME_C+formatDateTime(p.get('modifyTime'))},'-',
+				{xtype:'tbtext',text:C_AUDIT_BY_C+getUSER(p.get('invoChecker'))},'-',
+				{xtype:'tbtext',text:C_AUDIT_TIME_C+formatDate(p.get('invoCheckDate'))}],
+		items: [{region:'north',layout:'column',height:200,layoutConfig:{columns:4},bodyStyle:'padding:5px 0px 0px 0px',title:'头信息',collapsible:true,
+	    	items:p.get('invoType')=='R'?[    		
+	    		{columnWidth:.5,layout:'form',border:false,items:[c1]},
+	        	{columnWidth:.5,layout:'form',border:false,items:[c2]},
+	        	{columnWidth:.25,layout:'form',border:false,items:[c3,c4,c5]},
+	            {columnWidth:.25,layout:'form',border:false,items: [c6,c7,c8]},
+	            {columnWidth:.25,layout: 'form',border : false,items: [c9,c10,c14]},
+	            {columnWidth:.25,layout: 'form',border : false,items: [c11,c12,c15]},
+	            {columnWidth:.99,layout:'form',border:false,items:[c13]}
+	            ]:[
+	            {columnWidth:.5,layout:'form',border:false,items:[c1]},
+				{columnWidth:.25,layout:'form',border:false,items:[c3]},
+				{columnWidth:.25,layout:'form',border:false,items:[c9]},				
+	            {columnWidth:.25,layout:'form',border:false,items:[c4,c5]},
+	            {columnWidth:.25,layout:'form',border:false,items: [c7,c8]},
+	            {columnWidth:.25,layout: 'form',border:false,items: [c10,c14]},
+	            {columnWidth:.25,layout: 'form',border : false,items: [c12,c15]},
+	            {columnWidth:.99,layout:'form',border:false,items:[c13]}
+	        ]},
+			{id:'T_INV_T_'+p.get('id'),xtype:'tabpanel',plain:true,region:'center',activeTab:0,
+	            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
+	            {id:'T_INV_LI_'+p.get('id'),layout:'fit',title:C_INVO_LINE+'(L)',items:[this.entryGrid]}]:[{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
+	        ]
 	});
 };
 Ext.extend(Fos.InvoiceTab, Ext.FormPanel);

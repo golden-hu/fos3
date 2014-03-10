@@ -220,9 +220,9 @@ public class SInvoiceService {
 		invoice.setInvoPod(firstConsign.getConsPodEn());
 		invoice.setInvoConsNo(firstConsign.getConsNo());
 		invoice.setInvoCargoName(firstConsign.getConsCargoNameEn());
-		invoice.setInvoCargoPackages(firstConsign.getConsCargoPackages());
-		invoice.setInvoCargoGrossWeight(firstConsign.getConsCargoGrossWeight());
-		invoice.setInvoCargoMeasurement(firstConsign.getConsCargoMeasurement());
+		invoice.setInvoCargoPackages(""+firstConsign.getConsTotalPackages()+firstConsign.getPackName());
+		invoice.setInvoCargoGrossWeight(""+firstConsign.getConsTotalGrossWeight());
+		invoice.setInvoCargoMeasurement(""+firstConsign.getConsTotalMeasurementCustomer());
 		invoice.setInvoContainersInfo(firstConsign.getConsContainersInfo());
 		invoice.setInvoOperator(firstConsign.getConsOperatorName());
 		invoice.setInvoContractNo(firstConsign.getConsContractNo());
