@@ -287,32 +287,40 @@ function  deleteUserData(key){
 	    }
     }
 };
-var checkBrowser=function(){if(!Ext.isGecko&&!Ext.isIE8&&!Ext.isChrome) alert('您的浏览器版本太低，请升级到Firefox4/IE8/Chrome!');};
+
+var checkBrowser=function(){
+	if(!Ext.isGecko&&!Ext.isIE8&&!Ext.isChrome) 
+		alert('您的浏览器版本太低，请升级到Firefox4/IE8/Chrome!');
+};
+
 var login = function(f){
 	//checkBrowser();	
 	var n=f.userLoginName.value;
 	var p=f.userPassword.value;
-	Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'LOGIN',mt:'JSON',userLoginName:n,userPassword:p},
-	success: function(r){
-		var user=Ext.util.JSON.decode(r.responseText);
-		saveSession('USER_PERM',user.PUser[0].funcCode);
-		saveSession('USER_ID',user.PUser[0].userId);
-		saveSession('USER_NAME',user.PUser[0].userName);
-		saveSession('USER_IS_OPERATOR',user.PUser[0].userOperatorFlag);
-		saveSession('USER_IS_SALES',user.PUser[0].userSalesFlag);
-		saveSession('USER_ALL_VIEW_FLAG',user.PUser[0].userAllViewFlag);
-		saveSession('USER_PASS_CHANGE_DATE',user.PUser[0].userPasswordModifyDate);		
-		if(self!=top) 
-			top.location='index.jsp';
-		else 
-			window.location='index.jsp';
-	},
-	failure: function(r){
-		var user=Ext.util.JSON.decode(r.responseText);
-		alert(user.FosResponse.msg);
-		f.userLoginName.focus();}
+	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
+		params:{A:'LOGIN',mt:'JSON',userLoginName:n,userPassword:p},
+		success: function(r){
+			var user=Ext.util.JSON.decode(r.responseText);
+			saveSession('USER_PERM',user.PUser[0].funcCode);
+			saveSession('USER_ID',user.PUser[0].userId);
+			saveSession('USER_NAME',user.PUser[0].userName);
+			saveSession('USER_IS_OPERATOR',user.PUser[0].userOperatorFlag);
+			saveSession('USER_IS_SALES',user.PUser[0].userSalesFlag);
+			saveSession('USER_ALL_VIEW_FLAG',user.PUser[0].userAllViewFlag);
+			saveSession('USER_PASS_CHANGE_DATE',user.PUser[0].userPasswordModifyDate);		
+			if(self!=top) 
+				top.location='index.jsp';
+			else 
+				window.location='index.jsp';
+		},
+		failure: function(r){
+			var user=Ext.util.JSON.decode(r.responseText);
+			alert(user.FosResponse.msg);
+			f.userLoginName.focus();
+		}
 	});
 };
+
 var loadSession=function(k){
 	var p='';
 	if(window.sessionStorage) 
@@ -323,6 +331,7 @@ var loadSession=function(k){
 		p+=Cookies.get(k);
 	return p;
 };
+
 var saveSession=function(k,v){	 
 	if(window.sessionStorage)
 		window.sessionStorage.setItem(k,v);
@@ -331,5 +340,12 @@ var saveSession=function(k,v){
 	else
 		Cookies.set(k,v);
 };
-var exit = function(){window.open('', '_self', '');window.close();};
-var logout = function(){window.location=SERVICE_URL+'?A=LOGOUT';};
+
+var exit = function(){
+	window.open('', '_self', '');
+	window.close();
+};
+
+var logout = function(){
+	window.location=SERVICE_URL+'?A=LOGOUT';
+};

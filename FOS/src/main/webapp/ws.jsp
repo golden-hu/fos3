@@ -12,6 +12,7 @@
 <script type="text/javascript" src="js/ws/ws-sys.js"></script>
 <script type="text/javascript" src="js/ws/ws-inquiry.js"></script>
 <script type="text/javascript" src="js/ws/ws-consign.js"></script>
+<script type="text/javascript" src="js/ws/ws-bill.js"></script>
 <script type="text/javascript" src="js/ws/ws-bl.js"></script>
 <script type="text/javascript" src="js/ws/ws.js"></script>
 

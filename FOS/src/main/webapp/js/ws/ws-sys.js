@@ -1,15 +1,14 @@
 var checkLogin=function(fn){	
-	if(CUSER!='null'&&CUSER!=0)	return 1;
-	else{var w=new LoginWin(fn);w.show();return 0;}	
+	if(CUSER!='null'&&CUSER!=0)	
+		return 1;
+	else{
+		var w=new LoginWin(fn);
+		w.show();
+		return 0;
+	}	
 };
 
-var logout=function(){	
-		/*Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'WS_LOGOUT'},
-			success: function(r){				
-				window.close();
-			},
-			failure: function(r){}				
-		});*/
+var logout=function(){
 	top.window.close();
 };
 

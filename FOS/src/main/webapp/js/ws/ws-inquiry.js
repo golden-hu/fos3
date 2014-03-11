@@ -1,5 +1,5 @@
 //网上询价
-InquiryWin = function(p) {
+InquiryWin = function(p,_store) {
 	
 	var cboPol = new Ext.form.ComboBox({fieldLabel:C_POL,
 		itemCls:'required',
@@ -32,7 +32,7 @@ InquiryWin = function(p) {
         }
 	});
 	
-	var txtReceiptPlace = new Ext.form.NumberField({fieldLabel:'出发地',
+	var txtReceiptPlace = new Ext.form.TextField({fieldLabel:'出发地',
 		name:'winqReceiptPlace',
 		value:p.get('winqReceiptPlace'),
 		anchor:'95%'
@@ -69,7 +69,7 @@ InquiryWin = function(p) {
     	}
 	});
 	
-	var txtDeliveryPlace = new Ext.form.NumberField({fieldLabel:'目的地',
+	var txtDeliveryPlace = new Ext.form.TextField({fieldLabel:'目的地',
 		name:'winqDeliveryPlace',
 		value:p.get('winqDeliveryPlace'),
 		xtype:'textfield',
@@ -166,14 +166,14 @@ InquiryWin = function(p) {
 		
 		var rj=RTJ(p,WInquiry);
 		var data=FOSJ({'WInquiry':rj});
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',
+		Ext.Ajax.request({url:SERVICE_URL,
+			method:'POST',
 			params:{A:'WS_WINQ_S',mt:'JSON'},
+			scope:this,
 			success: function(r){
-				var res=Ext.util.JSON.decode(r.responseText);
-				var inq=res.WInquiry[0];
-				p.set('version',inq.version);
-				p.set('winqId',inq.prshId);
-				alert('操作成功！');
+				if(_store)
+					_store.reload();
+				this.close();
 			},
 			failure: function(r){
 				var res=Ext.util.JSON.decode(r.responseText);
@@ -226,7 +226,6 @@ InquiryGrid = function() {
 	
 	cm.defaultSortable=true;
 	
-	var re={rowdblclick:function(g,r,e){this.edit();}};   
 	
     this.add = function(){
     	var p = new WInquiry({winqId:0,
@@ -235,11 +234,21 @@ InquiryGrid = function() {
     		winqStatus:0,
     		rowAction:'N'
     	});
-       	var win = new InquiryWin(p);    	
+       	var win = new InquiryWin(p,store);    	
 		win.show();
     };
     
     this.edit = function(){
+    	var p = sm.getSelected();
+    	if(p){
+    		var win = new InquiryWin(p,store);
+    		win.show();
+    	}
+    	else 
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
+    };
+    
+    this.showReply = function(){
     	var p = sm.getSelected();
     	if(p){
     		var win = new InquiryReplyWin(p);
@@ -271,14 +280,31 @@ InquiryGrid = function() {
         	XMG.alert(SYS,'操作失败！');
 	};
 	
+	var btnAdd = new Ext.Button({text:C_ADD,iconCls:'add',handler:this.add});
+	var btnEdit = new Ext.Button({text:C_EDIT,iconCls:'option',handler:this.edit});
+	var btnShowReply = new Ext.Button({text:'查看回复',iconCls:'option',handler:this.showReply});
+	var btnRemove = new Ext.Button({text:C_REMOVE,iconCls:'remove',handler:this.remove});
+	
     InquiryGrid.superclass.constructor.call(this, {
-    id:'G_WINQ',store: store,iconCls:'grid',width:600,height:300,title:'询价列表',header:false,closable:true,
-    sm:sm,cm:cm,listeners:re,loadMask:true,
-	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
-	tbar:[{text:C_ADD,iconCls:'add',handler:this.add}, '-', 
-		{text:C_EDIT,iconCls:'option',handler:this.edit}, '-',
-		{text:C_REMOVE,iconCls:'remove',handler:this.remove},'->',
-		new Ext.PagingToolbar({pageSize:20,store:store})]
+	    id:'G_WINQ',
+	    store: store,
+	    iconCls:'grid',
+	    width:600,height:300,
+	    title:'询价列表',
+	    header:false,
+	    closable:true,
+	    sm:sm,cm:cm,	    
+	    loadMask:true,
+	    tbar:[btnAdd, '-', btnEdit, '-',btnRemove,'-',btnShowReply],
+		bbar:new Ext.PagingToolbar({pageSize:20,
+			store:store,
+			displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'
+		}),		
+		listeners:{scope:this,
+			rowdblclick:function(g,r,e){
+				this.edit();
+			}
+		}
     }); 
 };
 Ext.extend(InquiryGrid,Ext.grid.GridPanel);
