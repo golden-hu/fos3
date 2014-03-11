@@ -55,6 +55,8 @@ public class WsServlet extends HttpServlet {
 		String actName = paramMap.get(HttpHeader.ACTNAME);
 		String compCode = paramMap.get("compCode");
 		
+		
+		
 		boolean isJSON = false;
 		if(ConstUtil.JSON.equalsIgnoreCase(paramMap.get(HttpHeader.TEXT_TYPE))) {
 			isJSON = true;
@@ -65,32 +67,24 @@ public class WsServlet extends HttpServlet {
 				&& StringUtil.isNotBlank(compCode)) {
 			SessionManager.setAttr("CompCode", compCode);
 		}
+		
+		Integer wuid = (Integer) SessionManager.getAttr("WUID");
+		
 		try {
-			inputStream = request.getInputStream();
-			outputStream = response.getOutputStream();
-			Integer uid = (Integer) SessionManager.getAttr("WUID");
-			if (uid == null && !isPublic(actName)) {
+			if ("WS_LOGOUT".equals(actName)) {
+				if (wuid != null) {
+					SessionManager.logoutSession();
+				}
+				response.sendRedirect("ws-login.html");
+			} 
+			
+			else if (wuid == null && !isPublic(actName)) {
 				throw new BusinessException("fw.session.expired");
 			} 
 			else {
-				
-				/*String json = readJson(inputStream, paramMap);				
-				FosRequest fosRequest = parseJson(json);
-				fosRequest.getParam().putAll(paramMap);
-				if (fosRequest.getData() == null) {
-					fosRequest.setData(new ArrayList<FosQuery>());
-				}
-
-				response.setContentType(HttpHeader.CONTENT_TYPE_JSON);
-				FosResponse fosResponse = dispatch(actName, fosRequest);
-				copyRowCount(fosRequest, fosResponse);
-				sbResult = toJson(fosResponse);
-
-				byte[] byteResult = null;
-				byteResult = sbResult.toString().getBytes(ConstUtil.XML_ENCODING_UTF8);
-				logger.debug("\n" + sbResult);
-				bufferedWrite(outputStream, byteResult);*/
-				
+				inputStream = request.getInputStream();
+				outputStream = response.getOutputStream();
+								
 				if(isJSON){
 					String json = readJson(inputStream, paramMap);				
 					FosRequest fosRequest = parseJson(json);

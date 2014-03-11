@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.util.*" %>
-<%if(session.getAttribute("WUID")==null){response.sendRedirect("ws-login.html");}%>
+<%
+if(session.getAttribute("WUID")==null){
+	response.sendRedirect("ws-login.html");}
+%>
 <html>
 <script type="text/javascript" src="ext/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="ext/ext-all.js"></script>

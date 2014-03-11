@@ -9,7 +9,8 @@ var checkLogin=function(fn){
 };
 
 var logout=function(){
-	top.window.close();
+	//top.window.close();
+	window.location=SERVICE_URL+'?A=WS_LOGOUT';
 };
 
 LoginWin = function() {
@@ -22,7 +23,12 @@ LoginWin = function() {
 	this.login = function(){	
 		var wusrName=frm.find('name','wusrName')[0].getValue();
 		var wusrPassword=frm.find('name','wusrPassword')[0].getValue();	
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,params:{A:'WS_LOGIN',mt:'JSON',wusrName:wusrName,wusrPassword:wusrPassword},
+		Ext.Ajax.request({url:SERVICE_URL,method:'POST',scope:this,
+			params:{A:'WS_LOGIN',
+				mt:'JSON',
+				wusrName:wusrName,
+				wusrPassword:wusrPassword
+			},
 			success: function(r){
 				var user=Ext.util.JSON.decode(r.responseText);
 				saveSession('WUSER_ID',user.WUser[0].wusrId);
