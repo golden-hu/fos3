@@ -89,7 +89,7 @@ public abstract class AbstractGVoyage extends BaseDomain {
 		this.voyaName = voyaName;
 	}
 
-	@Column(name = "VESS_ID", nullable = false)
+	@Column(name = "VESS_ID")
 	public Integer getVessId() {
 		return this.vessId;
 	}
