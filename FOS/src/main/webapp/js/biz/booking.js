@@ -4,13 +4,15 @@ Fos.BookTab = function(p) {
 	
 	this.cargoGrid = new Fos.CargoGrid(p,this.carg_s,this);	
 	
+	if(p.get('consBizClass')==BC_I){
+		this.hbl_s = GS('BL_Q','FBl',FBl,'blId','ASC');
+		this.hblGrid = new Fos.ImpHblGrid(p,this.hbl_s); 
+	}
+	
 	if(p.get('consBizType')==BT_C||p.get('consBizType')==BT_A){
 		this.cont_s = GS('CONT_Q','FContainer',FContainer,'contId','ASC');
     	this.contGrid = new Fos.ContainerGrid(p,this.cont_s);
-    	if(p.get('consBizClass')==BC_I){
-    		this.hbl_s = GS('BL_Q','FBl',FBl,'blId','ASC');
-    		this.hblGrid = new Fos.ImpHblGrid(p,this.hbl_s); 
-    	}
+    	
     }
 	
     if(p.get('rowAction')!='N'){

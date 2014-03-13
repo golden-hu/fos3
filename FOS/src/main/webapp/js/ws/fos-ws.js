@@ -431,6 +431,7 @@ Fos.WusrGrid = function(){
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
+    	{header:C_STATUS,dataIndex:'wusrStatus',width:100,renderer:wuStatusRender},
 		{header:C_WS_USR_NAME,dataIndex:'wusrName',width:80},
 		{header:C_WS_COMPANY,dataIndex:'wusrCompanyName',width:200},
 		{header:C_WS_TEL,dataIndex:'wusrTel',width: 150},
@@ -441,8 +442,8 @@ Fos.WusrGrid = function(){
 		{header:C_WS_DEPT,dataIndex:'wusrDept',width:80},
 		{header:C_WS_MOBILE,dataIndex:'wusrMobile',width:100},
 		{header:C_WS_CITY,dataIndex:'wusrCity',width:100},
-		{header:C_WS_REG_TIME,dataIndex:'createTime',width:100,renderer:formatDateTime},
-		{header:C_STATUS,dataIndex:'wusrStatus',width:100,renderer:wuStatusRender}]);
+		{header:C_WS_REG_TIME,dataIndex:'createTime',width:100,renderer:formatDateTime}
+		]);
 	cm.defaultSortable=true;	
 	this.accept=function(){		
     	var u=sm.getSelected();

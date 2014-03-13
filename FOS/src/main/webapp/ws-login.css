@@ -280,23 +280,3 @@ element.style {
    z-index: 100;
    display:none;
 }
-.menber_regeditRight{  width:560px;padding-left:400px; padding-top:45px; padding-bottom:45px;font-size: 16px;}
-.inputText input{
-	width:200px;
-}
-.inputText select{
-	width:200px;
-}
-
-.menber_regeditRight p{width:180px; height:32px;float:left;height:32px; text-align:right; line-height:26px;color:#333;}
-.menber_regeditRight h2{ font-size:14px; font-weight:bold; color:#000;}
-.menber_regeditRight h2 input[type="radio"]{width:auto;   margin:0 8px 2px 8px; }
-.menber_regeditRight dt{width:120px; float:left;height:32px; text-align:right; line-height:26px;color:#333;}
-.menber_regeditRight dt span{ padding-right:5px;}
-
-.menber_regeditRight dd{width:420px;float:left; height:32px; text-align:left;display:block;  font-size:13px;line-height:26px;color:#000;}
-.menber_regeditRight dd.zhuce{ height:32px;}
-.menber_regeditRight dd.span{width:540px; float:left;height:32px;text-align:left;display:block;font-size:13px;line-height:26px;color:#000;}
-.menber_regeditRight df{width:360px;float:left; height:50px; text-align:left;display:block;  font-size:13px;line-height:26px;color:#000;}
-.menber_regeditRight ddw{width:360px;float:left; height:32px; text-align:left;display:block;  font-size:13px;line-height:26px;color:#000;}
-.menber_regeditRight dl{ width:560px; position:relative; padding-top:5px; padding-bottom:5px;}
