@@ -78,6 +78,7 @@ public class SBillService {
 				} else {
 					throw new BusinessException("fw.row_action_null");
 				}
+				parentNo =entity.getBillNo();
 				parentId = entity.getBillId();
 				break;
 			}

@@ -51,7 +51,7 @@ Fos.CustomerGrid = function(sales) {
 		custArFlag:1,custApFlag:1,custIndustry:'',cucaId:'',custType:'',counCode:'CN',custProvince:'',custCity:'',
 		custAddress:'',custZip:'',custContact:'',custTel:'',custFax:'',custEmail:'',custUrl:'',custBankCny:'',
 		custAccountCny:'',custBankUsd:'',custAccountUsd:'',custInvoiceHeader:'',custActive:'1',
-		custBookerFlag:'1',custShipperFlag:'1',custSalesId:CUSER_ID,
+		custBookerFlag:'1',custShipperFlag:'1',custSalesId:undefinedRender(USER_IS_SALES),
 		custShipTo:'',custChargeTo:'',custCreditDay:'',
 		custCreditDay:getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
 		custCreditAmount:getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),custRemarks:'',version:'0',rowAction:'N'});

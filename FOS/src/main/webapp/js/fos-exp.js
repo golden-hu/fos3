@@ -74,7 +74,7 @@ Fos.showConsign = function(p,listStore){
 		T_MAIN.setActiveTab(t);
 	}
 };
-Fos.showConsignTabs = function(p){
+Fos.showConsignTabs = function(p,bizClass,bizType,shipType){
 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
 	if(p.get('rowAction')!='N'){
 		if(!tc.getComponent('T_DOC_'+p.get('id'))){
@@ -86,7 +86,7 @@ Fos.showConsignTabs = function(p){
 		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
 			tc.add(new Fos.AttachTab(p));
 		};
-		if(!tc.getComponent('G_SECURITY_ATTACH'+p.get('id'))){
+		if(!tc.getComponent('G_SECURITY_ATTACH'+p.get('id'))&&!NR(getRM(bizClass,bizType,shipType)+M3_CONS+M3_ATTACH)){
 			tc.add(new Fos.SecurityAttachTab(p));
 		};
 	}
@@ -586,7 +586,7 @@ Fos.BookTab = function(p) {
 					FOSU(this.hbl_s,c,FBl);
 				}
 				XMG.alert(SYS,M_S);
-				Fos.showConsignTabs(p);				
+				Fos.showConsignTabs(p,p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));				
 			},
 			failure: function(res){
 				XMG.alert(SYS,M_F+res.responseText);
