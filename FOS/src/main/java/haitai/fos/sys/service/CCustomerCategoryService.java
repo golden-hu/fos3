@@ -19,7 +19,7 @@ public class CCustomerCategoryService {
 		return dao.saveByRowAction(custCatList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CCustomerCategory> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

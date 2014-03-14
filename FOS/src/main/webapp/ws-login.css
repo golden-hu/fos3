@@ -1,0 +1,282 @@
+/* CSS Document */
+
+.text{vertical-align:middle;height:31px;}
+
+.w {
+    margin: 0 auto;
+    padding: 0;
+    width: 920px;
+}
+
+#logo {
+    float: none;
+    margin-top:10px;
+    top: 38px;
+    padding: 10px 15px;
+    position: relative;
+}
+
+#logo b {   
+    font-family: "Î¢ÈíÑÅºÚ";
+    font-size: 24px;
+    color:#7ABD54;
+    height: 32px;
+    left: 240px;
+    margin-top:30px;
+    padding-left:10px;
+    position: absolute;
+    border-left:2px  solid #E1E1E1;
+    width: 300px;
+}
+
+#entry {
+    background: none repeat scroll 0 0 #E1E1E1;
+    border-radius: 3px 3px 3px 3px;
+    margin: 60px auto 55px;
+    padding: 5px;
+    position: relative;
+}
+.w1 {
+    margin: 0 auto;
+    width: 890px;
+}
+
+
+#entry .mc {
+    background: none repeat scroll 0 0 #fdfdfd;
+    border: 2px solid #59bfe9;
+    height: 296px;
+}
+.m, .mt, .mc, .mb {
+    overflow: hidden;
+}
+
+element.style {
+  
+    height: 354px;
+    width: 435px;
+}
+
+#entry .form {
+    height: 296px;
+    overflow: hidden;
+    position: absolute;
+    right: 42px;
+    top: 46px;
+    width: 307px;
+}
+
+#entry .fore1 {
+    z-index: 10;
+}
+#entry .fore2 {
+    z-index: 8;
+}
+#entry .item {
+    height: 64px;
+    line-height: 26px;
+    overflow: visible;
+    position: relative;
+    width: 307px;
+    z-index: 1;
+}
+
+#entry .item .item-ifo {
+    position: relative;
+    width: 307px;
+}
+
+#entry .text {
+    border: 1px solid #CCCCCC;
+    background-color:#FFFFFF;
+    float: none;
+    font-family: arial,"Î¢ÈíÑÅºÚ";
+    font-size: 14px;
+    height: 31px;
+    line-height: 24px;
+    padding: 4px 20px 4px 3px;
+    width: 300px;
+}
+#entry .highlight1 {
+    border: 1px solid #7ABD54;
+    
+}
+#entry .highlight2 {
+    border: 1px solid #FF0000;
+    color: #FF0000;
+}
+#entry .item-ifo .i-name {
+    background: url("images/one4.jpg") no-repeat scroll 0 0 #FFFFFF;
+    height: 16px;
+    top: 8px;
+    width: 16px;
+}
+#entry .item-ifo .i-pass {
+    background: url("images/one5.jpg") no-repeat scroll 0 0 #FFFFFF;
+    height: 16px;
+    top: 8px;
+    width: 16px;
+}
+#entry .item-ifo .ico {
+    position: absolute;
+    right: 12px;
+    z-index: 5;
+}
+
+
+#entry .item span {
+    color: #999999;
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 1px;
+}
+
+
+#entry #autoentry {
+    height: 37px;
+    margin-top: 8px;
+}
+#entry .fore4 {
+    z-index: 3;
+}
+
+#entry .checkbox {
+    margin-top: 7px;
+}
+.label {
+    float: left;
+    font-size: 12px;
+}
+
+.clr {
+    clear: both;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+}
+#entry .login-btn2013 {
+    height: 52px;
+}
+
+#entry .btn-entry {
+    background: url("images/login.jpg") no-repeat scroll 0 0 transparent;
+    font-family: "Î¢ÈíÑÅºÚ";
+    height: 34px;
+    line-height: 100px;
+    overflow: hidden;
+   
+    width: 307px;
+}		
+#entry .btn-entry:hover{
+	background: url("images/login.jpg") no-repeat scroll 0 -35px transparent;
+}
+.btn-img {
+    border: 0 none;
+    cursor: pointer;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+}
+.free-regist {
+    background: none repeat scroll 0 0 #E1E1E1;
+    border-radius: 0 0 3px 3px;
+    bottom: -32	px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 5px 5px;
+    position: absolute;
+    right: 42px;
+    text-align: center;
+    width: 115px;
+}
+.free-regist span {
+    background: none repeat scroll 0 0 #59bfe9;
+    border-radius: 0 0 3px 3px;
+    color: #FFFFFF;
+    display: block;
+    font-size: 14px;
+    height: 32px;
+    text-align: center;
+    width: 115px;
+}
+
+.free-regist a:link, .free-regist a:visited {
+    color: #FFFFFF;
+}
+#mb-bg {
+   
+    height: 59px;
+    width: 853px;
+}
+.mb {
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+#footer-2013 {
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+#footer-2013 .copyright {
+    margin: 10px 0;
+}
+#authcode_error.error {
+    background: none repeat scroll 0 0 #FFEBEC;
+    border: 1px solid #FFBDBF;
+    color: #E6393D;
+    float: none;
+    left: 0;
+    line-height: 16px;
+    padding: 2px 0 2px 3px;
+    position: absolute;
+    top: 34px;
+    width: 302px;
+    z-index: 100;
+}
+
+#entry .mar {
+    margin-right: 10px;
+}
+#foot{
+	clear:both;
+
+	margin:0 auto;
+	height:81px;
+	margin-top:100px;
+
+	
+	text-align:center;
+}
+#foot ul{margin-bottom:8px;}
+#foot ul li{display:inline;padding:0 4px;line-height:25px;}
+#foot ul a{color:#9c9c9c;}
+#foot ul a:hover{color:#f30;}
+#foot .txt{
+	
+	width:7	50px;
+	height:60px;
+	margin:16px auto 0px auto;
+	color:#9c9c9c;
+	
+	}
+
+/*===error===  */
+#loginname_error, #loginpwd_error{
+   background: none repeat scroll 0 0 #FFEBEC;
+   border: 1px solid #FFBDBF;
+   color: #E6393D;
+   float: none;
+   left: 0;
+   line-height: 16px;
+   padding: 2px 0 2px 3px;
+   position: absolute;
+   top: 34px;
+   width: 302px;
+   z-index: 100;
+   display:none;
+}

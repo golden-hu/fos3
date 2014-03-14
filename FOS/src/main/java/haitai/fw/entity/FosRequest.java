@@ -13,16 +13,16 @@ import java.util.Map;
  * 
  */
 public class FosRequest {
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	private List data = new ArrayList();
 	private Map<String, String> param = new HashMap<String, String>();
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public List getData() {
 		return data;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void setData(List serviceData) {
 		this.data.addAll(serviceData);
 	}

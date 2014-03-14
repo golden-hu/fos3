@@ -72,7 +72,7 @@ public class GVesselService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GVessel> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

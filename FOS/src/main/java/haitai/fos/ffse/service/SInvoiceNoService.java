@@ -21,7 +21,7 @@ public class SInvoiceNoService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SInvoiceNo> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

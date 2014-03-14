@@ -8,7 +8,6 @@ import haitai.fos.ws.entity.table.WUser;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.exception.BusinessException;
 import haitai.fw.serial.SerialFactory;
-import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.RowAction;
 
@@ -47,7 +46,7 @@ public class WConsignService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<WConsign> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<WConsign> retList = new ArrayList<WConsign>();
@@ -87,7 +86,7 @@ public class WConsignService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<WConsign> query(Map queryMap) {
 		//queryMap.put("wusrId", SessionManager.getStringAttr("WUID"));

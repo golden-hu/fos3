@@ -20,7 +20,7 @@ public class GTradeTermService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GTradeTerm> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -18,7 +18,7 @@ public interface IWConsignDAO {
 	public List<WConsign> findByProperties(
 			final Map<String, Object> propertyMap);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public abstract List complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap);
 }

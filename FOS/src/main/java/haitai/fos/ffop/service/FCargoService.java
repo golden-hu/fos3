@@ -22,13 +22,13 @@ public class FCargoService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FCargo> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List queryCargoByConsMasterId(Map queryMap) {
 		List retList = new ArrayList();

@@ -21,7 +21,7 @@ public class FCustomsDeclarationDAO extends
 		super(FCustomsDeclaration.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FCustomsDeclaration> complexQuery(
 			final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {

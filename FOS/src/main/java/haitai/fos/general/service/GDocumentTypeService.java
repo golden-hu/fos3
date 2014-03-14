@@ -20,7 +20,7 @@ public class GDocumentTypeService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GDocumentType> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

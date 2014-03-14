@@ -39,7 +39,7 @@ public class SVoucherService {
 	@Autowired
 	private ISPrDAO prDao;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(Map pmap,List entityList) {
 		List retList = new ArrayList();
@@ -452,7 +452,7 @@ public class SVoucherService {
 		return dao.complexQuery(conditions, queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List query(Map queryMap) {
 		List retList = new ArrayList();
@@ -463,7 +463,7 @@ public class SVoucherService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SVoucherItem> queryItem(Map queryMap) {
 		return itemDao.findByProperties(queryMap);

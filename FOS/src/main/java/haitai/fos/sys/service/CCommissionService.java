@@ -23,7 +23,7 @@ public class CCommissionService {
 	@Autowired
 	private ICCommissionItemDAO itemDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -71,7 +71,7 @@ public class CCommissionService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CCommission> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

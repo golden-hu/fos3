@@ -27,7 +27,7 @@ public class FBlService {
 	@Autowired
 	private FConsignService consignService;
 
-	@SuppressWarnings("unchecked")   
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List consignList) {
 		List retList = new ArrayList();
@@ -92,7 +92,7 @@ public class FBlService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FBl> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
@@ -410,7 +410,7 @@ public class FBlService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FBl> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		return dao.complexQuery(conditions, queryMap);

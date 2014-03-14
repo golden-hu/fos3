@@ -96,13 +96,13 @@ public class PMessageService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PMessage> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PMessage> queryOwn(Map queryMap) {
 		return dao.queryOwn(queryMap);

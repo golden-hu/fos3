@@ -24,7 +24,7 @@ public class FWarehouseService {
 	@Autowired
 	private IFWarehouseCargoDAO cargoDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -79,13 +79,13 @@ public class FWarehouseService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FWarehouse> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FWarehouseCargo> queryCargo(Map queryMap) {
 		return cargoDao.findByProperties(queryMap);

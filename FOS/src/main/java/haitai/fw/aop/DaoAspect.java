@@ -32,7 +32,7 @@ public class DaoAspect {
 	@Around(value = "saveSingleByRowAction(entity)")
 	public void aroundSaveSingleByRowAction(ProceedingJoinPoint jp, BaseDomain entity) throws Throwable {
 		RowAction rowAction = entity.getRowAction();
-		if (rowAction == rowAction.N) {
+		if (rowAction == RowAction.N) {
 			prepareSaveField(entity);
 		} else {
 			prepareUpdateField(entity);

@@ -75,7 +75,7 @@ public class FTransListService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FTransList> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

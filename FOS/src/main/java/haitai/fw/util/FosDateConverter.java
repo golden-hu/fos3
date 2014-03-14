@@ -70,7 +70,7 @@ public class FosDateConverter extends AbstractSingleValueConverter {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	@Override
 	public boolean canConvert(Class type) {
 		return type.equals(Date.class) || type.equals(java.sql.Date.class);

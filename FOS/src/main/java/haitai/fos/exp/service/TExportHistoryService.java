@@ -50,7 +50,7 @@ public class TExportHistoryService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public TExportHistory copy2Middle(Map<String, Object> queryMap, List parentList, List childList) {
 		String exhiType = (String) queryMap.get("exhiType");
 		Short type = Short.parseShort(exhiType);
@@ -197,7 +197,7 @@ public class TExportHistoryService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public void dump(Map<String, Object> queryMap) {
 		List parentList = new ArrayList();
@@ -628,7 +628,7 @@ public class TExportHistoryService {
 		return s;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<TExportHistory> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

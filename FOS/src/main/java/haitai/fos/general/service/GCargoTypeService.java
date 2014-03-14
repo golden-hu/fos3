@@ -20,7 +20,7 @@ public class GCargoTypeService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GCargoType> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

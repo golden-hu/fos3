@@ -26,7 +26,7 @@ public class FLoadingListDAO extends GenericDAO<FLoadingList, Integer>
 		super(FLoadingList.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FLoadingList.class;
@@ -41,7 +41,7 @@ public class FLoadingListDAO extends GenericDAO<FLoadingList, Integer>
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateSailDate(final Integer voyaId, final Date voyaSailDate,
 			final Date voyaShipDateF, final Date voyaShipDateT) {
 		StringBuffer sb = new StringBuffer();
@@ -62,7 +62,7 @@ public class FLoadingListDAO extends GenericDAO<FLoadingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateConsNoByConsId(final Integer consId, final String consNo) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FLoadingList t1 set ");
@@ -79,7 +79,7 @@ public class FLoadingListDAO extends GenericDAO<FLoadingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVoyaName(final Integer voyaId, final String voyaName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FLoadingList t1 set t1.voyaName = ?, t1.version = t1.version + 1 ");
@@ -95,7 +95,7 @@ public class FLoadingListDAO extends GenericDAO<FLoadingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer vessId, final String vessName,
 			final String vessNameCn) {
 		StringBuffer sb = new StringBuffer();
@@ -113,7 +113,7 @@ public class FLoadingListDAO extends GenericDAO<FLoadingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer vessId, final Integer newVessId,
 			final String vessName, final String vessNameCn) {
 		StringBuffer sb = new StringBuffer();

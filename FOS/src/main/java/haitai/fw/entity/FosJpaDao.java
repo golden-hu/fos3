@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class FosJpaDao extends JpaDaoSupport {
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	protected List query(final Map<String, Object> propertyMap, final Class clazz) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select t1 from ").append(clazz.getSimpleName()).append(" t1 where ");
@@ -31,7 +31,7 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	protected Long querySize(final Map<String, Object> propertyMap, final Class clazz) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select count(t1) from ").append(clazz.getSimpleName()).append(" t1 where ");
@@ -46,31 +46,31 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	protected List complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
 								final Class clazz) {
 		return complexQuery(conditions, propertyMap, "t1", "", clazz);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	protected Long complexQuerySize(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
 									final Class clazz) {
 		return complexQuerySize(conditions, propertyMap, "t1", "", clazz);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	protected List complexQuery(final Map<String, Object> propertyMap, String fieldSql, String joinSql,
 								final Class... clazz) {
 		return complexQuery(null, propertyMap, fieldSql, joinSql, clazz);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	protected Long complexQuerySize(final Map<String, Object> propertyMap, String fieldSql, String joinSql,
 									final Class... clazz) {
 		return complexQuerySize(null, propertyMap, fieldSql, joinSql, clazz);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	protected List complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
 								String fieldSql, String joinSql, final Class... clazz) {
 		final List<FosQuery> finalConditions;
@@ -102,7 +102,7 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	protected Long complexQuerySize(final List<FosQuery> conditions, final Map<String, Object> propertyMap,
 									String fieldSql, String joinSql, final Class... clazz) {
 		final List<FosQuery> finalConditions;

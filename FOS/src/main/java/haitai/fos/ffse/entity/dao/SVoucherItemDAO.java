@@ -27,7 +27,7 @@ public class SVoucherItemDAO extends GenericDAO<SVoucherItem, Integer>
 		super(SVoucherItem.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SVoucherItem> complexQueryByParent(
 			final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
@@ -39,7 +39,7 @@ public class SVoucherItemDAO extends GenericDAO<SVoucherItem, Integer>
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQueryCust(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		StringBuffer sb = new StringBuffer();

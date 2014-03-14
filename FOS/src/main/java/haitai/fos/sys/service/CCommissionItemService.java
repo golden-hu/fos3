@@ -19,7 +19,7 @@ public class CCommissionItemService {
 		return dao.saveByRowAction(vedCatList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CCommissionItem> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -41,7 +41,7 @@ public class FDocService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FDoc> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
@@ -121,7 +121,7 @@ public class FDocService {
 		SessionManager.unregSession();
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FDoc> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List retList = new ArrayList<FDoc>();

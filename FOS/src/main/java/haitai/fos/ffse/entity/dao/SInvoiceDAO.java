@@ -33,7 +33,7 @@ public class SInvoiceDAO extends GenericDAO<SInvoice, Integer> implements
 		super(SInvoice.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void checkStatusById(final Integer id, final Short status) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update SInvoice t1 set t1.version = t1.version + 1, t1.invoStatus = :invoStatus ");
@@ -66,7 +66,7 @@ public class SInvoiceDAO extends GenericDAO<SInvoice, Integer> implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SInvoice> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		Class clazz = SInvoice.class;

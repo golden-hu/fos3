@@ -103,7 +103,7 @@ public class GVoyageService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GVoyage> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

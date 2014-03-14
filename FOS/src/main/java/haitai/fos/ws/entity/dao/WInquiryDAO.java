@@ -21,7 +21,7 @@ public class WInquiryDAO extends GenericDAO<WInquiry, Integer> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = WInquiry.class;

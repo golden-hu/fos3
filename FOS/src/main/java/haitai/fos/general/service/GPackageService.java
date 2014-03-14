@@ -20,7 +20,7 @@ public class GPackageService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GPackage> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

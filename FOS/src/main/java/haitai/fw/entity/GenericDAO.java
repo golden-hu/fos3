@@ -26,7 +26,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 		return getJpaTemplate().find("from " + this.persistentClass.getName());
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<T> findByProperties(final Map<String, Object> propertyMap) {
 		List retList = query(propertyMap, this.persistentClass);
 		String rowCount = String.valueOf(querySize(propertyMap, this.persistentClass));
@@ -34,7 +34,7 @@ public class GenericDAO<T extends BaseDomain, PK extends Serializable> extends F
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<T> complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
 		List retList = complexQuery(conditions, propertyMap, this.persistentClass);
 		String rowCount = String.valueOf(complexQuerySize(conditions, propertyMap, this.persistentClass));

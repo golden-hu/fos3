@@ -95,13 +95,13 @@ public class FPackingListService {
 		contract.setFconArrivedGrossWeight(arrivedGrossWeight);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FPackingList> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FPackingList> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List objList = dao.complexQuery(conditions, queryMap);

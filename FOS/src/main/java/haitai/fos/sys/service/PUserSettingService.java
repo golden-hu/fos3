@@ -43,7 +43,7 @@ public class PUserSettingService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PUserSetting> query(Map queryMap) {
 		queryMap.put("userId", SessionManager.getAttr(SessionKeyType.UID));

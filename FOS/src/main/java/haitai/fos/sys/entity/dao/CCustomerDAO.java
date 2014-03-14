@@ -239,7 +239,7 @@ public class CCustomerDAO extends GenericDAO<CCustomer, Integer> implements ICCu
 		doUpdate(sql);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private void doUpdate(final String sql) {
 		Integer num = (Integer) getJpaTemplate().execute(new JpaCallback() {
 			public Object doInJpa(EntityManager em) throws PersistenceException {

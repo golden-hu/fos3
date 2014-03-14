@@ -19,7 +19,7 @@ public class WInquiryService {
 	@Autowired
 	private IWInquiryDAO dao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<WInquiry> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<WInquiry> retList = new ArrayList<WInquiry>();		
@@ -50,7 +50,7 @@ public class WInquiryService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<WInquiry> query(Map queryMap) {
 		//queryMap.put("wusrId", SessionManager.getStringAttr("WUID"));

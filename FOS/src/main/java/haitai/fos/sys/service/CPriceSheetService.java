@@ -26,7 +26,7 @@ public class CPriceSheetService {
 	@Autowired
 	private ICPriceRecordDAO recordDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -101,13 +101,13 @@ public class CPriceSheetService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CPriceSheet> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<CPriceRecord> retList = new ArrayList<CPriceRecord>();

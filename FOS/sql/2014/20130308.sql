@@ -1,0 +1,4 @@
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(20, '装货时间', 'FTrans', 'tranLoadTime', NULL)
+;
+

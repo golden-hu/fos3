@@ -30,7 +30,7 @@ public class DaoUtil {
 	 * @param isRowCount
 	 * @param 
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public static void setParameters(final Map<String, Object> propertyMap,
 			Class clazz, Query query, boolean isRowCount) {
 		Map<String, Field> fieldMap;
@@ -63,7 +63,7 @@ public class DaoUtil {
 
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void setParameters(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap, Query query, boolean isRowCount,
 			Class... clazz) {		
@@ -144,7 +144,7 @@ public class DaoUtil {
 	 * @param propertyMap
 	 * @param sb
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public static void buildSql(final Map<String, Object> propertyMap,
 			Class clazz, StringBuffer sb, boolean isRowCount) {
 		Map<String, Field> fieldMap;
@@ -181,7 +181,7 @@ public class DaoUtil {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public static void buildSql(List<FosQuery> conditions,
 			Map<String, Object> propertyMap, StringBuffer sb,
 			boolean isRowCount, Class... clazz) {
@@ -289,7 +289,7 @@ public class DaoUtil {
 	 * @param clazz
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	private static Map<String, Field> getCachedFieldMap(Class clazz) {
 		Map<String, Field> fieldMap;
 		boolean hasParent = true;

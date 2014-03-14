@@ -23,7 +23,7 @@ public class FInspectionService {
 	@Autowired
 	private IFInspectionDocDAO docDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -73,13 +73,13 @@ public class FInspectionService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FInspection> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FInspectionDoc> queryDoc(Map queryMap) {
 		return docDao.findByProperties(queryMap);

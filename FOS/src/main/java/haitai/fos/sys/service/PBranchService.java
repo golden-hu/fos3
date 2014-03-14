@@ -20,7 +20,7 @@ public class PBranchService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PBranch> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -70,7 +70,7 @@ public class SExRateService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SExRate> query(Map queryMap) {
 		Map<String, SExRate> rateMap = new HashMap<String, SExRate>();

@@ -19,7 +19,7 @@ public class CSalesCommissionDAO extends GenericDAO<CSalesCommission, Integer> i
 		super(CSalesCommission.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes"})
 	public List queryAllCommission(final Map<String, Object> propertyMap) {
 		final String year = (String) propertyMap.get("Y");
 		final String month = (String) propertyMap.get("M");
@@ -45,7 +45,7 @@ public class CSalesCommissionDAO extends GenericDAO<CSalesCommission, Integer> i
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes"})
 	public List queryCommissionDetail(final Map<String, Object> propertyMap) {
 		final String year = (String) propertyMap.get("Y");
 		final String month = (String) propertyMap.get("M");

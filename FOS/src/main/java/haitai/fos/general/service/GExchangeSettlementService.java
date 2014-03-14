@@ -20,7 +20,7 @@ public class GExchangeSettlementService {
 		return dao.saveByRowAction(itemList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<GExchangeSettlement> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

@@ -2,59 +2,79 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>FOS3.0 - 网上服务系统</title>
-<link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
-<script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
-<script type="text/javascript" src="js/ws-login.js"></script>
-<style type="text/css">
-.input{
-	border: 1px solid #c2c2c2;
-	width:120px;
-	height:24px;
-}
+<link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="ws-login.css" />
 
+<script type="text/javascript" src="ext/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="ext/ext-all.js"></script>
+<script type="text/javascript" src="js/ws/ws-login.js"></script>
 
-.login_button {
-	margin-left:10px;
-    padding: 3px 5px 3px;
-    height:28px;
-}
-.login_form {
-	padding:10px;
-	width:200px;
-    height:90px;
-    background: #BAD2F4;
-    border: 1px solid #c2c2c2;
-}
-</style>
 </head>
 
-
-<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000 topmargin=3 marginheight=3>
-<TABLE WIDTH="100%" HEIGHT="100%">
-<TR>
-<TD ALIGN="center" VALIGN="middle">
-<center>
-<div class="login_form">
-<form action="javascript:login();return" name="loginForm">
-<table>
-<tr><td align="right">用户名：</td><td><input name=userLoginName class='input'></td></tr>
-<tr><td align="right">密     码：</td><td><input type=password name=userPassword  class='input' 
-	onkeypress="javascript:if (event.keyCode == 13) login(loginForm);return"></td>
-</tr>
-
-<tr>
-<td><input type=button class="login_button" value="登录" onclick="javascript:login(loginForm);return"></td>
-<td><input type=button class="login_button" value="注册" onclick="javascript:showRegWin();return"></td>
-</tr>
-</table>
-</form>
+<body>
+<div class="w">
+    <div id="logo">
+    <a href="#"><img src="images/fos.png" alt="FOS3.0"/></a>
+    <b>网上服务系统欢迎登陆</b></div>
 </div>
 
+<form action="javascript:login();return" name="loginForm">
+   
+
+    <div class=" w1" id="entry">
+    
+        <div class="mc " id="bgDiv">
+            <div id="entry-bg">
+             <img name="tu" src="images/login-back.jpg" width="500" height="300" alt="" style="background-color: #0088D7" />
+            </div>
+            <div class="form ">
+                <div class="item fore1">
+                    <span>登录名</span>
+                    <div class="item-ifo">
+                        <input type="text" id="userLoginName" name="userLoginName" class="text"  tabindex="1"
+                               autocomplete="off"/>
+
+                        <div class="i-name ico"> </div>
+                        <label id="loginname_error"><b></b></label>
+                    </div>
+                </div>
+                
+                <div class="item fore2">
+                    <span>密码</span>
+                    <div class="item-ifo">
+                        <input type="password" id="userPassword" name="userPassword" 
+                        	class="text" tabindex="2" autocomplete="off" 
+                        	onkeypress="javascript:if (event.keyCode == 13) login(loginForm);return"/>
+                        <div class="i-pass ico"></div>
+                        <label id="loginpwd_error"></label>
+                    </div>
+                </div>          
+                
+                
+                <div class="item login-btn2013">
+                    <input type="button" class="btn-img btn-entry" id="loginsubmit"  
+                    	onclick="javascript:login(loginForm);return" tabindex="3"/>
+                </div>
+            
+            	<div class="item fore4" id="autoentry">
+                    <div class="item-ifo">
+                        	<a href="ws-reg.html">注册新用户</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</form>
+
+<br>
+<center>
+<p><font size=-1>&copy;2008 - 上海海钛软件科技有限公司</font></p>
 </center>
-</TD>
-</TR>
-</TABLE>
-</body></html>
+
+
+</body>
+
+</html>
 <script type="text/javascript">document.loginForm.userLoginName.focus();</script>
 

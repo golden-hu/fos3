@@ -37,7 +37,7 @@ public class PCommentsService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PComments> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

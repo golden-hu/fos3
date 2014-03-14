@@ -2,47 +2,91 @@
 <%@ page import="java.util.*" %>
 
 <%
-	String PhotoAddress="images/fos.png" ;
+	String PhotoAddress="images/fos.png";
 	if(session.getAttribute("UserName")==null){
 		response.sendRedirect("login.html");
 	}
-
-// 	if(session.getAttribute("CompCode").equals("CNWL")){
-// 		PhotoAddress ="images/CNWL.png";
-// 	}
 %>
 <html>
 <head>
 <title>FOS3.0货代运营系统 上海海钛软件科技有限公司</title>
 <link rel="stylesheet" type="text/css" href="fos.css" />
-<link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
-<script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css" />
+<script type="text/javascript" src="ext/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="ext/ext-all.js"></script>
+
+
 <script type="text/javascript" src="js/resource_Zh_Cn.js"></script>
 <script type="text/javascript" src="js/version.js"></script>
 <script type="text/javascript" src="js/constant.js"></script>
-<script type="text/javascript" src="js/fos-sys.js"></script>
-<script type="text/javascript" src="js/store.js"></script>
-<script type="text/javascript" src="js/fos-gen.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
-<script type="text/javascript" src="js/fos-report.js"></script>
 
+<script type="text/javascript" src="js/store/store-biz.js"></script>
+<script type="text/javascript" src="js/store/store-bulk.js"></script>
+<script type="text/javascript" src="js/store/store-crm.js"></script>
+<script type="text/javascript" src="js/store/store-set.js"></script>
+<script type="text/javascript" src="js/store/store-sys.js"></script>
+<script type="text/javascript" src="js/store/store-gen.js"></script>
+
+<script type="text/javascript" src="js/sys/actionLog.js"></script>
+<script type="text/javascript" src="js/sys/config.js"></script>
+<script type="text/javascript" src="js/sys/group.js"></script>
+<script type="text/javascript" src="js/sys/mailList.js"></script>
+<script type="text/javascript" src="js/sys/message.js"></script>
+<script type="text/javascript" src="js/sys/role.js"></script>
+<script type="text/javascript" src="js/sys/task.js"></script>
+<script type="text/javascript" src="js/sys/template.js"></script>
+<script type="text/javascript" src="js/sys/user.js"></script>
+
+<script type="text/javascript" src="js/gen/gen-biz.js"></script>
+<script type="text/javascript" src="js/gen/gen-custom.js"></script>
+<script type="text/javascript" src="js/gen/gen-place.js"></script>
+<script type="text/javascript" src="js/gen/gen-set.js"></script>
+
+<script type="text/javascript" src="js/fos-report.js"></script>
 <script type="text/javascript" src="js/fos.js"></script>
-<script type="text/javascript" src="js/fos-cust.js"></script>
-<script type="text/javascript" src="js/fos-set.js"></script>
-<script type="text/javascript" src="js/fos-exp.js"></script>
-<script type="text/javascript" src="js/fos-section.js"></script>
-<script type="text/javascript" src="js/fos-imp.js"></script>
-<script type="text/javascript" src="js/fos-air.js"></script>
-<script type="text/javascript" src="js/fos-rail.js"></script>
-<script type="text/javascript" src="js/fos-customs.js"></script>
-<script type="text/javascript" src="js/fos-ws.js"></script>
-<script type="text/javascript" src="js/ys-cont.js"></script>
+<script type="text/javascript" src="js/doc.js"></script>
+
+<script type="text/javascript" src="js/crm/customer.js"></script>
+<script type="text/javascript" src="js/crm/price.js"></script>
+<script type="text/javascript" src="js/crm/commission.js"></script>
+
+<script type="text/javascript" src="js/set/finInterface.js"></script>
+<script type="text/javascript" src="js/set/consign_audit.js"></script>
+<script type="text/javascript" src="js/set/expense.js"></script>
+<script type="text/javascript" src="js/set/invoice.js"></script>
+<script type="text/javascript" src="js/set/voucher.js"></script>
+<script type="text/javascript" src="js/set/pr.js"></script>
+<script type="text/javascript" src="js/set/bill.js"></script>
+
+<script type="text/javascript" src="js/biz/consign.js"></script>
+<script type="text/javascript" src="js/biz/booking.js"></script>
+<script type="text/javascript" src="js/biz/trans.js"></script>
+<script type="text/javascript" src="js/biz/warehouse.js"></script>
+<script type="text/javascript" src="js/biz/container.js"></script>
+<script type="text/javascript" src="js/biz/inspection.js"></script>
+<script type="text/javascript" src="js/biz/bl.js"></script>
+<script type="text/javascript" src="js/biz/section.js"></script>
+<script type="text/javascript" src="js/biz/cargo.js"></script>
+<script type="text/javascript" src="js/biz/imp.js"></script>
+
+<script type="text/javascript" src="js/bulk/contract.js"></script>
+<script type="text/javascript" src="js/bulk/packingList.js"></script>
+<script type="text/javascript" src="js/bulk/ship.js"></script>
+
+<script type="text/javascript" src="js/customs/cude.js"></script>
+<script type="text/javascript" src="js/customs/insp.js"></script>
+<script type="text/javascript" src="js/customs/trade.js"></script>
+<script type="text/javascript" src="js/customs/reliefTax.js"></script>
+<script type="text/javascript" src="js/customs/entReg.js"></script>
+
+<script type="text/javascript" src="js/ws/fos-ws.js"></script>
+
 </head>
 <body id="docs">
 <div id="loading-mask" style=""></div>
   <div id="loading">
-    <div class="loading-indicator"><img src="js/ext/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="middle"/>Loading...</div>
+    <div class="loading-indicator"><img src="ext/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="middle"/>Loading...</div>
 </div>
 <div id="west"></div>
 <div id="north">

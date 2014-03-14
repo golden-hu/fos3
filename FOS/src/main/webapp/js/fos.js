@@ -1,11 +1,169 @@
-﻿var getUN=function(p){var a=[];a[a.length]=['EACH','1'];if(p.get('consTotalMeasurement')){a[a.length]=['CBM',p.get('consTotalMeasurement')];}if(p.get('consTotalGrossWeight')){a[a.length]=['KG',p.get('consTotalGrossWeight')];}var s=p.get('consContainersInfo');if(s){s=s.replace(/(^\s*)|(\s*$)/g, "");var idx=s.indexOf(' ');if(idx==0){var b=s.split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}else{var c=s.split(' ');for(var i=0;i<c.length;i++){var b=c[i].split('X');if(b.length>0){a[a.length]=[b[1],b[0]];}}}}return a;};
-var openCons=function(n){var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',reader:new Ext.data.XmlReader({record:'FConsign'}, FConsign)});store.load({params:{consNo:n},callback:function(re,o,s){if(s&&re.length>0)Fos.showConsign(re[0]);}});};
-var openInvo=function(n){
-	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'INVO_Q',reader:new Ext.data.XmlReader({record:'SInvoice'}, SInvoice)});
-	store.load({params:{invoNo:n},callback:function(re,o,s){if(s&&re.length>0)	showInvoice(re[0]);}});
+﻿var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',deferredRender:false,
+	plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
+
+Ext.onReady(function(){
+	Ext.state.Manager.setProvider(new Fos.HttpProvider());
+    Ext.QuickTips.init();
+    Ext.form.Field.prototype.msgTarget = 'side';
+    var tBar=new Ext.BoxComponent({region:'north',el:'north',height:60});   
+	var viewport = new Ext.Viewport({layout:'border',items:[tBar,P_MENU,T_MAIN]});
+	//T_MAIN.setActiveTab(T_MAIN.add(new Fos.TaskTab()));
+	
+	setTimeout(function(){Ext.get('loading').remove();
+	Ext.get('loading-mask').fadeOut({remove:true});},50);
+	iniStore();
+	checkPassEx();
+	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
+	P_MENU.on('expand',function(){T_MAIN.getActiveTab().doLayout();});
+	T_MAIN.on('tabchange',function(m,a){a.doLayout();});
+	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));
+	viewport.doLayout();
+	
+	//var task={run:loadMsg,interval:10000};
+	//this.runner = new Ext.util.TaskRunner();
+	//this.runner.start(task);
+});
+
+var getGStore=function(c,r,o,s,d,id){
+	if(Ext.StoreMgr.containsKey(c+'_S')){
+		return Ext.StoreMgr.get(c+'_S');
+	}
+	else {
+		var store = GS(c+'_Q',r,o,s,d,'',c+'_S',id?id:s);
+		store.load({params:{active:'1'}});
+		return store;
+	}
 };
 
-var T_MAIN = new Ext.TabPanel({id:'T_MAIN',region:'center',deferredRender:false,plugins:new Ext.ux.TabCloseMenu(),enableTabScroll:true,activeTab:0});
+function iniStore(){
+	Ext.MessageBox.show({
+		title:'Please wait',
+		msg:'初始化数据...',
+		progressText:'Loading...',
+		width:300,
+		progress:true,
+		closable:false
+	});
+	getEXRA_S();
+	getCURR_S;
+	getSEWA_S();
+	getUNIT_S();
+	getCOBA_S();
+	getDOTY_S();
+	getCUCA_S();
+	getTETY_S();
+	getTRTE_S();
+	getTRTY_S();
+	getTATY_S();
+	
+	getBizTaskTypeStore('E','B');
+	getBizTaskTypeStore('I','B');
+	
+	getBizTaskTypeStore('E','C');
+	getBizTaskTypeStore('I','C');
+	
+	getBizTaskTypeStore('E','A');
+	getBizTaskTypeStore('I','A');
+	
+	getISTY_S();
+	getPATE_S();
+	getTRAN_S();
+	getPACK_S();
+	getCACL_S();
+	getSHLI_S();
+	getCOTY_S();
+	
+	if(!NR(M1_P+A_ROLE+F_V)) 
+		getFUNC_S();
+	
+	getTEMP_S();
+	getCHCL_S();
+	getCOCO_S();
+	getGROU_S();
+	getROLE_S();
+	getUSER_S();
+	getSALE_S();		
+	
+	getOP_S();
+	getCHAR_S();
+	getCCHAR_S();
+	
+	getCHAR_PERM_R_S();
+	getCHAR_PERM_P_S();
+	
+	var f = function(v){
+		return function(){
+			if(v == 12){
+				Ext.MessageBox.hide();} 
+			else {
+				var i = v/11;
+				Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+			}
+		};
+	};
+	
+	for(var i=1;i<13;i++){
+		setTimeout(f(i),i*300);
+	}
+};
+
+
+var getUN=function(p){
+	var a=[];
+	a[a.length]=['EACH','1'];
+	if(p.get('consTotalMeasurement')){
+		a[a.length]=['CBM',p.get('consTotalMeasurement')];
+	}
+	if(p.get('consTotalGrossWeight')){
+		a[a.length]=['KG',p.get('consTotalGrossWeight')];
+	}
+	var s=p.get('consContainersInfo');
+	if(s){
+		s=s.replace(/(^\s*)|(\s*$)/g, "");
+		var idx=s.indexOf(' ');
+		if(idx==0){
+			var b=s.split('X');
+			if(b.length>0){
+				a[a.length]=[b[1],b[0]];
+			}
+		}
+		else{
+			var c=s.split(' ');
+			for(var i=0;i<c.length;i++){
+				var b=c[i].split('X');
+				if(b.length>0){
+					a[a.length]=[b[1],b[0]];
+				}
+			}
+		}
+	}
+	return a;
+};
+
+var openCons=function(n){
+	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+		reader:new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+	store.load({params:{consNo:n},
+		callback:function(re,o,s){
+			if(s&&re.length>0)
+				Fos.showConsign(re[0]);
+			}
+	});
+};
+
+var openInvo=function(n){
+	var store = new Ext.data.Store({url: SERVICE_URL+'?A='+'INVO_Q',
+		reader:new Ext.data.XmlReader({record:'SInvoice'}, SInvoice)
+	});
+	store.load({params:{invoNo:n},
+		callback:function(re,o,s){
+			if(s&&re.length>0)	
+				showInvoice(re[0]);
+			}
+	});
+};
+
+
 
 function CreateMenu(t,c,m,f){
  	return {text:t,iconCls :'grid',scope:this,
@@ -95,7 +253,7 @@ function getBulkPanel(){
 			);
 		
 		if(!NR(M1_B+M2_BV)) 
-			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return Fos.showG_VOYA();});
+			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return new Fos.VoyagePanel();});
 		
 		return new Ext.Panel({title:C_BULK,collapsible:true,layout:'fit',
 			items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
@@ -108,7 +266,8 @@ function getOverseasPanel(){
 	items[items.length]=NaviMenu(C_OVERSEAS+C_IMP,'CONS_I_O',function(){return new Fos.ConsignGrid('I','O','');});
 	return new Ext.Panel({title:C_OVERSEAS,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
-}
+};
+
 function getAirPanel(){
 	var items=[];
 	if(!NR(M1_A+M2_I)) items[items.length]=NaviMenu(C_IMP_AIR,'G_CONS_I_A',function(){return new Fos.ConsignGrid('I','A','');});
@@ -130,8 +289,6 @@ function getAirPanel(){
 	return new Ext.Panel({title:C_AIR,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
-
-
 
 
 function getEntryPanel(){
@@ -169,6 +326,7 @@ function getCudePanel(){
 	return new Ext.Panel({title:C_BIZ_CUSTOMS,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getInspPanel(){
 	var items=[];
 	if(!NR(M1_I+M2_I)) items[items.length]=NaviMenu(C_IMP_INSP,'G_CONS_I_I',function(){return new Fos.ConsignGrid('I','I','');});
@@ -176,6 +334,7 @@ function getInspPanel(){
 	return new Ext.Panel({title:C_SR_INSP,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getDocPanel(){
 	var items=[];
 	if(!NR(M1_D+F_V)) items[items.length]=NaviMenu(C_DOC_ALL,'G_DOC_A',function(){return new Fos.DocGrid('A');});
@@ -186,6 +345,7 @@ function getDocPanel(){
 	return new Ext.Panel({title:C_DOC_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getStaPanel(){
 	var items=[];
 	if(!NR(M1_T+T_BUSI)) items[items.length]=NaviMenu(C_STAT_BIZ_SUM,'REPT_BUSI',function(){return new Fos.StatSumTab('REPT_BUSI');});
@@ -210,6 +370,7 @@ function getStaPanel(){
 	return new Ext.Panel({title:C_STAT,collapsible:true,autoScroll:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getCusPanel(){
 	var items=[];
 	if(!NR(M1_V+V_PRSH+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
@@ -221,6 +382,7 @@ function getCusPanel(){
 	return  new Ext.Panel({title:C_CUST,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
+
 function getWsPanel(){
 	var items=[];
 	//if(!NR(M1_W+W_WUSR)) 
@@ -235,10 +397,20 @@ function getWsPanel(){
 
 	
 function CreateMenu2(t,c,m,f){
- 	return {text:t,iconCls :'grid',scope:this,handler:function(){
- 		if(''==GR()) {XMG.alert(SYS,M_SESSION_TIMEOUT);logout();return}
- 		if(NR(m)){XMG.alert(SYS,M_NR);return}
-		f();}};
+ 	return {text:t,iconCls :'grid',scope:this,
+ 		handler:function(){
+	 		if(''==GR()) {
+	 			XMG.alert(SYS,M_SESSION_TIMEOUT);
+	 			logout();
+	 			return;
+	 		}
+	 		if(NR(m)){
+	 			XMG.alert(SYS,M_NR);
+	 			return;
+	 		}
+			f();
+		}
+ 	};
 };
 
 function getSysPanel(){
@@ -261,12 +433,10 @@ function getPMenu(){
 	if(VERSION==1||VERSION==0){
 		if(!NR(M1_C)) items[items.length]=getContPanel();
 		if(!NR(M1_B)) items[items.length]=getBulkPanel();
-		if(!NR(M1_O)) items[items.length]=getOverseasPanel();
+		//if(!NR(M1_O)) items[items.length]=getOverseasPanel();
 		if(!NR(M1_A)) items[items.length]=getAirPanel();
 		
 		if(!NR(M1_G)) items[items.length]=getCudePanel();
-		//items[items.length]=getEntryPanel();
-		//if(!NR(M1_I)) items[items.length]=getInspPanel();
 		if(!NR(M1_D)) items[items.length]=getDocPanel();
 		if(!NR(M1_S)) items[items.length]=createSMTree();
 		if(!NR(M1_T)) items[items.length]=getStaPanel();
@@ -275,7 +445,8 @@ function getPMenu(){
 		if(!NR(M1_P)) items[items.length]=getSysPanel();
 		//if(VERSION==1&&!NR(M1_W)) 
 			items[items.length]=getWsPanel();
-	}else if(VERSION == 2){
+	}
+	else if(VERSION == 2){
 		if(!NR(M1_C)) items[items.length]=getYsContPanel();
 		if(!NR(M1_D)) items[items.length]=getDocPanel();
 		if(!NR(M1_V)) items[items.length]=getCusPanel();
@@ -341,6 +512,7 @@ function createBulkTree(){
 	});
 	return tree;
 };
+
 function createSMTree(){
 	var root=new Ext.tree.TreeNode({text:C_SETTLE,leaf:false});
 	if(!NR(M1_S+S_COAU+F_V)){
@@ -424,6 +596,8 @@ function createSMTree(){
 	});
 	return tree;
 };
+
+
 function createGMTree(){	
 	var root=new Ext.tree.TreeNode({text:C_MASTER_DATA,leaf:false});
 	
@@ -566,6 +740,8 @@ function createGMTree(){
 	});
 	return tree;
 };
+
+
 function createFunctionTree(store,nodeListener){
 	var tree = new Ext.tree.TreePanel({
 		animate:true,
@@ -575,7 +751,8 @@ function createFunctionTree(store,nodeListener){
 		listeners:nodeListener
 	});
 	var fp = {};
-	var maxDep = 0;var root;
+	var maxDep = 0;
+	var root = null;
 	var a = store.getRange();
 	for(var i=0;i<a.length;i++){
 		var fc=a[i].get('funcCode');
@@ -597,6 +774,7 @@ function createFunctionTree(store,nodeListener){
 	tree.setRootNode(root);
 	return tree;
 };
+
 function addChiledNode(n,a){
 	var nid = n.id;
 	for(var i=0;i<a.length;i++){
@@ -606,48 +784,33 @@ function addChiledNode(n,a){
 		}
 	}
 };
+
 function loadMsg(){
 	var store = GS('MESS_Q','PMessage',PMessage,'messId','DESC','','','',false);
-	store.load({params:{messToUserId:CUSER_ID,messSendFlag:0,messType:2},callback:function(r,o,s){
+	store.load({params:{messToUserId:CUSER_ID,
+		messSendFlag:0,
+		messType:2
+		},
+		callback:function(r,o,s){
 		if(r.length){
     		for(var i=0;i<r.length;i++){    			
-                var w=Ext.getCmp('W_MSG'+r[i].get('messFromUserId'));
-                if(w) w.show();
+                var w = Ext.getCmp('W_MSG'+r[i].get('messFromUserId'));
+                if(w) 
+                	w.show();
                 else{
                 	var w= new Fos.MsgWin(r[i].get('messFromUserId'),r[i].get('messFromUserName'));
                 	w.show();
                 }
                 w.onMsg(r[i].get('messBody','R'));
+                
                 r[i].set('messSendFlag',1);r[i].set('rowAction','M');
         		var x = RTX(r[i],'PMessage',PMessage);
         		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'MESS_S'},xmlData:FOSX(x)});
     		}
 		}
-	}});
+	}
+	});
 };
-Ext.onReady(function(){
-	Ext.state.Manager.setProvider(new Fos.HttpProvider());
-    Ext.QuickTips.init();
-    Ext.form.Field.prototype.msgTarget = 'side';
-    var tBar=new Ext.BoxComponent({region:'north',el:'north',height:60});   
-	var viewport = new Ext.Viewport({layout:'border',items:[tBar,P_MENU,T_MAIN]});
-	//T_MAIN.setActiveTab(T_MAIN.add(new Fos.TaskTab()));
-	
-	setTimeout(function(){Ext.get('loading').remove();Ext.get('loading-mask').fadeOut({remove:true});},50);
-	iniStore();
-	checkPassEx();
-	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
-	P_MENU.on('expand',function(){T_MAIN.getActiveTab().doLayout();});
-	T_MAIN.on('tabchange',function(m,a){a.doLayout();});
-	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));
-	viewport.doLayout();
-	
-	//var task={run:loadMsg,interval:10000};
-	//this.runner = new Ext.util.TaskRunner();
-	//this.runner.start(task);
-});
-
-
 
 
 //北京永顺集装箱模块
@@ -658,10 +821,10 @@ function getYsContPanel(){
 	if(!NR(M1_C+M2_FE)) 
 	items[items.length]=NaviMenu(C_IMP,'YS_CONS_FCL_I',function(){return new Fos.YsConsignGrid('I','C','FCL');});
 	if(!NR(M1_C+"06")) 
-	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid()});
+	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid();});
 	if(!NR(M1_C+"09")) 
-	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid()});
-	items[items.length]=NaviMenu(C_EX_RATE,'YS_RATE',function(){return new Fos.YsRateTab()});
+	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid();});
+	items[items.length]=NaviMenu(C_EX_RATE,'YS_RATE',function(){return new Fos.YsRateTab();});
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 }

@@ -19,7 +19,7 @@ public class PTemplateMapService {
 		return dao.saveByRowAction(entityList);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PTemplateMap> query(Map queryMap) {
 		return dao.findByProperties(queryMap);

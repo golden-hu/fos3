@@ -28,7 +28,7 @@ public class WUserService {
 	@Autowired
 	private CCustomerService customerService;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<WUser> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
@@ -62,7 +62,6 @@ public class WUserService {
 				retList.add(entity);
 				setLoginInfo(entity);
 			} else if (RowAction.M==entity.getRowAction()) {
-				WUser retEntity = dao.findById(entity.getWusrId());
 				retList.add(dao.update(entity));
 			} else if (RowAction.R==entity.getRowAction()) {
 				WUser delEntity = dao.findById(entity.getWusrId());

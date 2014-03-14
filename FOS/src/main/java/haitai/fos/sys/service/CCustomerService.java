@@ -30,7 +30,7 @@ public class CCustomerService {
 	@Autowired
 	private ISExpenseDAO expeDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -86,13 +86,13 @@ public class CCustomerService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CCustomer> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<CCustomer> complexQuery(List<FosQuery> conditions, Map queryMap) {
 		List<CCustomer> retList;

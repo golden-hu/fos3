@@ -25,7 +25,7 @@ public class FPackingListDAO extends GenericDAO<FPackingList, Integer>
 		super(FPackingList.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FPackingList> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = FPackingList.class;
@@ -40,7 +40,7 @@ public class FPackingListDAO extends GenericDAO<FPackingList, Integer>
 		return retList;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateSailedFlag(final Integer voyaId, final Short voyaSailedFlag) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FPackingList t1 set t1.voyaSailedFlag = ?, t1.version = t1.version + 1 ");
@@ -56,7 +56,7 @@ public class FPackingListDAO extends GenericDAO<FPackingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVoyaName(final Integer voyaId, final String voyaName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FPackingList t1 set t1.voyaName = ?, t1.version = t1.version + 1 ");
@@ -72,7 +72,7 @@ public class FPackingListDAO extends GenericDAO<FPackingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer vessId, final String vessName,
 			final String vessNameCn) {
 		StringBuffer sb = new StringBuffer();
@@ -90,7 +90,7 @@ public class FPackingListDAO extends GenericDAO<FPackingList, Integer>
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateConsNoByConsId(final Integer consId, final String consNo) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update FPackingList t1 set ");
@@ -107,7 +107,7 @@ public class FPackingListDAO extends GenericDAO<FPackingList, Integer>
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer voyaId, final Integer newVessId,
 			final String vessName, final String vessNameCn) {
 		StringBuffer sb = new StringBuffer();

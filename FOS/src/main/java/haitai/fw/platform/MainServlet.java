@@ -52,6 +52,7 @@ public class MainServlet extends HttpServlet {
 		try {
 			paramMap = getRequestParams(request);
 			String actName = paramMap.get(HttpHeader.ACTNAME);
+			
 			clearNotUsedParam(paramMap);
 			if(ConstUtil.JSON.equalsIgnoreCase(paramMap.get(HttpHeader.TEXT_TYPE))) {
 				isJSON = true;
@@ -67,14 +68,17 @@ public class MainServlet extends HttpServlet {
 			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName) && !ConstUtil.ACT_LOGOUT.equals(actName)) {
 				// 检查是否已经登录(UID为空, 而且不是正在登录)
 				throw new BusinessException("fw.session.expired");
-			} else if (ConstUtil.ACT_LOGOUT.equals(actName)) {
+			} 
+			else if (ConstUtil.ACT_LOGOUT.equals(actName)) {
 				ActionLogUtil.log();
 				if (uid != null) {
 					PUserService.killMe(uid);
 					SessionManager.logoutSession();
 				}
 				response.sendRedirect(appConfig.getProperty(ConstUtil.CONFIG_LOGIN_URL));
-			} else if (actName.startsWith(ConstUtil.ACT_REPORT_RUN)) {
+			}
+			
+			else if (actName.startsWith(ConstUtil.ACT_REPORT_RUN)) {
 				// 报表
 				response.sendRedirect(ReportUtil.getUrl(request, paramMap,actName));
 			} else {

@@ -41,7 +41,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		super(FConsign.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateStatusById(final Integer id, final Short status) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 set t1.consStatus = :consStatus, t1.version = t1.version + 1 where ");
@@ -62,7 +62,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateStatusById(final Integer id, String statusName, final Short statusValue) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 set t1.");
@@ -85,7 +85,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateStatusBookById(final Integer id, final Short status) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 ");
@@ -107,7 +107,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateMblStatusById(final Integer id, final Short mbl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 ");
@@ -130,7 +130,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateFblStatusById(final Integer id, final Short fbl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 ");
@@ -152,7 +152,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FConsign> complexQuery(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
 		
 		String joinSql = "";
@@ -252,7 +252,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FConsign> complexQueryForWs(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
 		Class clazz = FConsign.class;
 		List retList = complexQuery(conditions, propertyMap, "t1", "", clazz);
@@ -262,7 +262,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FConsign> complexQueryTask(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
 		String sailedFlag = (String) propertyMap.get("voyaSailedFlag");
 		String joinSql = "";
@@ -280,7 +280,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FConsign> complexQueryCheck(final List<FosQuery> conditions, final Map<String, Object> propertyMap) {
 		final Class t1 = FConsign.class;
 		StringBuilder sb = new StringBuilder();
@@ -405,7 +405,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 	/**
 	 * 根据箱号查询委托
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FConsign> complexQueryByContNo(final List<FosQuery> conditions, final Map<String,
 			Object> propertyMap) {
 		final Class t1 = FConsign.class;
@@ -418,7 +418,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<FConsign> complexQueryStatusLock(final List<FosQuery> conditions, final Map<String,
 			Object> propertyMap) {
 		Class clazz = FConsign.class;
@@ -426,7 +426,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<Object> complexQueryOverDueSales(int dateNum) {
 		String compCode = SessionManager.getStringAttr(SessionKeyType.COMPCODE);
 		String dateDue = TimeUtil.addDate(-1 * dateNum);
@@ -445,7 +445,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 				"t1.consSalesRepId, t1.consSalesRepName, t2.blNo", sb.toString(), t1, t2);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVoyaName(final Integer voyaId, final String voyaName) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 set t1.voyaName = ?, t1.version = t1.version + 1 ");
@@ -461,7 +461,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer vessId, final String vessName, final String vessNameCn) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update FConsign t1 set t1.vessName = ?, t1.vessNameCn = ?, t1.version = t1.version + 1 ");
@@ -478,7 +478,7 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateVessName(final Integer voyaId, final Integer newVessId, final String vessName,
 							   final String vessNameCn) {
 		StringBuilder sb = new StringBuilder();

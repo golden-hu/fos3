@@ -21,7 +21,7 @@ public class SInvoiceItemDAO extends GenericDAO<SInvoiceItem, Integer>
 		super(SInvoiceItem.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SInvoiceItem> complexQueryByPrId(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SInvoiceItem.class;
@@ -36,7 +36,7 @@ public class SInvoiceItemDAO extends GenericDAO<SInvoiceItem, Integer>
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<SInvoiceItem> complexQueryByParent(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap) {
 		final Class t1 = SInvoiceItem.class;

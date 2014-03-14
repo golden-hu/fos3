@@ -33,7 +33,7 @@ public class SPrService {
 	@Autowired
 	private ISInvoiceDAO invoiceDao;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -164,13 +164,13 @@ public class SPrService {
 		invoiceDao.update(invoice);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SPr> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SPrItem> queryItem(Map queryMap) {
 		return itemDao.findByProperties(queryMap);

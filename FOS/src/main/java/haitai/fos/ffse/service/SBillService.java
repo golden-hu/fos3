@@ -35,7 +35,7 @@ public class SBillService {
 	@Autowired
 	private IFConsignDAO consDao;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -118,7 +118,7 @@ public class SBillService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List query(Map queryMap) {
 		List retList = new ArrayList();
@@ -129,7 +129,7 @@ public class SBillService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List queryForExport(Map queryMap) {
 		List retList = new ArrayList();
@@ -188,7 +188,7 @@ public class SBillService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<SBillItem> queryItem(Map queryMap) {
 		return itemDao.findByProperties(queryMap);

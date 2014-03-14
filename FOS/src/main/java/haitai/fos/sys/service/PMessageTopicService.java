@@ -25,7 +25,7 @@ public class PMessageTopicService {
 	@Autowired
 	private PMessageService messageService;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
 		List retList = new ArrayList();
@@ -74,7 +74,7 @@ public class PMessageTopicService {
 		return retList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<PMessageTopic> query(Map queryMap) {
 		return dao.findByProperties(queryMap);
