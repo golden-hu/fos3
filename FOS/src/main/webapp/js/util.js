@@ -157,7 +157,10 @@ var rateRender = function(v){
 };
 var boolRender = function(v, p, record){p.css += ' x-grid3-check-col-td';return '<div class="x-grid3-check-col'+(v==1?'-on':'')+' x-grid3-cc-'+this.id+'">&#160;</div>';};
 var consRender  = function(v){return "<a href=\"javascript:openCons('"+v+"');\">"+v+"</a>";};
-var nullRender = function(v){if(v=='null') v=''; return v;};
+
+var nullRender = function(v){if(v=='null') v=''; return v};
+var undefinedRender = function(v){if(v=='undefined') v='';return v};
+
 
 var expenseNumRender = function(v){
 	v=parseFloat(v);
@@ -166,6 +169,7 @@ var expenseNumRender = function(v){
 		v='';
 	return v;
 };
+>>>>>>> branch 'master' of git@www.hitisoft.com:fos3
 
 //去除字符串的空格
 function gf_trim(as_string)
