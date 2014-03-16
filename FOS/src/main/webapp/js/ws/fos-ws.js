@@ -372,9 +372,12 @@ var W2F=function(r){
 Fos.WconGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WCON_X',
-    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WConsign'}, WConsign),remoteSort:true,
+    	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WConsign'}, WConsign),
+    	remoteSort:true,
     	sortInfo:{field:'wconId', direction:'DESC'}});
+    
     store.load({params:{start:0,limit:20,mt:'JSON'}});
+    
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var getWCON_ST=function(v){
 		if(v==1) 
@@ -382,6 +385,7 @@ Fos.WconGrid = function() {
 		else 
 			return C_WS_WCON_NOT_ACCEPTED;
 	};
+	
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
 		{header:C_WS_USR_NAME,dataIndex:'wusrName',width:80},
@@ -404,30 +408,49 @@ Fos.WconGrid = function() {
 		{header:'货物毛重',dataIndex:'consTotalGrossWeight',width:100},
 		{header:'货物体积',dataIndex:'consTotalMeasurement',width:100}]);
 	cm.defaultSortable=true;
-	var re={rowdblclick:function(g,r,e){this.edit();}};
+		
     this.edit = function(){
     	var p = sm.getSelected();
-    	if(p){var win = new WconWin(p);win.show();}
-    	else XMG.alert(SYS,M_NO_DATA_SELECTED);
+    	if(p){
+    		var win = new WconWin(p);
+    		win.show();
+    	}
+    	else 
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
     };    
 	
     Fos.WconGrid.superclass.constructor.call(this, {
-    id:'G_WCON',store: store,iconCls:'grid',title:C_WS_CONS_LIST,header:false,closable:true,
-    sm:sm,cm:cm,listeners:re,loadMask:true,
-	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
+    id:'G_WCON',
+    store: store,
+    iconCls:'grid',
+    title:C_WS_CONS_LIST,
+    header:false,
+    closable:true,
+    sm:sm,
+    cm:cm,
+    listeners:{
+    	rowdblclick:function(g,r,e){
+    		this.edit();
+    	}
+    },
+    loadMask:true,
+	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,
+		displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
 	tbar:[
-		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit},'->',
-		new Ext.PagingToolbar({pageSize:20,store:store})]
+		{text:C_EDIT+'(M)',iconCls:'option',handler:this.edit}]
     }); 
 };
 Ext.extend(Fos.WconGrid,Ext.grid.GridPanel);
 
 Fos.WusrGrid = function(){
+	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WUSR_Q',
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'WUser'}, WUser),remoteSort:true,
     	sortInfo:{field:'wusrId', direction:'DESC'}});
+    
     store.load({params:{start:0,limit:20,mt:'JSON'}});
+    
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
@@ -437,32 +460,47 @@ Fos.WusrGrid = function(){
 		{header:C_WS_TEL,dataIndex:'wusrTel',width: 150},
 		{header:C_WS_FIRST_NAME,dataIndex:'wusrFirstName',width:80},
 		{header:C_WS_TITLE,dataIndex:'wusrTitle',width:80},		
-		
 		{header:C_WS_FAX,dataIndex:'wusrFax',width:100},
 		{header:C_WS_DEPT,dataIndex:'wusrDept',width:80},
 		{header:C_WS_MOBILE,dataIndex:'wusrMobile',width:100},
 		{header:C_WS_CITY,dataIndex:'wusrCity',width:100},
 		{header:C_WS_REG_TIME,dataIndex:'createTime',width:100,renderer:formatDateTime}
 		]);
-	cm.defaultSortable=true;	
+	
+	cm.defaultSortable=true;
+	
 	this.accept=function(){		
     	var u=sm.getSelected();
     	if(u){
-	    	if(u.get('wusrStatus')==1){alert('该用户已经是正式客户！不可以再转。');return;}
+	    	if(u.get('wusrStatus')==1){
+	    		alert('该用户已经是正式客户！不可以再转。');
+	    		return;
+	    	}
 	    	else{
-		    	var p = new CCustomer({custId:'0',custCode:'',custClass:'',custNameCn:u.get('wusrCompanyName'),custSnameCn:'',custNameEn:'',custSnameEn:'',
-				custArFlag:1,custApFlag:1,custIndustry:'',cucaId:'',custType:'',counCode:'CN',custProvince:u.get('wusrProvince'),custCity:u.get('wusrCity'),
-				custAddress:u.get('wusrAddress'),custZip:u.get('wusrZip'),custContact:u.get('wusrFirstName'),
-				custTel:u.get('wusrTel'),custFax:u.get('wusrFax'),custEmail:u.get('wusrEmail'),custUrl:u.get('wusrUrl'),custBankCny:'',
-				custAccountCny:'',custBankUsd:'',custAccountUsd:'',custInvoiceHeader:'',custActive:'1',
-				custShipTo:'',custChargeTo:'',custCreditDay:'',
+		    	var p = new CCustomer({custId:'0',
+		    		custNameCn:u.get('wusrCompanyName'),
+				custArFlag:1,
+				custApFlag:1,
+				counCode:'CN',
+				custProvince:u.get('wusrProvince'),
+				custCity:u.get('wusrCity'),
+				custAddress:u.get('wusrAddress'),
+				custZip:u.get('wusrZip'),
+				custContact:u.get('wusrFirstName'),
+				custTel:u.get('wusrTel'),
+				custFax:u.get('wusrFax'),
+				custEmail:u.get('wusrEmail'),
+				custUrl:u.get('wusrUrl'),
+				custActive:'1',				
 				custCreditDay:getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
-				custCreditAmount:getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),custRemarks:'',version:'0',rowAction:'N'});	       	
+				custCreditAmount:getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),
+				version:'0',rowAction:'N'});	       	
 		       	var win = new Fos.CustomerWin(p,'',u);
 				win.show();
 			}
 		}
     };
+    
     this.haved = function(){
     	var record =  sm.getSelected();
     	if(record){
@@ -470,14 +508,14 @@ Fos.WusrGrid = function(){
     		win.show();
     	}
     };
+    
     Fos.WusrGrid.superclass.constructor.call(this, {
     id:'G_WUSR',store:store,iconCls:'grid',width:600,height:300,title:'注册用户列表',header:false,closable:true,
     sm:sm,cm:cm,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
 	tbar:[
 		{text:C_WS_USER_ACCEPT,iconCls:'renew',handler:this.accept},
-		{text:C_WS_USER_HAVED,iconCls:'redo',handler:this.haved},'->',
-		new Ext.PagingToolbar({pageSize:20,store:store})]
+		{text:C_WS_USER_HAVED,iconCls:'redo',handler:this.haved}]
     }); 
 };
 Ext.extend(Fos.WusrGrid,Ext.grid.GridPanel);

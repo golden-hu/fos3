@@ -19,6 +19,7 @@ BLTab = function(){
 		{header:'毛重',dataIndex:'blGrossWeight',width:100},
 		{header:'体积',dataIndex:'blMeasurement',width:100}]);
 	cm.defaultSortable=true;
+	
 	var re={rowdblclick:function(g,r,e){
 		var p = sm.getSelected();
     	if(p){
@@ -28,11 +29,19 @@ BLTab = function(){
     	else alert(M_NO_DATA_SELECTED);
 	}};  
 	
-	var grid = new Ext.grid.GridPanel({region:'center',store: store,iconCls:'grid',
-		header:false,closable:true,cm:cm,sm:sm,loadMask:true,
-    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,
+	var grid = new Ext.grid.GridPanel({region:'center',
+		store: store,
+		iconCls:'grid',
+		header:false,
+		closable:true,
+		cm:cm,
+		sm:sm,
+		loadMask:true,
+    	listeners:re,
+    	bbar:new Ext.PagingToolbar({pageSize:20,
     		store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
+	
     this.search=function(){
    		if(CCUST=='null') return;   		
    		var a=[];
@@ -183,6 +192,7 @@ BlConfirmWin = function(p) {
 		//}
 		//else alert('该提单已确认，不能修改！请和操作员联系。');
 	};
+	
 	this.record=function(){
 		var win = new BLMGrid(p);
 		win.show();    	

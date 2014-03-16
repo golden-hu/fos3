@@ -1,3 +1,20 @@
+//北京永顺集装箱模块
+function getYsContPanel(){
+	var items = [];
+	if(!NR(M1_C+M2_F)) 
+	items[items.length]=NaviMenu(C_EXP,'YS_CONS_FCL_E',function(){return new Fos.YsConsignGrid('E','C','FCL');});
+	if(!NR(M1_C+M2_FE)) 
+	items[items.length]=NaviMenu(C_IMP,'YS_CONS_FCL_I',function(){return new Fos.YsConsignGrid('I','C','FCL');});
+	if(!NR(M1_C+"06")) 
+	items[items.length]=NaviMenu(C_EXPE_SET,'YS_COAU',function(){return new Fos.YsConsignAuditGrid();});
+	if(!NR(M1_C+"09")) 
+	items[items.length]=NaviMenu(C_BRANCH,'YS_BRANCH',function(){return new Fos.BranchGrid();});
+	items[items.length]=NaviMenu(C_EX_RATE,'YS_RATE',function(){return new Fos.YsRateTab();});
+	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
+		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+}
+
+
 Fos.YsConsignGrid = function(bizClass,bizType,shipType){
 	var store = new Ext.data.Store({url:SERVICE_URL+'?A=CONS_X',baseParams:{mt:'xml'},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),

@@ -3,7 +3,8 @@ var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 
-var COMP_CODE='JAH';
+//var COMP_CODE='JAH';
+var COMP_CODE='htst';
 
 var GUID=0;
 var GGUID=function(k){

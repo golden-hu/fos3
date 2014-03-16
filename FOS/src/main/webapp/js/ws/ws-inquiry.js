@@ -227,7 +227,7 @@ InquiryGrid = function() {
 	cm.defaultSortable=true;
 	
 	
-    this.add = function(){
+    this.addRecord = function(){
     	var p = new WInquiry({winqId:0,
     		compCode:COMP_CODE,
     		wusrId:CUSER,
@@ -238,7 +238,7 @@ InquiryGrid = function() {
 		win.show();
     };
     
-    this.edit = function(){
+    this.editRecord = function(){
     	var p = sm.getSelected();
     	if(p){
     		var win = new InquiryWin(p,store);
@@ -258,7 +258,7 @@ InquiryGrid = function() {
     		XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
     
-	this.remove=function(){
+	this.removeRecord = function(){
 		if (sm.getSelections().length > 0)
         	XMG.confirm(SYS,M_R_C,function(btn){
             	if(btn == 'yes') {
@@ -280,10 +280,10 @@ InquiryGrid = function() {
         	XMG.alert(SYS,'操作失败！');
 	};
 	
-	var btnAdd = new Ext.Button({text:C_ADD,iconCls:'add',handler:this.add});
-	var btnEdit = new Ext.Button({text:C_EDIT,iconCls:'option',handler:this.edit});
+	var btnAdd = new Ext.Button({text:C_ADD,iconCls:'add',handler:this.addRecord});
+	var btnEdit = new Ext.Button({text:C_EDIT,iconCls:'option',handler:this.editRecord});
 	var btnShowReply = new Ext.Button({text:'查看回复',iconCls:'option',handler:this.showReply});
-	var btnRemove = new Ext.Button({text:C_REMOVE,iconCls:'remove',handler:this.remove});
+	var btnRemove = new Ext.Button({text:C_REMOVE,iconCls:'remove',handler:this.removeRecord});
 	
     InquiryGrid.superclass.constructor.call(this, {
 	    id:'G_WINQ',

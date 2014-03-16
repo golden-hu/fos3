@@ -2,6 +2,7 @@ var wl=window.location.href;
 var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
+//var COMP_CODE='htst';
 var COMP_CODE='JAH';
 
 var formatDate = function(v){return v ? v.dateFormat('Y-m-d') : '';};
@@ -209,7 +210,7 @@ var reg = function(f){
 		f.wusrName.focus();
 		return;
 	}
-	if(!wusrPassword){
+	else if(!wusrPassword){
 		alert('登录密码不能为空！');
 		f.wusrPassword.focus();
 		return;
@@ -218,59 +219,59 @@ var reg = function(f){
 		alert('两次输入的登录密码不一致！');
 		f.wusrPassword.focus();
 		return;
-	}
-	
-	if(!wusrFirstName){
+	}	
+	else if(!wusrFirstName){
 		alert('真实姓名不能为空！');
 		f.wusrFirstName.focus();
 		return;
-	}
-	
-	if(!wusrEmail){
+	}	
+	else if(!wusrMobile){
+		alert('手机不能为空！');
+		f.wusrMobile.focus();
+		return;
+	}	
+	else if(!wusrEmail){
 		alert('Email不能为空！');
 		f.wusrEmail.focus();
 		return;
-	}
+	}	
 	else if(!testEmail(wusrEmail)){
 		alert('请输入正确的Email地址！');
 		f.wusrEmail.focus();
 		return;
 	}
-	if(!wusrCompanyName){
+	else if(!wusrCompanyName){
 		alert('公司名称不能为空！');
 		f.wusrCompanyName.focus();
 		return;
 	}
-	if(!wusrTel){
-		alert('联系电话不能为空！');
-		f.wusrTel.focus();
-		return;
+	else{
+		Ext.Ajax.request({url:SERVICE_URL,
+			method:'POST',
+			params:{A:'WS_REG',mt:'JSON',
+				wusrName:wusrName,
+				wusrPassword:wusrPassword,
+				wusrEmail:wusrEmail,
+				wusrCompanyName:wusrCompanyName,
+				wusrTel:wusrTel,
+				wusrMobile:wusrMobile,
+				wusrFirstName:wusrFirstName,
+				wusrTitle:wusrTitle,
+				compCode:COMP_CODE
+			},
+			success: function(r){			
+				alert('注册成功！');
+				if(self!=top) 
+					top.location='ws-login.html';
+				else 
+					window.location='ws-login.html';
+			},
+			failure: function(r){			
+				alert("注册失败！");}
+			});	
 	}
 	
 	
-	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
-		params:{A:'WS_REG',mt:'JSON',
-			wusrName:wusrName,
-			wusrPassword:wusrPassword,
-			wusrEmail:wusrEmail,
-			wusrCompanyName:wusrCompanyName,
-			wusrTel:wusrTel,
-			wusrMobile:wusrMobile,
-			wusrFirstName:wusrFirstName,
-			wusrTitle:wusrTitle,
-			compCode:COMP_CODE
-		},
-		success: function(r){			
-			alert('注册成功！');
-			if(self!=top) 
-				top.location='ws-login.html';
-			else 
-				window.location='ws-login.html';
-		},
-		failure: function(r){
-			var user=Ext.util.JSON.decode(r.responseText);
-			alert(user.FosResponse.msg);}
-		});	
 };
 
 function showElement(eid,html,x,y){

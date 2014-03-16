@@ -183,10 +183,10 @@ form.cmxform input.submit {
 <center>
 <div class="mc " id="bgDiv">
 
-<form action="javascript:login();return"  class="cmxform" name="reg_form">
+<form class="cmxform" name="reg_form" action="javascript:reg(reg_form);">
 <fieldset>
 	<p>
-		<label for="companyname">登录名:</label>
+		<label for="wusrName">登录名:</label>
 		<input name="wusrName" type="text" id="wusrName" size="35"/>
 		<label2>*</label2>
 	</p>
@@ -232,7 +232,7 @@ form.cmxform input.submit {
 	</p>
 	
 	<p>
-		<input class="anniu_Create" type="submit" value="注册" onclick="javascript:reg(reg_form);return"/>&nbsp;&nbsp;
+		<input class="anniu_Create" type="submit" value="注册" />&nbsp;&nbsp;
 		<input class="anniu_Create" type="reset" value="重置"/>
 	</p>
 </fieldset>

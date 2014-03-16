@@ -26,7 +26,7 @@ WconGrid = function() {
 		{header:'货物体积',dataIndex:'consTotalMeasurement',width:100}]);
 	cm.defaultSortable=true;
 	
-    this.add = function(){
+    this.addRecord = function(){
     	var rid=GGUID();
     	var p = new WConsign({wconId:rid,wconNo:'N'+rid,
     		consDate:new Date(),
@@ -41,7 +41,7 @@ WconGrid = function() {
 		win.show();
     };
     
-    this.edit = function(){
+    this.editRecord = function(){
     	var p = sm.getSelected();
     	if(p){
     		var win = new WconWin(p,store);
@@ -51,7 +51,7 @@ WconGrid = function() {
     		XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
     
-	this.remove=function(){
+	this.removeRecord = function(){
 		if (sm.getSelections().length > 0)
         	XMG.confirm(SYS,M_R_C,function(btn){
             	if(btn == 'yes') {
@@ -75,9 +75,9 @@ WconGrid = function() {
         	XMG.alert(SYS,'操作失败！');
 	};	
 	
-	var btnAdd = new Ext.Button({text:C_ADD,iconCls:'add',handler:this.add});
-	var btnEdit = new Ext.Button({text:C_EDIT,iconCls:'option',handler:this.edit});
-	var btnRemove = new Ext.Button({text:C_REMOVE,iconCls:'remove',handler:this.remove});
+	var btnAdd = new Ext.Button({text:C_ADD,iconCls:'add',handler:this.addRecord});
+	var btnEdit = new Ext.Button({text:C_EDIT,iconCls:'option',handler:this.editRecord});
+	var btnRemove = new Ext.Button({text:C_REMOVE,iconCls:'remove',handler:this.removeRecord});
 	
     WconGrid.superclass.constructor.call(this, {
 	    id:'G_WCON',

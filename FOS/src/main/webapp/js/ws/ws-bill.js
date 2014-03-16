@@ -4,7 +4,9 @@ BillTab = function(){
    		url: SERVICE_URL+'?A=WS_BILL_X',
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'SBill'}, SBill),remoteSort:true,
     	sortInfo:{field:'billId', direction:'DESC'}});
+	
     store.load({params:{custId:CCUST,start:0,limit:20}});
+    
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true}); 
 	var cm = new Ext.grid.ColumnModel([sm,
     	{header:C_STATUS,dataIndex:"billStatus",renderer:getBIST},
@@ -14,14 +16,25 @@ BillTab = function(){
 		{header:C_BILL_DATE,dataIndex:"billDate",renderer:formatDate},
 		{header:C_REMARKS,dataIndex:"billRemarks"}]);
 	cm.defaultSortable=true;
+	
 	var re={rowdblclick:function(g,r,e){
 		var p = sm.getSelected();
     	if(p){var win = new BillWin(p);win.show();}
     	else alert(M_NO_DATA_SELECTED);
 	}};	
-	var g=new Ext.grid.GridPanel({store: store,iconCls:'grid',height:395,header:false,closable:true,sm:sm,cm:cm,loadMask:true,
-    	listeners:re,bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
+	
+	var g=new Ext.grid.GridPanel({store: store,
+		iconCls:'grid',
+		height:395,
+		header:false,
+		closable:true,
+		sm:sm,
+		cm:cm,
+		loadMask:true,
+    	listeners:re,
+    	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'})
     	});
+	
     this.search=function(){
    		if(CCUST=='null') return;   		
    		var a=[];
@@ -42,12 +55,22 @@ BillTab = function(){
    		store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
      	store.reload({params:{start:0,limit:25},callback:function(r){if(r.length==0) alert(M_NOT_FOUND);}});
 	};
-	this.clear=function(){this.find('name','sf')[0].getForm().reset();};
+	
+	this.clear=function(){
+		this.find('name','sf')[0].getForm().reset();
+	};
 	
 	BillTab.superclass.constructor.call(this, {    
-    id:'T_BILL',title:'网上对账',iconCls:'stats',deferredRender:false,closable:true,autoScroll:true,
+    id:'T_BILL',
+    title:'网上对账',
+    iconCls:'stats',
+    deferredRender:false,
+    closable:true,
+    autoScroll:true,
     items:[
-    	{layout:'column',name:'sf',xtype:'form',title:'对账单查询',layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',frame:true,deferredRender:false,collapsible:true,collapsed:false,
+    	{layout:'column',name:'sf',xtype:'form',title:'对账单查询',
+    		layoutConfig:{columns:4},labelWidth:60,labelAlign:'right',
+    		frame:true,deferredRender:false,collapsible:true,collapsed:false,
     		listeners:{scope:this,
 					collapse:function(p){g.setHeight(475);},
 					expand:function(p){g.setHeight(395);}},
@@ -74,7 +97,9 @@ BillWin = function(p) {
    		url: SERVICE_URL+'?A=WS_BIIT_Q',
     	reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'SBillItem'}, SBillItem),remoteSort:true,
     	sortInfo:{field:'biitId', direction:'DESC'}});
+	
 	store.load({params:{mt:'JSON',billId:p.get('billId')},scope:this});
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm=new Ext.grid.ColumnModel([sm,
 		{header:C_SETTLE_OBJECT,width:80,dataIndex:'custSname'},
@@ -94,10 +119,15 @@ BillWin = function(p) {
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
 		]);
 	cm.defaultSortable = true;cm.defaultWidth=100;
-	var grid = new Ext.grid.GridPanel({autoScroll:true,store:store,sm:sm,cm:cm,height:400});			
-	BillWin.superclass.constructor.call(this,{iconCls:'task',title:'对账单'+p.get('billNo'),modal:true,width:800,
-       height:400,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',
-       items: [{region:'north',height:60,layout:'column',layoutConfig:{columns:4},frame:true,
+	var grid = new Ext.grid.GridPanel({autoScroll:true,store:store,sm:sm,cm:cm,height:400});
+	
+	BillWin.superclass.constructor.call(this,{iconCls:'task',
+		title:'对账单'+p.get('billNo'),
+		modal:true,width:800,
+       height:400,plain:false,
+       bodyStyle:'padding:0px;',buttonAlign:'right',
+       items: [{region:'north',height:60,
+    	   layout:'column',layoutConfig:{columns:4},frame:true,
     	items:[
     	{columnWidth:.25,layout:'form',border:false,labelWidth:60,
         	items:[
