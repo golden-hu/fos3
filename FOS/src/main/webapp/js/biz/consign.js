@@ -100,47 +100,121 @@ Fos.showConsignTabs = function(p){
 		};*/
 	}
 	
-	if(!tc.getComponent('T_TRAN_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){
-		tc.add(new Fos.TransTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){
+		if(!tc.getComponent('T_TRAN_'+p.get('id'))){
+			tc.add(new Fos.TransTab(p));
+		}
+	}
+	else{
+		var tranPanel = tc.getComponent('T_TRAN_'+p.get('id'));
+		if(tranPanel){
+			tc.remove(tranPanel);
+		}
+	}
 	
-	if(!tc.getComponent('T_WARE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_WARE)!=-1){
-		tc.add(new Fos.WarehouseTab(p));
-	};
 	
-	if(!tc.getComponent('T_CONT_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_CONT)!=-1 && 
-			(p.get('consShipType')==ST_F||(p.get('consShipType')==ST_L&& p.get('consMasterFlag')=='1'))){
-		tc.add(new Fos.ContainerTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1){
+		if(!tc.getComponent('T_WARE_'+p.get('id'))){
+			tc.add(new Fos.Fos.WarehouseTab(p));
+		}
+	}
+	else{
+		var warePanel = tc.getComponent('T_WARE_'+p.get('id'));
+		if(warePanel){
+			tc.remove(warePanel);
+		}
+	}
 	
-	if(!tc.getComponent('T_BL_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_BL)!=-1 ){
-		tc.add(new Fos.BLTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_CONT)!=-1){
+		if(!tc.getComponent('T_CONT_'+p.get('id'))){
+			if((p.get('consShipType')==ST_F||(p.get('consShipType')==ST_L&& p.get('consMasterFlag')=='1'))){
+				tc.add(new Fos.ContainerTab(p));
+			}
+		}
+	}
+	else{
+		var contPanel = tc.getComponent('T_CONT_'+p.get('id'));
+		if(contPanel){
+			tc.remove(contPanel);
+		}
+	}
 	
-	if(!tc.getComponent('T_INSP_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_INSP)!=-1){
-		tc.add(new Fos.InspectionTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_BL)!=-1){
+		if(!tc.getComponent('T_BL_'+p.get('id'))){
+			tc.add(new Fos.BLTab(p));
+		}
+	}
+	else{
+		var blPanel = tc.getComponent('T_BL_'+p.get('id'));
+		if(blPanel){
+			tc.remove(blPanel);
+		}
+	}
 	
-	if(!tc.getComponent('T_CUDE_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){
-		tc.add(new Fos.CustomsTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1){
+		if(!tc.getComponent('T_INSP_'+p.get('id'))){
+			tc.add(new Fos.InspectionTab(p));
+		}
+	}
+	else{
+		var inspPanel = tc.getComponent('T_INSP_'+p.get('id'));
+		if(inspPanel){
+			tc.remove(inspPanel);
+		}
+	}
+	
+	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){
+		if(!tc.getComponent('T_CUDE_'+p.get('id'))){
+			tc.add(new Fos.CustomsTab(p));
+		}
+	}
+	else{
+		var cudePanel = tc.getComponent('T_CUDE_'+p.get('id'));
+		if(cudePanel){
+			tc.remove(cudePanel);
+		}
+	}	
 	
 	if(!tc.getComponent('T_SPLIT_'+p.get('id')) && p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L){
 		tc.add(new Fos.SplitTab(p));
 	};
 	
-	if(!tc.getComponent('T_BBOOK_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1){
-		tc.add(new Fos.BBookingTab(p));
-	};
 	
-	if(!tc.getComponent('T_RABL_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_RABL)!=-1){
-		tc.add(new Fos.RailwayBlTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1){
+		if(!tc.getComponent('T_BBOOK_'+p.get('id'))){
+			tc.add(new Fos.BBookingTab(p));
+		}
+	}
+	else{
+		var bbookingPanel = tc.getComponent('T_BBOOK_'+p.get('id'));
+		if(bbookingPanel){
+			tc.remove(bbookingPanel);
+		}
+	}
 	
-	if(!tc.getComponent('T_SESH_'+p.get('id')) && p.get('consServiceRequired').indexOf(SR_SESH)!=-1){
-		tc.add(new Fos.SecondShipTab(p));
-	};
+	if(p.get('consServiceRequired').indexOf(SR_RABL)!=-1){
+		if(!tc.getComponent('T_RABL_'+p.get('id'))){
+			tc.add(new Fos.RailwayBlTab(p));
+		}
+	}
+	else{
+		var railPanel = tc.getComponent('T_RABL_'+p.get('id'));
+		if(railPanel){
+			tc.remove(railPanel);
+		}
+	}
 	
+	if(p.get('consServiceRequired').indexOf(SR_SESH)!=-1){
+		if(!tc.getComponent('T_SESH_'+p.get('id'))){
+			tc.add(new Fos.SecondShipTab(p));
+		}
+	}
+	else{
+		var secoPanel = tc.getComponent('T_SESH_'+p.get('id'));
+		if(secoPanel){
+			tc.remove(secoPanel);
+		}
+	}
 };
 
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	

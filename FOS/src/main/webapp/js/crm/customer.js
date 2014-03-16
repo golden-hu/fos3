@@ -257,9 +257,13 @@ Fos.CustomerWin = function(p,store,wu){
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:GEND_S})},
 	{header:C_REMARKS,dataIndex:'cucoRemarks',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})}
 	],defaults:{sortable:true,width:120}});
+	
 	this.cucoId=0;
 	this.contStore=GS('CUCO_Q','CCustomerContact',CCustomerContact,'cucoId','DESC','',false);
-	this.contStore.load({params:{custId:p.get('custId')}});	
+	
+	if(p.get('rowAction')!='N')
+		this.contStore.load({params:{custId:p.get('custId')}});	
+	
 	this.contGrid = new Ext.grid.EditorGridPanel({border:false,autoScroll:true,height:250,sm:sm,cm:cm,
 		store:this.contStore,
 		tbar:[{text:C_ADD,disabled:NR(M1_V+V_CUST+F_M),iconCls:'add',scope:this,handler:function(){
