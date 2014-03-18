@@ -473,15 +473,18 @@ public class FConsignService {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("consId", entity.getConsId().toString());
 			List<SExpense> expeList = expenseDao.findByProperties(map);
+			
 			map.clear();
 			map.put("consMasterId",entity.getConsMasterId());
 			List<FConsign> consignList = dao.findByProperties(map);
-			if(consignList.size()>1&&delEntity.getConsMasterFlag()!=0){
-				throw new BusinessException("fos.cons_hawb.existing");
-			}
+			
 			if(expeList.size()>0){
 				throw new BusinessException("fos.cons_expense.existing");
-			}else{
+			}
+			else if(consignList.size()>1&&delEntity.getConsMasterFlag()!=0){
+				throw new BusinessException("fos.cons_hawb.existing");
+			}
+			else{
 				sb.delete(0, sb.length());
 				deleteFCargoAndFContainer(delEntity);
 				delEntity.setRowAction(RowAction.R);

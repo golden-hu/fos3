@@ -1317,13 +1317,15 @@ function N2W(dValue,maxDec){
 };
 
 function N2D(input){
-	input=parseFloat(input).toString();
+	input = parseFloat(input).toString();
 	var a=input.split('.');
 	var d=a[0];
 	var c=a[1];
-	var s='ZERO DOLLARS';
-	if(d) s=N2EW(d)+' U.S. DOLLARS ONLY';
-	if(c) s+=' '+N2EW(c)+' CENTS';
+	var s='ZERO';
+	if(d) 
+		s=N2EW(d)+' ONLY';
+	if(c) 
+		s+=' '+N2EW(c)+' CENTS';
 	return s;
 };
 

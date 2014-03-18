@@ -3,7 +3,7 @@ var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/WSServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 //var COMP_CODE='htst';
-var COMP_CODE='JAH';
+var COMP_CODE='WXMQ';
 
 var formatDate = function(v){return v ? v.dateFormat('Y-m-d') : '';};
 var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};

@@ -218,11 +218,13 @@ Fos.showConsignTabs = function(p){
 };
 
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	
-	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',baseParams:{mt:'xml'},
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',
+		baseParams:{mt:'xml'},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
 		remoteSort:true,autoLoad:false,
 		sortInfo:{field:'consMasterNo', direction:'DESC'}
-	});		
+	});
+	
 	var queryParams=[];
 	queryParams[queryParams.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
 	queryParams[queryParams.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
@@ -231,8 +233,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	
 	if(shipType!='') 
 		queryParams[queryParams.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+	
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
 	store.baseParams=bp;
+	
     store.load({params:{start:0,limit:C_PS}});
 	
     this.reset=function(){
@@ -321,18 +325,22 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			b.set('consExternalFlag',external?external:0);
 			Fos.showConsign(b);
 		}
-		else XMG.alert(SYS,M_SEL_M_CONS);
+		else 
+			XMG.alert(SYS,M_SEL_M_CONS);
 	};
+	
 	this.newConsign = function(){
 		var c=Fos.newConsign(bizClass,bizType,shipType);
 		c.set('consExternalFlag',external?external:'0');
 		Fos.showConsign(c);
 	};
+	
 	this.editConsign = function(){
 		var b=sm.getSelected();
 		if(b) Fos.showConsign(b); 
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.task = function(){
 		var b=sm.getSelected();
 		if(b){
@@ -349,12 +357,18 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
            	if(btn=='yes'){
            		var xml = SMTX4RM(sm,'FConsign','consId','consMasterId');
            		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
-				success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
-				failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+				success: function(){
+					sm.each(function(p){store.remove(p);});
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(r,o){
+					XMG.alert(SYS,M_F+r.responseText);
+				},
 				xmlData:FOSX(xml)});
            }});
 		}
-       	else XMG.alert(SYS,M_R_P);
+       	else 
+       		XMG.alert(SYS,M_R_P);
     };
     
     setQueryParams=function(a){
@@ -368,7 +382,11 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	
 	var rowCtxEvents = {
 		rowdblclick: function(grid, rowIndex, event){
-			var c=grid.getSelectionModel().getSelected();if(c){Fos.showConsign(c);}},
+			var c=grid.getSelectionModel().getSelected();
+			if(c){
+				Fos.showConsign(c);
+			}
+		},
 		render: function(g) {
 			var target = g.getView().el.dom.childNodes[0].childNodes[1];
 			var firstGridDropTarget = new Ext.dd.DropTarget(target, {
@@ -404,6 +422,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 			}
 		}
 	});
+	
 	this.fastSearch=function(){
 		var consNo=kw.getValue();
 		if(!consNo){
@@ -416,8 +435,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
     	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
     	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+    	
     	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
+		
      	if(c>=0){
 			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
 		}
@@ -435,6 +456,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
      		}});
 	};
+	
 	this.exp=function(){
 		if(queryParams.length>0){
 			var a = queryParams;
