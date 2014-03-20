@@ -6,59 +6,124 @@ Fos.newConsign = function(bc,bt,st){
 	else if(bt==BT_I) 
 		sr=SR_INSP;
 	var rid=GGUID();
-	var c = new FConsign({id:rid,consId:rid,consNotifyParty:'SAME AS CONSIGNEE',
-		consNo:VERSION==2?'':('N'+rid),consType:'A',consShipType:st,consActionType:'A',consMasterFlag:1,
-		consBizClass:bc,consBizType:bt,consSource:0,consDate:new Date(),tranId:st=='LCL'?CFS:CY,
+	
+	var c = new FConsign({id:rid,
+		consId:rid,
+		consNotifyParty:'SAME AS CONSIGNEE',
+		consNo:VERSION==2?'':('N'+rid),
+		consType:'A',
+		consShipType:st,
+		consActionType:'A',
+		consMasterFlag:1,
+		consBizClass:bc,
+		consBizType:bt,
+		consSource:0,
+		consDate:new Date(),
+		tranId:st=='LCL'?CFS:CY,
 		consSailDate:bt==BT_G||BT_I?new Date():'',
-		consServiceRequired:sr,version:0,consStatus:0,consStatusBooking:0,consStatusClearance:0,
-		consStatusSwitchBl:0,consStatusSplit:0,consStatusInsp:0,consStatusCont:0,
-		consStatusCarg:0,consStatusMbl:0,consStatusHbl:0,consStatusBBook:0,
-		consStatusDepa:0,consStatusDocs:0,consStatusExp:0,consStatusAr:0,consStatusAp:0,
-		consStatusInvoR:0,consStatusInvoP:0,consStatusAud:0,consStatusReassign:0,
-		consStatusInCy:0,consStatusInCfs:0,consStatusOnBoard:0,consStatusEir:0,
-		consStatusSendCont:0,consStatusLock:0,consReassignFrom:0,consStatusSettlement:0,consExternalFlag:0,		
+		consServiceRequired:sr,
+		version:0,
+		consStatus:0,
+		consStatusBooking:0,
+		consStatusClearance:0,
+		consStatusSwitchBl:0,
+		consStatusSplit:0,
+		consStatusInsp:0,
+		consStatusCont:0,
+		consStatusCarg:0,
+		consStatusMbl:0,
+		consStatusHbl:0,
+		consStatusBBook:0,
+		consStatusDepa:0,
+		consStatusDocs:0,
+		consStatusExp:0,
+		consStatusAr:0,
+		consStatusAp:0,
+		consStatusInvoR:0,
+		consStatusInvoP:0,
+		consStatusAud:0,
+		consStatusReassign:0,
+		consStatusInCy:0,
+		consStatusInCfs:0,
+		consStatusOnBoard:0,
+		consStatusEir:0,
+		consStatusSendCont:0,
+		consStatusLock:0,
+		consReassignFrom:0,
+		consStatusSettlement:0,
+		consExternalFlag:0,		
 		consTransFlag:0,
 		consPartialFlag:0,
-		attr1:'',
 		consPol:bc==BC_E?getCFG('BASE_PORT'):'',
 		consPolEn:bc==BC_E?getCFGD('BASE_PORT'):'',
-		//consPol:bc==BC_E?BASE_PORT:'',
-		//consPolEn:bc==BC_E?BASE_PORT_NAME:'',
-		consPolCn:bc==BC_E?BASE_PORT_NAME_CN:'',
-				
+		consPolCn:bc==BC_E?BASE_PORT_NAME_CN:'',				
 		consPod:bc==BC_I?getCFG('BASE_PORT'):'',
 		consPodEn:bc==BC_I?getCFGD('BASE_PORT'):'',
-		//consPod:bc==BC_I?BASE_PORT:'',				
-		//consPodEn:bc==BC_I?BASE_PORT_NAME:'',
 		consPodCn:bc==BC_I?BASE_PORT_NAME_CN:'',
-		deptId:getCFG('DEFAULT_DEPT_'+bt),consOperatorId:CUSER_ID,consOperatorName:CUSER_NAME,
-		consFumigateFlag:0,consQuarantineFlag:0,consTransferringFlag:0,rowAction:'N'});
+		deptId:getCFG('DEFAULT_DEPT_'+bt),
+		consOperatorId:CUSER_ID,
+		consOperatorName:CUSER_NAME,
+		consFumigateFlag:0,
+		consQuarantineFlag:0,
+		consTransferringFlag:0,
+		rowAction:'N'});
 	return c;
 };
 
 //复制委托
 Fos.copyConsign = function(p){
-	var c = new FConsign({});var rid=GGUID();
+	var c = new FConsign({});
+	var rid=GGUID();
 	var f = FConsign.prototype.fields;
-	for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];c.set(fn,p.get(fn));};
+	for (var i = 0; i < f.keys.length; i++) {
+		var fn = ''+f.keys[i];
+		c.set(fn,p.get(fn));
+	}
 	c.set('consDate',new Date());
-	c.set('consId',rid);c.set('id',rid);c.set('consNo','N'+rid);
-	c.set('version',1);c.set('consStatus',0);c.set('consStatusBooking',0);
-	c.set('consStatusClearance',0);c.set('consStatusSwitchBl',0);c.set('consStatusSplit',0);
-	c.set('consStatusInsp',0);c.set('consStatusCont',0);c.set('consStatusCarg',0);
-	c.set('consStatusMbl',0);c.set('consStatusHbl',0);c.set('consStatusBBook',0);
-	c.set('consStatusDepa',0);c.set('consStatusDocs',0);c.set('consStatusExp',0);
-	c.set('consStatusAud',0);c.set('consStatusAr',0);c.set('consStatusAp',0);
-	c.set('consStatusInvoR',0);c.set('consStatusInvoP',0);c.set('consMblNo','');
-	c.set('consStatusReassign',0);c.set('consStatusInCy',0);c.set('consStatusInCfs',0);
-	c.set('consStatusOnBoard',0);c.set('consStatusEir',0);c.set('consStatusSendCont',0);
-	c.set('consReassignFrom',0);c.set('consStatusLock',0);c.set('consStatusSettlement',0);c.set('rowAction','N');
-	c.set('fconId','');c.set('loliId','');c.set('consMasterFlag',p.get('consMasterFlag')==0?0:1);
+	c.set('consId',rid);
+	c.set('id',rid);
+	c.set('consNo','N'+rid);
+	c.set('version',1);
+	c.set('consStatus',0);
+	c.set('consStatusBooking',0);
+	c.set('consStatusClearance',0);
+	c.set('consStatusSwitchBl',0);
+	c.set('consStatusSplit',0);
+	c.set('consStatusInsp',0);
+	c.set('consStatusCont',0);
+	c.set('consStatusCarg',0);
+	c.set('consStatusMbl',0);
+	c.set('consStatusHbl',0);
+	c.set('consStatusBBook',0);
+	c.set('consStatusDepa',0);
+	c.set('consStatusDocs',0);
+	c.set('consStatusExp',0);
+	c.set('consStatusAud',0);
+	c.set('consStatusAr',0);
+	c.set('consStatusAp',0);
+	c.set('consStatusInvoR',0);
+	c.set('consStatusInvoP',0);
+	c.set('consMblNo','');
+	c.set('consStatusReassign',0);
+	c.set('consStatusInCy',0);
+	c.set('consStatusInCfs',0);
+	c.set('consStatusOnBoard',0);
+	c.set('consStatusEir',0);
+	c.set('consStatusSendCont',0);
+	c.set('consReassignFrom',0);
+	c.set('consStatusLock',0);
+	c.set('consStatusSettlement',0);
+	c.set('rowAction','N');
+	c.set('fconId','');
+	c.set('loliId','');
+	c.set('consMasterFlag',p.get('consMasterFlag')==0?0:1);
 	c.set('consMasterId',p.get('consMasterFlag')==0?p.get('consMasterId'):'');
 	c.set('consMasterNo',p.get('consMasterFlag')==0?p.get('consMasterNo'):'');
-	c.set('consMergeFlag',0);c.set('consMergeId','');c.set('consMergeNo','');
+	c.set('consMergeFlag',0);
+	c.set('consMergeId','');
+	c.set('consMergeNo','');
 	c.set('rowAction','N');
-	//嘉禾提出将货物信息也一起带出
+	
 	return c;
 };
 
@@ -68,13 +133,8 @@ Fos.showConsign = function(p,listStore){
 	if(t){
 		T_MAIN.setActiveTab(t);
 	} 
-	else if(VERSION==1||VERSION==0){
+	else{
 		t = new Fos.ConsignTab(p,listStore);
-		T_MAIN.add(t);
-		T_MAIN.setActiveTab(t);
-	}
-	else if(VERSION==2){
-		t = new Fos.YsConsignTab(p,listStore);
 		T_MAIN.add(t);
 		T_MAIN.setActiveTab(t);
 	}
@@ -115,7 +175,7 @@ Fos.showConsignTabs = function(p){
 	
 	if(p.get('consServiceRequired').indexOf(SR_WARE)!=-1){
 		if(!tc.getComponent('T_WARE_'+p.get('id'))){
-			tc.add(new Fos.Fos.WarehouseTab(p));
+			tc.add(new Fos.WarehouseTab(p));
 		}
 	}
 	else{
@@ -232,7 +292,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	queryParams[queryParams.length]= new QParam({key:'consStatus',value:8,op:2});
 	
 	if(shipType!='') 
-		queryParams[queryParams.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+		queryParams[queryParams.length] = new QParam({key:'consShipType',value:shipType,op:EQ});
 	
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
 	store.baseParams=bp;
@@ -249,7 +309,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var c2={header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
                if(v==1) return '<div class="locked"></div>'; else return '';
          }};
-    var c3={header:C_M_CONS,width:30,hidden:shipType!=ST_L,dataIndex:"consMasterFlag",renderer:boolRender};
+    var c3={header:C_M_CONS,width:30,hidden:bizType!=BT_C,dataIndex:"consMasterFlag",renderer:boolRender};
     var c4={header:C_STATUS,width:100,dataIndex:"consStatus",renderer:getCONS_STATUS};
     var c5={header:C_CONS_NO,width:150,dataIndex:"consNo"};
     var c6={header:(bizType==BT_B||bizType==BT_O)?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
@@ -295,10 +355,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		defaults: {sortable: true}});
 	
 	this.addConsign = function(){
-		var c=sm.getSelected();
+		var c = sm.getSelected();
 		if(c.get('consMasterFlag')=='1'){
-			var b=Fos.copyConsign(c);
-			b.set('consMasterFlag','0');
+			var b = Fos.copyConsign(c);
+			b.set('consMasterFlag',0);
 			b.set('consMasterId',c.get('consId'));
 			b.set('consMasterNo',c.get('consNo'));
 			b.set('vessId',c.get('vessId'));

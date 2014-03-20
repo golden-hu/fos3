@@ -3,7 +3,56 @@ var idx=wl.lastIndexOf("/");
 SERVICE_URL=wl.substr(0,idx)+'/MainServlet';
 SERVER_URL=wl.substr(0,idx)+'/';
 
+Ext.namespace('Fos');
+Ext.BLANK_IMAGE_URL = 'ext/resources/images/default/s.gif';
+Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8";
 
+var DATEF='Y-m-d';
+
+
+
+var C_PS=20;
+var C_PS20=20;
+var C_PS50=50;
+var C_PS100=100;
+var GUID=0;
+
+var GSEL=-10000;
+var BF=500;
+var C_LW=400;
+var EQ=1;
+var LT=2;
+var LE=3;
+var GT=4;
+var GE=5;
+var NE=6;
+var LI=7;
+var IN=8;
+
+var PPID=1;
+var CY=1;
+var CFS=9;
+
+var BT_C='C';
+var BT_B='B';
+var BT_O='O';
+var BT_A='A';
+var BT_G='G';
+var BT_I='I';
+var BT_K='K';
+
+var BT_M = 'M'; //加工贸易
+var BT_F = 'F'; //减免税
+var BT_R = 'R'; //企业注册
+var BT_T='T';//铁运
+
+var ST_F='FCL';
+var ST_L='LCL';
+
+var BC_I='I'; //进口
+var BC_E='E'; //出口
+var BC_D='D'; //内贸
+var BC_T='T'; //过境
 
 
 var F_V='01';

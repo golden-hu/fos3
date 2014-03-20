@@ -533,10 +533,7 @@ function createSMTree(){
 			var expenseR = CreateNode(C_EXPE_R,'EXPENSE_R',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('R');});
 			arN.appendChild(expenseR);
 		}
-		if(!NR(M1_S+S_BILL_R)){
-			var expenseD = CreateNode(C_EXPE_D,'EXPENSE_D',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('D');});
-			arN.appendChild(expenseD);
-		}
+		
 		if(!NR(M1_S+S_BILL_R)){
 			var billR = CreateNode(C_BILL_R,'BILL_R',M1_S+S_BILL_R+F_V,function(){return new Fos.BillGrid('R');});
 			arN.appendChild(billR);
@@ -579,6 +576,12 @@ function createSMTree(){
 		}
 		root.appendChild(apN);
 	}
+	
+	if(!NR(M1_S)){
+		var expenseD = CreateNode(C_EXPE_D,'EXPENSE_D',M1_S+S_BILL_R+F_V,function(){return new Fos.ExpenseGrid('D');});
+		root.appendChild(expenseD);
+	}
+	
 	if(!NR(M1_S+S_INNO)){
 		var inno = CreateNode(C_INNO_MGT,'INNO',M1_S+S_INNO+F_V,function(){return new Fos.InvoNoGrid();});
 		root.appendChild(inno);

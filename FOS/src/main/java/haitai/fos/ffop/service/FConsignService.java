@@ -435,15 +435,18 @@ public class FConsignService {
 						dao.update(master);
 						break;
 				}
-			} else if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
+			} 
+			else if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
 					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterId()!=null){
 					FCLFightSingle(entity,sb);
 					sb.delete(0, sb.length());
 					syncBranchConsign(entity,sb,consContainerNum);
-			}else {
+			}
+			else {
 				entity = saveNormalConsign(entity);
 				generateTask(entity);
 			}
+			
 			retList.add(entity);
 			entity.setEditable(ConstUtil.TrueShort);
 			if (entity.getLoliId() != null && entity.getLoliId() > 0) {
@@ -451,7 +454,8 @@ public class FConsignService {
 				syncPackingList(entity);
 				updateFactQuantity(entity, false);
 			}
-		} else if (entity.getRowAction() == RowAction.M) {
+		} 
+		else if (entity.getRowAction() == RowAction.M) {
 			checkSalesIdNotNull(entity);
 			checkBlNoDuplicated(entity);
 			syncTask(entity);
@@ -545,17 +549,25 @@ public class FConsignService {
 		StringBuilder sbNameCn = new StringBuilder();
 		StringBuilder sbNameEn = new StringBuilder();
 		StringBuilder sbCargoDesc = new StringBuilder();
+		
 		FConsign masterConsigns = dao.findById(entity.getConsMasterId());
+		
 		map.put("consMasterId",entity.getConsMasterId());
 		List<FConsign> branchConsigns = dao.findByProperties(map);
 		for(FConsign branch :branchConsigns){
-			if(branch.getConsId().intValue()!=branch.getConsMasterId().intValue()){
+			if(branch.getConsId().intValue() != branch.getConsMasterId().intValue()){
 				sb.append(branch.getConsContainersInfo());
-				consContainerNum +=branch.getConsTotalContainers();
-				consTotalGrossWeight+=branch.getConsTotalGrossWeight();
-				consTotalNetWeight+=branch.getConsTotalNetWeight();
-				consTotalMeasurement+=branch.getConsTotalMeasurement();
-				consTotalPackages+=branch.getConsTotalPackages();
+				if(branch.getConsTotalContainers()!=null)
+					consContainerNum += branch.getConsTotalContainers();
+				if(branch.getConsTotalGrossWeight()!=null)
+					consTotalGrossWeight+=branch.getConsTotalGrossWeight();
+				if(branch.getConsTotalNetWeight()!=null)
+					consTotalNetWeight+=branch.getConsTotalNetWeight();
+				if(branch.getConsTotalMeasurement()!=null)
+					consTotalMeasurement+=branch.getConsTotalMeasurement();
+				if(branch.getConsTotalPackages()!=null)
+					consTotalPackages+=branch.getConsTotalPackages();
+				
 				sbMarks.append(branch.getConsCargoMarks());
 				sbNameCn.append(branch.getConsCargoNameCn());
 				sbNameEn.append(branch.getConsCargoNameEn());
@@ -573,7 +585,6 @@ public class FConsignService {
 		masterConsigns.setConsCargoNameEn(sbNameEn.toString());
 		masterConsigns.setConsCargoDesc(sbCargoDesc.toString());
 		dao.update(masterConsigns);
-		
 	}
 	
 
@@ -1494,7 +1505,8 @@ public class FConsignService {
 	private void checkSalesIdNotNull(FConsign entity) {
 		if(entity.getConsSalesRepId()==null){
 			throw new BusinessException("fos.cons_sales_id.null");
-		}else{
+		}
+		/*else{
 			Integer consSalesId = entity.getConsSalesRepId();
 			PUser user = userDao.findById(consSalesId);
 		    Integer userId = user.getUserId();
@@ -1502,7 +1514,7 @@ public class FConsignService {
 	        if(!userId.equals(entity.getConsSalesRepId())||!userName.equals(entity.getConsSalesRepName())){
 	             throw new BusinessException("fos.cons_sales_id.not_match");
 	        }
-		}
+		}*/
 	}
 	
 }

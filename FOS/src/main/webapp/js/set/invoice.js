@@ -15,15 +15,14 @@ var showInvoice= function(p){
 Fos.InvoiceGrid = function(t) {
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL,
 		baseParams:{A:'INVO_Q',mt:'xml',invoType:t},
-		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SInvoice',idProperty:'invoId'},SInvoice),
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
+			record:'SInvoice',idProperty:'invoId'},SInvoice),
 		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'}
 	});	
     store.load({params:{start:0,limit:C_PS}});
-    
-    var a=[];
-		
+    		
     this.reset=function(){    	
-    	store.baseParams={mt:'xml',invoType:t,xml:FOSX(QTX(a))};    	
+    	store.baseParams.xml = '';   	
     	store.load({params:{start:0,limit:C_PS}});
     };
     

@@ -1,27 +1,21 @@
-﻿Ext.namespace('Fos');
-Ext.BLANK_IMAGE_URL = 'ext/resources/images/default/s.gif';
-Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8"; 
+﻿var CUSER_ID=loadSession('USER_ID');
+var CUSER_NAME=loadSession('USER_NAME');
+var USER_IS_SALES=loadSession('USER_IS_SALES');
+var USER_ALL_VIEW_FLAG=loadSession('USER_ALL_VIEW_FLAG');
 
 frmValidatePrompt = function(){
 	Ext.Msg.show({title:SYS,msg:M_DATA_NOT_COMPLETE,modal:true,buttons: Ext.Msg.OK});
 };
 
-var DATEF='Y-m-d';
-var GR=function(){return loadSession('USER_PERM');};
+
+var GR=function(){
+	return loadSession('USER_PERM');
+};
+
 var NR=function(c){
 	var p=GR();
 	return p.indexOf(c+',')==-1?true:false;	
 };
-var CUSER_ID=loadSession('USER_ID');
-var CUSER_NAME=loadSession('USER_NAME');
-var USER_IS_SALES=loadSession('USER_IS_SALES');
-var USER_ALL_VIEW_FLAG=loadSession('USER_ALL_VIEW_FLAG');
-
-var C_PS=20;
-var C_PS20=20;
-var C_PS50=50;
-var C_PS100=100;
-var GUID=0;
 
 var GGUID = function(k){
 	if(!k) 
@@ -37,43 +31,6 @@ function UUID(){
 	return guid;
 };
 
-
-var GSEL=-10000;
-var BF=500;
-var C_LW=400;
-var EQ=1;
-var LT=2;
-var LE=3;
-var GT=4;
-var GE=5;
-var NE=6;
-var LI=7;
-var IN=8;
-
-var PPID=1;
-var CY=1;
-var CFS=9;
-
-var BT_C='C';
-var BT_B='B';
-var BT_O='O';
-var BT_A='A';
-var BT_G='G';
-var BT_I='I';
-var BT_K='K';
-
-var BT_M = 'M'; //加工贸易
-var BT_F = 'F'; //减免税
-var BT_R = 'R'; //企业注册
-var BT_T='T';//铁运
-
-var ST_F='FCL';
-var ST_L='LCL';
-
-var BC_I='I'; //进口
-var BC_E='E'; //出口
-var BC_D='D'; //内贸
-var BC_T='T'; //过境
 
 //获得委托模块代码
 function getRM(bizClass,bizType,shipType){

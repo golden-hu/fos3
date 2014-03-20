@@ -454,7 +454,7 @@ Fos.WusrGrid = function(){
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
-    	{header:C_STATUS,dataIndex:'wusrStatus',width:100,renderer:wuStatusRender},
+    	{header:C_STATUS,dataIndex:'wusrStatus',width:60,renderer:wuStatusRender},
 		{header:C_WS_USR_NAME,dataIndex:'wusrName',width:80},
 		{header:C_WS_COMPANY,dataIndex:'wusrCompanyName',width:200},
 		{header:C_WS_TEL,dataIndex:'wusrTel',width: 150},
@@ -509,13 +509,43 @@ Fos.WusrGrid = function(){
     	}
     };
     
+    this.removeRecord=function(){
+    	var a =sm.getSelections();
+       	if(a.length>0){
+       		XMG.confirm(SYS,M_R_C,function(btn){
+           	if(btn=='yes'){           		
+               		var xml = SMTX4R(sm,'WUser','wusrId');
+               		Ext.Ajax.request({
+               			url:SERVICE_URL,
+               			method:'POST',
+               			params:{A:'WS_WUSR_S'},
+						success: function(){
+							sm.each(function(p){
+								store.remove(p);
+							});
+							XMG.alert(SYS,M_S);
+						},
+						failure: function(r,o){
+							XMG.alert(SYS,M_F+r.responseText);
+						},
+						xmlData:FOSX(xml)
+					});
+           }
+           });
+		}
+       	else 
+       		XMG.alert(SYS,M_R_P);
+    };
+    
     Fos.WusrGrid.superclass.constructor.call(this, {
     id:'G_WUSR',store:store,iconCls:'grid',width:600,height:300,title:'注册用户列表',header:false,closable:true,
     sm:sm,cm:cm,loadMask:true,
 	bbar:new Ext.PagingToolbar({pageSize:20,store:store,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:'没有记录'}),
 	tbar:[
 		{text:C_WS_USER_ACCEPT,iconCls:'renew',handler:this.accept},
-		{text:C_WS_USER_HAVED,iconCls:'redo',handler:this.haved}]
+		{text:C_WS_USER_HAVED,iconCls:'redo',handler:this.haved},
+		{text:C_REMOVE,iconCls:'remove',handler:this.removeRecord}
+		]
     }); 
 };
 Ext.extend(Fos.WusrGrid,Ext.grid.GridPanel);
