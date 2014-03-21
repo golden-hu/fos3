@@ -274,7 +274,7 @@ Fos.ExGrid = function(p,t,frm,store) {
 	
 	this.add=function(){
 		var unit='EACH';var rid=GGUID();
-		var e = new SExpense({id:rid,
+		/*var e = new SExpense({id:rid,
 			expeId:rid,
 			consId:p.get('consId'),
 			consNo:p.get('consNo'),
@@ -314,13 +314,31 @@ Fos.ExGrid = function(p,t,frm,store) {
     		expeRcAmount:'0',
     		expeTotalAmount:'0',
     		expeNum:'1',
-    		version:'0'
+    		version:'1'
     	});
     	this.stopEditing();
     	store.insert(0,e);
     	e.set('rowAction','N');
     	sm.selectFirstRow();
-    	this.startEditing(0, 1);
+    	this.startEditing(0, 1);*/
+		
+		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
+			section:'CONS',consSailDate:p.get('consSailDate'),expeInvoiceTitle:p.get('custName'),
+    		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
+    		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
+    		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',expeInvoiceStatus:'0',expeWriteOffStatus:'0',
+    		custId:t=='R'?p.get('custId'):p.get('consBookingAgency'),
+    		custName:t=='R'?p.get('custName'):p.get('consBookingAgencyName'),
+    		custSname:t=='R'?p.get('custSname'):p.get('consBookingAgencySname'),
+    		consCustId:p.get('custId'),consCustName:p.get('custName'),chclId:'',charId:'',charName:'',
+    		expeType:expeType,pateId:PPID,pateCode:'P',unitName:unit,currCode:'CNY',expeUnitPrice:'',
+    		expeCommissionRate:'',expeCommission:'',expeInnerPrice:'',expeExRate:'1.0000',expeRemarks:'',expeDate:new Date(),
+    		expeAllocationFlag:'0',expeAllocatedFlag:'0',expeInvoiceFlag:'1',
+    		expeInvoiceAmount:'0',expeWriteOffAmount:'0',expeWriteOffRcAmount:'0',expeInnerAmount:'0',expeRcAmount:'0',
+    		expeTotalAmount:'0',expeNum:'1',version:'0'});
+    	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
+
+    	
 	};
 	
 	this.removeExp=function(){
