@@ -496,11 +496,11 @@ Ext.extend(WconWin,Ext.Window);
 //单票跟踪
 ConsTab = function(){	
 	var store = new Ext.data.Store({
-   		url: SERVICE_URL+'?A=WS_CONS_X',
+   		url: SERVICE_URL+'?A=WS_CONS_X&custId='+CCUST,
     	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign'}, FConsign),
     	remoteSort:true,
     	sortInfo:{field:'consId', direction:'DESC'}});
-    store.load({params:{custId:CCUST,start:0,limit:20}});
+    store.load({params:{start:0,limit:20}});
     
     var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var cm = new Ext.grid.ColumnModel([
@@ -596,7 +596,7 @@ ConsTab = function(){
    			a[a.length] = new QParam({key:'consEtd',value:consEtd,op:op});
    		   		
    		store.baseParams.xml=FOSX(QTX(a));
-     	store.reload({params:{start:0,limit:25},
+     	store.reload({params:{start:0,limit:20},
      		callback:function(r){
      			if(r.length==0) 
      				alert(M_NOT_FOUND);
