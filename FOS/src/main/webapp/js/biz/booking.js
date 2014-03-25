@@ -299,6 +299,7 @@ Fos.BookTab = function(p) {
 				}
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}};
+	
     var txtCustContact={fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),
     		xtype:'textfield',anchor:'99%'};
     var txtCustTel={fieldLabel:C_PHONE,tabIndex:7,name:'custTel',value:p.get('custTel'),xtype:'textfield',anchor:'99%'};
@@ -558,10 +559,13 @@ Fos.BookTab = function(p) {
             		}
             	},
              	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
-	var m11={fieldLabel:C_POD,itemCls:'required',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
+    
+	var m11={fieldLabel:C_POD,itemCls:'required',
+			tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
 			value:p.get('consPodEn'),store:getPS(),xtype:'combo',
 			displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
-			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+			valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',
+			selectOnFocus:true,anchor:'99%',
 		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
 		listeners:{scope:this,
 			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPod','');}},
@@ -583,17 +587,34 @@ Fos.BookTab = function(p) {
 	//中转港
     var m12={fieldLabel:C_POT,tabIndex:p.get('consBizClass')==BC_I?41:51,name:'consPotEn',
     		value:p.get('consPotEn'),xtype:'textfield',anchor:'99%'};
-    var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'99%'};
-    var m14={fieldLabel:C_PACKING_LIST_NO,tabIndex:59,name:'consPackingListNo',value:p.get('consPackingListNo'),xtype:'textfield',anchor:'99%'};
+    
+    var m13={fieldLabel:C_BOOKING_CONTRACT_NO,name:'consBookingContractNo',
+    		tabIndex:55,value:p.get('consBookingContractNo'),xtype:'textfield',anchor:'99%'};
+    
+    var m14={fieldLabel:C_PACKING_LIST_NO,tabIndex:59,name:'consPackingListNo',
+    		value:p.get('consPackingListNo'),xtype:'textfield',anchor:'99%'};
     
    
     var m16={fieldLabel:C_SHIP_LOAD_DATE,tabIndex:40,name:'consLoadDate',
     		value:p.get('consLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
-    var m17={fieldLabel:C_HARBOUR,tabIndex:p.get('consBizClass')==BC_I?43:44,name:'consHarbour',value:p.get('consHarbour'),store:getHARB_S(),xtype:'combo',displayField:'placName',valueField:'placName',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+    
+    var m17={fieldLabel:C_HARBOUR,tabIndex:p.get('consBizClass')==BC_I?43:44,
+    		name:'consHarbour',value:p.get('consHarbour'),store:getHARB_S(),
+    		xtype:'combo',displayField:'placName',valueField:'placName',
+    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
     		listeners:{scope:this,select:function(c,r,i){p.set('consHarbourId',r.get('placId'));}}};
-    var m18={fieldLabel:C_DESTINATION_PORT,tabIndex:48,name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),xtype:'textfield',anchor:'99%'};
-    var m19={fieldLabel:C_ISTY,tabIndex:52,name:'istyId',value:p.get('istyId'),store:getISTY_S(),xtype:'combo',displayField:'istyName',valueField:'istyId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
-    var m20={fieldLabel:C_BOOKING_DATE,tabIndex:56,name:'consBookingDate',value:p.get('consBookingDate'),xtype:'datefield',format:DATEF,anchor:'99%'};
+    
+    var m18={fieldLabel:C_DESTINATION_PORT,tabIndex:48,
+    		name:'consDeliveryPlace',value:p.get('consDeliveryPlace'),
+    		xtype:'textfield',anchor:'99%'};
+    
+    var m19={fieldLabel:C_ISTY,tabIndex:52,name:'istyId',value:p.get('istyId'),
+    		store:getISTY_S(),xtype:'combo',displayField:'istyName',valueField:'istyId',
+    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
+    
+    var m20={fieldLabel:C_BOOKING_DATE,tabIndex:56,
+    		name:'consBookingDate',value:p.get('consBookingDate'),
+    		xtype:'datefield',format:DATEF,anchor:'99%'};
     
     var m21={fieldLabel:C_CFS,tabIndex:p.get('consBizClass')==BC_I?49:60,
     	name:'consCfsName',value:p.get('consCfsName'),store:getCS(),enableKeyEvents:true,

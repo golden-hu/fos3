@@ -509,8 +509,7 @@ ConsTab = function(){
 		{header:'委托日期',dataIndex:'consDate',width:100,renderer:formatDate},
 		{header:'装货港',dataIndex:'consPolEn',width:120},
 		{header:'卸货港',dataIndex:'consPodEn',width:120},
-		{header:'交货地',dataIndex:'consDeliveryPlace',width:100},
-		{header:'收货地',dataIndex:'consReceiptPlace',width:100},
+		{header:'目的港',dataIndex:'consDeliveryPlace',width:100},
 		{header:'运输条款',dataIndex:'tranCode',width:80},
 		{header:'运费条款',dataIndex:'pateName',width:80},
 		{header:C_BT,dataIndex:'consBizType',width:80,renderer:getWS_BT},
@@ -549,9 +548,9 @@ ConsTab = function(){
     	if(consNo) 
     		a[a.length] = new QParam({key:'consNo',value:consNo,op:LI});
     	
-    	var contNo=this.find('name','contNo')[0].getValue();
-    	if(contNo) 
-    		a[a.length] = new QParam({key:'contNo',value:contNo,op:LI});
+    	var consContainerNo=this.find('name','consContainerNo')[0].getValue();
+    	if(consContainerNo) 
+    		a[a.length] = new QParam({key:'consContainerNo',value:consContainerNo,op:LI});
     	
     	var consMblNo=this.find('name','consMblNo')[0].getValue();
     	if(consMblNo) 
@@ -573,9 +572,19 @@ ConsTab = function(){
     	if(voyaName) 
     		a[a.length] = new QParam({key:'voyaName',value:voyaName,op:EQ});
     	
-    	var consPod=this.find('name','consPod')[0].getValue();
-    	if(consPod) 
-    		a[a.length] = new QParam({key:'consPod',value:consPodEn,op:LI});
+    	
+    	var consPolEn=this.find('name','consPolEn')[0].getValue();
+    	if(consPolEn) 
+    		a[a.length] = new QParam({key:'consPolEn',value:consPolEn,op:LI});
+    	
+    	var consPodEn=this.find('name','consPodEn')[0].getValue();
+    	if(consPodEn) 
+    		a[a.length] = new QParam({key:'consPodEn',value:consPodEn,op:LI});
+    	
+    	var consDeliveryPlace=this.find('name','consDeliveryPlace')[0].getValue();
+    	if(consDeliveryPlace) 
+    		a[a.length] = new QParam({key:'consDeliveryPlace',value:consDeliveryPlace,op:LI});
+    	
     	
     	var consDate=this.find('name','consDate')[0].getValue();
    		var consDate2=this.find('name','consDate2')[0].getValue();
@@ -584,7 +593,7 @@ ConsTab = function(){
    			a[a.length] = new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
    		}
    		else if(consDate) 
-   			a[a.length] = new QParam({key:'consDate',value:consDate,op:op});
+   			a[a.length] = new QParam({key:'consDate',value:consDate.format(DATEF),op:EQ});
    		
    		var consEtd=this.find('name','consEtd')[0].getValue();
    		var consEtd2=this.find('name','consEtd2')[0].getValue();
@@ -593,7 +602,7 @@ ConsTab = function(){
    			a[a.length] = new QParam({key:'consEtd',value:consEtd2.format(DATEF),op:3});
    		}
    		else if(consEtd) 
-   			a[a.length] = new QParam({key:'consEtd',value:consEtd,op:op});
+   			a[a.length] = new QParam({key:'consEtd',value:consEtd.format(DATEF),op:EQ});
    		   		
    		store.baseParams.xml=FOSX(QTX(a));
      	store.reload({params:{start:0,limit:20},
@@ -605,14 +614,13 @@ ConsTab = function(){
 	};
 	
 	this.clear=function(){
-		this.find('name','sf')[0].getForm().reset();
+		searchPanel.getForm().reset();
 	};
 		
-	var searchPanel = new Ext.Panel({region:'north',
+	
+	var searchPanel = new Ext.form.FormPanel({region:'north',
     	layout:'column',
-    	height:150,
-    	name:'sf',
-    	xtype:'form',
+    	height:180,
     	title:'单票查询',
     	layoutConfig:{columns:4},
     	labelWidth:60,
@@ -625,11 +633,13 @@ ConsTab = function(){
 			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 				{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'95%'},
      			{fieldLabel:C_TRADE_CONTRACT_NO,name:'consTradeContractNo',xtype:'textfield',anchor:'95%'},
+     			{fieldLabel:C_POL,name:'consPolEn',xtype:'textfield',anchor:'95%'},
      			{fieldLabel:C_SAIL_DATE,name:'consEtd',xtype:'datefield',format:DATEF,anchor:'95%'}
             ]},
 			{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-			    {fieldLabel:C_CONT_NO,name:'contNo',xtype:'textfield',anchor:'95%'},
+			    {fieldLabel:C_CONT_NO,name:'consContainerNo',xtype:'textfield',anchor:'95%'},
             	{fieldLabel:C_VESS,name:'vessName',xtype:'textfield',anchor:'95%'},
+            	{fieldLabel:C_POD,name:'consPodEn',xtype:'textfield',anchor:'95%'},
             	{fieldLabel:C_TO,name:'consEtd2',xtype:'datefield',format:DATEF,anchor:'95%'}]},
            {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
            		{fieldLabel:'M/BL No.',name:'consMblNo',xtype:'textfield',anchor:'95%'},
@@ -637,7 +647,7 @@ ConsTab = function(){
      			{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'95%'}]},
             {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
             	{fieldLabel:'H/BL No.',name:'consHblNo',xtype:'textfield',anchor:'95%'},
-            	{fieldLabel:C_POD,name:'consPod',xtype:'textfield',anchor:'95%'},
+            	{fieldLabel:'目的港',name:'consDeliveryPlace',xtype:'textfield',anchor:'95%'},
             	{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'95%'}]
             }],
     	buttons:[{text:C_SEARCH,scope:this,handler:this.search},
