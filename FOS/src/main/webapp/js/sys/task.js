@@ -22,8 +22,10 @@ Fos.TaskWin = function(p) {
 	};
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
-	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,
+			renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
+	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,
+			renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);
 	ff.on('click',function(c,e,r){
 		r.set('taskFinishedDate',r.get('taskFinishedFlag')==1?(new Date()):'');
@@ -93,8 +95,10 @@ Fos.TaskPanel = function(p) {
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var c1={header:C_TASK_NAME,width:200,dataIndex:"tatyName"};
-	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,renderer:formatDate};
-	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
+	var c2={header:C_TASK_ESTIMATED_DATE,dataIndex: 'taskEstimatedDate',width:120,
+			renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
+	var c3={header:C_TASK_FINISHED_DATE,dataIndex: 'taskFinishedDate',width:120,
+			renderer:formatDate,editor:new Ext.form.DateField({format:DATEF})};
 	var ff=CHKCLM(C_FINISHED,'taskFinishedFlag',60);
 	
 	ff.on('click',function(c,e,r){
@@ -123,7 +127,8 @@ Fos.TaskPanel = function(p) {
 			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
 			xmlData:FOSX(x)
 		});
-	};	
+	};
+	
 	this.saveTask=function(e){saveT(e.record);};
 	var gv=new Ext.grid.GridView({
 		getRowClass: function(record, index) {			   
