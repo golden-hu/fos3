@@ -785,6 +785,9 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 			this.find('name','invoTitle')[0].focus();
 			return;
 		}
+    	
+    	btSave.setDisabled(true);
+    			
 		p.beginEdit();
 		this.getForm().updateRecord(p);
 		p.endEdit();
@@ -842,13 +845,15 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 					FOSU(sc,b,SInvoiceEntry);
 				}
 				
+				btSave.setDisabled(false);
+				
 				this.updateToolBar();				
 				XMG.alert(SYS,M_S);
-				tb.getComponent('TB_A').setDisabled(false);
+				
 			},
 			failure: function(res){
 				XMG.alert(SYS,M_F+res.responseText);
-				tb.getComponent('TB_A').setDisabled(false);
+				btSave.setDisabled(false);
 			},
 			xmlData:FOSX(xml)
 		});
@@ -936,7 +941,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     
 	this.updateToolBar = function(){
 		var tb=this.getTopToolbar();
-		tb.getComponent('TB_A').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0');
+		btSave.setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0');
     	tb.getComponent('TB_B').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     	tb.getComponent('TB_C').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N');
     	tb.getComponent('TB_D').setDisabled(NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0');
@@ -989,7 +994,9 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 			 		var tb=this.getTopToolbar();
 			 		switch(k) {
 			 		case Ext.EventObject.S:
-						if(!tb.getComponent('TB_A').disabled) this.save();break;
+						if(!btSave.disabled) 
+							this.save();
+						break;
 			 		case Ext.EventObject.R:
 			 			if(!tb.getComponent('TB_B').disabled) this.removeInvo();break;
 			 		case Ext.EventObject.C:
@@ -1013,12 +1020,12 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     	EXPC('CREATE_NOTE','&invoId='+p.get('invoId'));
     };
     
-    var b1={itemId:'TB_A',text:C_SAVE+'(S)',
+    var btSave = new Ext.Button({itemId:'TB_A',text:C_SAVE+'(S)',
     	iconCls:'save',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0',
     	scope:this,
     	handler:this.save
-    };
+    });
     
     var b2={itemId:'TB_B',text:C_REMOVE+'(R)',iconCls:'remove',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
@@ -1149,8 +1156,8 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		bodyStyle:'padding:0px 0px 20px 0px',
 		border:false,
 		width:800,
-		tbar:p.get('invoType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
-									[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b11,'-',b9,'-',b10,'->','-',b8,'-'],
+		tbar:p.get('invoType')=='R'?[btSave,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
+									[btSave,'-',b2,'-',b3,'-',b4,'-',b5,'-',b11,'-',b9,'-',b10,'->','-',b8,'-'],
 		bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
 				{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
 				{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',

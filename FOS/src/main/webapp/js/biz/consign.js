@@ -457,7 +457,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 					var t = Ext.lib.Event.getTarget(e);
 					var rindex = g.getView().findRowIndex(t);
 					var rto = g.getStore().getAt(rindex);
-					if(rto.get('consMasterFlag')!='1'||rfrom.get('consMasterId')==rto.get('consId')) return false;
+					if(rto.get('consMasterFlag')!='1'||rfrom.get('consMasterId')==rto.get('consId')) 
+						return false;
 					var t=new Ext.Template(M_LCL_TRANS);
 					var msg=t.apply([rfrom.get('consNo'),rto.get('consNo')]);
 					Ext.Msg.confirm(SYS,msg,function(btn){
