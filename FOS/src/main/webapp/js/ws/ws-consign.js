@@ -2,7 +2,8 @@
 WconGrid = function() {	
     var store = new Ext.data.Store({
    		url: SERVICE_URL+'?A=WS_WCON_Q',
-    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'WConsign'}, WConsign),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',
+    		record:'WConsign'}, WConsign),remoteSort:true,
     	sortInfo:{field:'wconId', direction:'DESC'}});
     
     store.load({params:{start:0,limit:20,wusrId:CUSER}});
@@ -10,20 +11,22 @@ WconGrid = function() {
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm = new Ext.grid.ColumnModel([
     	new Ext.grid.RowNumberer(),sm,
-		{header:'订单号',dataIndex:'wconNo',width:120},
-		{header:'委托日期',dataIndex:'consDate',width:80,renderer:formatDateTime},
+		{header:'订单号',dataIndex:'wconNo',width:120},		
+		{header:'委托日期',dataIndex:'consDate',width:80,renderer:formatDateTime},		
 		{header:'状态',dataIndex:'consStatus',width:100,renderer:getWCON_ST},
 		{header:'装货港',dataIndex:'consPolEn',width: 80},
 		{header:'卸货港',dataIndex:'consPodEn',width:100},
+		{header:'目的港',dataIndex:'consDestination',width:100},
 		{header:'交货地',dataIndex:'consDeliveryPlace',width:80},
 		{header:'收货地',dataIndex:'consReceiptPlace',width:100},
 		{header:'运输条款',dataIndex:'tranCode',width:100},
 		{header:'运费条款',dataIndex:'pateName',width:100},
 		{header:C_BT,dataIndex:'consBizType',width:100,renderer:getWS_BT},
 		{header:C_BC,dataIndex:'consBizClass',width:100,renderer:getWS_BC},
-		{header:C_ST,dataIndex:'consShipType',width:100,renderer:getWS_ST},
-		{header:'货物毛重',dataIndex:'consTotalGrossWeight',width:100},
-		{header:'货物体积',dataIndex:'consTotalMeasurement',width:100}]);
+		{header:C_ST,dataIndex:'consShipType',width:100,renderer:getWS_ST},		
+		{header:'件数',dataIndex:'consTotalPackages',width:100},
+		{header:'毛重',dataIndex:'consTotalGrossWeight',width:100},
+		{header:'体积',dataIndex:'consTotalMeasurement',width:100}]);
 	cm.defaultSortable=true;
 	
     this.addRecord = function(){
@@ -506,15 +509,23 @@ ConsTab = function(){
 	var cm = new Ext.grid.ColumnModel([
     	sm,
     	{header:'业务号',dataIndex:'consNo',width:120},
+    	{header:'合同号',dataIndex:'consContractNo',width:120},
 		{header:'委托日期',dataIndex:'consDate',width:100,renderer:formatDate},
+		{header:'开航日期',dataIndex:'consSailDate',width:80,renderer:formatDateTime},
+		{header:'船名',dataIndex:'vessName',width: 80},
+		{header:'航次',dataIndex:'voyaName',width: 80},
+		{header:'MB/L',dataIndex:'consMblNo',width: 80},
+		{header:'HB/L',dataIndex:'consHblNo',width: 80},
 		{header:'装货港',dataIndex:'consPolEn',width:120},
 		{header:'卸货港',dataIndex:'consPodEn',width:120},
-		{header:'目的港',dataIndex:'consDeliveryPlace',width:100},
+		{header:'目的港',dataIndex:'consDeliveryPlace',width:100},		
 		{header:'运输条款',dataIndex:'tranCode',width:80},
 		{header:'运费条款',dataIndex:'pateName',width:80},
 		{header:C_BT,dataIndex:'consBizType',width:80,renderer:getWS_BT},
 		{header:C_BC,dataIndex:'consBizClass',width:80,renderer:getWS_BC},
 		{header:C_ST,dataIndex:'consShipType',width:80,renderer:getWS_ST},
+		{header:'箱信息',dataIndex:'consContainersInfo',width: 80},		
+		{header:'件数',dataIndex:'consTotalPackages',width:100},
 		{header:'毛重(KGS)',dataIndex:'consTotalGrossWeight',width:100},
 		{header:'体积(CBM)',dataIndex:'consTotalMeasurement',width:100}]);
 	cm.defaultSortable=true;
