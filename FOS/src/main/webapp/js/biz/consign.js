@@ -322,6 +322,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c13={header:C_SAIL_DATE,dataIndex:"consEtd",renderer:formatDate};
     var c14={header:C_POL,dataIndex:"consPolEn"};
     var c15={header:C_POD,width:100,dataIndex:"consPodEn"};
+    var colDestination = {header:C_DESTINATION_PORT,width:100,dataIndex:"consDeliveryPlace"};
+    
     var c16={header:bizType==BT_A?'MAWB No.':C_MBL_NO,width:80,dataIndex:"consMblNo"};
     var c17={header:bizType==BT_A?'HAWB No.':C_HBL_NO,width:80,dataIndex:"consHblNo"};
     var c18={header:C_PACKAGES,width:80,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'};
@@ -348,9 +350,10 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c36={header:C_ETA,dataIndex:"consEta",renderer:formatDate};
     
     var cm=new Ext.grid.ColumnModel({columns:
-    	(bizType==BT_B||bizType==BT_O)?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	(bizType==BT_B||bizType==BT_O)?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,
+    	                                c11,c12,c13,c36,c14,c15,colDestination,
     	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c27]:
-    	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,
+    	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,colDestination,
     	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c27,c28],
 		defaults: {sortable: true}});
 	
