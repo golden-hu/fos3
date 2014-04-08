@@ -950,7 +950,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">dataSetRow["CURR_CODE"] == "CNY" &amp;&amp; dataSetRow["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">dataSetRow["CURR_CODE"] == "CNY" &amp;&amp; dataSetRow["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">cnyI</property>
@@ -985,7 +985,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">usdI</property>
@@ -1020,7 +1020,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["LOCAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">localI</property>
@@ -1066,7 +1066,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] == "CNY" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["CURR_CODE"] == "CNY" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tCI</property>
@@ -1098,7 +1098,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "USD" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tUI</property>
@@ -1130,7 +1130,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["LOCAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tLI</property>

@@ -455,7 +455,7 @@ where COMP_CODE = ?]]></xml-property>
                         </tabular-measure>
                         <tabular-measure name="P" id="192">
                             <property name="function">sum</property>
-                            <expression name="measureExpression">dataSetRow["EXPE_TYPE"] != "R" ? dataSetRow["EXPE_TOTAL_AMOUNT"] : 0</expression>
+                            <expression name="measureExpression">dataSetRow["EXPE_TYPE"] == "P" ? dataSetRow["EXPE_TOTAL_AMOUNT"] : 0</expression>
                             <property name="dataType">float</property>
                         </tabular-measure>
                     </property>

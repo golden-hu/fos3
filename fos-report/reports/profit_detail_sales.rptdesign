@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.1.v20090903 Build &lt;2.5.1.v20090917-1447></property>
+ <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.r262_v20110209 Build &lt;2.6.2.v20110214-1523></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -949,7 +949,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">dataSetRow["CURR_CODE"] == "CNY" &amp;&amp; dataSetRow["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">dataSetRow["CURR_CODE"] == "CNY" &amp;&amp; dataSetRow["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">cnyI</property>
@@ -1019,7 +1019,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["LOCAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">localI</property>
@@ -1065,7 +1065,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] == "CNY" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["CURR_CODE"] == "CNY" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tCI</property>
@@ -1097,7 +1097,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["CURR_CODE"] != "CNY" &amp;&amp; row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["CURR_CODE"] != "CNY" &amp;&amp; row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tUI</property>
@@ -1129,7 +1129,7 @@ where COMP_CODE = ?]]></xml-property>
                                         <expression name="value">row["LOCAL_AMOUNT"]</expression>
                                     </structure>
                                 </list-property>
-                                <expression name="filterExpr">row["EXPE_TYPE"] != "R"</expression>
+                                <expression name="filterExpr">row["EXPE_TYPE"] == "P"</expression>
                             </structure>
                             <structure>
                                 <property name="name">tLI</property>
