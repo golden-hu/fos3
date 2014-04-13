@@ -788,8 +788,9 @@ this.queryText = sql;]]></method>
             <xml-property name="queryText"><![CDATA[select e.EXPE_ID, e.CUST_NAME,e.CUST_SNAME,
 CONCAT(e.CONS_VESSEL, ' ', e.CONS_VOYAGE) as VESSEL_VOYAGE,
 e.CONS_NO, c.CONS_REF_NO, e.CHAR_NAME, 
-e.CURR_CODE, e.EXPE_TOTAL_AMOUNT,e.EXPE_INVOICE_DATE,
+e.CURR_CODE, e.EXPE_TOTAL_AMOUNT,e.EXPE_RC_AMOUNT,e.EXPE_INVOICE_DATE,
 (e.EXPE_TOTAL_AMOUNT-EXPE_WRITE_OFF_AMOUNT) as NOT_WRITE_OFF_AMOUNT,
+(e.EXPE_RC_AMOUNT-EXPE_WRITE_OFF_RC_AMOUNT) as NOT_WRITE_OFF_AMOUNT_RC,
 e.CONS_MBL_NO, e.CONS_HBL_NO, c.CONS_SAIL_DATE, c.CONS_DATE,
 e.EXPE_INVOICE_NO, e.EXPE_TAX_INVOICE_NO, u.USER_NAME,
 cu.CUST_CREDIT_DAY, g.GROU_NAME
@@ -1321,6 +1322,18 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                                 <expression name="expression">dataSetRow["NOT_WRITE_OFF_AMOUNT"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
+                            
+                             <structure>
+                                <property name="name">EXPE_RC_AMOUNT</property>
+                                <expression name="expression">dataSetRow["EXPE_RC_AMOUNT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NOT_WRITE_OFF_AMOUNT_RC</property>
+                                <expression name="expression">dataSetRow["NOT_WRITE_OFF_AMOUNT_RC"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            
                             <structure>
                                 <property name="name">CONS_MBL_NO</property>
                                 <expression name="expression">dataSetRow["CONS_MBL_NO"]</expression>
@@ -1388,6 +1401,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                                 </list-property>
                                 <expression name="filterExpr">row["CURR_CODE"] == "CNY"</expression>
                             </structure>
+                            
                             <structure>
                                 <property name="name">groupAmountUSD</property>
                                 <text-property name="displayName">美金金额小计</text-property>
@@ -1420,6 +1434,71 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                                 </list-property>
                                 <expression name="filterExpr">row["CURR_CODE"] == "USD"</expression>
                             </structure>
+                            
+                            <structure>
+                                <property name="name">groupAmountEUR</property>
+                                <text-property name="displayName">欧元金额小计</text-property>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupBy</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value">row["EXPE_TOTAL_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr">row["CURR_CODE"] == "EUR"</expression>
+                            </structure>
+                            <structure>
+                                <property name="name">groupNAmountEUR</property>
+                                <text-property name="displayName">欧元未核销金额</text-property>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupBy</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value">row["NOT_WRITE_OFF_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="filterExpr">row["CURR_CODE"] == "EUR"</expression>
+                            </structure>
+                            
+                             <structure>
+                                <property name="name">groupAmountRC</property>
+                                <text-property name="displayName">折合本币小计</text-property>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupBy</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value">row["EXPE_RC_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>                                
+                            </structure>
+                            <structure>
+                                <property name="name">groupNAmountRC</property>
+                                <text-property name="displayName">折合本币未核销金额</text-property>
+                                <property name="dataType">decimal</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupBy</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value">row["NOT_WRITE_OFF_AMOUNT_RC"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            
                             <structure>
                                 <property name="name">groupByTitle</property>
                                 <text-property name="displayName">groupByTitle</text-property>
@@ -1471,6 +1550,7 @@ title + ": " + (row["groupBy"] == null ? "" : row["groupBy"])</expression>
                                 </list-property>
                                 <expression name="filterExpr">row["CURR_CODE"] == "CNY"</expression>
                             </structure>
+                            
                             <structure>
                                 <property name="name">amountUSD</property>
                                 <property name="dataType">decimal</property>
@@ -1495,6 +1575,30 @@ title + ": " + (row["groupBy"] == null ? "" : row["groupBy"])</expression>
                                 </list-property>
                                 <expression name="filterExpr">row["CURR_CODE"] == "USD"</expression>
                             </structure>
+                            
+                            <structure>
+                                <property name="name">amountRC</property>
+                                <property name="dataType">decimal</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value">row["EXPE_RC_AMOUNT"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">nAmountRC</property>
+                                <property name="dataType">decimal</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value">row["NOT_WRITE_OFF_AMOUNT_RC"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            
                             <structure>
                                 <property name="name">CUST_CREDIT_DAY</property>
                                 <expression name="expression">dataSetRow["CUST_CREDIT_DAY"]</expression>
@@ -1599,40 +1703,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <property name="dataType">date</property>
                                 <property name="allowExport">true</property>
                             </structure>
-                            <structure>
-                                <property name="name">groupAmountEUR</property>
-                                <text-property name="displayName">欧元金额小计</text-property>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>groupBy</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                                <list-property name="arguments">
-                                    <structure>
-                                        <property name="name">Expression</property>
-                                        <expression name="value" type="javascript">row["EXPE_TOTAL_AMOUNT"]</expression>
-                                    </structure>
-                                </list-property>
-                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "EUR"</expression>
-                                <property name="allowExport">true</property>
-                            </structure>
-                            <structure>
-                                <property name="name">groupNAmountEUR</property>
-                                <text-property name="displayName">欧元未核销金额</text-property>
-                                <property name="dataType">decimal</property>
-                                <simple-property-list name="aggregateOn">
-                                    <value>groupBy</value>
-                                </simple-property-list>
-                                <property name="aggregateFunction">SUM</property>
-                                <list-property name="arguments">
-                                    <structure>
-                                        <property name="name">Expression</property>
-                                        <expression name="value" type="javascript">row["NOT_WRITE_OFF_AMOUNT"]</expression>
-                                    </structure>
-                                </list-property>
-                                <expression name="filterExpr" type="javascript">row["CURR_CODE"] == "EUR"</expression>
-                                <property name="allowExport">true</property>
-                            </structure>
+                            
                             <structure>
                                 <property name="name">amountEUR</property>
                                 <text-property name="displayName">amountEUR</text-property>
@@ -1902,7 +1973,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                         <property name="rowSpan">1</property>
                                         <label id="535">
                                             <property name="fontWeight">bold</property>
-                                            <text-property name="text">小计CNY</text-property>
+                                            <text-property name="text">CNY小计：</text-property>
                                         </label>
                                     </cell>
                                     <cell id="544">
@@ -1947,6 +2018,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="1066"/>
                                     <cell id="959"/>
                                 </row>
+                                
                                 <row id="707">
                                     <property name="fontWeight">bold</property>
                                     <list-property name="visibility">
@@ -1959,7 +2031,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                         <property name="colSpan">5</property>
                                         <property name="rowSpan">1</property>
                                         <label id="721">
-                                            <text-property name="text">小计USD</text-property>
+                                            <text-property name="text">USD小计：</text-property>
                                         </label>
                                     </cell>
                                     <cell id="713">
@@ -2004,19 +2076,20 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="1067"/>
                                     <cell id="960"/>
                                 </row>
+                                
                                 <row id="1140">
                                     <property name="fontWeight">bold</property>
                                     <list-property name="visibility">
                                         <structure>
                                             <property name="format">all</property>
-                                            <expression name="valueExpr">params["g"].value == "0" || row["groupBy"] == row["EXPE_ID"] || (row["groupAmountUSD"] == null &amp;&amp; row["groupNAmountUSD"] == null)</expression>
+                                            <expression name="valueExpr">params["g"].value == "0" || row["groupBy"] == row["EXPE_ID"] || (row["groupAmountEUR"] == null &amp;&amp; row["groupNAmountEUR"] == null)</expression>
                                         </structure>
                                     </list-property>
                                     <cell id="1141">
                                         <property name="colSpan">5</property>
                                         <property name="rowSpan">1</property>
                                         <label id="1161">
-                                            <text-property name="text">小计EUR</text-property>
+                                            <text-property name="text">EUR小计：</text-property>
                                         </label>
                                     </cell>
                                     <cell id="1146">
@@ -2053,6 +2126,65 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <cell id="1159"/>
                                     <cell id="1160"/>
                                 </row>
+                                
+                                <row id="2007">
+                                    <property name="fontWeight">bold</property>
+                                    <list-property name="visibility">
+                                        <structure>
+                                            <property name="format">all</property>
+                                            <expression name="valueExpr">params["g"].value == "0" || row["groupBy"] == row["EXPE_ID"] || (row["groupAmountRC"] == null &amp;&amp; row["groupNAmountRC"] == null)</expression>
+                                        </structure>
+                                    </list-property>
+                                    <cell id="2027">
+                                        <property name="colSpan">5</property>
+                                        <property name="rowSpan">1</property>
+                                        <label id="2021">
+                                            <text-property name="text">折合本币小计：</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="2013">
+                                        <data id="2022">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupAmountRC</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="2014">
+                                        <data id="2023">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">groupNAmountRC</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="2052"/>
+                                    <cell id="2015"/>
+                                    <cell id="2016"/>
+                                    <cell id="2017"/>
+                                    <cell id="2018"/>
+                                    <cell id="2033"/>
+                                    <cell id="2043"/>
+                                    <cell id="2055"/>
+                                    <cell id="2083">
+                                        <data id="2107">
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                                            </structure>
+                                            <property name="resultSetColumn">gInraRateUSD</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="2019"/>
+                                    <cell id="2020"/>
+                                    <cell id="2067"/>
+                                    <cell id="2060"/>
+                                </row>
+                                
                             </footer>
                         </group>
                         <detail>
@@ -2186,7 +2318,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <property name="rowSpan">1</property>
                                     <label id="1036">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">总计CNY</text-property>
+                                        <text-property name="text">CNY总计：</text-property>
                                     </label>
                                 </cell>
                                 <cell id="1010">
@@ -2243,7 +2375,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <property name="rowSpan">1</property>
                                     <label id="998">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">总计USD</text-property>
+                                        <text-property name="text">USD总计：</text-property>
                                     </label>
                                 </cell>
                                 <cell id="1026">
@@ -2291,7 +2423,14 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <cell id="1070"/>
                                 <cell id="1035"/>
                             </row>
+                            
                             <row id="1167">
+                            	<list-property name="visibility">
+                                        <structure>
+                                            <property name="format">all</property>
+                                            <expression name="valueExpr">row["amountEUR"] == null</expression>
+                                        </structure>
+                                    </list-property>
                                 <cell id="1168"/>
                                 <cell id="1169"/>
                                 <cell id="1170"/>
@@ -2300,7 +2439,7 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                     <property name="rowSpan">1</property>
                                     <label id="1189">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">总计EUR</text-property>
+                                        <text-property name="text">EUR总计：</text-property>
                                     </label>
                                 </cell>
                                 <cell id="1173">
@@ -2338,6 +2477,55 @@ rate * row["EXPE_TOTAL_AMOUNT"] * overDay/360/100;</expression>
                                 <cell id="1185"/>
                                 <cell id="1186"/>
                                 <cell id="1187"/>
+                            </row>
+                            
+                            <row id="3167">                            	
+                                <cell id="3168"/>
+                                <cell id="3169"/>
+                                <cell id="3170"/>
+                                <cell id="3171">
+                                    <property name="colSpan">2</property>
+                                    <property name="rowSpan">1</property>
+                                    <label id="3189">
+                                        <property name="fontWeight">bold</property>
+                                        <text-property name="text">折合本币总计：</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="3173">
+                                    <data id="3190">
+                                        <property name="fontWeight">bold</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">amountRC</property>
+                                    </data>
+                                </cell>
+                                <cell id="3174">
+                                    <data id="3191">
+                                        <property name="fontWeight">bold</property>
+                                        <structure name="numberFormat">
+                                            <property name="category">Currency</property>
+                                            <property name="pattern">###0.00</property>
+                                        </structure>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">nAmountRC</property>
+                                    </data>
+                                </cell>
+                                <cell id="3175"/>
+                                <cell id="3176"/>
+                                <cell id="3177"/>
+                                <cell id="3178"/>
+                                <cell id="3179"/>
+                                <cell id="3180"/>
+                                <cell id="3181"/>
+                                <cell id="3182"/>
+                                <cell id="3183"/>
+                                <cell id="3184"/>
+                                <cell id="3185"/>
+                                <cell id="3186"/>
+                                <cell id="3187"/>
                             </row>
                         </footer>
                     </table>
