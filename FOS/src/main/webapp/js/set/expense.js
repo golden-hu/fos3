@@ -549,7 +549,7 @@ Fos.ExGrid = function(p,t,frm,store) {
 	
 	//导出费用结算单
 	this.expCheck=function(){
-		var a = sm.getSelections();
+		/*var a = sm.getSelections();
 		var expeIds = '';
 		if(a.length){
 			for(var i=0;i<a.length;i++){
@@ -560,7 +560,9 @@ Fos.ExGrid = function(p,t,frm,store) {
 			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeIds='+expeIds+'&consId='+p.get('consId'));
 		}
 		else
-			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeType='+t+'&consId='+p.get('consId'));
+			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeType='+t+'&consId='+p.get('consId'));*/
+		
+		EXPC('EXPE_SETTLEMENT','&aggressive=1&consId='+p.get('consId'));
 	};
 	
 	//生成应收费用账单

@@ -1086,17 +1086,19 @@ public class FConsignService {
 		List objList = dao.complexQueryCheck(conditions, queryMap);
 		checkMergeStatistics(retList, objList);		
 		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
-			queryMap.put("consId", (String)queryMap.get("consId"));
+			/*queryMap.put("consId", (String)queryMap.get("consId"));
 			queryMap.put("consBizType", (String)queryMap.get("consBizType"));
 		    String expeType = (String)queryMap.get("expeType");
 			if(StringUtil.isNotBlank(expeType)){
 				queryMap.put("expeType", (String)queryMap.get("expeType"));
-			}
+			}*/
 			String sort = (String)queryMap.get("sort");
 			if(StringUtil.isNotBlank(sort)){
 				queryMap.put("sort", sort);
 			}
-			
+			else{
+				queryMap.put("sort", "expeType");
+			}
 			retList.addAll(expenseDao.findByProperties(queryMap));
 		}
 		return retList;
