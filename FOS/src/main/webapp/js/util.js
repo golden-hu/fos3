@@ -292,26 +292,60 @@ function GS(a,r,o,s,d,g,sid,id,rs){
 	if(g==''){
 		if(s!=='')
 			if(sid!=='')
-				return new Ext.data.Store({storeId:sid,url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),remoteSort:rs,sortInfo:{field:s, direction:d}});
+				return new Ext.data.Store({storeId:sid,url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),
+					remoteSort:rs,
+					sortInfo:{field:s, direction:d}
+				});
 			else
-				return new Ext.data.Store({url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),remoteSort:rs,sortInfo:{field:s, direction:d}});
+				return new Ext.data.Store({url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),
+					remoteSort:rs,
+					sortInfo:{field:s, direction:d}
+				});
 		else
 			if(sid!=='')
-				return new Ext.data.Store({storeId:sid,url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o)});
+				return new Ext.data.Store({storeId:sid,url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o)
+				});
 			else
-				return new Ext.data.Store({url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o)});
+				return new Ext.data.Store({url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o)
+				});
 	}
 	else{
 		if(s!=='')
 			if(sid!=='')
-				return new Ext.data.GroupingStore({storeId:sid,url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),remoteSort:rs,sortInfo:{field:s, direction:d},groupField:g});
+				return new Ext.data.GroupingStore({storeId:sid,url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),
+					remoteSort:rs,sortInfo:{field:s, direction:d},
+					groupField:g
+				});
 			else
-				return new Ext.data.GroupingStore({url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),remoteSort:rs,sortInfo:{field:s, direction:d},groupField:g});
+				return new Ext.data.GroupingStore({url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),
+					remoteSort:rs,sortInfo:{field:s, direction:d},
+					groupField:g
+				});
 		else
 			if(sid!=='')
-				return new Ext.data.GroupingStore({storeId:sid,url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),groupField:g});
+				return new Ext.data.GroupingStore({storeId:sid,url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),
+					groupField:g
+				});
 			else
-				return new Ext.data.GroupingStore({url:SERVICE_URL+'?A='+a,baseParams:{mt:'JSON'},reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),groupField:g});
+				return new Ext.data.GroupingStore({url:SERVICE_URL+'?A='+a,
+					baseParams:{mt:'JSON'},
+					reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:r,id:id},o),
+					groupField:g
+				});
 	}
 };
 

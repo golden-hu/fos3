@@ -1,16 +1,39 @@
 //单票界面单证列表
 Fos.ConsDocGrid = function(p) {
-	this.store = GS('FDOC_Q','FDoc',FDoc,'fdocId','DESC','','','',false);
+	//this.store = GS('FDOC_Q','FDoc',FDoc,'fdocId','DESC','','','',false);
+	
+	this.store = new Ext.data.Store({url:SERVICE_URL+'?A=FDOC_Q',
+		baseParams:{mt:'XML'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FDoc',id:'fdocId'},FDoc),
+		remoteSort:true,sortInfo:{field:'fdocId', direction:'DESC'}
+	});
+	
 	if(p.get('rowAction')=='N'){
 		var rid=GGUID();
-		var t = new FDoc({id:rid,fdocId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consBizClass:p.get('consBizClass'),consShipType:p.get('consShipType'),
-		dotyId:getCFG('FDOC_CC'),dotyName:getCFGD('FDOC_CC'),dotyClass:'',fdocNo:'NIL',fdocOriginalNum:'1',fdocCopyNum:0,fdocStatus:1,fdocRecvDate:new Date(),fdocSendDate:new Date(),fdocSendType:'',fdocSendSigner:'',
-		fdocReturnDate:'',fdocBackDate:'',fdocBackType:'',fdocBackSigner:'',
-		fdocReturnFlag:0,fdocBackFlag:0,fdocReleasableFlag:0,version:0});
+		var t = new FDoc({id:rid,
+			fdocId:rid,
+			consId:p.get('consId'),
+			consNo:p.get('consNo'),
+			consBizClass:p.get('consBizClass'),
+			consShipType:p.get('consShipType'),
+			dotyId:getCFG('FDOC_CC'),
+			dotyName:getCFGD('FDOC_CC'),
+			fdocNo:'NIL',
+			fdocOriginalNum:'1',
+			fdocCopyNum:0,
+			fdocStatus:1,
+			fdocRecvDate:new Date(),
+			fdocSendDate:new Date(),
+			fdocReturnFlag:0,
+			fdocBackFlag:0,
+			fdocReleasableFlag:0,
+			version:0
+		});
 		this.store.insert(0,t);
 		t.set('rowAction','N');
 	}
-	else this.store.load({params:{consId:p.get('consId')}});
+	else 
+		this.store.load({params:{consId:p.get('consId')}});
 	
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
@@ -65,25 +88,7 @@ Fos.ConsDocGrid = function(p) {
     {header:C_REMARKS,dataIndex:'fdocRemarks',width:80,editor:new Ext.form.TextField()}
 	],defaults:{sortable:true,width:100}});
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_DOC;
-	/*new Ext.KeyMap(Ext.getDoc(), {
-		key:'nds',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-			 	var te=tc.getComponent('T_DOC_'+p.get('id'));
-			 	if(te==tc.getActiveTab())
-			 	{
-			 		switch(k) {
-					case Ext.EventObject.N:
-						if(!NR(m+F_M)) this.add();break;
-					case Ext.EventObject.D:
-						if(!NR(m+F_R)) FOS_REMOVE(sm,this.store);break;
-					case Ext.EventObject.S:
-						if(!NR(m+F_M)) FOS_POST(this.store,'FDoc',FDoc,'FDOC_S');break;
-					}
-			 	}
-		 	}
-		},stopEvent:true,scope:this});*/
+	
 	this.add=function(){
 		var rid=GGUID();
 		var t = new FDoc({id:rid,fdocId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consBizClass:p.get('consBizClass'),consShipType:p.get('consShipType'),
@@ -92,9 +97,21 @@ Fos.ConsDocGrid = function(p) {
 		fdocCustomsFlag:0,fdocReturnFlag:0,fdocBackFlag:0,fdocReleasableFlag:0,version:0});
 		this.store.insert(0,t);t.set('rowAction','N');sm.selectFirstRow();this.startEditing(0,1);
 	};
+	
 	Fos.ConsDocGrid.superclass.constructor.call(this,{
-	id:'T_DOC_'+p.get('id'),title:C_DOC+"(F2)",header:false,deferredRender:false,clicksToEdit:1,plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
-		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:this.store,sortInfo:{field:'fdocId',direction:'DESC'},
+		id:'T_DOC_'+p.get('id'),
+		title:C_DOC+"(F2)",
+		header:false,
+		deferredRender:false,
+		clicksToEdit:1,
+		plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
+		border:false,
+		height:200,
+		autoScroll:true,
+		sm:sm,
+		cm:cm,
+		store:this.store,
+		sortInfo:{field:'fdocId',direction:'DESC'},
 		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.add},'-',
 			{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:function(){FOS_REMOVE(sm,this.store);}},'-',
 			{text:C_SAVE+'(S)',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:function(){FOS_POST(this.store,'FDoc',FDoc,'FDOC_S');}}
@@ -116,8 +133,8 @@ Fos.DocGrid = function(s) {
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=FDOC_X',
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FDoc',idProperty:'fdocId'},FDoc),
 		remoteSort:true,sortInfo:{field:'fdocId', direction:'DESC'}
-		//,groupField:'fdocRecvDate'
-		});		
+	});		
+	
 	var a=[];
 	if(s=='B'){
 		title=C_DOC_NOT_RETURN;
@@ -134,7 +151,7 @@ Fos.DocGrid = function(s) {
 	}
 	else if(s=='E'){
 		title=C_CUSTOMS_FLAG;
-		a[a.length]=new QParam({key:'fdocCustomsFlag',value:'1',op:EQ})
+		a[a.length]=new QParam({key:'fdocCustomsFlag',value:'1',op:EQ});
 	}
 	
 	var bp=a.length?{mt:'xml',xml:FOSX(QTX(a))}:{mt:'xml'};
@@ -205,23 +222,6 @@ Fos.DocGrid = function(s) {
         	return;
         };
         var a=[];
-       /* if(s=='B'){
-        	a[a.length]={key:'fdocReturnFlag',value:'0',op:EQ};
-        }
-        else if(s=='C'){
-            a[a.length]={key:'fdocReturnFlag',value:'1',op:EQ};
-            a[a.length]={key:'fdocBackFlag',value:'0',op:EQ};
-        }
-        else if(s=='D'){
-        	a[a.length]={key:'fdocBackFlag',value:'1',op:EQ};
-        }       
-        a[a.length]={key:'consNo',value:consNo,op:LI};        
-        store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
-        store.reload({params:{start:0,limit:C_PS},
-        	callback:function(r){
-        		if(r.length==0) 
-        			XMG.alert(SYS,M_NOT_FOUND);
-        	}});*/
         
         if(s=='B'){
     		a[a.length]=new QParam({key:'fdocReturnFlag',value:'0',op:EQ});
@@ -234,7 +234,7 @@ Fos.DocGrid = function(s) {
     		a[a.length]=new QParam({key:'fdocBackFlag',value:'1',op:EQ});
     	}
     	else if(s=='E'){
-			a[a.length]=new QParam({key:'fdocCustomsFlag',value:'1',op:EQ})
+			a[a.length]=new QParam({key:'fdocCustomsFlag',value:'1',op:EQ});
 		}
         a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});        
         store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
@@ -246,42 +246,7 @@ Fos.DocGrid = function(s) {
     };
 	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};    
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-	/*new Ext.KeyMap(Ext.getDoc(), {
-		key:'fse',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('G_DOC_'+s);
-		 	if(tc && tc==T_MAIN.getActiveTab()){
-		 		switch(k) {
-				case Ext.EventObject.F:
-					if(!NR(M1_D+F_M)) this.search();break;
-				case Ext.EventObject.E:
-					if(!NR(M1_D+F_E)) EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');break;
-				case Ext.EventObject.S:
-					if(!NR(M1_D+F_M)) FOS_POST(store,'FDoc',FDoc,'FDOC_S');;break;
-				}
-		 	}
-		},stopEvent:true,scope:this});
-	new Ext.KeyMap(Ext.getDoc(), {
-        key:[116],
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_DOC_'+s);
-            if(tc && tc==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
-        },stopEvent: true,scope:this
-    });
-    this.pagingNav=function(page){
-        var tc = T_MAIN.getComponent('G_DOC_'+s);
-            if(tc && tc==T_MAIN.getActiveTab()){
-            var pt = this.getBottomToolbar();
-            if (!pt[page].disabled) pt.onClick(page);
-         }
-    };
-    this.nav = new Ext.KeyNav(Ext.getDoc(),{
-        pageDown: this.pagingNav.createDelegate(this,['next']),
-        pageUp: this.pagingNav.createDelegate(this, ['prev']),
-        home: this.pagingNav.createDelegate(this,['first']),
-        end: this.pagingNav.createDelegate(this,['last']),
-        scope:this
-    });*/
+	
 	Fos.DocGrid.superclass.constructor.call(this,{clicksToEdit:1,
 	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
@@ -384,6 +349,7 @@ Fos.FDocLookupWin = function(store,s){
 	        	{fieldLabel:C_TO,name:'returnDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
 	        	{fieldLabel:C_TO,name:'backDate2',xtype:'datefield',format:DATEF,anchor:'95%'}]}
 		]};	
+	
 	this.reload=function(){
      	var at = t.getActiveTab();
      	var a=[];
@@ -486,12 +452,7 @@ Fos.FDocLookupWin = function(store,s){
      		var fdocNoM=at.find('name','fdocNoM')[0].getValue();
      		a[a.length]=new QParam({key:'fdocNo',value:fdocNo,op:fdocNoM?LI:EQ});
      	}
-     	else if(at.getId()=='T_CONS_LOOK_6'){
-     		/*var dotyId=at.find('name','dotyId')[0].getValue();
-     		if(dotyId) a[a.length]=new QParam({key:'dotyId',value:dotyId,op:EQ});
-     		var fdocStatus=at.find('name','fdocStatus')[0].getValue();
-     		if(fdocStatus) a[a.length]=new QParam({key:'fdocStatus',value:fdocStatus,op:EQ});*/
-     		
+     	else if(at.getId()=='T_CONS_LOOK_6'){     		
      		var returnFlag = at.find('name','fdocReturnFlag')[0];
      		if(returnFlag && returnFlag.getValue()) 
      			a[a.length]=new QParam({key:'fdocReturnFlag',value:1,op:EQ});
