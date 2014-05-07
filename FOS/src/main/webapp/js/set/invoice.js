@@ -1041,7 +1041,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     		disabled:p.get('invoWriteOffStatus')!='0',
     		scope:this,menu: {
     			items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo},
-    			        {text:'应收账单',scope:this,handler:this.expInvoP},
+    			        {text:'应收账单(DebitNote)',scope:this,handler:this.expInvoP},
     			        ]
     		}
     	};
@@ -1051,7 +1051,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 			iconCls:'print',
 			disabled:p.get('invoWriteOffStatus')!='0',
 			scope:this,
-			menu: {items: [{text:'应付账单',scope:this,handler:this.expInvoP}]}
+			menu: {items: [{text:'应付账单(CreditNote)',scope:this,handler:this.expInvoP}]}
 	}; 
 	
 	var b8={itemId:'TB_M',
