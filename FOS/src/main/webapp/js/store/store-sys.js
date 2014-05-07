@@ -81,15 +81,31 @@ WInquiry = Ext.data.Record.create(['id','winqId','winqCompany','winqCargoDesc','
  	'winqStatus','wusrId','wusrFirstName','wusrMobile','wusrCompanyName',
  	'wusrTel','compCode','version','rowAction']);
 
-var getTETY_S = function(){return getGStore('TETY','PTemplateType',PTemplateType,'tetyId','DESC','');};
-getTETY = function(v){var _cs=getTETY_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tetyName'):v; else return '';}; 
+var getTETY_S = function(){
+	return getGStore('TETY','PTemplateType',PTemplateType,'tetyId','DESC','');
+};
 
-var getTEMP_S = function(){return getGStore('TEMP','PTemplate',PTemplate,'tempId','DESC','');};
+getTETY = function(v){
+	var _cs=getTETY_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('tetyName'):v; 
+	else 
+		return '';
+}; 
+
+var getTEMP_S = function(){
+	return getGStore('TEMP','PTemplate',PTemplate,'tempId','DESC','');
+};
 
 var getTemplates = function(t){	
-	var a = getTEMP_S().getRange();var c=[];
-	for(var i=0;i<a.length;i++){if(a[i].get('tetyCode')==t) c[c.length]=[a[i].get('tempId'),a[i].get('tempName')];}
-	return new Ext.data.SimpleStore({id:0,fields:['tempId','tempName'],data:c});
+	var a = getTEMP_S().getRange();
+	var c=[];
+	for(var i=0;i<a.length;i++){
+		if(a[i].get('tetyCode')==t) 
+			c[c.length]=[a[i].get('tempId'),a[i].get('tempName')];
+	}
+	return 
+	new Ext.data.SimpleStore({id:0,fields:['tempId','tempName'],data:c});
 };
 
 var getSALE_S=function(){	
@@ -99,6 +115,7 @@ var getSALE_S=function(){
     	s.load({params:{userSalesFlag:'1',active:'1'}});return s;
     }
 };
+
 var getTATY_S=function(){	
 	if(Ext.StoreMgr.containsKey('TATY_S')){return Ext.StoreMgr.get('TATY_S');}
 	else {

@@ -564,7 +564,8 @@ var LV=function(f,e,vt){
 var EXPC=function(t,p){	
 	var templates = getTemplates(t);
 	var a = templates.getRange();
-	if(a.length==0) XMG.alert(SYS,M_TEMP_NOT_FOUND);
+	if(a.length==0) 
+		XMG.alert(SYS,M_TEMP_NOT_FOUND);
 	else if(a.length==1){
 		var tempId = a[0].get('tempId');
 		var url = SERVICE_URL+'?A='+'TEMP_E&tempId='+tempId+'&aggressive=1&type=I'+p;

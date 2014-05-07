@@ -1036,26 +1036,45 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     var b5={itemId:'TB_E',text:C_INVALID+'(F)',iconCls:'cancel',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0',scope:this,handler:this.cancel};
     var b6={itemId:'TB_F',text:C_MODIFY_INVO_NO+'(M)',iconCls:'option',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.editTax};
     
-    var b7={text:C_EXPORT+'(E)',iconCls:'print',
+    //导出发票，应收账单
+    var b7 = {text:C_EXPORT+'(E)',iconCls:'print',
     		disabled:p.get('invoWriteOffStatus')!='0',
-    		scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo}]}};
+    		scope:this,menu: {
+    			items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo},
+    			        {text:'应收账单',scope:this,handler:this.expInvoP},
+    			        ]
+    		}
+    	};
     
+    //应付账单
+	var b11={text:C_EXPORT+'(E)',
+			iconCls:'print',
+			disabled:p.get('invoWriteOffStatus')!='0',
+			scope:this,
+			menu: {items: [{text:'应付账单',scope:this,handler:this.expInvoP}]}
+	}; 
+	
 	var b8={itemId:'TB_M',
-			disabled:true,
-			text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))
+		disabled:true,
+		text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))
 	};
 	
 	var b9={itemId:'TB_G',
-			text:C_ADD+'(N)',
-			iconCls:'add',
-			scope:this,
-			handler:this.addInvoice
+		text:C_ADD+'(N)',
+		iconCls:'add',
+		scope:this,
+		handler:this.addInvoice
 	};
 	
-	var b10={itemId:'TB_H',text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,iconCls:'save',			 
-			 disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
-			 scope:this,handler:this.genVoucher};
-	var b11={text:C_EXPORT+'(E)',iconCls:'print',disabled:p.get('invoWriteOffStatus')!='0',scope:this,menu: {items: [{text:C_INVO_TAX,scope:this,handler:this.expInvoP}]}}; 
+	var b10={itemId:'TB_H',
+		text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,
+		iconCls:'save',			 
+		disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
+		scope:this,
+		handler:this.genVoucher
+	};
+	
+	
 	
 	var c1={fieldLabel:HL(C_SETTLE_OBJECT),
 		tabIndex:1,
@@ -1185,7 +1204,8 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	        ]},
 			{id:'T_INV_T_'+p.get('id'),xtype:'tabpanel',plain:true,region:'center',activeTab:0,
 	            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
-	            {id:'T_INV_LI_'+p.get('id'),layout:'fit',title:C_INVO_LINE+'(L)',items:[this.entryGrid]}]:[{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
+	            {id:'T_INV_LI_'+p.get('id'),layout:'fit',title:C_INVO_LINE+'(L)',
+	            	items:[this.entryGrid]}]:[{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
 	        ]
 	});
 };
