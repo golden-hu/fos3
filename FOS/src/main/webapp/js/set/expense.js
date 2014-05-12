@@ -295,54 +295,6 @@ Fos.ExGrid = function(p,t,frm,store) {
 	this.add=function(){
 		var unit='EACH';
 		var rid=GGUID();
-		/*var e = new SExpense({id:rid,
-			expeId:rid,
-			consId:p.get('consId'),
-			consNo:p.get('consNo'),
-			section:'CONS',
-			consSailDate:p.get('consSailDate'),
-			expeInvoiceTitle:p.get('custName'),
-    		consMblNo:p.get('consMblNo'),
-    		consHblNo:p.get('consHblNo'),
-    		consVessel:p.get('vessName'),
-    		consVoyage:p.get('voyaName'),
-    		consBizClass:p.get('consBizClass'),
-    		consBizType:p.get('consBizType'),
-    		consShipType:p.get('consShipType'),
-    		expeStatus:'0',
-    		expeBillStatus:'0',
-    		expeInvoiceStatus:'0',
-    		expeWriteOffStatus:'0',
-    		custId:t=='R'?p.get('custId'):p.get('consBookingAgency'),
-    		custName:t=='R'?p.get('custName'):p.get('consBookingAgencyName'),
-    		custSname:t=='R'?p.get('custSname'):p.get('consBookingAgencySname'),
-    		consCustId:p.get('custId'),
-    		consCustName:p.get('custName'),
-    		expeType:expeType,
-    		pateId:PPID,
-    		pateCode:'P',
-    		unitName:unit,
-    		currCode:'CNY',
-    		expeExRate:'1.0000',
-    		expeDate:new Date(),
-    		expeAllocationFlag:'0',
-    		expeAllocatedFlag:'0',
-    		expeInvoiceFlag:'1',
-    		expeInvoiceAmount:'0',
-    		expeWriteOffAmount:'0',
-    		expeWriteOffRcAmount:'0',
-    		expeInnerAmount:'0',
-    		expeRcAmount:'0',
-    		expeTotalAmount:'0',
-    		expeNum:'1',
-    		version:'1'
-    	});
-    	this.stopEditing();
-    	store.insert(0,e);
-    	e.set('rowAction','N');
-    	sm.selectFirstRow();
-    	this.startEditing(0, 1);*/
-		
 		var e = new SExpense({id:rid,
 			expeId:rid,
 			consId:p.get('consId'),
@@ -561,27 +513,53 @@ Fos.ExGrid = function(p,t,frm,store) {
 				for(var i=0;i<a.length;i++){
 					var r = a[i];
 					var rid=GGUID();
-					var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),consSailDate:p.get('consSailDate'),
-			    		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
-			    		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
-			    		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',expeInvoiceStatus:'0',expeWriteOffStatus:'0',
+					var e = new SExpense({id:rid,
+						expeId:rid,
+						consId:p.get('consId'),
+						consNo:p.get('consNo'),
+						consSailDate:p.get('consSailDate'),
+			    		consMblNo:p.get('consMblNo'),
+			    		consHblNo:p.get('consHblNo'),
+			    		consVessel:p.get('vessName'),
+			    		consVoyage:p.get('voyaName'),
+			    		consBizClass:p.get('consBizClass'),
+			    		consBizType:p.get('consBizType'),
+			    		consShipType:p.get('consShipType'),
+			    		expeStatus:'0',expeBillStatus:'0',
+			    		expeInvoiceStatus:'0',
+			    		expeWriteOffStatus:'0',
 			    		custId:r.get('custId'),
 			    		custName:r.get('custName'),
 			    		custSname:r.get('custSname'),
-			    		consCustId:p.get('custId'),consCustName:p.get('custName'),chclId:r.get('chclId'),charId:r.get('charId'),charName:r.get('charName'),
-			    		expeType:t,pateId:r.get('pateId'),pateCode:r.get('pateCode'),unitName:r.get('unitName'),
-			    		currCode:r.get('currCode'),expeUnitPrice:r.get('expeUnitPrice'),
+			    		consCustId:p.get('custId'),
+			    		consCustName:p.get('custName'),
+			    		chclId:r.get('chclId'),
+			    		charId:r.get('charId'),
+			    		charName:r.get('charName'),
+			    		expeType:t,
+			    		pateId:r.get('pateId'),
+			    		pateCode:r.get('pateCode'),
+			    		unitName:r.get('unitName'),
+			    		currCode:r.get('currCode'),
+			    		expeUnitPrice:r.get('expeUnitPrice'),
 			    		expeCommissionRate:r.get('expeCommissionRate'),
 			    		expeCommission:r.get('expeCommission'),
 			    		expeInnerPrice:r.get('expeInnerPrice'),
 			    		expeExRate:r.get('expeExRate'),
-			    		expeRemarks:'',expeDate:new Date(),
-			    		expeAllocationFlag:'0',expeAllocatedFlag:'0',
-			    		expeInvoiceAmount:'0',expeWriteOffAmount:'0',
-			    		expeWriteOffRcAmount:'0',expeInvoiceFlag:'1',
+			    		expeRemarks:'',
+			    		expeDate:new Date(),
+			    		expeAllocationFlag:'0',
+			    		expeAllocatedFlag:'0',
+			    		expeInvoiceAmount:'0',
+			    		expeWriteOffAmount:'0',
+			    		expeWriteOffRcAmount:'0',
+			    		expeInvoiceFlag:'1',
 			    		expeInnerAmount:'0',
 			    		expeRcAmount:'0',
-			    		expeTotalAmount:r.get('expeTotalAmount'),expeNum:r.get('expeNum'),version:'0',rowAction:'N'});
+			    		expeTotalAmount:r.get('expeTotalAmount'),
+			    		expeNum:r.get('expeNum'),
+			    		version:'0',
+			    		rowAction:'N'});
 					store.add(e);
 				};
 				this.reCalculate();
@@ -632,18 +610,26 @@ Fos.ExGrid = function(p,t,frm,store) {
 	this.genInvoice=function(){
     	var a = sm.getSelections();
     	if(a.length>0){
+    		var custId = a[0].get('custId');
+			var custName = a[0].get('custName');
+			var custSname = a[0].get('custSname');
+			var invoTitle = a[0].get('custName');
+			
     		for(var j=0;j < a.length;j++){
     			if(a[j].get('rowAction')=='N'){
     				XMG.alert(SYS,M_SAVE_FIRST);
     				return;
-    			}else if(a[j].get('expeInvoiceNo').length>0){
+    			}
+    			else if(a[j].get('expeInvoiceNo').length>0){
     				XMG.alert(SYS,C_INVOCIE_NO_EXISTED);
     				return;
-    			}else if(a[0].get('custId')!=a[j].get('custId')){
+    			}
+    			else if(custId!=a[j].get('custId')){
     				XMG.alert(SYS,C_SETTLE_OBJECT_DIFFERENT);
     				return
     			}
     		}
+    		
     		var currCode='CNY';
     		for(var i=0;i<a.lenth;i++){
     			if(a[i].get('currCode')!=currCode){
@@ -657,11 +643,23 @@ Fos.ExGrid = function(p,t,frm,store) {
         			currCode = w.findById('currCode').getValue();
         			w.close();
         			var id=GGUID();
-        			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
-        				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
+        			var e = new SInvoice({invoId:id,
+        				id:id,
+        				invoNo:'N'+id,
+        				custId:custId,
+        				custName:custName,
+        				custSname:custSname,
+        				invoTitle:invoTitle,
         				currCode:currCode,
-        				invoType:'R',invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
-        				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+        				invoType:'R',
+        				invoDate:new Date(),
+        				invoExRate:getExRate(currCode,'CNY'),
+        				invoWriteOffStatus:'0',
+        				invoPrFlag:'0',
+        				invoUploadFlag:'0',
+        				invoStatus:'0',
+        				version:'0',
+        				rowAction:'N'});
         			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
         			T_MAIN.setActiveTab(tab);
         		}},this);
@@ -670,18 +668,30 @@ Fos.ExGrid = function(p,t,frm,store) {
     		}
     		else{
     			var id=GGUID();
-    			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
-    				custId:p.get('custId'),custName:p.get('custName'),custSname:p.get('custSname'),invoTitle:p.get('custName'),
+    			var e = new SInvoice({invoId:id,
+    				id:id,
+    				invoNo:'N'+id,
+    				custId:custId,
+    				custName:custName,
+    				custSname:custSname,
+    				invoTitle:invoTitle,
     				currCode:currCode,
-    				invoType:'R',invoDate:new Date(),invoExRate:getExRate(currCode,'CNY'),invoWriteOffStatus:'0',
-    				invoPrFlag:'0',invoUploadFlag:'0',invoStatus:'0',version:'0',rowAction:'N'});
+    				invoType:'R',
+    				invoDate:new Date(),
+    				invoExRate:getExRate(currCode,'CNY'),
+    				invoWriteOffStatus:'0',
+    				invoPrFlag:'0',
+    				invoUploadFlag:'0',
+    				invoStatus:'0',
+    				version:'0',
+    				rowAction:'N'});
     			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
     			T_MAIN.setActiveTab(tab);
     		}
-    	}else{
+    	}
+    	else{
     		XMG.alert(SYS,M_NO_DATA_SELECTED);
     	}
-    	
     };   
 
 		
