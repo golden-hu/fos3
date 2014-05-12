@@ -94,7 +94,13 @@ getTETY = function(v){
 }; 
 
 var getTEMP_S = function(){
-	return getGStore('TEMP','PTemplate',PTemplate,'tempId','DESC','');
+	//return getGStore('TEMP','PTemplate',PTemplate,'tempId','DESC','');
+	
+	if(Ext.StoreMgr.containsKey('TEMP_S')){return Ext.StoreMgr.get('TEMP_S');}
+	else {
+		s = GS('TEMP_Q','PTemplate',PTemplate,'tempId','DESC','','TEMP_S','tempId');
+    	s.load({params:{active:'1'}});return s;
+    }
 };
 
 var getTemplates = function(t){	
@@ -104,8 +110,7 @@ var getTemplates = function(t){
 		if(a[i].get('tetyCode')==t) 
 			c[c.length]=[a[i].get('tempId'),a[i].get('tempName')];
 	}
-	return 
-	new Ext.data.SimpleStore({id:0,fields:['tempId','tempName'],data:c});
+	return 	new Ext.data.SimpleStore({id:0,fields:['tempId','tempName'],data:c});
 };
 
 var getSALE_S=function(){	

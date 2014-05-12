@@ -442,6 +442,7 @@ CREATE TABLE IF NOT EXISTS `C_SALES_COMMISSION` (
   `MODIFY_TIME` datetime default NULL,
   `COMP_CODE` char(4) collate utf8_unicode_ci NOT NULL,
   `VERSION` int(11) NOT NULL default '0',
+  `REMOVED` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`SACO_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

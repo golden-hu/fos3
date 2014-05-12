@@ -35,10 +35,18 @@ Fos.ExGrid = function(p,t,frm,store) {
 	
 	if( VERSION==1||VERSION==2){
 	var	t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
-			editor:new Ext.form.ComboBox({displayField:'custNameCn',valueField:'custNameCn',triggerAction:'all',
-            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
-            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
-            store:getCS(),enableKeyEvents:true,
+			editor:new Ext.form.ComboBox({displayField:'custNameCn',valueField:'custNameCn',
+			triggerAction:'all',
+            mode:'local',
+            tpl:custTpl,
+            itemSelector:'div.list-item',
+            listWidth:450,
+            allowBlank:false,
+            mode:'local',
+            selectOnFocus:true,
+            listClass:'x-combo-list-small',
+            store:getCS(),
+            enableKeyEvents:true,
             listeners:{scope:this,
             	select:function(c,r,i){
 					var b =this.getSelectionModel().getSelected();
@@ -51,27 +59,36 @@ Fos.ExGrid = function(p,t,frm,store) {
 		            	b.set('expeInvoiceTitle',r.get('custNameCn'));
 		            }
             	},
-           		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
+           		keydown:{
+           			fn:function(f,e){
+           				LC(f,e,t=='R'?'custArFlag':'custApFlag',1);
+           			},buffer:500}
+            	}
+			}
+		)};
 	}
 	else{
-	var	t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center',
-				editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
-	            mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
-	            invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
-	            store:getCS(),enableKeyEvents:true,
-	            listeners:{scope:this,
-	            	select:function(c,r,i){
-						var b =this.getSelectionModel().getSelected();
-						b.set('custId',r.get('custId'));
-		            	b.set('custName',r.get('custNameCn'));
-		            	b.set('custSname',r.get('custCode'));
-		            	if(r.get('custInvoiceHeader')!=""){
-		            		b.set('expeInvoiceTitle',r.get('custInvoiceHeader'));
-		            	}else{
-		            		b.set('expeInvoiceTitle',r.get('custNameCn'));
-		            	}
-		            },
-	           		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
+		var	t1={header:C_SETTLE_OBJECT,
+				width:200,
+				dataIndex:"custSname",
+				align:'center',
+			editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
+	        mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
+	        invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
+	        store:getCS(),enableKeyEvents:true,
+	        listeners:{scope:this,
+	        	select:function(c,r,i){
+					var b =this.getSelectionModel().getSelected();
+					b.set('custId',r.get('custId'));
+	            	b.set('custName',r.get('custNameCn'));
+	            	b.set('custSname',r.get('custCode'));
+	            	if(r.get('custInvoiceHeader')!=""){
+	            		b.set('expeInvoiceTitle',r.get('custInvoiceHeader'));
+	            	}else{
+	            		b.set('expeInvoiceTitle',r.get('custNameCn'));
+	            	}
+	            },
+	       		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
 	}
 	var t2='';
 	if( VERSION==1){
@@ -90,7 +107,10 @@ Fos.ExGrid = function(p,t,frm,store) {
 	            	b.set('currCode',r.get('currCode'));
 	            	b.set('unitId',r.get('unitId'));
 	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
-	            	this.reCalculate();}}})};
+	            	this.reCalculate();}
+				}
+			}
+		)};
 	}
 	else{
 	   t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
@@ -273,7 +293,8 @@ Fos.ExGrid = function(p,t,frm,store) {
 	cm.defaultWidth=100;
 	
 	this.add=function(){
-		var unit='EACH';var rid=GGUID();
+		var unit='EACH';
+		var rid=GGUID();
 		/*var e = new SExpense({id:rid,
 			expeId:rid,
 			consId:p.get('consId'),
@@ -322,23 +343,53 @@ Fos.ExGrid = function(p,t,frm,store) {
     	sm.selectFirstRow();
     	this.startEditing(0, 1);*/
 		
-		var e = new SExpense({id:rid,expeId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
-			section:'CONS',consSailDate:p.get('consSailDate'),expeInvoiceTitle:p.get('custName'),
-    		consMblNo:p.get('consMblNo'),consHblNo:p.get('consHblNo'),consVessel:p.get('vessName'),
-    		consVoyage:p.get('voyaName'),consBizClass:p.get('consBizClass'),consBizType:p.get('consBizType'),
-    		consShipType:p.get('consShipType'),expeStatus:'0',expeBillStatus:'0',expeInvoiceStatus:'0',expeWriteOffStatus:'0',
+		var e = new SExpense({id:rid,
+			expeId:rid,
+			consId:p.get('consId'),
+			consNo:p.get('consNo'),
+			section:'CONS',
+			consSailDate:p.get('consSailDate'),
+			expeInvoiceTitle:p.get('custName'),
+    		consMblNo:p.get('consMblNo'),
+    		consHblNo:p.get('consHblNo'),
+    		consVessel:p.get('vessName'),
+    		consVoyage:p.get('voyaName'),
+    		consBizClass:p.get('consBizClass'),
+    		consBizType:p.get('consBizType'),
+    		consShipType:p.get('consShipType'),
+    		expeStatus:'0',
+    		expeBillStatus:'0',
+    		expeInvoiceStatus:'0',
+    		expeWriteOffStatus:'0',
     		custId:t=='R'?p.get('custId'):p.get('consBookingAgency'),
     		custName:t=='R'?p.get('custName'):p.get('consBookingAgencyName'),
     		custSname:t=='R'?p.get('custSname'):p.get('consBookingAgencySname'),
-    		consCustId:p.get('custId'),consCustName:p.get('custName'),chclId:'',charId:'',charName:'',
-    		expeType:expeType,pateId:PPID,pateCode:'P',unitName:unit,currCode:'CNY',expeUnitPrice:'',
-    		expeCommissionRate:'',expeCommission:'',expeInnerPrice:'',expeExRate:'1.0000',expeRemarks:'',expeDate:new Date(),
-    		expeAllocationFlag:'0',expeAllocatedFlag:'0',expeInvoiceFlag:'1',
-    		expeInvoiceAmount:'0',expeWriteOffAmount:'0',expeWriteOffRcAmount:'0',expeInnerAmount:'0',expeRcAmount:'0',
-    		expeTotalAmount:'0',expeNum:'1',version:'0'});
-    	this.stopEditing();store.insert(0,e);e.set('rowAction','N');sm.selectFirstRow();this.startEditing(0, 1);
-
-    	
+    		consCustId:p.get('custId'),
+    		consCustName:p.get('custName'),
+    		expeType:expeType,
+    		pateId:PPID,
+    		pateCode:'P',
+    		unitName:unit,
+    		currCode:'CNY',
+    		expeExRate:'1.0000',    		
+    		expeDate:new Date(),
+    		expeAllocationFlag:'0',
+    		expeAllocatedFlag:'0',
+    		expeInvoiceFlag:'1',
+    		expeInvoiceAmount:'0',
+    		expeWriteOffAmount:'0',
+    		expeWriteOffRcAmount:'0',
+    		expeInnerAmount:'0',
+    		expeRcAmount:'0',
+    		expeTotalAmount:'0',
+    		expeCommission:0,
+    		expeNum:'1',
+    		version:'0'});
+    	this.stopEditing();
+    	store.insert(0,e);
+    	e.set('rowAction','N');
+    	sm.selectFirstRow();
+    	this.startEditing(0, 1);
 	};
 	
 	this.removeExp=function(){
@@ -421,22 +472,47 @@ Fos.ExGrid = function(p,t,frm,store) {
 		if(r){
 			var e = new SExpense({});var id=GGUID();
 			var f = SExpense.prototype.fields;
-			for (var i=0;i<f.keys.length;i++){var fn=''+f.keys[i];e.set(fn,r.get(fn));}
-			e.set('expeDate',new Date());e.set('id',id);e.set('expeId',id);
-			e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
-			e.set('expeUnitPrice','');e.set('expeNum','');e.set('expeNum2','');
-			e.set('expeInnerPrice','');e.set('expeInnerAmount','');e.set('expeTotalAmount','');
-			e.set('expeCommission',0);e.set('expeCommissionRate','');e.set('expeRcAmount','');
-			e.set('expeWriteOffDate','');e.set('expeInvoiceFlag',1);
-			e.set('expeInvoiceAmount',0);e.set('expeWriteOffAmount',0);
-			e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
-			e.set('expeWriteoffStatus',0);e.set('expeAllocationFlag',0);e.set('expeAllocatedFlag',0);
-			e.set('consIdM','');e.set('consNoM','');
-			this.stopEditing();store.insert(0,e);e.set('rowAction','N');this.startEditing(0,1);
+			for (var i=0;i<f.keys.length;i++){
+				var fn=''+f.keys[i];
+				e.set(fn,r.get(fn));
+			}
+			e.set('expeDate',new Date());
+			e.set('id',id);e.set('expeId',id);
+			e.set('version','1');
+			e.set('expeInvoiceNo','');
+			e.set('expeInvoiceDate','');
+			e.set('expeUnitPrice','');
+			e.set('expeNum','');
+			e.set('expeNum2','');
+			e.set('expeInnerPrice','');
+			e.set('expeInnerAmount','');
+			e.set('expeTotalAmount','');
+			e.set('expeCommission',0);
+			e.set('expeCommissionRate','');
+			e.set('expeRcAmount','');
+			e.set('expeWriteOffDate','');
+			e.set('expeInvoiceFlag',1);
+			e.set('expeInvoiceAmount',0);
+			e.set('expeWriteOffAmount',0);
+			e.set('expeWriteOffRcAmount',0);
+			e.set('expeStatus',0);
+			e.set('expeBillStatus',0);
+			e.set('expeInvoiceStatus',0);
+			e.set('expeWriteoffStatus',0);
+			e.set('expeAllocationFlag',0);
+			e.set('expeAllocatedFlag',0);
+			e.set('consIdM','');
+			e.set('consNoM','');
+			this.stopEditing();
+			store.insert(0,e);
+			e.set('rowAction','N');
+			this.startEditing(0,1);
 			this.reCalculate();
 		}
-		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	//复制选中的应收到应付，或者复制选中的应付到应收
 	this.cpTo=function(){
 		var ea = sm.getSelections();
@@ -549,19 +625,6 @@ Fos.ExGrid = function(p,t,frm,store) {
 	
 	//导出费用结算单
 	this.expCheck=function(){
-		/*var a = sm.getSelections();
-		var expeIds = '';
-		if(a.length){
-			for(var i=0;i<a.length;i++){
-				expeIds += a[i].get('expeId');
-				if(i<a.length-1)
-					expeIds += ',';
-			}
-			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeIds='+expeIds+'&consId='+p.get('consId'));
-		}
-		else
-			EXPC('EXPE_SETTLEMENT','&consBizType='+p.get('consBizType')+'&expeType='+t+'&consId='+p.get('consId'));*/
-		
 		EXPC('EXPE_SETTLEMENT','&aggressive=1&consId='+p.get('consId'));
 	};
 	

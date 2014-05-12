@@ -967,7 +967,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (34, '本币应收合计大写', 'FConsign', 'sumR', 'getAmountCap'),
 (34, '本币应付合计', 'FConsign', 'sumP', NULL),
 (34, '本币应付合计大写', 'FConsign', 'sumP', 'getAmountCap'),
-(34, '发票抬头', 'FConsign', 'custName', NULL),
+(34, '发票抬头', 'FConsign', 'settlementObject', NULL),
 (34, '结算单位', 'FConsign', 'settlementObject', NULL),
 (34, '币种', 'SExpense', 'currCode', NULL),
 (34, '费用名称', 'SExpense', 'charName', NULL),
