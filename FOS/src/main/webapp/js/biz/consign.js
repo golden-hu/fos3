@@ -678,7 +678,10 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
 	              	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},
 				{fieldLabel:C_BIZ_TYPE,tabIndex:7,name:'consBizType',store:BT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 				{fieldLabel:C_DEPT,name:'deptId',store:getGROU_S(),xtype:'combo',displayField:'grouName',valueField:'grouId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-				{fieldLabel:C_POL,name:'consPol',store:getPOL_S(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},	             		
+				{fieldLabel:C_POL,name:'consPol',store:getPOL_S(),xtype:'combo',
+					displayField:'portNameEn',
+					valueField:'portNameEn',
+					typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},	             		
 	        	{fieldLabel:C_OPERATOR,name:'consOperatorId',store:getOP_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
 	        	{fieldLabel:C_TRADE_CONTRACT_NO,name:'consTradeContractNo',xtype:'textfield',anchor:'90%'},
 	        	{fieldLabel:C_SHIP_TYPE,name:'consShipType',value:shipType,store:SHTY_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
@@ -689,7 +692,8 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
 	   		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
 	        	{fieldLabel:C_SAIL_DATE,name:'consEtd',xtype:'datefield',format:DATEF,anchor:'90%'},
 	        	{fieldLabel:C_ETA,name:'consEta',xtype:'datefield',format:DATEF,anchor:'90%'},
-	        	{fieldLabel:C_POD,tabIndex:47,name:'consPod',store:getPS(),xtype:'combo',displayField:'portNameEn',valueField:'portId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	        	{fieldLabel:C_POD,tabIndex:47,name:'consPod',store:getPS(),xtype:'combo',
+	        		displayField:'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
               		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,listeners:{scope:this,
               			keydown:{fn:LP,buffer:BF}}},
 	        	{fieldLabel:C_SALES,name:'consSalesRepId',store:getSALE_S(),xtype:'combo',displayField:'userLoginName',valueField:'userId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
@@ -788,7 +792,7 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
      		
      		var consPol=at.find('name','consPol')[0].getValue();        		
      		if(consPol) 
-     			a[a.length]=new QParam({key:'consPol',value:consPol,op:op});
+     			a[a.length]=new QParam({key:'consPolEn',value:consPol,op:LI});
      		
      		var deptId=at.find('name','deptId')[0].getValue();        		
      		if(deptId) 
@@ -863,7 +867,7 @@ Fos.ConsLookupWin = function(bizClass,bizType,shipType,action,store,setQueryPara
      		
      		var consPod=at.find('name','consPod')[0].getValue();        		
      		if(consPod) 
-     			a[a.length]=new QParam({key:'consPod',value:consPod,op:op});
+     			a[a.length]=new QParam({key:'consPodEn',value:consPod,op:LI});
      		
      		
      		var consDeliveryPlace = at.find('name','consDeliveryPlace')[0].getValue();
