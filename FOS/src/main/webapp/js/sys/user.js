@@ -177,62 +177,75 @@ Fos.UserTab = function() {
 };
 Ext.extend(Fos.UserTab, Ext.Panel);
 
-
+//用户费用权限设置
 Fos.UsepWin = function(c) {	
+	
 	var store = new Ext.data.GroupingStore({url: SERVICE_URL+'?A='+'USEP_ALL_Q',
-		reader:new Ext.data.JsonReader({totalProperty:'rowCount',root:'PUserExpePermission'}, PUserExpePermission),
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'PUserExpePermission'}, PUserExpePermission),
 		groupField:'expeType',sortInfo:{field:'chclId', direction:'ASC'},remoteSort:false});
-	store.load({params:{mt:'JSON',userId:c.get('userId')},scope:this});
+	store.load({params:{mt:'xml',userId:c.get('userId')},scope:this});
 	
-	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});
-	var ch=new GChargeClass({chclId:0,chclCode:'C_ALL_CHARGE',chclName:C_ALL_CHARGE});	
-	var chclS=GS('CHCL_Q','GChargeClass',GChargeClass,'chclId','ASC','','S_CHCL_E','chclId');
-	chclS.load({params:{active:'1'},callback:function(){chclS.insert(0,ch);}});	
+	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
 	
-	var c1={header:'',width:0,dataIndex:"expeType",renderer:getEXTY,editor:
-		new Ext.form.ComboBox({xtype:'combo',store:EXTY_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true})};
-	var c2={header:C_CHCL,width:200,dataIndex:"chclName",editor:
-		new Ext.form.ComboBox({xtype:'combo',store:chclS,displayField:'chclName',valueField:'chclName',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,
-			listeners:{scope:this,select:function(c,r,i){
-	            	var b=sm.getSelected();if(b){b.set('chclId',r.get('chclId'));}}}
-				})};
+	var c1={header:'',width:0,dataIndex:"expeType",renderer:getEXTY};	
+	var c2={header:C_CHCL,width:200,dataIndex:"chclName"};
 	var ed=CHKCLM(C_EDITABLE,'usepEditable',100);
 	var va=CHKCLM(C_VIEW_ALL,'usepViewAll',100);
 	var ea=CHKCLM(C_EDIT_ALL,'usepEditAll',100);
 	
-	var cm=new Ext.grid.ColumnModel({columns:[c1,c2,ed,va,ea],defaults:{sortable:true,width:100}});
-	this.addUsep=function(){
-		var uid=GGUID();
-		var r = new PUserExpePermission({id:uid,usepId:uid,userId:c.get('userId'),chclId:'',chclName:'',
-		expeType:'R',version:'0',rowAction:'N'});
-    	grid.stopEditing();store.insert(0,r);grid.getSelectionModel().selectFirstRow();grid.startEditing(0,1);
-	};
-	this.removeUsep=function(){FOS_REMOVE(sm,store);};
+	var cm=new Ext.grid.ColumnModel({columns:[c1,c2,ed,va,ea],
+		defaults:{sortable:true,width:100}
+	});
+		
 	this.save=function(){
 		var a = store.getModifiedRecords();
 		if(a.length>0){
 			var x = ATX(a,'PUserExpePermission',PUserExpePermission);
 			if(x!=''){
-				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'USEP_S'},
-					success: function(res){
-						var a = XTRA(res.responseXML,'PUserExpePermission',PUserExpePermission);FOSU(store,a,PUserExpePermission);
-						XMG.alert(SYS,M_S);},
-					failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+				Ext.Ajax.request({scope:this,
+					url:SERVICE_URL,
+					method:'POST',
+					params:{A:'USEP_S'},
+					success: function(res){						
+						store.load({params:{mt:'xml',userId:c.get('userId')},scope:this});						
+						XMG.alert(SYS,M_S);
+					},
+					failure: function(res){
+						XMG.alert(SYS,M_F+res.responseText);
+					},
 					xmlData:FOSX(x)
 				});
 			}
 		}
 		else XMG.alert(SYS,M_NC);
 	};
+	
 	var vc={forceFit:false,groupTextTpl: '{text}'};
-	var grid=new Ext.grid.EditorGridPanel({id:'G_USEP',	border:true,height:380,autoScroll:true,clicksToEdit:1,plugins:[ed,va,ea],
-	    stripeRows:true,store:store,sm:sm,cm:cm,view:new Ext.grid.GroupingView(vc),
+	var grid=new Ext.grid.EditorGridPanel({id:'G_USEP',	
+		border:true,
+		height:380,
+		autoScroll:true,
+		clicksToEdit:1,
+		plugins:[ed,va,ea],
+	    stripeRows:true,
+	    store:store,
+	    sm:sm,
+	    cm:cm,
+	    view:new Ext.grid.GroupingView(vc),
 	    tbar:[
 			{text:C_SAVE,iconCls:'save',disabled:false,scope:this,handler:this.save},'-'
 			]
-		});	
-	Fos.UsepWin.superclass.constructor.call(this,{iconCls:'task',title:C_EXPE_PERMISSIOM+'-'+c.get('userName'),modal:true,width:600,
-       height:400,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:grid}); 
+	});
+	
+	Fos.UsepWin.superclass.constructor.call(this,{iconCls:'task',
+		title:C_EXPE_PERMISSIOM+'-'+c.get('userName'),
+		modal:true,width:600,
+       height:400,
+       layout:'fit',
+       plain:false,
+       bodyStyle:'padding:0px;',
+       buttonAlign:'right',
+       items:grid}); 
 };
 Ext.extend(Fos.UsepWin, Ext.Window);
 
