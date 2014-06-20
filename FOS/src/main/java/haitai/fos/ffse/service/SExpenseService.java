@@ -137,9 +137,10 @@ public class SExpenseService {
 		for (SExpense expense : oriList) {
 			expense.setEditable(ConstUtil.FalseShort);
 			if (ConstUtil.PR_TYPE_RECEIVE.equals(expense.getExpeType())) {
-				checkPerm(retList, permMap, editOwnerR, viewR, editR, consignMap, expense);
-			} else {
-				checkPerm(retList, permMap, editOwnerP, viewP, editP, consignMap, expense);
+				checkPerm(retList, permMap, editOwnerR, viewR, editR, consignMap, expense,"R");
+			} 
+			else {
+				checkPerm(retList, permMap, editOwnerP, viewP, editP, consignMap, expense,"P");
 			}
 		}
 		return retList;
@@ -157,39 +158,44 @@ public class SExpenseService {
 	}
 
 	private void checkPerm(List<SExpense> retList, Map<String, PUserExpePermission> permMap, boolean editOwnerAll,
-						   boolean viewAll, boolean editAll, Map<Integer, Boolean> consignMap, SExpense expense) {
-		if (editAll) {
-			expense.setEditable(ConstUtil.TrueShort);
-		}
-		if (viewAll) {
-			retList.add(expense);
-		}
-		Integer consId = expense.getConsId();
-		String key = expense.getExpeType() + expense.getChclId();
-		//如果当前用户是费用的创建人, 默认有权限
-		//否则看是不是委托的owner
-		//再否则看具体的费用权限配置
-		Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
-		if (uid.equals(expense.getCreateBy())) {
-			expense.setEditable(ConstUtil.TrueShort);
-			if (!retList.contains(expense)) {
+						   boolean viewAll, boolean editAll, Map<Integer, Boolean> consignMap, SExpense expense,String expeType) {
+		if(expeType.equals(expense.getExpeType())){
+			if (editAll) {			
+				expense.setEditable(ConstUtil.TrueShort);			
+			}
+			if (viewAll) {
 				retList.add(expense);
 			}
-		} else if (isOwner(consignMap, consId)) {
-			if (editOwnerAll
-					|| (permMap.containsKey(key) && ConstUtil.TrueShort.equals(permMap.get(key).getUsepEditable()))) {
+			Integer consId = expense.getConsId();
+			String key = expense.getExpeType() + expense.getChclId();
+			//如果当前用户是费用的创建人, 默认有权限
+			//否则看是不是委托的owner
+			//再否则看具体的费用权限配置
+			Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
+			if (uid.equals(expense.getCreateBy())) {
 				expense.setEditable(ConstUtil.TrueShort);
-			}
-			if (!retList.contains(expense))
-				retList.add(expense);
-		} else if (permMap.containsKey(key)) {// 不是owner,并有此费用类别的权限记录
-			PUserExpePermission perm = permMap.get(key);
-			if (ConstUtil.TrueShort.equals(perm.getUsepEditAll())) {
-				expense.setEditable(ConstUtil.TrueShort);
-			}
-			if (ConstUtil.TrueShort.equals(perm.getUsepViewAll())) {
 				if (!retList.contains(expense)) {
 					retList.add(expense);
+				}
+			} 
+			else if (isOwner(consignMap, consId)) {
+				if (editOwnerAll
+						|| (permMap.containsKey(key) && ConstUtil.TrueShort.equals(permMap.get(key).getUsepEditable()))) {
+					expense.setEditable(ConstUtil.TrueShort);
+					
+					if (!retList.contains(expense))
+						retList.add(expense);
+				}				
+			}
+			else if (permMap.containsKey(key)) {// 不是owner,并有此费用类别的权限记录
+				PUserExpePermission perm = permMap.get(key);
+				if (ConstUtil.TrueShort.equals(perm.getUsepEditAll())) {
+					expense.setEditable(ConstUtil.TrueShort);
+				}
+				if (ConstUtil.TrueShort.equals(perm.getUsepViewAll())) {
+					if (!retList.contains(expense)) {
+						retList.add(expense);
+					}
 				}
 			}
 		}

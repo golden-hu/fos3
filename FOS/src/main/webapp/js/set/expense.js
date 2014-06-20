@@ -862,6 +862,7 @@ Fos.ExpenseTab = function(p,f){
 	var PLoc = new Ext.form.TextField({width:80,disabled:true});
 	var PRc = new Ext.form.TextField({width:80,disabled:true});
 	var PSale = new Ext.form.TextField({width:80,disabled:true});
+	
 	this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	var cT={xtype:'tbtext',text:C_SUM_CNY_C};
 	var uT={xtype:'tbtext',text:C_SUM_USD_C};
@@ -1027,7 +1028,10 @@ Fos.ExpenseTab = function(p,f){
 					}
 				}
 			}
-			this.calcR();this.calcP();this.calcC();this.reCalculate();			
+			this.calcR();
+			this.calcP();
+			this.calcC();
+			this.reCalculate();			
 		},scope:this});	
 	this.UN=new Ext.data.SimpleStore({id:0,fields:['U','N'],data:getUN(p)});
 	this.updateStatus=function(s){

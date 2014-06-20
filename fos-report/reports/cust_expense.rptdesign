@@ -1283,7 +1283,7 @@ rateCny12 = this.getRowData().getColumnValue('rateCny12');]]></method>
                             <structure>
                                 <property name="name">CUST_NAME</property>
                                 <text-property name="displayName">名称</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["CUST_SNAME"]</expression>
+                                <expression name="expression" type="javascript">dataSetRow["CUST_NAME"]</expression>
                                 <property name="dataType">string</property>
                                 <property name="allowExport">true</property>
                             </structure>
