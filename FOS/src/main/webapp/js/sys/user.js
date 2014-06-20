@@ -135,7 +135,9 @@ Fos.UserTab = function() {
 		 			if(!tb.getComponent('TB_E').disabled) this.expePer();break;
 				}
 		 	}
-		},stopEvent:true,scope:this});
+		},stopEvent:true,scope:this
+	});
+	
 	var re = {scope:this,
 		rowselect:function(sm,row,record){
 			if(this.reload==false){
@@ -189,9 +191,10 @@ Fos.UsepWin = function(c) {
 	
 	var c1={header:'',width:0,dataIndex:"expeType",renderer:getEXTY};	
 	var c2={header:C_CHCL,width:200,dataIndex:"chclName"};
-	var ed=CHKCLM(C_EDITABLE,'usepEditable',100);
-	var va=CHKCLM(C_VIEW_ALL,'usepViewAll',100);
-	var ea=CHKCLM(C_EDIT_ALL,'usepEditAll',100);
+		
+	var ed = new Ext.grid.CheckColumn({header:C_EDITABLE,dataIndex:'usepEditable',width:100});
+	var va = new Ext.grid.CheckColumn({header:C_VIEW_ALL,dataIndex:'usepViewAll',width:100});
+	var ea = new Ext.grid.CheckColumn({header:C_VIEW_ALL,dataIndex:'usepEditAll',width:100});
 	
 	var cm=new Ext.grid.ColumnModel({columns:[c1,c2,ed,va,ea],
 		defaults:{sortable:true,width:100}
