@@ -1990,14 +1990,14 @@ Fos.SalesQuotaGrid = function() {
 	};
 	this.remove=function(){FOS_REMOVE(sm,store);};
 	this.save=function(){FOS_POST(store,'CSalesQuota',CSalesQuota,'SAQU_S');};
-	CREATE_KM('G_SAQU',this);	
+	
 	Fos.SalesQuotaGrid.superclass.constructor.call(this,{
 	id:'G_SAQU',title:C_SALES_QUOTA,header:false,deferredRender:false,closable:true,
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
 		tbar:[
-			{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_V+V_SAQU+F_M),iconCls:'add',scope:this,handler:this.add},'-',
-			{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_V+V_SAQU+F_R),iconCls:'remove',scope:this,handler:this.remove},'-',
-			{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_V+V_SAQU+F_M),iconCls:'save',scope:this,handler:this.save},'->',
+			{itemId:'TB_N',text:C_ADD,disabled:NR(M1_V+V_SAQU+F_M),iconCls:'add',scope:this,handler:this.add},'-',
+			{itemId:'TB_R',text:C_REMOVE,disabled:NR(M1_V+V_SAQU+F_R),iconCls:'remove',scope:this,handler:this.remove},'-',
+			{itemId:'TB_S',text:C_SAVE,disabled:NR(M1_V+V_SAQU+F_M),iconCls:'save',scope:this,handler:this.save},'->',
 		new Ext.PagingToolbar({pageSize:C_PS,store:store})],
 		bbar:PTB(store,C_PS)
     });
@@ -2029,14 +2029,14 @@ Fos.SalesCommissionGrid = function() {
 	};
 	this.removeRecords=function(){FOS_REMOVE(sm,store);};
 	this.save=function(){FOS_POST(store,'CSalesCommission',CSalesCommission,'SACO_S');};
-	CREATE_KM('G_SACO',this);	
+	
 	Fos.SalesCommissionGrid.superclass.constructor.call(this,{
 	id:'G_SACO',title:C_SALES_COMMISSION,header:false,deferredRender:false,closable:true,
 		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
 		tbar:[
-			{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_V+V_SAQU+F_M),iconCls:'add',scope:this,handler:this.add},'-',
-			{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_V+V_SAQU+F_R),iconCls:'remove',scope:this,handler:this.removeRecords},'-',
-			{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_V+V_SAQU+F_M),iconCls:'save',scope:this,handler:this.save},'->',
+			{itemId:'TB_N',text:C_ADD,disabled:NR(M1_V+V_SAQU+F_M),iconCls:'add',scope:this,handler:this.add},'-',
+			{itemId:'TB_R',text:C_REMOVE,disabled:NR(M1_V+V_SAQU+F_R),iconCls:'remove',scope:this,handler:this.removeRecords},'-',
+			{itemId:'TB_S',text:C_SAVE,disabled:NR(M1_V+V_SAQU+F_M),iconCls:'save',scope:this,handler:this.save},'->',
 		new Ext.PagingToolbar({pageSize:C_PS,store:store})],
 		bbar:PTB(store,C_PS)
     });

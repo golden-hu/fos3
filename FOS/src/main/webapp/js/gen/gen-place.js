@@ -43,11 +43,10 @@ var showG_SHLI = function(){
 	this.grid = new  Ext.grid.EditorGridPanel({ 
     id:'G_SHLI',iconCls:'gen',title:C_SHLI,header:false,clicksToEdit:1,closable:true,	
     plugins:[bulk,cont],store: store,sm:sm,cm:cm,loadMask:true,
-	tbar:[{text:C_ADD+'(N)',disabled:NR(M1_J+G_SHLI+F_M),iconCls:'add',handler:this.add},'-',
-        {text:C_REMOVE+'(R)',disabled:NR(M1_J+G_SHLI+F_R),iconCls:'remove',handler:removeShli}, '-', 
-        {text:C_SAVE+'(S)',disabled:NR(M1_J+G_SHLI+F_M),iconCls:'save',handler:this.save}]
+	tbar:[{text:C_ADD,disabled:NR(M1_J+G_SHLI+F_M),iconCls:'add',handler:this.add},'-',
+        {text:C_REMOVE,disabled:NR(M1_J+G_SHLI+F_R),iconCls:'remove',handler:removeShli}, '-', 
+        {text:C_SAVE,disabled:NR(M1_J+G_SHLI+F_M),iconCls:'save',handler:this.save}]
     });
-	CREATE_KM('G_SHLI',this,true);
     return this.grid;
 };
 

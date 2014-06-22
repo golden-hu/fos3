@@ -943,30 +943,6 @@ var CREATE_E_MENU=function(t,fd,fe,ff,s){
 	return {text:t,menu:{items:[{text:'Excel',scope:s,handler:fd},{text:C_EMAIL,scope:s,handler:fe},{text:'传真',scope:s,handler:ff}]}};
 };
 
-var CREATE_KM=function(id,s,g){
-	/*new Ext.KeyMap(Ext.getDoc(), {
-		key:'nrs',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent(id);
-		 	if(tc){
-			 	if(tc==T_MAIN.getActiveTab())
-			 	{
-			 		var tb;
-			 		if(g) tb=s.grid.getTopToolbar();
-			 		else tb=s.getTopToolbar();
-			 		switch(k) {
-			 		case Ext.EventObject.N:
-			 			if(!tb.items.get('TB_N').disabled) s.add();break;
-			 		case Ext.EventObject.R:
-			 			if(!tb.items.get('TB_R').disabled) s.remove();break;
-			 		case Ext.EventObject.S:
-			 			if(!tb.items.get('TB_S').disabled) s.save();break;
-					}
-			 	}
-		 	}
-		},stopEvent:true,scope:s});*/
-};
-
 function getCSM(){return new Ext.grid.CheckboxSelectionModel({singleSelect:false});};
 function PTB(s,ps){return new Ext.PagingToolbar({pageSize:ps,store:s,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:C_NR});};
 function ACTIVE(){return new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',width:55});};
@@ -1130,6 +1106,7 @@ function createFunctionTree(store,nodeListener){
 	tree.setRootNode(root);
 	return tree;
 };
+
 function addChiledNode(n,a){
 	var nid = n.id;
 	for(var i=0;i<a.length;i++){
