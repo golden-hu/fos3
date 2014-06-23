@@ -28,8 +28,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.thoughtworks.xstream.XStream;
-
 @Service
 public class ShipScheduleService {
 	@Autowired
@@ -40,9 +38,11 @@ public class ShipScheduleService {
 		for (ShipSchedule entity : itemList) {
 			String vesselName = entity.getVesselName();
 			String voyage = entity.getVoyage();
+			String isExport = entity.getIsExport();
 			Map<String,Object> qmap = new HashMap<String,Object>();
 			qmap.put("vesselName", vesselName);
 			qmap.put("voyage", voyage);
+			qmap.put("getIsExport", isExport);
 			List<ShipSchedule> sList = dao.findByProperties(qmap);
 			if(sList.size()>0){
 				ShipSchedule s = sList.get(0);
