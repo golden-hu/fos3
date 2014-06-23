@@ -25,6 +25,25 @@ flush privileges;
 --
 
 -- --------------------------------------------------------
+CREATE TABLE SHIP_SCHEDULE( 
+	SHSC_ID        INT             AUTO_INCREMENT,
+    VESSEL_NAME      	VARCHAR(200),
+    VESSEL_NAME_CN      VARCHAR(200),
+    VOYAGE      		VARCHAR(32),
+    PLANNING_UNBERTHING      	VARCHAR(32), -- 计划离港
+    ACTUAL_UNBERTHING      	VARCHAR(32), -- 实际离港
+    PLANNING_BERTHING      	VARCHAR(32), -- 计划到港
+    ACTUAL_BERTHING      	VARCHAR(32), -- 实际到港
+    PLANNING_BERTH      	VARCHAR(32), -- 计划泊位
+    ACTUAL_BERTH      		VARCHAR(32), -- 实际泊位
+    IS_EXPORT      		VARCHAR(16), -- 是否出口
+    IS_LATE      		VARCHAR(16), -- 是否延期
+    CUT_OFF      		VARCHAR(16), -- 是否已截港
+   	SOURCE      		VARCHAR(16), -- 来源
+   	STATUS     		VARCHAR(16) , -- 状态       	
+    PRIMARY KEY (SHSC_ID)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 CREATE TABLE C_CUSTOMER_SHIPPER(
     CUSH_ID        INT             AUTO_INCREMENT,
