@@ -1,3 +1,10 @@
+ShipSchedule = Ext.data.Record.create(
+	['shscId','vesselName','vesselNameCn','voyage','planningUnberthing',
+	 'actualUnberthing','planningBerthing','actualBerthing',
+	 'planningBerth','loadingTime','cutDate',
+	 'portArea','shippingAgency','actualBerth',
+	 'isExport','isLate','cutOff','source','status']);	
+	
 GCountry = Ext.data.Record.create(['id','counId','counCode','counNameEn','counNameCn','compCode',
 	'active','version','rowAction']);
 GShippingLine = Ext.data.Record.create(['id','shliId','shliCode','shliName','shliNameEn','shliBulkFlag','shliContFlag','active','compCode','version','rowAction']);

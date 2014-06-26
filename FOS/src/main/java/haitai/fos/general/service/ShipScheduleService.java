@@ -38,11 +38,9 @@ public class ShipScheduleService {
 		for (ShipSchedule entity : itemList) {
 			String vesselName = entity.getVesselName();
 			String voyage = entity.getVoyage();
-			String isExport = entity.getIsExport();
 			Map<String,Object> qmap = new HashMap<String,Object>();
 			qmap.put("vesselName", vesselName);
-			qmap.put("voyage", voyage);
-			qmap.put("getIsExport", isExport);
+			qmap.put("voyage", voyage);			
 			List<ShipSchedule> sList = dao.findByProperties(qmap);
 			if(sList.size()>0){
 				ShipSchedule s = sList.get(0);
@@ -83,6 +81,108 @@ public class ShipScheduleService {
 	}
 	
 	@Transactional
+	public void loadContainerSchedule() {
+		String sendUrl = "http://www.wangbaby19.com/LoadingSchedule.ashx?KEY=hiti";
+		try {
+			URL httpurl = new URL(sendUrl);
+			URLConnection connection = (URLConnection) httpurl.openConnection();		  
+			InputStream inputStream = connection.getInputStream();
+			
+			DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance(); 
+			DocumentBuilder builder=factory.newDocumentBuilder(); 
+			
+			Document doc = builder.parse(inputStream) ;
+			
+			List<ShipSchedule> itemList = new ArrayList<ShipSchedule>();
+			
+			NodeList nl = doc.getElementsByTagName("ContainerLoadingSchedule"); 
+			int len = nl.getLength();
+			if(len>200)
+				len = 200;
+			
+			for (int i=0;i<len;i++){ 
+				Node n = nl.item(i);
+				if (n.getNodeType() == Node.ELEMENT_NODE) {					
+			    	Element scheduleElement = (Element) n;
+			    	Element VesselName =  (Element) scheduleElement.getElementsByTagName("VesselName").item(0);
+			    	String vesselName = "";			    	
+			    	if(VesselName != null)
+			    		vesselName = VesselName.getTextContent();
+			    	
+			    	Element VesselNameCN =  (Element) scheduleElement.getElementsByTagName("VesselNameCN").item(0);
+			    	String vesselNameCN = "";			
+			    	if(VesselNameCN != null)
+			    		vesselNameCN = VesselNameCN.getTextContent();
+			    	
+			        Element Voyage =  (Element) scheduleElement.getElementsByTagName("Voyage").item(0);	
+			        String voyage = "";
+			        if(Voyage != null)
+			        	voyage = Voyage.getTextContent();
+			        
+			        Element LoadingTime =  (Element) scheduleElement.getElementsByTagName("LoadingTime").item(0);	
+			        String loadingTime = "";
+			        if(LoadingTime != null)
+			        	loadingTime = LoadingTime.getTextContent();
+			        
+			        Element CutDate =  (Element) scheduleElement.getElementsByTagName("CutDate").item(0);
+			        String cutDate = "";
+			        if(CutDate != null)
+			        	cutDate = CutDate.getTextContent();
+			        
+			        Element PortArea =  (Element) scheduleElement.getElementsByTagName("PortArea").item(0);	
+			        String portArea = "";
+			        if(PortArea != null)
+			        	portArea = PortArea.getTextContent();
+			        
+			        Element ShippingAgency =  (Element) scheduleElement.getElementsByTagName("ShippingAgency").item(0);
+			        String shippingAgency = "";
+			        if(ShippingAgency != null)
+			        	shippingAgency = ShippingAgency.getTextContent();
+			       
+			    	String[] voyaArr = voyage.split("/");
+			    	for(int j=0;j<voyaArr.length;j++){
+			    		String v = voyaArr[j];
+			    		Map<String,Object> qmap = new HashMap<String,Object>();
+						qmap.put("vesselName", vesselName);
+						qmap.put("voyage", v);
+						List<ShipSchedule> sList = dao.findByProperties(qmap);
+						if(sList.size()>0){
+							ShipSchedule s = sList.get(0);
+							s.setLoadingTime(loadingTime);
+							s.setCutDate(cutDate);
+							s.setPortArea(portArea);
+							s.setShippingAgency(shippingAgency);
+							s.setRowAction(RowAction.M);
+							dao.update(s);
+						}
+						else{
+							ShipSchedule s = new ShipSchedule();
+							s.setVesselName(vesselName);
+							s.setVesselNameCn(vesselNameCN);
+							s.setVoyage(v);
+							s.setLoadingTime(loadingTime);
+							s.setCutDate(cutDate);
+							s.setPortArea(portArea);
+							s.setShippingAgency(shippingAgency);
+							s.setRowAction(RowAction.N);
+							dao.save(s);
+						}
+			    	}
+				}
+			}
+				
+			SessionManager.regSession(new MockHttpSession());
+			SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
+			save(itemList);
+			SessionManager.unregSession();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	
+	@Transactional
 	public void loadSchedule() {
 		String sendUrl = "http://www.wangbaby19.com/ShipSchedule.ashx?KEY=hiti";
 		try {
@@ -113,7 +213,7 @@ public class ShipScheduleService {
 			        
 			    	Element vesselNameCN =  (Element) scheduleElement.getElementsByTagName("VesselNameCN").item(0);
 			    	if(vesselNameCN != null)
-			    		s.setVesselName(vesselNameCN.getTextContent());
+			    		s.setVesselNameCn(vesselNameCN.getTextContent());
 			    	
 			        Element voyageName =  (Element) scheduleElement.getElementsByTagName("Voyage").item(0);
 			        if(voyageName != null)
@@ -166,6 +266,9 @@ public class ShipScheduleService {
 			SessionManager.regSession(new MockHttpSession());
 			SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
 			save(itemList);
+			
+			loadContainerSchedule();
+			
 			SessionManager.unregSession();
 		} 
 		catch (Exception e) {

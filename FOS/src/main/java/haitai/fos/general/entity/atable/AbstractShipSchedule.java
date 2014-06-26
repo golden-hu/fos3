@@ -23,12 +23,19 @@ public abstract class AbstractShipSchedule extends BaseDomain {
 	private String planningBerthing;
 	private String actualBerthing;
 	private String planningBerth;
+	
+	private String loadingTime;
+	private String cutDate;
+	private String portArea;
+	private String shippingAgency;
+	
 	private String actualBerth;
 	private String isExport;
 	private String isLate;
 	private String cutOff;
 	private String source;
 	private String status;
+	
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -166,4 +173,43 @@ public abstract class AbstractShipSchedule extends BaseDomain {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	@Column(name = "LOADING_TIME")
+	public String getLoadingTime() {
+		return loadingTime;
+	}
+
+	public void setLoadingTime(String loadingTime) {
+		this.loadingTime = loadingTime;
+	}
+
+	@Column(name = "CUT_DATE")
+	public String getCutDate() {
+		return cutDate;
+	}
+
+	public void setCutDate(String cutDate) {
+		this.cutDate = cutDate;
+	}
+
+	@Column(name = "PORT_AREA")
+	public String getPortArea() {
+		return portArea;
+	}
+
+	public void setPortArea(String portArea) {
+		this.portArea = portArea;
+	}
+
+	@Column(name = "SHIPPING_AGENCY")
+	public String getShippingAgency() {
+		return shippingAgency;
+	}
+
+	public void setShippingAgency(String shippingAgency) {
+		this.shippingAgency = shippingAgency;
+	}
+	
+	
+	
 }
