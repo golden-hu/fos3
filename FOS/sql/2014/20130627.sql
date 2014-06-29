@@ -12,8 +12,7 @@ CREATE TABLE SHIP_SCHEDULE(
     LOADING_TIME      		VARCHAR(32), -- 开港时间
     CUT_DATE      			VARCHAR(32), -- 开港日期
     PORT_AREA      			VARCHAR(32), -- 港区
-    SHIPPING_AGENCY      	VARCHAR(32), -- 船代
-    
+    SHIPPING_AGENCY      	VARCHAR(32), -- 船代    
     IS_EXPORT      		VARCHAR(16), -- 是否出口
     IS_LATE      		VARCHAR(16), -- 是否延期
     CUT_OFF      		VARCHAR(16), -- 是否已截港

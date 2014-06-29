@@ -99,8 +99,8 @@ public class ShipScheduleService {
 						
 			NodeList nl = doc.getElementsByTagName("ContainerLoadingSchedule"); 
 			int len = nl.getLength();
-			if(len>200)
-				len = 200;
+			if(len>800)
+				len = 800;
 			
 			for (int i=0;i<len;i++){ 
 				Node n = nl.item(i);
