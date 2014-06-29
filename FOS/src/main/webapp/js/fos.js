@@ -8,7 +8,6 @@ function getPMenu(){
 	if(VERSION==1||VERSION==0){
 		if(!NR(M1_C)) items[items.length]=getContPanel();
 		if(!NR(M1_B)) items[items.length]=getBulkPanel();
-		//if(!NR(M1_O)) items[items.length]=getOverseasPanel();
 		if(!NR(M1_A)) items[items.length]=getAirPanel();
 		
 		if(!NR(M1_G)) items[items.length]=getCudePanel();
@@ -258,6 +257,9 @@ function getContPanel(){
 				return new Fos.TaskTab(BC_I,BT_C);
 			}
 		);
+		
+	items[items.length]=NaviMenu('港区进箱计划','VOYA',function(){return new Fos.VoyagePanel();});
+
 	
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
@@ -290,9 +292,9 @@ function getBulkPanel(){
 				}
 			);
 		
-		if(!NR(M1_B+M2_BV)) 
-			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return new Fos.VoyagePanel();});
-		
+		/*if(!NR(M1_B+M2_BV)) 
+			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return new Fos.VoyagePanel();});*/
+	
 		return new Ext.Panel({title:C_BULK,collapsible:true,layout:'fit',
 			items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 	}

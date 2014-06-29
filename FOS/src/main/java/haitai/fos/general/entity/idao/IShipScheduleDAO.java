@@ -15,4 +15,6 @@ public interface IShipScheduleDAO {
 
 	public abstract List<ShipSchedule> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap);
+	
+	public List<?> findDistinctVessel(String vesselName);
 }

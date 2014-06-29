@@ -225,3 +225,19 @@ getDATY = function(v){
 var Y_O_N=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','否'],['1','是']]});
 getY_O_N = function(v){if(v>=0) return Y_O_N.getById(v).get('NAME'); else return '';};
 
+var getArrayStore = function(){
+	return new Ext.data.ArrayStore({id:0,fields:['id','CODE']});
+};
+
+var String2Store = function(str){	
+	var arrStore = new Ext.data.ArrayStore({id:0,fields:['id','CODE']});
+	var strArr = str.split(",");
+	var dataArr = [];
+	for(var i=0;i<strArr.length;i++){
+		var r = [i,strArr[i]];
+		dataArr[i] = r;
+	}
+	arrStore.add(dataArr);
+	return arrStore;		
+};
+

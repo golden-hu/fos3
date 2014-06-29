@@ -397,8 +397,15 @@ Ext.ux.TabCloseMenu = function(){
     function onContextMenu(ts, item, e){
         if(!menu){
             menu = new Ext.menu.Menu([
-            {id: tabs.id + '-close',text: 'Close Tab',handler : function(){tabs.remove(ctxItem);}},
-            {id: tabs.id + '-close-others',text: 'Close Other Tabs',handler : function(){
+            {id: tabs.id + '-close',
+            	text: 'Close Tab',
+            	handler : function(){
+            		tabs.remove(ctxItem);
+            	}
+            },
+            {id: tabs.id + '-close-others',
+            	text: 'Close Other Tabs',
+            	handler : function(){
             	tabs.items.each(function(item){if(item.closable && item != ctxItem){tabs.remove(item);}});}
             }]);
         }
@@ -439,17 +446,22 @@ var getUN=function(p){
 	}
 	return a;
 };
-var getMB = function(p){return [{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
+
+var getMB = function(p){
+	return [{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
 			{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
 			{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',
 			{xtype:'tbtext',text:C_MODIFY_TIME_C+formatDateTime(p.get('modifyTime'))}
-			]};
+			];
+	};
+			
 var getDirty=function(store){
 	var cc=[];
 	var a =store.getRange();
 	for(var i=0;i<a.length;i++){if(a[i].dirty) cc[cc.length]=a[i];}
 	return cc;
-};		
+};
+
 var EXP=function(t,tid,p){
 	var url = SERVICE_URL+'?A='+'TEMP_E&aggressive=1&tempId='+tid+'&type='+t+p;
 	window.open(url,'download', 'height=5, width=5, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
@@ -560,6 +572,22 @@ var LV=function(f,e,vt){
 		});
 	}
 };
+
+var listVessel = function(f,e,vt){
+	var q=f.getRawValue();
+	if(q.length>1 && !f.isExpanded()){
+   		Ext.Ajax.request({url:SERVICE_URL,
+   			method:'POST',
+   			params:{A:'SHSC_XV',vesselName:q},
+   			scope:this,
+			success: function(r,o){
+				f.store.loadData(r.responseXML,false);
+				f.expand();
+			}
+		});
+	}
+};
+
 
 var EXPC=function(t,p){	
 	var templates = getTemplates(t);
@@ -940,7 +968,13 @@ var FOS_REMOVE_A=function(a,store){
 };
 
 var CREATE_E_MENU=function(t,fd,fe,ff,s){
-	return {text:t,menu:{items:[{text:'Excel',scope:s,handler:fd},{text:C_EMAIL,scope:s,handler:fe},{text:'传真',scope:s,handler:ff}]}};
+	return {text:t,
+		menu:{items:[
+		             {text:'Excel',scope:s,handler:fd},
+		             {text:C_EMAIL,scope:s,handler:fe},
+		             {text:'传真',scope:s,handler:ff}]
+		}
+	};
 };
 
 function getCSM(){return new Ext.grid.CheckboxSelectionModel({singleSelect:false});};

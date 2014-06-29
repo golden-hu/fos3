@@ -280,7 +280,8 @@ Fos.showConsignTabs = function(p){
 Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {	
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_X',
 		baseParams:{mt:'xml'},
-		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
+			record:'FConsign',idProperty:'consId'},FConsign),
 		remoteSort:true,autoLoad:false,
 		sortInfo:{field:'consMasterNo', direction:'DESC'}
 	});
@@ -312,7 +313,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c3={header:C_M_CONS,width:30,hidden:bizType!=BT_C,dataIndex:"consMasterFlag",renderer:boolRender};
     var c4={header:C_STATUS,width:100,dataIndex:"consStatus",renderer:getCONS_STATUS};
     var c5={header:C_CONS_NO,width:150,dataIndex:"consNo"};
-    var c6={header:(bizType==BT_B||bizType==BT_O)?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
+    var c6={header:(bizType==BT_B)?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
     var c7={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
     var c8={header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
     var c9={header:C_PATE,dataIndex:"pateId",width:80,renderer:getPATE};
@@ -349,11 +350,14 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var c35={header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};    
     var c36={header:C_ETA,dataIndex:"consEta",renderer:formatDate};
     
+    var c37={header:C_HARBOUR_OPEN_TIME,dataIndex:"harbourOpenTime",width:150};
+    var c38={header:C_HARBOUR_CLOSE_TIME,dataIndex:"harbourCloseTime",width:150};
+    
     var cm=new Ext.grid.ColumnModel({columns:
-    	(bizType==BT_B||bizType==BT_O)?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,
-    	                                c11,c12,c13,c36,c14,c15,colDestination,
+    	(bizType==BT_B)?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,
+    	                                c11,c12,c37,c38,c13,c36,c14,c15,colDestination,
     	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c27]:
-    	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c13,c36,c14,c15,colDestination,
+    	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c37,c38,c13,c36,c14,c15,colDestination,
     	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c27,c28],
 		defaults: {sortable: true}});
 	
@@ -546,7 +550,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
   	title+=C_CONS_LIST;
   	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
-	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&(bizType==BT_B||bizType==BT_O)&&NR(m+F_CM))
+	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&(bizType==BT_B)&&NR(m+F_CM))
 			||(bizType==BT_C&&shipType==''),
 			iconCls:'add',handler:this.newConsign};
 	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE)+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
@@ -559,7 +563,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var b9={text:C_TASK+'(T)',iconCls:'task',handler:this.task};
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     
-    if(bizType==BT_B||bizType==BT_O) 
+    if(bizType==BT_B) 
     	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     else if (bizType==BT_C&&bizClass==BC_E)
     	tbs=[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];

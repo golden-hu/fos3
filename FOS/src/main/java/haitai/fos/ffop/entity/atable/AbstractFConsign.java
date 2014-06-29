@@ -352,6 +352,9 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String attr9;
 	private String attr10;
 
+	private String harbourOpenTime;
+	private String harbourCloseTime;
+	
 	private String consCompany;
 	private String consVerificationNo;
 	private String consManualNo;	
@@ -3431,7 +3434,26 @@ public abstract class AbstractFConsign extends BaseDomain {
 	public void setAttr10(String attr10) {
 		this.attr10 = attr10;
 	}
+	
+	@Column(name = "HARBOUR_OPEN_TIME")
+	public String getHarbourOpenTime() {
+		return this.harbourOpenTime;
+	}
 
+	public void setHarbourOpenTime(String harbourOpenTime) {
+		this.harbourOpenTime = harbourOpenTime;
+	}
+	
+	
+	@Column(name = "HARBOUR_CLOSE_TIME")
+	public String getHarbourCloseTime() {
+		return this.harbourCloseTime;
+	}
+
+	public void setHarbourCloseTime(String harbourCloseTime) {
+		this.harbourCloseTime = harbourCloseTime;
+	}
+	
 	@Column(name = "CONS_COMPANY", length = 64)
 	public String getConsCompany() {
 		return consCompany;

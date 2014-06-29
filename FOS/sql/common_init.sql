@@ -402,7 +402,11 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('TRAIN_Q', 'GTrainStationService', 'query', '火车站管理查询'),
 ('TRAIN_S', 'GTrainStationService', 'save', '火车站管理保存'),
 ('BRANCH_Q', 'PBranchService', 'query', '分公司查询'),
-('BRANCH_S', 'PBranchService', 'save', '分公司保存');
+('BRANCH_S', 'PBranchService', 'save', '分公司保存'),
+('SHSC_Q', 'shipScheduleService', 'query', 'ShipSchedule查询'),
+('SHSC_X', 'shipScheduleService', 'complexQuery', 'ShipSchedule复杂查询'),
+('SHSC_XV', 'shipScheduleService', 'queryVessel', 'ShipSchedule查询船名')
+;
 
 
 --

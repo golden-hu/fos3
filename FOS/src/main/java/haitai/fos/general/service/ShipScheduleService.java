@@ -1,6 +1,7 @@
 package haitai.fos.general.service;
 
 import haitai.fos.general.entity.idao.IShipScheduleDAO;
+import haitai.fos.general.entity.table.GVessel;
 import haitai.fos.general.entity.table.ShipSchedule;
 import haitai.fw.entity.FosQuery;
 import haitai.fw.session.SessionKeyType;
@@ -84,6 +85,9 @@ public class ShipScheduleService {
 	public void loadContainerSchedule() {
 		String sendUrl = "http://www.wangbaby19.com/LoadingSchedule.ashx?KEY=hiti";
 		try {
+			SessionManager.regSession(new MockHttpSession());
+			SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
+			
 			URL httpurl = new URL(sendUrl);
 			URLConnection connection = (URLConnection) httpurl.openConnection();		  
 			InputStream inputStream = connection.getInputStream();
@@ -92,9 +96,7 @@ public class ShipScheduleService {
 			DocumentBuilder builder=factory.newDocumentBuilder(); 
 			
 			Document doc = builder.parse(inputStream) ;
-			
-			List<ShipSchedule> itemList = new ArrayList<ShipSchedule>();
-			
+						
 			NodeList nl = doc.getElementsByTagName("ContainerLoadingSchedule"); 
 			int len = nl.getLength();
 			if(len>200)
@@ -170,10 +172,6 @@ public class ShipScheduleService {
 			    	}
 				}
 			}
-				
-			SessionManager.regSession(new MockHttpSession());
-			SessionManager.setAttr(SessionKeyType.ACTNAME, ConstUtil.ACT_DAEMON);
-			save(itemList);
 			SessionManager.unregSession();
 		} 
 		catch (Exception e) {
@@ -252,8 +250,11 @@ public class ShipScheduleService {
 			        	s.setCutOff(CutOff.getTextContent());
 			        
 			        Element Source =  (Element) scheduleElement.getElementsByTagName("Source").item(0);
-			        if(Source != null)
+			        if(Source != null){
 			        	s.setSource(Source.getTextContent());
+			        	s.setPortArea(Source.getTextContent());
+			        }
+			        	
 			        
 			        Element Status =  (Element) scheduleElement.getElementsByTagName("Status").item(0);
 			        if(Status != null)
@@ -274,5 +275,27 @@ public class ShipScheduleService {
 		catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	@SuppressWarnings({"rawtypes"})
+	@Transactional(readOnly = true)
+	public List<GVessel> queryVessel(Map queryMap) {
+		String vesselName = (String)queryMap.get("vesselName");
+		List  objList = dao.findDistinctVessel(vesselName);
+		List<GVessel> vList = new ArrayList<GVessel>();
+		
+		for (Object obj : objList) {
+			if (obj instanceof Object[]) {
+				Object[] objArray = (Object[]) obj;
+				String vname = (String) objArray[0];
+				String vnameCn = (String) objArray[1];
+				GVessel v = new GVessel();
+				v.setVessNameEn(vname);
+				v.setVessNameCn(vnameCn);
+				
+				vList.add(v);
+			}
+		}
+		return vList;
 	}
 }

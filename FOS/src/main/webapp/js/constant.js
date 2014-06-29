@@ -33,13 +33,11 @@ var PPID=1;
 var CY=1;
 var CFS=9;
 
-var BT_C='C';
-var BT_B='B';
-var BT_O='O';
-var BT_A='A';
-var BT_G='G';
-var BT_I='I';
-var BT_K='K';
+var BT_C='C'; //集装箱
+var BT_B='B'; //散货
+var BT_A='A'; //空运
+var BT_G='G'; //报关
+var BT_I='I'; //报检
 
 var BT_M = 'M'; //加工贸易
 var BT_F = 'F'; //减免税
@@ -88,7 +86,6 @@ var M1_F='0014';//减免税
 var M1_R='0015';//企业注册
 var M1_RT ='0016';//铁运联运
 var M1_E='0017';//进境
-var M1_O='0018';//嘉禾海外业务
 
 var M2_TC='01';//进境集装箱
 var M2_TB='02';//进境散货

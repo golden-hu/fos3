@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public abstract class FosJpaDao extends JpaDaoSupport {
 	@SuppressWarnings({"rawtypes"})
@@ -157,5 +159,39 @@ public abstract class FosJpaDao extends JpaDaoSupport {
 	@Autowired
 	public void setEmf(EntityManagerFactory emf) {
 		setEntityManagerFactory(emf);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List<?> queryByJpql(final String jpql){
+		return getJpaTemplate().executeFind(new JpaCallback() {
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				Query query = em.createQuery(jpql);
+				return query.getResultList();
+			}
+		});
+	}
+
+	@SuppressWarnings("rawtypes")
+	public List<?> queryByJpql(final String jpql,final Map<String,String> paramMap){
+		return getJpaTemplate().executeFind(new JpaCallback() {
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				Query query = em.createQuery(jpql);
+				Set<Entry<String,String>> params = paramMap.entrySet();
+				for(Entry<String,String> e : params){
+					query.setParameter(e.getKey(), e.getValue());
+				}
+				return query.getResultList();
+			}
+		});
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List<?> queryByNativeSql(final String sql){
+		return getJpaTemplate().executeFind(new JpaCallback() {
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				Query query = em.createNativeQuery(sql);
+				return query.getResultList();
+			}
+		});
 	}
 }
