@@ -404,7 +404,14 @@ public class SInvoiceService {
 		retList.addAll(dao.findByProperties(queryMap));
 		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
 			retList.addAll(entryDao.findByProperties(queryMap));
-			retList.addAll(itemDao.findByProperties(queryMap));
+			List<SInvoiceItem> itemList = itemDao.findByProperties(queryMap);
+			for(SInvoiceItem item : itemList){
+				Integer consId = item.getConsId();
+				FConsign c = consignDao.findById(consId);
+				item.setConsMblNo(c.getConsMblNo());
+				item.setConsHblNo(c.getConsHblNo());
+			}
+			retList.addAll(itemList);
 		}
 		return retList;
 	}

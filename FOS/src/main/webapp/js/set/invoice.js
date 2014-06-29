@@ -427,9 +427,9 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 	};
 	
 	if(billNo){
-		showInvoiceItem()
+		showInvoiceItem();
 	}else if(arr){
-		showInvoiceItem()
+		showInvoiceItem();
 	}
 	else if(p.get('rowAction')!='N') 
 		store.load({params:{invoId:p.get('invoId')}});
@@ -1016,9 +1016,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		 	}
 		},stopEvent:true,scope:this});
     
-    this.expInvoP = function(){
-    	EXPC('CREATE_NOTE','&invoId='+p.get('invoId'));
-    };
+    
     
     var btSave = new Ext.Button({itemId:'TB_A',text:C_SAVE+'(S)',
     	iconCls:'save',
@@ -1027,31 +1025,67 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     	handler:this.save
     });
     
-    var b2={itemId:'TB_B',text:C_REMOVE+'(R)',iconCls:'remove',
+    var b2={itemId:'TB_B',
+    	text:C_REMOVE+'(R)',
+    	iconCls:'remove',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
-    	scope:this,handler:this.removeInvo};
+    	scope:this,
+    	handler:this.removeInvo
+    };
     
-    var b3={itemId:'TB_C',text:C_AUDIT+'(C)',iconCls:'check',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.check};
-    var b4={itemId:'TB_D',text:C_CANCEL_AUDIT+'(U)',iconCls:'renew',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')==2,scope:this,handler:this.renew};
-    var b5={itemId:'TB_E',text:C_INVALID+'(F)',iconCls:'cancel',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0',scope:this,handler:this.cancel};
-    var b6={itemId:'TB_F',text:C_MODIFY_INVO_NO+'(M)',iconCls:'option',disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.editTax};
+    var b3={itemId:'TB_C',
+    	text:C_AUDIT+'(C)',
+    	iconCls:'check',
+    	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',
+    	scope:this,
+    	handler:this.check
+    };
+    
+    var b4={itemId:'TB_D',
+    	text:C_CANCEL_AUDIT+'(U)',
+    	iconCls:'renew',
+    	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')==2,
+    	scope:this,
+    	handler:this.renew
+    };
+    
+    var b5={itemId:'TB_E',
+    	text:C_INVALID+'(F)',
+    	iconCls:'cancel',
+    	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0',
+    	scope:this,
+    	handler:this.cancel
+    };
+    
+    var b6={itemId:'TB_F',
+    	text:C_MODIFY_INVO_NO+'(M)',
+    	iconCls:'option',
+    	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
+    	scope:this,
+    	handler:this.editTax
+    };
     
     //导出发票，应收账单
+    this.expDebitNote = function(){
+    	EXPC('DEBIT_NOTE','&invoId='+p.get('invoId'));
+    };
+    
     var b7 = {text:C_EXPORT+'(E)',iconCls:'print',
-    		disabled:p.get('invoWriteOffStatus')!='0',
-    		scope:this,menu: {
-    			items: [{text:C_INVO_TAX,scope:this,handler:this.expInvo},
-    			        {text:'应收账单(DebitNote)',scope:this,handler:this.expInvoP},
-    			        ]
-    		}
-    	};
+		disabled:p.get('invoWriteOffStatus')!='0',
+		scope:this,menu: {
+			items: [
+		        {text:C_INVO_TAX,scope:this,handler:this.expInvo},
+		        {text:'应收账单(DebitNote)',scope:this,handler:this.expDebitNote},
+		    ]
+		}
+	};
     
     //应付账单
 	var b11={text:C_EXPORT+'(E)',
-			iconCls:'print',
-			disabled:p.get('invoWriteOffStatus')!='0',
-			scope:this,
-			menu: {items: [{text:'应付账单(CreditNote)',scope:this,handler:this.expInvoP}]}
+		iconCls:'print',
+		disabled:p.get('invoWriteOffStatus')!='0',
+		scope:this,
+		menu: {items: [{text:'应付账单(CreditNote)',scope:this,handler:this.expDebitNote}]}
 	}; 
 	
 	var b8={itemId:'TB_M',
@@ -1073,8 +1107,6 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		scope:this,
 		handler:this.genVoucher
 	};
-	
-	
 	
 	var c1={fieldLabel:HL(C_SETTLE_OBJECT),
 		tabIndex:1,

@@ -50,7 +50,7 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0),
 (53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTask', 'B', 'P', 1, 1, 0, 0),
 (54, '提单十联单', 'FBL_MANIFEST', '提单十联单', 'BL_Q', 'FBl', '', 'B', 'P', 1, 1, 0, 0),
-(55, 'CREATE NOTE', 'CREATE_NOTE', NULL, 'INVO_Q', 'SInvoice', 'SinvoiceItem', 'B', 'P', 1, 1, 1, 0);
+(55, 'DEBIT NOTE', 'DEBIT_NOTE', NULL, 'INVO_Q', 'SInvoice', 'SinvoiceItem', 'B', 'P', 1, 1, 1, 0);
 -- 提单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (1, '发货人', 'FBl', 'blShipper', NULL),
@@ -1503,10 +1503,12 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (55, '合同号', 'SInvoice', 'invoContractNo', NULL),
 (55, '箱型箱量', 'SInvoice', 'invoContainersInfo', NULL),
 (55, '币种', 'SInvoice', 'currCode', NULL),
+(55, '主单号', 'SInvoiceItem', 'consMblNo', NULL),
+(55, '分单号', 'SInvoiceItem', 'consHblNo', NULL),
 (55, '费用名称', 'SInvoiceItem', 'charName', NULL),
 (55, '费用英文名称', 'SInvoiceItem', 'charNameEn', NULL),
 (55, '数量', 'SInvoiceItem', 'expeNum', NULL),
-(55, '币种', 'SInvoiceItem', 'expeCurrCode', NULL),
+(55, '行币种', 'SInvoiceItem', 'expeCurrCode', NULL),
 (55, '单价', 'SInvoiceItem', 'expeUnitPrice', NULL),
 (55, '金额', 'SInvoiceItem', 'initInvoiceAmount', NULL),
 (55, '原币金额', 'SInvoiceItem', 'initInvoiceAmountOri', NULL),
