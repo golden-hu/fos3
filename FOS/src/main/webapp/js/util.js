@@ -7,6 +7,38 @@ frmValidatePrompt = function(){
 	Ext.Msg.show({title:SYS,msg:M_DATA_NOT_COMPLETE,modal:true,buttons: Ext.Msg.OK});
 };
 
+//将一个容器内的字段的值更新到一条record对象中
+var saveToRecord = function(container,record){
+	record.beginEdit();
+	var fs = record.fields;
+    fs.each(function(f){
+    	var fa = container.find('name',f.name); 
+        if(fa.length>0){
+            var field = fa[0];
+            if(field.getXType()=='checkbox'){
+            	if(field.checked)
+            		record.set(f.name, 1);
+            }
+            record.set(f.name, field.getValue());
+        }
+    }, this);
+    record.endEdit();
+};
+
+/*add by golden @20120911*/
+//将一条Record对象中的字段，更新至一个容器的控件上去
+var recordToContainer = function(container,record){
+	var fs = record.fields;
+    fs.each(function(f){
+    	var fa = container.find('name',f.name); 
+        if(fa.length>0){
+            var field = fa[0];
+            //record.set(f.name, field.getValue());
+            field.setValue(record.get(f.name));
+        }
+    }, this);
+    
+};
 
 var GR=function(){
 	return loadSession('USER_PERM');
