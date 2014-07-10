@@ -33,22 +33,25 @@ Fos.ExGrid = function(p,t,frm,store) {
 	else 
 		m=M1_S+S_EXPE+x;
 	
-	if( VERSION==1||VERSION==2){
-	var	t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center',
-			editor:new Ext.form.ComboBox({displayField:'custNameCn',valueField:'custNameCn',
+	var	t1={header:C_SETTLE_OBJECT,
+		width:200,
+		dataIndex:"custName",
+		align:'center',
+		editor:new Ext.form.ComboBox({displayField:'custNameCn',
+			valueField:'custNameCn',
 			triggerAction:'all',
-            mode:'local',
-            tpl:custTpl,
-            itemSelector:'div.list-item',
-            listWidth:450,
-            allowBlank:false,
-            mode:'local',
-            selectOnFocus:true,
-            listClass:'x-combo-list-small',
-            store:getCS(),
-            enableKeyEvents:true,
-            listeners:{scope:this,
-            	select:function(c,r,i){
+	        mode:'local',
+	        tpl:custTpl,
+	        itemSelector:'div.list-item',
+	        listWidth:450,
+	        allowBlank:false,
+	        mode:'local',
+	        selectOnFocus:true,
+	        listClass:'x-combo-list-small',
+	        store:getCS(),
+	        enableKeyEvents:true,
+	        listeners:{scope:this,
+	        	select:function(c,r,i){
 					var b =this.getSelectionModel().getSelected();
 	            	b.set('custId',r.get('custId'));
 	            	b.set('custName',r.get('custNameCn'));
@@ -58,77 +61,39 @@ Fos.ExGrid = function(p,t,frm,store) {
 		            }else{
 		            	b.set('expeInvoiceTitle',r.get('custNameCn'));
 		            }
-            	},
-           		keydown:{
-           			fn:function(f,e){
-           				LC(f,e,t=='R'?'custArFlag':'custApFlag',1);
-           			},buffer:500}
+	        	},
+	       		keydown:{
+	       			fn:function(f,e){
+	       				LC(f,e,t=='R'?'custArFlag':'custApFlag',1);
+	       			},buffer:500
+       			}
+        	}
+		}
+	)};
+	
+	
+	var t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
+			editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',
+			triggerAction:'all',tpl:charTpl,itemSelector:'div.list-item',listWidth:350,
+            allowBlank:false,blankText:'',invalidText:'',mode:'local',
+            selectOnFocus:true,listClass:'x-combo-list-small',
+            store:getCHAR_S(),
+            listeners:{scope:this,
+            	select:function(c,r,i){
+	            	var b =this.getSelectionModel().getSelected();
+	            	b.set('charId',r.get('charId'));
+	            	b.set('chclId',r.get('chclId'));
+	            	b.set('charNameEn',r.get('charNameEn'));
+	            	b.set('charName',r.get('charName'));
+	            	b.set('currCode',r.get('currCode'));
+	            	b.set('unitId',r.get('unitId'));
+	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
+	            	this.reCalculate();
             	}
 			}
-		)};
-	}
-	else{
-		var	t1={header:C_SETTLE_OBJECT,
-				width:200,
-				dataIndex:"custSname",
-				align:'center',
-			editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custCode',triggerAction:'all',
-	        mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:450,allowBlank:false,blankText:'',
-	        invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
-	        store:getCS(),enableKeyEvents:true,
-	        listeners:{scope:this,
-	        	select:function(c,r,i){
-					var b =this.getSelectionModel().getSelected();
-					b.set('custId',r.get('custId'));
-	            	b.set('custName',r.get('custNameCn'));
-	            	b.set('custSname',r.get('custCode'));
-	            	if(r.get('custInvoiceHeader')!=""){
-	            		b.set('expeInvoiceTitle',r.get('custInvoiceHeader'));
-	            	}else{
-	            		b.set('expeInvoiceTitle',r.get('custNameCn'));
-	            	}
-	            },
-	       		keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag',1);},buffer:500}}})};
-	}
-	var t2='';
-	if( VERSION==1){
-		t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
-				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',
-				triggerAction:'all',tpl:charTpl,itemSelector:'div.list-item',listWidth:350,
-	            allowBlank:false,blankText:'',invalidText:'',mode:'local',
-	            selectOnFocus:true,listClass:'x-combo-list-small',
-	            store:getCHAR_S(),
-	            listeners:{scope:this,select:function(c,r,i){
-	            	var b =this.getSelectionModel().getSelected();
-	            	b.set('charId',r.get('charId'));
-	            	b.set('chclId',r.get('chclId'));
-	            	b.set('charNameEn',r.get('charNameEn'));
-	            	b.set('charName',r.get('charName'));
-	            	b.set('currCode',r.get('currCode'));
-	            	b.set('unitId',r.get('unitId'));
-	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
-	            	this.reCalculate();}
-				}
-			}
-		)};
-	}
-	else{
-	   t2={header:C_CHAR,width:80,dataIndex:"charName",align:'center',
-				editor:new Ext.form.ComboBox({displayField:'charCode',valueField:'charName',triggerAction:'all',
-	            tpl:charTpl,itemSelector:'div.list-item',listWidth:350,
-	            allowBlank:false,blankText:'',invalidText:'',mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',
-	            store:t=='C'?getCCHAR_S():(t=='R'?getCHAR_PERM_R_S():getCHAR_PERM_P_S()),
-	            listeners:{scope:this,select:function(c,r,i){
-	            	var b =this.getSelectionModel().getSelected();
-	            	b.set('charId',r.get('charId'));
-	            	b.set('chclId',r.get('chclId'));
-	            	b.set('charNameEn',r.get('charNameEn'));
-	            	b.set('charName',r.get('charName'));
-	            	b.set('currCode',r.get('currCode'));
-	            	b.set('unitId',r.get('unitId'));
-	            	b.set('expeExRate',getExRate(r.get('currCode'),'CNY'));
-	            	this.reCalculate();}}})};
-	}
+		}
+	)};
+	
 	
     var t3={header:C_UNIT,width:80,dataIndex:"unitName",align:'center',
 			editor:new Ext.form.ComboBox({displayField:'unitCode',valueField:'unitCode',triggerAction:'all',
@@ -251,8 +216,8 @@ Fos.ExGrid = function(p,t,frm,store) {
 	 var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
 	 var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
 	 var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
-	 var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
-	 var t28={header:C_WHETHER_INVOICING,hidden:VERSION==0,dataIndex:'expeInvoiceFlag',align:'center',width:100,renderer:getY_O_N,
+	 var t27={header:C_INVO_TITLE,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
+	 var t28={header:C_WHETHER_INVOICING,dataIndex:'expeInvoiceFlag',align:'center',width:100,renderer:getY_O_N,
 	 		editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',store:Y_O_N,triggerAction:'all',typeAhead:true,
             mode:'local',selectOnFocus:true,
             listeners:{scope:this,
@@ -812,312 +777,8 @@ Fos.ExCopyWin = function(t) {
 };
 Ext.extend(Fos.ExCopyWin,Ext.Window);
 
-Fos.ExpenseTab = function(p,f){
-	
-	this.f=f;
-	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
-	if(this.f=='C') 
-		m=m+M3_EXPE; 
-	else 
-		m=M1_S+S_EXPE;	
-	
-	var c1={fieldLabel:C_BOOKER,name:'custName',value:p.get('custName'),xtype:'textfield',anchor:'95%'};
-	var c2={fieldLabel:C_CARRIER,name:'consCarrier',value:p.get('consCarrierName'),xtype:'textfield',anchor:'95%'};
-	var c3={fieldLabel:C_POL,name:'consPol',value:p.get('consPolEn'),xtype:'textfield',anchor:'95%'};
-	var c4={fieldLabel:C_CONT_NUM,name:'consContainersInfo',value:p.get('consContainersInfo'),xtype:'textfield',anchor:'95%'};
-	var c5={fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,name:'consSailDate',value:p.get('consSailDate'),xtype:'datefield',format:DATEF,anchor:'95%'};
-	var c6={fieldLabel:C_TTER,tabIndex:17,name:'tranId',value:p.get('tranId'),store:getTRAN_S(),xtype:'combo',displayField:'tranCode',valueField:'tranId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'};
-	var c7={fieldLabel:C_ACCOUNT,name:'custSname',value:p.get('custSname'),xtype:'textfield',anchor:'95%'};
-	
-	var b1={fieldLabel:C_CONS_NO,name:'consNo',disabled:true,value:p.get("consNo"),xtype:'textfield',anchor:'95%'};
-	var b2={fieldLabel:C_BOOK_AGENCY,name:'consBookingAgencyName',value:p.get('consBookingAgencyName'),xtype:'textfield',anchor:'95%'};
-	var b3={fieldLabel:C_POD,name:'consPod',value:p.get('consPodEn'),xtype:'textfield',anchor:'95%'};
-	var b4={fieldLabel:C_PACKAGES,name:'consTotalPackages',value:p.get('consTotalPackages'),xtype:'textfield',anchor:'95%'};
-	var b5={fieldLabel:C_OPERATOR,name:'consOperatorId',value:getUSER(p.get('consOperatorId')),xtype:'textfield',anchor:'95%'};
-	var b6={fieldLabel:C_PATE,tabIndex:15,name:'pateId',value:p.get('pateId'),store:getPATE_S(),xtype:'combo',displayField:'pateName',valueField:'pateId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'};
-	var pBiz=new Ext.Panel({layout:'column',title:C_BIZ_INFO,layoutConfig:{columns:4},deferredRender:true,collapsible:true,items:[
-			{columnWidth:.25,layout:'form',border:false,labelWidth:60,
-                items:p.get('consBizClass')==BC_E?[c1,c7,c2,c3,c4,c5]:[c1,c7,c3,c4,c5]},
-            {columnWidth:.25,layout:'form',border:false,labelWidth:60,
-                items:p.get('consBizClass')==BC_E?[b1,b2,b3,b4,b5,b6]:[b1,b3,b4,b5,b6]},
-            {columnWidth:.25,layout: 'form',border : false,labelWidth:70,items: [
-                {fieldLabel:C_CONS_DATE,name:'consDate',value:p.get('consDate'),xtype:'datefield',format:DATEF,anchor:'95%'},
-                {fieldLabel:C_VESS,name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'95%'},
-                {fieldLabel:C_MBL_NO,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'95%'},
-                {fieldLabel:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),name:'consTotalGrossWeight',value:p.get('consTotalGrossWeight'),xtype:'textfield',anchor:'95%'},
-				{fieldLabel:C_SALES,name:'consSalesRepId',value:getUSER(p.get('consSalesRepId')),xtype:'textfield',anchor:'95%'},
-				{fieldLabel:C_REF_NO,name:'consRefNo',value:p.get('consRefNo'),xtype:'textfield',anchor:'95%'}]},
-            {columnWidth:.25,layout: 'form',border : false,labelWidth:70,items:[
-                {fieldLabel:C_STATUS,name:'consStatus',value:p.get('consBizClass')==BC_E?getCOST(p.get('consStatus')):getCIST(p.get('consStatus')),xtype:'textfield',anchor:'95%'},
-                {fieldLabel:C_VOYA,name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'95%'},
-                {fieldLabel:C_HBL_NO,name:'consHblNo',value:p.get('consHblNo'),xtype:'textfield',anchor:'95%'},
-                {fieldLabel:C_CBM,name:'consTotalMeasurement',value:p.get('consTotalMeasurement'),xtype:'textfield',anchor:'95%'},
-                c6,
-                {fieldLabel:C_REMARKS,name:'consRemarks',value:p.get('consRemarks'),xtype:'textfield',anchor:'95%'}]}
-			]});
-			
-	var PCny = new Ext.form.TextField({width:80,disabled:true});
-	var PUsd = new Ext.form.TextField({width:80,disabled:true});
-	var PEur = new Ext.form.TextField({width:80,disabled:true});
-	var PLoc = new Ext.form.TextField({width:80,disabled:true});
-	var PRc = new Ext.form.TextField({width:80,disabled:true});
-	var PSale = new Ext.form.TextField({width:80,disabled:true});
-	
-	this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	var cT={xtype:'tbtext',text:C_SUM_CNY_C};
-	var uT={xtype:'tbtext',text:C_SUM_USD_C};
-	var eT={xtype:'tbtext',text:C_SUM_EUR_C};
-	
-	var lT={xtype:'tbtext',text:C_SUM_LOC_C};	
-	var rT={xtype:'tbtext',text:C_SUM_RC};
-	var sRT={xtype:'tbtext',text:C_SUM_SALE_R};
-	var sPT={xtype:'tbtext',text:C_SUM_SALE_P};
-	var sCT={xtype:'tbtext',text:C_SUM_SALE_C};
-	
-	var sumCnyR = new Ext.form.TextField({width:80,disabled:true});
-	var sumUsdR = new Ext.form.TextField({width:80,disabled:true});
-	var sumEurR = new Ext.form.TextField({width:80,disabled:true});
-	var sumLocR = new Ext.form.TextField({width:80,disabled:true});
-	var sumRcR = new Ext.form.TextField({width:80,disabled:true});
-	var sumSaleR = new Ext.form.TextField({width:80,disabled:true});
-	this.sumCnyR=0;this.sumUsdR=0;this.sumEurR=0;this.sumLocR=0;this.sumRcR=0;this.sumSaleR=0;
-	this.rs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	this.calcR=function(){
-		var d=this.rs.getRange();
-		this.sumCnyR=0;this.sumUsdR=0;this.sumEurR=0;this.sumLocR=0;this.sumRcR=0;this.sumSaleR=0;
-		for(var i=0;i<d.length;i++){
-			if(d[i].get('currCode')=='CNY')
-				this.sumCnyR+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='USD')
-				this.sumUsdR+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='EUR')
-				this.sumEurR+=parseFloat(d[i].get('expeTotalAmount'));
-			this.sumLocR+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
-			this.sumSaleR+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
-			this.sumRcR+=parseFloat(d[i].get('expeWriteOffRcAmount'));
-		}
-		sumCnyR.setValue(round2(this.sumCnyR));
-		sumUsdR.setValue(round2(this.sumUsdR));
-		sumEurR.setValue(round2(this.sumEurR));
-		sumLocR.setValue(round2(this.sumLocR));
-		sumRcR.setValue(round2(this.sumRcR));
-		sumSaleR.setValue(round2(this.sumSaleR));
-	};
-	this.rg=new Fos.ExGrid(p,'R',this,this.rs);
-	var pR=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_R,collapsible:true,border:false,
-			items:[this.rg],
-		bbar:[cT,sumCnyR,'-',uT,sumUsdR,'-',eT,sumEurR,'-',lT,sumLocR,'-',sRT,sumSaleR,'-',rT,sumRcR]
-	});	
-	
-	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
-	var sumUsdP = new Ext.form.TextField({width:80,disabled:true});
-	var sumEurP = new Ext.form.TextField({width:80,disabled:true});
-	var sumLocP = new Ext.form.TextField({width:80,disabled:true});
-	var sumRcP = new Ext.form.TextField({width:80,disabled:true});
-	var sumSaleP = new Ext.form.TextField({width:80,disabled:true});
-	this.sumCnyP=0;this.sumUsdP=0;this.sumEurP=0;this.sumLocP=0;this.sumRcP=0;this.sumSaleP=0;	
-	this.ps=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	this.calcP=function(){
-		var d=this.ps.getRange();
-		this.sumCnyP=0;this.sumUsdP=0;this.sumEurP=0;this.sumLocP=0;this.sumRcP=0;this.sumSaleP=0;
-		for(var i=0;i<d.length;i++){
-			if(d[i].get('currCode')=='CNY')
-				this.sumCnyP+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='USD')
-				this.sumUsdP+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='EUR')
-				this.sumEurP+=parseFloat(d[i].get('expeTotalAmount'));
-			this.sumLocP+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
-			this.sumSaleP+=parseFloat(d[i].get('expeInnerAmount')*d[i].get('expeExRate'));
-			this.sumRcP+=parseFloat(d[i].get('expeWriteOffRcAmount'));
-		};
-		sumCnyP.setValue(round2(this.sumCnyP));
-		sumUsdP.setValue(round2(this.sumUsdP));
-		sumEurP.setValue(round2(this.sumEurP));
-		sumLocP.setValue(round2(this.sumLocP));
-		sumRcP.setValue(round2(this.sumRcP));
-		sumSaleP.setValue(round2(this.sumSaleP));
-	};
-	this.pg=new Fos.ExGrid(p,'P',this,this.ps);
-	var pP=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_P,collapsible:true,border:false,items:[this.pg],
-		bbar:[cT,sumCnyP,'-',uT,sumUsdP,'-',eT,sumEurP,'-',lT,sumLocP,'-',sPT,sumSaleP,'-',rT,sumRcP]
-	});
-	var sumCnyC = new Ext.form.TextField({width:80,disabled:true});
-	var sumUsdC = new Ext.form.TextField({width:80,disabled:true});
-	var sumEurC = new Ext.form.TextField({width:80,disabled:true});
-	var sumLocC = new Ext.form.TextField({width:80,disabled:true});
-	var sumRcC = new Ext.form.TextField({width:80,disabled:true});
-	var sumSaleC = new Ext.form.TextField({width:80,disabled:true});	
-	this.sumCnyC=0;this.sumUsdC=0;this.sumEurC=0;this.sumLocC=0;this.sumRcC=0;this.sumSaleC=0;	
-	this.cs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	this.calcC=function(){
-		var d=this.cs.getRange();
-		this.sumCnyC=0;this.sumUsdC=0;this.sumEurC=0;this.sumLocC=0;this.sumRcC=0;this.sumSaleC=0;
-		for(var i=0;i<d.length;i++){
-			if(d[i].get('currCode')=='CNY')
-				this.sumCnyC+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='USD')
-				this.sumUsdC+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='EUR')
-				this.sumEurC+=parseFloat(d[i].get('expeTotalAmount'));
-			this.sumLocC+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
-			this.sumSaleC+=parseFloat(d[i].get('expeInnerAmount')*d[i].get('expeExRate'));
-			this.sumRcC+=parseFloat(d[i].get('expeWriteOffRcAmount'));
-		}
-		sumCnyC.setValue(round2(this.sumCnyC));
-		sumUsdC.setValue(round2(this.sumUsdC));
-		sumEurC.setValue(round2(this.sumEurC));
-		sumLocC.setValue(round2(this.sumLocC));
-		sumRcC.setValue(round2(this.sumRcC));
-		sumSaleC.setValue(round2(this.sumSaleC));
-	};
-	this.cg=new Fos.ExGrid(p,'C',this,this.cs);
-	var pC=new Ext.Panel({width:Ext.isIE?800:'auto',layout:'fit',title:C_EXPE_C,collapsible:true,border:false,items:[this.cg],
-		bbar:[cT,sumCnyC,'-',uT,sumUsdC,'-',eT,sumEurC,'-',lT,sumLocC,'-',sCT,sumSaleC,'-',rT,sumRcC]
-	});	
-	
-	this.reCalculate = function(){		
-		PCny.setValue(round2(this.sumCnyR-this.sumCnyP-this.sumCnyC));
-		PUsd.setValue(round2(this.sumUsdR-this.sumUsdP-this.sumUsdC));
-		PEur.setValue(round2(this.sumEurR-this.sumEurP-this.sumEurC));
-		PLoc.setValue(round2(this.sumLocR-this.sumLocP-this.sumLocC));
-		PRc.setValue(round2(this.sumRcR-this.sumRcP-this.sumRcC));
-		PSale.setValue(round2(this.sumSaleR-this.sumSaleP-this.sumSaleC));
-	};
-	
-	var rC=getCFG('COMMISSION_CHAR_CNY');
-	var uC=getCFG('COMMISSION_CHAR_USD');
-	var bVR=true;
-	var bVC=true;
-	
-	if(CUSER_ID==p.get('consOperatorId')){		
-		bVR=false;
-		bVC=false;
-		if(CUSER_ID==p.get('consSalesRepId')) bVR=true;
-		if(getCFG('OPERATOR_DISPLAY_EXPE_R')=='Y') bVR=true;
-	}
-	else if(CUSER_ID==p.get('consSalesRepId')) bVC=false;
-	
-	if(p.get('rowAction')!='N' || !NR(m+M3_EXPE+S_AR+F_V))
-		this.store.load({params:{consId:p.get('consId')},callback:function(){
-			var a=this.store.getRange();
-			for(var i=0;i<a.length;i++){
-				if(a[i].get('expeType')=='R') {
-					if(!NR(m+S_AR+F_V))
-						this.rs.add(a[i]);
-				}					
-				else{
-					if(a[i].get('charId')==rC||a[i].get('charId')==uC) 
-						this.cs.add(a[i]);
-					else{
-						if(CUSER_ID==p.get('consOperatorId')&&CUSER_ID!=p.get('consSalesRepId'))
-						{
-							if(a[i].get('createBy')==CUSER_ID){
-								if(!NR(m+S_AP+F_V))
-									this.ps.add(a[i]);
-							}
-							else {
-								if(!NR(m+S_AP+F_V))
-									this.ps.add(a[i]);
-							}								
-						}
-						else{
-							if(!NR(m+S_AP+F_V))
-								this.ps.add(a[i]);
-						}
-					}
-				}
-			}
-			this.calcR();
-			this.calcP();
-			this.calcC();
-			this.reCalculate();			
-		},scope:this});	
-	this.UN=new Ext.data.SimpleStore({id:0,fields:['U','N'],data:getUN(p)});
-	this.updateStatus=function(s){
-		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatusExp:s},
-			success: function(r){p.beginEdit();p.set('consStatusExp',s);p.endEdit();
-			this.updateTB();XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
-	};
-	this.check=function(){this.updateStatus('1');};
-	this.unCheck=function(){this.updateStatus('0');};
-	this.updateTB=function(){
-		var tb=this.getTopToolbar();
-		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
-    	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0);
-    	this.rg.updateTB();this.pg.updateTB();this.cg.updateTB();
-	};	
-		
-	this.reSize=function(){
-		if(bVR==false){
-			if(pBiz.collapsed) 
-				this.pg.setHeight(380); 
-			else 
-				this.pg.setHeight(220);
-		}		
-		else{
-			var bR=pR.collapsed;
-			var bP=pP.collapsed;
-			var bC=pC.collapsed;
-			if(bR){
-				if(!bP) 
-					this.pg.setHeight(400);
-				if(!bC) 
-					this.cg.setHeight(400);
-			}
-			else if(bP){
-				if(!bR) 
-					this.rg.setHeight(400);
-				if(!bC) 
-					this.cg.setHeight(400);}
-			else if(bC){
-				if(!bR) 
-					this.rg.setHeight(400);
-				if(!bP) this.pg.setHeight(400);
-			}
-			else{
-				this.rg.setHeight(200);
-				this.pg.setHeight(200);
-				this.cg.setHeight(200);
-				}
-		}
-	};
-	
-	pBiz.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
-	pR.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
-	pP.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
-	pC.on({'collapse':{fn:this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
-	
-	var tb1={itemId:'TB_A',text:C_EXPE_AUDIT,disabled:NR(m+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0,iconCls:'check',scope:this,handler:this.check};
-	var tb2={itemId:'TB_B',text:C_EXPE_UNCHECK,disabled:NR(m+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0,iconCls:'renew',scope:this,handler:this.unCheck};
-	var tb3={xtype:'tbtext',text:C_PROFIT_CNY};
-	var tb4={xtype:'tbtext',text:C_PROFIT_USD};
-	var tb8={xtype:'tbtext',text:C_PROFIT_EUR};
-	var tb5={xtype:'tbtext',text:C_PROFIT_LOC};
-	var tb6={xtype:'tbtext',text:C_PROFIT_SALE};
-	var tb7={xtype:'tbtext',text:C_PROFIT_RC};
-	
-	var tbs=[pBiz,pR,pP,pC];
-	if(bVR==false&&bVC==false) 
-		tbs=[pBiz,pP];
-	else if(bVR==true&&bVC==false) 
-		tbs=[pBiz,pR,pP];
-	else if(bVR==false&&bVC==true) 
-		tbs=[pBiz,pP,pC];
-	
-	Fos.ExpenseTab.superclass.constructor.call(this, { 
-	id:"T_EXPE_"+p.get('id'),
-	title:C_EXPE+(f=='C'?'(F3)':('-'+p.get("consNo"))),
-	header:false,autoScroll:true,closable:f=='C'?false:true,
-	height:900,labelAlign:'right',border:true,
-	items:tbs,
-		tbar:(NR(m+S_AP+F_CV)||bVR==false)?[tb1,'-',tb2,'-']:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb8,PEur,'-',tb5,PLoc,'-',tb6,PSale,'-',tb7,PRc]
-	});
-};
-Ext.extend(Fos.ExpenseTab, Ext.Panel);
 
-Fos.ExpenseTab2 = function(p,f){
+Fos.ExpenseTab = function(p,f){
 	this.f=f;
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	if(this.f=='C') 
@@ -1291,8 +952,6 @@ Fos.ExpenseTab2 = function(p,f){
 		}
 		else{this.rg.setHeight(250);this.pg.setHeight(250);}
 	};
-	//pR.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
-	//pP.on({'collapse':{fn: this.reSize,scope: this},'expand':{fn:this.reSize,scope:this}});
 		
 	var tb1={itemId:'TB_A',text:C_EXPE_AUDIT,disabled:NR(m+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0,iconCls:'check',scope:this,handler:this.check};
 	var tb2={itemId:'TB_B',text:C_EXPE_UNCHECK,disabled:NR(m+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0,iconCls:'renew',scope:this,handler:this.unCheck};
@@ -1300,14 +959,21 @@ Fos.ExpenseTab2 = function(p,f){
 	var tb4={xtype:'tbtext',text:C_PROFIT_USD};
 	var tb5={xtype:'tbtext',text:C_PROFIT_LOC};
 	var tb7={xtype:'tbtext',text:C_PROFIT_RC};	
-	Fos.ExpenseTab2.superclass.constructor.call(this, { 
-		id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'||f=='T'?'(F3)':('-'+p.get("consNo"))),header:false,autoScroll:true,closable:f=='C'||f=='T'?false:true,
-		height:900,labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
+	
+	Fos.ExpenseTab.superclass.constructor.call(this, { 
+		id:"T_EXPE_"+p.get('id'),title:C_EXPE+(f=='C'||f=='T'?'(F3)':('-'+p.get("consNo"))),
+		header:false,
+		autoScroll:true,
+		closable:f=='C'||f=='T'?false:true,
+		height:900,
+		labelAlign:'right',
+		bodyStyle:'padding:0px 0px 0px',
+		border:true,
 		items: f=='T'?[pR,pP]:[pBiz,pR,pP,pD],
 		tbar:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
 	});
 };
-Ext.extend(Fos.ExpenseTab2, Ext.Panel);
+Ext.extend(Fos.ExpenseTab, Ext.Panel);
 
 Fos.ExWin = function(p) {
 	this.f='C';
@@ -1850,23 +1516,15 @@ Fos.ExpenseGrid = function(t){
 		sortInfo:{field:'consNo', direction:'DESC'},remoteSort:true,autoLoad:false});
 	
 	var consNo = {header:C_CONS_NO,dataIndex:'consNo',width:150};
-	var t1='';
-	if( VERSION==1){
-		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center'};
-	}
-	else{
-		t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custSname",align:'center'};
-	}
 	
+	var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'center'};		
 	var t2={header:C_CHAR,width:80,dataIndex:"charName"};
     var t3={header:C_UNIT,dataIndex:"unitName"};
     var t4={header:C_QUANTITY,width:60,dataIndex:"expeNum",renderer:expenseNumRender};
 	var t5={header:C_UNIT_PRICE,dataIndex:"expeUnitPrice",renderer:expenseNumRender};
 	var t6={header:C_CURR,dataIndex:'currCode',width:50};
 	var t7={header:C_EX_RATE,width:60,dataIndex:"expeExRate",renderer:rateRender};	
-	var t8={header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender};	
-	var t9={header:C_COST_PRICE,width:80,dataIndex:"expeInnerPrice",renderer:rateRender};
-	var t10={header:C_COST_TOTAL,width:80,dataIndex:"expeInnerAmount",renderer:numRender};	
+	var t8={header:C_AMOUNT,width:80,dataIndex:"expeTotalAmount",renderer:numRender};
 	var t11={header:C_PPCC,dataIndex:'pateCode',width:40};
     var t12={header:C_INVO_NO,align:'center',dataIndex:"expeInvoiceNo"};
     var t13={header:C_TAX_NO,align:'center',dataIndex:"expeTaxInvoiceNo"};
@@ -1883,24 +1541,16 @@ Fos.ExpenseGrid = function(t){
 	var t24={header:C_MODIFY_BY,renderer:getUSER,dataIndex:"expeUpdateBy"};
 	var t25={header:C_BILL_BY,renderer:getUSER,dataIndex:"expeInvoiceBy"};
 	var t26={header:C_VOUC_BY,renderer:getUSER,dataIndex:"expeWriteOffBy"};
-	var t27={header:C_INVO_TITLE,hidden:VERSION==0,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
-	var t28={header:C_WHETHER_INVOICING,hidden:VERSION==0,dataIndex:'expeInvoiceFlag',renderer:getY_O_N};
+	var t27={header:C_INVO_TITLE,dataIndex:'expeInvoiceTitle',align:'center',width:100,editor:new Ext.form.TextField()};
+	var t28={header:C_WHETHER_INVOICING,dataIndex:'expeInvoiceFlag',renderer:getY_O_N};
 	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cols=[];
 	if(t=='R'){
-			if(VERSION==1)
-				cols=[sm,consNo,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
-			else 
-				cols=[sm,consNo,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t17,t23,t19,t24,t20,t25];
+		cols=[sm,consNo,t1,t28,t27,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
 	}
 	else{
-		if(VERSION==1){
-			cols=[sm,consNo,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
-		}
-		else{
-			cols=[sm,consNo,t1,t2,t3,t4,t5,t6,t21,t22,t8,t9,t10,t11,t7,t16,t12,t13,t14,t15,t17,t23,t19,t24,t20,t25];
-		}
+		cols=[sm,consNo,t1,t2,t3,t4,t5,t6,t21,t22,t8,t11,t7,t16,t12,t13,t14,t15,t17,t18,t23,t19,t24,t20,t25,t26];
 	}
 	var cm=new Ext.grid.ColumnModel({columns:cols,defaults:{sortable:true,width:100,align:'center'}});
 	cm.defaultSortable=true;cm.defaultWidth=100;		
@@ -1990,6 +1640,7 @@ Fos.ExpenseGrid = function(t){
     		XMG.alert(SYS,M_NO_DATA_SELECTED);
     	}
     };
+    
     //生成对帐单
     this.genBill = function(){
     	var r = sm.getSelections();
@@ -2010,30 +1661,104 @@ Fos.ExpenseGrid = function(t){
     		XMG.alert(SYS,M_NO_DATA_SELECTED);
     	}
     };
+    
 	//业务号
-	var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,anchor:"90%",name:'consNo'});
+	var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
+		anchor:"90%",
+		name:'consNo'
+	});
+	
 	//结算单位
-	var cboCustId = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,anchor:"90%",name:'custId',store:getCS(),displayField:'custNameCn',valueField:'custId',
-				  typeAhead:true,enableKeyEvents:true,mode:'local',tpl:custTpl,itemSelector:'div.list-item',
-				  listWidth:400,triggerAction:'all',selectOnFocus:true,
-	              listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}});
+	var cboCustId = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,
+		anchor:"90%",
+		name:'custId',
+		store:getCS(),
+		displayField:'custNameCn',
+		valueField:'custId',
+		 typeAhead:true,
+		 enableKeyEvents:true,
+		 mode:'local',
+		 tpl:custTpl,
+		 itemSelector:'div.list-item',
+		 listWidth:400,
+		 triggerAction:'all',
+		 selectOnFocus:true,
+		 listeners:{scope:this,
+			 keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}
+		 }
+	});
+	
 	//是否开发票
-	var cboExpeInvoiceFlag = new Ext.form.ComboBox({fieldLabel:C_WHETHER_INVOICING,anchor:"90%",name:'expeInvoiceFlag',displayField:'NAME',valueField:'CODE',typeAhead: true,
-		mode:'local',triggerAction:'all',selectOnFocus:true,store:Y_O_N});
+	var cboExpeInvoiceFlag = new Ext.form.ComboBox({fieldLabel:C_WHETHER_INVOICING,
+		anchor:"90%",
+		name:'expeInvoiceFlag',
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		store:Y_O_N
+	});
+	
 	//账单状态
-	var cboExpeInvoiceStatus = new Ext.form.ComboBox({fieldLabel:C_INVO_STATUS_R,anchor:"90%",name:'expeInvoiceStatus',store:INST_S,displayField:'NAME',
-		valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true});
+	var cboExpeInvoiceStatus = new Ext.form.ComboBox({fieldLabel:C_INVO_STATUS_R,
+		anchor:"90%",
+		name:'expeInvoiceStatus',
+		store:INST_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true
+	});
+	
 	//核销状态
-	var cboExpeWriteoffStatus =new Ext.form.ComboBox({fieldLabel:C_WRITEOFF_STATUS_R,anchor:"90%",name:'expeWriteoffStatus',store:WRST_S,displayField:'NAME',valueField:'CODE',
-		typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true});
+	var cboExpeWriteoffStatus =new Ext.form.ComboBox({fieldLabel:C_WRITEOFF_STATUS_R,
+		anchor:"90%",
+		name:'expeWriteoffStatus',
+		store:WRST_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true
+	});
+	
 	//账单号
-	var txtExpeInvoiceNo = new Ext.form.TextField({fieldLabel:C_INVO_NO,name:'expeInvoiceNo',anchor:"90%"});
+	var txtExpeInvoiceNo = new Ext.form.TextField({fieldLabel:C_INVO_NO,
+		name:'expeInvoiceNo',
+		anchor:"90%"
+	});
+	
 	//币种
-	var cboCurrCode = new Ext.form.ComboBox({fieldLabel:C_CURR,anchor:"90%",name:'currCode',displayField:'currCode',valueField:'currCode',triggerAction: 'all',
-         mode:'local',selectOnFocus:true,store:getCURR_S(),typeAhead:true});
+	var cboCurrCode = new Ext.form.ComboBox({fieldLabel:C_CURR,
+		anchor:"90%",
+		name:'currCode',
+		displayField:'currCode',
+		valueField:'currCode',
+		triggerAction: 'all',
+        mode:'local',
+        selectOnFocus:true,
+        store:getCURR_S(),
+        typeAhead:true
+    });
+	
     //账单日期
-    var dtExpeInvoiceDate = new Ext.form.DateField({fieldLabel:C_INVO_DATE+C_FROM,anchor:"90%",name:'expeInvoiceDate',format:DATEF});
-    var dtExpeInvoiceDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'expeInvoiceDate2',format:DATEF});
+    var dtExpeInvoiceDate = new Ext.form.DateField({fieldLabel:C_INVO_DATE+C_FROM,
+    	anchor:"90%",
+    	name:'expeInvoiceDate',
+    	format:DATEF
+    });
+    
+    var dtExpeInvoiceDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+    	anchor:"90%",
+    	name:'expeInvoiceDate2',
+    	format:DATEF
+    });
+    
     //核销单日期
     var dtExpeWriteOffDate = new Ext.form.DateField({fieldLabel:C_WRITEOFF_DATE+C_FROM,anchor:"90%",name:'expeWriteOffDate',format:DATEF});
     var dtExpeWriteOffDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'expeWriteOffDate2',format:DATEF});
@@ -2048,9 +1773,12 @@ Fos.ExpenseGrid = function(t){
  		//结算单位
  		var custId=cboCustId.getValue();
  		if(custId) a[a.length]=new QParam({key:'custId',value:custId,op:op});
+ 		
  		//是否开发票
  		var expeInvoiceFlag=cboExpeInvoiceFlag.getValue();
- 		if(expeInvoiceFlag) a[a.length]=new QParam({key:'expeInvoiceFlag',value:expeInvoiceFlag,op:op});
+ 		if(expeInvoiceFlag) 
+ 			a[a.length]=new QParam({key:'expeInvoiceFlag',value:expeInvoiceFlag,op:op});
+ 		
  		//币种
  		var currCode=cboCurrCode.getValue();
  		if(currCode) a[a.length]=new QParam({key:'currCode',value:currCode,op:op});

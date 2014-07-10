@@ -194,6 +194,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);return;};
 		if(this.find('name','consOperatorName')[0].getValue()==''){
 			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorName')[0].focus();},this);return;};
+		
 		if(VERSION==0&&txtSailDate.getValue()==''){
 			XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
 				function(){txtSailDate.focus();},this);
@@ -385,6 +386,7 @@ Fos.CustomsDeclearTab = function(p,store) {
     		name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'99%'};
 	var txtVoyage={fieldLabel:C_VOYA,tabIndex:18,
     		name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'99%'};
+	
 	var txtSailDate=new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,tabIndex:19,
 			itemCls:VERSION==0?'required':'',editable:false,
 			name:'consSailDate',value:p.get('consSailDate'),

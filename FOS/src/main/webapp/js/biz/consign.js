@@ -10,7 +10,7 @@ Fos.newConsign = function(bc,bt,st){
 	var c = new FConsign({id:rid,
 		consId:rid,
 		consNotifyParty:'SAME AS CONSIGNEE',
-		consNo:VERSION==2?'':('N'+rid),
+		consNo:'N'+rid,
 		consType:'A',
 		consShipType:st,
 		consActionType:'A',
@@ -148,7 +148,7 @@ Fos.showConsignTabs = function(p){
 		};
 		
 		if(!tc.getComponent('T_EXPE_'+p.get('id'))){
-			tc.add(VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C')));
+			tc.add(new Fos.ExpenseTab(p,'C'));
 		};
 		
 		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
@@ -550,12 +550,31 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
   	title+=C_CONS_LIST;
   	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
-	var b1={text:C_ADD+'(N)',disabled:NR(m+F_M)||(VERSION==0&&(bizType==BT_B)&&NR(m+F_CM))
-			||(bizType==BT_C&&shipType==''),
-			iconCls:'add',handler:this.newConsign};
-	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE)+'(P)',disabled:NR(m+F_M),iconCls:'add',handler:this.addConsign};
-	var b3={text:C_EDIT+'(M)',disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
-	var b4={text:C_REMOVE+'(D)',disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
+	
+	var b1={text:C_ADD+'(N)',
+		disabled:NR(m+F_M)||(bizType==BT_C&&shipType==''),
+		iconCls:'add',
+		handler:this.newConsign
+	};
+	
+	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE)+'(P)',
+		disabled:NR(m+F_M),
+		iconCls:'add',
+		handler:this.addConsign
+	};
+	
+	var b3={text:C_EDIT+'(M)',
+		disabled:NR(m+F_V),
+		iconCls:'option',
+		handler:this.editConsign
+	};
+	
+	var b4={text:C_REMOVE+'(D)',
+		disabled:NR(m+F_R),
+		iconCls:'remove',
+		handler:this.removeConsign
+	};
+	
 	var b5={text:C_SEARCH+'(F)',iconCls:'search',handler:this.search};	
 	var b6={text:C_EXPORT+'(E)',disabled:NR(m+F_E),iconCls:'print',handler:this.exp};	
 	var b7={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};	
@@ -585,7 +604,7 @@ Fos.ConsignTab = function(p){
 	
 	if(p.get('rowAction')!='N'){
 		items[items.length] = new Fos.ConsDocGrid(p);
-		items[items.length] = VERSION==0?(new Fos.ExpenseTab(p,'C')):(new Fos.ExpenseTab2(p,'C'));
+		items[items.length] = new Fos.ExpenseTab(p,'C');
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
 	}

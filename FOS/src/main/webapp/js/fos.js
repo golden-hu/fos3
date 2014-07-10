@@ -5,34 +5,33 @@ var P_MENU = getPMenu();
 
 function getPMenu(){
 	var items=[];
-	if(VERSION==1||VERSION==0){
-		if(!NR(M1_C)) items[items.length]=getContPanel();
-		if(!NR(M1_B)) items[items.length]=getBulkPanel();
-		if(!NR(M1_A)) items[items.length]=getAirPanel();
-		
-		if(!NR(M1_G)) items[items.length]=getCudePanel();
-		if(!NR(M1_D)) items[items.length]=getDocPanel();
-		if(!NR(M1_S)) items[items.length]=createSMTree();
-		if(!NR(M1_T)) items[items.length]=getStaPanel();
-		if(!NR(M1_V)) items[items.length]=getCusPanel();
-		if(!NR(M1_J)) items[items.length]=createGMTree();
-		if(!NR(M1_P)) items[items.length]=getSysPanel();
-		//if(VERSION==1&&!NR(M1_W)) 
-			items[items.length]=getWsPanel();
-	}
-	else if(VERSION == 2){
-		if(!NR(M1_C)) items[items.length]=getYsContPanel();
-		if(!NR(M1_D)) items[items.length]=getDocPanel();
-		if(!NR(M1_V)) items[items.length]=getCusPanel();
-		if(!NR(M1_J)) items[items.length]=createGMTree();
-		if(!NR(M1_P)) items[items.length]=getSysPanel();
-	}
+	if(!NR(M1_C)) items[items.length]=getContPanel();
+	if(!NR(M1_B)) items[items.length]=getBulkPanel();
+	if(!NR(M1_A)) items[items.length]=getAirPanel();
+	
+	if(!NR(M1_G)) items[items.length]=getCudePanel();
+	if(!NR(M1_D)) items[items.length]=getDocPanel();
+	if(!NR(M1_S)) items[items.length]=createSMTree();
+	if(!NR(M1_T)) items[items.length]=getStaPanel();
+	if(!NR(M1_V)) items[items.length]=getCusPanel();
+	if(!NR(M1_J)) items[items.length]=createGMTree();
+	if(!NR(M1_P)) items[items.length]=getSysPanel();
+	//if(VERSION==1&&!NR(M1_W)) 
+		items[items.length]=getWsPanel();
 		
 	
 	return new Ext.Panel({
-		id:'AP',title:C_SYSTEM_MENU,region:'west',split:true,collapsible: true,collapseMode: 'mini',
-		layout:'accordion',width:200,minWidth:150,maxSize: 400,
-		items:items});
+		id:'AP',title:C_SYSTEM_MENU,
+		region:'west',
+		split:true,
+		collapsible: true,
+		collapseMode: 'mini',
+		layout:'accordion',
+		width:200,
+		minWidth:150,
+		maxSize: 400,
+		items:items
+	});
 };
 
 Ext.onReady(function(){
@@ -327,7 +326,11 @@ function getAirPanel(){
 		);
 	
 	return new Ext.Panel({title:C_AIR,collapsible:true,layout:'fit',
-		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+		items:new Ext.menu.Menu({floating:false, 
+			style: {border:'0px',
+			background:'transparent'},
+			items:items})
+	});
 };
 
 
@@ -395,16 +398,25 @@ function getStaPanel(){
 	if(!NR(M1_T+T_BUDE)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL,'REPT_BUDE',function(){return new Fos.StatDetailTab('REPT_BUDE');});
 	if(!NR(M1_T+T_BUDS)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL_SALES,'REPT_BUDS',function(){return new Fos.StatDetailTab('REPT_BUDS');});
 	if(!NR(M1_T+T_PROF)) items[items.length]=NaviMenu(C_STAT_PROFIT,'REPT_PROF',function(){return new Fos.StatProfitTab('REPT_PROF');});
-	if(VERSION==0&&!NR(M1_T+T_PROF_SALES)) items[items.length]=NaviMenu(C_STAT_PROFIT_SALES,'REPT_PROF_SALES',function(){return new Fos.StatProfitTab('REPT_PROF_SALES');});
+	
+	if(VERSION==0&&!NR(M1_T+T_PROF_SALES)) 
+		items[items.length]=NaviMenu(C_STAT_PROFIT_SALES,'REPT_PROF_SALES',function(){return new Fos.StatProfitTab('REPT_PROF_SALES');});
+	
 	if(!NR(M1_T+T_ACAR)) items[items.length]=NaviMenu(C_STAT_AR_AC,'T_ACAR',function(){return new Fos.StatACTab('AR');});
 	if(!NR(M1_T+T_ACAP)) items[items.length]=NaviMenu(C_STAT_AP_AC,'T_ACAP',function(){return new Fos.StatACTab('AP');});
 	if(!NR(M1_T+T_CUEX)) items[items.length]=NaviMenu(C_STAT_AR,'T_CUEX',function(){return new Fos.StatArTab('CUEX');});
 	if(!NR(M1_T+T_VEEX)) items[items.length]=NaviMenu(C_STAT_AP,'T_VEEN',function(){return new Fos.StatApTab();});
-	if(VERSION==0&&!NR(M1_T+T_CUEX)) items[items.length]=NaviMenu(C_STAT_ARC,'T_SEEX',function(){return new Fos.StatArTab('SEEX');});
+	if(VERSION==0&&!NR(M1_T+T_CUEX)) 
+		items[items.length]=NaviMenu(C_STAT_ARC,'T_SEEX',function(){return new Fos.StatArTab('SEEX');});
+	
 	if(!NR(M1_T+T_WROF)) items[items.length]=NaviMenu(C_STAT_WRITEOFF,'T_WROF',function(){return new Fos.StatWOTab();});
 	if(!NR(M1_T+T_ARA)) items[items.length]=NaviMenu(C_STAT_ARA,'T_ARA',function(){return new Fos.StatAraTab('R');});
 	if(!NR(M1_T+T_APA)) items[items.length]=NaviMenu(C_STAT_APA,'T_APA',function(){return new Fos.StatAraTab('P');});
-	if(VERSION==0&&!NR(M1_T+T_PAY_PLAN)) items[items.length]=NaviMenu(C_STAT_PAY_PLAN,'T_PAY_PLAN',function(){return new Fos.StatPayPlanTab();});
+	
+	if(VERSION==0&&!NR(M1_T+T_PAY_PLAN)) 
+		items[items.length]=NaviMenu(C_STAT_PAY_PLAN,'T_PAY_PLAN',function(){return new Fos.StatPayPlanTab();});
+	
+	
 	if(VERSION==0&&!NR(M1_T+T_PRCH)) items[items.length]=NaviMenu(C_STAT_PRCH,'T_PRCH',function(){return new Fos.StatPrchTab();});
 	if(VERSION==0&&!NR(M1_T+T_PRCO)) items[items.length]=NaviMenu(C_STAT_PRCO,'T_PRCO',function(){return new Fos.StatPrcoTab();});
 	return new Ext.Panel({title:C_STAT,collapsible:true,autoScroll:true,layout:'fit',
@@ -413,14 +425,32 @@ function getStaPanel(){
 
 function getCusPanel(){
 	var items=[];
-	if(!NR(M1_V+V_PRSH+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
-	if(!NR(M1_V+V_SAQU+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_COMMISSION,'T_COMM',function(){return new Fos.CommissionTab();});
-	if(!NR(M1_V+V_SAQU+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
-	if(!NR(M1_T+T_SALES)&&VERSION!=2) items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
-	if(!NR(M1_V+V_CUST+F_V)) items[items.length]=NaviMenu(C_CUST,'G_CUST',function(){return new Fos.CustomerGrid();});
-	if(!NR(M1_V+V_CUCA+F_V)) items[items.length]=NaviMenu(C_CUCA,'G_CUCA',function(){return Fos.showCustomerCategory();});
-	return  new Ext.Panel({title:C_CUST,collapsible:true,layout:'fit',
-		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
+	if(!NR(M1_V+V_PRSH+F_V)) 
+		items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
+	
+	if(!NR(M1_V+V_SAQU+F_V)) 
+		items[items.length]=NaviMenu(C_COMMISSION,'T_COMM',function(){return new Fos.CommissionTab();});
+	
+	if(!NR(M1_V+V_SAQU+F_V)) 
+		items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
+	
+	if(!NR(M1_T+T_SALES)) 
+		items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
+	
+	if(!NR(M1_V+V_CUST+F_V)) 
+		items[items.length]=NaviMenu(C_CUST,'G_CUST',function(){return new Fos.CustomerGrid();});
+	
+	if(!NR(M1_V+V_CUCA+F_V)) 
+		items[items.length]=NaviMenu(C_CUCA,'G_CUCA',function(){return Fos.showCustomerCategory();});
+	
+	return  new Ext.Panel({title:C_CUST,
+		collapsible:true,
+		layout:'fit',
+		items:new Ext.menu.Menu({floating:false, 
+			style: {border:'0px',
+			background:'transparent'},
+			items:items})
+	});
 };
 
 function getWsPanel(){
@@ -468,9 +498,6 @@ function getSysPanel(){
 	return  new Ext.Panel({title:C_SYSTEM_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
-
-
-
 
 function CreateNode(t,c,m,f){
 	return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,
@@ -529,6 +556,7 @@ function createSMTree(){
 		var coau = CreateNode(C_CONS_AUDIT,'COAU',M1_S+S_COAU+F_V,function(){return new Fos.ConsignAuditGrid();});
 		root.appendChild(coau);
 	}
+	
 	if(!NR(M1_S+S_BILL_R)||!NR(M1_S+S_INVO_R)||!NR(M1_S+S_PR_R)||!NR(M1_S+S_VOUC_R)){
 		var arN = new Ext.tree.TreeNode({text:C_SETTLE_AR,leaf:false,expanded:true});
 		if(!NR(M1_S+S_BILL_R)){
@@ -748,8 +776,13 @@ function createGMTree(){
 		set.appendChild(coba);
 	}
 	root.appendChild(set);	
-	var tree = new Ext.tree.TreePanel({title:C_MASTER_DATA,rootVisible:false,
-		animate:true,enableDD:false,autoScroll:true,containerScroll:true,root:root
+	var tree = new Ext.tree.TreePanel({title:C_MASTER_DATA,
+		rootVisible:false,
+		animate:true,
+		enableDD:false,
+		autoScroll:true,
+		containerScroll:true,
+		root:root
 	});
 	return tree;
 };
@@ -769,13 +802,24 @@ function createFunctionTree(store,nodeListener){
 	var a = store.getRange();
 	for(var i=0;i<a.length;i++){
 		var fc=a[i].get('funcCode');
-		var n = new Ext.tree.TreeNode({text:a[i].get('funcName'),id:fc,leaf:a[i].get('funcType')=='M'?false:true,checked:false,expanded:false});
-		if(fc=='00') root=n;
+		var n = new Ext.tree.TreeNode({text:a[i].get('funcName'),
+			id:fc,
+			leaf:a[i].get('funcType')=='M'?false:true,
+			checked:false,
+			expanded:false
+		});
+		if(fc=='00') 
+			root=n;
 		var dep = fc.length/2;
 		maxDep=maxDep>dep?maxDep:dep;
 		var na = fp[dep];
-		if(na) na[na.length]=n;
-		else{na=[];na[0]=n;fp[dep]=na;}
+		if(na) 
+			na[na.length]=n;
+		else{
+			na=[];
+			na[0]=n;
+			fp[dep]=na;
+		}
 	}	
 	for(var i=1;i<maxDep;i++){
 		var na = fp[i];
@@ -811,7 +855,7 @@ function loadMsg(){
                 if(w) 
                 	w.show();
                 else{
-                	var w= new Fos.MsgWin(r[i].get('messFromUserId'),r[i].get('messFromUserName'));
+                	w= new Fos.MsgWin(r[i].get('messFromUserId'),r[i].get('messFromUserName'));
                 	w.show();
                 }
                 w.onMsg(r[i].get('messBody','R'));
