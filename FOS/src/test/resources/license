@@ -1,8 +1,8 @@
-Company=Hitisoft
-IP=61.152.255.35
-MAC=00\:23\:54\:5f\:69\:cc
+Company=AHHD
+IP=0
+MAC=0
 MB=0
 HD=0
-Users=0
-SAAS=1
-ExpireDays=30000
+Users=6
+SAAS=0
+ExpireDays=365

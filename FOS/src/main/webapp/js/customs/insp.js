@@ -337,8 +337,8 @@ Fos.InspectionDeclTab = function(p,store) {
     
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
-    var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;   
-    var m1 =getRM(p.get('consBizClass'),BT_G,'');
+    var m=getRM(p.get('consBizClass'),BT_I,'')+M3_CONS;   
+    var m1 =getRM(p.get('consBizClass'),BT_I,'');
 	var txtVessName={fieldLabel:C_VESS,tabIndex:17,
     		name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'99%'};
 	var txtVoyage={fieldLabel:C_VOYA,tabIndex:18,
@@ -551,9 +551,9 @@ Fos.InspectionDeclTab = function(p,store) {
 		    	  disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',scope:this,handler:this.del},'-',
 		      {text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',scope:this,handler:this.cancel},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
-		      {text:C_INSP_BILL,itemId:'TB_INSP',iconCls:'dollar',disabled:p.get('rowAction')=='N',scope:this,handler:this.showInsp},'-',
-		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
-		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
+		      {text:C_INSP_BILL,itemId:'TB_INSP',iconCls:'dollar',disabled:NR(m1+'07')||p.get('rowAction')=='N',scope:this,handler:this.showInsp},'-',
+		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m1+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
+		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m1+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
 		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-',
 		      {text:C_SECURITY_ATTACH,itemId:'TB_S_ATT',iconCls:'attach',disabled:NR(m1+M3_ATTACH)||p.get('rowAction')=='N',scope:this,handler:this.showSecurityAttach},'-'
 		     ]

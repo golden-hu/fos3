@@ -92,14 +92,15 @@ public class FAttachService {
 			String oriFileName = fa.getAttachFileName();
 
 			File f = new File(ConfigUtil.getRealAttachDir() + ConstUtil.DIR_SEP + oriFileName);
-			if(securityFlag.equals("1")){
+			String filename = ConfigUtil.getAttachDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(oriFileName);
+			
+			if("1".equals(securityFlag)){
 				f = new File(ConfigUtil.getRealSecurityAttachDir() + ConstUtil.DIR_SEP + oriFileName);
+				filename = ConfigUtil.getSecurityAttachDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(oriFileName);
 			}
 			if (!f.exists()) {
 				throw new BusinessException("sys.file.not_exist");
-			}
-
-			String filename = ConfigUtil.getSecurityAttachDir() + ConstUtil.DIR_SEP + StringUtil.utf82ascii(oriFileName);
+			}			
 
 			paramMap.put(ConstUtil.REDIRECT_URL, filename);
 		}

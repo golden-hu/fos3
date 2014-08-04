@@ -644,9 +644,9 @@ Fos.CustomsDeclearTab = function(p,store) {
 		      {text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')==0||p.get('rowAction')=='N',scope:this,handler:this.cancel},'-',
 		      {text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock},'->',
 		      {text:C_CUSTOM_BILL,itemId:'TB_CUDE',iconCls:'doc',disabled:p.get('rowAction')=='N',scope:this,handler:this.showCude},'-',
-		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
-		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
-		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-',
+		      {text:C_EXPE,itemId:'TB_EXP',iconCls:'dollar',disabled:NR(m1+M3_EXPE)||p.get('rowAction')=='N',scope:this,handler:this.showExp},'-',
+		      {text:C_DOC,itemId:'TB_DOC',iconCls:'doc',disabled:NR(m1+M3_DOC)||p.get('rowAction')=='N',scope:this,handler:this.showDoc},'-',
+		      {text:C_ATTACH,itemId:'TB_ATT',iconCls:'attach',disabled:NR(m1+F_M)||p.get('rowAction')=='N',scope:this,handler:this.showAttach},'-',
 		      {text:C_SECURITY_ATTACH,itemId:'TB_S_ATT',iconCls:'attach',disabled:NR(m1+M3_ATTACH)||p.get('rowAction')=='N',scope:this,handler:this.showSecurityAttach},'-'
 		     ]
 	});
