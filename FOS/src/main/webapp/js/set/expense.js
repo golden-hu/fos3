@@ -1330,8 +1330,10 @@ Ext.extend(Fos.ExalWin, Ext.Window);
 Fos.SectionExGrid = function(p,section,parent) {
 	var store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	store.load({params:{consId:p.get('consId'),section:section}});
+	
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	m=m+M3_EXPE+S_AP; 
+	
 	var t1={header:C_SETTLE_OBJECT,width:200,dataIndex:"custName",align:'left',
 		editor:new Ext.form.ComboBox({displayField:'custCode',valueField:'custNameCn',triggerAction:'all',
         mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,allowBlank:false,blankText:'',
@@ -1763,6 +1765,9 @@ Fos.ExpenseGrid = function(t){
     var dtExpeWriteOffDate = new Ext.form.DateField({fieldLabel:C_WRITEOFF_DATE+C_FROM,anchor:"90%",name:'expeWriteOffDate',format:DATEF});
     var dtExpeWriteOffDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'expeWriteOffDate2',format:DATEF});
     
+    var queryParams = [];
+    queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:1});
+    
     //查询方法
     this.reload=function(){
      	var a=[];     	
@@ -1806,8 +1811,12 @@ Fos.ExpenseGrid = function(t){
  			a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate.format(DATEF),op:5});
  			a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate2.format(DATEF),op:3});
  		}
- 		else if(expeWriteOffDate) a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate,op:op});
+ 		else if(expeWriteOffDate) 
+ 			a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate,op:op});
    
+ 		queryParams = a;
+ 		queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:op});
+ 		
      	store.baseParams={A:'EXPE_X_S',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
@@ -1816,6 +1825,21 @@ Fos.ExpenseGrid = function(t){
      			}
      	});
     };
+    
+    var exportExpense = function(){
+		if(queryParams.length>0){
+			var a = queryParams;
+			var qa = [];
+			for(var i=0;i<a.length;i++){
+				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+			}
+			EXPC('EXPE_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+		}
+	};
+	
+	var btnExport = new Ext.Button({text:C_EXPORT,iconCls:'print',
+		scope:this,handler:exportExpense});
+	
    
     //生成账单按钮
 	var genInvoice = new Ext.Button({text:C_GEN_INVOICE,iconCls:'save',
@@ -1844,10 +1868,15 @@ Fos.ExpenseGrid = function(t){
 		    }]
 		});
 	
-	this.grid = new Ext.grid.GridPanel({sm:sm,cm:cm,
-		store:store,autoScroll:true,header:false,layout:'fit',
-		view:new Ext.grid.GroupingView(groupViewCfg),region:'center',
-		tbar:[genInvoice,'-',genBill,'-',searchButton],
+	this.grid = new Ext.grid.GridPanel({sm:sm,
+		cm:cm,
+		store:store,
+		autoScroll:true,
+		header:false,
+		layout:'fit',
+		view:new Ext.grid.GroupingView(groupViewCfg),
+		region:'center',
+		tbar:[genInvoice,'-',genBill,'-',searchButton,'-',btnExport],
 		bbar:PTB(store,C_PS)
 	});
 

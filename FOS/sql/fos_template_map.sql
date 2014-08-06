@@ -48,9 +48,10 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (50, '报关装箱单', 'CUDE_PACKING', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (51, '贸易合同', 'CUDE_CONTRACT', NULL, 'CUDE_Q', 'FCustomsDeclaration', 'FCustomsEntry', 'B', 'P', 1, 1, 1, 0),
 (52, '费用结算单', 'EXPE_SETTLEMENT', '费用结算单', 'CONS_CHECK_X', 'FConsign', 'SExpense', 'B', 'P', 1, 1, 0, 0),
-(53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTask', 'B', 'P', 1, 1, 0, 0),
+(53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTas	k', 'B', 'P', 1, 1, 0, 0),
 (54, '提单十联单', 'FBL_MANIFEST', '提单十联单', 'BL_Q', 'FBl', '', 'B', 'P', 1, 1, 0, 0),
-(55, 'DEBIT NOTE', 'DEBIT_NOTE', NULL, 'INVO_Q', 'SInvoice', 'SinvoiceItem', 'B', 'P', 1, 1, 1, 0);
+(55, 'DEBIT NOTE', 'DEBIT_NOTE', NULL, 'INVO_Q', 'SInvoice', 'SinvoiceItem', 'B', 'P', 1, 1, 1, 0),
+(60, '费用列表', 'EXPE_LIST', '费用列表导出模板', 'EXPE_X_S', NULL, 'SExpense', 'A', 'P', 1, 1, 1, 0);
 -- 提单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (1, '发货人', 'FBl', 'blShipper', NULL),
@@ -1520,3 +1521,24 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (55, '复核人', 'SInvoice', 'invoChecker', NULL),
 (55, '操作员', 'SInvoice', 'invoOperator', NULL),
 (55, '备注', 'SInvoice', 'invoRemarks', NULL);
+
+
+-- 单票列表
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(60, '委托号', 'SExpense', 'consNo', NULL),
+(60, 'MBLNo', 'SExpense', 'consMblNo', NULL),
+(60, 'HBLNo', 'SExpense', 'consHblNo', NULL),
+(60, '船名', 'SExpense', 'consVessel', NULL),
+(60, '航次', 'SExpense', 'consVoyage', NULL),
+(60, '开航日期', 'SExpense', 'consSailDate', NULL),
+(60, '结算单位', 'SExpense', 'custName', NULL),
+(60, '费用名称', 'SExpense', 'charName', NULL),
+(60, '币种', 'SExpense', 'currCode', NULL),
+(60, '单价', 'SExpense', 'expeUnitPrice', NULL),
+(60, '数量', 'SExpense', 'expeNum', NULL),
+(60, '金额', 'SExpense', 'expeTotalAmount', NULL),
+(60, '账单号', 'SExpense', 'expeInvoiceNo', NULL),
+(60, '税务发票号', 'SExpense', 'expeTaxInvoiceNo', NULL),
+(60, '已开票金额', 'SExpense', 'expeInvoiceAmount', NULL),
+(60, '已核销金额', 'SExpense', 'expeWriteOffAmount', NULL),
+(60, '备注', 'FConsign', 'expeRemarks', NULL);
