@@ -485,19 +485,46 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 							var ex=r[i].get('currCode')==p.get('currCode')?p.get('invoExRate'):getExRate(r[i].get('currCode'),'CNY');
 							var invoAmountOri = round2(r[i].get('expeTotalAmount')-r[i].get('expeInvoiceAmount'));
 							var invoAmount = round2(invoAmountOri*ex/p.get('invoExRate'));
-							var it = new SInvoiceItem({id:GGUID(),initId:'0',invoId:p.get('invoId'),invoDate:p.get('invoDate'),expeId:r[i].get('expeId'),expeType:r[i].get('expeType'),
-							consId:r[i].get('consId'),consNo:r[i].get('consNo'),custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
-							consVessel:r[i].get('consVessel'),consVoyage:r[i].get('consVoyage'),consSailDate:r[i].get('consSailDate'),
-							consMblNo:r[i].get('consMblNo'),consHblNo:r[i].get('consHblNo'),
-							charName:r[i].get('charName'),charNameEn:r[i].get('charNameEn'),
-							unitName:r[i].get('unitName'),expeCurrCode:r[i].get('currCode'),
-							expeUnitPrice:r[i].get('expeUnitPrice'),expeNum:r[i].get('expeNum'),expeExRate:r[i].get('expeExRate'),
-							expeCommission:r[i].get('expeCommission'),expeCommissionRate:r[i].get('expeCommissionRate'),
-							expeTotalAmount:r[i].get('expeTotalAmount'),expeInvoiceAmount:r[i].get('expeInvoiceAmount'),
-							expeRemarks:r[i].get('expeRemarks'),initInvoiceAmountOri:invoAmountOri,initInvoiceAmount:invoAmount,
-							initInvoiceAmountOriW:'0',initInvoiceAmountW:'0',initCancelFlag:'0',
-							initWriteOffStatus:'0',invoCurrCode:p.get('currCode'),
-							initExRate:ex,invoExRate:p.get('invoExRate'),rowAction:'',version:'0'});
+							var it = new SInvoiceItem({id:GGUID(),
+								initId:'0',
+								invoId:p.get('invoId'),
+								invoDate:p.get('invoDate'),
+								expeId:r[i].get('expeId'),
+								expeType:r[i].get('expeType'),
+								consId:r[i].get('consId'),
+								consNo:r[i].get('consNo'),
+								custId:r[i].get('custId'),
+								custName:r[i].get('custName'),
+								custSname:r[i].get('custSname'),
+								consVessel:r[i].get('consVessel'),
+								consVoyage:r[i].get('consVoyage'),
+								consSailDate:r[i].get('consSailDate'),
+								consMblNo:r[i].get('consMblNo'),
+								consHblNo:r[i].get('consHblNo'),
+								charName:r[i].get('charName'),
+								charNameEn:r[i].get('charNameEn'),
+								unitName:r[i].get('unitName'),
+								expeCurrCode:r[i].get('currCode'),
+								expeUnitPrice:r[i].get('expeUnitPrice'),
+								expeNum:r[i].get('expeNum'),
+								expeExRate:r[i].get('expeExRate'),
+								expeCommission:r[i].get('expeCommission'),
+								expeCommissionRate:r[i].get('expeCommissionRate'),
+								expeTotalAmount:r[i].get('expeTotalAmount'),
+								expeInvoiceAmount:r[i].get('expeInvoiceAmount'),
+								expeRemarks:r[i].get('expeRemarks'),
+								initInvoiceAmountOri:invoAmountOri,
+								initInvoiceAmount:invoAmount,
+								initInvoiceAmountOriW:'0',
+								initInvoiceAmountW:'0',
+								initCancelFlag:'0',
+								initWriteOffStatus:'0',
+								invoCurrCode:p.get('currCode'),
+								initExRate:ex,
+								invoExRate:p.get('invoExRate'),
+								rowAction:'',
+								version:'0'
+							});
 							store.insert(0,it);
 							it.set('rowAction','N');
 						}
@@ -509,12 +536,19 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 			win.addButton({text:C_CANCEL,handler : function(){win.close();}},this);
 			win.show();
 		}
-		else{XMG.alert(SYS,M_SEL_SETTLE_OBJ);t.find('name','custName')[0].focus();}
+		else{
+			XMG.alert(SYS,M_SEL_SETTLE_OBJ);
+			frm.find('name','custName')[0].focus();
+		}
 	};
+	
 	this.removeInit=function(){
 		var r = sm.getSelections();
 		if(r){
-			for(var i=0;i<r.length;i++){r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');store.remove(r[i]);}
+			for(var i=0;i<r.length;i++){
+				r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');
+				store.remove(r[i]);
+			}
 			this.reCalculate();
 		}
 	};
@@ -1108,7 +1142,8 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		handler:this.genVoucher
 	};
 	
-	var c1={fieldLabel:HL(C_SETTLE_OBJECT),
+	//结算单位
+	var cboCustomer = {fieldLabel:HL(C_SETTLE_OBJECT),
 		tabIndex:1,
 		name:'custName',
 		value:p.get('custName'),
@@ -1149,21 +1184,102 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 			},buffer:500}
 		}
 	};
-	var c2={fieldLabel:HL(C_INVO_TITLE),tabIndex:2,name:'invoTitle',allowBlank:false,value:p.get('invoTitle'),xtype:'textfield',anchor:'95%'};
-	var c3={fieldLabel:C_INVO_NO,tabIndex:3,name:'invoNo',disabled:true,value:p.get('invoNo'),xtype:'textfield',anchor:'90%'};
-	var c4={fieldLabel:C_CURR,tabIndex:4,name:'currCode',allowBlank:false,value:p.get('currCode'),disabled:true,xtype:'textfield',anchor:'90%'};
-	var c5={fieldLabel:C_BANK,tabIndex:5,name:'invoBank',value:p.get('invoBank'),store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-        	listeners:{scope:this,select:function(c,r,i){
-		this.find('name','invoAccount')[0].setValue(r.get('cobaAccount'));},
-		render:function(cbx){
-			cbx.store.filterBy(function(rec,id){return rec.get('currCode')==p.get('currCode');});}}};
-	var c6={fieldLabel:HL(C_INVO_DATE),tabIndex:6,name:'invoDate',value:p.get('invoDate'),xtype:'datefield',format:DATEF,anchor:'90%'};
-	var c7={fieldLabel:C_EX_RATE,tabIndex:7,name:'invoExRate',value:p.get('invoExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'90%',
-            listeners:{scope:this,change:function(f,nv,ov){
-			var a = this.itemGrid.getStore().getRange();
-			if(a.length>0){
-				for(var i=0;i<a.length;i++) if(a[i].get('currCode')==p.get('currCode')){a[i].set('initExRate',nv);}
-		}}}};
+	
+	//发票抬头
+	var txtInvoTitel = {fieldLabel:HL(C_INVO_TITLE),
+		tabIndex:2,
+		name:'invoTitle',
+		allowBlank:false,
+		value:p.get('invoTitle'),
+		xtype:'textfield',
+		anchor:'95%'
+	};
+	
+	//账单号
+	var c3={fieldLabel:C_INVO_NO,
+		tabIndex:3,
+		name:'invoNo',
+		disabled:true,
+		value:p.get('invoNo'),
+		xtype:'textfield',
+		anchor:'90%'
+	};
+	
+	//币种
+	var c4={fieldLabel:C_CURR,
+		tabIndex:4,
+		name:'currCode',
+		allowBlank:false,
+		value:p.get('currCode'),
+		disabled:true,
+		xtype:'textfield',
+		anchor:'90%'
+	};
+	
+	//银行
+	var c5={fieldLabel:C_BANK,
+		tabIndex:5,
+		name:'invoBank',
+		value:p.get('invoBank'),
+		store:getCOBA_S(),
+		xtype:'combo',
+		displayField:'cobaBank',
+		valueField:'cobaBank',
+		typeAhead: true,
+		mode: 'local',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'90%',
+    	listeners:{scope:this,
+    		select:function(c,r,i){
+    			this.find('name','invoAccount')[0].setValue(r.get('cobaAccount'));
+    		},
+    		render:function(cbx){
+    			cbx.store.filterBy(function(rec,id){return rec.get('currCode')==p.get('currCode');});
+    		}
+    	}
+	};
+	
+	//账单日期
+	var c6={fieldLabel:HL(C_INVO_DATE),
+		tabIndex:6,
+		name:'invoDate',
+		value:p.get('invoDate'),
+		xtype:'datefield',
+		format:DATEF,
+		anchor:'90%'
+	};
+	
+	//汇率
+	var c7={fieldLabel:C_EX_RATE,
+		tabIndex:7,
+		name:'invoExRate',
+		value:p.get('invoExRate'),
+		disabled:p.get('currCode')=='CNY',
+		xtype:'numberfield',
+		decimalPrecision:4,
+		anchor:'90%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){
+        		var a = this.itemGrid.getStore().getRange();
+        		
+        		if(a.length>0){
+        			for(var i=0;i<a.length;i++){
+        				if(a[i].get('expeCurrCode')==p.get('currCode')){
+        					a[i].set('initExRate',nv);
+        				}
+        				
+        				var ex=a[i].get('initExRate');
+						var invoAmountOri = a[i].get('initInvoiceAmountOri');
+						var invoAmount = round2(invoAmountOri*ex/nv);
+						a[i].set('initInvoiceAmount',invoAmount);
+        			}
+        			this.itemGrid.reCalculate();
+        		}
+        	}
+        }
+	};
+	
 	var c8={fieldLabel:C_BANK_ACCOUNT,tabIndex:8,name:'invoAccount',value:p.get('invoAccount'),xtype:'textfield',anchor:'90%'};
 	var c9={fieldLabel:C_TAX_NO,disabled:p.get('invoType')=='R'?true:false,tabIndex:9,name:'invoTaxNo',value:p.get('invoTaxNo'),xtype:'textfield',anchor:'90%'};
 	var c10={fieldLabel:C_INVO_AMOUNT,tabIndex:10,name:'invoAmount',value:p.get('invoAmount'),disabled:true,xtype:'textfield',anchor:'90%'};
@@ -1217,15 +1333,15 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 				{xtype:'tbtext',text:C_AUDIT_TIME_C+formatDate(p.get('invoCheckDate'))}],
 		items: [{region:'north',layout:'column',height:200,layoutConfig:{columns:4},bodyStyle:'padding:5px 0px 0px 0px',title:'头信息',collapsible:true,
 	    	items:p.get('invoType')=='R'?[    		
-	    		{columnWidth:.5,layout:'form',border:false,items:[c1]},
-	        	{columnWidth:.5,layout:'form',border:false,items:[c2]},
+	    		{columnWidth:.5,layout:'form',border:false,items:[cboCustomer]},
+	        	{columnWidth:.5,layout:'form',border:false,items:[txtInvoTitel]},
 	        	{columnWidth:.25,layout:'form',border:false,items:[c3,c4,c5]},
 	            {columnWidth:.25,layout:'form',border:false,items: [c6,c7,c8]},
 	            {columnWidth:.25,layout: 'form',border : false,items: [c9,c10,c14]},
 	            {columnWidth:.25,layout: 'form',border : false,items: [c11,c12,c15]},
 	            {columnWidth:.99,layout:'form',border:false,items:[c13]}
 	            ]:[
-	            {columnWidth:.5,layout:'form',border:false,items:[c1]},
+	            {columnWidth:.5,layout:'form',border:false,items:[cboCustomer]},
 				{columnWidth:.25,layout:'form',border:false,items:[c3]},
 				{columnWidth:.25,layout:'form',border:false,items:[c9]},				
 	            {columnWidth:.25,layout:'form',border:false,items:[c4,c5]},
