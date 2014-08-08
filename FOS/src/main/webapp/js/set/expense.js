@@ -277,7 +277,7 @@ Fos.ExGrid = function(p,t,frm,store) {
     		expeStatus:'0',
     		expeBillStatus:'0',
     		expeInvoiceStatus:'0',
-    		expeWriteOffStatus:'0',
+    		expeWriteoffStatus:'0',
     		custId:t=='R'?p.get('custId'):p.get('consBookingAgency'),
     		custName:t=='R'?p.get('custName'):p.get('consBookingAgencyName'),
     		custSname:t=='R'?p.get('custSname'):p.get('consBookingAgencySname'),
@@ -1787,15 +1787,22 @@ Fos.ExpenseGrid = function(t){
  		//币种
  		var currCode=cboCurrCode.getValue();
  		if(currCode) a[a.length]=new QParam({key:'currCode',value:currCode,op:op});
+ 		
  		//账单状态
  		var expeInvoiceStatus=cboExpeInvoiceStatus.getValue();        		
- 		if(expeInvoiceStatus) a[a.length]=new QParam({key:'expeInvoiceStatus',value:expeInvoiceStatus,op:op});
+ 		if(expeInvoiceStatus) 
+ 			a[a.length]=new QParam({key:'expeInvoiceStatus',value:expeInvoiceStatus,op:op});
+ 		
  		//核销单状态
  		var expeWriteoffStatus=cboExpeWriteoffStatus.getValue();        		
- 		if(expeWriteoffStatus) a[a.length]=new QParam({key:'expeWriteoffStatus',value:expeWriteoffStatus,op:op});
+ 		if(expeWriteoffStatus) 
+ 			a[a.length]=new QParam({key:'expeWriteoffStatus',value:expeWriteoffStatus,op:op});
+ 		
  		//账单号
  		var expeInvoiceNo=txtExpeInvoiceNo.getValue();        		
- 		if(expeInvoiceNo) a[a.length]=new QParam({key:'expeInvoiceNo',value:expeInvoiceNo,op:op});
+ 		if(expeInvoiceNo) 
+ 			a[a.length]=new QParam({key:'expeInvoiceNo',value:expeInvoiceNo,op:op});
+ 		
  		//账单日期
  		var expeInvoiceDate=dtExpeInvoiceDate.getValue();
  		var expeInvoiceDate2=dtExpeInvoiceDate2.getValue();
@@ -1803,7 +1810,9 @@ Fos.ExpenseGrid = function(t){
  			a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate.format(DATEF),op:5});
  			a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate2.format(DATEF),op:3});
  		}
- 		else if(expeInvoiceDate) a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate,op:op});
+ 		else if(expeInvoiceDate) 
+ 			a[a.length]=new QParam({key:'expeInvoiceDate',value:expeInvoiceDate,op:op});
+ 		
  		//核销单日期
  		var expeWriteOffDate=dtExpeWriteOffDate.getValue();
  		var expeWriteOffDate2=dtExpeWriteOffDate2.getValue();
@@ -1815,7 +1824,6 @@ Fos.ExpenseGrid = function(t){
  			a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate,op:op});
    
  		queryParams = a;
- 		queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:op});
  		
      	store.baseParams={A:'EXPE_X_S',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
@@ -1829,6 +1837,7 @@ Fos.ExpenseGrid = function(t){
     var exportExpense = function(){
 		if(queryParams.length>0){
 			var a = queryParams;
+			queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:op});
 			var qa = [];
 			for(var i=0;i<a.length;i++){
 				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
