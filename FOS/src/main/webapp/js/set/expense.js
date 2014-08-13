@@ -1837,7 +1837,7 @@ Fos.ExpenseGrid = function(t){
     var exportExpense = function(){
 		if(queryParams.length>0){
 			var a = queryParams;
-			queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:op});
+			queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:1});
 			var qa = [];
 			for(var i=0;i<a.length;i++){
 				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
