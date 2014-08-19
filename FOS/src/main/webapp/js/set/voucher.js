@@ -5,46 +5,88 @@ Fos.VoucherGrid = function(t){
 	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
 	store.baseParams=bp;
     store.load({params:{start:0,limit:C_PS}});
+    
     this.reset=function(){
     	store.baseParams=bp;
     	store.reload({params:{start:0,limit:C_PS}});
     };
+    
 	var showVoucher= function(p){
 		var tab = T_MAIN.getComponent("T_VOUC_"+p.get("id"));
 		if(tab) {T_MAIN.setActiveTab(t);}
 		else {tab = T_MAIN.add(new Fos.VoucherTab(p));
 		T_MAIN.setActiveTab(tab);tab.doLayout();}
 	};
+	
 	this.add = function(){
-		var currCode='CNY';var w=new Fos.CurrencyWin();
-		w.addButton({text:C_OK,handler:function(){
+		var currCode='CNY';
+		var w=new Fos.CurrencyWin();
+		w.addButton({text:C_OK,
+			handler:function(){
 			currCode = w.findById('currCode').getValue();
 			w.close();var id =GGUID();			
-			var e = new SVoucher({voucId:id,id:id,voucNo:'N'+id,currCode:currCode,
-			voucType:t,voucDate:new Date(),voucExRate:getExRate(currCode,'CNY'),voucFixAmount:0,
-			voucUploadFlag:'0',voucStatus:'0',voucWriteOffStatus:'0',version:'0',rowAction:'N'});
+			var e = new SVoucher({voucId:id,
+				id:id,
+				voucNo:'N'+id,
+				currCode:currCode,
+				voucType:t,
+				voucDate:new Date(),
+				voucExRate:getExRate(currCode,'CNY'),
+				voucFixAmount:0,
+				voucUploadFlag:'0',
+				voucStatus:'0',
+				voucWriteOffStatus:'0',
+				version:'0',
+				rowAction:'N'
+			});
+			
 			var tab = T_MAIN.add(new Fos.VoucherTab(e));
 			T_MAIN.setActiveTab(tab);
 		}},this);
 		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);w.show();
 	};
-	this.edit = function(){var p=sm.getSelected();if(p){showVoucher(p);}else XMG.alert(SYS,M_NO_DATA_SELECTED);};
+	
+	this.edit = function(){
+		var p=sm.getSelected();
+		if(p){
+			showVoucher(p);
+		}
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
+	
 	this.removeVouc = function(){
 		var a =sm.getSelections();
-       	if(a.length>0) {XMG.confirm(SYS,M_R_C,function(btn){
+       	if(a.length>0) {
+       		XMG.confirm(SYS,M_R_C,function(btn){
            	if(btn=='yes'){var b = false;
-               	for(var i=0;i<a.length;i++){if(a[i].get('voucStatus')!='0') b=true;}
-               	if(b) XMG.alert(SYS,M_WRITEOFF_REMOVE_DENY);
-               	else {
-               		var xml =SMTX4R(sm,'SVoucher','voucId');
-               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'VOUC_S'},
-					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
-					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
-					xmlData:FOSX(xml)});
-               	}
-           }});}
-       else XMG.alert(SYS,M_R_P);
+               	for(var i=0;i<a.length;i++){
+               		if(a[i].get('voucStatus')!='0') 
+               			b=true;
+               		}
+	               	if(b) 
+	               		XMG.alert(SYS,M_WRITEOFF_REMOVE_DENY);
+	               	else {
+	               		var xml =SMTX4R(sm,'SVoucher','voucId');
+	               		Ext.Ajax.request({url:SERVICE_URL,
+	               			method:'POST',
+	               			params:{A:'VOUC_S'},
+	               			success: function(){
+	               				sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);
+	               			},
+	               			failure: function(r,o){
+	               				XMG.alert(SYS,M_F+r.responseText);
+	               			},
+							xmlData:FOSX(xml)
+						});
+	               	}
+	           }
+           });
+       	}
+       else 
+    	   XMG.alert(SYS,M_R_P);
     };
+    
 	this.search = function(){
     	var win = new Fos.VoucLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
@@ -131,6 +173,7 @@ Fos.VoucherGrid = function(t){
 		win.addButton({text:C_CANCEL,handler:function(){win.close();}},this);
 		win.show();
     };  	
+    
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
@@ -155,7 +198,7 @@ Fos.VoucherGrid = function(t){
 		{header:C_TAX_NO,dataIndex:"voucTaxInvoiceNo"},
 		{header:C_REMARKS,dataIndex:"voucRemarks"}
 		],defaults:{sortable:true,width:80}});
-	var rowCtxEvents={rowdblclick:function(grid, rowIndex, event){var c= grid.getSelectionModel().getSelected();if(c){showVoucher(c);}}};
+	
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
     this.fastSearch=function(){
          var voucNo=kw.getValue();
@@ -175,27 +218,10 @@ Fos.VoucherGrid = function(t){
         store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
         store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
     };
+    
     var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
     var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-    new Ext.KeyMap(Ext.getDoc(), {
-        key:'nmdf',ctrl:true,
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_VOUC_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){
-                switch(k) {
-                case Ext.EventObject.N: if(!NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M)) this.add();break;
-                case Ext.EventObject.M: if(!NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M)) this.edit();break;
-                case Ext.EventObject.D: if(!NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_R)) this.removeVouc();break;                   
-                case Ext.EventObject.F: this.search();break;
-                }
-            }
-        },stopEvent:true,scope:this});
-    new Ext.KeyMap(Ext.getDoc(), {key:[116],
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_VOUC_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
-        },stopEvent: true,scope:this
-    });
+        
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_VOUC_'+t);
             if(tc&&tc==T_MAIN.getActiveTab()){
@@ -203,6 +229,7 @@ Fos.VoucherGrid = function(t){
             if (!pt[page].disabled) pt.onClick(page);
          }
     };
+    
     this.nav = new Ext.KeyNav(Ext.getDoc(),{
         pageDown: this.pagingNav.createDelegate(this,['next']),
         pageUp: this.pagingNav.createDelegate(this, ['prev']),
@@ -210,21 +237,43 @@ Fos.VoucherGrid = function(t){
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
+    
     var title = '';
     if(t=='R'){
     	title = C_VOUC_R_MGT;
-    }else if(t=='P'){
+    }
+    else if(t=='P'){
     	title = C_VOUC_P_MGT;
-    }else{
+    }
+    else{
     	title = C_VOUC_D_MGT;
     }
+    
 	Fos.VoucherGrid.superclass.constructor.call(this, {    
-    id:'G_VOUC_'+t,iconCls:'grid',store: store,title:title,header:false,autoScroll:true,height:300,
-	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M),handler:this.add}, '-', 
-		{text:C_EDIT+'(M)',iconCls:'option',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M),handler:this.edit},'-',
-		{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_R),handler:this.removeVouc},'-',
-		{text:C_SEARCH+'(F)',iconCls:'search',handler:this.search},'-',
+    id:'G_VOUC_'+t,
+    iconCls:'grid',
+    store: store,
+    title:title,
+    header:false,
+    autoScroll:true,
+    height:300,
+	sm:sm,
+	cm:cm,
+	stripeRows:true,
+	closable:true,
+	listeners:{
+		rowdblclick:function(grid, rowIndex, event){
+			var c= grid.getSelectionModel().getSelected();
+			if(c){
+				showVoucher(c);
+			}
+		}
+	},
+	view:new Ext.grid.GroupingView(groupViewCfg),
+	tbar:[{text:C_ADD,iconCls:'add',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M),handler:this.add}, '-', 
+		{text:C_EDIT,iconCls:'option',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_M),handler:this.edit},'-',
+		{text:C_REMOVE,iconCls:'remove',disabled:NR(M1_S+(t=='R'?S_VOUC_R:S_VOUC_P)+F_R),handler:this.removeVouc},'-',
+		{text:C_SEARCH,iconCls:'search',handler:this.search},'-',
 		kw,b8,'-',b9,'-'],
 	bbar:PTB(store,C_PS)});
 };    
@@ -238,6 +287,7 @@ Fos.InitLookupWin = function(c,t) {
 	a[2]={key:'initWriteOffStatus',value:2,op:NE};
 	store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
     store.load();
+    
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});	
 	var gv = new Ext.grid.GroupingView({forceFit:false,getRowClass:function(row,idx) {if(row.data.expeType!=t)return 'red-row';},groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
@@ -260,11 +310,33 @@ Fos.InitLookupWin = function(c,t) {
 		{header:C_UNIT,width:80,dataIndex:"expeUnitPrice"},		
 		{header:C_INVOICE_AMOUNT_ORI_C,dataIndex:"initInvoiceAmountOri"},
 		{header:C_WRITEOFFED_AMOUNT_ORI,dataIndex:"initInvoiceAmountOriW"}],defaults:{sortable:true,width:100}});
-    var g = new Ext.grid.GridPanel({ 
-    id:'G_INIT_LOOKUP',iconCls:'gen',view:gv,header:false,height:400,width:800,store:store,sm:sm,cm:cm,loadMask:true});	
-    Fos.InitLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:800,minWidth:300,
-        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:[{layout:'fit',border:false,
-        items: [g]}]}); 
+    
+	var g = new Ext.grid.GridPanel({ 
+	    id:'G_INIT_LOOKUP',
+	    iconCls:'gen',
+	    view:gv,
+	    header:false,
+	    height:400,
+	    width:800,
+	    store:store,
+	    sm:sm,
+	    cm:cm,
+	    loadMask:true
+    });	
+	
+    Fos.InitLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,
+    	modal:true,
+    	layout:'fit',
+    	width:800,
+    	minWidth:300,
+        minHeight:200,
+        plain:false,
+        bodyStyle:'padding:0px;',
+        buttonAlign:'right',
+        items:[{layout:'fit',
+        	border:false,
+        items: [g]}]
+    }); 
 };
 Ext.extend(Fos.InitLookupWin,Ext.Window);
 
@@ -295,7 +367,9 @@ Fos.VoucItemGrid = function(p,store,frm){
 		{header:C_MBL_NO,width:80,dataIndex:'consMblNo'},
 		{header:C_REMARKS,width:120,dataIndex:'expeRemarks'}
 		],defaults:{sortable:true,width:100}});
+	
 	var gv = new Ext.grid.GridView({getRowClass:function(row,idx) {if(row.data.expeType!=p.get('voucType'))return 'red-row';}});
+	
 	this.reCalculate = function(){
 		var sum=0;
 		var d=store.getRange();
@@ -309,19 +383,8 @@ Fos.VoucItemGrid = function(p,store,frm){
 		T.find('name','voucWriteOffAmount')[0].setValue(sum);
 		T.find('name','voucAmount')[0].setValue(sum);
 	};
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'ar',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_VOUC_'+p.get('id'));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-	 			switch(k) {
-		 		case Ext.EventObject.A:
-					if(p.get('voucStatus')=='0') this.add();break;
-		 		case Ext.EventObject.R:
-		 			if(p.get('voucStatus')=='0') this.removeVoit();break;	
-	 			}
-		 	}
-		},stopEvent:true,scope:this});
+	
+	
 	this.add=function(){
 		if(p.get('custId')){
     		var win = new Fos.InitLookupWin(p.get('custId'),p.get('voucType'));
@@ -395,6 +458,7 @@ Fos.VoucItemGrid = function(p,store,frm){
 		}
 		else{XMG.alert(SYS,M_SEL_SETTLE_OBJ);}
 	};
+	
 	this.removeVoit=function(){
 		var r = sm.getSelections();
 		if(r.length){
@@ -405,40 +469,57 @@ Fos.VoucItemGrid = function(p,store,frm){
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	Fos.VoucItemGrid.superclass.constructor.call(this, {
-	id:'G_VOUC_I'+p.get('id'),border:false,autoScroll:true,view:gv,clicksToEdit:1,store:store,sm:sm,cm:cm,height:260,
-    listeners:{scope:this,afteredit:function(e){
-    	var f=e.field;var r=e.record; 	
-    	if(f=='voitAmountW'){
-			if(e.value>r.get('initInvoiceAmount')-r.get('initInvoiceAmountW')){
-				XMG.alert(SYS,M_VOUC_OVER,function(){
-				r.set('voitAmountW',e.originalValue);
-				e.grid.stopEditing();e.grid.startEditing(e.row,e.column);
-				});
-			}
-			else{			
-				r.set('voitAmountOriW',round2(e.value*r.get('invoExRate')/r.get('initExRate')));
-				r.set('voitAmountVoucW',round2(e.value*r.get('voitExRate')/r.get('voucExRate')));
-				this.reCalculate();
-			}
-    	}
-    	else if(f=='voitExRate'){
-    		var voucExRate = frm.find('name','voucExRate')[0].getValue();
-			r.set('voitAmountVoucW',round2(e.value*r.get('voitAmountW')/voucExRate));
-			r.set('voitAmountOriW',round2(r.get('voitAmountW')*r.get('invoExRate')/e.value));
-			this.reCalculate();
-    	}
-    }},
-    tbar:[{text:C_ADD+'(A)',itemId:'TB_A',iconCls:'add',disabled:p.get('voucStatus')!='0',scope:this,handler:this.add}, '-', 		
-		{text:C_REMOVE+'(R)',itemId:'TB_B',iconCls:'remove',disabled:p.get('voucStatus')!='0',scope:this,handler:this.removeVoit
-	}]});
+		id:'G_VOUC_I'+p.get('id'),
+		border:false,
+		autoScroll:true,
+		view:gv,
+		clicksToEdit:1,
+		store:store,
+		sm:sm,
+		cm:cm,
+		height:260,
+	    listeners:{scope:this,
+	    	afteredit:function(e){
+		    	var f=e.field;var r=e.record; 	
+		    	if(f=='voitAmountW'){
+					if(e.value>r.get('initInvoiceAmount')-r.get('initInvoiceAmountW')){
+						XMG.alert(SYS,M_VOUC_OVER,function(){
+						r.set('voitAmountW',e.originalValue);
+						e.grid.stopEditing();e.grid.startEditing(e.row,e.column);
+						});
+					}
+					else{			
+						r.set('voitAmountOriW',round2(e.value*r.get('invoExRate')/r.get('initExRate')));
+						r.set('voitAmountVoucW',round2(e.value*r.get('voitExRate')/r.get('voucExRate')));
+						this.reCalculate();
+					}
+		    	}
+		    	else if(f=='voitExRate'){
+		    		var voucExRate = frm.find('name','voucExRate')[0].getValue();
+					r.set('voitAmountVoucW',round2(e.value*r.get('voitAmountW')/voucExRate));
+					r.set('voitAmountOriW',round2(r.get('voitAmountW')*r.get('invoExRate')/e.value));
+					this.reCalculate();
+		    	}
+		    }
+		},
+	    tbar:[{text:C_ADD,itemId:'TB_A',iconCls:'add',disabled:p.get('voucStatus')!='0',scope:this,handler:this.add}, '-', 		
+			{text:C_REMOVE,itemId:'TB_B',iconCls:'remove',disabled:p.get('voucStatus')!='0',scope:this,handler:this.removeVoit
+		}]
+	});
 };    
 Ext.extend(Fos.VoucItemGrid,Ext.grid.EditorGridPanel);
 
+//核销界面
 Fos.VoucherTab = function(p,prId,invoId) {
     var store = GS('VOIT_Q','SVoucherItem',SVoucherItem,'voitId','DESC','','','id',false);
+    
     if(invoId){
-    	Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'INIT_Q',invoId:invoId,initWriteOffStatus:0},scope:this,
+    	Ext.Ajax.request({url:SERVICE_URL,
+    		method:'POST',
+    		params:{A:'INIT_Q',invoId:invoId,initWriteOffStatus:0},
+    		scope:this,
 			success: function(res,o){
 				var r = XTRA(res.responseXML,'SInvoiceItem',SInvoiceItem);
 				var sum=0;
@@ -448,19 +529,52 @@ Fos.VoucherTab = function(p,prId,invoId) {
 					var voitAmountOriW = round2(voitAmountW*r[i].get('invoExRate')/r[i].get('initExRate'));
 					var voitAmountVoucW = round2(voitAmountW*r[i].get('invoExRate')/p.get('voucExRate'));
 					var rid=GGUID();
-					var it = new SVoucherItem({id:rid,voitId:rid,initId:r[i].get('initId'),invoId:r[i].get('invoId'),invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),
-					expeId:r[i].get('expeId'),expeType:r[i].get('expeType'),
-					consId:r[i].get('consId'),consNo:r[i].get('consNo'),custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
-					consVessel:r[i].get('consVessel'),consVoyage:r[i].get('consVoyage'),consMblNo:r[i].get('consMblNo'),consHblNo:r[i].get('consHblNo'),
-					charName:r[i].get('charName'),unitName:r[i].get('unitName'),expeCurrCode:r[i].get('expeCurrCode'),
-					expeUnitPrice:r[i].get('expeUnitPrice'),expeNum:r[i].get('expeNum'),expeExRate:r[i].get('expeExRate'),
-					expeTotalAmount:r[i].get('expeTotalAmount'),initInvoiceAmount:r[i].get('initInvoiceAmount'),initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
-					initInvoiceAmountW:r[i].get('initInvoiceAmountW'),initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
-					invoCurrCode:r[i].get('invoCurrCode'),initExRate:r[i].get('initExRate'),invoExRate:r[i].get('invoExRate'),
-					voitExRate:ex,voucExRate:p.get('voucExRate'),
-					voitWriteOffNo:p.get('voucWriteOffNo'),voucId:p.get('voucId'),voucNo:p.get('voucNo'),voucDate:p.get('voucDate'),
-					voitAmountW:voitAmountW,voitAmountOriW:voitAmountOriW,voitAmountVoucW:voitAmountVoucW,voitRemarks:'',							
-					voitWriteOffStatus:'2',voitCancelFlag:0,rowAction:'',version:0});
+					var it = new SVoucherItem({id:rid,
+						voitId:rid,
+						initId:r[i].get('initId'),
+						invoId:r[i].get('invoId'),
+						invoNo:r[i].get('invoNo'),
+						invoTaxNo:r[i].get('invoTaxNo'),
+						expeId:r[i].get('expeId'),
+						expeType:r[i].get('expeType'),
+						consId:r[i].get('consId'),
+						consNo:r[i].get('consNo'),
+						custId:r[i].get('custId'),
+						custName:r[i].get('custName'),
+						custSname:r[i].get('custSname'),
+						consVessel:r[i].get('consVessel'),
+						consVoyage:r[i].get('consVoyage'),
+						consMblNo:r[i].get('consMblNo'),
+						consHblNo:r[i].get('consHblNo'),
+						charName:r[i].get('charName'),
+						unitName:r[i].get('unitName'),
+						expeCurrCode:r[i].get('expeCurrCode'),
+						expeUnitPrice:r[i].get('expeUnitPrice'),
+						expeNum:r[i].get('expeNum'),
+						expeExRate:r[i].get('expeExRate'),
+						expeTotalAmount:r[i].get('expeTotalAmount'),
+						initInvoiceAmount:r[i].get('initInvoiceAmount'),
+						initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
+						initInvoiceAmountW:r[i].get('initInvoiceAmountW'),
+						initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
+						invoCurrCode:r[i].get('invoCurrCode'),
+						initExRate:r[i].get('initExRate'),
+						invoExRate:r[i].get('invoExRate'),
+						voitExRate:ex,
+						voucExRate:p.get('voucExRate'),
+						voitWriteOffNo:p.get('voucWriteOffNo'),
+						voucId:p.get('voucId'),
+						voucNo:p.get('voucNo'),
+						voucDate:p.get('voucDate'),
+						voitAmountW:voitAmountW,
+						voitAmountOriW:voitAmountOriW,
+						voitAmountVoucW:voitAmountVoucW,
+						voitRemarks:'',							
+						voitWriteOffStatus:'2',
+						voitCancelFlag:0,
+						rowAction:'',
+						version:0
+					});
 					store.insert(0,it);
 					it.set('rowAction','N');
 					sum = sum + voitAmountVoucW;
@@ -469,7 +583,10 @@ Fos.VoucherTab = function(p,prId,invoId) {
 			}});
     }
     else if(prId){
-		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'INIT_PR_X',prId:prId},scope:this,
+		Ext.Ajax.request({url:SERVICE_URL,
+			method:'POST',
+			params:{A:'INIT_PR_X',prId:prId},
+			scope:this,
 			success: function(res,o){
 				var r = XTRA(res.responseXML,'SInvoiceItem',SInvoiceItem);
 				var sum=0;
@@ -479,34 +596,351 @@ Fos.VoucherTab = function(p,prId,invoId) {
 					var voitAmountOriW = round2(voitAmountW*r[i].get('invoExRate')/r[i].get('initExRate'));
 					var voitAmountVoucW = round2(voitAmountW*r[i].get('invoExRate')/p.get('voucExRate'));
 					var rid=GGUID();
-					var it = new SVoucherItem({id:rid,voitId:rid,initId:r[i].get('initId'),invoId:r[i].get('invoId'),invoNo:r[i].get('invoNo'),invoTaxNo:r[i].get('invoTaxNo'),
-					expeId:r[i].get('expeId'),expeType:r[i].get('expeType'),
-					consId:r[i].get('consId'),consNo:r[i].get('consNo'),custId:r[i].get('custId'),custName:r[i].get('custName'),custSname:r[i].get('custSname'),
-					consVessel:r[i].get('consVessel'),consVoyage:r[i].get('consVoyage'),consMblNo:r[i].get('consMblNo'),consHblNo:r[i].get('consHblNo'),
-					charName:r[i].get('charName'),unitName:r[i].get('unitName'),expeCurrCode:r[i].get('expeCurrCode'),
-					expeUnitPrice:r[i].get('expeUnitPrice'),expeNum:r[i].get('expeNum'),expeExRate:r[i].get('expeExRate'),
-					expeTotalAmount:r[i].get('expeTotalAmount'),initInvoiceAmount:r[i].get('initInvoiceAmount'),initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
-					initInvoiceAmountW:r[i].get('initInvoiceAmountW'),initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
-					invoCurrCode:r[i].get('invoCurrCode'),initExRate:r[i].get('initExRate'),invoExRate:r[i].get('invoExRate'),
-					voitExRate:ex,voucExRate:p.get('voucExRate'),
-					voitWriteOffNo:p.get('voucWriteOffNo'),voucId:p.get('voucId'),voucNo:p.get('voucNo'),voucDate:p.get('voucDate'),
-					voitAmountW:voitAmountW,voitAmountOriW:voitAmountOriW,voitAmountVoucW:voitAmountVoucW,voitRemarks:'',							
-					voitWriteOffStatus:'2',voitCancelFlag:0,rowAction:'',version:0});
+					var it = new SVoucherItem({id:rid,
+						voitId:rid,initId:r[i].get('initId'),
+						invoId:r[i].get('invoId'),
+						invoNo:r[i].get('invoNo'),
+						invoTaxNo:r[i].get('invoTaxNo'),
+						expeId:r[i].get('expeId'),
+						expeType:r[i].get('expeType'),
+						consId:r[i].get('consId'),
+						consNo:r[i].get('consNo'),
+						custId:r[i].get('custId'),
+						custName:r[i].get('custName'),
+						custSname:r[i].get('custSname'),
+						consVessel:r[i].get('consVessel'),
+						consVoyage:r[i].get('consVoyage'),
+						consMblNo:r[i].get('consMblNo'),
+						consHblNo:r[i].get('consHblNo'),
+						charName:r[i].get('charName'),
+						unitName:r[i].get('unitName'),
+						expeCurrCode:r[i].get('expeCurrCode'),
+						expeUnitPrice:r[i].get('expeUnitPrice'),
+						expeNum:r[i].get('expeNum'),
+						expeExRate:r[i].get('expeExRate'),
+						expeTotalAmount:r[i].get('expeTotalAmount'),
+						initInvoiceAmount:r[i].get('initInvoiceAmount'),
+						initInvoiceAmountOri:r[i].get('initInvoiceAmountOri'),
+						initInvoiceAmountW:r[i].get('initInvoiceAmountW'),
+						initInvoiceAmountOriW:r[i].get('initInvoiceAmountOriW'),
+						invoCurrCode:r[i].get('invoCurrCode'),
+						initExRate:r[i].get('initExRate'),
+						invoExRate:r[i].get('invoExRate'),
+						voitExRate:ex,
+						voucExRate:p.get('voucExRate'),
+						voitWriteOffNo:p.get('voucWriteOffNo'),
+						voucId:p.get('voucId'),
+						voucNo:p.get('voucNo'),
+						voucDate:p.get('voucDate'),
+						voitAmountW:voitAmountW,
+						voitAmountOriW:voitAmountOriW,
+						voitAmountVoucW:voitAmountVoucW,
+						voitRemarks:'',							
+						voitWriteOffStatus:'2',
+						voitCancelFlag:0,
+						rowAction:'',
+						version:0
+					});
 					store.insert(0,it);
 					it.set('rowAction','N');
 					sum = sum + voitAmountVoucW;
 				};
 				this.find('name','voucWriteOffAmount')[0].setValue(sum);
-			}});
+			}
+		});
 	}
 	else if(p.get('rowAction')!='N') 
 		store.load({params:{voucId:p.get('voucId')}});
     
     this.grid=new Fos.VoucItemGrid(p,store,this);
+    
+    //收/付款单号
+    var txtVoucNo = new Ext.form.TextField({fieldLabel:p.get('voucType')=='R'?C_VOUC_NO_R:C_VOUC_NO_P,
+		tabIndex:1,
+		name:'voucNo',
+		disabled:true,
+		value:p.get('voucNo'),
+		xtype:'textfield',
+		anchor:'95%'
+	});
+    
+    //结算单位
+    var cboCust = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,
+    	itemCls:'required',
+    	tabIndex:5,
+		name:'custName',
+		value:p.get('custName'),
+		store:getCS(),
+		enableKeyEvents:true,
+		allowBlank:false,
+		xtype:'combo',
+		displayField:'custCode',
+		valueField:'custCode',
+		typeAhead:true,
+		mode:'local',
+		triggerAction: 'all',
+		selectOnFocus:true,anchor:'95%',
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:400,
+		listeners:{scope:this,
+			select:function(c,r,i){						
+				p.set('custId',r.get('custId'));
+				p.set('custSname',r.get('custCode'));
+				p.set('custName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
+			keydown:{
+				fn:function(f,e){LC(f,e,p.get('voucType')=='R'?'custArFlag':'custApFlag');},
+				buffer:500
+			}
+		}
+    });
+    
+    //收/付款金额
+    var txtVoucAmount = new Ext.form.NumberField( {fieldLabel:p.get('voucType')=='R'?C_VOUC_R_AMOUNT:C_VOUC_P_AMOUNT,
+		itemCls:'required',
+		tabIndex:9,
+		name:'voucAmount',
+		value:p.get('voucAmount'),
+		xtype:'numberfield',
+		anchor:'95%',
+    	listeners:{scope:this,
+    		change:function(f,nv,ov){
+				p.set('voucAmount',nv);
+				var v = round2(nv-p.get('voucWriteOffAmount')-p.get('voucFixAmount'));
+				this.find('name','voucWriteOffAmountR')[0].setValue(v);
+			}
+	    }
+    });
+    
+    //收付款银行
+    var txtBank = new Ext.form.TextField({fieldLabel:C_BANK,
+    	tabIndex:13,
+    	name:'voucBank',
+    	value:p.get('voucBank'),
+    	store:getCOBA_S(),
+    	xtype:'combo',
+    	displayField:'cobaBank',
+    	valueField:'cobaBank',
+    	typeAhead: true,
+    	mode: 'local',
+    	triggerAction: 'all',
+    	selectOnFocus:true,
+    	anchor:'95%',
+    	listeners:{scope:this,
+    		select:function(c,r,i){
+    			this.find('name','voucAccount')[0].setValue(r.get('cobaAccount'));
+    		}
+    	}
+	});
+    
+    //银行水单号
+    var txtVoucBankReceiptNo = new Ext.form.TextField({fieldLabel:C_BANK_BILL_NO,
+    	tabIndex:2,
+    	name:'voucBankReciptNo',
+    	value:p.get('voucBankReciptNo'),
+    	xtype:'textfield',
+    	format:DATEF,
+    	anchor:'95%'
+    });
+    
+    //币种
+    var cboCurrCode = new Ext.form.ComboBox({fieldLabel:C_CURR,
+    	itemCls:'required',
+    	disabled:true,
+    	tabIndex:4,
+    	name:'currCode',
+    	value:p.get('currCode'),
+    	store:getCURR_S(),
+    	xtype:'combo',
+    	displayField:'currCode',
+    	valueField:'currCode',
+    	typeAhead: true,
+    	mode:'local',
+    	triggerAction: 'all',
+    	selectOnFocus:true,
+    	anchor:'95%'
+    });
+    
+    //核销金额
+    var txtVoucWriteOffAmount = new Ext.form.NumberField({fieldLabel:C_WRITEOFF_AMOUNT,
+    	tabIndex:10,
+    	name:'voucWriteOffAmount',
+    	value:p.get('voucWriteOffAmount'),
+    	disabled:true,
+    	xtype:'numberfield',
+    	anchor:'95%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){
+	    		var v = round2(p.get('voucAmount')-p.get('voucFixAmount')-nv);
+				this.find('name','voucWriteOffAmountR')[0].setValue(v);
+        	}
+        }
+    });
+    
+    //银行账号
+    var txtVoucAccount = new Ext.form.TextField({fieldLabel:C_BANK_ACCOUNT,
+    	tabIndex:14,
+    	name:'voucAccount',
+    	value:p.get('voucAccount'),
+    	xtype:'textfield',
+    	anchor:'95%'
+    });
+    
+    //支票号
+    var txtVoucCheckNo = new Ext.form.TextField({fieldLabel:C_CHECK_NO,
+    	tabIndex:3,
+    	name:'voucCheckNo',
+    	value:p.get('voucCheckNo'),
+    	xtype:'textfield',
+    	format:DATEF,anchor:'95%'
+    });
+    
+    //汇率
+    var txtExRate = new Ext.form.NumberField({fieldLabel:C_EX_RATE,
+    	tabIndex:7,
+    	name:'voucExRate',
+    	value:p.get('voucExRate'),
+    	disabled:p.get('currCode')=='CNY',
+    	xtype:'numberfield',
+    	decimalPrecision:4,
+    	anchor:'95%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){		
+			p.set('voucExRate',nv);
+			var d=store.getRange();
+			var sum = 0;
+			for(var i=0;i<d.length;i++){						
+				d[i].set('voucExRate',nv);
+				if(d[i].get('invoCurrCode')==p.get('currCode')){
+					d[i].set('voitExRate',nv);
+				}
+				d[i].set('voitAmountVoucW',round2(d[i].get('voitExRate')*d[i].get('voitAmountW')/d[i].get('voucExRate')));
+				d[i].set('voitAmountOriW',round2(d[i].get('voitAmountW')*d[i].get('invoExRate')/d[i].get('voitExRate')));
+				if(d[i].get('expeType')==p.get('voucType')){
+					sum = round2(sum + parseFloat(d[i].get('voitAmountVoucW')));
+				}
+				else{
+					sum = round2(sum - parseFloat(d[i].get('voitAmountVoucW')));
+				}
+			}
+			this.find('name','voucWriteOffAmount')[0].setValue(sum);
+			this.find('name','voucAmount')[0].setValue(sum);
+			}
+        }
+    });
+    
+    //处理金额
+    var txtVoucFixAmount = new Ext.form.NumberField({fieldLabel:C_FIX_AMOUNT,
+    	tabIndex:11,
+    	name:'voucFixAmount',
+    	value:p.get('voucFixAmount'),
+    	xtype:'numberfield',
+    	anchor:'95%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){		
+				p.set('voucFixAmount',nv);
+				var v = round2(p.get('voucAmount')-p.get('voucWriteOffAmount')-nv);
+				this.find('name','voucWriteOffAmountR')[0].setValue(v);
+        	}
+        }
+    });
+    
+  //核销号
+    var txtVoucWriteOffNo = new Ext.form.TextField({fieldLabel:C_WRITEOFF_NO,
+    	tabIndex:15,
+    	name:'voucWriteOffNo',
+    	value:p.get('voucWriteOffNo'),
+    	xtype:'textfield',
+    	anchor:'95%',
+        listeners:{scope:this,
+        	change:function(f,nv,ov){		
+				var a = this.grid.getStore().getRange();
+				if(a.length>0){
+					for(var i=0;i<a.length;i++){
+						a[i].set('voitWriteOffNo',nv);
+					}
+				}
+			}
+        }
+    });
+    
+    //收付款日期
+    var dtVoucDate = new Ext.form.DateField({fieldLabel:p.get('voucType')=='R'?C_VOUC_DATE_R:C_VOUC_DATE_P,
+		tabIndex:4,
+    	name:'voucDate',
+    	value:p.get('voucDate'),
+    	xtype:'datefield',
+    	format:DATEF,
+    	anchor:'95%'
+    });
+    
+    //付款方式
+    var cboPaymentType = new Ext.form.ComboBox({fieldLabel:C_SEWA,
+    	itemCls:'required',
+    	tabIndex:8,
+    	name:'voucPaymentType',
+    	value:p.get('voucPaymentType'),
+    	store:getSEWA_S(),
+    	xtype:'combo',
+    	displayField:'sewaName',
+    	valueField:'sewaId',
+    	typeAhead: true,
+    	mode: 'local',
+    	triggerAction: 'all',
+    	selectOnFocus:true,
+    	anchor:'95%'
+    });
+    
+    //余额
+    var txtVoucWriteOffAmountR = new Ext.form.NumberField({fieldLabel:C_REMAIN_AMOUNT,
+    	tabIndex:12,
+    	name:'voucWriteOffAmountR',
+    	value:p.get('voucAmount')-p.get('voucWriteOffAmount')-p.get('voucFixAmount'),
+    	disabled:true,
+    	xtype:'numberfield',
+    	anchor:'95%'
+    });
+    
+    //备注
+    var txtVoucRemarks = new Ext.form.TextArea({fieldLabel:C_REMARKS,
+    	name:'voucRemarks',
+    	value:p.get('voucRemarks'),
+    	tabIndex:15,
+    	xtype:'textarea',
+    	anchor:'95%'
+    });
+    
+    var infoPanel = new Ext.Panel( {region:'north',
+		height:200,
+		layout:'column',
+		layoutConfig:{columns:4},
+		deferredRender:false,
+		title:p.get('voucType')=='R'?C_VOUC_R_INFO:C_VOUC_P_INFO,
+		collapsible:true,
+    	items:[
+	        {columnWidth:.25,layout:'form',border:false,
+				items:[txtVoucNo,cboCust,txtVoucAmount,txtBank]
+			},				
+            {columnWidth:.25,layout:'form',border:false,
+                items: [txtVoucBankReceiptNo,cboCurrCode,txtVoucWriteOffAmount,txtVoucAccount]
+    		},
+            
+			{columnWidth:.25,layout: 'form',border : false,
+                items: [txtVoucCheckNo,txtExRate,txtVoucFixAmount,txtVoucWriteOffNo]
+    		},				
+            {columnWidth:.25,layout: 'form',border : false,
+                items: [dtVoucDate,cboPaymentType,txtVoucWriteOffAmountR]},                
+            {columnWidth:.99,layout:'form',border:false,items:[txtVoucRemarks]}
+        ]
+	});
+    
     this.save=function(){    	
     	p.beginEdit();
     	this.getForm().updateRecord(p);
     	p.endEdit();
+    	
     	var title=p.get('voucType')=='R'?C_VOUC_R_AMOUNT:C_VOUC_P_AMOUNT;
     	if(!p.get('custId')){
     		XMG.alert(SYS,M_SEL_SETTLE_OBJ);
@@ -541,6 +975,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 		};		
 		var tb=this.getTopToolbar();
 		tb.getComponent('TB_A').setDisabled(true);
+		
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
 			params:{A:'VOUC_S',prId:prId},
 			success: function(res){
@@ -548,7 +983,10 @@ Fos.VoucherTab = function(p,prId,invoId) {
 				var ra=p.get('rowAction');
 				var f = SVoucher.prototype.fields;
 				p.beginEdit();
-   				for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];p.set(fn,c.get(fn));};
+   				for (var i = 0; i < f.keys.length; i++) {
+   					var fn = ''+f.keys[i];
+   					p.set(fn,c.get(fn));
+   				}
 				if(ra=='N'){						
 					this.setTitle((p.get('voucType')=='R'?C_VOUC_R:C_VOUC_P)+'-'+p.get("voucNo"));
 					this.find('name','voucNo')[0].setValue(p.get('voucNo'));
@@ -556,14 +994,19 @@ Fos.VoucherTab = function(p,prId,invoId) {
 				}
 				p.endEdit();
 				var a = XTRA(res.responseXML,'SVoucherItem',SVoucherItem);
-					FOSU(store,a,SVoucherItem);
+				FOSU(store,a,SVoucherItem);
 				this.updateToolBar();
-				XMG.alert(SYS,M_S);tb.getComponent('TB_A').setDisabled(false);
+				XMG.alert(SYS,M_S);
+				tb.getComponent('TB_A').setDisabled(false);
 			},
-			failure: function(res){XMG.alert(SYS,M_F+res.responseText);tb.getComponent('TB_A').setDisabled(false);},
+			failure: function(res){
+				XMG.alert(SYS,M_F+res.responseText);
+				tb.getComponent('TB_A').setDisabled(false);
+			},
 			xmlData:FOSX(xml)
 		});
     };
+    
     this.removeVouc=function(){
     	p.set('rowAction','R');
 		var xml = RTX(p,'SVoucher',SVoucher);
@@ -572,6 +1015,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(xml)});
     };
+    
     this.updateStatus=function(a,s){
     	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:a,voucId:p.get('voucId'),voucStatus:s},
 			success: function(r){
@@ -579,134 +1023,96 @@ Fos.VoucherTab = function(p,prId,invoId) {
     			this.updateToolBar();XMG.alert(SYS,M_S);},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
+    
     this.check=function(){this.updateStatus('VOUC_U','1');};
     this.renew=function(){this.updateStatus('VOUC_U','0');};
     this.cancel=function(){this.updateStatus('VOUC_C','2');};
+    
     this.updateToolBar = function(){
 		var tb=this.getTopToolbar();
-		tb.getComponent('TB_A').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('voucStatus')!='0');
-    	tb.getComponent('TB_B').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_R)+F_M)||p.get('invoStatus')!='0'||p.get('rowAction')=='N');
-    	tb.getComponent('TB_C').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='0'||p.get('rowAction')=='N');
-    	tb.getComponent('TB_D').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='1');
-    	tb.getComponent('TB_E').setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_F)||p.get('voucStatus')!='1');
+		btnSave.setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('voucStatus')!='0');
+		btnRemove.setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_R)+F_M)||p.get('invoStatus')!='0'||p.get('rowAction')=='N');
+		btnAudit.setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='0'||p.get('rowAction')=='N');
+		btnCancel.setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='1');
+		btnInvalid.setDisabled(NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_F)||p.get('voucStatus')!='1');
+		
     	tb.getComponent('TB_M').setText(C_STATUS_C+getVOST(p.get('voucStatus'))+'/'+getWRST(p.get('voucWriteOffStatus')));
+    	
     	this.grid.getTopToolbar().getComponent('TB_A').setDisabled(p.get('voucStatus')!='0');
     	this.grid.getTopToolbar().getComponent('TB_B').setDisabled(p.get('voucStatus')!='0');
     };
-    new Ext.KeyMap(Ext.getDoc(), {
-		key:'sdcufe',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_VOUC_'+p.get('id'));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		var tb=this.getTopToolbar();
-		 		switch(k) {
-		 		case Ext.EventObject.S: if(!tb.getComponent('TB_A').disabled) this.save();break;
-		 		case Ext.EventObject.D: if(!tb.getComponent('TB_B').disabled) this.removeVouc();break;
-		 		case Ext.EventObject.C: if(!tb.getComponent('TB_C').disabled) this.check();break;	 		
-		 		case Ext.EventObject.U: if(!tb.getComponent('TB_D').disabled) this.renew();break;
-				case Ext.EventObject.F: if(!tb.getComponent('TB_E').disabled) this.cancel();break;
-				case Ext.EventObject.E:
-					if(!NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_E)) EXP('C','VOUC_LIST','&voucId='+p.get('voucId'));break;
-				}
-		 	}
-		},stopEvent:true,scope:this});
+       
+    var btnSave = new Ext.Button({itemId:'TB_A',
+    	text:C_SAVE,
+    	iconCls:'save',
+    	disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('voucStatus')!='0',
+    	scope:this,
+    	handler:this.save
+    });
     
+    var btnRemove = new Ext.Button({itemId:'TB_B',
+    	text:C_REMOVE,
+    	iconCls:'remove',
+    	disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_R)+F_M)||p.get('voucStatus')!='0'||p.get('rowAction')=='N',
+    	scope:this,
+    	handler:this.removeVouc
+    });
     
+    var btnAudit = new Ext.Button({itemId:'TB_C',
+    	text:C_AUDIT,
+    	iconCls:'check',
+    	disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='0'||p.get('rowAction')=='N',
+    	scope:this,
+    	handler:this.check
+    });
+    
+    var btnCancel = new Ext.Button({itemId:'TB_D',
+    	text:C_CANCEL_AUDIT,
+    	iconCls:'renew',
+    	disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='1',
+    	scope:this,
+    	handler:this.renew
+    });
+    
+    var btnInvalid = new Ext.Button({itemId:'TB_E',
+    	text:C_INVALID,
+    	iconCls:'cancel',
+    	disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_F)||p.get('voucStatus')!='1',
+    	scope:this,
+    	handler:this.cancel
+    });
+    
+    var btnExport = new Ext.Button({text:C_EXPORT,
+    	disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_E),
+    	iconCls:'print',
+    	scope:this,
+    	handler:function(){
+    		EXP('C','VOUC_LIST','&voucId='+p.get('voucId'));
+    	}
+    });
     
     Fos.VoucherTab.superclass.constructor.call(this, { 
-	id: 'T_VOUC_'+p.get('id'),title:(p.get('voucType')=='R'?C_VOUC_R:C_VOUC_P)+'-'+p.get('voucNo'),layout:'border',
-	autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,bodyStyle:'padding:0px 0px 20px 0px',border:false,width:800,
-	tbar:[
-	{itemId:'TB_A',text:C_SAVE+'(S)',iconCls:'save',disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('voucStatus')!='0',scope:this,handler:this.save},'-',
-	{itemId:'TB_B',text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_R)+F_M)||p.get('voucStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removeVouc},'-',
-	{itemId:'TB_C',text:C_AUDIT+'(C)',iconCls:'check',disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.check},'-',
-	{itemId:'TB_D',text:C_CANCEL_AUDIT+'(U)',iconCls:'renew',disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_A)||p.get('voucStatus')!='1',scope:this,handler:this.renew},'-',
-	{itemId:'TB_E',text:C_INVALID+'(F)',iconCls:'cancel',disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_F)||p.get('voucStatus')!='1',scope:this,handler:this.cancel},'-',
-	{text:C_EXPORT+'(E)',disabled:NR(M1_S+(p.get('voucType')=='R'?S_VOUC_R:S_VOUC_P)+F_E),iconCls:'print',scope:this,handler:function(){EXP('C','VOUC_LIST','&voucId='+p.get('voucId'));}},'->','-',
-	{itemId:'TB_M',disabled:true,text:C_STATUS_C+getVOST(p.get('voucStatus'))+'/'+getWRST(p.get('voucWriteOffStatus'))},'-'
-	],
-	items: [{region:'north',height:200,layout:'column',layoutConfig:{columns:4},deferredRender:false,title:p.get('voucType')=='R'?C_VOUC_R_INFO:C_VOUC_P_INFO,collapsible:true,
-    	items:[{columnWidth:.25,layout:'form',border:false,
-        	items:[{fieldLabel:p.get('voucType')=='R'?C_VOUC_NO_R:C_VOUC_NO_P,tabIndex:1,name:'voucNo',disabled:true,value:p.get('voucNo'),xtype:'textfield',anchor:'95%'},
-        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:5,
-        		name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-            		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
-            		typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-            		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
-            		listeners:{scope:this,select:function(c,r,i){						
-						p.set('custId',r.get('custId'));
-						p.set('custSname',r.get('custCode'));
-						p.set('custName',r.get('custNameCn'));
-						c.setValue(r.get('custNameCn'));
-					},
-					keydown:{fn:function(f,e){LC(f,e,p.get('voucType')=='R'?'custArFlag':'custApFlag');},buffer:500}}},
-                {fieldLabel:p.get('voucType')=='R'?C_VOUC_R_AMOUNT:C_VOUC_P_AMOUNT,itemCls:'required',tabIndex:9,name:'voucAmount',value:p.get('voucAmount'),xtype:'numberfield',anchor:'95%',
-                	listeners:{scope:this,change:function(f,nv,ov){
-						p.set('voucAmount',nv);
-						var v = round2(nv-p.get('voucWriteOffAmount')-p.get('voucFixAmount'));
-						this.find('name','voucWriteOffAmountR')[0].setValue(v);
-					}}},
-				{fieldLabel:C_BANK,tabIndex:13,name:'voucBank',value:p.get('voucBank'),store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-                	listeners:{scope:this,select:function(c,r,i){
-                		this.find('name','voucAccount')[0].setValue(r.get('cobaAccount'));}}
-				}]},
-            {columnWidth:.25,layout:'form',border:false,
-                items: [{fieldLabel:C_BANK_BILL_NO,tabIndex:2,name:'voucBankReciptNo',value:p.get('voucBankReciptNo'),xtype:'textfield',format:DATEF,anchor:'95%'},
-                {fieldLabel:C_CURR,itemCls:'required',disabled:true,tabIndex:4,name:'currCode',value:p.get('currCode'),store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},                
-                {fieldLabel:C_WRITEOFF_AMOUNT,tabIndex:10,name:'voucWriteOffAmount',value:p.get('voucWriteOffAmount'),disabled:true,xtype:'numberfield',anchor:'95%',
-                listeners:{scope:this,change:function(f,nv,ov){
-                		var v = round2(p.get('voucAmount')-p.get('voucFixAmount')-nv);
-						this.find('name','voucWriteOffAmountR')[0].setValue(v);
-				}}},
-				{fieldLabel:C_BANK_ACCOUNT,tabIndex:14,name:'voucAccount',value:p.get('voucAccount'),xtype:'textfield',anchor:'95%'}]},
-            {columnWidth:.25,layout: 'form',border : false,
-                items: [{fieldLabel:C_CHECK_NO,tabIndex:3,name:'voucCheckNo',value:p.get('voucCheckNo'),xtype:'textfield',format:DATEF,anchor:'95%'},
-                {fieldLabel:C_EX_RATE,tabIndex:7,name:'voucExRate',value:p.get('voucExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'95%',
-                listeners:{scope:this,change:function(f,nv,ov){		
-					p.set('voucExRate',nv);
-					var d=store.getRange();
-					var sum = 0;
-					for(var i=0;i<d.length;i++){						
-						d[i].set('voucExRate',nv);
-						if(d[i].get('invoCurrCode')==p.get('currCode')){
-							d[i].set('voitExRate',nv);
-						}
-						d[i].set('voitAmountVoucW',round2(d[i].get('voitExRate')*d[i].get('voitAmountW')/d[i].get('voucExRate')));
-						d[i].set('voitAmountOriW',round2(d[i].get('voitAmountW')*d[i].get('invoExRate')/d[i].get('voitExRate')));
-						if(d[i].get('expeType')==p.get('voucType')){
-							sum = round2(sum + parseFloat(d[i].get('voitAmountVoucW')));
-						}else{
-							sum = round2(sum - parseFloat(d[i].get('voitAmountVoucW')));
-						}
-					}
-				this.find('name','voucWriteOffAmount')[0].setValue(sum);
-				this.find('name','voucAmount')[0].setValue(sum);
-				}}},
-                {fieldLabel:C_FIX_AMOUNT,tabIndex:11,name:'voucFixAmount',value:p.get('voucFixAmount'),xtype:'numberfield',anchor:'95%',
-                listeners:{scope:this,change:function(f,nv,ov){		
-						p.set('voucFixAmount',nv);
-						var v = round2(p.get('voucAmount')-p.get('voucWriteOffAmount')-nv);
-						this.find('name','voucWriteOffAmountR')[0].setValue(v);
-				}}},
-                {fieldLabel:C_WRITEOFF_NO,tabIndex:15,name:'voucWriteOffNo',value:p.get('voucWriteOffNo'),xtype:'textfield',anchor:'95%',
-                listeners:{scope:this,change:function(f,nv,ov){		
-					var a = this.grid.getStore().getRange();
-					if(a.length>0){
-						for(var i=0;i<a.length;i++){
-							a[i].set('voitWriteOffNo',nv);
-						}
-					}
-				}}}]},
-            {columnWidth:.25,layout: 'form',border : false,
-                items: [
-                {fieldLabel:p.get('voucType')=='R'?C_VOUC_DATE_R:C_VOUC_DATE_P,tabIndex:4,
-                	name:'voucDate',value:p.get('voucDate'),xtype:'datefield',format:DATEF,anchor:'95%'},
-                {fieldLabel:C_SEWA,itemCls:'required',tabIndex:8,name:'voucPaymentType',value:p.get('voucPaymentType'),store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-                {fieldLabel:C_REMAIN_AMOUNT,tabIndex:12,name:'voucWriteOffAmountR',value:p.get('voucAmount')-p.get('voucWriteOffAmount')-p.get('voucFixAmount'),disabled:true,xtype:'numberfield',anchor:'95%'}
-                ]},
-            {columnWidth:.99,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,name:'voucRemarks',value:p.get('voucRemarks'),tabIndex:15,xtype:'textarea',anchor:'95%'}]}
-            ]},
-		{title:C_WRITEOFFED_LINE,region:'center',layout:'fit',deferredRender:false,items:this.grid}]
+		id: 'T_VOUC_'+p.get('id'),title:(p.get('voucType')=='R'?C_VOUC_R:C_VOUC_P)+'-'+p.get('voucNo'),
+		layout:'border',
+		autoScroll:true,
+		labelAlign:'right',
+		closable:true,
+		labelWidth:80,
+		bodyStyle:'padding:0px 0px 20px 0px',
+		border:false,
+		width:800,
+		tbar:[
+		btnSave,'-',
+		btnRemove,'-',
+		btnAudit,'-',
+		btnCancel,'-',
+		btnInvalid,'-',
+		btnExport,'->','-',
+		{itemId:'TB_M',disabled:true,text:C_STATUS_C+getVOST(p.get('voucStatus'))+'/'+getWRST(p.get('voucWriteOffStatus'))},'-'
+		],
+		items: [infoPanel,
+			{title:C_WRITEOFFED_LINE,region:'center',layout:'fit',deferredRender:false,items:this.grid}
+		]
 	});
 };
 Ext.extend(Fos.VoucherTab,Ext.FormPanel);
