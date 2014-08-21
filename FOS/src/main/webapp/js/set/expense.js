@@ -498,6 +498,7 @@ Fos.ExGrid = function(p,t,frm,store) {
 			    		custSname:r.get('custSname'),
 			    		consCustId:p.get('custId'),
 			    		consCustName:p.get('custName'),
+			    		expeInvoiceTitle:r.get('expeInvoiceTitle'),
 			    		chclId:r.get('chclId'),
 			    		charId:r.get('charId'),
 			    		charName:r.get('charName'),
