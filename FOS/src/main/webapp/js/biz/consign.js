@@ -307,59 +307,90 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
 	var c1=new Ext.grid.RowNumberer();
-	var c2={header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
-               if(v==1) return '<div class="locked"></div>'; else return '';
-         }};
-    var c3={header:C_M_CONS,width:30,hidden:bizType!=BT_C,dataIndex:"consMasterFlag",renderer:boolRender};
-    var c4={header:C_STATUS,width:100,dataIndex:"consStatus",renderer:getCONS_STATUS};
-    var c5={header:C_CONS_NO,width:150,dataIndex:"consNo"};
-    var c6={header:(bizType==BT_B)?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
-    var c7={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
-    var c8={header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
-    var c9={header:C_PATE,dataIndex:"pateId",width:80,renderer:getPATE};
-    var c10={header:C_SHIP_TYPE,dataIndex:"consShipType",width:80};
-    var c11={header:C_VESS,hidden:bizType==BT_A,width:100,dataIndex:"vessName"};
-    var c12={header:bizType==BT_A?C_FLIGHT:C_VOYA,width:80,dataIndex:"voyaName"};
-    var c13={header:C_SAIL_DATE,dataIndex:"consEtd",renderer:formatDate};
-    var c14={header:C_POL,dataIndex:"consPolEn"};
-    var c15={header:C_POD,width:100,dataIndex:"consPodEn"};
-    var colDestination = {header:C_DESTINATION_PORT,width:100,dataIndex:"consDeliveryPlace"};
-    
-    var c16={header:bizType==BT_A?'MAWB No.':C_MBL_NO,width:80,dataIndex:"consMblNo"};
-    var c17={header:bizType==BT_A?'HAWB No.':C_HBL_NO,width:80,dataIndex:"consHblNo"};
-    var c18={header:C_PACKAGES,width:80,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'};
-    var c19={header:C_GW,width:80,dataIndex:"consTotalGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    var c20={header:C_CBM,width:80,dataIndex:"consTotalMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    
-    var c21={header:C_CONT_INFO,width:80,dataIndex:"consContainersInfo",renderer:nullRender};
-    var c22={header:C_CONT_NUM,width:80,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'};
-    var c23={header:C_POT,dataIndex:"consPotEn"};
-    var c24={header:C_CARRIER,dataIndex:"consCarrierName"};
-    var c25={header:C_BOOK_AGENCY,dataIndex:"consBookingAgencyName"};
-    var c26={header:C_M_CONS_NO,width:150,dataIndex:"consMasterNo"};
-    var c27={header:C_REMARKS,dataIndex:"consRemarks"};
-    var c28={header:C_CONTRACT_NO,dataIndex:"consContractNo"};
-    var c29={header:C_CARGO_OWNER,width:200,dataIndex:"consCargoOwnerName"};
 	
-	var c30={header:C_BL_PACKAGES,width:80,dataIndex:"blCargoPackages",align:'right',css:'font-weight:bold;'};
-    var c31={header:C_BL_GW,width:80,dataIndex:"blCargoGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    var c32={header:C_BL_CBM,width:80,dataIndex:"blCargoMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+	var colStatusLock = {header:'',
+			dataIndex:'consStatusLock',
+			menuDisabled:true,
+			fixed:true,
+			width:25,
+			renderer:function(v){
+               if(v==1) 
+            	   return '<div class="locked"></div>'; 
+               else 
+            	   return '';
+         }
+	};
 	
-	var c33={header:C_SHIPPED_GW,width:80,dataIndex:"consShippedGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    var c34={header:C_SHIPPED_MEASUREMENT,width:80,dataIndex:"consShippedMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    var c35={header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};    
-    var c36={header:C_ETA,dataIndex:"consEta",renderer:formatDate};
+    var colMasterFlag = {header:C_M_CONS,width:30,
+    		hidden:bizType!=BT_C,
+    		dataIndex:"consMasterFlag",
+    		renderer:boolRender
+    };
     
-    var c37={header:C_HARBOUR_OPEN_TIME,dataIndex:"harbourOpenTime",width:150};
-    var c38={header:C_HARBOUR_CLOSE_TIME,dataIndex:"harbourCloseTime",width:150};
+    var colStatus = {header:C_STATUS,
+    		width:100,
+    		dataIndex:"consStatus",
+    		renderer:getCONS_STATUS
+    };
+    
+    var colConsNo = {header:C_CONS_NO,width:150,dataIndex:"consNo"};    
+    var colCustName = {header:(bizType==BT_B)?C_CHARTER:C_BOOKER,width:200,dataIndex:"custName"};
+    var colConsDate = {header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};
+    var colTranId = {header:C_TTER,dataIndex:"tranId",width:80,renderer:getTRAN};
+    var colPateId = {header:C_PATE,dataIndex:"pateId",width:80,renderer:getPATE};
+    var colShipType = {header:C_SHIP_TYPE,dataIndex:"consShipType",width:80};
+    var colVessName = {header:C_VESS,hidden:bizType==BT_A,width:100,dataIndex:"vessName"};
+    var colVoyaName = {header:bizType==BT_A?C_FLIGHT:C_VOYA,width:80,dataIndex:"voyaName"};
+    var colLoadDate = {header:C_SHIP_LOAD_DATE,dataIndex:"consLoadDate",renderer:formatDate};
+    var colSailDate = {header:C_SAIL_DATE,dataIndex:"consEtd",renderer:formatDate};
+    var colPolEn = {header:C_POL,dataIndex:"consPolEn"};
+    var colPodEn = {header:C_POD,width:100,dataIndex:"consPodEn"};
+    var colPotEn = {header:C_POT,dataIndex:"consPotEn"};
+    var colDestination = {header:C_DESTINATION_PORT,width:100,dataIndex:"consDeliveryPlace"};    
+    var colMblNo = {header:bizType==BT_A?'MAWB No.':C_MBL_NO,width:80,dataIndex:"consMblNo"};
+    var colHblNo = {header:bizType==BT_A?'HAWB No.':C_HBL_NO,width:80,dataIndex:"consHblNo"};
+    
+    var colTotalPackages = {header:C_PACKAGES,width:80,dataIndex:"consTotalPackages",align:'right',css:'font-weight:bold;'};
+    var colTotalGrossWeight = {header:C_GW,width:80,dataIndex:"consTotalGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+    var colTotalMeasurement = {header:C_CBM,width:80,dataIndex:"consTotalMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+    var colContainersInfo = {header:C_CONT_INFO,width:80,dataIndex:"consContainersInfo",renderer:nullRender};
+    var colTotalContainers = {header:C_CONT_NUM,width:80,dataIndex:"consTotalContainers",align:'right',renderer:function(v){return (v)?v:0;},css:'font-weight:bold;'};
+   
+    var colCarrierName = {header:C_CARRIER,dataIndex:"consCarrierName"};
+    var colBookingAgencyName = {header:C_BOOK_AGENCY,dataIndex:"consBookingAgencyName"};
+    var colConsMasterNo = {header:C_M_CONS_NO,width:150,dataIndex:"consMasterNo"};
+    var colConsRemarks = {header:C_REMARKS,dataIndex:"consRemarks"};
+    var colConsContractNo = {header:C_CONTRACT_NO,dataIndex:"consContractNo"};
+    var colCargoOwner = {header:C_CARGO_OWNER,width:200,dataIndex:"consCargoOwnerName"};
+	
+	var colBlCargoPackages = {header:C_BL_PACKAGES,width:80,dataIndex:"blCargoPackages",align:'right',css:'font-weight:bold;'};
+    var colBlCargoGrossWeight = {header:C_BL_GW,width:80,dataIndex:"blCargoGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+    var colBlCargoMeasurement = {header:C_BL_CBM,width:80,dataIndex:"blCargoMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+	
+	var colShippedGrossWeight = {header:C_SHIPPED_GW,width:80,dataIndex:"consShippedGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+    var colShippedMeasurement = {header:C_SHIPPED_MEASUREMENT,width:80,dataIndex:"consShippedMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
+    var colOperator = {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};    
+    var colEta = {header:C_ETA,dataIndex:"consEta",renderer:formatDate};
+    
+    var colHarbourOpenTime = {header:C_HARBOUR_OPEN_TIME,dataIndex:"harbourOpenTime",width:150};
+    var colHarbourCloseTime = {header:C_HARBOUR_CLOSE_TIME,dataIndex:"harbourCloseTime",width:150};
     
     var cm=new Ext.grid.ColumnModel({columns:
-    	(bizType==BT_B)?[c1,c2,c3,c26,c4,c5,c28,c35,c6,c29,c7,c8,c9,c10,
-    	                                c11,c12,c37,c38,c13,c36,c14,c15,colDestination,
-    	               c16,c17,c18,c19,c20,c30,c31,c32,c33,c34,c23,c24,c25,c27]:
-    	            [c1,c2,c3,c4,c26,c35,c5,c6,c7,c8,c9,c10,c11,c12,c37,c38,c13,c36,c14,c15,colDestination,
-    	            	c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c27,c28],
-		defaults: {sortable: true}});
+    	(bizType==BT_B)?[c1,colStatusLock,colMasterFlag,colConsMasterNo,colStatus,colConsNo,
+    	                 colConsContractNo,colOperator,colCustName,colCargoOwner,colConsDate,
+    	                 colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
+    	                 colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
+    	                 colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
+    	                 colBlCargoPackages,colBlCargoGrossWeight,colBlCargoMeasurement,colShippedGrossWeight,
+    	                 colShippedMeasurement,colPotEn,colCarrierName,colBookingAgencyName,colConsRemarks]:
+	    	            [c1,colStatusLock,colMasterFlag,colStatus,colConsMasterNo,colOperator,colConsNo,colCustName,
+	    	             colConsDate,colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
+	    	             colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
+	    	             colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
+	    	             colContainersInfo,colTotalContainers,colPotEn,colCarrierName,colBookingAgencyName,
+	    	             colConsRemarks,colConsContractNo],
+		defaults: {sortable: true}
+    });
 	
 	this.addConsign = function(){
 		var c = sm.getSelected();

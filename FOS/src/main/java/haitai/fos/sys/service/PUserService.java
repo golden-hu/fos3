@@ -263,7 +263,7 @@ public class PUserService {
 				throw new BusinessException("fw.login.fail");
 			if (ConstUtil.FalseShort.equals(user.getUserNetworkFlag())&&result!=0&&result1!=0)
 				throw new BusinessException("fw.license.allow_access");
-			checkPasswordExpire(user);
+			//checkPasswordExpire(user);
 			if (ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 				checkRepeatLogin(user);
 			}

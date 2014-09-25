@@ -351,12 +351,12 @@
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">GROSS_PROFIT</property>
-                    <expression name="expression">row["RECEIVE"]-row["PAY"]</expression>
+                    <expression name="expression">(row["RECEIVE"] == null ? 0 :row["RECEIVE"])-(row["PAY"] == null ? 0 :row["PAY"])</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">GROSS_PROFIT_RATE</property>
-                    <expression name="expression">row["RECEIVE"] == null ? 0 : (row["RECEIVE"]-row["PAY"])/row["RECEIVE"]</expression>
+                    <expression name="expression">row["RECEIVE"] == 0 ? 0 : (row["RECEIVE"]-row["PAY"])/row["RECEIVE"]</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -863,28 +863,28 @@ CONCAT(c.VESS_NAME, " ", c.VOYA_NAME) as VOYA_NAME,
 c.CONS_POD_EN, c.CONS_CARRIER_NAME, c.CUST_SNAME, c.CUST_NAME,
 c.CONS_SALES_REP_NAME, c.CONS_OPERATOR_NAME,
 c.CONS_CONTAINERS_TEU, c.CONS_TOTAL_GROSS_WEIGHT,
-(select sum(e.EXPE_TOTAL_AMOUNT*e.EXPE_EX_RATE) from S_EXPENSE e 
-where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" and e.removed=0) as RECEIVE,
-(select sum(e.EXPE_TOTAL_AMOUNT*e.EXPE_EX_RATE) from S_EXPENSE e 
-where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" and e.removed=0) as PAY,
-(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT*e.EXPE_EX_RATE) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" and e.removed=0),0) as RECEIVE,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT*e.EXPE_EX_RATE) from S_EXPENSE e 
+where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" and e.removed=0),0) as PAY,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" 
-and e.removed=0 and e.CURR_CODE="CNY") as RECEIVE_CNY,
-(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+and e.removed=0 and e.CURR_CODE="CNY"),0) as RECEIVE_CNY,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" 
-and e.removed=0 and e.CURR_CODE="CNY") as PAY_CNY,
-(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+and e.removed=0 and e.CURR_CODE="CNY"),0) as PAY_CNY,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" 
-and e.removed=0 and e.CURR_CODE="USD") as RECEIVE_USD,
-(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+and e.removed=0 and e.CURR_CODE="USD"),0) as RECEIVE_USD,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" 
-and e.removed=0 and e.CURR_CODE="USD") as PAY_USD,
-(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+and e.removed=0 and e.CURR_CODE="USD"),0) as PAY_USD,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="R" 
-and e.removed=0 and e.CURR_CODE="EUR") as RECEIVE_EUR,
-(select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
+and e.removed=0 and e.CURR_CODE="EUR"),0) as RECEIVE_EUR,
+ifnull((select sum(e.EXPE_TOTAL_AMOUNT) from S_EXPENSE e 
 where e.CONS_ID = c.CONS_ID and e.EXPE_TYPE="P" 
-and e.removed=0 and e.CURR_CODE="EUR") as PAY_EUR,
+and e.removed=0 and e.CURR_CODE="EUR"),0) as PAY_EUR,
 c.CONS_CONTAINERS_INFO, c.CONS_SAIL_DATE, c.CONS_DATE,
 g.GROU_NAME, c.CONS_NO
 from F_CONSIGN c
@@ -1174,7 +1174,7 @@ where COMP_CODE = ?]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">GROSS_PROFIT_RATE</property>
-                                <expression name="expression">dataSetRow["GROSS_PROFIT_RATE"]</expression>
+                                <expression name="expression">dataSetRow["GROSS_PROFIT_RATE"] == null ? 0 : dataSetRow["GROSS_PROFIT_RATE"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
                             <structure>

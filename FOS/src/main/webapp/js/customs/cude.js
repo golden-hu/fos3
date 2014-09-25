@@ -7,13 +7,15 @@ Fos.CustomsGrid = function(bizClass) {
 	
 	var store = new Ext.data.GroupingStore({
    		url: SERVICE_URL+'?A=CONS_X',baseParams:bp,
-    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'}, FConsign),remoteSort:true,
+    	reader:new Ext.data.XmlReader({totalProperty:'rowCount',
+    		record:'FConsign',idProperty:'consId'}, FConsign),remoteSort:true,
     	sortInfo:{field:'consDate', direction:'DESC'}});    	
 	
 	this.reset=function(){
 		store.baseParams=bp;
 		store.reload({params:{start:0,limit:C_PS}});
 	};
+	
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
 	var c1=new Ext.grid.RowNumberer();    
     var cm=new Ext.grid.ColumnModel({columns:[
@@ -56,6 +58,7 @@ Fos.CustomsGrid = function(bizClass) {
 		var c = Fos.newConsign(bizClass,BT_G,'');
 		showCustomsConsign(c);
 	};
+	
 	this.editConsign = function(){
 		var b=sm.getSelected();
 		if(b) 
@@ -63,6 +66,7 @@ Fos.CustomsGrid = function(bizClass) {
 		else 
 			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.task = function(){
 		var b=sm.getSelected();
 		if(b){
@@ -71,23 +75,35 @@ Fos.CustomsGrid = function(bizClass) {
 		}
 		else 
 			XMG.alert(SYS,M_NO_DATA_SELECTED);
-	};	
+	};
+	
 	this.removeConsign = function(){
 		var a =sm.getSelections();
        	if(a.length){
        		XMG.confirm(SYS,M_R_C,function(btn){
-           	if(btn=='yes'){
-           		var b = false;
-               	for(var i=0;i<a.length;i++){if(a[i].get('consStatus')!='0'){b=true;break;}}
-               	if(b) XMG.alert(SYS,M_CONS_CONFIRMED);
-               	else {
-               		var xml = SMTX4R(sm,'FConsign','consId');
-               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
-					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
-					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
-					xmlData:FOSX(xml)});
-               	}
-           }});
+	           	if(btn=='yes'){
+	           		var b = false;
+	               	for(var i=0;i<a.length;i++){if(a[i].get('consStatus')!='0'){b=true;break;}}
+	               	if(b) XMG.alert(SYS,M_CONS_CONFIRMED);
+	               	else {
+	               		var xml = SMTX4R(sm,'FConsign','consId');
+	               		Ext.Ajax.request({url:SERVICE_URL,
+	               			method:'POST',
+	               			params:{A:'CONS_S'},
+							success: function(){
+								sm.each(function(p){
+									store.remove(p);
+								});
+								XMG.alert(SYS,M_S);
+							},
+							failure: function(r,o){
+								XMG.alert(SYS,M_F+r.responseText);
+							},
+							xmlData:FOSX(xml)
+						});
+	               	}
+	           }
+           });
 		}
        	else XMG.alert(SYS,M_R_P);
     };
@@ -95,16 +111,22 @@ Fos.CustomsGrid = function(bizClass) {
     setQueryParams=function(a){
     	queryParams = a;
     };
+    
 	this.search = function(){
 		var w=new Fos.CustomsConsLookupWin(store,setQueryParams,bizClass);
 		w.show();
 	};
 	
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){
-		if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
+		if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}
+	});
+	
 	this.fastSearch=function(){
 		var consNo=kw.getValue();
-		if(!consNo){XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});return;};
+		if(!consNo){
+			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+			return;
+		}
      	var a=[];     	
      	a[a.length]=new QParam({key:'consBizType',value:BT_G,op:EQ});
      	
@@ -120,13 +142,16 @@ Fos.CustomsGrid = function(bizClass) {
 		}
 		else
  			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+     	
      	queryParams = a;
-     	store.baseParams={mt:'xml',xml:FOSX(QTX(queryParams))};
+     	store.baseParams.xml=FOSX(QTX(queryParams));
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
-     		}});
+     		}
+     	});
 	};
+	
 	this.exp1=function(){		
 		if(queryParams.length>0){
 			var a = queryParams;
@@ -183,19 +208,42 @@ Fos.CustomsGrid = function(bizClass) {
 Ext.extend(Fos.CustomsGrid, Ext.grid.GridPanel);
 
 Fos.CustomsDeclearTab = function(p,store) {
+	
     this.save = function(){
     	if(this.find('name','custName')[0].getValue()==''){
-			XMG.alert(SYS,M_CUST_REQIRED,function(){this.find('name','custName')[0].focus();},this);return;};	
+			XMG.alert(SYS,M_CUST_REQIRED,function(){
+				this.find('name','custName')[0].focus();
+			},this);
+			return;
+		}
+    	
 		if(!p.get('custId')){
-			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);return;};
-		if(this.find('name','deptId')[0].getValue()==''){
-			XMG.alert(SYS,M_DEPT_REQIRED,function(){this.find('name','deptId')[0].focus();},this);return;};	
-		if(this.find('name','consSalesRepName')[0].getValue()==''){
-			XMG.alert(SYS,M_SALES_REQIRED,function(){this.find('name','consSalesRepName')[0].focus();},this);return;};
-		if(this.find('name','consOperatorName')[0].getValue()==''){
-			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorName')[0].focus();},this);return;};
+			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);
+			return;
+		}
 		
-		if(VERSION==0&&txtSailDate.getValue()==''){
+		if(this.find('name','deptId')[0].getValue()==''){
+			XMG.alert(SYS,M_DEPT_REQIRED,function(){
+				this.find('name','deptId')[0].focus();
+				},this);
+			return;
+		}
+		
+		if(this.find('name','consSalesRepName')[0].getValue()==''){
+			XMG.alert(SYS,M_SALES_REQIRED,function(){
+				this.find('name','consSalesRepName')[0].focus();
+			},this);
+			return;
+		}
+		
+		if(this.find('name','consOperatorName')[0].getValue()==''){
+			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){
+				this.find('name','consOperatorName')[0].focus();
+				},this);
+			return;
+		}		
+		
+		if(VERSION==0 && txtSailDate.getValue()==''){
 			XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
 				function(){txtSailDate.focus();},this);
 			return;
@@ -211,13 +259,19 @@ Fos.CustomsDeclearTab = function(p,store) {
    	 	}    	 	
    	 	var xml = RTX(p,'FConsign',FConsign);
    	 	
-   	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
+   	 	Ext.Ajax.request({scope:this,
+   	 		url:SERVICE_URL,
+   	 		method:'POST',
+   	 		params:{A:'CONS_S'},
 			success: function(res){
 				var c = XTR(res.responseXML,'FConsign',FConsign);
 				var ra=p.get('rowAction');
 				var f = FConsign.prototype.fields;
 				p.beginEdit();
-   				for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];p.set(fn,c.get(fn));};   				
+   				for (var i = 0; i < f.keys.length; i++) {
+   					var fn = ''+f.keys[i];
+   					p.set(fn,c.get(fn));
+   				}
 				if(ra=='N'){
 					var title=(p.get('consBizClass')=='I'?C_IMP:C_EXP)+C_CUSTOMS+'委托【'+p.get("consNo")+'】';
 					this.setTitle(title);
@@ -229,48 +283,94 @@ Fos.CustomsDeclearTab = function(p,store) {
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);
 			},
-			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+			failure: function(res){
+				XMG.alert(SYS,M_F+res.responseText);
+			},
 			xmlData:FOSX(xml)
 		});
     };    
+    
     this.updateStatus=function(s){
-		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatus:s},
-		success: function(r){
-			p.set('consStatus',s);
-			p.set('version',p.get('version')+1);
-			this.updateToolBar();
-			XMG.alert(SYS,M_S);
-		},
-		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+		Ext.Ajax.request({scope:this,
+			url:SERVICE_URL,
+			method:'POST',
+			params:{A:'CONS_U',
+				consId:p.get('consId'),
+				consStatus:s
+			},
+			success: function(r){
+				p.set('consStatus',s);
+				p.set('version',p.get('version')+1);
+				this.updateToolBar();
+				XMG.alert(SYS,M_S);
+			},
+			failure: function(r){
+				XMG.alert(SYS,M_F+r.responseText);
+			}
+		});
     };
         
     this.updateToolBar = function(){
 		var tb=this.getTopToolbar();
 		var s = p.get('consStatus'); 
-		locked=p.get('consStatusLock')==1;
-		if(tb.getComponent('TB_S')) tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
-    	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
-    	if(tb.getComponent('TB_CC')) tb.getComponent('TB_CC').setDisabled(NR(m+F_M)||locked||disable||s!=1);
-    	if(tb.getComponent('TB_F')) tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
-    	if(tb.getComponent('TB_M')) tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
-    	if(tb.getComponent('TB_R')) tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
-    	if(tb.getComponent('TB_CUDE')) tb.getComponent('TB_CUDE').setDisabled(p.get('rowAction')=='N');
-    	if(tb.getComponent('TB_EXP')) tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
-    	if(tb.getComponent('TB_DOC')) tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
-    	if(tb.getComponent('TB_ATT')) tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
-    	if(tb.getComponent('TB_S_ATT')) tb.getComponent('TB_S_ATT').setDisabled(NR(m1+M3_ATTACH));
-    	if(tb.getComponent('TB_U')) tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);
+		locked = p.get('consStatusLock')==1;
+		if(tb.getComponent('TB_S')) 
+			tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
+		
+    	if(tb.getComponent('TB_C')) 
+    		tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
     	
+    	if(tb.getComponent('TB_CC')) 
+    		tb.getComponent('TB_CC').setDisabled(NR(m+F_M)||locked||disable||s!=1);
+    	
+    	if(tb.getComponent('TB_F')) 
+    		tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
+    	
+    	if(tb.getComponent('TB_M')) 
+    		tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
+    	
+    	if(tb.getComponent('TB_R')) 
+    		tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
+    	
+    	if(tb.getComponent('TB_CUDE')) 
+    		tb.getComponent('TB_CUDE').setDisabled(p.get('rowAction')=='N');
+    	
+    	if(tb.getComponent('TB_EXP')) 
+    		tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
+    	
+    	if(tb.getComponent('TB_DOC')) 
+    		tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
+    	
+    	if(tb.getComponent('TB_ATT')) 
+    		tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
+    	
+    	if(tb.getComponent('TB_S_ATT')) 
+    		tb.getComponent('TB_S_ATT').setDisabled(NR(m1+M3_ATTACH));
+    	
+    	if(tb.getComponent('TB_U')) 
+    		tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);    	
     };
     
-    this.check=function(){this.updateStatus('1');};
-    this.cancelCheck = function(){this.updateStatus('0');};
-    this.finish=function(){this.updateStatus('2');};
-    this.cancel=function()
-    {XMG.confirm(SYS,M_CONS_CANCEL_C,function(btn)
-    		{if(btn=='yes')
-    			this.updateStatus('3');
-    		},this);};
+    this.check=function(){
+    	this.updateStatus('1');
+    };
+    
+    this.cancelCheck = function(){
+    	this.updateStatus('0');
+    };
+    
+    this.finish=function(){
+    	this.updateStatus('2');
+    };
+    
+    this.cancel=function(){
+    	XMG.confirm(SYS,M_CONS_CANCEL_C,
+    		function(btn){
+	    		if(btn=='yes')
+	    			this.updateStatus('3');
+    		},this);
+    };
+    		
     this.del=function(){
     	if(p.get('consStatus')!='0')
        		XMG.alert(SYS,M_CONS_CONFIRMED);
@@ -279,12 +379,16 @@ Fos.CustomsDeclearTab = function(p,store) {
        			if(btn=='yes'){
        				p.set('rowAction','R');
                		var xml = RTX4R(p,'FConsign','consId');
-               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
+               		Ext.Ajax.request({url:SERVICE_URL,
+               			method:'POST',
+               			params:{A:'CONS_S'},
 						success: function(){
 							store.remove(p);
 							XMG.alert(SYS,M_S,function(){T_MAIN.remove('P_CONS_'+p.get('id'));});
 						},
-						failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
+						failure: function(r,o){
+							XMG.alert(SYS,M_F+r.responseText);
+						},
 						xmlData:FOSX(xml)
 					});
                	}
@@ -292,44 +396,58 @@ Fos.CustomsDeclearTab = function(p,store) {
        	}
     };
     
-    this.unlock=function(){
-    	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
-    		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
-		success: function(r){
-			p.set('consStatusLock',0);
-			this.updateToolBar(p.get('consStatus'));
-			
-			XMG.alert(SYS,M_S);
-			var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
-					reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
-			sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
-				if(s&&r.length>0){
-					var c=r[0];
-					p.beginEdit();					
-					p.set('version',c.get('version'));
-					p.endEdit();
-					XMG.alert(SYS,M_S);
-				}    						
-			},scope:this});				
-		},
-		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+    this.unlock = function(){
+    	Ext.Ajax.request({scope:this,
+    		url:SERVICE_URL,
+    		method:'POST',
+    		params:{
+    			A:'CONS_U',
+    			consId:p.get('consId'),
+    			consStatusLock:0
+    		},
+			success: function(r){
+				p.set('consStatusLock',0);
+				this.updateToolBar(p.get('consStatus'));
+				
+				XMG.alert(SYS,M_S);
+				var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+						reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+				sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+					if(s&&r.length>0){
+						var c=r[0];
+						p.beginEdit();					
+						p.set('version',c.get('version'));
+						p.endEdit();
+						XMG.alert(SYS,M_S);
+					}    						
+				},scope:this});				
+			},
+			failure: function(r){
+				XMG.alert(SYS,M_F+r.responseText);
+			}
+		});
     };
+    
     this.showExp=function(){
     	var win = new Fos.ExWin(p);
     	win.show();
     };    
+    
     this.showDoc=function(){
     	var win = new Fos.DocWin(p);
     	win.show();
     };    
+    
     this.showAttach=function(){
     	var win = new Fos.AttachWin(p);
     	win.show();
     };    
+    
     this.showSecurityAttach=function(){
     	var win = new Fos.SecurityAttachWin(p);
     	win.show();
     };
+    
     this.showCude = function(){
     	var win = new Fos.CustomsWin(p);
     	win.show();    	
@@ -339,10 +457,13 @@ Fos.CustomsDeclearTab = function(p,store) {
     var disable=p.get('editable')==0;
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
     var m1 = getRM(p.get('consBizClass'),BT_G,'');
+    
     function saveShipper(shipperT){
     	var cushName = '';
-    	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').getValue();
-    	else if(shipperT==2) cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').getValue();
+    	if(shipperT==1) 
+    		cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').getValue();
+    	else if(shipperT==2) 
+    		cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').getValue();
     	    	
     	if(!p.get('custId')){
     		XMG.alert(SYS,M_SELECT_CUST_FIRST);
@@ -350,12 +471,24 @@ Fos.CustomsDeclearTab = function(p,store) {
     	}
     	if(cushName!=''){
     		
-    		var c = new CCustomerShipper({rowAction:'N',custId:p.get('custId'),cushType:shipperT,cushName:cushName});
+    		var c = new CCustomerShipper({rowAction:'N',
+    			custId:p.get('custId'),
+    			cushType:shipperT,
+    			cushName:cushName
+    		});
+    		
     		var xml = RTX(c,'CCustomerShipper',CCustomerShipper);
-			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+    		
+			Ext.Ajax.request({scope:this,
+				url:SERVICE_URL,
+				method:'POST',
 				params:{A:'CUSH_S'},
-				success: function(res){XMG.alert(SYS,M_S);},
-				failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+				success: function(res){
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(res){
+					XMG.alert(SYS,M_F+res.responseText);
+				},
 				xmlData:FOSX(xml)
 			});
     	}
@@ -371,45 +504,99 @@ Fos.CustomsDeclearTab = function(p,store) {
     }
     
     function updateShipper(shipperT,cushName){
-    	if(shipperT==1) cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').setValue(cushName);
-    	else if(shipperT==2) cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').setValue(cushName);
+    	if(shipperT==1) 
+    		cushName = Ext.getCmp(p.get('consId')+'CONS_SHIPPER').setValue(cushName);
+    	else if(shipperT==2) 
+    		cushName = Ext.getCmp(p.get('consId')+'CONS_CONSIGNEE').setValue(cushName);
     };
     
     var bSaveShipper = new Ext.Button({text:'保存',handler:function(){saveShipper(1);}});
+    
     var bSearchShipper = new Ext.Button({text:'选择',handler:function(){selShipper(1);}});
+    
     var bSaveConsignee = new Ext.Button({text:'保存',handler:function(){saveShipper(2);}});
+    
     var bSearchConsignee = new Ext.Button({text:'选择',handler:function(){selShipper(2);}});
     
-    var txtConsMblNo = {fieldLabel:C_M_BL_NO,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
-    var txtConsHblNo = {fieldLabel:C_H_BL_NO,name:'consHblNo',value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
+    var txtConsMblNo = {fieldLabel:C_M_BL_NO,
+		name:'consMblNo',
+		value:p.get('consMblNo'),
+		xtype:'textfield',
+		anchor:'99%'
+	};
+    
+    var txtConsHblNo = {fieldLabel:C_H_BL_NO,
+		name:'consHblNo',
+		value:p.get('consHblNo'),
+		xtype:'textfield',
+		anchor:'99%'
+	};
+    
     var txtVessName={fieldLabel:C_VESS,tabIndex:17,
-    		name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'99%'};
-	var txtVoyage={fieldLabel:C_VOYA,tabIndex:18,
-    		name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'99%'};
+    	name:'vessName',
+    	value:p.get('vessName'),
+    	xtype:'textfield',
+    	anchor:'99%'
+    };
+    
+	var txtVoyage={fieldLabel:C_VOYA,
+		tabIndex:18,
+		name:'voyaName',
+		value:p.get('voyaName'),
+		xtype:'textfield',
+		anchor:'99%'
+	};
 	
-	var txtSailDate=new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,tabIndex:19,
-			itemCls:VERSION==0?'required':'',editable:false,
-			name:'consSailDate',value:p.get('consSailDate'),
-			xtype:'datefield',format:DATEF,anchor:'99%'});
+	var txtSailDate = new Ext.form.DateField({
+		fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,
+		tabIndex:19,
+		itemCls:VERSION==0?'required':'',
+		editable:false,
+		name:'consSailDate',
+		value:p.get('consSailDate'),
+		format:DATEF,
+		anchor:'99%'
+	});
 	
-	var cboPolEn = {fieldLabel:C_POL,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?39:43,
-    		name:'consPolEn',value:p.get('consPolEn'),store:getPS(),xtype:'combo',
-    		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',valueField:'portNameEn',typeAhead: true,mode:'local',
-    		triggerAction:'all',selectOnFocus:true,anchor:'99%',
-    		tpl:portTpl,itemSelector:'div.list-item',listWidth:C_LW,enableKeyEvents:true,
-    		listeners:{scope:this,
-    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consPol','');}},
-            	select:function(c,r,i){
-            		p.set('consPol',r.get('portId'));
-            		p.set('consPolCn',r.get('portNameCn'));
-            		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) {
-            			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
-            		}
-            		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) {
-            			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
-            		}
-            	},
-             	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}}};
+	var cboPolEn = {fieldLabel:C_POL,
+		itemCls:'needed',
+		tabIndex:p.get('consBizClass')==BC_I?39:43,
+		name:'consPolEn',
+		value:p.get('consPolEn'),
+		store:getPS(),
+		xtype:'combo',
+		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
+		valueField:'portNameEn',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%',
+		tpl:portTpl,
+		itemSelector:'div.list-item',
+		listWidth:C_LW,
+		enableKeyEvents:true,
+		listeners:{scope:this,
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consPol','');
+				}
+			},
+        	select:function(c,r,i){
+        		p.set('consPol',r.get('portId'));
+        		p.set('consPolCn',r.get('portNameCn'));
+        		if(p.get('consBizClass')==BC_I&&this.find('name','consTradeCountry')[0]) {
+        			this.find('name','consTradeCountry')[0].setValue(r.get('counCode'));
+        		}
+        		if(p.get('consBizClass')==BC_E&&this.find('name','consReceiptPlace')[0]) {
+        			this.find('name','consReceiptPlace')[0].setValue(r.get('portNameEn'));
+        		}
+        	},
+         	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}
+        }
+	};
+	
     var cboPodEn = {fieldLabel:C_POD,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?40:47,name:'consPodEn',
 			value:p.get('consPodEn'),store:getPS(),xtype:'combo',
 			displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
