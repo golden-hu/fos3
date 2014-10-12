@@ -70,3 +70,35 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (42, '第二通知人', 'FConsign', 'consNotifyParty2', NULL),
 (42, '操作员', 'FConsign', 'consOperatorName', NULL),
 (42, '提单号', 'FConsign', 'consMblNo', NULL);
+
+DELETE FROM P_TEMPLATE_MAP WHERE TETY_ID=50;
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(50, '装货港', 'FCustomsDeclaration', 'cudePolEn', NULL),
+(50, '卸货港', 'FCustomsDeclaration', 'cudePodEn', NULL),
+(50, '发票号', 'FCustomsDeclaration', 'cudeInvoiceNo', NULL),
+(50, '发票日期', 'FCustomsDeclaration', 'cudeInvoiceDate', NULL),
+(50, '发货人', 'FCustomsDeclaration', 'cudeShipper', NULL),
+(50, '收货人', 'FCustomsDeclaration', 'cudeConsignee', NULL),
+(50, '结汇方式', 'FCustomsDeclaration', 'exseCode', NULL),
+(50, '成交方式', 'FCustomsDeclaration', 'trteCode', NULL),
+(50, '英文结汇方式', 'FCustomsDeclaration', 'exseCodeEn', NULL),
+(50, '英文成交方式', 'FCustomsDeclaration', 'trteCodeEn', NULL),
+(50, '件数合计', 'FCustomsDeclaration', 'cudePackageNum', NULL),
+(50, '包装合计', 'FCustomsDeclaration', 'packCode', NULL),
+(50, '毛重合计', 'FCustomsDeclaration', 'cudeGrossWeight', NULL),
+(50, '净重合计', 'FCustomsDeclaration', 'cudeNetWeight', NULL),
+(50, '体积合计', 'FCustomsDeclaration', 'cudeMeasurement', NULL),
+(50, '大写件数', 'FCustomsDeclaration', 'cudeTotalSay', NULL),
+(50, '唛头与项号', 'FCustomsEntry', 'cuenNo', NULL),
+(50, '英文品名', 'FCustomsEntry', 'cuenCargoNameEn', NULL),
+(50, '件数', 'FCustomsEntry', 'cuenPackageNum', NULL),
+(50, '数量', 'FCustomsEntry', 'cuenCargoNum', NULL),
+(50, '包装', 'FCustomsEntry', 'packCode', NULL),
+(50, '毛重', 'FCustomsEntry', 'cuenCargoGrossWeight', NULL),
+(50, '净重', 'FCustomsEntry', 'cuenCargoNetWeight', NULL),
+(50, '体积', 'FCustomsEntry', 'cuenCargoMeasurement', NULL),
+(51, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);
+
+ALTER TABLE `F_CUSTOMS_DECLARATION`
+	ADD COLUMN `CUDE_NUM` VARCHAR(32) NULL DEFAULT NULL AFTER `CUDE_PACKAGE_NUM`,
+	ADD COLUMN `CUDE_MEASUREMENT` VARCHAR(32) NULL DEFAULT NULL AFTER `CUDE_NET_WEIGHT`;

@@ -67,6 +67,8 @@
 <script type="text/javascript" src="js/biz/warehouse.js"></script>
 <script type="text/javascript" src="js/biz/container.js"></script>
 <script type="text/javascript" src="js/biz/inspection.js"></script>
+<script type="text/javascript" src="js/biz/CustomsTab.js"></script>
+
 <script type="text/javascript" src="js/biz/bl.js"></script>
 <script type="text/javascript" src="js/biz/section.js"></script>
 <script type="text/javascript" src="js/biz/cargo.js"></script>

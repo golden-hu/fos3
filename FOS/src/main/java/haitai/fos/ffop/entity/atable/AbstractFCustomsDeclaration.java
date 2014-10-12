@@ -69,10 +69,12 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private String cudeInsurance;
 	private String cudeCharge;
 	private String cudePackageNum;
+	private String cudeNum;
 	private String packCode;
 	private String packCodeEn;
 	private String cudeGrossWeight;
 	private String cudeNetWeight;
+	private String cudeMeasurement;
 	private String cudeManu;
 	private String cudeMarks;
 	private String cudeAttachment;
@@ -598,6 +600,15 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudePackageNum = cudePackageNum;
 	}
 
+	@Column(name = "CUDE_NUM", length = 32)
+	public String getCudeNum() {
+		return this.cudeNum;
+	}
+
+	public void setCudeNum(String cudeNum) {
+		this.cudeNum = cudeNum;
+	}
+	
 	@Column(name = "PACK_CODE", length = 32)
 	public String getPackCode() {
 		return this.packCode;
@@ -634,6 +645,16 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeNetWeight = cudeNetWeight;
 	}
 
+	@Column(name = "CUDE_MEASUREMENT", length = 32)
+	public String getCudeMeasurement() {
+		return this.cudeMeasurement;
+	}
+
+	public void setCudeMeasurement(String cudeMeasurement) {
+		this.cudeMeasurement = cudeMeasurement;
+	}
+
+	
 	@Column(name = "CUDE_MANU", length = 500)
 	public String getCudeManu() {
 		return this.cudeManu;
