@@ -1,5 +1,6 @@
 ﻿//订舱
 Fos.BookTab = function(p) {
+	
 	this.carg_s = GS('CARG_Q','FCargo',FCargo,'cargId','ASC');
 	
 	this.cargoGrid = new Fos.CargoGrid(p,this.carg_s,this);	
@@ -109,35 +110,27 @@ Fos.BookTab = function(p) {
    	 	var bf=this.findById('cargBigFlag');
    	 	if(bf!=undefined&&bf.checkbox)
    	 	p.set('cargBigFlag',this.findById('cargBigFlag').checkbox.dom.checked);
-   	 	
-   	 	if(p.get('consBizType')==BT_G){
-   	 		p.set('consServiceRequired',SR_CUDE);
-   	 	}
-   	 	else if(p.get('consBizType')==BT_I){
-   	 		p.set('consServiceRequired',SR_INSP);
-   	 	}
-   	 	else{
-	  	 	var consServiceRequired = '';   	 	
-	  	 	if(this.find('name','SR_TRAN')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_TRAN')[0].getValue()?SR_TRAN:'';
-	  	 	if(this.find('name','SR_WARE')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_WARE')[0].getValue()?SR_WARE:'';
-	  	 	if(this.find('name','SR_INSP')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_INSP')[0].getValue()?SR_INSP:'';
-	  	 	if(this.find('name','SR_CUDE')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_CUDE')[0].getValue()?SR_CUDE:'';
-	  	 	if(this.find('name','SR_CONT')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_CONT')[0].getValue()?SR_CONT:'';
-	  	 	if(this.find('name','SR_BL')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_BL')[0].getValue()?SR_BL:'';
-	  	 	if(this.find('name','SR_BBOOK')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_BBOOK')[0].getValue()?SR_BBOOK:'';
-	  	 	if(this.find('name','SR_RABL')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_RABL')[0].getValue()?SR_RABL:'';
-	  	 	if(this.find('name','SR_SESH')[0]) 
-	  	 		consServiceRequired+=this.find('name','SR_SESH')[0].getValue()?SR_SESH:'';
-	  	 	p.set('consServiceRequired',consServiceRequired);
-   	 	}
+   	 	   	 	
+  	 	var consServiceRequired = '';   	 	
+  	 	if(this.find('name','SR_TRAN')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_TRAN')[0].getValue()?SR_TRAN:'';
+  	 	if(this.find('name','SR_WARE')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_WARE')[0].getValue()?SR_WARE:'';
+  	 	if(this.find('name','SR_INSP')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_INSP')[0].getValue()?SR_INSP:'';
+  	 	if(this.find('name','SR_CUDE')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_CUDE')[0].getValue()?SR_CUDE:'';
+  	 	if(this.find('name','SR_CONT')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_CONT')[0].getValue()?SR_CONT:'';
+  	 	if(this.find('name','SR_BL')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_BL')[0].getValue()?SR_BL:'';
+  	 	if(this.find('name','SR_BBOOK')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_BBOOK')[0].getValue()?SR_BBOOK:'';
+  	 	if(this.find('name','SR_RABL')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_RABL')[0].getValue()?SR_RABL:'';
+  	 	if(this.find('name','SR_SESH')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_SESH')[0].getValue()?SR_SESH:'';
+  	 	p.set('consServiceRequired',consServiceRequired);
    	 	
    	 	if(p.get('consBizType')==BT_C){
 	   	 	var c =this.cont_s.getModifiedRecords();
@@ -167,7 +160,8 @@ Fos.BookTab = function(p) {
  		p.set('consCargoNetWeight',''+p.get('consTotalNetWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
  		p.set('consCargoGrossWeight',''+p.get('consTotalGrossWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
  		p.set('consCargoMeasurement',''+p.get('consTotalMeasurement')+'CBM');
-   	 	var xml = RTX(p,'FConsign',FConsign);
+   	 	
+ 		var xml = RTX(p,'FConsign',FConsign);
    	 	if(p.get('consBizType')==BT_C){
 			var c =this.cont_s.getModifiedRecords();
 			if(c.length>0){
@@ -187,6 +181,7 @@ Fos.BookTab = function(p) {
 			var x = ATX(cargos,'FCargo',FCargo);
 			xml=xml+x;
 		};
+		
 		tb.getComponent('TB_A').setDisabled(true);
    	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,
    	 		method:'POST',
@@ -241,24 +236,22 @@ Fos.BookTab = function(p) {
 		});
     };    
     
-    var txtConsNo={fieldLabel:C_CONS_NO,
+    var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
 		style:'{font-weight:bold;color:green;}',
 		readOnly:true,
 		tabIndex:1,
 		name:'consNo',
 		value:p.get('consNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
-	var txtDept={fieldLabel:C_DEPT,
+	var cboDept = new Ext.form.ComboBox({fieldLabel:C_DEPT,
 		itemCls:'required',
 		name:'deptId',
 		value:p.get('deptId'),
 		editable:false,
 		tabIndex:2,
 		store:getGROU_S(),
-		xtype:'combo',
 		displayField:'grouName',
 		valueField:'grouId',
 		typeAhead: true,
@@ -266,15 +259,14 @@ Fos.BookTab = function(p) {
 		triggerAction: 'all',
 		selectOnFocus:true,
 		anchor:'99%'
-	};
+	});
 	
-	var txtSales={fieldLabel:C_SALES,
+	var cboSales = new Ext.form.ComboBox({fieldLabel:C_SALES,
 		itemCls:'required',
 		tabIndex:3,
 		name:'consSalesRepName',
 		value:p.get('consSalesRepName'),
 		store:getSALE_S(),
-		xtype:'combo',
 		displayField:VERSION==1?'userName':'userLoginName',
 		valueField:'userName',
 		typeAhead: true,
@@ -295,15 +287,14 @@ Fos.BookTab = function(p) {
 	    		p.set('consSalesRepId',r.get('userId'));
 	    	}
 		}
-	};	
+	});	
 	
-	var txtOperator={fieldLabel:C_OPERATOR,
+	var cboOperator = new Ext.form.ComboBox({fieldLabel:C_OPERATOR,
 		itemCls:'required',
 		tabIndex:4,
 		name:'consOperatorName',
 		value:p.get('consOperatorName'),
 		store:getOP_S(),
-		xtype:'combo',
 		displayField:VERSION==1?'userName':'userLoginName',
 		valueField:'userName',
 		typeAhead: true,
@@ -324,16 +315,15 @@ Fos.BookTab = function(p) {
 	    		p.set('consOperatorId',r.get('userId'));
 	    	}
 		}
-	};
+	});
 	
-	var txtCust={fieldLabel:(p.get('consBizType')==BT_B)?C_CHARTER:C_BOOKER,
+	var cboCust = new Ext.form.ComboBox({fieldLabel:(p.get('consBizType')==BT_B)?C_CHARTER:C_BOOKER,
 		itemCls:'required',
 		tabIndex:5,
 		name:'custName',
 		value:p.get('custName'),
 		store:getCS(),
 		enableKeyEvents:true,
-   		xtype:'combo',
    		displayField:'custCode',
    		valueField:'custCode',
    		typeAhead:true,
@@ -385,47 +375,43 @@ Fos.BookTab = function(p) {
 				},buffer:BF
 			}
 		}
-	};
+	});
 	
-    var txtCustContact={fieldLabel:C_CONTACT,
+    var txtCustContact = new Ext.form.TextField({fieldLabel:C_CONTACT,
 		tabIndex:6,
 		name:'custContact',
 		value:p.get('custContact'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
-    var txtCustTel={fieldLabel:C_PHONE,
+    var txtCustTel = new Ext.form.TextField({fieldLabel:C_PHONE,
 		tabIndex:7,
 		name:'custTel',
 		value:p.get('custTel'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
-    var txtCustFax={xtype:'textfield',
-		tabIndex:8,
-		fieldLabel:C_FAX,
+    var txtCustFax = new Ext.form.TextField({fieldLabel:C_FAX,
+		tabIndex:8,		
 		name:'custFax',
 		value:p.get('custFax'),
 		anchor:'99%'
-	};
+	});
     
-    var txtConsDate={fieldLabel:C_CONS_DATE,
+    var dtConsDate = new Ext.form.DateField({fieldLabel:C_CONS_DATE,
 		tabIndex:9,
 		name:'consDate',
 		value:p.get('consDate'),
 		editable:false,
 		xtype:'datefield',
 		format:DATEF,anchor:'99%'
-	};
+	});
     
-    var txtCustSales={fieldLabel:C_CUST_SALES,
+    var cboCustSales = new Ext.form.ComboBox({fieldLabel:C_CUST_SALES,
 		name:'custSalesName',
 		value:p.get('custSalesName'),
 		tabIndex:10,
 		store:getCUCOS(),
-		xtype:'combo',
 		displayField:'cucoName',
 		valueField:'cucoName',
 		typeAhead: true,
@@ -433,25 +419,23 @@ Fos.BookTab = function(p) {
 		triggerAction: 'all',
 		selectOnFocus:true,
 		anchor:'99%'
-	};
+	});
     
-    var txtRefNo={fieldLabel:C_REF_NO,
+    var txtRefNo = new Ext.form.TextField({fieldLabel:C_REF_NO,
 		tabIndex:11,
 		name:'consRefNo',
 		value:p.get('consRefNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
-	var txtContractNo={fieldLabel:C_CONTRACT_NO,
+	var txtContractNo = new Ext.form.TextField({fieldLabel:C_CONTRACT_NO,
 		tabIndex:12,
 		name:'consContractNo',
 		value:p.get('consContractNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
-	var txtCargoSource={fieldLabel:C_CARGO_SOURCE,
+	var txtCargoSource = new Ext.form.ComboBox({fieldLabel:C_CARGO_SOURCE,
 		tabIndex:13,
 		name:'consSource',
 		value:p.get('consSource'),
@@ -464,9 +448,9 @@ Fos.BookTab = function(p) {
 		triggerAction:'all',
 		selectOnFocus:true,
 		anchor:'99%'
-	};
+	});
 	
-    var txtCargoClass={fieldLabel:C_CACL,
+    var txtCargoClass = new Ext.form.ComboBox({fieldLabel:C_CACL,
 		tabIndex:14,
 		name:'caclId',
 		value:p.get('caclId'),
@@ -490,9 +474,9 @@ Fos.BookTab = function(p) {
         		p.set('caclName',r.get('caclNameCn'));
         	}
     	}
-    };
+    });
     
-    var txtPate={fieldLabel:C_PATE,
+    var txtPate = new Ext.form.ComboBox({fieldLabel:C_PATE,
 		itemCls:'needed',
 		tabIndex:15,
 		name:'pateId',
@@ -517,7 +501,7 @@ Fos.BookTab = function(p) {
         		p.set('pateName',r.get('pateName'));
         	}
     	}
-    }; 
+    }); 
     
     var txtPaidAt={fieldLabel:C_PAID_AT,
 		tabIndex:16,
@@ -527,7 +511,7 @@ Fos.BookTab = function(p) {
 		anchor:'99%'
 	};
 	
-	var txtTranTerm={fieldLabel:C_TTER,
+	var txtTranTerm = new Ext.form.ComboBox({fieldLabel:C_TTER,
 		itemCls:'needed',
 		tabIndex:17,
 		name:'tranId',
@@ -552,9 +536,9 @@ Fos.BookTab = function(p) {
 	    		p.set('tranCode',r.get('tranCode'));
 	    	}
 		}
-	};
+	});
 	
-	var txtPartial={xtype:'checkbox',
+	var txtPartial = {xtype:'checkbox',
 		labelSeparator:'',
 		boxLabel:C_PARTIAL_FLAG,
 		tabIndex:19,
@@ -562,7 +546,7 @@ Fos.BookTab = function(p) {
 		checked:p.get('consPartialFlag')=='1'
 	};
 	
-	var txtTrans={xtype:'checkbox',
+	var txtTrans = {xtype:'checkbox',
 		labelSeparator:'',
 		boxLabel:C_TANS_FLAG,
 		tabIndex:20,
@@ -570,7 +554,7 @@ Fos.BookTab = function(p) {
 		checked:p.get('consTransFlag')=='1'
 	};
     
-	var txtShippingLine={fieldLabel:C_SHLI,
+	var txtShippingLine = new Ext.form.ComboBox({fieldLabel:C_SHLI,
 		itemCls:'needed',
 		tabIndex:18,
 		name:'shliId',
@@ -595,9 +579,9 @@ Fos.BookTab = function(p) {
 	    		p.set('shliCode',r.get('shliCode'));
 	    	}
 		}
-	};
+	});
     
-    var txtLclType={fieldLabel:C_LCL_TYPE,
+    var txtLclType = new Ext.form.ComboBox({fieldLabel:C_LCL_TYPE,
 		tabIndex:22,
 		name:'consLclType',
 		value:p.get('consLclType'),
@@ -611,56 +595,50 @@ Fos.BookTab = function(p) {
 		triggerAction:'all',
 		selectOnFocus:true,
 		anchor:'99%'
-	};
+	});
     
-    var txtChargeRemark={fieldLabel:C_CHARGE_REMARKS,
+    var txtChargeRemark = new Ext.form.TextField({fieldLabel:C_CHARGE_REMARKS,
 		tabIndex:16,
 		name:'consChargeRemarks',
 		value:p.get('consChargeRemarks'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
-    var txtMConsNo={fieldLabel:C_M_CONS_NO,
+    var txtMConsNo = new Ext.form.TextField({fieldLabel:C_M_CONS_NO,
 		disabled:true,
 		tabIndex:23,
 		name:'consMasterNo',
 		value:p.get('consMasterNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
-    var txtBVessel={fieldLabel:C_BVESSEL,
+    var txtBVessel = new Ext.form.TextField({fieldLabel:C_BVESSEL,
 		tabIndex:18,
 		name:'consBVessel',
 		value:p.get('consBVessel'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
-	var txtBVoyage={fieldLabel:C_BVOYAGE,
+	var txtBVoyage = new Ext.form.TextField({fieldLabel:C_BVOYAGE,
 		tabIndex:19,
 		name:'consBVoyage',
 		value:p.get('consBVoyage'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
-	var txtBPod={fieldLabel:C_BPOT,
+	var txtBPod = new Ext.form.TextField({fieldLabel:C_BPOT,
 		tabIndex:20,
 		name:'consBPodEn',
 		value:p.get('consBPodEn'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
-	var txtDeliveryDate={fieldLabel:C_DELIVERY_DATE,
+	var txtDeliveryDate = new Ext.form.TextField({fieldLabel:C_DELIVERY_DATE,
 		tabIndex:14,
 		name:'consDeliveryDate',
 		value:p.get('consDeliveryDate'),
-		xtype:'datefield',
 		format:DATEF,anchor:'99%'
-	};
+	});
 	
 	var t111=[];
 	var t112=[];
@@ -668,31 +646,31 @@ Fos.BookTab = function(p) {
 	var t114=[];
 	
 	if(p.get('consBizClass')==BC_I){//进口
-		t111=[txtConsNo,txtCust,txtConsDate,txtCargoSource,txtTranTerm];
-		t112=[txtDept,txtCustContact,txtCustSales,txtDeliveryDate,txtBVessel];
-		t113=[txtSales,txtCustTel,txtRefNo,txtPate,txtBVoyage];
-		t114=[txtOperator,txtCustFax,txtContractNo,txtPaidAt,txtBPod];
+		t111=[txtConsNo,cboCust,dtConsDate,txtCargoSource,txtTranTerm];
+		t112=[cboDept,txtCustContact,cboCustSales,txtDeliveryDate,txtBVessel];
+		t113=[cboSales,txtCustTel,txtRefNo,txtPate,txtBVoyage];
+		t114=[cboOperator,txtCustFax,txtContractNo,txtPaidAt,txtBPod];
 		
 		if(p.get('consBizType')==BT_A){//空运
-			t112=[txtDept,txtCustContact,txtCustSales,txtDeliveryDate];
-			t113=[txtSales,txtCustTel,txtRefNo,txtPate];
-			t114=[txtOperator,txtCustFax,txtContractNo,txtPaidAt];
+			t112=[cboDept,txtCustContact,cboCustSales,txtDeliveryDate];
+			t113=[cboSales,txtCustTel,txtRefNo,txtPate];
+			t114=[cboOperator,txtCustFax,txtContractNo,txtPaidAt];
 		}
 	}
 	else{
-		t111=[txtConsNo,txtCust,txtConsDate,txtCargoSource,txtTranTerm];
-		t112=[txtDept,txtCustContact,txtCustSales,txtCargoClass,txtShippingLine];
-		t113=[txtSales,txtCustTel,txtRefNo,txtPate,txtPartial];
-		t114=[txtOperator,txtCustFax,txtContractNo,txtPaidAt,txtTrans];
+		t111=[txtConsNo,cboCust,dtConsDate,txtCargoSource,txtTranTerm];
+		t112=[cboDept,txtCustContact,cboCustSales,txtCargoClass,txtShippingLine];
+		t113=[cboSales,txtCustTel,txtRefNo,txtPate,txtPartial];
+		t114=[cboOperator,txtCustFax,txtContractNo,txtPaidAt,txtTrans];
 		
 		if(p.get('consShipType')==ST_L){//拼箱
-			t112=[txtDept,txtCustContact,txtCustSales,txtCargoClass,txtShippingLine,txtLclType];
-			t113=[txtSales,txtCustTel,txtRefNo,txtPate,txtChargeRemark,txtMConsNo];
+			t112=[cboDept,txtCustContact,cboCustSales,txtCargoClass,txtShippingLine,txtLclType];
+			t113=[cboSales,txtCustTel,txtRefNo,txtPate,txtChargeRemark,txtMConsNo];
 		}
 		else if(p.get('consBizType')==BT_A){//空运
-			t112=[txtDept,txtCustContact,txtCustSales,txtCargoClass];
-			t113=[txtSales,txtCustTel,txtRefNo,txtPate];
-			t114=[txtOperator,txtCustFax,txtContractNo,txtPaidAt];
+			t112=[cboDept,txtCustContact,cboCustSales,txtCargoClass];
+			t113=[cboSales,txtCustTel,txtRefNo,txtPate];
+			t114=[cboOperator,txtCustFax,txtContractNo,txtPaidAt];
 		}
 	};
 	
@@ -738,6 +716,7 @@ Fos.BookTab = function(p) {
  	var s10=CreateSR(C_SR_RABL,'SR_RABL',SR_RABL,33);
  	
  	var srTab=[s1,s2,s3,s6,s7,s10];
+ 	
  	if(p.get('consBizType')==BT_B&&p.get('consBizClass')==BC_E){
  		srTab=[s1,s2,s3,s5,s6,s7,s8,s9,s10];
  	}
@@ -747,20 +726,23 @@ Fos.BookTab = function(p) {
  	else if(p.get('consBizType')==BT_C&&p.get('consBizClass')==BC_E){
  		srTab=[s1,s2,s3,s4,s5,s6,s7,s8,s9,s10];
  	}
+ 	
 	var t12={layout:'column',frame:true,height:35,border:false,items:srTab};
+	
     var vt='';
-    if(p.get('consBizType')==BT_C) vt=1;
-    else if(p.get('consBizType')==BT_B) vt=2;
+    if(p.get('consBizType')==BT_C) 
+    	vt=1;
+    else if(p.get('consBizType')==BT_B) 
+    	vt=2;
     
     //船名
-	var cboVessel = {fieldLabel:C_VESS,
+	var cboVessel = new Ext.form.ComboBox({fieldLabel:C_VESS,
 		itemCls:'needed',
 		tabIndex:34,
 		name:'vessName',
 		value:p.get('vessName'),
 		store:getVES(),
 		enableKeyEvents:true,
-		xtype:'combo',
 		displayField:'vessNameEn',
 		valueField:'vessNameEn',
 		typeAhead:true,
@@ -772,7 +754,6 @@ Fos.BookTab = function(p) {
 		selectOnFocus:true,anchor:'99%',
 		listeners:{scope:this,
 			select:function(c,r,i){
-				//p.set('vessId',r.get('vessId'));
 				p.set('vessNameCn',r.get('vessNameCn'));
 				var vcn=this.find('name','vessNameCn')[0];
 				if(vcn) 
@@ -785,7 +766,6 @@ Fos.BookTab = function(p) {
 					voyageStore.baseParams.xml = FOSX(QTX(queryParams));
 					voyageStore.load({params:{start:0,limit:C_PS}});
 				}
-				
 			},
 			blur:function(f){
 				if(f.getRawValue()==''){
@@ -798,22 +778,23 @@ Fos.BookTab = function(p) {
 				listVessel(f,e,vt);
 			},buffer:BF}
 		}
-	};
+	});
 	
 	var voyageStore = new Ext.data.Store({url:SERVICE_URL+'?A=SHSC_X',
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
 			record:'ShipSchedule',
 			idProperty:'id'},ShipSchedule),
-		remoteSort:true,sortInfo:{field:'shscId', direction:'DESC'}});
+		remoteSort:true,
+		sortInfo:{field:'shscId', direction:'DESC'}
+	});
 	
 	//航次（海运） 航班（空运）
-	var cboVoyage = {fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,
+	var cboVoyage = new Ext.form.ComboBox({fieldLabel:p.get('consBizType')==BT_A?C_FLIGHT:C_VOYA,
 		itemCls:'needed',
 		tabIndex:35,
 		name:'voyaName',
 		value:p.get('voyaName'),
 		store:voyageStore,
-		xtype:'combo',
 		displayField:'voyage',
 		valueField:'voyage',
 		typeAhead: true,
@@ -837,34 +818,31 @@ Fos.BookTab = function(p) {
 					dtHarbourCloseTime.setValue(r.get('cutDate'));
 			}
 		}
-	};
+	});
 	
 	//MBL NO
-    var txtMblNo={fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,
+    var txtMblNo = new Ext.form.TextField({fieldLabel:p.get('consBizType')==BT_A?'MAWB No.':C_MBL_NO,
 		name:'consMblNo',
 		tabIndex:36,
 		value:p.get('consMblNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
     //HBL NO
-    var txtHblNo={fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,
+    var txtHblNo = new Ext.form.TextField({fieldLabel:p.get('consBizType')==BT_A?'HAWB No.':C_HBL_NO,
 		tabIndex:37,
 		name:'consHblNo',
 		value:p.get('consHblNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
 	//开航日期（出口） 预计离港日期（进口）
-    var dtSailDate = {fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,
+    var dtSailDate = new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_E?C_SAIL_DATE:C_ETD,
     	itemCls:p.get('consBizClass')==BC_E?'required':'',
     	tabIndex:38,
     	editable:false,
     	name:'consEtd',
     	value:p.get('consEtd'),
-    	xtype:'datefield',
     	format:DATEF,
     	anchor:'99%',
         listeners:{scope:this,
@@ -873,7 +851,7 @@ Fos.BookTab = function(p) {
         			p.set('consSailDate',nv);
         	}
         }
-    };
+    });
     
     //港区
     var cboHarbour = new Ext.form.ComboBox({fieldLabel:C_HARBOUR,
@@ -913,7 +891,7 @@ Fos.BookTab = function(p) {
     
     
 	//订舱代理
-    var cboBookAgency={fieldLabel:C_BOOK_AGENCY,
+    var cboBookAgency = new Ext.form.ComboBox({fieldLabel:C_BOOK_AGENCY,
     	tabIndex:39,
 		name:'consBookingAgencyName',
 		value:p.get('consBookingAgencyName'),
@@ -922,7 +900,6 @@ Fos.BookTab = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead:true,
@@ -948,15 +925,14 @@ Fos.BookTab = function(p) {
         	keydown:{fn:function(f,e){
         		LC(f,e,'custBookingAgencyFlag');},buffer:BF}
 		}
-	};
+	});
     
     //订舱代理联系人
-    var cboBookAgencyContact={fieldLabel:C_BOOK_AGENCY_CONTACT,
+    var cboBookAgencyContact = new Ext.form.ComboBox({fieldLabel:C_BOOK_AGENCY_CONTACT,
 		name:'consBookingAgencyContact',
 		value:p.get('consBookingAgencyContact'),
 		tabIndex:40,
 		store:getCUCOS(),
-		xtype:'combo',
 		displayField:'cucoName',
 		valueField:'cucoName',
 		typeAhead: true,
@@ -969,20 +945,19 @@ Fos.BookTab = function(p) {
         		this.find('name','consBookingAgencyTel')[0].setValue(r.get('cucoTel'));
 			}
 		}
-    };
+    });
     
     //订舱代理联系电话
-    var txtBookAgencyTel={fieldLabel:C_BOOK_AGENCY_TEL,
+    var txtBookAgencyTel = new Ext.form.TextField({fieldLabel:C_BOOK_AGENCY_TEL,
 		name:'consBookingAgencyTel',
 		tabIndex:41,
 		value:p.get('consBookingAgencyTel'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
    
 	//船公司、航空公司
-	var cboCarrier={fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,
+	var cboCarrier = new Ext.form.ComboBox({fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,
 		itemClass:'needed',
 		tabIndex:p.get('consBizClass')==BC_I?42:38,
 		name:'consCarrierName',
@@ -992,7 +967,6 @@ Fos.BookTab = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead: true,
@@ -1017,10 +991,10 @@ Fos.BookTab = function(p) {
 				LC(f,e,p.get('consBizType')==BT_A?'custAirFlag':'custCarrierFlag');
 			},buffer:BF}
 		}
-	};
+	});
 	
 	//海外代理
-	var cboOverseaAgency={fieldLabel:C_OVERSEA_AGENCY,
+	var cboOverseaAgency = new Ext.form.ComboBox({fieldLabel:C_OVERSEA_AGENCY,
 		tabIndex:p.get('consBizClass')==BC_I?46:42,
 		name:'consOverseaAgencyName',
 		value:p.get('consOverseaAgencyName'),
@@ -1029,7 +1003,6 @@ Fos.BookTab = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead: true,
@@ -1053,16 +1026,15 @@ Fos.BookTab = function(p) {
  			},
 			keydown:{fn:function(f,e){LC(f,e,'custOverseaAgencyFlag');},buffer:BF}
  		}
-	};
+	});
 	
 	//运抵国
-	var cboTradeCountry={fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_D:C_COUNTRY_L,
+	var cboTradeCountry = new Ext.form.ComboBox({fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_D:C_COUNTRY_L,
 		tabIndex:46,
 		disabled:true,
 		name:'consTradeCountry',
 		value:p.get('consTradeCountry'),
 		store:getCOUN_S(),
-		xtype:'combo',
 		displayField:'counNameEn',
 		valueField:'counCode',
 		typeAhead:true,
@@ -1070,28 +1042,27 @@ Fos.BookTab = function(p) {
 		triggerAction: 'all',
 		selectOnFocus:true,
 		anchor:'99%'
-	};
+	});
 	
 	//提单备注
-	var txtBlRemarks={fieldLabel:C_BL_REMARKS,
+	var txtBlRemarks = new Ext.form.TextField({fieldLabel:C_BL_REMARKS,
 		tabIndex:50,
 		name:'consBlRemarks',
 		value:p.get('consBlRemarks'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
 	//S/O No.
-	var txtSONo={fieldLabel:'S/O No.',
+	var txtSONo = new Ext.form.TextField({fieldLabel:'S/O No.',
 		name:'consSoNo',
 		tabIndex:54,
 		value:p.get('consSoNo'),
 		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
 	//箱公司
-	var cboContainerCompany={fieldLabel:C_CONTAINER,
+	var cboContainerCompany = new Ext.form.ComboBox({fieldLabel:C_CONTAINER,
 		tabIndex:p.get('consBizClass')==BC_I?48:58,
 		name:'consContainerCompanyName',
 		value:p.get('consContainerCompanyName'),
@@ -1100,7 +1071,6 @@ Fos.BookTab = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead: true,
@@ -1122,16 +1092,16 @@ Fos.BookTab = function(p) {
         	},
 			keydown:{fn:function(f,e){LC(f,e,'custContainerFlag');},buffer:BF}
         }
-	};			
+	});			
 	
 	
 	//装货港
-    var cboPol={fieldLabel:C_POL,
+    var cboPol = new Ext.form.ComboBox({fieldLabel:C_POL,
 		itemCls:'required',
 		tabIndex:p.get('consBizClass')==BC_I?39:43,
 		name:'consPolEn',
 		value:p.get('consPolEn'),
-		store:getPS(),xtype:'combo',
+		store:getPS(),
 		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
 		valueField:'portNameEn',
 		typeAhead: true,
@@ -1164,22 +1134,21 @@ Fos.BookTab = function(p) {
          		fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF
          	}
 		}
-    };
+    });
     
     //卸货港
-	var cboPod={fieldLabel:C_POD,itemCls:'required',
-			tabIndex:p.get('consBizClass')==BC_I?40:47,
-			name:'consPodEn',
-			value:p.get('consPodEn'),
-			store:getPS(),
-			xtype:'combo',
-			displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
-			valueField:'portNameEn',
-			typeAhead: true,
-			mode:'local',
-			triggerAction:'all',
-			selectOnFocus:true,
-			anchor:'99%',
+	var cboPod = new Ext.form.ComboBox({fieldLabel:C_POD,itemCls:'required',
+		tabIndex:p.get('consBizClass')==BC_I?40:47,
+		name:'consPodEn',
+		value:p.get('consPodEn'),
+		store:getPS(),
+		displayField:p.get('consBizType')==BT_A?'portCode':'portNameEn',
+		valueField:'portNameEn',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%',
 		tpl:portTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
@@ -1206,60 +1175,54 @@ Fos.BookTab = function(p) {
             },
          	keydown:{fn:p.get('consBizType')==BT_A?LAP:LP,buffer:BF}
          }
-	};
+	});
 	
 	//中转港
-    var txtPot={fieldLabel:C_POT,
+    var txtPot = new Ext.form.TextField({fieldLabel:C_POT,
 		tabIndex:p.get('consBizClass')==BC_I?41:51,
 		name:'consPotEn',
 		value:p.get('consPotEn'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
     //订舱协议号
-    var txtBookingNo={fieldLabel:C_BOOKING_CONTRACT_NO,
+    var txtBookingNo = new Ext.form.TextField({fieldLabel:C_BOOKING_CONTRACT_NO,
 		name:'consBookingContractNo',
 		tabIndex:55,
 		value:p.get('consBookingContractNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
     //提箱单号
-    var txtPackingListNo={fieldLabel:C_PACKING_LIST_NO,
+    var txtPackingListNo = new Ext.form.TextField({fieldLabel:C_PACKING_LIST_NO,
 		tabIndex:59,
 		name:'consPackingListNo',
 		value:p.get('consPackingListNo'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
    //装船日期
-    var dtLoadDate={fieldLabel:C_SHIP_LOAD_DATE,
+    var dtLoadDate = new Ext.form.DateField({fieldLabel:C_SHIP_LOAD_DATE,
 		tabIndex:40,name:'consLoadDate',
 		value:p.get('consLoadDate'),
-		xtype:'datefield',
 		format:DATEF,
 		anchor:'99%'
-	};
+	});
     
     //目的港
-    var txtDestinationPort={fieldLabel:C_DESTINATION_PORT,
+    var txtDestinationPort = new Ext.form.TextField({fieldLabel:C_DESTINATION_PORT,
 		tabIndex:48,
 		name:'consDeliveryPlace',
 		value:p.get('consDeliveryPlace'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
     //签单方式
-    var cboIssueType={fieldLabel:C_ISTY,
+    var cboIssueType = new Ext.form.ComboBox({fieldLabel:C_ISTY,
 		tabIndex:52,
 		name:'istyId',
 		value:p.get('istyId'),
 		store:getISTY_S(),
-		xtype:'combo',
 		displayField:'istyName',
 		valueField:'istyId',
 		typeAhead: true,
@@ -1267,20 +1230,19 @@ Fos.BookTab = function(p) {
 		triggerAction: 'all',
 		selectOnFocus:true,
 		anchor:'99%'
-	};
+	});
     
     //订舱日期
-    var dtBookingDate={fieldLabel:C_BOOKING_DATE,
+    var dtBookingDate = new Ext.form.DateField({fieldLabel:C_BOOKING_DATE,
 		tabIndex:56,
 		name:'consBookingDate',
 		value:p.get('consBookingDate'),
-		xtype:'datefield',
 		format:DATEF,
 		anchor:'99%'
-	};
+	});
     
     //场站
-    var cboCfs={fieldLabel:C_CFS,
+    var cboCfs = new Ext.form.ComboBox({fieldLabel:C_CFS,
     	tabIndex:p.get('consBizClass')==BC_I?49:60,
     	name:'consCfsName',
     	value:p.get('consCfsName'),
@@ -1289,7 +1251,6 @@ Fos.BookTab = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custNameCn',
 		typeAhead:true,
@@ -1312,55 +1273,51 @@ Fos.BookTab = function(p) {
         		LC(f,e,'custCfsFlag');
         		},buffer:BF}
          }
-    };   
+    });   
    
     //截关日期
-    var dtExpiryDate={fieldLabel:C_CUSTOM_EXPIRY_DATE,
+    var dtExpiryDate = new Ext.form.DateField({fieldLabel:C_CUSTOM_EXPIRY_DATE,
     	tabIndex:41,
     	name:'consExpiryDate',
     	value:p.get('consExpiryDate'),
-    	xtype:'datefield',
-    	format:DATEF,anchor:'99%'
-    };
+    	format:DATEF,
+    	anchor:'99%'
+    });
     
     //收货地
-    var txtReceiptPlace={fieldLabel:C_RECEIPT_PLACE,
+    var txtReceiptPlace = new Ext.form.TextField({fieldLabel:C_RECEIPT_PLACE,
     	tabIndex:45,
     	name:'consReceiptPlace',
     	value:p.get('consReceiptPlace'),
-    	xtype:'textfield',
     	anchor:'99%'
-    };
+    });
     
     //目的地
-    var txtDestination={fieldLabel:C_DESTINATION,
+    var txtDestination = new Ext.form.TextField({fieldLabel:C_DESTINATION,
     	tabIndex:49,
     	name:'consDestination',
     	value:p.get('consDestination'),
-    	xtype:'textfield',
     	anchor:'99%'
-    };
+    });
     
     //前程运输
-    var txtPrecarriage={fieldLabel:C_PRECARRIAGE,
+    var txtPrecarriage = new Ext.form.TextField({fieldLabel:C_PRECARRIAGE,
     	tabIndex:53,
     	name:'consPrecarriage',
     	value:p.get('consPrecarriage'),
-    	xtype:'textfield',
     	anchor:'99%'
-    };
+    });
     
     //正本提单分数
-    var txtOriginalBlNum={fieldLabel:C_BL_ORI_NUM,
+    var txtOriginalBlNum = new Ext.form.NumberField({fieldLabel:C_BL_ORI_NUM,
     	name:'consOriginalBlNum',
     	tabIndex:64,
     	value:p.get('consOriginalBlNum'),
-    	xtype:'numberfield',
     	anchor:'99%'
-    };
+    });
     
     //换单代理
-    var cboDoAgency={fieldLabel:C_DO_AGENCY,
+    var cboDoAgency =  new Ext.form.ComboBox({fieldLabel:C_DO_AGENCY,
 		name:'consDoAgencyName',
 		tabIndex:47,
 		value:p.get('consDoAgencyName'),
@@ -1369,7 +1326,6 @@ Fos.BookTab = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead: true,
@@ -1396,15 +1352,14 @@ Fos.BookTab = function(p) {
         		fn:function(f,e){LC(f,e,'custDoAgencyFlag');},buffer:BF
         	}
     	}
-    };
+    });
        
     //预计到港日期
-    var m30={fieldLabel:C_ETA,
+    var dtEta = new Ext.form.DateField({fieldLabel:C_ETA,
     	name:'consEta',
     	itemCls:p.get('consBizClass')==BC_I?'required':'',
     	tabIndex:44,
     	value:p.get('consEta'),
-    	xtype:'datefield',
     	format:DATEF,
     	anchor:'99%',
         listeners:{scope:this,
@@ -1413,26 +1368,24 @@ Fos.BookTab = function(p) {
         			p.set('consSailDate',nv);
         	}
         }
-    };
+    });
         
             
     //中文船名
-    var txtVesselNameCn={fieldLabel:C_VESS_NAME_CN,
+    var txtVesselNameCn = new Ext.form.TextField({fieldLabel:C_VESS_NAME_CN,
 		name:'vessNameCn',
 		tabIndex:54,
 		value:p.get('vessNameCn'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
    
     //运输条款
-    var cboTransTermCarrier={fieldLabel:C_TTER,
+    var cboTransTermCarrier = new Ext.form.ComboBox({fieldLabel:C_TTER,
     	itemCls:'required',
     	tabIndex:58,
     	name:'tranIdCarrier',
     	value:p.get('tranIdCarrier'),
     	store:(p.get('consBizType')==BT_B)?getTTB_S():getTTC_S(),
-    	xtype:'combo',
     	displayField:'tranCode',
     	valueField:'tranId',
     	typeAhead: true,
@@ -1451,16 +1404,15 @@ Fos.BookTab = function(p) {
 	    		p.set('tranCodeCarrier',r.get('tranCodeCarrier'));
 	    	}
 		}
-    };
+    });
     
     //运费条款
-    var cboPamentTermP={fieldLabel:C_PATE,
+    var cboPamentTermP = new Ext.form.ComboBox({fieldLabel:C_PATE,
     	itemCls:'required',
     	tabIndex:59,
     	name:'pateIdP',
     	value:p.get('pateIdP'),
     	store:getPATE_S(),
-    	xtype:'combo',
     	displayField:'pateName',
     	valueField:'pateId',
     	typeAhead: true,
@@ -1479,65 +1431,59 @@ Fos.BookTab = function(p) {
 	    		p.set('pateNameP',r.get('pateNameP'));
 	    	}
 		}
-    };
+    });
         
     //提单件数
-    var txtBlPackages={fieldLabel:C_BL_PACKAGES,
+    var txtBlPackages = new Ext.form.NumberField({fieldLabel:C_BL_PACKAGES,
     	name:'blCargoPackages',
     	value:p.get('blCargoPackages'),
     	disabled:true,
-    	xtype:'numberfield',
     	anchor:'99%'
-    };
+    });
     
     //提单毛重
-    var txtBlGrossWeight={fieldLabel:C_BL_GW,
+    var txtBlGrossWeight = new Ext.form.NumberField({fieldLabel:C_BL_GW,
     	name:'blCargoGrossWeight',
     	value:p.get('blCargoGrossWeight'),
     	disabled:true,
-    	xtype:'numberfield',
     	allowDecimals:true,
     	decimalPrecision:4,
     	anchor:'99%'
-    };
+    });
     
     //提单净重
-	var txtBlNetWeight={fieldLabel:C_BL_NW,
+	var txtBlNetWeight = new Ext.form.NumberField({fieldLabel:C_BL_NW,
 		name:'blCargoNetWeight',
 		value:p.get('blCargoNetWeight'),
 		disabled:true,
-		xtype:'numberfield',
 		allowDecimals:true,
 		decimalPrecision:4,
 		anchor:'99%'
-	};
+	});
 	
 	//提单体积
-    var txtBlMeasurement={fieldLabel:C_BL_CBM,
+    var txtBlMeasurement = new Ext.form.NumberField({fieldLabel:C_BL_CBM,
     	name:'blCargoMeasurement',
     	value:p.get('blCargoMeasurement'),
     	disabled:true,
-    	xtype:'numberfield',
     	allowDecimals:true,
     	decimalPrecision:4,
     	anchor:'99%'
-    };
+    });
     
     //承运人联系人
-    var txtCarrierConatct={fieldLabel:C_CARRIER_CONTACT,
+    var txtCarrierConatct = new Ext.form.TextField({fieldLabel:C_CARRIER_CONTACT,
     	name:'consCarrierContact',
     	value:p.get('consCarrierContact'),
-    	xtype:'textfield',
     	anchor:'99%'
-    };
+    });
     
     //承运人联系电话
-    var txtCarrierTel={fieldLabel:C_CARRIER_TEL,
+    var txtCarrierTel = new Ext.form.TextField({fieldLabel:C_CARRIER_TEL,
     	name:'consCarrierTel',
     	value:p.get('consCarrierTel'),
-    	xtype:'textfield',
     	anchor:'99%'
-    };
+    });
     
     //换单地址
     var txtDoAgencyAddress = new Ext.form.TextField({fieldLabel:C_DO_AGENCY_ADDRESS,
@@ -1547,19 +1493,17 @@ Fos.BookTab = function(p) {
     });
     
     
-    var consThcFlag={fieldLabel:C_THC_FLAG,
+    var consThcFlag = new Ext.form.Checkbox({fieldLabel:C_THC_FLAG,
     	name:'consThcFlag',
     	value:p.get('consThcFlag'),
-    	xtype:'checkbox',
     	anchor:'99%'
-    };
+    });
     
-    var consPressureBoxFlag={fieldLabel:C_PRESSURE_BOX_FLAG,
+    var consPressureBoxFlag = new Ext.form.Checkbox({fieldLabel:C_PRESSURE_BOX_FLAG,
     	name:'consPressureBoxFlag',
     	value:p.get('consPressureBoxFlag'),
-    	xtype:'checkbox',
     	anchor:'99%'
-    };
+    });
     
     var t131=[];
     var t132=[];
@@ -1570,19 +1514,19 @@ Fos.BookTab = function(p) {
     if(p.get('consBizClass')==BC_I){ //进口
 		t131=[cboVessel,cboTradeCountry,txtPot,cboOverseaAgency,cboContainerCompany];
 		t132=[cboVoyage,cboPol,cboPod,cboDoAgency,cboCfs];
-		t133=[txtMblNo,m30,txtDoAgencyAddress,cboCarrier,txtCarrierConatct];
+		t133=[txtMblNo,dtEta,txtDoAgencyAddress,cboCarrier,txtCarrierConatct];
 		t134=[txtHblNo,dtSailDate,cboHarbour,txtCarrierTel];
 		
 		if(p.get('consBizType')==BT_A){//空运
 			t131=[cboCarrier,cboTradeCountry,cboPod,cboBookAgency];
 			t132=[cboVoyage,cboPol,cboHarbour,cboBookAgencyContact];
-			t133=[txtMblNo,m30,txtPot,txtBookAgencyTel];
+			t133=[txtMblNo,dtEta,txtPot,txtBookAgencyTel];
 			t134=[txtHblNo,dtSailDate,cboOverseaAgency];
 		}
 		else if(p.get('consBizType')==BT_B){//散货
             t131=[cboVessel,cboTradeCountry,cboCarrier,cboOverseaAgency];
             t132=[cboVoyage,cboPol,cboHarbour];
-            t133=[txtMblNo,cboPod,m30,cboContainerCompany];
+            t133=[txtMblNo,cboPod,dtEta,cboContainerCompany];
             t134=[txtHblNo,txtPot,dtSailDate];
         }
 	}
@@ -1596,13 +1540,13 @@ Fos.BookTab = function(p) {
 		t133=[txtMblNo,dtHarbourOpenTime,cboBookAgencyContact,dtLoadDate,
 		      txtDestinationPort,cboIssueType,dtBookingDate,cboCfs];
 		
-		t134=[txtHblNo,dtHarbourCloseTime,txtBookAgencyTel,m30,txtReceiptPlace,txtDestination,
+		t134=[txtHblNo,dtHarbourCloseTime,txtBookAgencyTel,dtEta,txtReceiptPlace,txtDestination,
 		      txtPrecarriage,dtExpiryDate,txtOriginalBlNum];
 		
 		if(p.get('consBizType')==BT_A){//空运
 			t131=[cboCarrier,cboTradeCountry,cboPol,cboBookAgency];
 			t132=[cboVoyage,cboPod,cboHarbour,txtBookAgencyTel];
-			t133=[txtMblNo,m30,txtPot,dtExpiryDate];
+			t133=[txtMblNo,dtEta,txtPot,dtExpiryDate];
 			t134=[txtHblNo,dtSailDate,cboOverseaAgency];
 		}	
 		else if(p.get('consBizType')==BT_B){//散货
@@ -1612,10 +1556,11 @@ Fos.BookTab = function(p) {
 			      cboPamentTermP,txtBlGrossWeight];
 			t133=[txtMblNo,cboBookAgencyContact,dtLoadDate,cboHarbour,txtDestinationPort,
 			      cboIssueType,dtBookingDate,txtBlNetWeight];
-			t134=[dtSailDate,txtBookAgencyTel,m30,txtReceiptPlace,txtDestination,
+			t134=[dtSailDate,txtBookAgencyTel,dtEta,txtReceiptPlace,txtDestination,
 			      txtPrecarriage,dtExpiryDate,txtBlMeasurement];
 		}
 	};
+	
     var t13={layout:'column',title:C_BL_INFO,collapsible:true,border:false,padding:5,
           items:[{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:t131},
           	{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:t132},
@@ -1689,30 +1634,66 @@ Fos.BookTab = function(p) {
     var bSaveNotifyParty2 = new Ext.Button({text:'保存',handler:function(){saveShipper(4);}});
     var bSearchNotifyParty2 = new Ext.Button({text:'选择',handler:function(){selShipper(4);}});
     
+    //发货人
+    var txtShipper = new Ext.form.TextArea({fieldLabel:C_SHIPPER,
+    	id:p.get('consId')+'CONS_SHIPPER',
+    	tabIndex:65,
+    	name:'consShipper',
+    	value:p.get('consShipper'),
+    	height:100,
+    	anchor:'99%'
+    });
+    
+	//收货人
+    var txtConsignee = new Ext.form.TextArea({fieldLabel:C_CONSIGNEE,
+    	id:p.get('consId')+'CONS_CONSIGNEE',
+    	tabIndex:66,
+    	name:'consConsignee',
+    	value:p.get('consConsignee'),
+		height:100,
+		anchor:'99%'
+	});
+    
+    //通知人
+    var txtNotifyParty = new Ext.form.TextArea({fieldLabel:C_NOTIFIER,
+    	id:p.get('consId')+'CONS_NOTIFY_PARTY',
+    	tabIndex:67,
+    	name:'consNotifyParty',
+    	value:p.get('consNotifyParty'),
+		height:100,
+		anchor:'99%'
+	});
+    
+    //第二通知人
+    var txtNotifyParty2 = new Ext.form.TextArea({fieldLabel:C_OVERSEA_AGENCY,
+    	id:p.get('consId')+'CONS_NOTIFY_PARTY2',
+    	tabIndex:68,
+    	name:'consNotifyParty2',
+    	value:p.get('consNotifyParty2'),
+		height:100,
+		anchor:'99%'
+	});
+    
+    
     var t14={layout:'column',
-    		title:C_SHIPPER_INFO,
-    		collapsible:true,
-    		padding:5,
-    		border:false,
-    		items:
-			[{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_SHIPPER,id:p.get('consId')+'CONS_SHIPPER',tabIndex:65,name:'consShipper',value:p.get('consShipper'),
-				    	xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
-			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_CONSIGNEE,id:p.get('consId')+'CONS_CONSIGNEE',tabIndex:66,name:'consConsignee',value:p.get('consConsignee'),
-					xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
-			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_NOTIFIER,id:p.get('consId')+'CONS_NOTIFY_PARTY',tabIndex:67,name:'consNotifyParty',value:p.get('consNotifyParty'),
-					xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.05,border:false,items:[bSaveNotifyParty,bSearchNotifyParty]},
-			{columnWidth:.45,layout:'form',border:false,labelWidth:60,
-				items:[{fieldLabel:C_OVERSEA_AGENCY,id:p.get('consId')+'CONS_NOTIFY_PARTY2',tabIndex:68,name:'consNotifyParty2',value:p.get('consNotifyParty2'),
-					xtype:'textarea',height:100,anchor:'99%'}]},
-			{columnWidth:.05,border:false,items:[bSaveNotifyParty2,bSearchNotifyParty2]}
-					
-		]};    
+		title:C_SHIPPER_INFO,
+		collapsible:true,
+		padding:5,
+		border:false,
+		items:
+		[{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+			items:[txtShipper]},
+		{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
+		{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+			items:[txtConsignee]},
+		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
+		{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+			items:[txtNotifyParty]},
+		{columnWidth:.05,border:false,items:[bSaveNotifyParty,bSearchNotifyParty]},
+		{columnWidth:.45,layout:'form',border:false,labelWidth:60,
+			items:[txtNotifyParty2]},
+		{columnWidth:.05,border:false,items:[bSaveNotifyParty2,bSearchNotifyParty2]}
+	]};    
     
 	var t1={id:'C_B_J_'+p.get('id'),
 		title:C_BASE_INFO+'(J)',
@@ -1722,46 +1703,44 @@ Fos.BookTab = function(p) {
 	};
            
 	//唛头
-   	var txtCargoMarks={fieldLabel:C_MARKS,
+   	var txtCargoMarks = new Ext.form.TextArea({fieldLabel:C_MARKS,
 		tabIndex:58,
 		name:'consCargoMarks',
 		value:p.get('consCargoMarks'),
-		xtype:'textarea',
 		height:100,
 		anchor:'99%'
-	};
+	});
    	
    	//货物描述
-    var txtCargoDesc= {fieldLabel:C_CARGO_DESC,
+    var txtCargoDesc = new Ext.form.TextArea({fieldLabel:C_CARGO_DESC,
 		tabIndex:61,
 		name:'consCargoDesc',
 		value:p.get('consCargoDesc'),
-		xtype:'textarea',height:100,anchor:'99%'
-	};
+		height:100,
+		anchor:'99%'
+	});
     
     //英文品名
-    var txtCargoNameEn = {fieldLabel:C_CARGO_NAME_EN,
+    var txtCargoNameEn = new Ext.form.TextField({fieldLabel:C_CARGO_NAME_EN,
 		tabIndex:61,
 		name:'consCargoNameEn',
 		value:p.get('consCargoNameEn'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
     
     //中文品名
-    var txtCargoNameCn = {fieldLabel:C_CARGO_NAME_CN,
+    var txtCargoNameCn = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_CN,
     	tabIndex:61,
     	name:'consCargoNameCn',
 		value:p.get('consCargoNameCn'),
-		xtype:'textfield',anchor:'99%'
-	};
+		anchor:'99%'
+	});
 	
     //小计毛重
     var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW+((p.get('consBizType')==BT_B)?C_MT:C_KGS),
 		tabIndex:61,
 		name:'consTotalGrossWeight',
 		value:p.get('consTotalGrossWeight'),
-		xtype:'numberfield',
 		decimalPrecision:4,
 		anchor:'99%',
 		listeners:{scope:this,
@@ -1773,11 +1752,10 @@ Fos.BookTab = function(p) {
 	});
     
     //小计件数
-    var txtTotalPackages = {fieldLabel:C_PACKAGES,
+    var txtTotalPackages = new Ext.form.NumberField({fieldLabel:C_PACKAGES,
 		tabIndex:61,
 		name:'consTotalPackages',
 		value:p.get('consTotalPackages'),
-		xtype:'numberfield',
 		anchor:'99%',
 		listeners:{scope:this,
 			change:function(f,nv,ov){	
@@ -1787,14 +1765,13 @@ Fos.BookTab = function(p) {
 				this.find('name','consTotalPackagesInWord')[0].setValue(pw);				
 			}
 		}
-	};
+	});
     
     //包装种类
-	var txtPack = {fieldLabel:C_PACK,
+	var txtPack = new Ext.form.ComboBox({fieldLabel:C_PACK,
 		tabIndex:61,
 		name:'packName',
 		value:p.get('packName'),
-		xtype:'combo',
 		store:getPACK_S(),
 		displayField:'packName',
 		valueField:'packName',
@@ -1812,16 +1789,15 @@ Fos.BookTab = function(p) {
 				p.set('consTotalPackagesInWord',pw);
 			}
 		}
-	};
+	});
 	
 	//大写件数
-	var txtTotalSay = {fieldLabel:C_PACKAGES_CAP,
+	var txtTotalSay = new Ext.form.TextField({fieldLabel:C_PACKAGES_CAP,
 		tabIndex:61,
 		name:'consTotalPackagesInWord',
 		value:p.get('consTotalPackagesInWord'),
-		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
 	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_NW+((p.get('consBizType')==BT_B)?C_MT:C_KGS),
 		tabIndex:61,
@@ -1993,63 +1969,230 @@ Fos.BookTab = function(p) {
           {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtTotalSay]}
      ]};
 	
-	var g11 = {fieldLabel:C_DANAGER_CLASS,
+	var g11 = new Ext.form.TextField({fieldLabel:C_DANAGER_CLASS,
 		name:'cargDanagerClass',
 		value:p.get('cargDanagerClass'),
 		anchor:'99%'
+	});
+	
+	var g12 = new Ext.form.TextField({fieldLabel:C_IMDG_PAGE,
+		name: 'cargImdgPage',
+		value:p.get('cargImdgPage'),
+		anchor:'99%'
+	});
+	
+	var g13 = new Ext.form.TextField({fieldLabel:C_UN_NO,
+		name:'cargUnNo',
+		value:p.get('cargUnNo'),
+		anchor:'99%'
+	});
+	
+	var g14 = new Ext.form.TextField({fieldLabel:C_SUB_LABEL,
+		name:'cargSubLabel',
+		value:p.get('cargSubLabel'),
+		anchor:'99%'
+	});
+	
+	var g15 = new Ext.form.TextField({fieldLabel:C_EMS_NO,
+		name:'cargEmsNo',
+		value:p.get('cargEmsNo'),
+		anchor:'99%'
+	});
+	
+	var g16 = new Ext.form.TextField({fieldLabel:C_FLASH_POINT,
+		name:'cargFlashPoint',
+		value:p.get('cargFlashPoint'),
+		anchor:'99%'
+	});
+	
+	var g17 = new Ext.form.TextField({fieldLabel:C_MFAG_NO,
+		name:'cargMfagNo',
+		value:p.get('cargMfagNo'),
+		anchor:'99%'
+	});
+	
+	var g18 = new Ext.form.TextField({fieldLabel:C_PKG_GROUP,
+		name:'cargPkgGroup',
+		value:p.get('cargPkgGroup'),
+		anchor:'99%'
+	});
+	
+	var g19 = new Ext.form.TextField({fieldLabel:C_DANAGER_PROPERTY,
+		name:'cargDanagerProperty',
+		value:p.get('cargDanagerProperty'),
+		anchor:'99%'
+	});
+	
+	var g20 = new Ext.form.Checkbox({fieldLabel:C_POLLUTION_FLAG,
+		name:'cargPollutionFlag',
+		value:p.get('cargPollutionFlag'),
+		anchor:'99%'
+	});
+	
+	var g21 = new Ext.form.ComboBox({fieldLabel:C_TEMPERATURE_UNIT,
+		name:'cargTemperatureUnit',
+		value:p.get('cargTemperatureUnit'),
+		editable:false,
+		store:TEUN_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});
+	
+	var g22 = new Ext.form.NumberField({fieldLabel:C_TEMPERATURE,
+		name:'cargTemperature',
+		value:p.get('cargTemperature'),
+		anchor:'99%'
+	});
+	
+	var g23 = new Ext.form.NumberField({fieldLabel:C_TEMPERATURE_HIGH,
+		name:'cargTemperatureHigh',
+		value:p.get('cargTemperatureHigh'),
+		anchor:'99%'
+	});
+	
+	var g24 = new Ext.form.NumberField({fieldLabel:C_TEMPERATURE_LOW,
+		name:'cargTemperatureLow',
+		value:p.get('cargTemperatureLow'),
+		anchor:'99%'
+	});
+	
+	var g25 = new Ext.form.TextField({fieldLabel: C_VENT_OUTLET,
+		name:'cargVentOutlet',
+		value:p.get('cargVentOutlet'),
+		anchor:'99%'
+	});
+	
+	var g26 = new Ext.form.NumberField({fieldLabel: C_HUMIDITY,
+		name:'cargHumidity',
+		value:p.get('cargHumidity'),
+		anchor:'99%'
+	});
+	
+	var g27 = new Ext.form.NumberField({fieldLabel:C_LENGTH,
+		name:'cargLength',
+		value:p.get('cargLength'),
+		anchor:'99%'
+	});
+	
+	var g28 = new Ext.form.NumberField({fieldLabel: C_WIDTH,
+		name:'cargWidth',
+		value:p.get('cargWidth'),
+		anchor:'99%'
+	});
+	
+	var g29 = new Ext.form.NumberField({fieldLabel: C_HEIGH,
+		name:'cargHigh',
+		value:p.get('cargHigh'),
+		anchor:'99%'
+	});
+	
+	var t32 = {layout:'column',
+		padding:5,
+		layoutConfig: {columns:3},
+		title:C_CARGO_SPECIAL_INFO,
+		border:false,
+		collapsible:true,
+		items:
+ 		[{columnWidth:.33,border:false,items: 
+	        [{id:'cargDanagerFlag',
+	        	xtype:'fieldset',
+	        	labelAlign:'right',
+	        	labelWidth:80,
+	        	checkboxToggle:true,
+	        	checkboxName:'cargDanagerFlag',
+	        	title:'危险品',
+	        	autoHeight:true,
+	        	defaultType:'textfield',
+	        	collapsed:p.get('cargDanagerFlag')==0,
+	        	items:[g11,g12,g13,g14,g15,g16,g17,g18,g19,g20]
+	        }]
+ 		},
+		{columnWidth:.34,border:false,items: 
+	        [{id:'cargReeterFlag',
+	        	xtype:'fieldset',
+	        	labelAlign:'right',
+	        	labelWidth:80,
+	        	checkboxToggle:true,
+	        	checkboxName:'cargReeterFlag',
+	        	title:'冷藏品',
+	        	autoHeight:true,
+	        	autoWidth:true,
+	        	collapsed:p.get('cargReeterFlag')==0,
+	        	items:[g21,g22,g23,g24,g25,g26]
+	        }]
+ 		},
+		{columnWidth:.33,border:false,items: 
+	       	[{id:'cargBigFlag',
+	       		xtype:'fieldset',
+	       		labelAlign:'right',
+	       		labelWidth:70,
+	       		checkboxToggle:true,
+	       		checkboxName:'cargBigFlag',
+	       		title:'大件货',
+	       		autoHeight:true,
+	       		collapsed:p.get('cargBigFlag')==0,
+	       		items:[g27,g28,g29]
+	       	}]
+		}]
 	};
 	
-	var g12={fieldLabel:C_IMDG_PAGE,name: 'cargImdgPage',value:p.get('cargImdgPage'),anchor:'99%'};
-	var g13={fieldLabel:C_UN_NO,name:'cargUnNo',value:p.get('cargUnNo'),anchor:'99%'};
-	var g14={fieldLabel:C_SUB_LABEL,name:'cargSubLabel',value:p.get('cargSubLabel'),anchor:'99%'};
-	var g15={fieldLabel:C_EMS_NO,name:'cargEmsNo',value:p.get('cargEmsNo'),anchor:'99%'};
-	var g16={fieldLabel:C_FLASH_POINT,name:'cargFlashPoint',value:p.get('cargFlashPoint'),anchor:'99%'};
-	var g17={fieldLabel:C_MFAG_NO,name:'cargMfagNo',value:p.get('cargMfagNo'),anchor:'99%'};
-	var g18={fieldLabel:C_PKG_GROUP,name:'cargPkgGroup',value:p.get('cargPkgGroup'),anchor:'99%'};
-	var g19={fieldLabel:C_DANAGER_PROPERTY,name:'cargDanagerProperty',value:p.get('cargDanagerProperty'),anchor:'99%'};
-	var g20={fieldLabel:C_POLLUTION_FLAG,name:'cargPollutionFlag',value:p.get('cargPollutionFlag'),xtype:'checkbox',anchor:'99%'};
+	var t3={id:'C_B_H_'+p.get('id'),
+		title:C_CARGO_INFO+'(H)',
+		height:720,
+		items:[{layout:'fit',border:false,collapsible:true,items:this.cargoGrid},t31,t32]
+	};
 	
-	var g21={fieldLabel:C_TEMPERATURE_UNIT,name:'cargTemperatureUnit',value:p.get('cargTemperatureUnit'),editable:false,store:TEUN_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'};
-	var g22={fieldLabel:C_TEMPERATURE,name:'cargTemperature',value:p.get('cargTemperature'),xtype:'numberfield',anchor:'99%'};
-	var g23={fieldLabel:C_TEMPERATURE_HIGH,name:'cargTemperatureHigh',value:p.get('cargTemperatureHigh'),xtype:'numberfield',anchor:'99%'};
-	var g24={fieldLabel:C_TEMPERATURE_LOW,name:'cargTemperatureLow',value:p.get('cargTemperatureLow'),xtype:'numberfield',anchor:'99%'};
-	var g25={fieldLabel: C_VENT_OUTLET,name:'cargVentOutlet',value:p.get('cargVentOutlet'),xtype:'textfield',anchor:'99%'};
-	var g26={fieldLabel: C_HUMIDITY,name:'cargHumidity',value:p.get('cargHumidity'),xtype:'numberfield',anchor:'99%'};
+	//服务要求
+	var txtServiceSpec = new Ext.form.TextArea({fieldLabel:C_SERVICE_SPEC,
+		tabIndex:1,
+		name:'consServiceSpec',
+		value:p.get('consServiceSpec'),
+		anchor:'99%'
+	});
 	
-	var g27={fieldLabel:C_LENGTH,name:'cargLength',value:p.get('cargLength'),xtype:'numberfield',anchor:'99%'};
-	var g28={fieldLabel: C_WIDTH,name:'cargWidth',value:p.get('cargWidth'),xtype:'numberfield',anchor:'99%'};
-	var g29={fieldLabel: C_HEIGH,name:'cargHigh',value:p.get('cargHigh'),xtype:'numberfield',anchor:'99%'};
+	//备注
+	var txtRemarks = new Ext.form.TextArea({fieldLabel:C_REMARKS,
+		tabIndex:2,
+		name:'consRemarks',
+		value:p.get('consRemarks'),
+		anchor:'99%'
+	});
+
+	//订舱要求
+	var t41={title:C_BOOKING_REQUIREMENT,
+		layout:'column',
+		padding:5,
+		labelWidth:90,
+		border:false,
+		collapsible:true,
+		items:[
+	       {columnWidth:.5,layout:'form',border:false,items:[txtServiceSpec]},
+	       {columnWidth:.5,layout:'form',border:false,items:[txtRemarks]}
+	    ]
+	};
 	
-	var t32={layout:'column',padding:5,layoutConfig: {columns:3},
-			title:C_CARGO_SPECIAL_INFO,
-			border:false,
-			collapsible:true,
-			items:
-	 		[{columnWidth:.33,border:false,items: 
-	        [{id:'cargDanagerFlag',xtype:'fieldset',labelAlign:'right',labelWidth:80,checkboxToggle:true,checkboxName:'cargDanagerFlag',title:'危险品',autoHeight:true,defaultType:'textfield',collapsed:p.get('cargDanagerFlag')==0,items:
-				[g11,g12,g13,g14,g15,g16,g17,g18,g19,g20]}]},
-			{columnWidth:.34,border:false,items: 
-	        [{id:'cargReeterFlag',xtype:'fieldset',labelAlign:'right',labelWidth:80,checkboxToggle:true,checkboxName:'cargReeterFlag',title:'冷藏品',autoHeight:true,autoWidth:true,collapsed:p.get('cargReeterFlag')==0,items:
-				[g21,g22,g23,g24,g25,g26]}]},
-			{columnWidth:.33,border:false,items: 
-	       	[{id:'cargBigFlag',xtype:'fieldset',labelAlign:'right',labelWidth:70,checkboxToggle:true,checkboxName:'cargBigFlag',title:'大件货',autoHeight:true,collapsed:p.get('cargBigFlag')==0,items:
-				[g27,g28,g29]}]
-		}]};
-	
-	var t3={id:'C_B_H_'+p.get('id'),title:C_CARGO_INFO+'(H)',height:720,
-			items:[{layout:'fit',border:false,collapsible:true,items:this.cargoGrid},t31,t32]};
-	
-	var r1={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_SERVICE_SPEC,tabIndex:1,name:'consServiceSpec',value:p.get('consServiceSpec'),xtype:'textarea',anchor:'99%'}]};
-	var r2={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:2,name:'consRemarks',value:p.get('consRemarks'),xtype:'textarea',anchor:'99%'}]};
-	var t41={title:C_BOOKING_REQUIREMENT,layout:'column',padding:5,labelWidth:90,border:false,collapsible:true,items:[r1,r2]};
-	
-	
-	var cboTrackVendor = new Ext.form.ComboBox({fieldLabel:C_TRACK_VENDOR,tabIndex:3,
-		name:'consTrackVendorName',value:p.get('consTrackVendorName'),
-	    store:getCS(),enableKeyEvents:true,
-		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
-		xtype:'combo',displayField:'custCode',valueField:'custCode',typeAhead:true,
-		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
+	//车队
+	var cboTrackVendor = new Ext.form.ComboBox({fieldLabel:C_TRACK_VENDOR,
+		tabIndex:3,
+		name:'consTrackVendorName',
+		value:p.get('consTrackVendorName'),
+	    store:getCS(),
+	    enableKeyEvents:true,
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:C_LW,
+		displayField:'custCode',
+		valueField:'custCode',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%',
 		listeners:{scope:this,
 			blur:function(f){
 				if(f.getRawValue()==''){
@@ -2064,79 +2207,135 @@ Fos.BookTab = function(p) {
 				txtTranTel.setValue(r.get('custTel'));
 				c.setValue(r.get('custNameCn'));
 			},
-			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}}});
+			keydown:{fn:function(f,e){LC(f,e,'custTrackFlag');},buffer:BF}
+		}
+	});
 	
-	var txtTranContact = new Ext.form.TextField({fieldLabel:C_TRAN_CONTACT,tabIndex:4,
-		name:'consTrackContact',value:p.get('consTrackContact'),anchor:'99%'});
+	//车队联系人
+	var txtTranContact = new Ext.form.TextField({fieldLabel:C_TRAN_CONTACT,
+		tabIndex:4,
+		name:'consTrackContact',
+		value:p.get('consTrackContact'),
+		anchor:'99%'
+	});
 	
-	var txtTranTel = new Ext.form.TextField({fieldLabel:C_TRAN_TEL,tabIndex:5,
-		name:'consTrackTel',value:p.get('consTrackTel'),anchor:'99%'});
+	//车队联系电话
+	var txtTranTel = new Ext.form.TextField({fieldLabel:C_TRAN_TEL,
+		tabIndex:5,
+		name:'consTrackTel',
+		value:p.get('consTrackTel'),
+		anchor:'99%'
+	});
 	
-	txtLoadAddress = new Ext.form.TextArea({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,
-			tabIndex:6,name:'consTrackLoadAddress',value:p.get('consTrackLoadAddress'),xtype:'textarea',anchor:'99%'});
+	//装货、送货地址
+	var txtLoadAddress = new Ext.form.TextArea({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_ADDRESS:C_DELIVERY_ADDRESS,
+		tabIndex:6,
+		name:'consTrackLoadAddress',
+		value:p.get('consTrackLoadAddress'),
+		anchor:'99%'
+	});
 	
-	var r3={columnWidth:.25,layout:'form',border:false,items:[cboTrackVendor]};
+	//装货要求
+	var txtTrackRemarks = new Ext.form.TextArea({fieldLabel:C_REMARKS,
+		tabIndex:7,
+		name:'consTrackRemarks',
+		value:p.get('consTrackRemarks'),
+		anchor:'99%'
+	});
 	
-	var r4={columnWidth:.25,layout:'form',border:false,items:[txtTranContact]};
+	//装货、提货日期
+	var dtLoadDate= new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,
+		tabIndex:8,
+        name:'consTrackLoadDate',
+        value:p.get('consTrackLoadDate'),
+        format:DATEF,
+        anchor:'99%'
+	});
 	
-	var r5={columnWidth:.25,layout:'form',border:false,items:[txtTranTel]};		
-	
-	var r7={columnWidth:.5,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,tabIndex:7,
-		name:'consTrackRemarks',value:p.get('consTrackRemarks'),xtype:'textarea',anchor:'99%'}]};
-	
-	var txtLoadDate={columnWidth:.25,layout:'form',border:false,items:[
-	       {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_DATE:C_FETCH_DATE,tabIndex:8,
-	        name:'consTrackLoadDate',value:p.get('consTrackLoadDate'),xtype:'datefield',format:DATEF,anchor:'99%'}]};
-	
-	var txtLoadTime={columnWidth:.25,layout:'form',border:false,items:[
-       {fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_TIME:C_FETCH_TIME,tabIndex:8,
-        name:'consTrackLoadTime',value:p.get('consTrackLoadTime'),xtype:'timefield',increment:30,anchor:'99%'}]};
+	//装货、提货时间
+	var dtLoadTime= new Ext.form.TimeField({fieldLabel:p.get('consBizClass')==BC_E?C_LOAD_TIME:C_FETCH_TIME,
+		tabIndex:8,
+        name:'consTrackLoadTime',
+        value:p.get('consTrackLoadTime'),
+        increment:30,
+        anchor:'99%'
+	});
 
+	//装货工厂
+	var txtLoadFactory = new Ext.form.ComboBox({fieldLabel:C_LOAD_FACTORY,
+		name:'consLoadFactory',
+		value:p.get('consLoadFactory'),
+		xtype:'siteLookup',
+		siteType:1,
+		consign:p,
+    	typeAhead:true,
+    	mode:'local',
+    	triggerAction: 'all',
+    	selectOnFocus:true,
+    	anchor:'99%',
+    	listWidth:200,
+    	pageSize:30,
+    	hidden:p.get('consBizClass')!=BC_E,
+		listeners:{scope:this,	    			
+			select:function(c,r,i){
+				txtLoadContact.setValue(r.get('cusiContact'));
+				txtLoadTel.setValue(r.get('cusiTel'));
+				txtLoadAddress.setValue(r.get('cusiAddress'));
+			}
+		}
+	});
 	
-	var txtLoadFactory = {columnWidth:.25,layout:'form',
-			hidden:p.get('consBizClass')!=BC_E,border:false,items:[
-	    	{fieldLabel:C_LOAD_FACTORY,
-	    		name:'consLoadFactory',
-	    		value:p.get('consLoadFactory'),
-	    		xtype:'siteLookup',
-	    		siteType:1,
-	    		consign:p,
-	        	typeAhead:true,
-	        	mode:'local',
-	        	triggerAction: 'all',
-	        	selectOnFocus:true,
-	        	anchor:'99%',
-	        	listWidth:200,
-	        	pageSize:30,
-	    		listeners:{scope:this,	    			
-	    			select:function(c,r,i){
-	    				txtLoadContact.setValue(r.get('cusiContact'));
-	    				txtLoadTel.setValue(r.get('cusiTel'));
-	    				txtLoadAddress.setValue(r.get('cusiAddress'));
-	    			}
-	    		}
-	    	}
-	    ]};
+	//装货联系人
+	var txtLoadContact=new Ext.form.TextField({fieldLabel:C_LOAD_CONTACT,
+		tabIndex:4,
+		name:'consLoadContact',
+    	value:p.get('consLoadContact'),
+    	xtype:'textfield',
+    	anchor:'99%'
+    });
 	
-	var txtLoadContact=new Ext.form.TextField({fieldLabel:C_LOAD_CONTACT,tabIndex:4,name:'consLoadContact',
-	    	value:p.get('consLoadContact'),xtype:'textfield',anchor:'99%'});
+	//装货联系电话
+	var txtLoadTel = new Ext.form.TextField({fieldLabel:C_LOAD_TEL,
+		tabIndex:5,
+		name:'consLoadTel',
+	    value:p.get('consLoadTel'),
+	    xtype:'textfield',
+	    anchor:'99%'
+	});
 	
-	var txtLoadTel=new Ext.form.TextField({fieldLabel:C_LOAD_TEL,tabIndex:5,name:'consLoadTel',
-	        value:p.get('consLoadTel'),xtype:'textfield',anchor:'99%'});
-
-	var t42={title:C_TRAN_REQUIREMENT,layout:'column',padding:5,border:false,labelWidth:90,collapsible:true,
-			items:[r3,r4,r5,txtLoadFactory,txtLoadDate,txtLoadTime,
-			       {columnWidth:.25,layout:'form',border:false,items:[txtLoadContact]},
-			       {columnWidth:.25,layout:'form',border:false,items:[txtLoadTel]},
-			       {columnWidth:.5,layout:'form',border:false,items:[txtLoadAddress]},r7]};
+	var t42 = {title:C_TRAN_REQUIREMENT,
+		layout:'column',
+		padding:5,
+		border:false,
+		labelWidth:90,
+		collapsible:true,
+		items:[{columnWidth:.25,layout:'form',border:false,items:[cboTrackVendor,dtLoadDate]},
+		       {columnWidth:.25,layout:'form',border:false,items:[txtTranContact,dtLoadTime]},
+		       {columnWidth:.25,layout:'form',border:false,items:[txtTranTel,txtLoadContact]},
+		       {columnWidth:.25,layout:'form',border:false,items:[txtLoadFactory,txtLoadTel]},
+				
+	       {columnWidth:.5,layout:'form',border:false,items:[txtLoadAddress]},
+	       {columnWidth:.5,layout:'form',border:false,items:[txtTrackRemarks]}
+	    ]
+	};
 			
-	var r9={columnWidth:.5,layout:'form',border:false,items:[
-		{fieldLabel:C_WAREHOUSE,tabIndex:9,name:'consWarehouseName',
-			value:p.get('consWarehouseName'),store:getCS(),enableKeyEvents:true,
-			tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
-			xtype:'combo',displayField:'custCode',valueField:'custCode',
-			typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%',
-			listeners:{scope:this,
+	var cboWarehouse = new Ext.form.ComboBox({fieldLabel:C_WAREHOUSE,
+		tabIndex:9,
+		name:'consWarehouseName',
+		value:p.get('consWarehouseName'),
+		store:getCS(),
+		enableKeyEvents:true,
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:C_LW,
+		displayField:'custCode',
+		valueField:'custCode',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%',
+		listeners:{scope:this,
 			blur:function(f){
 				if(f.getRawValue()==''){
 					f.clearValue();
@@ -2152,37 +2351,67 @@ Fos.BookTab = function(p) {
 				p.set('consWarehouseFax',r.get('custFax'));
 				c.setValue(r.get('custNameCn'));
 			},
-			keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}}}]};
-	var r10={columnWidth:.25,layout:'form',border:false,items:[
-        {fieldLabel:C_WARE_CONTACT,tabIndex:10,name:'consWarehouseContact',
-        value:p.get('consWarehouseContact'),xtype:'textfield',anchor:'99%'}]};
-	var r11={columnWidth:.25,layout:'form',border:false,items:[
-        {fieldLabel:C_WARE_TEL,tabIndex:11,name:'consWarehouseTel',
-        value:p.get('consWarehouseTel'),xtype:'textfield',anchor:'99%'}]};
-	var r12={columnWidth:.5,layout:'form',border:false,items:[
-		{fieldLabel:(p.get('consBizType')==BT_B)?C_WARE_REQUIREMENT:(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
-	    tabIndex:12,name:'consWarehouseRemarks',value:p.get('consWarehouseRemarks'),xtype:'textarea',anchor:'99%'}]};
-	var r13={columnWidth:.5,layout:'form',border:false,items:[
-	    {fieldLabel:C_WARE_ADDRESS,tabIndex:13,
-	    name:'consWarehouseAddress',value:p.get('consWarehouseAddress'),xtype:'textarea',anchor:'99%'}]};
+			keydown:{fn:function(f,e){LC(f,e,'custWarehouseFlag');},buffer:BF}
+		}
+	});
 	
-	var txtWarehouseNo={columnWidth:.25,layout:'form',border:false,items:[
-      	    {fieldLabel:C_IN_WAREHOUSE_NO,tabIndex:13,xtype:'textfield',
-      	    name:'consWarehouseNo',value:p.get('consWarehouseNo'),anchor:'99%'}]};
+	var r10 = new Ext.form.TextField({fieldLabel:C_WARE_CONTACT,
+		tabIndex:10,
+		name:'consWarehouseContact',
+        value:p.get('consWarehouseContact'),
+        anchor:'99%'
+	});
 	
-	var r14={columnWidth:.25,layout:'form',border:false,items:[
-	        {fieldLabel:(p.get('consBizType')==BT_B)?C_WARE_DATE:
+	var r11 = new Ext.form.TextField({fieldLabel:C_WARE_TEL,
+		tabIndex:11,
+		name:'consWarehouseTel',
+        value:p.get('consWarehouseTel'),
+        anchor:'99%'
+	});
+	
+	var r12 = new Ext.form.TextArea({fieldLabel:(p.get('consBizType')==BT_B)?C_WARE_REQUIREMENT:
+		(p.get('consBizClass')==BC_E?C_CONT_LOAD_REQUIREMENT:C_CONT_DISCHARGE_REQUIREMENT),
+	    tabIndex:12,
+	    name:'consWarehouseRemarks',
+	    value:p.get('consWarehouseRemarks'),
+	    anchor:'99%'
+	});
+	
+	var r13 = new Ext.form.TextArea({fieldLabel:C_WARE_ADDRESS,
+		tabIndex:13,
+	    name:'consWarehouseAddress',
+	    value:p.get('consWarehouseAddress'),
+	    anchor:'99%'
+	});
+	
+	var txtWarehouseNo = new Ext.form.TextField({fieldLabel:C_IN_WAREHOUSE_NO,
+		tabIndex:13,
+		xtype:'textfield',
+    	name:'consWarehouseNo',
+    	value:p.get('consWarehouseNo'),
+    	anchor:'99%'
+	});
+	
+	var r14 = {fieldLabel:(p.get('consBizType')==BT_B)?C_WARE_DATE:
 	        	(p.get('consBizClass')==BC_E?C_WARE_LOAD_DATE:C_WARE_DIS_DATE),tabIndex:14,
-	        	name:'consContainerLoadDate',value:p.get('consContainerLoadDate'),
-	        	xtype:'datefield',format:DATEF,anchor:'99%'}]};
-	var txtContainerLoadTime={columnWidth:.25,layout:'form',border:false,items:[
-           {fieldLabel:C_ENTER_WAREHOUSE_TIME,tabIndex:8,
-            name:'consContainerLoadTime',value:p.get('consContainerLoadTime'),
-            xtype:'timefield',increment:30,anchor:'99%'}]};
+		name:'consContainerLoadDate',
+		value:p.get('consContainerLoadDate'),
+	    xtype:'datefield',
+	    format:DATEF,
+	    anchor:'99%'
+	};
+	
+	var txtContainerLoadTime = {fieldLabel:C_ENTER_WAREHOUSE_TIME,
+		tabIndex:8,
+        name:'consContainerLoadTime',
+        value:p.get('consContainerLoadTime'),
+        xtype:'timefield',
+        increment:30,
+        anchor:'99%'
+	};
 
 	
-	var txtCFS={columnWidth:.25,layout:'form',border:false,items:[
-	    {fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),
+	var txtCFS =  {fieldLabel:C_CFS,tabIndex:14,name:'consCfsName',value:p.get('consCfsName'),
 	    	store:getCS(),enableKeyEvents:true,
     		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
     		xtype:'combo',displayField:'custCode',valueField:'custCode',
@@ -2199,14 +2428,32 @@ Fos.BookTab = function(p) {
          			p.set('consCfsName',r.get('custNameCn'));
          			c.setValue(r.get('custNameCn'));
          		},
-				keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}}]};
+				keydown:{fn:function(f,e){LC(f,e,'custCfsFlag');},buffer:BF}}};
 	
-	var t43={title:(p.get('consBizType')==BT_B)?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
-			layout:'column',padding:5,border:false,collapsible:true,labelWidth:90,
-			items:(p.get('consBizType')==BT_B)?[r9,r10,r11,r12,r13,r14,txtWarehouseNo]:
-				[r9,r10,r11,r12,r13,r14,txtContainerLoadTime,txtWarehouseNo,txtCFS]};
+	var wareItems = [];
+	wareItems[wareItems.length] = {columnWidth:.5,layout:'form',border:false,items:[cboWarehouse]};
+	wareItems[wareItems.length] = {columnWidth:.25,layout:'form',border:false,items:[r10]};
+	wareItems[wareItems.length] = {columnWidth:.25,layout:'form',border:false,items:[r11]};
+	wareItems[wareItems.length] = {columnWidth:.5,layout:'form',border:false,items:[r12]};
+	wareItems[wareItems.length] = {columnWidth:.5,layout:'form',border:false,items:[r13]};	
+	wareItems[wareItems.length] = {columnWidth:.25,layout:'form',border:false,items:[r14]};
+	wareItems[wareItems.length] = {columnWidth:.25,layout:'form',border:false,items:[txtWarehouseNo]};
 	
-	var r15={fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
+	if(p.get('consBizType')==BT_C){
+		wareItems[wareItems.length] = {columnWidth:.25,layout:'form',border:false,items:[txtCFS]};
+		wareItems[wareItems.length] = {columnWidth:.25,layout:'form',border:false,items:[txtContainerLoadTime]};
+	}	
+	
+	var t43 = {title:(p.get('consBizType')==BT_B)?C_SR_WARE:(p.get('consBizClass')==BC_E?C_WARE_LOAD:C_WARE_DIS),
+		layout:'column',
+		padding:5,
+		border:false,
+		collapsible:true,
+		labelWidth:90,
+		items:wareItems
+	};
+	
+	var r15 = {fieldLabel:C_INSP_AGENCY,tabIndex:15,name:'consInspectionVendorName',
 		value:p.get('consInspectionVendorName'),store:getCS(),enableKeyEvents:true,
 		tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
 		xtype:'combo',displayField:'custCode',valueField:'custCode',
@@ -2224,6 +2471,7 @@ Fos.BookTab = function(p) {
 				c.setValue(r.get('custNameCn'));
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}};
+	
 	var r16={fieldLabel:C_CUSTOM_AGENCY,tabIndex:16,name:'consCustomsVendorName',
 		value:p.get('consCustomsVendorName'),store:getCS(),enableKeyEvents:true,
 		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
@@ -2245,6 +2493,7 @@ Fos.BookTab = function(p) {
 				c.setValue(r.get('custNameCn'));
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}}};
+	
 	var r17={fieldLabel:C_SWITCH_BL,tabIndex:17,name:'swithId',value:p.get('swithId'),store:SWIT_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%'};
 	var r18={fieldLabel:C_FUMIGATE_FLAG,tabIndex:18,name:'consFumigateFlag',checked:p.get('consFumigateFlag')=='1',xtype:'checkbox',anchor:'99%'};
 	var r19={fieldLabel:C_QUARANTINE_FLAG,tabIndex:19,name:'consQuarantineFlag',checked:p.get('consQuarantineFlag')=='1',xtype:'checkbox',anchor:'99%'};
@@ -2381,6 +2630,7 @@ Fos.BookTab = function(p) {
 		},
 		failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
     };
+    
     this.unlock=function(){
     	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
     		params:{A:'CONS_U',consId:p.get('consId'),consStatusLock:0},
@@ -2573,30 +2823,176 @@ Fos.BookTab = function(p) {
     	if(tb.getComponent('TB_M_CONS_NO')) tb.getComponent('TB_M_CONS_NO').setDisabled(NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7||p.get('consStatus')==8);
     };
     
-    //TopBar
-	var b1={text:C_SAVE,itemId:'TB_A',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==7||p.get('consStatus')==8,scope:this,handler:this.save};
-	var b2={text:C_BOOK_START,itemId:'TB_B',iconCls:'save',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.start};
-	var b3={text:C_BOOK_CONFIRM,itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.check};
-	var b4={text:C_BOOK_EXIT,itemId:'TB_D',iconCls:'exit',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.exit};
-	var b5={text:C_BOOK_REASSIGN,itemId:'TB_E',iconCls:'redo',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.renew};
-	var b6={text:C_BOOK_QUIT,itemId:'TB_F',iconCls:'consCancel',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==5||p.get('consStatus')==7||p.get('consStatus')==8,scope:this,handler:this.quit};
-	var b7={text:C_BOOK_RENEW,itemId:'TB_G',iconCls:'renew',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')<2||p.get('consStatus')==7||p.get('consStatus')==8,scope:this,handler:this.rebook};
-	var b8={text:C_INVALID,itemId:'TB_H',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.cancel};
-	var b9={text:C_COPY,itemId:'TB_N',iconCls:'copy',disabled:NR(m+F_M),scope:this,handler:function(){Fos.showConsign(Fos.copyConsign(p));}};
-	var b16={text:C_COPY_FROM,itemId:'TB_O',iconCls:'copy',disabled:NR(m+F_M)||locked||disable,scope:this,handler:this.copyFrom};
+    //保存
+	var btnSave = new Ext.Button({text:C_SAVE,
+		itemId:'TB_A',
+		iconCls:'save',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==7||p.get('consStatus')==8,
+		scope:this,
+		handler:this.save
+	});
 	
-	var b11={text:C_ARRIVE,itemId:'TB_I',iconCls:'plane',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,scope:this,handler:this.arrive};
-	var b12={text:C_SWITCH_BL,itemId:'TB_J',iconCls:'release',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,scope:this,handler:this.release};	
-	var b13={text:C_RELEASE,itemId:'TB_K',iconCls:'cart',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,scope:this,handler:this.releaseCargo};
-	var b14={text:C_SEND_CARGO,itemId:'TB_L',iconCls:'cart',disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=3,scope:this,handler:this.sendCargo};
-	var b15={text:C_INVALID,itemId:'TB_M',iconCls:'cancel',disabled:NR(m+F_F)||locked||disable,scope:this,handler:this.cancel};
+	//订舱开始
+	var btnStartBooking = new Ext.Button({text:C_BOOK_START,
+		itemId:'TB_B',
+		iconCls:'save',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,
+		scope:this,
+		handler:this.start
+	});
 	
-	var b17={text:C_UNLOCK,itemId:'TB_U',iconCls:'unlock',disabled:NR(m+F_UL)||locked!=1,scope:this,handler:this.unlock};
-	var b18={text:C_FINISHED,itemId:'TB_P',iconCls:'ok',disabled:NR(m+F_M)||p.get('consStatus')==7,scope:this,handler:this.finished};
-	var b19={text:C_CANCEL_FINISHED,itemId:'TB_Q',iconCls:'renew',scope:this,handler:this.cancelFinish};
+	//订舱确认
+	var btnBookingConfirm = new Ext.Button({text:C_BOOK_CONFIRM,
+		itemId:'TB_C',
+		iconCls:'check',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,
+		scope:this,
+		handler:this.check
+	});
 	
-	var btnModifyConsignNo={text:C_MODIFY_CONS_NO,itemId:'TB_M_CONS_NO',iconCls:'option',
-			disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7,scope:this,handler:this.MoidfyConsNo};
+	//退关
+	var btnExit = new Ext.Button({text:C_BOOK_EXIT,
+		itemId:'TB_D',
+		iconCls:'exit',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,
+		scope:this,
+		handler:this.exit
+	});
+	
+	//改配
+	var btnReassign = new Ext.Button({text:C_BOOK_REASSIGN,
+		itemId:'TB_E',
+		iconCls:'redo',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,
+		scope:this,
+		handler:this.renew
+	});
+	
+	//退载
+	var btnQuit = new Ext.Button({text:C_BOOK_QUIT,
+		itemId:'TB_F',
+		iconCls:'consCancel',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')==5||p.get('consStatus')==7||p.get('consStatus')==8,
+		scope:this,
+		handler:this.quit
+	});
+	
+	//重新订舱
+	var btnRebook = new Ext.Button({text:C_BOOK_RENEW,
+		itemId:'TB_G',
+		iconCls:'renew',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')<2||p.get('consStatus')==7||p.get('consStatus')==8,
+		scope:this,
+		handler:this.rebook
+	});
+	
+	//作废
+	var btnCancel = new Ext.Button({text:C_INVALID,
+		itemId:'TB_H',
+		iconCls:'cancel',
+		disabled:NR(m+F_F)||locked||disable||p.get('consStatus')!=2,
+		scope:this,
+		handler:this.cancel
+	});
+	
+	//另存
+	var btnSaveAs = new Ext.Button({text:C_COPY,
+		itemId:'TB_N',
+		iconCls:'copy',
+		disabled:NR(m+F_M),
+		scope:this,
+		handler:function(){
+			Fos.showConsign(Fos.copyConsign(p));
+		}
+	});
+	
+	//从...复制
+	var btnCopyFrom = new Ext.Button({text:C_COPY_FROM,
+		itemId:'TB_O',
+		iconCls:'copy',
+		disabled:NR(m+F_M)||locked||disable,
+		scope:this,
+		handler:this.copyFrom
+	});
+	
+	//到港
+	var btnArrive = new Ext.Button({text:C_ARRIVE,
+		itemId:'TB_I',
+		iconCls:'plane',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0,
+		scope:this,
+		handler:this.arrive
+	});
+	
+	//换单
+	var btnSwitchBl = new Ext.Button({text:C_SWITCH_BL,
+		itemId:'TB_J',
+		iconCls:'release',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,
+		scope:this,
+		handler:this.release
+	});
+	
+	//放行
+	var btnRelease = new Ext.Button({text:C_RELEASE,
+		itemId:'TB_K',
+		iconCls:'cart',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=2,
+		scope:this,
+		handler:this.releaseCargo
+	});
+	
+	//送货
+	var btnSendCargo = new Ext.Button({text:C_SEND_CARGO,
+		itemId:'TB_L',
+		iconCls:'cart',
+		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=3,
+		scope:this,
+		handler:this.sendCargo
+	});
+	
+	//作废
+	var btnInvalid = new Ext.Button({text:C_INVALID,
+		itemId:'TB_M',
+		iconCls:'cancel',
+		disabled:NR(m+F_F)||locked||disable,
+		scope:this,
+		handler:this.cancel
+	});
+	
+	//解锁
+	var btnUnlock = new Ext.Button({text:C_UNLOCK,
+		itemId:'TB_U',
+		iconCls:'unlock',
+		disabled:NR(m+F_UL)||locked!=1,
+		scope:this,
+		handler:this.unlock
+	});
+	
+	//结单
+	var btnFinished = new Ext.Button({text:C_FINISHED,
+		itemId:'TB_P',
+		iconCls:'ok',
+		disabled:NR(m+F_M)||p.get('consStatus')==7,
+		scope:this,
+		handler:this.finished
+	});
+	
+	//取消结单
+	var btnCancelFinished = new Ext.Button({text:C_CANCEL_FINISHED,
+		itemId:'TB_Q',
+		iconCls:'renew',
+		scope:this,
+		handler:this.cancelFinish
+	});
+	
+	var btnModifyConsignNo = new Ext.Button({text:C_MODIFY_CONS_NO,
+		itemId:'TB_M_CONS_NO',
+		iconCls:'option',
+		disabled:NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7,
+		scope:this,
+		handler:this.MoidfyConsNo
+	});
 	
 	var exp1=CREATE_E_MENU(M_ARRIVE_ADVICE,function(){this.expExcel('ARAD');},function(){this.expEmail('ARAD',M_ARRIVE_ADVICE);},function(){this.expFax('ARAD',M_ARRIVE_ADVICE);},this);
 	var exp2=CREATE_E_MENU(M_BOOK,function(){this.expExcel('CONS_B');},function(){this.expEmail('CONS_B',M_BOOK);},function(){this.expFax('CONS_B',M_BOOK);},this);
@@ -2622,23 +3018,43 @@ Fos.BookTab = function(p) {
 	var b10={text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E),scope:this,menu:{items:expM}};
 	
 	var tbs=[];
+	
 	if(p.get('consBizType')==BT_G||p.get('consBizType')==BT_I){
-		tbs=[b1,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b17];
+		tbs=[btnSave,'-',btnCancel,'-',btnSaveAs,'-',btnCopyFrom,'-',
+		     btnModifyConsignNo,'-',btnUnlock];
 	}
 	else{
-		if(p.get('consBizClass')==BC_I) 
-			tbs=[b1,'-',b11,'-',b12,'-',b13,'-',b14,'-',b15,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b18,'-',b19,'-',b17];
-		else if(p.get('consBizClass')==BC_E) 
-			tbs=[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b8,'-',b9,'-',b16,'-',btnModifyConsignNo,'-',b10,'-',b18,'-',b19,'-',b17];
-		else if(p.get('consBizClass')==BC_T)
-			tbs=[b1,'-',b15,'-',b9,'-',btnModifyConsignNo,'-',b10,'-',b17];
+		if(p.get('consBizClass')==BC_I) //进口
+			tbs=[btnSave,'-',btnArrive,'-',btnSwitchBl,'-',btnRelease,'-',
+			     btnSendCargo,'-',btnInvalid,'-',btnSaveAs,'-',btnCopyFrom,'-',
+			     btnModifyConsignNo,'-',b10,'-',btnFinished,'-',btnCancelFinished,'-',btnUnlock];
+		else if(p.get('consBizClass')==BC_E) //出口
+			tbs=[btnSave,'-',btnStartBooking,'-',btnBookingConfirm,'-',btnExit,'-',
+			     btnReassign,'-',btnQuit,'-',btnRebook,'-',btnCancel,'-',btnSaveAs,'-',
+			     btnCopyFrom,'-',btnModifyConsignNo,'-',b10,'-',btnFinished,'-',
+			     btnCancelFinished,'-',btnUnlock];
 	}	
 	
 	Fos.BookTab.superclass.constructor.call(this, { 
-		id: "T_BOOK_"+p.get('id'),title:C_CONSIGN+"(F1)",header:false,autoScroll:true,
-		border:false,labelAlign:'right',bodyStyle:'padding:2px 10px 10px 2px',tbar:tbs,		
-		items:[{id:'T_BOOK_T_'+p.get('id'),xtype:'tabpanel',plain:true,activeTab:0,
-	    	listeners:{scope:this,tabchange:function(m,a){a.doLayout();}},items:tabs
+		id: "T_BOOK_"+p.get('id'),
+		title:C_CONSIGN+"(F1)",
+		header:false,
+		autoScroll:true,
+		border:false,
+		labelAlign:'right',
+		bodyStyle:'padding:2px 10px 10px 2px',
+		tbar:tbs,		
+		items:[
+		    {id:'T_BOOK_T_'+p.get('id'),
+			xtype:'tabpanel',
+			plain:true,
+			activeTab:0,
+	    	listeners:{scope:this,
+	    		tabchange:function(m,a){
+	    			a.doLayout();
+	    		}
+		    },
+		    items:tabs
 		}]
 	});
 };

@@ -50,7 +50,6 @@ var ST_L='LCL';
 var BC_I='I'; //进口
 var BC_E='E'; //出口
 var BC_D='D'; //内贸
-var BC_T='T'; //过境
 
 
 var F_V='01';

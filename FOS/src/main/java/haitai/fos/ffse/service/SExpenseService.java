@@ -139,8 +139,11 @@ public class SExpenseService {
 			if (ConstUtil.PR_TYPE_RECEIVE.equals(expense.getExpeType())) {
 				checkPerm(retList, permMap, editOwnerR, viewR, editR, consignMap, expense,"R");
 			} 
-			else {
+			else if (ConstUtil.PR_TYPE_PAY.equals(expense.getExpeType())) {
 				checkPerm(retList, permMap, editOwnerP, viewP, editP, consignMap, expense,"P");
+			}
+			else{
+				retList.add(expense);
 			}
 		}
 		return retList;

@@ -15,6 +15,8 @@ Fos.ExGrid = function(p,t,frm,store) {
 			frm.calcR(); 
 		else if(t=='P') 
 			frm.calcP(); 
+		else if(t=='D') 
+			frm.calcD(); 
 		else 
 			frm.calcC();
 		frm.reCalculate();
@@ -696,53 +698,61 @@ Fos.ExGrid = function(p,t,frm,store) {
 	}
 	
 	Fos.ExGrid.superclass.constructor.call(this, {id:'G_EXOE_'+p.get('consNo')+t,
-	border:true,autoScroll:true,clicksToEdit:1,height:200,
-    stripeRows:true,store:store,sm:sm,cm:cm,listeners:{scope:this,
-		beforeedit:function(e){
-			e.cancel = e.record.get('editable')==0||e.record.get('expeStatus')>0||e.record.get('expeInvoiceStatus')>0||e.record.get('expeWriteOffStatus')>0;
+		border:true,
+		autoScroll:true,
+		clicksToEdit:1,
+		height:200,
+	    stripeRows:true,
+	    store:store,
+	    sm:sm,
+	    cm:cm,
+	    listeners:{scope:this,
+			beforeedit:function(e){
+				e.cancel = e.record.get('editable')==0||e.record.get('expeStatus')>0||e.record.get('expeInvoiceStatus')>0||e.record.get('expeWriteOffStatus')>0;
+			},
+	    	afteredit:function(e){
+	    		var f=e.field;
+	    		var r=e.record;
+		    	if(f=='expeNum'){
+		    		r.set('expeNum',e.value);
+		    		r.set('expeTotalAmount',round2(e.value*r.get('expeUnitPrice')-r.get('expeCommission')));
+		    		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*e.value-r.get('expeCommission')));
+		    		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+		    		this.reCalculate();}
+		    	if(f=='unitName'){
+		            r.set('expeTotalAmount',round2(r.get('expeNum')*r.get('expeUnitPrice')-r.get('expeCommission')));
+		    		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-r.get('expeCommission')));
+		    		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+		    		this.reCalculate();}
+				else if(f=='expeUnitPrice'){
+					r.set('expeTotalAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
+					r.set('expeInnerPrice',e.value);
+					r.set('expeInnerAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
+					r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+					this.reCalculate();}
+				else if(f=='expeInnerPrice'){
+					r.set('expeInnerAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
+					this.reCalculate();}
+				else if(f=='currCode'){
+					r.set('expeExRate',getExRate(e.value,'CNY'));
+					r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+					this.reCalculate();}
+				else if(f=='expeCommission'){
+					r.set('expeTotalAmount',round2(r.get('expeUnitPrice')*r.get('expeNum')-e.value));
+					r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-e.value));
+					r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+					this.reCalculate();}
+				else if(f=='expeCommissionRate'){
+					r.set('expeCommission',round2(r.get('expeTotalAmount')*e.value/100));			
+					r.set('expeTotalAmount',round2(r.get('expeUnitPrice')*r.get('expeNum')-r.get('expeCommission')));
+					r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-r.get('expeCommission')));
+					r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
+					this.reCalculate();
+				}
+		    }
 		},
-    	afteredit:function(e){
-    		var f=e.field;
-    		var r=e.record;
-	    	if(f=='expeNum'){
-	    		r.set('expeNum',e.value);
-	    		r.set('expeTotalAmount',round2(e.value*r.get('expeUnitPrice')-r.get('expeCommission')));
-	    		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*e.value-r.get('expeCommission')));
-	    		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
-	    		this.reCalculate();}
-	    	if(f=='unitName'){
-	            r.set('expeTotalAmount',round2(r.get('expeNum')*r.get('expeUnitPrice')-r.get('expeCommission')));
-	    		r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-r.get('expeCommission')));
-	    		r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
-	    		this.reCalculate();}
-			else if(f=='expeUnitPrice'){
-				r.set('expeTotalAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
-				r.set('expeInnerPrice',e.value);
-				r.set('expeInnerAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
-				r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
-				this.reCalculate();}
-			else if(f=='expeInnerPrice'){
-				r.set('expeInnerAmount',round2(e.value*r.get('expeNum')-r.get('expeCommission')));
-				this.reCalculate();}
-			else if(f=='currCode'){
-				r.set('expeExRate',getExRate(e.value,'CNY'));
-				r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
-				this.reCalculate();}
-			else if(f=='expeCommission'){
-				r.set('expeTotalAmount',round2(r.get('expeUnitPrice')*r.get('expeNum')-e.value));
-				r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-e.value));
-				r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
-				this.reCalculate();}
-			else if(f=='expeCommissionRate'){
-				r.set('expeCommission',round2(r.get('expeTotalAmount')*e.value/100));			
-				r.set('expeTotalAmount',round2(r.get('expeUnitPrice')*r.get('expeNum')-r.get('expeCommission')));
-				r.set('expeInnerAmount',round2(r.get('expeInnerPrice')*r.get('expeNum')-r.get('expeCommission')));
-				r.set('expeRcAmount',round2(r.get('expeTotalAmount')*r.get('expeExRate')));
-				this.reCalculate();
-			}
-	    }
-	},
-    tbar:topBar});
+	    tbar:topBar
+    });
 };
 Ext.extend(Fos.ExGrid, Ext.grid.EditorGridPanel);
 
@@ -968,7 +978,6 @@ Fos.ExpenseTab = function(p,f){
 		closable:f=='C'||f=='T'?false:true,
 		height:900,
 		labelAlign:'right',
-		bodyStyle:'padding:0px 0px 0px',
 		border:true,
 		items: f=='T'?[pR,pP]:[pBiz,pR,pP,pD],
 		tbar:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
@@ -987,21 +996,31 @@ Fos.ExWin = function(p) {
 	var PRc = new Ext.form.TextField({width:80,disabled:true});
 	
 	this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	
 	var cT={xtype:'tbtext',text:C_SUM_CNY_C};
 	var uT={xtype:'tbtext',text:C_SUM_USD_C};
 	var lT={xtype:'tbtext',text:C_SUM_LOC_C};	
 	var rT={xtype:'tbtext',text:C_SUM_RC};
 	
+	//应收
 	var sumCnyR = new Ext.form.TextField({width:80,disabled:true});
 	var sumUsdR = new Ext.form.TextField({width:80,disabled:true});
 	var sumLocR = new Ext.form.TextField({width:80,disabled:true});
 	var sumRcR = new Ext.form.TextField({width:80,disabled:true});
 	
-	this.sumCnyR=0;this.sumUsdR=0;this.sumLocR=0;this.sumRcR=0;
+	this.sumCnyR=0;
+	this.sumUsdR=0;
+	this.sumLocR=0;
+	this.sumRcR=0;
+	
 	this.rs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	
 	this.calcR=function(){
 		var d=this.rs.getRange();
-		this.sumCnyR=0;this.sumUsdR=0;this.sumLocR=0;this.sumRcR=0;
+		this.sumCnyR=0;
+		this.sumUsdR=0;
+		this.sumLocR=0;
+		this.sumRcR=0;
 		for(var i=0;i<d.length;i++){
 			if(d[i].get('currCode')=='CNY')
 				this.sumCnyR+=parseFloat(d[i].get('expeTotalAmount'));
@@ -1015,21 +1034,36 @@ Fos.ExWin = function(p) {
 		sumLocR.setValue(round2(this.sumLocR));
 		sumRcR.setValue(round2(this.sumRcR));
 	};
+	
+	
 	this.rg=new Fos.ExGrid(p,'R',this,this.rs);
-	var pR=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',
-			title:C_EXPE_R,collapsible:true,autoscroll:true,border:false,items:[this.rg],
+	var pR=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',
+		layout:'fit',
+		title:C_EXPE_R,
+		collapsible:true,
+		autoscroll:true,
+		border:false,
+		items:[this.rg],
 		bbar:[cT,sumCnyR,'-',uT,sumUsdR,'-',lT,sumLocR,'-',rT,sumRcR]
 	});		
+	
+	//应付
 	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
 	var sumUsdP = new Ext.form.TextField({width:80,disabled:true});
 	var sumLocP = new Ext.form.TextField({width:80,disabled:true});
 	var sumRcP = new Ext.form.TextField({width:80,disabled:true});
 	
-	this.sumCnyP=0;this.sumUsdP=0;this.sumLocP=0;this.sumRcP=0;
+	this.sumCnyP=0;
+	this.sumUsdP=0;
+	this.sumLocP=0;
+	this.sumRcP=0;
 	this.ps=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
 	this.calcP=function(){
 		var d=this.ps.getRange();
-		this.sumCnyP=0;this.sumUsdP=0;this.sumLocP=0;this.sumRcP=0;
+		this.sumCnyP=0;
+		this.sumUsdP=0;
+		this.sumLocP=0;
+		this.sumRcP=0;
 		for(var i=0;i<d.length;i++){
 			if(d[i].get('currCode')=='CNY')
 				this.sumCnyP+=parseFloat(d[i].get('expeTotalAmount'));
@@ -1043,10 +1077,57 @@ Fos.ExWin = function(p) {
 		sumLocP.setValue(round2(this.sumLocP));
 		sumRcP.setValue(round2(this.sumRcP));
 	};
+	
 	this.pg=new Fos.ExGrid(p,'P',this,this.ps);
-	var pP=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',layout:'fit',
-		title:C_EXPE_P,collapsible:true,border:false,items:[this.pg],
+	var pP=new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',
+		layout:'fit',
+		title:C_EXPE_P,
+		collapsible:true,
+		border:false,
+		items:[this.pg],
 		bbar:[cT,sumCnyP,'-',uT,sumUsdP,'-',lT,sumLocP,'-',rT,sumRcP]
+	});
+	
+	//代收代付
+	var sumCnyD = new Ext.form.TextField({width:80,disabled:true});
+	var sumUsdD = new Ext.form.TextField({width:80,disabled:true});
+	var sumLocD = new Ext.form.TextField({width:80,disabled:true});
+	var sumRcD = new Ext.form.TextField({width:80,disabled:true});
+	
+	this.sumCnyD=0;
+	this.sumUsdD=0;
+	this.sumLocD=0;
+	this.sumRcD=0;
+	this.dStore = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	
+	this.calcD=function(){
+		var d=this.dStore.getRange();
+		this.sumCnyD=0;
+		this.sumUsdD=0;
+		this.sumLocD=0;
+		this.sumRcD=0;
+		for(var i=0;i<d.length;i++){
+			if(d[i].get('currCode')=='CNY')
+				this.sumCnyD+=parseFloat(d[i].get('expeTotalAmount'));
+			else if(d[i].get('currCode')=='USD')
+				this.sumUsdD+=parseFloat(d[i].get('expeTotalAmount'));
+			this.sumLocD+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
+			this.sumRcD+=parseFloat(d[i].get('expeWriteOffRcAmount'));
+		};
+		sumCnyD.setValue(round2(this.sumCnyD));
+		sumUsdD.setValue(round2(this.sumUsdD));
+		sumLocD.setValue(round2(this.sumLocD));
+		sumRcD.setValue(round2(this.sumRcD));
+	};
+	
+	this.dg = new Fos.ExGrid(p,'D',this,this.dStore);
+	var pD=new Ext.Panel({
+		layout:'fit',
+		title:C_EXPE_D,
+		collapsible:true,
+		border:false,
+		items:[this.dg],
+		bbar:[cT,sumCnyD,'-',uT,sumUsdD,'-',lT,sumLocD,'-',rT,sumRcD]
 	});
 	
 	this.reCalculate = function(){		
@@ -1057,57 +1138,111 @@ Fos.ExWin = function(p) {
 	};
 	
 	if(p.get('rowAction')!='N')
-		this.store.load({params:{consId:p.get('consId')},callback:function(){
-			var a=this.store.getRange();			
-			for(var i=0;i<a.length;i++){
-				if(a[i].get('expeType')=='R'){
-					if(!NR(m+S_AR+F_V))
-						this.rs.add(a[i]);
+		this.store.load({params:{consId:p.get('consId')},
+			callback:function(){
+				var a=this.store.getRange();			
+				for(var i=0;i<a.length;i++){					
+					if(a[i].get('expeType')=='R'){
+						if(!NR(m+S_AR+F_V))
+							this.rs.add(a[i]);
+					}
+					else if(a[i].get('expeType')=='P'){
+						if(!NR(m+S_AP+F_V))
+							this.ps.add(a[i]);
+					}						
+					else if(a[i].get('expeType')=='D')
+						this.dStore.add(a[i]);
 				}
-				else if(!NR(m+S_AP+F_V))
-					this.ps.add(a[i]);
-			}
-			this.calcR();
-			this.calcP();
-			this.reCalculate();			
-		},scope:this});
+				this.calcR();
+				this.calcP();
+				this.calcD();
+				this.reCalculate();			
+			},scope:this
+		}
+	);
 	
 	this.UN=new Ext.data.SimpleStore({id:0,fields:['U','N'],data:getUN(p)});	
 	
 	this.updateStatus=function(s){
-		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CONS_U',consId:p.get('consId'),consStatusExp:s},
+		Ext.Ajax.request({scope:this,url:SERVICE_URL,
+			method:'POST',
+			params:{
+				A:'CONS_U',
+				consId:p.get('consId'),
+				consStatusExp:s
+			},
 			success: function(r){
 				p.beginEdit();
 				p.set('consStatusExp',s);
 				p.set('version',p.get('version')+1);
 				p.endEdit();
-			this.updateTB();XMG.alert(SYS,M_S);},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+				this.updateTB();
+				XMG.alert(SYS,M_S);
+			},
+			failure: function(r){
+				XMG.alert(SYS,M_F+r.responseText);
+			}
+		});
 	};
-	this.check=function(){this.updateStatus('1');};
-	this.unCheck=function(){this.updateStatus('0');};
-	this.updateTB=function(){
-		var tb=this.getTopToolbar();
-		if(tb.getComponent('TB_A')) tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
-    	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(M1_S+S_EXPE+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0);
-    	this.rg.updateTB();this.pg.updateTB();
+	
+	this.check=function(){
+		this.updateStatus('1');
+	};
+	
+	this.unCheck=function(){
+		this.updateStatus('0');
+	};
+	
+	this.updateTB = function(){		
+		if(btnCheck) 
+			btnCheck.setDisabled(NR(m+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0);
+    	if(btnUncheck) 
+    		btnUncheck.setDisabled(NR(m+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0);
+    	
+    	this.rg.updateTB();
+    	this.pg.updateTB();
 	};	
 	
-	var tb1={itemId:'TB_A',text:C_EXPE_AUDIT,disabled:NR(m+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0,iconCls:'check',scope:this,handler:this.check};
-	var tb2={itemId:'TB_B',text:C_EXPE_UNCHECK,disabled:NR(m+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0,iconCls:'renew',scope:this,handler:this.unCheck};
-	var tb3={xtype:'tbtext',text:C_PROFIT_CNY};
-	var tb4={xtype:'tbtext',text:C_PROFIT_USD};
-	var tb5={xtype:'tbtext',text:C_PROFIT_LOC};
-	var tb7={xtype:'tbtext',text:C_PROFIT_RC};	
+	var btnCheck = new Ext.Button({
+		text:C_EXPE_AUDIT,
+		disabled:NR(m+F_E)||p.get('consStatusExp')==1||p.get('consStatusAud')!=0,
+		iconCls:'check',
+		scope:this,
+		handler:this.check
+	});
+	
+	var btnUncheck = new Ext.Button({
+		text:C_EXPE_UNCHECK,
+		disabled:NR(m+F_E)||p.get('consStatusAud')!=0||p.get('consStatusExp')==0,
+		iconCls:'renew',
+		scope:this,
+		handler:this.unCheck
+	});
 	
 	var panel = new Ext.Panel({
-		id:"T_EXPE_"+p.get('id'),title:p.get("consNo")+C_EXPE,header:false,autoScroll:true,
-				labelAlign:'right',bodyStyle:'padding:0px 0px 0px',border:true,
-				items: [pR,pP],
-				tbar:[tb1,'-',tb2,'-',tb3,PCny,'-',tb4,PUsd,'-',tb5,PLoc,'-','-',tb7,PRc]
+		id:"T_EXPE_"+p.get('id'),
+		title:p.get("consNo")+C_EXPE,
+		header:false,
+		autoScroll:true,
+		labelAlign:'right',
+		border:true,
+		items: [pR,pP,pD],
+		tbar:[btnCheck,'-',btnUncheck,'-',
+		      C_PROFIT_CNY,PCny,'-',
+		      C_PROFIT_USD,PUsd,'-',
+		      C_PROFIT_LOC,PLoc,'-',
+		      C_PROFIT_RC,PRc]
 	});
-    Fos.ExWin.superclass.constructor.call(this, {title:p.get('consNo')+C_EXPE,modal:true,width:900,
-        height:565,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
+	
+    Fos.ExWin.superclass.constructor.call(this, {title:p.get('consNo')+C_EXPE,
+    	modal:true,
+    	width:1000,
+        height:600,
+        layout:'fit',
+        plain:false,
+        buttonAlign:'right',
+        items:panel
+	});
 };
 Ext.extend(Fos.ExWin,Ext.Window);
 
