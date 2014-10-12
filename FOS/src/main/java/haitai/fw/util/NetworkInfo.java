@@ -152,6 +152,8 @@ public final class NetworkInfo {
 			int ipAddressPosition = line.indexOf("inet addr:");
 			if (ipAddressPosition < 0)
 				continue;
+            if(line.indexOf("Bcast:") < 0)
+                continue;
 
 			String ipAddressCandidate = line.substring(ipAddressPosition + 10,
 					line.indexOf("Bcast:")).trim();
@@ -160,10 +162,7 @@ public final class NetworkInfo {
 			}
 		}
 
-		ParseException ex = new ParseException("cannot read IP address for "
-				+ localHost + " from [" + ipConfigResponse + "]", 0);
-		ex.printStackTrace();
-		throw ex;
+		return "0";
 	}
 
 	private static boolean linuxIsMacAddress(String macAddressCandidate) {
