@@ -2022,14 +2022,14 @@ Fos.ExpenseGrid = function(t){
 		view:new Ext.grid.GroupingView(groupViewCfg),
 		region:'center',
 		tbar:[genInvoice,'-',genBill,'-',searchButton,'-',btnExport],
-		bbar:PTB(store,C_PS)
+		bbar:PTB(store,200)
 	});
 
 	Fos.ExpenseGrid.superclass.constructor.call(this,{
 		id:'EXPENSE_'+t,title:title,closable:true,layout:'border',
 		items:[selectPanel,this.grid]
 	});
-	store.load({params:{start:0,limit:C_PS}});
+	store.load({params:{start:0,limit:200}});
 };
 Ext.extend(Fos.ExpenseGrid,Ext.Panel);
 

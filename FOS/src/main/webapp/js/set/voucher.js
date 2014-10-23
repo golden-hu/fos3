@@ -715,7 +715,7 @@ Fos.VoucherTab = function(p,prId,invoId) {
     });
     
     //收付款银行
-    var txtBank = new Ext.form.TextField({fieldLabel:C_BANK,
+    var txtBank = new Ext.form.ComboBox({fieldLabel:C_BANK,
     	tabIndex:13,
     	name:'voucBank',
     	value:p.get('voucBank'),

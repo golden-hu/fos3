@@ -403,7 +403,6 @@ Fos.BookTab = function(p) {
 		name:'consDate',
 		value:p.get('consDate'),
 		editable:false,
-		xtype:'datefield',
 		format:DATEF,anchor:'99%'
 	});
     
@@ -503,13 +502,13 @@ Fos.BookTab = function(p) {
     	}
     }); 
     
-    var txtPaidAt={fieldLabel:C_PAID_AT,
+    var txtPaidAt = new Ext.form.TextField({fieldLabel:C_PAID_AT,
 		tabIndex:16,
 		name:'consPaidAt',
 		value:p.get('consPaidAt'),
 		xtype:'textfield',
 		anchor:'99%'
-	};
+	});
 	
 	var txtTranTerm = new Ext.form.ComboBox({fieldLabel:C_TTER,
 		itemCls:'needed',
@@ -633,11 +632,12 @@ Fos.BookTab = function(p) {
 		anchor:'99%'
 	});
 	
-	var txtDeliveryDate = new Ext.form.TextField({fieldLabel:C_DELIVERY_DATE,
+	var txtDeliveryDate = new Ext.form.DateField({fieldLabel:C_DELIVERY_DATE,
 		tabIndex:14,
 		name:'consDeliveryDate',
 		value:p.get('consDeliveryDate'),
-		format:DATEF,anchor:'99%'
+		format:DATEF,
+		anchor:'99%'
 	});
 	
 	var t111=[];

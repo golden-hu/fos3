@@ -4,58 +4,91 @@ Fos.CargoGrid = function(p,store,frm) {
 	this.sel = GSEL;
 	
 	var quitFlag=CHKCLM(C_CARG_QUIT,'cargQuitFlag');
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true}); 
-	var c1={header:C_MARKS,dataIndex:'cargMarks',editor:new Ext.form.TextField({})};
-	var c2={header:C_CARGO_NAME_EN,dataIndex:'cargNameEn',editor:new Ext.form.ComboBox({
-	    store:catyStore,displayField:'catyNameEn',valueField:'catyNameEn',mode:'remote',typeAhead:true,
-	    selectOnfucs:true,triggerAction:'all',
-	    listeners:{
-	    	scope:this,
-	    	select:function(c,r,i){
-	    		var record = sm.getSelected();
-	    		record.set('cargNameCn',r.get('catyNameCn'));
-	    		record.set('cargSpec',r.get('catySpec'));
-	    		record.set('cargManuNo',r.get('catyManuNo'));
-  				record.set('cargNo',r.get('catyCode'));
-	    	}
-	    }
-	})};
-	var c3={header:C_CARGO_NAME_CN,dataIndex:'cargNameCn',editor:new Ext.form.ComboBox({
-		store:catyStore,displayField:'catyNameCn',valueField:'catyNameCn',mode:'remote',typeAhead:true,
-	    selectOnfucs:true,triggerAction:'all',
-	    listeners:{
-	    	scope:this,
-	    	select:function(c,r,i){
-	    		var record = sm.getSelected();
-	    		record.set('cargNameEn',r.get('catyNameEn'));
-	    		record.set('cargSpec',r.get('catySpec'));
-	    		record.set('cargManuNo',r.get('catyManuNo'));
-  				record.set('cargNo',r.get('catyCode'));
-	    	}
-	    }
-	})};
-	
-	var c4={header:C_PACKAGES,dataIndex:'cargPackageNum',
-			editor:new Ext.form.NumberField({allowBlank:false})};
-	
-	var c5={header:C_PACK,dataIndex:'packId',renderer:function(v,m,r){return r.get('packName');},
-			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
-	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
-	            listeners:{scope:this,select:function(c,r,i){
+					
+	var cm=new Ext.grid.ColumnModel({columns:[sm,
+	    quitFlag,
+	    {header:C_MARKS,dataIndex:'cargMarks',editor:new Ext.form.TextField({})},
+	    {header:C_CARGO_NAME_EN,dataIndex:'cargNameEn',
+	    	editor:new Ext.form.ComboBox({
+			    store:catyStore,
+			    displayField:'catyNameEn',
+			    valueField:'catyNameEn',
+			    mode:'remote',
+			    typeAhead:true,
+			    selectOnfucs:true,
+			    triggerAction:'all',
+			    listeners:{
+			    	scope:this,
+			    	select:function(c,r,i){
+			    		var record = sm.getSelected();
+			    		record.set('cargNameCn',r.get('catyNameCn'));
+			    		record.set('cargSpec',r.get('catySpec'));
+			    		record.set('cargManuNo',r.get('catyManuNo'));
+		  				record.set('cargNo',r.get('catyCode'));
+			    	}
+			    }
+			})
+	    },
+	    {header:C_CARGO_NAME_CN,dataIndex:'cargNameCn',
+	    	editor:new Ext.form.ComboBox({
+				store:catyStore,
+				displayField:'catyNameCn',
+				valueField:'catyNameCn',
+				mode:'remote',
+				typeAhead:true,
+			    selectOnfucs:true,
+			    triggerAction:'all',
+			    listeners:{
+			    	scope:this,
+			    	select:function(c,r,i){
+			    		var record = sm.getSelected();
+			    		record.set('cargNameEn',r.get('catyNameEn'));
+			    		record.set('cargSpec',r.get('catySpec'));
+			    		record.set('cargManuNo',r.get('catyManuNo'));
+		  				record.set('cargNo',r.get('catyCode'));
+			    	}
+			    }
+			})
+	    },
+	    {header:C_PACKAGES,dataIndex:'cargPackageNum',
+			editor:new Ext.form.NumberField({allowBlank:false})
+	    },
+	    {header:C_QUANTITY,dataIndex:'cargPackageSNum',
+			editor:new Ext.form.NumberField({allowBlank:false})
+	    },
+	    {header:C_PACK,dataIndex:'packId',renderer:function(v,m,r){return r.get('packName');},
+			editor:new Ext.form.ComboBox({displayField:'packName',
+				valueField:'packId',
+				triggerAction:'all',
+	            mode:'local',
+	            selectOnFocus:true,
+	            listClass:'x-combo-list-small',
+	            store:getPACK_S(),
+	            listeners:{scope:this,
+	            	select:function(c,r,i){
 						this.getSelectionModel().getSelected().set('packName',r.get('packName'));
 						this.getSelectionModel().getSelected().set('packCode',r.get('packCode'));
-					}}
-	            })};
-	var c6={header:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargGrossWeight',
+					}
+	            }
+	        })
+	    },
+	    {header:C_GW+(p.get('consBizType')==BT_B?C_MT:C_KGS),
+	    	dataIndex:'cargGrossWeight',
 			renderer:rateRender,
 			editor:new Ext.form.NumberField({decimalPrecision:4,
-				allowBlank:false,blankText:'',invalidText:''})};
-	
-	var c7={header:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),dataIndex:'cargNetWeight',
+				allowBlank:false,
+				blankText:'',
+				invalidText:''
+			})
+	    },
+	    {header:C_NW+(p.get('consBizType')==BT_B?C_MT:C_KGS),
+	    	dataIndex:'cargNetWeight',
 			renderer:rateRender,
-			editor:new Ext.form.NumberField({decimalPrecision:4,invalidText:''})};
-	
-	var c8={header:C_UNIT,dataIndex:'unitId',renderer:function(v,m,r){return r.get('unitName');},
+			editor:new Ext.form.NumberField({decimalPrecision:4,invalidText:''})
+	    },
+	    {header:C_UNIT,dataIndex:'unitId',renderer:function(v,m,r){return r.get('unitName');},
 			editor:new Ext.form.ComboBox({displayField:'unitName',
 				valueField:'unitId',triggerAction:'all',
 		        mode:'local',selectOnFocus:true,
@@ -66,19 +99,16 @@ Fos.CargoGrid = function(p,store,frm) {
 						this.getSelectionModel().getSelected().set('unitName',r.get('unitName'));
 					}
 		        }
-		    })};
-	
-	var c9={header:C_CBM,dataIndex:'cargMeasurement',renderer:rateRender,
+		    })
+	    },
+	    {header:C_CBM,dataIndex:'cargMeasurement',renderer:rateRender,
 			editor:new Ext.form.NumberField({decimalPrecision:4,
-				allowBlank:false,blankText:'',invalidText:''})};
-	
-	var c10={header:C_MANU_NO,dataIndex:'cargManuNo',editor:new Ext.form.TextField()};
-	
-	var c11={header:C_SPEC,dataIndex:'cargSpec',editor:new Ext.form.TextField()};
-	
-	var c12={header:C_HS_CODE,dataIndex:'cargNo',editor:new Ext.form.TextField()};
-	
-	var cm=new Ext.grid.ColumnModel({columns:[sm,quitFlag,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12],
+				allowBlank:false,blankText:'',invalidText:''})
+	    },
+	    {header:C_MANU_NO,dataIndex:'cargManuNo',editor:new Ext.form.TextField()},
+	    {header:C_SPEC,dataIndex:'cargSpec',editor:new Ext.form.TextField()},
+	    {header:C_HS_CODE,dataIndex:'cargNo',editor:new Ext.form.TextField()}
+	    ],
 		defaults:{sortable:true,width:80}
 	});
 	
