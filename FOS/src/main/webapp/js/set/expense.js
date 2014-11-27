@@ -445,7 +445,11 @@ Fos.ExGrid = function(p,t,frm,store) {
 				for (var j=0;j<f.keys.length;j++){
 					var fn=''+f.keys[j];
 					e.set(fn,r.get(fn));
-				}				
+				}	
+				
+				e.set('id',id);
+				e.set('expeId',id);
+				e.set('rowAction','N');
 				e.set('expeType',t=='R'?'P':'R');						
 				e.set('custId',t=='P'?p.get('custId'):'');
 				e.set('custName',t=='P'?p.get('custName'):'');
