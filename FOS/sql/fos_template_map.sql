@@ -611,6 +611,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (20, '件数', 'FTrans', 'tranTotalPackages', NULL),
 (20, '毛重', 'FTrans', 'tranTotalGrossWeight', NULL),
 (20, '体积', 'FTrans', 'tranTotalMeasurement', NULL),
+(20, '体积', 'FTrans', 'tranTotalMeasurement', NULL),
+
 (20, '报关公司', 'FTrans', 'tranCustomsBrokerName', NULL),
 (20, '报关公司联系人', 'FTrans', 'tranCustomsContact', NULL),
 (20, '报关公司电话', 'FTrans', 'tranCustomsTel', NULL),

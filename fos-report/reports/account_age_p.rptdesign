@@ -132,7 +132,7 @@ sum((e.EXPE_TOTAL_AMOUNT - e.EXPE_WRITE_OFF_AMOUNT)*e.EXPE_EX_RATE) as TOTAL
 from S_EXPENSE e, F_CONSIGN c
 where e.CONS_ID = c.CONS_ID
 and e.EXPE_TYPE = "P"
-and (e.EXPE_TOTAL_AMOUNT - e.EXPE_WRITE_OFF_AMOUNT) > 0
+and (e.EXPE_TOTAL_AMOUNT - e.EXPE_WRITE_OFF_AMOUNT) <> 0
 and c.CONS_SAIL_DATE is not null
 and c.CONS_SAIL_DATE <= ?
 and c.comp_code = ?

@@ -274,6 +274,7 @@ Fos.TransTab = function(p) {
 			consMblNo:p.get('consMblNo'),
 			consHblNo:p.get('consHblNo'),
 			tranPol:p.get('consPolEn'),
+			tranPod:p.get('consPodEn'),
 			tranStatus:'0',
 			version:'0'
 		});    
