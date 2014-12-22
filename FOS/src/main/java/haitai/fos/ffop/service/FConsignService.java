@@ -1098,6 +1098,7 @@ public class FConsignService {
 			}
 			else{
 				queryMap.put("sort", "expeType");
+				queryMap.put("dir", "desc");
 			}
 			retList.addAll(expenseDao.findByProperties(queryMap));
 		}

@@ -92,7 +92,7 @@ Fos.ConsignAuditGrid = function() {
 		if(p){
 			var t=T_MAIN.getComponent('T_EXPE_'+p.get("id"));if(t){T_MAIN.setActiveTab(t);}
 			else {
-				t=T_MAIN.add(new Fos.ExpenseTab(p,'A'));
+				t=T_MAIN.add(new Fos.ExpensePanel(p,'A'));
 				T_MAIN.setActiveTab(t);
 				t.doLayout();}
 		}

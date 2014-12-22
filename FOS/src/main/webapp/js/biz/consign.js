@@ -148,7 +148,7 @@ Fos.showConsignTabs = function(p){
 		};
 		
 		if(!tc.getComponent('T_EXPE_'+p.get('id'))){
-			tc.add(new Fos.ExpenseTab(p,'C'));
+			tc.add(new Fos.ExpensePanel(p,'C'));
 		};
 		
 		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
@@ -635,7 +635,7 @@ Fos.ConsignTab = function(p){
 	
 	if(p.get('rowAction')!='N'){
 		items[items.length] = new Fos.ConsDocGrid(p);
-		items[items.length] = new Fos.ExpenseTab(p,'C');
+		items[items.length] = new Fos.ExpensePanel(p,'C');
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
 	}

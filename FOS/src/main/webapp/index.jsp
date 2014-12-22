@@ -56,6 +56,10 @@
 <script type="text/javascript" src="js/set/finInterface.js"></script>
 <script type="text/javascript" src="js/set/consign_audit.js"></script>
 <script type="text/javascript" src="js/set/expense.js"></script>
+
+<script type="text/javascript" src="js/set/ExpensePanel.js"></script>
+<script type="text/javascript" src="js/set/ExpenseGrid.js.js"></script>
+
 <script type="text/javascript" src="js/set/invoice.js"></script>
 <script type="text/javascript" src="js/set/voucher.js"></script>
 <script type="text/javascript" src="js/set/pr.js"></script>

@@ -1446,7 +1446,7 @@ Fos.RailwayTab = function(p, store) {
 	var items = [];
 	items[0] = new Fos.RailwayConsign(p, store);
 	if (p.get('rowAction') != 'N') {
-		items[items.length] = VERSION == 0 ? (new Fos.ExpenseTab(p, 'T')) : (new Fos.ExpenseTab2(p, 'T'));
+		items[items.length] = VERSION == 0 ? (new Fos.ExpensePanel(p, 'T')) : (new Fos.ExpensePanel2(p, 'T'));
 		items[items.length] = new Fos.AttachTab(p);
 		if (p.get('consBizClass') == 'K') {
 			items[items.length] = new Fos.ContainerTraceTab(p);

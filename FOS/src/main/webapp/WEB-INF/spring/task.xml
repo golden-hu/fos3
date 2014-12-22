@@ -13,7 +13,7 @@
 		<task:scheduled ref="ffopScheduleService" method="alertWriteOffDoc" cron="0 40 2 * * *"/>
 		<task:scheduled ref="ffopScheduleService" method="alertSalesOverdue" cron="0 45 2 * * *"/>
 		
-		<task:scheduled ref="shipScheduleService" method="loadContainerSchedule"  fixed-rate="6000000"/>
+<!-- 		<task:scheduled ref="shipScheduleService" method="loadContainerSchedule"  fixed-rate="6000000"/> -->
 	</task:scheduled-tasks>
 	<task:scheduler id="poolTaskScheduler" pool-size="10"/>
 </beans>
