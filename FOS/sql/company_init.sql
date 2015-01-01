@@ -1,6 +1,54 @@
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+-- 建立公司
+insert into P_COMPANY (comp_code, comp_name_cn, comp_name_en,comp_active,comp_start_date,comp_end_date,comp_service_level, comp_email,comp_tel,comp_fax,comp_address, comp_contact,create_time, modify_time) 
+values('{CC}','{$companyname}', '', 1, now(), null, 0, '{$email}', '{$tel}', '{$fax}', '', '{$contact}', now(), now()); 
+
+-- 建立用户
+insert into P_USER (user_name, user_login_name, user_email, user_password, user_password_modify_date,active,comp_code,version, removed) 
+values('admin','admin','{$email}', 'e10adc3949ba59abbe56e057f20f883e',now(),1,'{CC}',0,0);
+
+-- 增加admin角色
+insert into P_ROLE (role_name,active,comp_code,version,removed) 
+values ('系统管理员', 1, '{CC}',0,0);
+
+-- 给第一个用户admin角色
+
+insert into P_USER_ROLE (user_id, role_id)
+values(1, 1);
+
+-- admin费用权限
+insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
+values (1, 0, '所有费用', 'R', 1, 1, 1, '{CC}', 0, 0);
+
+-- 上面是应收, 这是应付
+insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
+values (1, 0, '所有费用', 'P', 1, 1, 1, '{CC}', 0, 0);
+
+-- admin权限初始化
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0011', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001101', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110101', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110102', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110103', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001102', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110201', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110202', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110203', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001103', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110301', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110302', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110303', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001104', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110401', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110402', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110403', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001105', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110501', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110502', '{CC}');
+insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110503', '{CC}');
 
 INSERT INTO `C_CUSTOMER_CATEGORY` (`CUCA_NAME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('长期客户', '{CC}', 0, 0),
@@ -115,30 +163,6 @@ INSERT INTO `G_CARGO_CLASS` (`CACL_CODE`, `CACL_NAME_CN`, `CACL_NAME_EN`, `ACTIV
 ('98', '特殊交易品及未分类商品', NULL, 1, '{CC}', 0, 0),
 ('99', '特殊交易品及未分类商品', NULL, 1, '{CC}', 0, 0);
 
---
--- 导出表中的数据 `G_CHARGE_CLASS`
---
-
-INSERT INTO `G_CHARGE_CLASS` (`CHCL_CODE`, `CHCL_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
-('21', '仓储保管-搬运装卸类', 1, '{CC}', 0, 0),
-('22', '保税监管类', 1, '{CC}', 0, 0),
-('23', '报关报检-报关类', 1, '{CC}', 0, 0),
-('24', '报关报检-报检类', 1, '{CC}', 0, 0),
-('25', '仓储保管-仓储类', 1, '{CC}', 0, 0),
-('26', '运费-干线类', 1, '{CC}', 0, 0),
-('27', '港区作业-港区类', 1, '{CC}', 0, 0),
-('28', '国外段类', 1, '{CC}', 0, 0),
-('29', '集疏港运输类', 1, '{CC}', 0, 0),
-('30', '港区作业-集装箱堆场/场站类', 1, '{CC}', 0, 0),
-('31', '集装箱管理类', 1, '{CC}', 0, 0),
-('32', '运费-佣金补贴分成类', 1, '{CC}', 0, 0),
-('33', '增值服务类', 1, '{CC}', 0, 0),
-('34', '运费-支线类', 1, '{CC}', 0, 0),
-('35', '仓储保管-装拆箱类', 1, '{CC}', 0, 0),
-('36', '运费-运费附加费类', 1, '{CC}', 0, 0),
-('37', '订舱单证类', 1, '{CC}', 0, 0),
-('38', '杂费类', 1, '{CC}', 0, 0),
-('39', '定额包干费类', 1, '{CC}', 0, 0);
 
 --
 -- 导出表中的数据 `G_CONTAINER_CLASS`
@@ -488,72 +512,84 @@ INSERT INTO `G_COUNTRY` (`COUN_CODE`, `COUN_NAME_CN`, `COUN_NAME_EN`, `COMP_CODE
 ('01', '比利时', 'BILISHI', '{CC}', 0);
 
 
-INSERT INTO `G_CHARGE` (`CHAR_CODE`, `CHAR_NAME`, `CHAR_NAME_EN`, `CURR_CODE`, `UNIT_ID`, `CHCL_ID`, `CHAR_CNY_P`, `CHAR_CNY_R`, `CHAR_USD_P`, `CHAR_USD_R`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`, `ATTR1`, `ATTR2`, `ATTR3`, `ATTR4`, `ATTR5`, `ATTR6`, `ATTR7`, `ATTR8`) VALUES
-	('HYF', '海运费', NULL, 'USD', 13, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('LDF', '落地费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('DCF', '订舱费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('THC', 'THC', 'THC', 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('CDF', '舱单费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('WJF', '文件费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('GS', '关税', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('HXD', '核销单', NULL, 'CNY', 12, 23, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('CHC', 'CHC', 'CHC', 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'ABF', '安保费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'ZXF', '装箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'LYF', '陆运费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'YDF', '运抵费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'MXF', '买箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'WSF', '危申费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'BGF', '报关费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'BJF', '报检费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'SJHZ', '商检换证费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'XJZ', '箱检证', NULL, 'CNY', 13, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'ENS', 'ENS', NULL, 'USD', 12, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'AMS', 'AMS', 'AMS', 'USD', 12, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'TTS', 'TTS', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'PSS', 'PSS', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'EBS', 'EBS', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'CFF', '船放费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'GSSJ', '公司税金', NULL, 'CNY', 13, 24, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DLF', '代理费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'CZF', '操作费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'QFF', '铅封费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'GDF', '改单费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'TY', '退佣', NULL, 'CNY', 12, 26, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'BGF', '包干费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'BXF', '保险费', NULL, 'CNY', 12, 23, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'ZXF', '滞箱费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'GZF', '港杂费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'HDF', '换单费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'PZF', '拍照费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'XZF', '熏蒸费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'SBFWF', '设备服务费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DDF', '倒短费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'MT', '贴唛头费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'QTFY', '其他费用', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'ZZS', '增值税', NULL, 'CNY', 12, 24, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'YCF', '押车费', NULL, 'CNY', 12, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'YHF', '验货费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DDIF', '代垫费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'ZCH', '转船费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'CIC', 'CIC', 'CIC', 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'JZF', '监装费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'WBF', '危标费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'XCF', '卸车费', NULL, 'CNY', 33, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'JGF', '加固费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'RKF', '入库费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'JGF', '监管费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DCUF', '堆存费', NULL, 'CNY', 12, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'DXF', '调箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	( 'TZXF', '提重箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+--
+-- 导出表中的数据 `G_CHARGE_CLASS`
+--
+
+INSERT INTO `G_CHARGE_CLASS` (`CHCL_CODE`, `CHCL_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('21', '仓储保管-搬运装卸类', 1, '{CC}', 0, 0),
+('22', '保税监管类', 1, '{CC}', 0, 0),
+('23', '报关报检-报关类', 1, '{CC}', 0, 0),
+('24', '报关报检-报检类', 1, '{CC}', 0, 0),
+('25', '仓储保管-仓储类', 1, '{CC}', 0, 0),
+('26', '运费-干线类', 1, '{CC}', 0, 0),
+('27', '港区作业-港区类', 1, '{CC}', 0, 0),
+('28', '国外段类', 1, '{CC}', 0, 0),
+('29', '集疏港运输类', 1, '{CC}', 0, 0),
+('30', '港区作业-集装箱堆场/场站类', 1, '{CC}', 0, 0),
+('31', '集装箱管理类', 1, '{CC}', 0, 0),
+('32', '运费-佣金补贴分成类', 1, '{CC}', 0, 0),
+('33', '增值服务类', 1, '{CC}', 0, 0),
+('34', '运费-支线类', 1, '{CC}', 0, 0),
+('35', '仓储保管-装拆箱类', 1, '{CC}', 0, 0),
+('36', '运费-运费附加费类', 1, '{CC}', 0, 0),
+('37', '订舱单证类', 1, '{CC}', 0, 0),
+('38', '杂费类', 1, '{CC}', 0, 0),
+('39', '定额包干费类', 1, '{CC}', 0, 0);
+
+
+INSERT INTO `G_CHARGE` (`CHAR_CODE`, `CHAR_NAME`, `CHAR_NAME_EN`, `CURR_CODE`, `UNIT_ID`, `CHCL_ID`, `CHAR_CNY_P`, `CHAR_CNY_R`, `CHAR_USD_P`, `CHAR_USD_R`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('HYF', '海运费', NULL, 'USD', 13, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('ENS', 'ENS', NULL, 'USD', 12, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('AMS', 'AMS', 'AMS', 'USD', 12, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),	
+('LDF', '落地费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('DCF', '订舱费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('THC', 'THC', 'THC', 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('CDF', '舱单费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('WJF', '文件费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+('GS', '关税', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'ABF', '安保费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'ZXF', '装箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'LYF', '陆运费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'YDF', '运抵费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'MXF', '买箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'WSF', '危申费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'BGF', '报关费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'BJF', '报检费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'SJHZ', '商检换证费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'XJZ', '箱检证', NULL, 'CNY', 13, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'CFF', '船放费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'DLF', '代理费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'CZF', '操作费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'QFF', '铅封费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'GDF', '改单费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'TY', '退佣', NULL, 'CNY', 12, 26, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'BGF', '包干费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'BXF', '保险费', NULL, 'CNY', 12, 23, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'ZXF', '滞箱费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'GZF', '港杂费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'HDF', '换单费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'DFF', '电放费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'PZF', '拍照费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'XZF', '熏蒸费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'SBFWF', '设备服务费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'DDF', '倒短费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'MT', '贴唛头费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'QTFY', '其他费用', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'ZZS', '增值税', NULL, 'CNY', 12, 24, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'YCF', '押车费', NULL, 'CNY', 12, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'YHF', '验货费', NULL, 'CNY', 12, 22, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'DDIF', '代垫费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'ZCH', '转船费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'JZF', '监装费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'WBF', '危标费', NULL, 'CNY', 12, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'XCF', '卸车费', NULL, 'CNY', 33, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'JGF', '加固费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'RKF', '入库费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'JGF', '监管费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'DCUF', '堆存费', NULL, 'CNY', 12, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'DXF', '调箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
+( 'TZXF', '提重箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0);
 	
 --
 -- 导出表中的数据 `G_CURRENCY`
@@ -828,6 +864,80 @@ INSERT INTO `G_UNIT` (`UNIT_CODE`, `UNIT_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`
 ('W/CASE', '木箱', 1, '{CC}', 0, 0),
 ('MTS', 'MTS', 1, '{CC}', 0, 0);
 
+INSERT INTO `G_PACKAGE` (`PACK_CODE`, `PACK_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('BAGS', 'BAGS', 1, '{CC}', 0, 0),
+('BIG BAGS', 'BIG BAGS', 1, '{CC}', 0, 0),
+('BALES', 'BALES', 1, '{CC}', 0, 0),
+('BOXES', 'BOXES', 1, '{CC}', 0, 0),
+('BDLS', 'BUNDLES', 1, '{CC}', 0, 0),
+('BUNDLES', 'BUNDLES', 1, '{CC}', 0, 1),
+('BTL', 'BOTTOLS', 1, '{CC}', 0, 0),
+('BOTTOLS', 'BTLS', 1, '{CC}', 0, 0),
+('BLDS', 'BLDS', 1, '{CC}', 0, 0),
+('CANS', 'CANS', 1, '{CC}', 0, 0),
+('CASES', 'CASES', 1, '{CC}', 0, 0),
+('CLOTH BA', 'CLOTH BALE', 1, '{CC}', 0, 0),
+('CNTRS', 'CONTAINERS', 1, '{CC}', 0, 0),
+('COILS', 'COILS', 1, '{CC}', 0, 0),
+('COM', 'COMPOUND BAGS', 1, '{CC}', 0, 0),
+('CRATE', 'CRATES', 1, '{CC}', 0, 0),
+('CTNS', 'CARTONS', 1, '{CC}', 0, 0),
+('C/DRUM', 'CARDBOARD DRUMS', 1, '{CC}', 0, 0),
+('CYL', 'CYLINDERS', 1, '{CC}', 0, 0),
+('DZS', 'DOZENS', 1, '{CC}', 0, 0),
+('DRUMS', 'DRUMS', 1, '{CC}', 0, 0),
+('DOUBLE', 'DOUBLE PP BAGS', 1, '{CC}', 0, 0),
+('DUNDLES', 'DUNDLES', 1, '{CC}', 0, 0),
+('ENDCAPS', 'CLEAR FLOAT GLASS', 1, '{CC}', 0, 0),
+('FDRUMS', 'FIBRE DRUMS', 1, '{CC}', 0, 0),
+('GUN', 'GUNNY SACKS', 1, '{CC}', 0, 0),
+('GUNNY', 'GUNNY BAG', 1, '{CC}', 0, 0),
+('HANGERS', 'HANGERS', 1, '{CC}', 0, 0),
+('IRONPALE', 'IRON PALLETS', 1, '{CC}', 0, 0),
+('IRON C', 'IRON CRATES', 1, '{CC}', 0, 0),
+('IRON DRU', 'IRON DRUMS', 1, '{CC}', 0, 0),
+('JUMBOBAG', 'JUMBO BAGS', 1, '{CC}', 0, 0),
+('KINT BAG', 'KINTTING BAG', 1, '{CC}', 0, 0),
+('LOT', 'LOT', 1, '{CC}', 0, 0),
+('MTS', 'MTS', 1, '{CC}', 0, 0),
+('PAPER', 'PAPER BAGS', 1, '{CC}', 0, 0),
+('PCS', 'PIECES', 1, '{CC}', 0, 0),
+('P/CS', 'PLYWOOD CASES', 1, '{CC}', 0, 0),
+('PLT', 'PALLET', 1, '{CC}', 0, 0),
+('PLTS', 'PALLETS', 1, '{CC}', 0, 0),
+('PAIRS', 'PAIRS', 1, '{CC}', 0, 0),
+('PLASTICD', 'PLASTIC DRUMS', 1, '{CC}', 0, 0),
+('PLASTICB', 'PLASTIC BAGS', 1, '{CC}', 0, 0),
+('PPWOVENB', 'PP WOVEN BAGS', 1, '{CC}', 0, 0),
+('PRS', 'PRS', 1, '{CC}', 0, 0),
+('PRESS PA', 'PRESS PACKED BALES', 1, '{CC}', 0, 0),
+('PACKAGES', 'PACKAGES', 1, '{CC}', 0, 0),
+('RACKS', 'RACKS', 1, '{CC}', 0, 0),
+('ROLLS', 'ROLLS', 1, '{CC}', 0, 0),
+('REELS', 'REELS', 1, '{CC}', 0, 0),
+('S/P', 'SETS/PCS', 1, '{CC}', 0, 0),
+('SKIDS', 'SKIDS', 1, '{CC}', 0, 0),
+('SETS', 'SETS', 1, '{CC}', 0, 0),
+('SACKS', 'SACKS', 1, '{CC}', 0, 0),
+('SUPER', 'SUPER SACKS', 1, '{CC}', 0, 0),
+('SB.CASES', 'SYNTHETIC BOARD CASES', 1, '{CC}', 0, 0),
+('TUBES', 'TUBES', 1, '{CC}', 0, 0),
+('TRAYS', 'TRAYS', 1, '{CC}', 0, 0),
+('TINS', 'TINS', 1, '{CC}', 0, 0),
+('TANK', 'TANK', 1, '{CC}', 0, 0),
+('T/BAGS', 'TOTE BAGS', 1, '{CC}', 0, 0),
+('UNPACKED', 'UNPACKED', 1, '{CC}', 0, 0),
+('UNITS', 'UNITS', 1, '{CC}', 0, 0),
+('W/P', 'WOODEN PALLETS', 1, '{CC}', 0, 0),
+('WDCS', 'WDCS', 1, '{CC}', 0, 0),
+('WOVEN BS', 'WOVEN BAGS', 1, '{CC}', 0, 0),
+('W/BAGS', 'WEAVING BAGS', 1, '{CC}', 0, 0),
+('W/CS', 'WOODEN CASES', 1, '{CC}', 0, 0),
+('W/BS', 'WOODEN BOXES', 1, '{CC}', 0, 0),
+('W/CRS', 'WOODEN CRATES', 1, '{CC}', 0, 0),
+('W/DRUMS', 'WOODEN DRUMS', 1, '{CC}', 0, 0)
+;
+
 --
 -- 导出表中的数据 `G_USAGE`
 --
@@ -969,1007 +1079,324 @@ INSERT INTO `P_COMPANY_CONFIG` (`COCO_CODE`, `COCO_NAME`, `COCO_VALUE`, `COCO_VA
 ('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('CONS_NO_SERIAL_DATE_TYPE', '业务号生成日期类型', 2, 14, NULL, '业务设置', 'A', '开航日期', '{CC}', 0, 0);
 
--- 建立公司
-insert into P_COMPANY (comp_code, comp_name_cn, comp_name_en,comp_active,comp_start_date,comp_end_date,comp_service_level, comp_email,comp_tel,comp_fax,comp_address, comp_contact,create_time, modify_time) 
-values('{CC}','{$companyname}', '', 1, now(), null, 0, '{$email}', '{$tel}', '{$fax}', '', '{$contact}', now(), now()); 
 
--- 建立用户
-insert into P_USER (user_name, user_login_name, user_email, user_password, user_password_modify_date,active,comp_code,version, removed) 
-values('admin','admin','{$email}', 'e10adc3949ba59abbe56e057f20f883e',now(),1,'{CC}',0,0);
-
--- 增加admin角色
-insert into P_ROLE (role_name,active,comp_code,version,removed) 
-values ('admin', 1, '{CC}',0,0);
-
--- 给第一个用户admin角色
-
-insert into P_USER_ROLE (user_id, role_id)
-values(1, 1);
-
--- admin费用权限
-insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
-values (1, 0, '所有费用', 'R', 1, 1, 1, '{CC}', 0, 0);
-
--- 上面是应收, 这是应付
-insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
-values (1, 0, '所有费用', 'P', 1, 1, 1, '{CC}', 0, 0);
-
--- admin权限初始化
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000102030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010205', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010206', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010207', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001020704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000103030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010305', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010306', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010307', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001030704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010313', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001031301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001031302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001031304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000105030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010505', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010506', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010507', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010508', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010509', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050902', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050903', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001050904', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010510', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051004', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010511', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010512', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001051203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000106030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010605', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010606', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010607', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010608', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010609', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060902', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060903', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001060904', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010610', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061004', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010611', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00010612', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0001061203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020109', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000202030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020205', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020206', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020207', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002020704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030109', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000203030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020305', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020306', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020307', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002030804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020310', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031004', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020311', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020312', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002031203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020412', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002041201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002041202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002041203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002041204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002041205', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000205', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020505', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020509', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00020605', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002060501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206050101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206050102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206050103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0002060502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206050201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206050202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000206050203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000302030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030205', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030206', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030207', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003020704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000303030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030305', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030306', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030307', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0003030804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000402030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040206', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004020604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000403030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00040306', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0004030604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000502030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050207', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005020704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030113', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000503030309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00050307', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0005030704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0006', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070106', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070205', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070305', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070306', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070311', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070405', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000705', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070505', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070506', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000706', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070605', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000707', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070705', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070706', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000708', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070805', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070806', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070807', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070810', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000709', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070902', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070903', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070904', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070905', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00070906', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000710', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071006', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000711', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000712', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000713', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130208', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130209', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130308', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0007130309', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000714', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00071402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000715', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0008', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000805', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000806', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000807', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000808', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080804', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000809', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00080904', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000810', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081004', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000811', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000812', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000814', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000815', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081504', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000816', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081604', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000817', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00081704', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0009', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000902', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000903', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090304', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '000904', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00090404', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0010', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100204', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001004', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001005', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001006', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001007', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001008', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001009', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100902', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00100903', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001010', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001011', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001012', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001013', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001014', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001015', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001016', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001017', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001018', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001019', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101901', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101902', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00101903', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001020', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102001', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102002', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102003', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001021', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001022', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001023', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001024', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001025', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001026', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102603', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001027', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102701', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102702', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102703', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001028', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102801', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102802', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00102803', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0011', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110301', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110302', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110303', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110401', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110402', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110403', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001105', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110501', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110502', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00110503', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '0016', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001601', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160101', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160102', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160103', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160104', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '001602', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160201', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160202', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160203', '{CC}');
-insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00160204', '{CC}');
 
 INSERT INTO `P_MESSAGE_TOPIC` (`METO_ID`, `METO_NAME`, `METO_DESC`, `METO_TEMPLATE`, `METO_RULE`, `ACT_NAME`, `TETY_ID`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 (1, '配船通知', '租船部生成委托时通知操作和调度', '大家好 <br><br>操作：{操作} <br><br>船名：{船名} or sub <br>租船人：{租船人} <br>发货人：{发货人} <br>LAYCAN：与客户：{预计船期从}/{预计船期到} 与船公司：{船期从}/{船期到} <br>船公司：{船公司} <br>船代：{船代} <br>计费标准： 与客户{客户计费单位} 与船公司{船公司计费单位} <br>配货：{毛重} {客户计费单位} <br>合同号：{合同号} <br>FOS编号: {委托号} <br>货物明细：{货物描述} <br>装（港区）/卸港 {装货港}({港区})/{卸货港} <br>条款：与船公司{船公司条款} 与客户{客户条款} <br><br>注意事项：{注意事项} <br><br>装船要求：{备注}', 'rowAction=N,consBizType=B,consMasterFlag=1', 'CONS_S', 37, 1, '{CC}', 3, 0),
 (2, '核销单超期未退通知', '核销单, 开船超过30天, 但是未退回', '核销单号: {核销单号}, 委托号: {委托号}, 开船超过30天, 状态未退回', NULL, 'QUARTZ_FDOC_ALERT_WRITEOFF', 43, 1, '{CC}', 1, 0),
 (3, '业务员超期提示', '查询有客户超期严重的业务员,提示扣他名下所有客户的提单列表', '业务员: {业务员}, 提单号: {提单号}', NULL, 'QUARTZ_CONS_ALERT_SALES_OVERDUE', 45, 1, '{CC}', 0, 0);
+
+INSERT INTO `C_CUSTOMER` (`CUST_CODE`, `CUST_NAME_CN`, `CUST_URL`, `CUST_AIR_FLAG`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES 
+('AA', '美国航空公司', NULL, 1, '{CC}', 1, 0),
+('AF', '法国航空公司', NULL, 1, '{CC}', 1, 0),
+('BA', '英国航空公司', NULL, 1, '{CC}', 1, 0),
+('CA', '中国国际航空', NULL, 1, '{CC}', 1, 0),
+('CK', '中国货运航空公司', NULL, 1, '{CC}', 2, 0),
+('CZ', '中国南方航空公司', NULL, 1, '{CC}', 1, 0),
+('HU', '中国海南航空公司', NULL, 1, '{CC}', 1, 0),
+('DL', '美国达美航空公司', NULL, 1, '{CC}', 1, 0),
+('EY', '阿联酋水晶', NULL, 1, '{CC}', 1, 0),
+('SA', '南非航空公司', 'http://ww1.flysaa.com/saa_cargo/saaCargo.html', 1, '{CC}', 0, 0),
+('NZ', '新西兰航空公司', 'http://www.airnz.co.nz/aboutus/cargo/default.htm', 1, '{CC}', 0, 0),
+('IR', '伊朗国家航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=IR&Pfx=096', 1, '{CC}', 0, 0),
+('AI', '印度航空公司', 'http://www.airindia.com/page.asp?pageid=134', 1, '{CC}', 0, 0),
+('AY', '芬兰航空公司', 'http://www.finnaircargo.com/en/terminal-operations/cargo_tracking/', 1, '{CC}', 0, 0),
+('W5', '伊朗马汉航空', 'http://cargo.ce-air.com/mu/Service/getawbinfo.aspx?strCul=zh-CN', 1, '{CC}', 0, 0),
+('FI', '冰岛航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=FI&Pfx=108', 1, '{CC}', 0, 0),
+('LY', '以色列航空公司', 'http://www.elal.co.il/ELAL/English/ELALCargo/', 1, '{CC}', 0, 0),
+('SK', '北欧航空公司', 'http://www.sascargo.com/?NavID=90', 1, '{CC}', 0, 0),
+('DT', '安哥拉航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=DT&Pfx=118', 1, '{CC}', 0, 0),
+('LM', '安的列斯航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=LM&Pfx=119', 1, '{CC}', 0, 0),
+('UM', '津巴布韦航空', '', 1, '{CC}', 0, 0),
+('BA', '英国航空公司', 'http://www.baworldcargo.com/', 1, '{CC}', 0, 0),
+('GA', '嘉鲁达印尼航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=GA&Pfx=126', 1, '{CC}', 0, 0),
+('9W', '印度捷特航空公司', 'http://cargo.jetairways.com/cargoview/', 1, '{CC}', 0, 0),
+('MP', '荷兰马丁航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=MP&Pfx=129', 1, '{CC}', 0, 0),
+('MB', '土耳其芒果航空', 'http://www.mngairlines.com/TR/Anasayfa.aspx', 1, '{CC}', 0, 0),
+('JL', '日本航空有限公司', 'http://www.traxon.net/jal', 1, '{CC}', 0, 0),
+('HY', '乌兹别克斯坦航空', '', 1, '{CC}', 0, 0),
+('LR', '哥斯达黎加航空公司', 'http://www.fujairah-airport.com/cargo/airlinetracking.asp', 1, '{CC}', 0, 0),
+('U6', '乌拉尔航空', '', 1, '{CC}', 0, 0),
+('AM', '墨西哥航空公司', 'http://www.aeromexpress.com.mx/Servicios/RastreoFastI.cfm', 1, '{CC}', 0, 0),
+('8Y', '中国邮政航空', '', 1, '{CC}', 0, 0),
+('AT', '摩洛哥王家航空运输公司', 'http://www.traxon.com/ram.htm', 1, '{CC}', 0, 0),
+('HX', '香港航空', '', 1, '{CC}', 0, 0),
+('QR', '卡塔尔航空公司', 'http://www.qrcargo.com/trackTrace.html', 1, '{CC}', 0, 0),
+('YQ', '俄罗斯波莱特航空', '', 1, '{CC}', 0, 0),
+('CX', '国泰航空有限公司', 'http://www.cathaypacific.com/cgo', 1, '{CC}', 0, 0),
+('5J', '宿雾航空', '', 1, '{CC}', 0, 0),
+('8M', '缅甸航空', '', 1, '{CC}', 0, 0),
+('3V', 'TNT航空公司', 'http://www.tnt.com/country/en_ta/services/services/tracking.html', 1, '{CC}', 0, 0),
+('D7', '亚洲航空', 'http://cargo.airasia.com/', 1, '{CC}', 0, 0),
+('CV', '卢森堡国际货运航空公司', 'http://www.cargolux.com/', 1, '{CC}', 0, 0),
+('EK', '阿联酋国际航空公司', 'http://www.sky-cargo.com/', 1, '{CC}', 0, 0),
+('KE', '大韩航空公司', 'http://cargo.koreanair.com/', 1, '{CC}', 0, 0),
+('MA', '匈牙利航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=MA&Pfx=182', 1, '{CC}', 0, 0),
+('T5', '土库曼斯坦航空', '', 1, '{CC}', 0, 0),
+('JI', '翡翠航空', 'http://www.jadecargo.com/', 1, '{CC}', 0, 0),
+('JM', '牙买加航空', 'http://www.cargoserv.com/tracking.asp?Carrier=JM&Pfx=201', 1, '{CC}', 0, 0),
+('PK', '巴基斯坦国际航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PK&Pfx=214', 1, '{CC}', 0, 0),
+('TG', '泰国航空', 'http://www.cargoserv.com/tracking.asp?Carrier=TG&Pfx=217', 1, '{CC}', 0, 0),
+('KU', '科威特航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=KU&Pfx=229', 1, '{CC}', 0, 0),
+('CM', '巴拿马空运公司', 'http://www.copacargo.com/', 1, '{CC}', 0, 0),
+('NG', '维也纳航空公司', 'http://www.auacargo.com/', 1, '{CC}', 0, 0),
+('MH', '马来西亚航空', 'http://www.maskargo.com/module.php?folder=ecommerce&filename=ost', 1, '{CC}', 0, 0),
+('JD', '日本空运系统公司', 'http://www.cargoserv.com/tracking.asp?Carrier=JD&Pfx=234', 1, '{CC}', 0, 0),
+('JU', '南斯拉夫航空', '', 1, '{CC}', 0, 0),
+('S7', '西伯利亚航空', '', 1, '{CC}', 0, 0),
+('TK', '土耳其航空', 'http://www4.thy.com/cargo/sorawbinput.do?lang=en', 1, '{CC}', 0, 0),
+('BD', '英伦航空公司', 'http://www.tradevision.net/res-bma/', 1, '{CC}', 0, 0),
+('MK', '毛里求斯航空有限公司', 'http://www.traxon.com/mau.htm', 1, '{CC}', 0, 0),
+('OS', '奥地利航空', 'https://www.cargoportalservices.com/lmsweb/tracking-awb.jsp', 1, '{CC}', 0, 0),
+('LT', '德国LTU航空公司', 'http://www.leisurecargo.com/', 1, '{CC}', 0, 0),
+('TL', '跨地中海航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=TL&Pfx=270', 1, '{CC}', 0, 0),
+('K4', '哈萨克斯坦航空公司', 'http://www.allianceairlines.com/', 1, '{CC}', 0, 0),
+('LD', '香港华民航空有限公司', 'http://www.hactl.com/webapp/hactlpbf/CargoTracking/CargoTracking.jsp?country=US', 1, '{CC}', 0, 0),
+('CI', '中华航空公司', 'http://calec.china-airlines.com/eBooking/en/CargoTracking.aspx', 1, '{CC}', 0, 0),
+('OO', '美国SkyWest航空公司', 'http://skyship.interlink-data.com/cargo/tracking.html', 1, '{CC}', 0, 0),
+('5Y', '美国Atlas Air', 'http://www.polaraircargo.com/tracking/default.asp', 1, '{CC}', 0, 0),
+('PO', '美国博立货运航空公司', 'http://www.polaraircargo.com/tracking.asp', 1, '{CC}', 0, 0),
+('JW', '箭航空公司', 'http://www.arrowair-tracking.com/Customer/tandt/awbTracking.html', 1, '{CC}', 0, 0),
+('UN', '俄罗斯环空航空', '', 1, '{CC}', 0, 0),
+('VI', '伏尔加第聂伯航空公司', 'http://www.airbridgecargo.com/', 1, '{CC}', 0, 0),
+('ER', '敦豪航空货运公司', 'http://www.dhl.com/publish/content/g0/en/eshipping/track.high.html', 1, '{CC}', 0, 0),
+('RJ', '约旦皇家航空公司', 'http://www.rj.com/dynamic_pages/airwaybill.asp', 1, '{CC}', 0, 0),
+('WN', '西南航空公司(美国)', 'http://www.southwest.com/cgi-bin/catts_client?ACTION=DISPLAYTRACK', 1, '{CC}', 0, 0),
+('A2', '秘鲁货运航空', 'http://www.cielos-airlines.com/tracking_cliente_e.php', 1, '{CC}', 0, 0),
+('RF', '西佛罗里达国际航空公司', 'http://www.fwia.com/', 1, '{CC}', 0, 0),
+('M3', '巴西ABSA货运航空公司', 'http://www.absacargo.com.br/en/MultiRastreamento.asp', 1, '{CC}', 0, 0),
+('SU', '俄罗斯国际航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=SU&Pfx=555', 1, '{CC}', 0, 0),
+('PS', '乌克兰航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PS&Pfx=566', 1, '{CC}', 0, 0),
+('7C', '英国Coyne 航空公司', 'http://www.coyneair.com/', 1, '{CC}', 0, 0),
+('UL', '斯里兰卡航空公司', 'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt', 1, '{CC}', 0, 0),
+('UY', '喀麦隆航空公司', 'http://www.fujairah-airport.com/cargo/airlinetracking.asp', 1, '{CC}', 0, 0),
+('EY', '阿联酋水晶航空', 'http://www.etihadcrystalcargo.com/Cargo/WebForms/CargoTracker.aspx', 1, '{CC}', 0, 0),
+('SQ', '新加坡航空', 'http://www.siacargo.com/', 1, '{CC}', 0, 0),
+('GL', '格陵兰航空', 'http://www.airgreenland.gl/index.php?pageid=186', 1, '{CC}', 0, 0),
+('IY', '也门航空', 'http://www.datacair.com/query.htm', 1, '{CC}', 0, 0),
+('KM', '马耳他航空有限公司', 'http://www.traxon.com/amc.htm', 1, '{CC}', 0, 0),
+('PX', '尼乌吉尼航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PX&Pfx=656', 1, '{CC}', 0, 0),
+('AH', '阿尔及利亚航空', 'www.sohu.com', 1, '{CC}', 0, 0),
+('EB', '"Emery Worldwide Airlines', 'Inc"', 1, '{CC}', 0, 0),
+('BT', '波罗的海航空公司', 'http://www.airbaltic.com/public/index.html', 1, '{CC}', 0, 0),
+('2G', '意大利货运航空', '', 1, '{CC}', 0, 0),
+('UW', '友和道通航空', '', 1, '{CC}', 0, 0),
+('BI', '文莱皇家航空公司', 'http://www.bruneiair.com/services/cargo_awb_search.asp', 1, '{CC}', 0, 0),
+('B7', '立荣航空', '立荣航空', 1, '{CC}', 0, 0),
+('NX', '澳门航空公司', 'http://en.airmacau.com.mo/cargo/track.asp', 1, '{CC}', 0, 0),
+('9C', '春秋航空', '春秋航空', 1, '{CC}', 0, 0),
+('BR', '长荣航空股份有限公司', 'http://www.brcargo.com/AWB/cargoQuery.do?locale=en_us', 1, '{CC}', 0, 0),
+('M7', 'Superior Aviation Services Ltd', '', 1, '{CC}', 0, 0),
+('CH', '以色列航空', 'http://www.cal.co.il/', 1, '{CC}', 0, 0),
+('E6', 'BRINGER AIR CARGO', 'E6', 1, '{CC}', 0, 0),
+('KQ', '肯尼亚航空公司', 'http://www.kenya-airways.com/kq/kqcargo/kqcargo.aspx', 1, '{CC}', 0, 0),
+('MI', '胜安航空', 'MI', 1, '{CC}', 0, 0),
+('LX', '瑞士国际航空公司', 'http://www.swissworldcargo.com/', 1, '{CC}', 0, 0),
+('ZG', '非凡航空', 'ZG', 1, '{CC}', 0, 0),
+('QT', '坦帕国际货运航空公司', 'http://www.tampacargo.com/English/home.htm', 1, '{CC}', 0, 0),
+('BY', '汤姆逊航空', 'BY', 1, '{CC}', 0, 0),
+('XF', '海参崴航空', '', 1, '{CC}', 0, 0),
+('VN', '越南航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=VN&Pfx=738', 1, '{CC}', 0, 0),
+('SE', '乌干达航空', 'http://web.ana-aviation.com/pfrequest.nsf/PFRequest?OpenForm', 1, '{CC}', 0, 0),
+('UK', '荷兰皇家/联合王国航空公司', '', 1, '{CC}', 0, 0),
+('AK', '亚洲航空', 'http://www.airasia.com', 1, '{CC}', 0, 0),
+('ZH', '深圳航空', 'http://www.shenzhenair.com/', 1, '{CC}', 0, 0),
+('MU', '中国东方航空公司', 'http://cargo.ce-air.com/mu/index.aspx', 1, '{CC}', 0, 0),
+('FJ', '斐济航空公司', '', 1, '{CC}', 0, 0),
+('VO', 'Tyrolean Airways', 'Tyrolean Airways', 1, '{CC}', 0, 0),
+('CZ', '中国南方航空公司', 'http://tang.cs-air.com/EN/WebFace/Tang.WebFace.Cargo/AgentAwbBrower.aspx', 1, '{CC}', 0, 0),
+('TY', 'Air Caledonie', '', 1, '{CC}', 0, 0),
+('M6', '美国喷气国际公司', 'http://www.amerijet.com/tracking/tracking.asp', 1, '{CC}', 0, 0),
+('S6', 'SAC South American Airway', 'http://www.southamericanairways.com/tracking_summary.asp', 1, '{CC}', 0, 0),
+('F4', '上海国际货运航空有限公司', 'http://www.jet-airways.com/globaltrak/trace-airwaybill.html', 1, '{CC}', 0, 0),
+('FK', '西非航空', 'http://www.africawestcargo.com/awbtrack.htm', 1, '{CC}', 0, 0),
+('MY', '马里航空公司', 'http://www.masair.com/', 1, '{CC}', 0, 0),
+('Y8', '扬子江快运航空有限公司', 'http://www.yzr.com.cn', 1, '{CC}', 0, 0),
+('5M', '美佳环球马尔代夫航空', '', 1, '{CC}', 0, 0),
+('VS', '英国维珍航空公司', 'http://www.virgin-atlantic.com/en/us/cargo/index.jsp', 1, '{CC}', 0, 0),
+('KZ', '日本货运航空公司', 'http://www.nca.aero/e/index.html', 1, '{CC}', 0, 0),
+('CK', '中国货运航空有限公司', 'http://cargo2.ce-air.com/MU/index.aspx', 1, '{CC}', 0, 0),
+('OV', '爱沙尼亚航空', 'http://www.tradevision.net/appl/fsr.asp?Owner=RES-ELL', 1, '{CC}', 0, 0),
+('OZ', '韩亚航空公司', 'http://www.asianacargo.com/English/tracking/trk_master_air_waybill.jsp', 1, '{CC}', 0, 0),
+('IJ', '长城航空', 'http://www.gwairlines.com/en/index.asp', 1, '{CC}', 0, 0),
+('BG', '孟加拉航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=BG&Pfx=997', 1, '{CC}', 0, 0),
+('UX', '西班牙欧洲航空公司', 'http://cargo.air-europa.com/ferreret/in/WebPantallaPrincipal.html', 1, '{CC}', 0, 0),
+('CA', '中国国际航空公司', 'http://www.cargoserv.com/tracking.asp', 1, '{CC}', 0, 0),
+('MF', '厦门航空', 'http://www.xiamenair.com.cn/hdxxcx.aspx?CateId=47', 1, '{CC}', 0, 0),
+('HU', '海南航空', 'http://ecargo.hnair.com/UnLoginUI/CargoInfoTrace.aspx', 1, '{CC}', 0, 0),
+('NH', '全日空航空有限公司', 'https://rps.ana.co.jp/eACROSS/userLogin.do?dispatch=submit&guestEntry=shipmentStatus', 1, '{CC}', 0, 0),
+('AF', '法国航空', 'http://www.af-klm.com/cargo/b2b/wps/portal/b2b/index.jsp', 1, '{CC}', 0, 0),
+('UO', '港联航空/UO', 'http://202.106.139.28/HX/Service/index.aspx?strCul=en', 1, '{CC}', 0, 0),
+('EZ', '美国常青航空', 'http://cargo.ce-air.com/mu/', 1, '{CC}', 0, 0),
+('IB', '伊比利亚航空', 'https://www.iberia-cargo.com/portalcarga/portlet/zh/html/main', 1, '{CC}', 0, 0),
+('FM', '上海航空股份有限公司', 'http://219.142.127.41/f4/Service/index.asp', 1, '{CC}', 0, 0),
+('6U', '德国货运航空', 'http://www.acg.aero/', 1, '{CC}', 0, 0),
+('5X', 'UPS航空', 'http://www.ups.com/aircargo/using/services/actracking/actracking.html', 1, '{CC}', 0, 0),
+('VV', '乌克兰航空', 'http://www.cargoserv.com', 1, '{CC}', 0, 0),
+('WE', 'Challenge Air Cargo Inc.', '', 1, '{CC}', 0, 0),
+('WY', '阿曼航空公司', 'http://www.aifei.com/Airline/WY', 1, '{CC}', 0, 0),
+('FD', '泰国亚洲航空', 'http://www.airasia.com/site/ch/ch/home.jsp', 1, '{CC}', 0, 0),
+('OX', '泰国东方航空', '', 1, '{CC}', 0, 0),
+('3K', '捷星亚洲航空公司', '', 1, '{CC}', 0, 0),
+('RI', '曼达拉航空', '', 1, '{CC}', 0, 0),
+('4X', '波旁航空', '', 1, '{CC}', 0, 0),
+('AE', '台湾华信航空', 'Mandarin Airlines', 1, '{CC}', 0, 0),
+('JJ', '巴西天马航空', '', 1, '{CC}', 0, 0),
+('ET', '埃塞俄比亚航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=ET&Pfx=071', 1, '{CC}', 0, 0),
+('OM', '蒙古航空', '', 1, '{CC}', 0, 0),
+('GF', '海湾航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=GF&Pfx=072', 1, '{CC}', 0, 0),
+('KL', '荷兰皇家航空公司', 'http://www.af-klm.com/cargo/b2b/wps/portal/b2b/index.jsp', 1, '{CC}', 0, 0),
+('RU', '大桥航空', 'http://www.airbridgecargo.com/eng/customer/tracktrace/index.php', 1, '{CC}', 0, 0),
+('ME', '中东航空公司', 'http://www.mea.com.lb/MEA/English/Misc/CargoSearch.htm', 1, '{CC}', 0, 0),
+('GD', '银河航空', 'http://www.grandstarcargo.com/ecargo/ecargo_tracing.asp', 1, '{CC}', 0, 0),
+('MS', '埃及航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=MS&Pfx=077', 1, '{CC}', 0, 0),
+('PR', '菲律宾航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PR&Pfx=079', 1, '{CC}', 0, 0),
+('LO', '波兰航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=LO&Pfx=080', 1, '{CC}', 0, 0),
+('QF', '澳洲航空', 'http://www.qantas.com.au/freight/online/otracking.html', 1, '{CC}', 0, 0),
+('KC', '阿斯塔纳航空公司', '', 1, '{CC}', 0, 0),
+('UC', '智利航空公司', 'http://en.lancargo.com', 1, '{CC}', 0, 0),
+('AA', '美国航空', 'http://www.aacargo.com/', 1, '{CC}', 0, 0),
+('JQ', '捷星航空', '', 1, '{CC}', 0, 0),
+('MD', '马达加斯加航空', '', 1, '{CC}', 0, 0),
+('QP', '肯尼亚航空', '', 1, '{CC}', 0, 0),
+('CO', '美国大陆航空', 'http://cargo.cocargo.com/cargo/track/', 1, '{CC}', 0, 0),
+('DL', '达美航空', 'https://www.deltacargo.com/dsse1.asp', 1, '{CC}', 0, 0),
+('NW', '西北航空', 'https://www.cargoportalservices.com/lmsweb/tracking-awb.jsp', 1, '{CC}', 0, 0),
+('AC', '加拿大航空', 'http://cargotools.aircanada.ca/TrackAndTraceInput.asp', 1, '{CC}', 0, 0),
+('UA', '美国联合航空公司', 'http://www.unitedcargo.com/', 1, '{CC}', 0, 0),
+('CP', '美国达美航空公司', 'http://www.traxon.com/cp018.htm', 1, '{CC}', 0, 0),
+('LH', '德国汉莎航空公司', 'http://tracking.lhcargo.com/trackit/start.trackit', 1, '{CC}', 0, 0),
+('FX', '美国联邦快递航空公司', 'http://www.fedex.com/us/tracking', 1, '{CC}', 0, 0),
+('AS', '美国阿拉斯加航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=AS&Pfx=027', 1, '{CC}', 0, 0),
+('SQ', '新加坡航空', 'http://www.siacargo.com/', 1, '{CC}', 0, 0),
+('GL', '格陵兰航空', 'http://www.airgreenland.gl/index.php?pageid=186', 1, '{CC}', 0, 0),
+('IY', '也门航空', 'http://www.datacair.com/query.htm', 1, '{CC}', 0, 0),
+('KM', '马耳他航空有限公司', 'http://www.traxon.com/amc.htm', 1, '{CC}', 0, 0),
+('PX', '尼乌吉尼航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PX&Pfx=656', 1, '{CC}', 0, 0),
+('AH', '阿尔及利亚航空', 'www.sohu.com', 1, '{CC}', 0, 0),
+('EB', 'Emery Worldwide Airlines Inc', '', 1, '{CC}', 0, 0),
+('BT', '波罗的海航空公司', 'http://www.airbaltic.com/public/index.html', 1, '{CC}', 0, 0),
+('2G', '意大利货运航空', '', 1, '{CC}', 0, 0),
+('UW', '友和道通航空', '', 1, '{CC}', 0, 0),
+('BI', '文莱皇家航空公司', 'http://www.bruneiair.com/services/cargo_awb_search.asp', 1, '{CC}', 0, 0),
+('B7', '立荣航空', '立荣航空', 1, '{CC}', 0, 0),
+('NX', '澳门航空公司', 'http://en.airmacau.com.mo/cargo/track.asp', 1, '{CC}', 0, 0),
+('9C', '春秋航空', '春秋航空', 1, '{CC}', 0, 0),
+('PO', '美国博立货运航空公司', 'http://www.polaraircargo.com/tracking.asp', 1, '{CC}', 0, 0),
+('JW', '箭航空公司', 'http://www.arrowair-tracking.com/Customer/tandt/awbTracking.html', 1, '{CC}', 0, 0),
+('UN', '俄罗斯环空航空', '', 1, '{CC}', 0, 0),
+('VI', '伏尔加第聂伯航空公司', 'http://www.airbridgecargo.com/', 1, '{CC}', 0, 0),
+('ER', '敦豪航空货运公司', 'http://www.dhl.com/publish/content/g0/en/eshipping/track.high.html', 1, '{CC}', 0, 0),
+('RJ', '约旦皇家航空公司', 'http://www.rj.com/dynamic_pages/airwaybill.asp', 1, '{CC}', 0, 0),
+('WN', '西南航空公司(美国)', 'http://www.southwest.com/cgi-bin/catts_client?ACTION=DISPLAYTRACK', 1, '{CC}', 0, 0),
+('A2', '秘鲁货运航空', 'http://www.cielos-airlines.com/tracking_cliente_e.php', 1, '{CC}', 0, 0),
+('RF', '西佛罗里达国际航空公司', 'http://www.fwia.com/', 1, '{CC}', 0, 0),
+('M3', '巴西ABSA货运航空公司', 'http://www.absacargo.com.br/en/MultiRastreamento.asp', 1, '{CC}', 0, 0),
+('SU', '俄罗斯国际航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=SU&Pfx=555', 1, '{CC}', 0, 0),
+('PS', '乌克兰航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PS&Pfx=566', 1, '{CC}', 0, 0),
+('7C', '英国Coyne 航空公司', 'http://www.coyneair.com/', 1, '{CC}', 0, 0),
+('UL', '斯里兰卡航空公司', 'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt', 1, '{CC}', 0, 0),
+('UY', '喀麦隆航空公司', 'http://www.fujairah-airport.com/cargo/airlinetracking.asp', 1, '{CC}', 0, 0),
+('MH', '马来西亚航空', 'http://www.maskargo.com/module.php?folder=ecommerce&filename=ost', 1, '{CC}', 0, 0),
+('JD', '日本空运系统公司', 'http://www.cargoserv.com/tracking.asp?Carrier=JD&Pfx=234', 1, '{CC}', 0, 0),
+('JU', '南斯拉夫航空', '', 1, '{CC}', 0, 0),
+('S7', '西伯利亚航空', '', 1, '{CC}', 0, 0),
+('TK', '土耳其航空', 'http://www4.thy.com/cargo/sorawbinput.do?lang=en', 1, '{CC}', 0, 0),
+('BD', '英伦航空公司', 'http://www.tradevision.net/res-bma/', 1, '{CC}', 0, 0),
+('MK', '毛里求斯航空有限公司', 'http://www.traxon.com/mau.htm', 1, '{CC}', 0, 0),
+('OS', '奥地利航空', 'https://www.cargoportalservices.com/lmsweb/tracking-awb.jsp', 1, '{CC}', 0, 0),
+('LT', '德国LTU航空公司', 'http://www.leisurecargo.com/', 1, '{CC}', 0, 0),
+('TL', '跨地中海航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=TL&Pfx=270', 1, '{CC}', 0, 0),
+('K4', '哈萨克斯坦航空公司', 'http://www.allianceairlines.com/', 1, '{CC}', 0, 0),
+('LD', '香港华民航空有限公司', 'http://www.hactl.com/webapp/hactlpbf/CargoTracking/CargoTracking.jsp?country=US', 1, '{CC}', 0, 0),
+('CI', '中华航空公司', 'http://calec.china-airlines.com/eBooking/en/CargoTracking.aspx', 1, '{CC}', 0, 0),
+('OO', '美国SkyWest航空公司', 'http://skyship.interlink-data.com/cargo/tracking.html', 1, '{CC}', 0, 0),
+('5Y', '美国Atlas Air', 'http://www.polaraircargo.com/tracking/default.asp', 1, '{CC}', 0, 0),
+('LC', '安逸航空', '', 1, '{CC}', 0, 0),
+('AA', '美国航空', 'http://www.aacargo.com/', 1, '{CC}', 0, 0),
+('JQ', '捷星航空', '', 1, '{CC}', 0, 0),
+('MD', '马达加斯加航空', '', 1, '{CC}', 0, 0),
+('QP', '肯尼亚航空', '', 1, '{CC}', 0, 0),
+('CO', '美国大陆航空', 'http://cargo.cocargo.com/cargo/track/', 1, '{CC}', 0, 0),
+('DL', '达美航空', 'https://www.deltacargo.com/dsse1.asp', 1, '{CC}', 0, 0),
+('NW', '西北航空', 'https://www.cargoportalservices.com/lmsweb/tracking-awb.jsp', 1, '{CC}', 0, 0),
+('AC', '加拿大航空', 'http://cargotools.aircanada.ca/TrackAndTraceInput.asp', 1, '{CC}', 0, 0),
+('UA', '美国联合航空公司', 'http://www.unitedcargo.com/', 1, '{CC}', 0, 0),
+('CP', '美国达美航空公司', 'http://www.traxon.com/cp018.htm', 1, '{CC}', 0, 0),
+('LH', '德国汉莎航空公司', 'http://tracking.lhcargo.com/trackit/start.trackit', 1, '{CC}', 0, 0),
+('FX', '美国联邦快递航空公司', 'http://www.fedex.com/us/tracking', 1, '{CC}', 0, 0),
+('AS', '美国阿拉斯加航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=AS&Pfx=027', 1, '{CC}', 0, 0),
+('US', '美国航空公司', 'http://www.usairways.com/cargo/', 1, '{CC}', 0, 0),
+('RG', '巴西航空公司', 'http://www.variglog.com/ingles/tracking/normal.asp?tracking=A', 1, '{CC}', 0, 0),
+('KA', '港龙航空公司', 'http://www.dragonaircargo.com/usrapps/identity/home.aspx', 1, '{CC}', 0, 0),
+('TP', '葡萄牙航空运输公司', 'http://www.tapcargo.pt/tapcargo/en/', 1, '{CC}', 0, 0),
+('CY', '塞浦路斯航空有限公司', 'http://www.cargoserv.com/tracking.asp?Carrier=CY&Pfx=048', 1, '{CC}', 0, 0),
+('OA', '希腊奥林匹克航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=OA&Pfx=050', 1, '{CC}', 0, 0),
+('EI', '爱尔兰国营航空公司', '"http://www.aerlinguscargo.com/eitrackagain.htm"" target=""_blank"', 1, '{CC}', 0, 0),
+('AZ', '意大利航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=AZ&Pfx=055', 1, '{CC}', 0, 0),
+('IC', '印度航空公司', 'http://220.226.206.133:8080/wwwweb/index_frame.jsp', 1, '{CC}', 0, 0),
+('HM', '塞舌尔航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=HM&Pfx=061', 1, '{CC}', 0, 0),
+('ZP', '阿塞拜疆航空', 'http://www.bct.az/en/default.asp', 1, '{CC}', 0, 0),
+('OK', '捷克航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=OK&Pfx=064', 1, '{CC}', 0, 0),
+('SV', '沙特阿拉伯航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=SV&Pfx=065', 1, '{CC}', 0, 0),
+('6R', '墨西哥联盟航空', 'http://www.aerounion.com.mx/', 1, '{CC}', 0, 0),
+('RB', '阿拉伯舒利亚航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=RB&Pfx=070', 1, '{CC}', 0, 0),
+('JJ', '巴西天马航空', '', 1, '{CC}', 0, 0),
+('ET', '埃塞俄比亚航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=ET&Pfx=071', 1, '{CC}', 0, 0),
+('OM', '蒙古航空', '', 1, '{CC}', 0, 0),
+('GF', '海湾航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=GF&Pfx=072', 1, '{CC}', 0, 0),
+('KL', '荷兰皇家航空公司', 'http://www.af-klm.com/cargo/b2b/wps/portal/b2b/index.jsp', 1, '{CC}', 0, 0),
+('RU', '大桥航空', 'http://www.airbridgecargo.com/eng/customer/tracktrace/index.php', 1, '{CC}', 0, 0),
+('ME', '中东航空公司', 'http://www.mea.com.lb/MEA/English/Misc/CargoSearch.htm', 1, '{CC}', 0, 0),
+('GD', '银河航空', 'http://www.grandstarcargo.com/ecargo/ecargo_tracing.asp', 1, '{CC}', 0, 0),
+('MS', '埃及航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=MS&Pfx=077', 1, '{CC}', 0, 0),
+('PR', '菲律宾航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=PR&Pfx=079', 1, '{CC}', 0, 0),
+('LO', '波兰航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=LO&Pfx=080', 1, '{CC}', 0, 0),
+('QF', '澳洲航空', 'http://www.qantas.com.au/freight/online/otracking.html', 1, '{CC}', 0, 0),
+('KC', '阿斯塔纳航空公司', '', 1, '{CC}', 0, 0),
+('UC', '智利航空公司', 'http://en.lancargo.com', 1, '{CC}', 0, 0),
+('LC', '安逸航空', '', 1, '{CC}', 0, 0),
+('AA', '美国航空', 'http://www.aacargo.com/', 1, '{CC}', 0, 0),
+('JQ', '捷星航空', '', 1, '{CC}', 0, 0),
+('MD', '马达加斯加航空', '', 1, '{CC}', 0, 0),
+('QP', '肯尼亚航空', '', 1, '{CC}', 0, 0),
+('CO', '美国大陆航空', 'http://cargo.cocargo.com/cargo/track/', 1, '{CC}', 0, 0),
+('DL', '达美航空', 'https://www.deltacargo.com/dsse1.asp', 1, '{CC}', 0, 0),
+('NW', '西北航空', 'https://www.cargoportalservices.com/lmsweb/tracking-awb.jsp', 1, '{CC}', 0, 0),
+('AC', '加拿大航空', 'http://cargotools.aircanada.ca/TrackAndTraceInput.asp', 1, '{CC}', 0, 0),
+('UA', '美国联合航空公司', 'http://www.unitedcargo.com/', 1, '{CC}', 0, 0),
+('CP', '美国达美航空公司', 'http://www.traxon.com/cp018.htm', 1, '{CC}', 0, 0),
+('LH', '德国汉莎航空公司', 'http://tracking.lhcargo.com/trackit/start.trackit', 1, '{CC}', 0, 0),
+('FX', '美国联邦快递航空公司', 'http://www.fedex.com/us/tracking', 1, '{CC}', 0, 0),
+('AS', '美国阿拉斯加航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=AS&Pfx=027', 1, '{CC}', 0, 0),
+('US', '美国航空公司', 'http://www.usairways.com/cargo/', 1, '{CC}', 0, 0),
+('RG', '巴西航空公司', 'http://www.variglog.com/ingles/tracking/normal.asp?tracking=A', 1, '{CC}', 0, 0),
+('KA', '港龙航空公司', 'http://www.dragonaircargo.com/usrapps/identity/home.aspx', 1, '{CC}', 0, 0),
+('TP', '葡萄牙航空运输公司', 'http://www.tapcargo.pt/tapcargo/en/', 1, '{CC}', 0, 0),
+('CY', '塞浦路斯航空有限公司', 'http://www.cargoserv.com/tracking.asp?Carrier=CY&Pfx=048', 1, '{CC}', 0, 0),
+('OA', '希腊奥林匹克航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=OA&Pfx=050', 1, '{CC}', 0, 0),
+('EI', '爱尔兰国营航空公司', '"http://www.aerlinguscargo.com/eitrackagain.htm"" target=""_blank"', 1, '{CC}', 0, 0),
+('AZ', '意大利航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=AZ&Pfx=055', 1, '{CC}', 0, 0),
+('IC', '印度航空公司', 'http://220.226.206.133:8080/wwwweb/index_frame.jsp', 1, '{CC}', 0, 0),
+('HM', '塞舌尔航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=HM&Pfx=061', 1, '{CC}', 0, 0),
+('ZP', '阿塞拜疆航空', 'http://www.bct.az/en/default.asp', 1, '{CC}', 0, 0),
+('OK', '捷克航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=OK&Pfx=064', 1, '{CC}', 0, 0),
+('SV', '沙特阿拉伯航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=SV&Pfx=065', 1, '{CC}', 0, 0),
+('6R', '墨西哥联盟航空', 'http://www.aerounion.com.mx/', 1, '{CC}', 0, 0),
+('8U', '利比亚泛非航空公司', '', 1, '{CC}', 0, 0),
+('AA', '美国航空', 'http://www.aacargo.com/', 1, '{CC}', 0, 0),
+('JQ', '捷星航空', '', 1, '{CC}', 0, 0),
+('MD', '马达加斯加航空', '', 1, '{CC}', 0, 0),
+('QP', '肯尼亚航空', '', 1, '{CC}', 0, 0),
+('CO', '美国大陆航空', 'http://cargo.cocargo.com/cargo/track/', 1, '{CC}', 0, 0),
+('DL', '达美航空', 'https://www.deltacargo.com/dsse1.asp', 1, '{CC}', 0, 0),
+('NW', '西北航空', 'https://www.cargoportalservices.com/lmsweb/tracking-awb.jsp', 1, '{CC}', 0, 0),
+('AC', '加拿大航空', 'http://cargotools.aircanada.ca/TrackAndTraceInput.asp', 1, '{CC}', 0, 0),
+('UA', '美国联合航空公司', 'http://www.unitedcargo.com/', 1, '{CC}', 0, 0),
+('CP', '美国达美航空公司', 'http://www.traxon.com/cp018.htm', 1, '{CC}', 0, 0),
+('LH', '德国汉莎航空公司', 'http://tracking.lhcargo.com/trackit/start.trackit', 1, '{CC}', 0, 0),
+('FX', '美国联邦快递航空公司', 'http://www.fedex.com/us/tracking', 1, '{CC}', 0, 0),
+('AS', '美国阿拉斯加航空公司', 'http://www.cargoserv.com/tracking.asp?Carrier=AS&Pfx=027', 1, '{CC}', 0, 0),
+('SA', '南非航空公司', 'http://ww1.flysaa.com/saa_cargo/saaCargo.html', 1, '{CC}', 0, 0),
+('9S', '美国南方航空', '', 1, '{CC}', 0, 0);
 
