@@ -219,8 +219,8 @@ Fos.VoucherGrid = function(t){
         store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
     };
     
-    var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
-    var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
+    var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch}; 
+    var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
         
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_VOUC_'+t);

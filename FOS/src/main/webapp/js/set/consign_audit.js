@@ -3,9 +3,13 @@ Fos.ConsignAuditGrid = function() {
 	var bp={mt:'xml',xml:''};
 	var queryParams = [];
 	
-	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_CHECK_X',baseParams:bp,
-		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'},FConsign),
-		sortInfo:{field:'consDate', direction:'DESC'},remoteSort:true
+	var store = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=CONS_CHECK_X',
+		baseParams:bp,
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
+			record:'FConsign',
+			idProperty:'consId'},FConsign),
+		sortInfo:{field:'consDate', direction:'DESC'},
+		remoteSort:true
 	});	
     store.load({params:{start:0,limit:C_PS}});
 	
@@ -13,6 +17,7 @@ Fos.ConsignAuditGrid = function() {
     	store.baseParams=bp;
     	store.reload({params:{start:0,limit:C_PS}});
     };
+    
     setQueryParams=function(a){
     	queryParams = a;
     };
@@ -21,8 +26,16 @@ Fos.ConsignAuditGrid = function() {
 		var win = new Fos.ConsLookupWin('','','','CONS_CHECK_X',store,setQueryParams);
 		win.show();
 	};	
-	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,listeners:{scope:this,rowselect:function(s,row,r){
-		this.updateTB(r);}}});
+	
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,
+		listeners:{
+			scope:this,
+			rowselect:function(s,row,r){
+				this.updateTB(r);
+			}
+		}
+	});
+	
 	var cm=new Ext.grid.ColumnModel({columns:[
 		new Ext.grid.RowNumberer(),sm,
 		{header:C_AUDIT_STATUS,width:80,dataIndex:"consStatusAud",renderer:getAUST},
@@ -70,8 +83,11 @@ Fos.ConsignAuditGrid = function() {
 		{header:C_BOOK_AGENCY,width:200,dataIndex:"consBookingAgencyName"},
 		{header:C_M_CONS_NO,dataIndex:"consMasterConsNo"},
 		{header:C_REMARKS,dataIndex:"consRemarks"}
-		],defaults:{sortable:true,width:100}});
+		],defaults:{sortable:true,width:100}
+	});
+	
 	var rowCtxEvents = {rowdblclick: function(g,r,e){this.showExpense();}};
+	
 	this.updateStatus=function(s){
 		var p = sm.getSelected();
 		if(p) Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
@@ -87,6 +103,7 @@ Fos.ConsignAuditGrid = function() {
 				}});
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.showExpense = function(p){
 		var p=sm.getSelected();
 		if(p){
@@ -115,44 +132,118 @@ Fos.ConsignAuditGrid = function() {
 			
 	this.updateTB=function(r){
 		var tb=this.getTopToolbar();
-		if(tb.getComponent('TB_2')) tb.getComponent('TB_2').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=0);
-    	if(tb.getComponent('TB_3')) tb.getComponent('TB_3').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=1);
-    	if(tb.getComponent('TB_6')) tb.getComponent('TB_6').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=1);
-    	if(tb.getComponent('TB_7')) tb.getComponent('TB_7').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=2);
+		if(tb.getComponent('TB_2')) 
+			tb.getComponent('TB_2').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=0);
+    	if(tb.getComponent('TB_3')) 
+    		tb.getComponent('TB_3').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=1);
+    	if(tb.getComponent('TB_6')) 
+    		tb.getComponent('TB_6').setDisabled(NR(M1_S+S_COAU+F_A)||r.get('consStatusAud')!=1);
+    	if(tb.getComponent('TB_7')) 
+    		tb.getComponent('TB_7').setDisabled(NR(M1_S+S_COAU+F_A2)||r.get('consStatusAud')!=2);
 	};
-	var b1={itemId:'TB_1',text:C_EXPE+'(Y)',disabled:NR(M1_S+S_EXPE),iconCls:'option',handler:this.showExpense};
-	var b2={itemId:'TB_2',text:C_FIN_CHECK+'(C)',disabled:NR(M1_S+S_COAU+F_A),
-			iconCls:'check',scope:this,handler:function(){this.updateStatus('1');}};
-	var b3={itemId:'TB_3',text:C_MANAGER_CHECK+'(M)',disabled:NR(M1_S+S_COAU+F_A2),
-			iconCls:'check',scope:this,handler:function(){this.updateStatus('2');}};
-	var b4={itemId:'TB_4',text:C_SEARCH+('(F)'),iconCls:'search',handler:this.search};
-	var b5={itemId:'TB_5',text:C_EXPORT+'(E)',disabled:NR(M1_S+S_COAU+F_E),iconCls:'print',scope:this,
-			handler:this.exp};
+	
+	var b1={itemId:'TB_1',
+		text:C_EXPE,
+		disabled:NR(M1_S+S_EXPE),
+		iconCls:'option',
+		handler:this.showExpense
+	};
+	
+	var b2={itemId:'TB_2',
+		text:C_FIN_CHECK,
+		disabled:NR(M1_S+S_COAU+F_A),
+		iconCls:'check',
+		scope:this,
+		handler:function(){
+			this.updateStatus('1');
+		}
+	};
+	
+	var b3={itemId:'TB_3',
+		text:C_MANAGER_CHECK,
+		disabled:NR(M1_S+S_COAU+F_A2),
+		iconCls:'check',
+		scope:this,
+		handler:function(){
+			this.updateStatus('2');
+		}
+	};
+	
+	var b4={itemId:'TB_4',
+		text:C_SEARCH,
+		iconCls:'search',
+		handler:this.search
+	};
+	
+	var b5={itemId:'TB_5',
+		text:C_EXPORT,
+		disabled:NR(M1_S+S_COAU+F_E),
+		iconCls:'print',
+		scope:this,
+		handler:this.exp
+	};
 				
-	var b6={itemId:'TB_6',text:'(U)',tooltip:C_FIN_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_COAU+F_A),scope:this,handler:function(){this.updateStatus('0');}};
-	var b7={itemId:'TB_7',text:'(V)',tooltip:C_MANAGER_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_COAU+F_A2),scope:this,handler:function(){this.updateStatus('1');}};
-	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',scope:this,handler:function(){this.fastSearch();}};
-	var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
+	var b6={itemId:'TB_6',
+		text:'(U)',
+		tooltip:C_FIN_CHECK_CANCEL,
+		iconCls:'renew',
+		disabled:NR(M1_S+S_COAU+F_A),
+		scope:this,
+		handler:function(){
+			this.updateStatus('0');
+		}
+	};
+	
+	var b7={itemId:'TB_7',
+		text:'(V)',
+		tooltip:C_MANAGER_CHECK_CANCEL,
+		iconCls:'renew',
+		disabled:NR(M1_S+S_COAU+F_A2),
+		scope:this,
+		handler:function(){
+			this.updateStatus('1');
+		}
+	};
+	
+	var b8={text:C_FAST_SEARCH,
+		iconCls:'search',
+		scope:this,
+		handler:function(){
+			this.fastSearch();
+		}
+	};
+	
+	var b9={text:C_RESET,
+		iconCls:'refresh',
+		handler:this.reset
+	};
+	
 	var vc={forceFit:false,
-		/* templates:{   
-			    cell: new Ext.Template( 
-			      '<td height=24 class="x-grid3-col x-grid3-cellx-grid3-td-{id}   x-selectable{css}" style="{style}"  tabIndex="0" {cellAttr}>',
-			      '<div style="padding-top:4px;" class="x-grid3-cell-innerx-grid3-col-{id}" {attr}>{value}</div>',
-			      '</td>'
-			       )
-			    },*/
 		groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})',
 		getRowClass: function(record, index) {
 			var t=getCFG('PROFIT_ALERT_TYPE');
 			var v=getCFG('PROFIT_ALERT_VALUE');
 			 var c = 0;
-			if(t==C_PROFIT) c = record.get('grossProfit');			
-			else c=record.get('grossProfitRate');            
-            if (c < v) return 'red-font-row';
-            else return 'green-font-row';
+			if(t==C_PROFIT) 
+				c = record.get('grossProfit');			
+			else 
+				c=record.get('grossProfitRate');            
+            if (c < v) 
+            	return 'red-font-row';
+            else 
+            	return 'green-font-row';
         }
 	};
-	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
+	
+	var kw = new Ext.form.TextField({listeners:{
+		scope:this,
+		specialkey:function(c,e){
+			if(e.getKey()==Ext.EventObject.ENTER) 
+				this.fastSearch();
+			}
+		}
+	});
+	
     this.fastSearch=function(){
     	var consNo=kw.getValue();
 		if(!consNo){
@@ -177,30 +268,10 @@ Fos.ConsignAuditGrid = function() {
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
-     		}});
-    };
-    new Ext.KeyMap(Ext.getDoc(), {
-        key:'ycmfeuv',ctrl:true,
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_COAU');
-            if(tc&&tc==T_MAIN.getActiveTab()){
-                switch(k) {
-                case Ext.EventObject.Y: if(!NR(M1_S+S_EXPE)) this.showExpense();break;
-                case Ext.EventObject.C: if(!NR(M1_S+S_COAU+F_A)) this.updateStatus('1');break;
-                case Ext.EventObject.M: if(!NR(M1_S+S_COAU+F_A)) this.updateStatus('2');break;
-                case Ext.EventObject.U: if(!NR(M1_S+S_COAU+F_A)) this.updateStatus('0');break;
-                case Ext.EventObject.V: if(!NR(M1_S+S_COAU+F_A)) this.updateStatus('1');break;
-                case Ext.EventObject.F: this.search();break;
-                case Ext.EventObject.E: if(!NR(M1_D+F_E)) EXP('C','CONS_AUDIT','');break;
-                }
-            }
-        },stopEvent:true,scope:this});
-    new Ext.KeyMap(Ext.getDoc(), {key:[116],
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_COAU');
-            if(tc&&tc==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
-        },stopEvent: true,scope:this
-    });
+     		}
+     	});
+    };   
+   
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_COAU');
         if(tc&&tc==T_MAIN.getActiveTab()){
@@ -208,6 +279,7 @@ Fos.ConsignAuditGrid = function() {
             if (!pt[page].disabled) pt.onClick(page);
          }
     };
+    
     this.nav = new Ext.KeyNav(Ext.getDoc(),{
         pageDown: this.pagingNav.createDelegate(this,['next']),
         pageUp: this.pagingNav.createDelegate(this, ['prev']),
@@ -215,9 +287,21 @@ Fos.ConsignAuditGrid = function() {
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
+    
 	Fos.ConsignAuditGrid.superclass.constructor.call(this, {
-	    id:'G_COAU',iconCls:'grid',store: store,title:C_CONS_AUDIT,header:false,autoScroll:true,loadMask:true,
-		sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(vc),
+	    id:'G_COAU',
+	    iconCls:'grid',
+	    store: store,
+	    title:C_CONS_AUDIT,
+	    header:false,
+	    autoScroll:true,
+	    loadMask:true,
+		sm:sm,
+		cm:cm,
+		stripeRows:true,
+		closable:true,
+		listeners:rowCtxEvents,
+		view:new Ext.grid.GroupingView(vc),
 		tbar:[b1,'-',b2,b6,'-',b3,b7,'-',b4,'-',b5,'-',kw,b8,'-',b9],bbar:PTB(store,C_PS)});	
 };
 Ext.extend(Fos.ConsignAuditGrid, Ext.grid.GridPanel);

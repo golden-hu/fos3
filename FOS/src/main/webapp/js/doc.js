@@ -215,6 +215,7 @@ Fos.DocGrid = function(s) {
 	],defaults:{sortable:true,width:100}});
 	var vc={forceFit:false,groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'};
 	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){if(e.getKey()==Ext.EventObject.ENTER) this.fastSearch();}}});
+	
 	this.fastSearch=function(){
         var consNo=kw.getValue();
         if(!consNo){
@@ -244,20 +245,34 @@ Fos.DocGrid = function(s) {
         			XMG.alert(SYS,M_NOT_FOUND);
         	}});
     };
-	var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};    
-    var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
+    
+	var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};    
+    var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
 	
-	Fos.DocGrid.superclass.constructor.call(this,{clicksToEdit:1,
-	id:'G_DOC_'+s,title:C_DOC_MGT+'-'+title,header:false,deferredRender:false,closable:true,plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
-		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'fdocId',direction:'DESC'},
+	Fos.DocGrid.superclass.constructor.call(this,{
+		clicksToEdit:1,
+		id:'G_DOC_'+s,
+		title:C_DOC_MGT+'-'+title,
+		header:false,
+		deferredRender:false,
+		closable:true,
+		plugins:[customsFlag,releasableFlag,returnFlag,backFlag],
+		border:false,
+		height:200,
+		autoScroll:true,
+		sm:sm,
+		cm:cm,
+		store:store,
+		sortInfo:{field:'fdocId',direction:'DESC'},
 		view:new Ext.grid.GroupingView(vc),
-		tbar:[{text:C_SAVE+'(S)',disabled:NR(M1_D+F_M),iconCls:'save',disabled:NR(M1_D+F_M),
+		tbar:[{text:C_SAVE,disabled:NR(M1_D+F_M),
+			iconCls:'save',disabled:NR(M1_D+F_M),
 					handler:function(){
 						FOS_POST(store,'FDoc',FDoc,'FDOC_S');
 					}},'-',
-		      {text:C_SEARCH+'(F)',disabled:NR(M1_D+F_M),iconCls:'search',disabled:NR(M1_D+F_V),handler:this.search},'-',
+		      {text:C_SEARCH,disabled:NR(M1_D+F_M),iconCls:'search',disabled:NR(M1_D+F_V),handler:this.search},'-',
 		      kw,b8,'-',b9,'-',
-		      {text:C_EXPORT+'(E)',disabled:NR(M1_D+F_E),iconCls:'print',disabled:NR(M1_D+F_E),scope:this,handler:function(){
+		      {text:C_EXPORT,disabled:NR(M1_D+F_E),iconCls:'print',disabled:NR(M1_D+F_E),scope:this,handler:function(){
 		    	  EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');
     		}},'-'],
 		bbar:PTB(store,C_PS)});

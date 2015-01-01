@@ -909,7 +909,7 @@ Fos.CustomsTab = function(p) {
 	
 	Fos.CustomsTab.superclass.constructor.call(this, { 
 		id: "T_CUDE_" +p.get('id'),
-		title:C_SR_CUDE+'(F9)',
+		title:C_SR_CUDE,
 		autoScroll:true,
 		layout:'border',
 		tbar:[btnAdd,'-',btnRemove,'-',btnSave,'-',btnApply,'-',
@@ -933,7 +933,14 @@ Ext.extend(Fos.CustomsTab, Ext.Panel);
 
 Fos.CustomsWin = function(p) {
 	var panel = new Fos.CustomsTab(p);
-	Fos.CustomsWin.superclass.constructor.call(this, {title:p.get('consNo')+C_CUSTOM_BILL,modal:true,width:1000,
-        height:600,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
+	Fos.CustomsWin.superclass.constructor.call(this, {title:p.get('consNo')+C_CUSTOM_BILL,
+		modal:true,
+		width:1000,
+        height:600,
+        layout:'fit',
+        plain:false,
+        buttonAlign:'right',
+        items:panel
+   });
 };
 Ext.extend(Fos.CustomsWin,Ext.Window);

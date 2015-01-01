@@ -6,6 +6,7 @@ Fos.PrGrid = function(t){
 	var bp={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
 	store.baseParams=bp;
 	store.load({params:{start:0,limit:C_PS}});
+	
 	this.reset=function(){
 		store.baseParams=bp;
 		store.reload({params:{start:0,limit:C_PS}});
@@ -21,19 +22,46 @@ Fos.PrGrid = function(t){
 			tab.doLayout();
 		}
 	};
+	
 	this.add = function(){
-		var currCode='CNY';var w=new Fos.CurrencyWin();
-		w.addButton({text:C_OK,handler:function(){
-			currCode = w.findById('currCode').getValue();w.close();
+		var currCode='CNY';
+		var w=new Fos.CurrencyWin();
+		w.addButton({text:C_OK,
+			handler:function(){
+			currCode = w.findById('currCode').getValue();
+			w.close();
 			var id=GGUID();
-			var e = new SPr({id:id,prId:id,prNo:'N'+id,prType:t,prDate:new Date(),
-			currCode:currCode,prExRate:getExRate(currCode,'CNY'),prStatus:'0',version:'0',rowAction:'N'});
+			var e = new SPr({id:id,
+				prId:id,
+				prNo:'N'+id,
+				prType:t,
+				prDate:new Date(),
+				currCode:currCode,
+				prExRate:getExRate(currCode,'CNY'),
+				prStatus:'0',
+				version:'0',
+				rowAction:'N'
+			});
 			var tab = T_MAIN.add(new Fos.PrTab(e));
 			T_MAIN.setActiveTab(tab);
 		}},this);
-		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);w.show();		
+		
+		w.addButton({text:C_CANCEL,handler:function(){
+			w.close();
+			}
+		},this);
+		w.show();		
 	};
-	this.edit = function(){var p=sm.getSelected();if(p){showPr(p);} else XMG.alert(SYS,M_NO_DATA_SELECTED);};
+	
+	this.edit = function(){
+		var p=sm.getSelected();
+		if(p){
+			showPr(p);
+		} 
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
+	};
+	
 	this.removePr = function(){
 		var a =sm.getSelections();
        	if(a.length) {XMG.confirm(SYS,M_R_C,function(btn){
@@ -49,6 +77,7 @@ Fos.PrGrid = function(t){
                	}}});}
        else XMG.alert(SYS,M_R_P);
     };
+    
 	this.search = function(){
     	var win = new Fos.PrLookupWin(t);
 		win.addButton({text:C_OK,handler:function(){
@@ -169,27 +198,10 @@ Fos.PrGrid = function(t){
         		XMG.alert(SYS,M_NOT_FOUND);
         	}});
     };
-    var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
-    var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-    new Ext.KeyMap(Ext.getDoc(), {
-        key:'nmdf',ctrl:true,
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_PR_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){
-                switch(k) {
-                case Ext.EventObject.N: if(!NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_M)) this.add();break;
-                case Ext.EventObject.M: if(!NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_M)) this.edit();break;
-                case Ext.EventObject.D: if(!NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_R)) this.removePr();break;                   
-                case Ext.EventObject.F: this.search();break;
-                }
-            }
-        },stopEvent:true,scope:this});
-    new Ext.KeyMap(Ext.getDoc(), {key:[116],
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_PR_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
-        },stopEvent: true,scope:this
-    });
+    
+    var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch}; 
+    var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
+    
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_PR_'+t);
             if(tc&&tc==T_MAIN.getActiveTab()){
@@ -197,6 +209,7 @@ Fos.PrGrid = function(t){
             if (!pt[page].disabled) pt.onClick(page);
          }
     };
+    
     this.nav = new Ext.KeyNav(Ext.getDoc(),{
         pageDown: this.pagingNav.createDelegate(this,['next']),
         pageUp: this.pagingNav.createDelegate(this, ['prev']),
@@ -204,15 +217,28 @@ Fos.PrGrid = function(t){
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
+    
 	Fos.PrGrid.superclass.constructor.call(this, {    
-    id:'G_PR_'+t,iconCls:'grid',store: store,title:t=='R'?C_PR_R_MGT:C_PR_P_MGT,header:false,autoScroll:true,height:300,
-	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_M),handler:this.add}, '-', 
-		{text:C_EDIT+'(M)',iconCls:'option',disabled:NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_M),handler:this.edit},'-',
-		{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_R),handler:this.removePr},'-',		
-		{text:C_SEARCH+'(F)',iconCls:'search',handler:this.search},'-',
-		kw,b8,'',b9,'-'],
-	bbar:PTB(store,C_PS)});     
+	    id:'G_PR_'+t,
+	    iconCls:'grid',
+	    store: store,
+	    title:t=='R'?C_PR_R_MGT:C_PR_P_MGT,
+	    header:false,
+	    autoScroll:true,
+	    height:300,
+		sm:sm,
+		cm:cm,
+		stripeRows:true,
+		closable:true,
+		listeners:rowCtxEvents,
+		view:new Ext.grid.GroupingView(groupViewCfg),
+		tbar:[{text:C_ADD,iconCls:'add',disabled:NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_M),handler:this.add}, '-', 
+			{text:C_EDIT,iconCls:'option',disabled:NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_M),handler:this.edit},'-',
+			{text:C_REMOVE,iconCls:'remove',disabled:NR(M1_S+(t=='R'?S_PR_R:S_PR_P)+F_R),handler:this.removePr},'-',		
+			{text:C_SEARCH,iconCls:'search',handler:this.search},'-',
+			kw,b8,'',b9,'-'],
+		bbar:PTB(store,C_PS)
+	});     
 };    
 Ext.extend(Fos.PrGrid,Ext.grid.GridPanel);
 
@@ -234,6 +260,7 @@ Fos.PrItemGrid = function(p,store){
 		{header:C_AUDIT_BY,dataIndex:'invoChecker'},
 		{header:C_AUDIT_TIME,dataIndex:'invoCheckDate',renderer:formatDate}
 		],defaults:{sortable:true,width:80}});
+	
 	this.recalculate=function(){
 		var t = T_MAIN.findById('T_PR_'+ p.get('id'));
 		var total = 0;var d=store.getRange();
@@ -243,19 +270,7 @@ Fos.PrItemGrid = function(p,store){
 		};
 		t.find('name','prAmount')[0].setValue(total);
 	};
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'ad',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_PR_'+p.get('id'));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-	 			switch(k) {
-		 		case Ext.EventObject.A:
-					if(p.get('prStatus')=='0') this.add();break;
-		 		case Ext.EventObject.D:
-		 			if(p.get('prStatus')=='0') this.removePrit();break;	
-	 			}
-		 	}
-		},stopEvent:true,scope:this});
+	
 	this.add=function(){
 		if(p.get('custId') && p.get('currCode')){
     		var win = new Fos.PrItemLookupWin(p.get('custId'),p.get('prType'),p.get('currCode'));
@@ -319,8 +334,8 @@ Fos.PrItemGrid = function(p,store){
 				else{r.set('prAmount',e.value);this.recalculate();}
 	    	}
 	    }},
-	    tbar:[{text:C_ADD+'(A)',iconCls:'add',disabled:p.get('prStatus')!='0',scope:this,handler:this.add}, '-', 		
-			{text:C_REMOVE+'(D)',iconCls:'remove',disabled:p.get('prStatus')!='0',scope:this,handler:this.removePrit
+	    tbar:[{text:C_ADD,iconCls:'add',disabled:p.get('prStatus')!='0',scope:this,handler:this.add}, '-', 		
+			{text:C_REMOVE,iconCls:'remove',disabled:p.get('prStatus')!='0',scope:this,handler:this.removePrit
 		}]
     });
 };    
@@ -344,11 +359,29 @@ Fos.PrItemLookupWin = function(c,t,curr) {
 		{header:C_BANK_ACCOUNT,dataIndex:'invoAccount'},		
 		{header:C_REMARKS,dataIndex:"invoRemarks"}
 		],defaults:{sortable:true,width:100}});
+	
     var g = new Ext.grid.GridPanel({ 
-    id:'G_PRIT_LOOKUP',iconCls:'gen',header:false,height:300,width:600,store:store,sm:sm,cm:cm,loadMask: true});	
-    Fos.PrItemLookupWin.superclass.constructor.call(this,{title:C_SEL_INVO,modal:true,layout:'fit',width:600,minWidth:300,
-        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:[{layout:'fit',border:false,
-        items: [g]}]});
+    	id:'G_PRIT_LOOKUP',
+    	iconCls:'gen',
+    	header:false,
+    	height:300,
+    	width:600,
+    	store:store,
+    	sm:sm,
+    	cm:cm,
+    	loadMask: true
+    });	
+    
+    Fos.PrItemLookupWin.superclass.constructor.call(this,{title:C_SEL_INVO,
+    	modal:true,
+    	layout:'fit',
+    	width:600,
+    	minWidth:300,
+        minHeight:200,
+        plain:false,
+        buttonAlign:'right',
+        items:[{layout:'fit',border:false,items: [g]}]
+    });
 };
 Ext.extend(Fos.PrItemLookupWin,Ext.Window);
 
@@ -358,21 +391,35 @@ Fos.PrTab = function(p) {
 	if(p.get('rowAction')!='N') 
 		store.load({params:{prId:p.get('prId')}});
 	
-    this.grid=new Fos.PrItemGrid(p,store);
-	this.save=function(){
+    this.grid = new Fos.PrItemGrid(p,store);
+    
+	this.save = function(){
 		if(p.get('custId')==''){
-			XMG.alert(SYS,M_SETTLE_OBJECT_REQIRED);return;};
-		p.beginEdit();this.getForm().updateRecord(p);p.endEdit();
+			XMG.alert(SYS,M_SETTLE_OBJECT_REQIRED);
+			return;
+		}
+		p.beginEdit();
+		this.getForm().updateRecord(p);
+		p.endEdit();
    	 	var xml = RTX(p,'SPr',SPr);
    	 	var a = this.grid.getStore().getModifiedRecords();
-		if(a.length>0){var x = ATX(a,'SPrItem',SPrItem);xml=xml+x;};		
-		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'PR_S'},
+		if(a.length>0){
+			var x = ATX(a,'SPrItem',SPrItem);
+			xml=xml+x;
+		}
+		Ext.Ajax.request({scope:this,
+			url:SERVICE_URL,
+			method:'POST',
+			params:{A:'PR_S'},
 			success: function(res){
 				var c = XTR(res.responseXML,'SPr',SPr);
 				var ra=p.get('rowAction');
 				var f = SPr.prototype.fields;
 				p.beginEdit();
-   				for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];p.set(fn,c.get(fn));};
+   				for (var i = 0; i < f.keys.length; i++) {
+   					var fn = ''+f.keys[i];
+   					p.set(fn,c.get(fn));
+   				}
 				if(ra=='N'){						
 					this.setTitle((p.get('prType')=='R'?C_PR_R:C_PR_P)+'-'+p.get("prNo"));
 					this.find('name','prNo')[0].setValue(p.get('prNo'));
@@ -380,29 +427,44 @@ Fos.PrTab = function(p) {
 				}
 				p.endEdit();
 				var sa = this.grid.getStore();
-				var a = XTRA(res.responseXML,'SPrItem',SPrItem);FOSU(sa,a,SPrItem);
+				var a = XTRA(res.responseXML,'SPrItem',SPrItem);
+				FOSU(sa,a,SPrItem);
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);
 			},
-			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+			failure: function(res){
+				XMG.alert(SYS,M_F+res.responseText);
+			},
 			xmlData:FOSX(xml)
 		});
 	};
-	this.removePr=function(){
+	
+	this.removePr = function(){
 		p.set('rowAction','R');
 		var xml = RTX(p,'SPr',SPr);
    	 	var a = this.grid.getStore().getRange();
 		if(a.length>0){
-			for(var i=0;i<a.length;i++){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');};
-			var x = ATX(a,'SPrItem',SPrItem);xml=xml+x;
+			for(var i=0;i<a.length;i++){
+				a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');
+			}
+			var x = ATX(a,'SPrItem',SPrItem);
+			xml=xml+x;
 		};
-		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'PR_S'},
+		
+		Ext.Ajax.request({scope:this,
+			url:SERVICE_URL,
+			method:'POST',
+			params:{A:'PR_S'},
 			success: function(r){
-				XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_PR_'+p.get('id'));});},
-			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+				XMG.alert(SYS,M_S,function(){T_MAIN.remove('T_PR_'+p.get('id'));});
+			},
+			failure: function(r){
+				XMG.alert(SYS,M_F+r.responseText);
+			},
 			xmlData:FOSX(xml)
 		});
 	};
+	
 	this.submit=function(){this.updateStatus('1');};
 	this.uncheck0=function(){this.updateStatus('0');};
 	this.check=function(){this.updateStatus('2');};
@@ -425,6 +487,7 @@ Fos.PrTab = function(p) {
 			var t = T_MAIN.add(new Fos.VoucherTab(e,p.get('prId')));
 			T_MAIN.setActiveTab(t);
 	};	
+	
 	this.updateStatus=function(s){
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
 			params:{A:'PR_U',prId:p.get('prId'),prStatus:s},
@@ -438,25 +501,51 @@ Fos.PrTab = function(p) {
 			},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
 	};
-	var b1={itemId:'TB_1',text:C_SAVE+'(S)',iconCls:'save',disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_M)||p.get('prStatus')!='0',scope:this,handler:this.save};
-	var b2={itemId:'TB_2',text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_R)||p.get('prStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removePr};
-	var b3={itemId:'TB_3',text:C_SEND_BANK+'(B)',iconCls:'out',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0',scope:this,handler:this.send};
-	var b4={itemId:'TB_4',text:C_BACK_BANK+'(H)',iconCls:'in',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1',scope:this,handler:this.back};
-	var b5={itemId:'TB_5',text:C_ARRIVE_BANK+'(A)',iconCls:'dollar',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='2',scope:this,handler:this.arrive};
-	var b6={itemId:'TB_6',text:C_RECEIPT_FAILED+'(X)',iconCls:'cancel',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0',scope:this,handler:this.fail};
-	var b7={itemId:'TB_7',text:C_COMMIT+'(T)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.submit};
-	var b8={itemId:'TB_8',text:C_FIN_CHECK+'(C)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_A)||p.get('prStatus')!='1',scope:this,handler:this.check};
+	
+	var b1={itemId:'TB_1',text:C_SAVE,iconCls:'save',disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_M)||p.get('prStatus')!='0',scope:this,handler:this.save};
+	var b2={itemId:'TB_2',text:C_REMOVE,iconCls:'remove',disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_R)||p.get('prStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.removePr};
+	var b3={itemId:'TB_3',text:C_SEND_BANK,iconCls:'out',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0',scope:this,handler:this.send};
+	var b4={itemId:'TB_4',text:C_BACK_BANK,iconCls:'in',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='1',scope:this,handler:this.back};
+	var b5={itemId:'TB_5',text:C_ARRIVE_BANK,iconCls:'dollar',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='2',scope:this,handler:this.arrive};
+	var b6={itemId:'TB_6',text:C_RECEIPT_FAILED,iconCls:'cancel',disabled:NR(M1_S+S_PR_R+F_M)||p.get('prStatus')!='0',scope:this,handler:this.fail};
+	var b7={itemId:'TB_7',text:C_COMMIT,iconCls:'check',disabled:NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='0'||p.get('rowAction')=='N',scope:this,handler:this.submit};
+	var b8={itemId:'TB_8',text:C_FIN_CHECK,iconCls:'check',disabled:NR(M1_S+S_PR_P+F_A)||p.get('prStatus')!='1',scope:this,handler:this.check};
 	var b9={itemId:'TB_9',text:'(U)',tooltip:C_FIN_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_A)||p.get('prStatus')!='2',scope:this,handler:this.uncheck};
 	var b10={itemId:'TB_10',text:C_MANAGER_CHECK+'(M)',iconCls:'check',disabled:NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='2',scope:this,handler:this.check1};
 	var b11={itemId:'TB_11',text:'(V)',tooltip:C_MANAGER_CHECK_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_A2)||p.get('prStatus')!='3',scope:this,handler:this.uncheck1};
-	var b12={itemId:'TB_12',text:p.get('prType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P+'(W)',iconCls:'dollar',
-		disabled:NR(M1_S+(p.get('prType')=='R'?(S_PR_R+F_M):(S_PR_P+F_WO)))||p.get('prStatus')!='3',scope:this,handler:this.pay};
-	var b13={itemId:'TB_13',text:C_INVALID+'(F)',iconCls:'cancel',
+	
+	var b12={itemId:'TB_12',
+		text:p.get('prType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,
+		iconCls:'dollar',
+		disabled:NR(M1_S+(p.get('prType')=='R'?(S_PR_R+F_M):(S_PR_P+F_WO)))||p.get('prStatus')!='3',
+		scope:this,
+		handler:this.pay
+	};
+	
+	var b13={itemId:'TB_13',text:C_INVALID,iconCls:'cancel',
 			disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_F)||p.get('prStatus')=='0',
 			scope:this,handler:this.cancel};
-	var b14={itemId:'TB_14',text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_E)};
-	var b15={itemId:'TB_15',disabled:true,text:C_STATUS_C+getPRST(p.get('prStatus'))};
-	var b16={itemId:'TB_16',text:'(Q)',tooltip:C_COMMIT_CANCEL,iconCls:'renew',disabled:NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='1',scope:this,handler:this.uncheck0};
+	
+	var b14={itemId:'TB_14',
+		text:C_EXPORT,
+		iconCls:'print',
+		disabled:NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_E)
+	};
+	
+	var b15={itemId:'TB_15',
+		disabled:true,
+		text:C_STATUS_C+getPRST(p.get('prStatus'))
+	};
+	
+	var b16={itemId:'TB_16',
+		text:'(Q)',
+		tooltip:C_COMMIT_CANCEL,
+		iconCls:'renew',
+		disabled:NR(M1_S+S_PR_P+F_M)||p.get('prStatus')!='1',
+		scope:this,
+		handler:this.uncheck0
+	};
+	
 	this.updateToolBar = function(){
 		var tb=this.getTopToolbar();
 		tb.getComponent('TB_1').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_M)||p.get('prStatus')!='0');
@@ -481,80 +570,68 @@ Fos.PrTab = function(p) {
     	tb.getComponent('TB_14').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_E));
     	tb.getComponent('TB_15').setText(C_STATUS_C+p.get('prType')=='R'?getERST(p.get('prStatus')):getPRST(p.get('prStatus')));
     };
-    new Ext.KeyMap(Ext.getDoc(), {
-		key:'sdbhaxtcumvwfeq',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_PR_'+p.get('id'));
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		var tb=this.getTopToolbar();
-		 		switch(k) {
-		 		case Ext.EventObject.S:if(!tb.getComponent('TB_1').disabled) this.save();break;
-		 		case Ext.EventObject.D:if(!tb.getComponent('TB_2').disabled) this.removePr();break;
-		 		case Ext.EventObject.B:if(p.get('prType')=='R'&&!tb.getComponent('TB_3').disabled) this.send();break;	 		
-		 		case Ext.EventObject.H:if(p.get('prType')=='R'&&!tb.getComponent('TB_4').disabled) this.back();break;
-				case Ext.EventObject.A:if(p.get('prType')=='R'&&!tb.getComponent('TB_5').disabled) this.arrive();break;
-				case Ext.EventObject.X:if(p.get('prType')=='R'&&!tb.getComponent('TB_6').disabled) this.fail();break;
-				case Ext.EventObject.T:if(p.get('prType')=='P'&&!tb.getComponent('TB_7').disabled) this.submit();break;
-				case Ext.EventObject.C:if(p.get('prType')=='P'&&!tb.getComponent('TB_8').disabled) this.check();break;
-				case Ext.EventObject.U:if(p.get('prType')=='P'&&!tb.getComponent('TB_9').disabled) this.uncheck();break;
-				case Ext.EventObject.M:if(p.get('prType')=='P'&&!tb.getComponent('TB_10').disabled) this.check1();break;
-				case Ext.EventObject.V:if(p.get('prType')=='P'&&!tb.getComponent('TB_11').disabled) this.uncheck1();break;
-				case Ext.EventObject.W:if(!tb.getComponent('TB_12').disabled) this.pay();break;
-				case Ext.EventObject.F:if(!tb.getComponent('TB_13').disabled) this.cancel();break;
-				case Ext.EventObject.Q:if(p.get('prType')=='P'&&!tb.getComponent('TB_16').disabled) this.uncheck0();break;
-				}
-		 	}
-		},stopEvent:true,scope:this});
+   
 	Fos.PrTab.superclass.constructor.call(this, { 
-	id: 'T_PR_'+p.get('id'),title:(p.get('prType')=='R'?C_PR_R:C_PR_P)+'-'+p.get('prNo'),
-	autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,layout:'border',
-	tbar:p.get('prType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b12,'-',b13,'-',b14,'->','-',b15,'-']:[b1,'-',b2,'-',b7,'-',b16,'-',b8,'-',b9,'-',b10,'-',b11,'-',b12,'-',b13,'-',b14,'->','-',b15,'-'],
-	items: [{region:'north',height:180,layout:'column',layoutConfig:{columns:4},
-			bodyStyle:'padding:5px 0px 0px 0px',title:p.get('prType')=='R'?C_PR_R_INFO:C_PR_P_INFO,collapsible:true,
-    	items:[{columnWidth:.5,layout:'form',border:false,items:[        	
-        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:1,
-        		name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
-           		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
-           		typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-           		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){						
-					p.set('custId',r.get('custId'));
-					p.set('custSname',r.get('custCode'));
-					p.set('custName',r.get('custNameCn'));					
-					p.set('custBankCny',r.get('custBankCny'));
-					p.set('custAccountCny',r.get('custAccountCny'));
-					p.set('custBankUsd',r.get('custBankUsd'));
-					p.set('custAccountUsd',r.get('custAccountUsd'));
-					c.setValue(r.get('custNameCn'));
-					if(this.find('name','currCode')[0].getValue()=='CNY'){
-						this.find('name','custBank')[0].setValue(p.get('custBankCny'));
-						this.find('name','custAccount')[0].setValue(p.get('custAccountCny'));
-					}
-					else if(this.find('name','currCode')[0].getValue()=='USD'){
-						this.find('name','custBank')[0].setValue(p.get('custBankUsd'));
-						this.find('name','custAccount')[0].setValue(p.get('custAccountUsd'));
-					};
-				},
-				keydown:{fn:function(f,e){LC(f,e,p.get('prType')=='R'?'custArFlag':'custApFlag');},buffer:500}}}
-				]},
-			{columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:p.get('prType')=='R'?C_PR_NO_R:C_PR_NO_P,tabIndex:2,name:'prNo',value:p.get('prNo'),xtype:'textfield',anchor:'90%'}]},
-        	{columnWidth:.25,layout:'form',border:false,items: [{fieldLabel:p.get('prType')=='R'?C_PR_DATE_R:C_PR_DATE_P,tabIndex:3,name:'prDate',value:p.get('prDate'),xtype:'datefield',format:DATEF,anchor:'90%'}]},
-    		{columnWidth:.25,layout:'form',border:false,items:[
-         		{fieldLabel:C_CURR,itemCls:'required',disabled:true,tabIndex:4,name:'currCode',value:p.get('currCode'),store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-           		{fieldLabel:C_BANK,tabIndex:8,name:'prBank',value:p.get('prBank'),store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
-            		listeners:{scope:this,select:function(c,r,i){this.find('name','prAccount')[0].setValue(r.get('cobaAccount'));}}}]},
-         	{columnWidth:.25,layout:'form',border:false,
-                items: [{fieldLabel:C_EX_RATE,tabIndex:5,name:'prExRate',value:p.get('prExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'90%'},
-                {fieldLabel:C_BANK_ACCOUNT,tabIndex:9,name:'prAccount',value:p.get('prAccount'),xtype:'textfield',anchor:'90%'}]},
-            {columnWidth:.25,layout: 'form',border : false,
-                items: [{fieldLabel:HL(C_AMOUNT),tabIndex:6,name:'prAmount',value:p.get('prAmount'),xtype:'numberfield',anchor:'90%'},
-                {fieldLabel:C_CUST_BANK,tabIndex:10,name:'custBank',value:p.get('custBank'),xtype:'textfield',anchor:'90%'}]},
-            {columnWidth:.25,layout: 'form',border : false,
-                items: [{fieldLabel:C_SEWA,tabIndex:7,name:'prPaymentType',value:p.get('prPaymentType'),store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-                {fieldLabel:C_CUST_BANK_ACCOUNT,tabIndex:11,name:'custAccount',value:p.get('custAccount'),xtype:'textfield',format:DATEF,anchor:'90%'}]},
-            {columnWidth:.99,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,name:'prRemarks',value:p.get('prRemarks'),tabIndex:12,xtype:'textarea',anchor:'90%'}]}
-            ]},
-		{title:C_INVO_LIST,layout:'fit',region:'center',deferredRender:false,items:this.grid}
-        ]});
+		id: 'T_PR_'+p.get('id'),
+		title:(p.get('prType')=='R'?C_PR_R:C_PR_P)+'-'+p.get('prNo'),
+		autoScroll:true,
+		labelAlign:'right',
+		closable:true,
+		labelWidth:80,
+		border:false,
+		width:800,
+		layout:'border',
+		tbar:p.get('prType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b12,'-',b13,'-',b14,
+		      '->','-',b15,'-']:
+		      [b1,'-',b2,'-',b7,'-',b16,'-',b8,'-',b9,'-',b10,'-',b11,'-',b12,'-',b13,'-',b14,
+		      '->','-',b15,'-'],
+		items: [{region:'north',height:180,layout:'column',layoutConfig:{columns:4},
+				bodyStyle:'padding:5px 0px 0px 0px',title:p.get('prType')=='R'?C_PR_R_INFO:C_PR_P_INFO,collapsible:true,
+	    	items:[{columnWidth:.5,layout:'form',border:false,items:[        	
+	        	{fieldLabel:C_SETTLE_OBJECT,itemCls:'required',tabIndex:1,
+	        		name:'custName',value:p.get('custName'),store:getCS(),enableKeyEvents:true,
+	           		allowBlank:false,xtype:'combo',displayField:'custCode',valueField:'custCode',
+	           		typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
+	           		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,select:function(c,r,i){						
+						p.set('custId',r.get('custId'));
+						p.set('custSname',r.get('custCode'));
+						p.set('custName',r.get('custNameCn'));					
+						p.set('custBankCny',r.get('custBankCny'));
+						p.set('custAccountCny',r.get('custAccountCny'));
+						p.set('custBankUsd',r.get('custBankUsd'));
+						p.set('custAccountUsd',r.get('custAccountUsd'));
+						c.setValue(r.get('custNameCn'));
+						if(this.find('name','currCode')[0].getValue()=='CNY'){
+							this.find('name','custBank')[0].setValue(p.get('custBankCny'));
+							this.find('name','custAccount')[0].setValue(p.get('custAccountCny'));
+						}
+						else if(this.find('name','currCode')[0].getValue()=='USD'){
+							this.find('name','custBank')[0].setValue(p.get('custBankUsd'));
+							this.find('name','custAccount')[0].setValue(p.get('custAccountUsd'));
+						};
+					},
+					keydown:{fn:function(f,e){LC(f,e,p.get('prType')=='R'?'custArFlag':'custApFlag');},buffer:500}}}
+					]},
+				{columnWidth:.25,layout:'form',border:false,items:[{fieldLabel:p.get('prType')=='R'?C_PR_NO_R:C_PR_NO_P,tabIndex:2,name:'prNo',value:p.get('prNo'),xtype:'textfield',anchor:'90%'}]},
+	        	{columnWidth:.25,layout:'form',border:false,items: [{fieldLabel:p.get('prType')=='R'?C_PR_DATE_R:C_PR_DATE_P,tabIndex:3,name:'prDate',value:p.get('prDate'),xtype:'datefield',format:DATEF,anchor:'90%'}]},
+	    		{columnWidth:.25,layout:'form',border:false,items:[
+	         		{fieldLabel:C_CURR,itemCls:'required',disabled:true,tabIndex:4,name:'currCode',value:p.get('currCode'),store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	           		{fieldLabel:C_BANK,tabIndex:8,name:'prBank',value:p.get('prBank'),store:getCOBA_S(),xtype:'combo',displayField:'cobaBank',valueField:'cobaBank',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	            		listeners:{scope:this,select:function(c,r,i){this.find('name','prAccount')[0].setValue(r.get('cobaAccount'));}}}]},
+	         	{columnWidth:.25,layout:'form',border:false,
+	                items: [{fieldLabel:C_EX_RATE,tabIndex:5,name:'prExRate',value:p.get('prExRate'),disabled:p.get('currCode')=='CNY',xtype:'numberfield',decimalPrecision:4,anchor:'90%'},
+	                {fieldLabel:C_BANK_ACCOUNT,tabIndex:9,name:'prAccount',value:p.get('prAccount'),xtype:'textfield',anchor:'90%'}]},
+	            {columnWidth:.25,layout: 'form',border : false,
+	                items: [{fieldLabel:HL(C_AMOUNT),tabIndex:6,name:'prAmount',value:p.get('prAmount'),xtype:'numberfield',anchor:'90%'},
+	                {fieldLabel:C_CUST_BANK,tabIndex:10,name:'custBank',value:p.get('custBank'),xtype:'textfield',anchor:'90%'}]},
+	            {columnWidth:.25,layout: 'form',border : false,
+	                items: [{fieldLabel:C_SEWA,tabIndex:7,name:'prPaymentType',value:p.get('prPaymentType'),store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	                {fieldLabel:C_CUST_BANK_ACCOUNT,tabIndex:11,name:'custAccount',value:p.get('custAccount'),xtype:'textfield',format:DATEF,anchor:'90%'}]},
+	            {columnWidth:.99,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,name:'prRemarks',value:p.get('prRemarks'),tabIndex:12,xtype:'textarea',anchor:'90%'}]}
+	            ]},
+			{title:C_INVO_LIST,layout:'fit',region:'center',deferredRender:false,items:this.grid}
+        ]
+	});
 };
 Ext.extend(Fos.PrTab, Ext.FormPanel);
 
@@ -602,7 +679,16 @@ Fos.PrLookupWin = function(t) {
         	]}
         ]
     });
-    Fos.PrLookupWin.superclass.constructor.call(this, {title:t=='R'?C_PR_R_QUERY:C_PR_P_QUERY,iconCls:'search',modal:true,width:600,minWidth:300,
-        minHeight:200,plain:true,bodyStyle:'padding:0px;',buttonAlign:'right',items:frmLookup}); 
+    Fos.PrLookupWin.superclass.constructor.call(this, {
+    	title:t=='R'?C_PR_R_QUERY:C_PR_P_QUERY,
+    	iconCls:'search',
+    	modal:true,
+    	width:600,
+    	minWidth:300,
+        minHeight:200,
+        plain:true,
+        buttonAlign:'right',
+        items:frmLookup
+	}); 
 };
 Ext.extend(Fos.PrLookupWin, Ext.Window);

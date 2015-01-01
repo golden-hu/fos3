@@ -85,27 +85,10 @@ Fos.BillGrid = function(t) {
         store.baseParams={mt:'JSON',xml:Ext.util.JSON.encode(FOSJ(QTJ(a)))};
         store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
     };
-    var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
-    var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-    new Ext.KeyMap(Ext.getDoc(), {
-        key:'nmdf',ctrl:true,
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_BILL_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){
-                switch(k) {
-                case Ext.EventObject.N: if(!NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_M)) this.add();break;
-                case Ext.EventObject.M: if(!NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_M)) this.edit();break;
-                case Ext.EventObject.D: if(!NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_R)) this.removeBill();break;                   
-                case Ext.EventObject.F: this.search();break;
-                }
-            }
-        },stopEvent:true,scope:this});
-    new Ext.KeyMap(Ext.getDoc(), {key:[116],
-        handler: function(k, e) {
-           var tc = T_MAIN.getComponent('G_BILL_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
-        },stopEvent: true,scope:this
-    });
+    
+    var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch}; 
+    var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
+   
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_BILL_'+t);
             if(tc&&tc==T_MAIN.getActiveTab()){
@@ -113,6 +96,7 @@ Fos.BillGrid = function(t) {
             if (!pt[page].disabled) pt.onClick(page);
          }
     };
+    
     this.nav = new Ext.KeyNav(Ext.getDoc(),{
         pageDown: this.pagingNav.createDelegate(this,['next']),
         pageUp: this.pagingNav.createDelegate(this, ['prev']),
@@ -120,13 +104,14 @@ Fos.BillGrid = function(t) {
         end: this.pagingNav.createDelegate(this,['last']),
         scope:this
     });
+    
 	Fos.BillGrid.superclass.constructor.call(this, {    
     id:'G_BILL_'+t,iconCls:'grid',store: store,title:t=='R'?C_BILL_R_LIST:C_BILL_P_LIST,header:false,autoScroll:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_M),handler:this.add},'-',
-		{text:C_EDIT+'(M)',iconCls:'option',disabled:NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_M),handler:this.edit},'-',
-		{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_R),handler:this.removeBill},'-',
-		{text:C_SEARCH+'(F)',iconCls:'search',handler:this.search},'-',
+	tbar:[{text:C_ADD,iconCls:'add',disabled:NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_M),handler:this.add},'-',
+		{text:C_EDIT,iconCls:'option',disabled:NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_M),handler:this.edit},'-',
+		{text:C_REMOVE,iconCls:'remove',disabled:NR(M1_S+(t=='R'?S_BILL_R:S_BILL_P)+F_R),handler:this.removeBill},'-',
+		{text:C_SEARCH,iconCls:'search',handler:this.search},'-',
 		kw,b8,'-',b9,'-'],
 	bbar:PTB(store,C_PS)});
 };    

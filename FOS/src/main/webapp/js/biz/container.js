@@ -90,20 +90,22 @@ Fos.ContainerTab = function(p) {
 	
 	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var cm2=new Ext.grid.ColumnModel({columns:[sm2,
-	{header:C_MBL_NO,dataIndex:'consMblNo',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_MARKS,dataIndex:'cocaMarks',width:80,editor:new Ext.form.TextField({})},	
-	{header:C_CARGO_NAME_EN,dataIndex:'cocaCargoName',width:80,editor:new Ext.form.TextField({})},	
-	{header:C_PACKAGES,dataIndex:'cocaPackageNum',width:60,editor:new Ext.form.NumberField({allowBlank:false})},
-	{header:C_PACK,dataIndex:'packName',width:80,renderer:getPACK,
-			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packName',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
-            listeners:{scope:this,select:function(c,r,i){this.cargoGrid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
-	{header:C_GW,dataIndex:'cocaGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},	
-	{header:C_CBM,dataIndex:'cocaMeasurement',width:80,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_CONS_NO,dataIndex:'consNo',width:120},   	
-   	{header:C_HBL_NO,dataIndex:'consHblNo',width:120},
-   	{header:C_BOOKER,dataIndex:'consCustName',width:120}
-	],defaults:{sortable:true,width:120}});
+		{header:C_MBL_NO,dataIndex:'consMblNo',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_MARKS,dataIndex:'cocaMarks',width:80,editor:new Ext.form.TextField({})},	
+		{header:C_CARGO_NAME_EN,dataIndex:'cocaCargoName',width:80,editor:new Ext.form.TextField({})},	
+		{header:C_PACKAGES,dataIndex:'cocaPackageNum',width:60,editor:new Ext.form.NumberField({allowBlank:false})},
+		{header:C_PACK,dataIndex:'packName',width:80,renderer:getPACK,
+				editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packName',triggerAction:'all',
+	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
+	            listeners:{scope:this,select:function(c,r,i){this.cargoGrid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
+		{header:C_GW,dataIndex:'cocaGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},	
+		{header:C_CBM,dataIndex:'cocaMeasurement',width:80,renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_CONS_NO,dataIndex:'consNo',width:120},   	
+	   	{header:C_HBL_NO,dataIndex:'consHblNo',width:120},
+	   	{header:C_BOOKER,dataIndex:'consCustName',width:120}
+		],defaults:{sortable:true,width:120}
+	});
+	
 	this.addCargo=function(){
 		var r = this.grid.getSelectionModel().getSelected();
 		if(r){
@@ -153,6 +155,7 @@ Fos.ContainerTab = function(p) {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.removeCargo=function(){
 		var r = this.cargoGrid.getSelectionModel().getSelections();
 		if(r.length){
@@ -165,6 +168,7 @@ Fos.ContainerTab = function(p) {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.cargoGrid = new Ext.grid.EditorGridPanel({title:C_CONT_SHIP_LIST,autoScroll:true,sm:sm2,cm:cm2,
 		store:new Ext.data.Store({reader:new Ext.data.XmlReader({id:'cocaId',record:'FContainerCargo'},FContainerCargo),sortInfo:{field:'cocaId',direction:'ASC'}}),
 		listeners:{scope:this,afteredit:function(e){
@@ -175,6 +179,7 @@ Fos.ContainerTab = function(p) {
 			{text:C_ADD+'(A)',iconCls:'add',scope:this,handler:this.addCargo},'-',
 		{text:C_REMOVE+'(D)',iconCls:'remove',scope:this,handler:this.removeCargo},'-'
 	]});
+	
 	this.addCont = function(){
 		var rid=GGUID();
 		var c = new FContainer({id:rid,contId:rid,consId:p.get('consId'),consNo:p.get('consNo'),
@@ -229,7 +234,10 @@ Fos.ContainerTab = function(p) {
 					var c = XTR(res.responseXML,'FConsign',FConsign);
 					var f = FConsign.prototype.fields;
 					p.beginEdit();
-	   				for (var i = 0; i < f.keys.length; i++) {var fn = ''+f.keys[i];p.set(fn,c.get(fn));};
+	   				for (var i = 0; i < f.keys.length; i++) {
+	   					var fn = ''+f.keys[i];
+	   					p.set(fn,c.get(fn));
+	   				};
 					p.endEdit();
 					
 					var a = XTRA(res.responseXML,'FContainerCargo',FContainerCargo);
@@ -244,15 +252,24 @@ Fos.ContainerTab = function(p) {
 		}
 		else XMG.alert(SYS,M_NC);
 	};
+	
 	this.expExcel=function(){
 		var b = this.grid.getSelectionModel().getSelected();
 		if(b){
-			b.beginEdit();this.getForm().updateRecord(b);b.endEdit();
-			if(b.dirty){XMG.alert(SYS,M_DIRTY_PROMPT);return;}
-			else EXPC('CONT','&contId='+b.get('contId'));
+			b.beginEdit();
+			this.getForm().updateRecord(b);
+			b.endEdit();
+			if(b.dirty){
+				XMG.alert(SYS,M_DIRTY_PROMPT);
+				return;
+			}
+			else 
+				EXPC('CONT','&contId='+b.get('contId'));
 		}
-		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.expEmail=function(){		
 		var b =this.grid.getSelectionModel().getSelected();
 		if(b){
@@ -264,34 +281,10 @@ Fos.ContainerTab = function(p) {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONT;
 	var menu=CREATE_E_MENU(C_CONT_BILL,this.expExcel,this.expEmail,function(){},this);
-	new Ext.KeyMap(Ext.getDoc(), {
-			key:'nrsead',ctrl:true,
-			handler: function(k, e) {
-			 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-			 	if(tc&&tc==T_MAIN.getActiveTab()){
-				 	var te=tc.getComponent('T_CONT_'+p.get('id'));
-				 	if(te==tc.getActiveTab())
-				 	{
-				 		switch(k) {
-						case Ext.EventObject.N:
-							if(!NR(m+F_M)) this.addCont();break;
-						case Ext.EventObject.R:
-							if(!NR(m+F_R)) this.removeCont();break;
-						case Ext.EventObject.S:
-							if(!NR(m+F_M)) this.save();break;
-						case Ext.EventObject.E:
-							if(!NR(m+F_M)) this.expExcel();break;
-						case Ext.EventObject.A:
-							if(!NR(m+F_M)) this.addCargo();break;
-						case Ext.EventObject.D:
-							if(!NR(m+F_R)) this.removeCargo();break;
-						}
-				 	}
-			 	}
-			},stopEvent:true,scope:this});
-	
+		
 	this.getVendorId=function(){    	
     	return p.get('consCfs');
     };
@@ -301,18 +294,30 @@ Fos.ContainerTab = function(p) {
 	var expPanel = new Fos.SectionExGrid(p,'CONT',this);
 	
 	Fos.ContainerTab.superclass.constructor.call(this, { 
-	id:'T_CONT_'+p.get('id'),title:C_SR_CONT+'(F6)',border:true,autoScroll:true,header:false,deferredRender:false,autoScroll:true,	
-	labelAlign:'right',labelWidth:80,bodyStyle:'padding:0px 0px 10px',border:true,layout:'border',
-    tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addCont},'-',
-		{text:C_REMOVE+'(R)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeCont}, '-', 
-		{text:C_SAVE+'(S)',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
-		{text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(m+F_E),scope:this,menu:{items:[menu]}},'->',
-		{xtype:'tbtext',text:C_SUM_PACK},totalPackages,'-',
-		{xtype:'tbtext',text:C_SUM_GW},totalGrossWeight,'-',
-		{xtype:'tbtext',text:C_SUM_CBM},totalMeasurement],
-	items: [this.grid,
-		{xtype:'tabpanel',activeTab:0,region:'center',border:false,items:[this.cargoGrid,expPanel]
-	}]});
+		id:'T_CONT_'+p.get('id'),
+		title:C_SR_CONT,
+		border:true,
+		autoScroll:true,
+		header:false,
+		deferredRender:false,
+		autoScroll:true,	
+		labelAlign:'right',
+		labelWidth:80,
+		bodyStyle:'padding:0px 0px 10px',
+		border:true,
+		layout:'border',
+		tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addCont},'-',
+			{text:C_REMOVE,iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeCont}, '-', 
+			{text:C_SAVE,iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
+			{text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E),scope:this,menu:{items:[menu]}},'->',
+			{xtype:'tbtext',text:C_SUM_PACK},totalPackages,'-',
+			{xtype:'tbtext',text:C_SUM_GW},totalGrossWeight,'-',
+			{xtype:'tbtext',text:C_SUM_CBM},totalMeasurement
+		],
+		items: [this.grid,
+	        {xtype:'tabpanel',activeTab:0,region:'center',border:false,items:[this.cargoGrid,expPanel]
+	        }]
+	});
 };
 Ext.extend(Fos.ContainerTab, Ext.FormPanel);
 
@@ -347,9 +352,15 @@ Fos.ContainerGrid = function(p,store) {
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;	
 	
 	Fos.ContainerGrid.superclass.constructor.call(this, { 
-	id:'G_CONT_EXP'+p.get('id'),border:false,plugins:[checkSOC,checkPOF],autoScroll:true,
-	clicksToEdit:1,height:500,
-    store: store,sm:sm,cm:cm,
+	id:'G_CONT_EXP'+p.get('id'),
+	border:false,
+	plugins:[checkSOC,checkPOF],
+	autoScroll:true,
+	clicksToEdit:1,
+	height:500,
+    store: store,
+    sm:sm,
+    cm:cm,
     tbar:[{text:C_ADD,iconCls:'add',disabled:NR(m+F_M),scope:this,handler:function(){
 			var c = new FContainer({id:GGUID(),contId:'0',contNum:1,
 			contPreFlag:p.get('consBizClass')==BC_I?'N':'Y',

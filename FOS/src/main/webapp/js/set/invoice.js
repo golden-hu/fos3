@@ -269,29 +269,9 @@ Fos.InvoiceGrid = function(t) {
        	else XMG.alert(SYS,M_R_P);
     };
     
-    new Ext.KeyMap(Ext.getDoc(), {
-		key:'nmdfe',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('G_INVO_'+t);
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		switch(k) {
-		 		case Ext.EventObject.N: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M)) this.add();break;
-		 		case Ext.EventObject.M: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M)) this.edit();break;
-		 		case Ext.EventObject.D: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R)) this.removeInvo();break;			 		
-		 		case Ext.EventObject.F: this.search();break;
-				case Ext.EventObject.E: if(!NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E)) EXP('C','INVO_LIST','&mt=xml&xml='+Ext.util.JSON.encode(store.baseParams.xml));break;
-				}
-		 	}
-		},stopEvent:true,scope:this});
+    var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch}; 
+    var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
     
-    var b8={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch}; 
-    var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-    new Ext.KeyMap(Ext.getDoc(), {key:[116],
-        handler: function(k, e) {
-            var tc = T_MAIN.getComponent('G_INVO_'+t);
-            if(tc&&tc==T_MAIN.getActiveTab()){switch(k) {case Ext.EventObject.F5:this.reset();break;}}
-        },stopEvent: true,scope:this
-    });
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_INVO_'+t);
         if(tc&&tc==T_MAIN.getActiveTab()){
@@ -299,6 +279,7 @@ Fos.InvoiceGrid = function(t) {
             if (!pt[page].disabled) pt.onClick(page);
          }
     };
+    
     this.nav = new Ext.KeyNav(Ext.getDoc(),{
         pageDown: this.pagingNav.createDelegate(this,['next']),
         pageUp: this.pagingNav.createDelegate(this, ['prev']),
@@ -319,11 +300,11 @@ Fos.InvoiceGrid = function(t) {
 	Fos.InvoiceGrid.superclass.constructor.call(this, {    
     id:'G_INVO_'+t,iconCls:'grid',store: store,title:t=='R'?C_INVO_R_MGT:C_INVO_P_MGT,header:false,autoScroll:true,
 	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:[{text:C_ADD+'(N)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'add',scope:this,handler:this.add},'-',
-		{text:C_EDIT+'(M)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'option',handler:this.edit},'-',
-		{text:C_REMOVE+'(D)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R),iconCls:'remove',handler:this.removeInvo},'-',
-		{text:C_SEARCH+'(F)',iconCls:'search',handler:this.search},'-',
-		{text:C_EXPORT+'(E)',disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:this.exp},'-',
+	tbar:[{text:C_ADD,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'add',scope:this,handler:this.add},'-',
+		{text:C_EDIT,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'option',handler:this.edit},'-',
+		{text:C_REMOVE,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R),iconCls:'remove',handler:this.removeInvo},'-',
+		{text:C_SEARCH,iconCls:'search',handler:this.search},'-',
+		{text:C_EXPORT,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:this.exp},'-',
         kw,b8,'-',b9,'-'],
 	bbar:PTB(store,C_PS)});
 };
@@ -662,7 +643,9 @@ Fos.InvoEntryGrid = function(p,frm) {
 	
 	this.add=function(){
 		var e = new SInvoiceEntry({id:GGUID(),
-			inenId:'0',version:'0',rowAction:'N'
+			inenId:'0',
+			version:'0',
+			rowAction:'N'
 		});
 		this.stopEditing();
 		store.insert(0,e);
@@ -748,58 +731,47 @@ Fos.InvoEntryGrid = function(p,frm) {
 		p.set('invoAmountCapitalEn',p.get('currCode')+' '+N2D(total));
 	};
 	
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'adbx',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_INVO_'+p.get('id'));
-		 	if(tc&&tc==T_MAIN.getActiveTab())			 	{
-		 		var ti=tc.getComponent('T_INV_T_'+p.get('id'));
-		 		var tl=ti.getComponent('T_INV_LI_'+p.get('id'));
-		 		if(tl==ti.getActiveTab()){		 			
-		 			var tb=this.getTopToolbar();
-		 			switch(k) {
-			 		case Ext.EventObject.A:
-						if(!tb.getComponent('TB_A').disabled) this.add();break;
-			 		case Ext.EventObject.D:
-			 			if(!tb.getComponent('TB_B').disabled) this.removeInen();break;
-			 		case Ext.EventObject.B:
-			 			if(!tb.getComponent('TB_C').disabled) this.merge();break;
-			 		case Ext.EventObject.X:
-			 			if(!tb.getComponent('TB_D').disabled) this.refresh();break;
-					}
-		 		}
-		 	}
-		},stopEvent:true,scope:this});
 	
 	Fos.InvoEntryGrid.superclass.constructor.call(this, {
-	id:'G_INVO_E'+p.get('id'),border:true,autoScroll:true,clicksToEdit:1,header:false,height:270,stripeRows:true,
-    store: store,sm:sm,cm:cm,
-    listeners:{scope:this,afteredit:function(e){
-    	var f=e.field;var r=e.record;
-    	if(f=='inenNum'){
-			r.set('inenTotalAmount',e.value*r.get('inenUnitPrice'));
-			r.set('inenInvoiceAmount',r.get('inenTotalAmount')*r.get('inenExRate'));
-			this.calculateSum();
-    	}
-		else if(f=='inenUnitPrice'){
-			r.set('inenTotalAmount',e.value*r.get('inenNum'));
-			r.set('inenInvoiceAmount',r.get('inenTotalAmount')*r.get('inenExRate'));
-			this.calculateSum();
-		}
-		else if(f=='currCode'){
-			r.set('inenExRate',getExRate(e.value,p.get('currCode')));
-			r.set('inenInvoiceAmount',r.get('inenTotalAmount')*r.get('inenExRate'));
-			this.calculateSum();
-		}
-		else if(f=='inenInvoiceAmount'){
-			this.calculateSum();
-		}
-    }},
-    bbar:[{xtype:'tbtext',text:C_TOTAL_AMOUNT_C},'-',sumEn,'-',{xtype:'tbtext',text:C_CAP_AMOUNT_C},'-',sumCap,'-',{xtype:'tbtext',text:C_CAP_AMOUNT_E},'-',sumCapEn],
-    tbar:[{itemId:'TB_A',text:C_ADD+'(A)',iconCls:'add',disabled:p.get('invoStatus')!='0',scope:this,handler:this.add}, '-',
-		{itemId:'TB_B',text:C_REMOVE+'(D)',iconCls:'remove',disabled:p.get('invoStatus')!='0',scope:this,handler:this.removeInen},
-		{itemId:'TB_C',text:C_MERGE+'(B)',iconCls:'save',disabled:p.get('invoStatus')!='0',scope:this,handler:this.merge},
-		{itemId:'TB_D',text:C_REFRESH+'(X)',iconCls:'refresh',disabled:p.get('invoStatus')!='0',scope:this,handler:this.refresh}]});
+		id:'G_INVO_E'+p.get('id'),
+		border:true,
+		autoScroll:true,
+		clicksToEdit:1,
+		header:false,
+		height:270,
+		stripeRows:true,
+	    store: store,
+	    sm:sm,
+	    cm:cm,
+	    listeners:{scope:this,
+	    	afteredit:function(e){
+		    	var f=e.field;var r=e.record;
+		    	if(f=='inenNum'){
+					r.set('inenTotalAmount',e.value*r.get('inenUnitPrice'));
+					r.set('inenInvoiceAmount',r.get('inenTotalAmount')*r.get('inenExRate'));
+					this.calculateSum();
+		    	}
+				else if(f=='inenUnitPrice'){
+					r.set('inenTotalAmount',e.value*r.get('inenNum'));
+					r.set('inenInvoiceAmount',r.get('inenTotalAmount')*r.get('inenExRate'));
+					this.calculateSum();
+				}
+				else if(f=='currCode'){
+					r.set('inenExRate',getExRate(e.value,p.get('currCode')));
+					r.set('inenInvoiceAmount',r.get('inenTotalAmount')*r.get('inenExRate'));
+					this.calculateSum();
+				}
+				else if(f=='inenInvoiceAmount'){
+					this.calculateSum();
+				}
+		    }
+	    },
+	    bbar:[{xtype:'tbtext',text:C_TOTAL_AMOUNT_C},'-',sumEn,'-',{xtype:'tbtext',text:C_CAP_AMOUNT_C},'-',sumCap,'-',{xtype:'tbtext',text:C_CAP_AMOUNT_E},'-',sumCapEn],
+	    tbar:[{itemId:'TB_A',text:C_ADD,iconCls:'add',disabled:p.get('invoStatus')!='0',scope:this,handler:this.add}, '-',
+			{itemId:'TB_B',text:C_REMOVE,iconCls:'remove',disabled:p.get('invoStatus')!='0',scope:this,handler:this.removeInen},
+			{itemId:'TB_C',text:C_MERGE,iconCls:'save',disabled:p.get('invoStatus')!='0',scope:this,handler:this.merge},
+			{itemId:'TB_D',text:C_REFRESH,iconCls:'refresh',disabled:p.get('invoStatus')!='0',scope:this,handler:this.refresh}]
+    });
 };    
 Ext.extend(Fos.InvoEntryGrid, Ext.grid.EditorGridPanel);
 
@@ -1017,42 +989,8 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		var t = T_MAIN.add(new Fos.VoucherTab(e,'',p.get('invoId')));
 		T_MAIN.setActiveTab(t);
 	};
-	
-    new Ext.KeyMap(Ext.getDoc(), {
-		key:'srcufmea',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_INVO_'+p.get('id'));
-		 	if(tc){
-			 	if(tc==T_MAIN.getActiveTab())
-			 	{
-			 		var tb=this.getTopToolbar();
-			 		switch(k) {
-			 		case Ext.EventObject.S:
-						if(!btSave.disabled) 
-							this.save();
-						break;
-			 		case Ext.EventObject.R:
-			 			if(!tb.getComponent('TB_B').disabled) this.removeInvo();break;
-			 		case Ext.EventObject.C:
-			 			if(!tb.getComponent('TB_C').disabled) this.check();break;	 		
-			 		case Ext.EventObject.U:
-			 			if(!tb.getComponent('TB_D').disabled) this.renew();break;
-					case Ext.EventObject.F:
-						if(!tb.getComponent('TB_E').disabled) this.cancel();break;
-					case Ext.EventObject.M:
-						if(!tb.getComponent('TB_F').disabled) this.editTax();break;
-					case Ext.EventObject.E:
-						if(!p.get('invoWriteOffStatus')==1) this.expInvo();break;
-					case Ext.EventObject.N:
-						if(!tb.getComponent.get('TB_G').disabled) this.addInvoice();break;
-					}
-			 	}
-		 	}
-		},stopEvent:true,scope:this});
-    
-    
-    
-    var btSave = new Ext.Button({itemId:'TB_A',text:C_SAVE+'(S)',
+	       
+    var btSave = new Ext.Button({itemId:'TB_A',text:C_SAVE,
     	iconCls:'save',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_M)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0',
     	scope:this,
@@ -1060,7 +998,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     });
     
     var b2={itemId:'TB_B',
-    	text:C_REMOVE+'(R)',
+    	text:C_REMOVE,
     	iconCls:'remove',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
     	scope:this,
@@ -1068,7 +1006,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     };
     
     var b3={itemId:'TB_C',
-    	text:C_AUDIT+'(C)',
+    	text:C_AUDIT,
     	iconCls:'check',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',
     	scope:this,
@@ -1076,7 +1014,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     };
     
     var b4={itemId:'TB_D',
-    	text:C_CANCEL_AUDIT+'(U)',
+    	text:C_CANCEL_AUDIT,
     	iconCls:'renew',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')==2,
     	scope:this,
@@ -1084,7 +1022,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     };
     
     var b5={itemId:'TB_E',
-    	text:C_INVALID+'(F)',
+    	text:C_INVALID,
     	iconCls:'cancel',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0',
     	scope:this,
@@ -1092,7 +1030,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     };
     
     var b6={itemId:'TB_F',
-    	text:C_MODIFY_INVO_NO+'(M)',
+    	text:C_MODIFY_INVO_NO,
     	iconCls:'option',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
     	scope:this,
@@ -1115,7 +1053,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	};
     
     //应付账单
-	var b11={text:C_EXPORT+'(E)',
+	var b11={text:C_EXPORT,
 		iconCls:'print',
 		disabled:p.get('invoWriteOffStatus')!='0',
 		scope:this,
@@ -1128,7 +1066,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	};
 	
 	var b9={itemId:'TB_G',
-		text:C_ADD+'(N)',
+		text:C_ADD,
 		iconCls:'add',
 		scope:this,
 		handler:this.addInvoice
@@ -1288,29 +1226,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	var c13={fieldLabel:C_REMARKS,tabIndex:13,name:'invoRemarks',value:p.get('invoRemarks'),xtype:'textarea',anchor:'90%'};
 	var c14={fieldLabel:C_CONS_NO,tabIndex:14,name:'invoConsNo',value:p.get('invoConsNo'),xtype:'textfield',anchor:'90%'};
 	var c15={fieldLabel:C_DEBIT_NOTE,tabIndex:15,name:'invoDebitnoteFlag',checked:p.get('invoDebitnoteFlag')=='1',xtype:'checkbox',anchor:'90%'};
-	
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'el',alt:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_INVO_'+p.get('id'));
-		 	var tb=tc.getComponent('T_INV_T_'+p.get('id'));
-		 	if(tc==T_MAIN.getActiveTab())
-		 	{
-		 	switch(k) {
-				case Ext.EventObject.E:
-					var t=tb.getComponent('T_INV_EN_'+p.get('id'));
-					if(t) 
-						tb.setActiveTab(t);
-					break;
-				case Ext.EventObject.L:
-					var t=tb.getComponent('T_INV_LI_'+p.get('id'));
-					if(t) 
-						tb.setActiveTab(t);
-					break;							
-			}}
-		},
-		stopEvent: true
-	});
+
 	
 	Fos.InvoiceTab.superclass.constructor.call(this, { 
 		id: 'T_INVO_'+p.get('id'),
@@ -1434,9 +1350,18 @@ Fos.InvoNoGrid = function() {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	Fos.InvoNoGrid.superclass.constructor.call(this,{
-	id:'G_INNO',title:C_INNO_MGT,closable:true,
-		border:false,height:200,autoScroll:true,sm:sm,cm:cm,store:store,sortInfo:{field:'innoId',direction:'DESC'},
+		id:'G_INNO',
+		title:C_INNO_MGT,
+		closable:true,
+		border:false,
+		height:200,
+		autoScroll:true,
+		sm:sm,
+		cm:cm,
+		store:store,
+		sortInfo:{field:'innoId',direction:'DESC'},
 		tbar:[{text:C_ADD,disabled:NR(M1_S+S_INNO+F_M),iconCls:'add',scope:this,handler:function(){				
 				var r = new SInvoiceNo({id:GGUID(),innoId:0,innoPrefix:'',innoStartNo:'',innoEndNo:'',innoNextNo:'',
 				innoStartDate:'',active:'0',version:'0'});
@@ -1452,10 +1377,25 @@ Ext.extend(Fos.InvoNoGrid, Ext.grid.EditorGridPanel);
 
 
 Fos.CurrencyWin = function() {
-    Fos.CurrencyWin.superclass.constructor.call(this, {title:C_CURR_P,modal:true,width:180,
-        height:90,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:[
-        {fieldLabel:C_CURR,id:'currCode',value:'CNY',allowBlank:false,store:getCURR_S(),xtype:'combo',
-        	displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',
-        	selectOnFocus:true,anchor:'99%'}]}); 
+    Fos.CurrencyWin.superclass.constructor.call(this, {title:C_CURR_P,
+    	modal:true,
+    	width:180,
+        height:90,
+        plain:false,
+        buttonAlign:'right',
+        items:[
+        {fieldLabel:C_CURR,
+        	id:'currCode',
+        	value:'CNY',
+        	allowBlank:false,
+        	store:getCURR_S(),
+        	xtype:'combo',
+        	displayField:'currCode',
+        	valueField:'currCode',
+        	typeAhead: true,
+        	mode: 'local',
+        	triggerAction: 'all',
+        	selectOnFocus:true,anchor:'99%'}]
+    }); 
 };
 Ext.extend(Fos.CurrencyWin, Ext.Window);
