@@ -475,7 +475,7 @@ Fos.BLTab = function(p) {
 	var expPanel = new Fos.SectionExGrid(p,'BL',this);	
 	
 	Fos.BLTab.superclass.constructor.call(this, { 
-		id: "T_BL_" +p.get('id'),title:C_SR_BL+'(F7)',layout:'border',
+		id: "T_BL_" +p.get('id'),title:C_SR_BL,layout:'border',
 		items: [this.grid,
 	        {region:'center',header:false,layout:'fit',items:[expPanel]
 			}]

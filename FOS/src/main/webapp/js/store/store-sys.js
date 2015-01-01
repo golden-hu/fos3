@@ -173,7 +173,7 @@ getROLE_T = function(v){if(v>=0) return ROLE_T_S.getById(v).get('NAME'); else re
 var TECL_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['A','普通'],['B','套打']]});
 getTECL = function(v){if(v) return TECL_S.getById(v).get('NAME'); else return '';};
 
-var ACLO_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FConsign','委托'],['FBl','提单'],['FContract','租船合同'],['SExpense','费用'],['SInvoice','账单'],['SVoucher','收、付款单'],['SPr','付款申请']]});
+var ACLO_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FConsign','委托'],['FBl','提单'],['SExpense','费用'],['SInvoice','账单'],['SVoucher','收、付款单'],['SPr','付款申请']]});
 getACLO = function(v){if(v) return ACLO_S.getById(v).get('NAME'); else return '';};
 
 var getFUNC_S = function(){return getGStore('FUNC','PFunction',PFunction,'funcCode','ASC','');};
