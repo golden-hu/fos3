@@ -159,6 +159,8 @@ INSERT INTO `G_CHARGE_CLASS` (`CHCL_CODE`, `CHCL_NAME`, `ACTIVE`, `COMP_CODE`, `
 ('38', '杂费类', 1, 'HITI', 0, 0),
 ('39', '定额包干费类', 1, 'HITI', 0, 0);
 
+
+
 --
 -- 导出表中的数据 `G_CONTAINER_CLASS`
 --

@@ -1,45 +1,19 @@
--- phpMyAdmin SQL Dump
--- version 3.1.3
--- http://www.phpmyadmin.net
---
--- 主机: localhost
--- 生成日期: 2009 年 04 月 07 日 09:14
--- 服务器版本: 5.0.67
--- PHP 版本: 5.2.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
---
--- 数据库: `public_test`
---
-
---
--- 导出表中的数据 `C_CUSTOMER_CATEGORY`
---
 
 INSERT INTO `C_CUSTOMER_CATEGORY` (`CUCA_NAME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('长期客户', '{CC}', 0, 0),
 ('临时客户', '{CC}', 0, 0);
-
---
--- 导出表中的数据 `C_VENDOR_CATEGORY`
---
 
 INSERT INTO `C_VENDOR_CATEGORY` (`VECA_NAME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('临时供应商', '{CC}', 0, 0),
 ('普通供应商', '{CC}', 0, 0),
 ('签约供应商', '{CC}', 0, 0);
 
---
--- 导出表中的数据 `G_CUSTOMS_TYPE`
---
-
 INSERT INTO `G_CUSTOMS_TYPE` (`CUTY_CODE`, `CUTY_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('KD','口地', '{CC}', 0, 0),
 ('SA','属岸','{CC}', 0, 0);
---
--- 导出表中的数据 `G_CARGO_CLASS`
---
 
 INSERT INTO `G_CARGO_CLASS` (`CACL_CODE`, `CACL_NAME_CN`, `CACL_NAME_EN`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('01', '活动物', NULL, 1, '{CC}', 0, 0),
@@ -514,7 +488,7 @@ INSERT INTO `G_COUNTRY` (`COUN_CODE`, `COUN_NAME_CN`, `COUN_NAME_EN`, `COMP_CODE
 ('01', '比利时', 'BILISHI', '{CC}', 0);
 
 
-INSERT INTO `g_charge` (`CHAR_CODE`, `CHAR_NAME`, `CHAR_NAME_EN`, `CURR_CODE`, `UNIT_ID`, `CHCL_ID`, `CHAR_CNY_P`, `CHAR_CNY_R`, `CHAR_USD_P`, `CHAR_USD_R`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`, `ATTR1`, `ATTR2`, `ATTR3`, `ATTR4`, `ATTR5`, `ATTR6`, `ATTR7`, `ATTR8`) VALUES
+INSERT INTO `G_CHARGE` (`CHAR_CODE`, `CHAR_NAME`, `CHAR_NAME_EN`, `CURR_CODE`, `UNIT_ID`, `CHCL_ID`, `CHAR_CNY_P`, `CHAR_CNY_R`, `CHAR_USD_P`, `CHAR_USD_R`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`, `ATTR1`, `ATTR2`, `ATTR3`, `ATTR4`, `ATTR5`, `ATTR6`, `ATTR7`, `ATTR8`) VALUES
 	('HYF', '海运费', NULL, 'USD', 13, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('LDF', '落地费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('DCF', '订舱费', NULL, 'CNY', 13, 21, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
