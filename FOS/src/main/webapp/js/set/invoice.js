@@ -350,7 +350,7 @@ Fos.ExpenseLookupWin = function(store) {
 		{header:C_VESS,width:80,dataIndex:"consVessel"},
 		{header:C_VOYA,width:80,dataIndex:"consVoyage"},
 		{header:C_INVO_NO,width:100,dataIndex:"expeInvoiceNo"},
-		{header:C_INVO_TITLE,hidden:VERSION==0,width:200,dataIndex:"expeTitle"},
+		{header:C_INVO_TITLE,width:200,dataIndex:"expeInvoiceTitle"},
 		{header:C_REMARKS,width:100,dataIndex:"expeRemarks"}
 		],defaults:{sortable:true,width:100}});
 	var filters = new Ext.grid.GridFilters({

@@ -1235,7 +1235,7 @@ Fos.BlWin = function(p,b,store) {
 	
 	//承运人
 	var txtCarrier = new Ext.form.TextArea({
-		fieldLabel:'Issuing Carrier`s Agent Name ',
+		fieldLabel:'Issuing Carrier`s Agent Name and City',
 		name:'blCarrierName',
 		value:b.get('blCarrierName'),
 		tabIndex:3,
@@ -1460,10 +1460,8 @@ Fos.BlWin = function(p,b,store) {
 			height:215,
 			items: [
 			{columnWidth:.6,layout:'column',layoutConfig: {columns:2},labelWidth:220,border:false,items:[ 
-			    {columnWidth:.4,layout:'form',border:false,items:[]},
-			    {columnWidth:.3,layout:'form',border:false,items:[]},
-			    {columnWidth:.3,layout:'form',border:false,items:[]},
-            	{columnWidth:.7,layout:'form',border:false,items:[
+			   
+            	{columnWidth:.7,layout:'form',labelWidth:200,labelAlign:'right',border:false,items:[
             		{hideLabels:true,text:'Prepaid',xtype:'label',anchor:'99%',style:'padding-left:226px;'},
             		{fieldLabel:'Weight Charge',name:'blWeightChargePp',value:b.get('blWeightChargePp'),
             			tabIndex:34,xtype:'numberfield',anchor:'99%'},

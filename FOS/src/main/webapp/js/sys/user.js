@@ -66,11 +66,7 @@ Fos.UserTab = function() {
 	var eg=CHKCLM(C_EDIT_GROU_CONS,'userGrouEditFlag',110);	
 	var va=CHKCLM(C_VIEW_ALL_CONS,'userAllViewFlag',110);
 	var ea=CHKCLM(C_EDIT_ALL_CONS,'userAllEditFlag',110);
-	var branch={header:C_BRANCH,dataIndex:'userDefaultBranch',editor:new Ext.form.ComboBox({displayField:'branchName',valueField:'branchId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getBRANCH_S()}),hidden:VERSION==2?false:true,renderer:getBRANCH};
-    var station={header:C_DEPARTURE_STATION,dataIndex:'userDefaultStation',renderer:getTS,editor:new Ext.form.ComboBox({displayField:'trainNameCn',valueField:'trainId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getTS_S()}),hidden:VERSION==2?false:true};
-	
+			
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_FNAME,dataIndex:'userName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_SYS_USER_NAME,dataIndex:'userLoginName',width:80,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
@@ -82,36 +78,61 @@ Fos.UserTab = function() {
 		{header:C_EMAIL,dataIndex:'userEmail',editor:new Ext.form.TextField()},		
 		{header:C_DEFAULT_ROLE,dataIndex:'userDefaultRole',width:80,renderer:getROLE,editor:new Ext.form.ComboBox({displayField:'roleName',valueField:'roleId',triggerAction: 'all',
             allowBlank:false,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getROLE_S()})},
-		{header:"Msn",dataIndex:'userMsn',editor:new Ext.form.TextField()},
+		{header:"SKYPE",dataIndex:'userMsn',editor:new Ext.form.TextField()},
 		{header:"QQ",dataIndex:'userQq',editor:new Ext.form.TextField()},
 		active],defaults:{sortable:true,width:60}});
 	
 	this.addUser=function(){
 		var uid=GGUID();
-		var r = new PUser({id:uid,userId:uid,userPassword:'123456',userSystemUserFlag:'0',
-		userSalesFlag:'0',userOperatorFlag:'0',userNetworkFlag:'1',
-		userGrouViewFlag:'0',userGrouEditFlag:'0',userAllViewFlag:'0',userAllEditFlag:'0',
-		active:'1',version:'0',rowAction:'N'});
+		var r = new PUser({id:uid,
+			userId:uid,
+			userPassword:'123456',
+			userSystemUserFlag:'0',
+			userSalesFlag:'0',
+			userOperatorFlag:'0',
+			userNetworkFlag:'1',
+			userGrouViewFlag:'0',
+			userGrouEditFlag:'0',
+			userAllViewFlag:'0',
+			userAllEditFlag:'0',
+			active:'1',
+			version:'0',
+			rowAction:'N'
+		});
     	ug.stopEditing();
     	store.insert(0,r);
     	ug.getSelectionModel().selectFirstRow();
     	ug.startEditing(0,1);
 	};
-	this.removeUser=function(){FOS_REMOVE(sm,store);};
+	
+	this.removeUser=function(){
+		FOS_REMOVE(sm,store);
+	};
+	
 	this.expePer=function(){
 		var b=sm.getSelected();
-		if(b){var w=new Fos.UsepWin(b);w.show();}
-		else XMG.alert(SYS,M_NO_DATA_SELECTED);
+		if(b){
+			var w=new Fos.UsepWin(b);
+			w.show();
+		}
+		else 
+			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
 	var tbItems = [{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_USER+F_M),iconCls:'add',scope:this,handler:this.addUser}, '-', 		
 	       		{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_USER+F_R),iconCls:'remove',handler:this.removeUser},	'-', 		
 	    		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.save},'-', 	
 	    		{itemId:'TB_P',text:C_RESET_PASS+'(P)',disabled:NR(M1_P+A_USER+F_M),iconCls:'save',scope:this,handler:this.reset}];
-	//if(VERSION==0)
+
 		tbItems[tbItems.length] = {itemId:'TB_E',text:C_EXPE_PERMISSIOM+'(E)',disabled:NR(M1_P+A_USER+F_M),iconCls:'key',scope:this,handler:this.expePer};
 	
-	var ug = new Ext.grid.EditorGridPanel({id:'G_USER',title:C_USER_LIST,
-		clicksToEdit:1,border:true,height:475,store:store,sm:sm,cm:cm,
+	var ug = new Ext.grid.EditorGridPanel({id:'G_USER',
+		title:C_USER_LIST,
+		clicksToEdit:1,
+		border:true,
+		height:475,
+		store:store,
+		sm:sm,
+		cm:cm,
 		plugins:[systemUser,sales,operator,network,va,ea,vg,eg,active],
 		tbar:tbItems
 	});
@@ -166,14 +187,47 @@ Fos.UserTab = function() {
 			}
 		}
 	};
-	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false,listeners:re});
-    this.rg = new  Ext.grid.GridPanel({id:'G_USRO',title:C_USER_ROLE_LIST,closable:true,border:true,height:475,
-    store:getROLE_S(),sm:sm2,cm:new Ext.grid.ColumnModel([sm2,{header:C_ROLE_NAME,dataIndex:'roleName',width:100}])}); 
 	
-    Fos.UserTab.superclass.constructor.call(this,{id:'T_USER',title:C_USER_MGT,iconCls:'user',header:false,deferredRender:false,
-	autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,layout:'border',
-	items: [{title:'',region:'center',width:400,minSize:200,maxSize:600,layout:'fit',items:[ug]},
-		{title:'',region:'east',split:true,width:200,minSize:200,maxSize:400,layout:'fit',items:[this.rg]}]
+	var sm2=new Ext.grid.CheckboxSelectionModel({singleSelect:false,listeners:re});
+	
+    this.rg = new  Ext.grid.GridPanel({id:'G_USRO',
+    	title:C_USER_ROLE_LIST,
+    	closable:true,
+    	border:true,
+    	height:475,
+    	store:getROLE_S(),
+    	sm:sm2,cm:new Ext.grid.ColumnModel([sm2,{header:C_ROLE_NAME,dataIndex:'roleName',width:100}])
+    }); 
+	
+    Fos.UserTab.superclass.constructor.call(this,{id:'T_USER',
+    	title:C_USER_MGT,
+    	iconCls:'user',
+    	header:false,
+    	deferredRender:false,
+		autoScroll:true,
+		labelAlign:'right',
+		closable:true,
+		labelWidth:80,
+		border:false,
+		width:800,
+		layout:'border',
+		items: [{title:'',
+			region:'center',
+			width:400,
+			minSize:200,
+			maxSize:600,
+			layout:'fit',
+			items:[ug]
+		},
+		{title:'',
+			region:'east',
+			split:true,
+			width:200,
+			minSize:200,
+			maxSize:400,
+			layout:'fit',
+			items:[this.rg]
+		}]
 	});
 	urStore.load({callback:function(){ug.getSelectionModel().selectFirstRow();},scope:this});
 };

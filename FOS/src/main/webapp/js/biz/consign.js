@@ -582,35 +582,35 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
   	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
 	
-	var b1={text:C_ADD+'(N)',
+	var b1={text:C_ADD,
 		disabled:NR(m+F_M)||(bizType==BT_C&&shipType==''),
 		iconCls:'add',
 		handler:this.newConsign
 	};
 	
-	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE)+'(P)',
+	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE),
 		disabled:NR(m+F_M),
 		iconCls:'add',
 		handler:this.addConsign
 	};
 	
-	var b3={text:C_EDIT+'(M)',
+	var b3={text:C_EDIT,
 		disabled:NR(m+F_V),
 		iconCls:'option',
 		handler:this.editConsign
 	};
 	
-	var b4={text:C_REMOVE+'(D)',
+	var b4={text:C_REMOVE,
 		disabled:NR(m+F_R),
 		iconCls:'remove',
 		handler:this.removeConsign
 	};
 	
-	var b5={text:C_SEARCH+'(F)',iconCls:'search',handler:this.search};	
-	var b6={text:C_EXPORT+'(E)',disabled:NR(m+F_E),iconCls:'print',handler:this.exp};	
-	var b7={text:C_FAST_SEARCH+'(Q)',iconCls:'search',handler:this.fastSearch};	
-	var b8={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
-	var b9={text:C_TASK+'(T)',iconCls:'task',handler:this.task};
+	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
+	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',handler:this.exp};	
+	var b7={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};	
+	var b8={text:C_RESET,iconCls:'refresh',handler:this.reset};
+	var b9={text:C_TASK,iconCls:'task',handler:this.task};
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
     
     if(bizType==BT_B) 
@@ -628,7 +628,6 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
 
 Fos.ConsignTab = function(p){
-	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
 	
 	var items=[];
 	items[0]=new Fos.BookTab(p);
@@ -639,11 +638,7 @@ Fos.ConsignTab = function(p){
 		items[items.length] = new Fos.AttachTab(p);
 		items[items.length] = new Fos.TaskPanel(p);
 	}
-	
-	if(!NR(m+M3_ATTACH)&&p.get('rowAction')!='N' && VERSION==0){
-		items[items.length] = new Fos.SecurityAttachTab(p);
-	}
-	
+		
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1) 
 		items[items.length]=new Fos.TransTab(p);
 	

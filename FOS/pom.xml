@@ -19,6 +19,14 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+		  <groupId>org.apache.cxf</groupId>
+		  <artifactId>cxf</artifactId>
+		  <version>3.0.3</version>
+		  <type>pom</type>
+		</dependency>
+		
 	</dependencies>
 	<pluginRepositories>
 		<pluginRepository>

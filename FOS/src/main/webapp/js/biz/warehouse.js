@@ -293,14 +293,22 @@ Fos.WarehouseTab = function(p) {
     };
     var expPanel = new Fos.SectionExGrid(p,'WARE',this);
 	    
-	Fos.WarehouseTab.superclass.constructor.call(this,{id:'T_WARE_'+p.get('id'),title:C_SR_WARE+'(F5)',header:false,deferredRender:false,autoScroll:true,	
-		labelAlign:'right',labelWidth:90,bodyStyle:'padding:0px 0px 0px',border:true,layout:'border',
-	tbar:[{text:C_ADD+'(N)',itemId:'TB_A',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addWare},'-',
-			{text:C_REMOVE+'(R)',itemId:'TB_B',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeWare},'-',
-			{text:C_SAVE+'(S)',itemId:'TB_C',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
-			{text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(m+F_E),scope:this,menu:{items:[menu]}}
+	Fos.WarehouseTab.superclass.constructor.call(this,{id:'T_WARE_'+p.get('id'),
+		title:C_SR_WARE,
+		header:false,
+		deferredRender:false,
+		autoScroll:true,	
+		labelAlign:'right',
+		labelWidth:90,
+		bodyStyle:'padding:0px 0px 0px',
+		border:true,
+		layout:'border',
+		tbar:[{text:C_ADD,itemId:'TB_A',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addWare},'-',
+			{text:C_REMOVE,itemId:'TB_B',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeWare},'-',
+			{text:C_SAVE,itemId:'TB_C',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
+			{text:C_EXPORT,iconCls:'print',disabled:NR(m+F_E),scope:this,menu:{items:[menu]}}
 		],
-	items: [{layout:'fit',region:'north',title:C_WARE_LIST,border:false,height:200,collapsible:true,items:[this.wareGrid]},
+		items: [{layout:'fit',region:'north',title:C_WARE_LIST,border:false,height:200,collapsible:true,items:[this.wareGrid]},
 			{xtype:'tabpanel',region:'center',plain:true,activeTab:0,defaults:{bodyStyle:'padding:0px'},
           		listeners:{scope:this,tabchange:function(m,a){a.doLayout();}},
             	items:[

@@ -1,0 +1,1156 @@
+<?xml version="1.0"?>
+<!--edited by Kyaw Myo Thet -->
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ccn="http://www.ccn.com.sg/CCNMSGWS" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.ccn.com.sg/CCNMSGWS">
+	<types>
+		<s:schema targetNamespace="http://www.ccn.com.sg/CCNMSGWS" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+			<s:annotation>
+				<s:documentation>
+      /*==================================================================
+      Author Name		  :	Kyaw Myo Thet
+      Creation Date	  :	12 Dec 2007
+      Revision History:	Nil
+      Check in Date	  :	12 Dec 2007
+      Purpose		  :	
+	  Updated by/date : Sony 2-sept-2010
+	  Puspose         : - remove all enum, change all status to array
+	  Updated by/date : Khaing 04-may-2011
+	  Puspose         : - updated for FSU 12
+	  Updated by/date : Khaing 07-OCT-2011
+	  Puspose         : - updated for ULD	  
+	  Updated by/date : Khaing 19-NOV-2012
+	  Puspose         : - updated for POD/PUP status Senator AXIS AGENT
+	  Updated by/date : Henry 30-Jul-2014
+	  Purpose         : - ULD Description maxOccurs=5
+	                    - ULD Description Type from ULD to ULDType
+      ==================================================================*/
+    </s:documentation>
+			</s:annotation>
+			<s:element name="CCN.MSG" type="ccn:CCN.MSG"/>
+			<s:complexType name="CCN.MSG">
+				<s:sequence>
+					<s:element name="MsgEnvelope" type="ccn:Envelope"/>
+					<s:element name="MsgBody" type="ccn:MsgBody"/>
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Envelope">
+				<s:sequence>
+					<s:element name="Priority" type="ccn:PriorityBase" minOccurs="0">
+						<s:annotation>
+							<s:documentation>Priority Code</s:documentation>
+						</s:annotation>
+					</s:element>
+					<s:element name="RecipientPimaAddress" type="ccn:PimaAddressBase"/>
+					<s:element name="SenderPimaAddress" type="ccn:PimaAddressBase"/>
+					<s:element name="GMT" type="ccn:GMTBase"/>
+					<s:element name="SenderOriginalCode" type="ccn:SenderOriginalCodeBase"/>
+					<s:element name="MessageSequenceNumber" type="ccn:InterchangeReferenceNumberBase"/>
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="PriorityBase">
+				<s:restriction base="s:string">
+					<s:pattern value="QK|QU|QP|QD"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PimaAddressBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9/]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SenderOriginalCodeBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 /]{1,15}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TTYAddressBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{7}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="GMTBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{6}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DoubleSignatureBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="InterchangeReferenceNumberBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{14}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="MsgBody">
+				<s:sequence>
+					<s:element name="FSU" type="ccn:FSU"/>
+				</s:sequence>
+			</s:complexType>			
+			  <s:complexType name="FSU">
+			    <s:sequence>
+			      <s:element name="StandardMessageIdentification" type="ccn:StandardMessageIdentification" />
+				  <s:element name="ConsignmentDetail" type="ccn:ConsignmentDetail" />
+				  <!--<s:element name="StatusDetail" type="ccn:StatusDetailType"/>-->
+				  <s:element name="RCSStatusDetail" type="ccn:RCSStatusDetail" />
+				  <s:element name="RCTStatusDetail" type="ccn:RCTStatusDetail" />
+				  <s:element name="RCFStatusDetail" type="ccn:RCFStatusDetail" />
+				  <s:element name="BKDStatusDetail" type="ccn:BKDStatusDetail" />
+				  <s:element name="MANStatusDetail" type="ccn:MANStatusDetail" />
+				  <s:element name="DEPStatusDetail" type="ccn:DEPStatusDetail" />
+				  <s:element name="PREStatusDetail" type="ccn:PREStatusDetail" />
+				  <s:element name="TRMStatusDetail" type="ccn:TRMStatusDetail" />
+				  <s:element name="TFDStatusDetail" type="ccn:TFDStatusDetail" />
+				  <s:element name="NFDStatusDetail" type="ccn:NFDStatusDetail" />
+				  <s:element name="AWDStatusDetail" type="ccn:AWDStatusDetail" />
+				  <s:element name="CCDStatusDetail" type="ccn:CCDStatusDetail" />
+				  <s:element name="DLVStatusDetail" type="ccn:DLVStatusDetail" />
+				  <s:element name="DISStatusDetail" type="ccn:DISStatusDetail" />
+				  <s:element name="CRCStatusDetail" type="ccn:CRCStatusDetail" />
+				  <s:element name="DDLStatusDetail" type="ccn:DDLStatusDetail" />
+				  <s:element name="TGCStatusDetail" type="ccn:TGCStatusDetail" />
+				  <s:element name="ARRStatusDetail" type="ccn:ARRStatusDetail" />
+				  <s:element name="AWRStatusDetail" type="ccn:AWRStatusDetail" />
+				  <s:element name="FOHStatusDetail" type="ccn:FOHStatusDetail" />
+				  <s:element name="PUPStatusDetail" type="ccn:PUPStatusDetail" />
+				  <s:element name="PODStatusDetail" type="ccn:PODStatusDetail" />
+				  <s:element name="ULDDescription" type="ccn:ULDDescription" maxOccurs="5"/>
+				  <s:element name="OSI" type="ccn:OSI" />
+			    </s:sequence>
+			  </s:complexType> 		 
+			  <!-- Complex types Level 1-->
+			  <!-- Standard Message Identification-->
+			  <s:complexType name="StandardMessageIdentification">
+			    <s:sequence>
+			      <s:element name="StandardMessageIdentification" type="ccn:StandardMessageIdentifierBase" />
+				  <s:element name="MessageTypeVersionNumber" type="ccn:MessageTypeVersionNumberBase"  minOccurs="0" maxOccurs="1"/>			      
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- Consignment Detail -->
+			  <s:complexType name="ConsignmentDetail">
+			    <s:sequence>
+			      <s:element name="AWBIdentification" type="ccn:AWBIdentification" />
+			      <s:element name="AWBOriginAndDestination" type="ccn:AWBOriginAndDestination" />
+			      <s:element name="QuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="TotalConsignmentPieces" type ="ccn:TotalConsignmentPieces" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- RCS Status -->
+			  <s:complexType name="RCSStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="RCSMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="RCSQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="RCSReceivedFromDetail" type ="ccn:ReceivedFromDetail" />
+				  <s:element name="RCSVolumeDetail" type ="ccn:VolumeDetail" minOccurs="0" />
+				  <s:element name="RCSDensityGroupDetail" type ="ccn:DensityGroup" minOccurs="0"/>
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- RCT Status -->
+			  <s:complexType name="RCTStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="RCTMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="RCTQuantityDetail" type="ccn:QuantityDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- RCF Status -->
+			  <s:complexType name="RCFStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="RCFMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="RCFQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="RCFDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="RCFArrivalTime" type="ccn:TimeInformation" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- BKD Status -->
+			  <s:complexType name="BKDStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="BKDMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="BKDQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="BKDDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="BKDArrivalTime" type="ccn:TimeInformation" />
+				  <s:element name="BKDVolumeDetail" type="ccn:VolumeDetail" />
+				  <s:element name="BKDDensityGroup" type="ccn:DensityGroup" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- MAN Status -->
+			  <s:complexType name="MANStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="MANMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="MANQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="MANDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="MANArrivalTime" type="ccn:TimeInformation" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- DEP Status -->
+			  <s:complexType name="DEPStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="DEPMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="DEPQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="DEPDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="DEPArrivalTime" type="ccn:TimeInformation" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- PRE Status -->
+			  <s:complexType name="PREStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="PREMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="PREQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="PREDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="PREArrivalTime" type="ccn:TimeInformation" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- TRM Status -->
+			  <s:complexType name="TRMStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="TRMMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="TRMQuantityDetail" type="ccn:QuantityDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- TFD Status -->
+			  <s:complexType name="TFDStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="TFDMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="TFDQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="TFDTransferReference" type="ccn:TransferReference" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- NFD Status -->
+			  <s:complexType name="NFDStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="NFDMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="NFDQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="NFDNotificationToDetail" type="ccn:NotificationToDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- AWD Status -->
+			  <s:complexType name="AWDStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="AWDMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="AWDQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="AWDDeliveryToDetail" type="ccn:DeliveryToDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- CCD Status -->
+			  <s:complexType name="CCDStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="CCDMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="CCDQuantityDetail" type="ccn:QuantityDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- DLV Status -->
+			  <s:complexType name="DLVStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="DLVMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="DLVQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="DLVDeliveryToDetail" type="ccn:DeliveryToDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- DIS Status -->
+			  <s:complexType name="DISStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="DISMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="DISDiscrepancyDetail" type="ccn:DiscrepancyDetail" />
+			      <s:element name="DISQuantityDetail" type="ccn:QuantityDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- CRC Status -->
+			  <s:complexType name="CRCStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="CRCMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="CRCQuantityDetail" type="ccn:QuantityDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- DDL Status -->
+			  <s:complexType name="DDLStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="DDLMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="DDLQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="DDLDeliveryToDetail" type="ccn:DeliveryToDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- TGC Status -->
+			  <s:complexType name="TGCStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="TGCMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="TGCQuantityDetail" type="ccn:QuantityDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- AAR Status -->
+			  <s:complexType name="ARRStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="ARRMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="ARRQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="ARRDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="ARRArrivalTime" type="ccn:TimeInformation" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- AWR Status -->
+			  <s:complexType name="AWRStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="AWRMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="AWRQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="AWRDepartureTime" type="ccn:TimeInformation" />
+			      <s:element name="AWRArrivalTime" type="ccn:TimeInformation" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- FOH Status -->
+			  <s:complexType name="FOHStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="FOHMovementDetail" type="ccn:FOHMovementDetail" />
+			      <s:element name="FOHQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="FOHReceivedFromDetail" type="ccn:ReceivedFromDetail" />
+			      <s:element name="FOHVolumeDetail" type="ccn:VolumeDetail" />
+				  <s:element name="FOHDensityGroup" type="ccn:DensityGroup" />
+			    </s:sequence>
+			  </s:complexType>			
+			<!-- PUP Status -->
+			  <s:complexType name="PUPStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="PUPMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="PUPQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="PUPReceivedFromDetail" type ="ccn:ReceivedFromDetail" />				  				  
+			    </s:sequence>
+			  </s:complexType>		
+			 <!-- POD Status -->
+			  <s:complexType name="PODStatusDetail">
+			    <s:sequence>			      
+			      <s:element name="PODMovementDetail" type="ccn:MovementDetail" />
+			      <s:element name="PODQuantityDetail" type="ccn:QuantityDetail" />
+			      <s:element name="PODReceivedFromDetail" type ="ccn:ReceivedFromDetail" />				  				  
+			    </s:sequence>
+			  </s:complexType>					  
+			  <!-- ULD Description -->
+			  <s:complexType name="ULDDescription">
+			    <s:sequence>
+			      <!--<s:element name="LineIdentifier" type="ccn:LineIdentifierBase" />-->
+			      <s:element name="ULDIdentification" type="ccn:ULDIdentification" />				  
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- Other Service Information-->
+			  <s:complexType name="OSI">
+			    <s:sequence>
+			      <!--<s:element name="LineIdentifier" type="ccn:LineIdentifierBase" />-->
+			      <s:element name="OSIDetail1" type="ccn:OSIDetail" />
+			      <s:element name="OSIDetail2" type="ccn:OSIDetail" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- Level 2 -->
+			  <!-- AWB Identification -->
+			  <s:complexType name="AWBIdentification">
+			    <s:sequence>
+			      <s:element name="AirlinePrefix" type="ccn:AirlinePrefixBase" />
+			      <s:element name="AWBSerialNumber" type="ccn:AWBSerialNumberBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- AWB Origin And Destination -->
+			  <s:complexType name="AWBOriginAndDestination">
+			    <s:sequence>
+			      <s:element name="AirportCodeOfOrigin" type="ccn:LocationIdentifierBase" />
+			      <s:element name="AirportCodeOfDestination" type="ccn:LocationIdentifierBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- Quantity Detail -->
+			  <s:complexType name="QuantityDetail">
+			    <s:sequence>
+			      <s:element name="ShipmentDescriptionCode" type="ccn:ShipmentDescriptionCodeBase" nillable="true"/>
+			      <s:element name="NumberOfPieces" type="ccn:NumberOfPiecesBase" />
+			      <s:element name="WeightCode" type="ccn:WeightCodeBase" nillable="true"/>
+			      <s:element name="Weight" type="ccn:WeightBase" minOccurs ="0"/>
+			    </s:sequence>
+			  </s:complexType>
+			  <!-- Total Consignment -->
+			  <s:complexType name="TotalConsignmentPieces">
+			    <s:sequence>
+			      <s:element name="ShipmentDescriptionCode" type="ccn:ShipmentDescriptionCodeBase" nillable="true"/>
+			      <s:element name="NumberOfPieces" type="ccn:NumberOfPiecesBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Movement Detail-->
+			  <s:complexType name="MovementDetail">
+			    <s:sequence>
+			      <s:element name="CarrierCode" type="ccn:CarrierCodeBase" minOccurs ="0"/>
+			      <s:element name="FlightNumber" type="ccn:FlightNumberBase" minOccurs ="0"/>
+			      <s:element name="Day" type="ccn:DayOfMonthBase" minOccurs ="0"/>
+			      <s:element name="Month" type="ccn:MonthBase" nillable="true"/>
+			      <s:element name="ActualTime" type="ccn:ActualTimeBase"  minOccurs ="0" />
+			      <s:element name="DayChangeIndicator" type="ccn:DayChangeIndicatorBase" minOccurs ="0"/>
+			      <s:element name="ArrivalAirportCode" type="ccn:LocationIdentifierBase" minOccurs ="0" />
+			      <s:element name="DepartureAirportCode" type="ccn:LocationIdentifierBase" minOccurs ="0" />
+			      <s:element name="AirportCode" type="ccn:LocationIdentifierBase" minOccurs ="0" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--FOH Movement Detail-->
+			  <s:complexType name="FOHMovementDetail">
+			    <s:sequence>			      
+			      <s:element name="Day" type="ccn:DayOfMonthBase" />
+			      <s:element name="Month" type="ccn:MonthBase" />
+			      <s:element name="ActualTime" type="ccn:ActualTimeBase"  minOccurs ="0" />			      
+			      <s:element name="AirportCode" type="ccn:LocationIdentifierBase" />
+			    </s:sequence>
+			  </s:complexType>			  
+			  <!--Received from Detail -->
+			  <s:complexType name="ReceivedFromDetail">
+			    <s:sequence>
+			      <s:element name="Name" type="ccn:NameBase" minOccurs = "0" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Volume Detail -->
+			  <s:complexType name="VolumeDetail">
+			    <s:sequence>
+			      <s:element name="VolumeCode" type="ccn:VolumeCodeBase" />
+			      <s:element name="VolumeAmount" type="ccn:VolumeAmountBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Density Group -->
+			  <s:complexType name="DensityGroup">
+			    <s:sequence>
+			      <s:element name="DensityIndicator" type="ccn:DensityIndicatorBase" />
+			      <s:element name="DensityGroup" type="ccn:DensityGroupBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Time Information Detail -->
+			  <s:complexType name="TimeInformation">
+			    <s:sequence>
+			      <s:element name="OfTimeIndicator" type="ccn:OfTimeIndicatorBase" />
+			      <s:element name="Time" type="ccn:ActualTimeBase" />
+			      <s:element name="DayChangeIndicator" type="ccn:DayChangeIndicatorBase" minOccurs ="0" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Transfer Reference Detail -->
+			  <s:complexType name="TransferReference">
+			    <s:sequence>
+			      <s:element name="TransferManifestNumber" type="ccn:TransferManifestNumberBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Notification Detail -->
+			  <s:complexType name="NotificationToDetail">
+			    <s:sequence>
+			      <s:element name="Name" type="ccn:NameBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--Delivery Detail -->
+			  <s:complexType name="DeliveryToDetail">
+			    <s:sequence>
+			      <s:element name="Name" type="ccn:NameBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--DiscrepancyDetail-->
+			  <s:complexType name="DiscrepancyDetail">
+			    <s:sequence>
+			      <s:element name="DiscrepancyCode" type="ccn:DiscrepancyCodeBase" />
+			    </s:sequence>
+			  </s:complexType>
+			  <!--ULD Description type-->
+			  <s:complexType name="ULDIdentification">
+			    <s:sequence>
+			      <s:element name="ULDType" type="ccn:ULDBase" />
+			      <s:element name="ULDSerialNumber" type="ccn:ULDSerialNumberBase" />
+			      <s:element name="ULDOwnerCode" type="ccn:ULDOwnerCodeBase" />
+				  <s:element name="ULDPositionInformation" type="ccn:ULDPositionInformation" />
+			    </s:sequence>
+			  </s:complexType>			  
+			  <!--ULD PositionInformation type-->
+			  <s:complexType name="ULDPositionInformation">
+			    <s:sequence>
+			      <s:element name="ULDLoadingIndicator" type="ccn:ULDLoadingIndicatorBase" minOccurs="0" />			      
+			    </s:sequence>
+			  </s:complexType>
+			  <!--OSI Detail -->
+			  <s:complexType name="OSIDetail">
+			    <s:sequence>
+			      <s:element name="OtherServiceInformation" type="ccn:OtherServiceInformationBase" />
+			    </s:sequence>
+			  </s:complexType>
+			<s:simpleType name="MessageSequenceNumberBase" id="DE100">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="StandardMessageIdentifierBase" id="DE101">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MessageTypeVersionNumberBase">
+			    <s:restriction base="s:string">
+			      <s:pattern value="[0-9]{1,3}" />
+			    </s:restriction>
+			</s:simpleType>
+			<s:simpleType name="EndOfMessageCodeBase" id="DE102">
+				<s:restriction base="s:string">
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="LineIdentifierBase" id="DE103">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AWBColumnIdentifierBase" id="DE105">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AWBRateLineNumberBase" id="DE106">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="OfficeFunctionDesignatorBase" id="DE107">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AccountNumberBase" id="DE108">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,14}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TelephoneNumberBase" id="DE109">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,14}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="EmbargoNumberBase" id="DE111">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AirlinePrefixBase" id="DE112">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AWBSerialNumberBase" id="DE113">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{8}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CCASerialNumberBase" id="DE114">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1}[0-9]{5}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDSerialNumberBase" id="DE115">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1}[0-9]{3}[0-9]?"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="BookingFileReferenceBase" id="DE117">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,15}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TransferManifestNumberBase" id="DE118">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{6}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HWBSerialNumberBase" id="DE119">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,12}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MasterAWBIndicatorBase" id="DE120">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TransferTransitControlNumberBase" id="DE121">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,12}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ContactIdentifierBase" id="DE122">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ContactNumberBase" id="DE123">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,25}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MessageVersionNumberBase" id="DE124">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TextSubjectQualifierBase" id="DE125">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TextReferenceBase" id="DE126">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="FreeTextBase" id="DE127">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HWBAsAgreedBase" id="DE128">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ApplicationReferenceNumberBase" id="DE130">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="IdentificationNumberBase" id="DE131">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,8}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ReferenceNumberBase" id="DE132">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,14}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SupplementaryShipmentInformationBase" id="DE133">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,12}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="VehicleBookingReferenceBase" id="DE134">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,8}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="VehiclePlateNumberBase" id="DE135">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,10}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AWBIndividualPieceNumberBase" id="DE136">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{4}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HWBIndividualPieceNumberBase" id="DE137">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{4}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PieceIdentificationIndicatorBase" id="DE138">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="UniquePieceNumberBase" id="DE139">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="VoucherSerialNumberBase" id="DE140">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,12}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TicketNumberBase" id="DE141">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{13,15}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="BagTagNumberBase" id="DE142">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{6}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="YearBase" id="DE200">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MonthBase" id="DE201">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DayOfMonthBase" id="DE202">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="NameBase" id="DE300">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="StreetAddressBase" id="DE301">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PlaceBase" id="DE302">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,17}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="StateProvinceBase" id="DE303">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,9}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ISOCountryCodeBase" id="DE304">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PostCodeBase" id="DE305">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,9}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CompanyDesignatorBase" id="DE308">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="IATACargoAgentCASSAddressBase" id="DE309">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{4}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="IATACargoAgentNumericCodeBase" id="DE311">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{7}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CarrierCodeBase" id="DE312">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="LocationIdentifierBase" id="DE313">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="EntitlementCodeBase" id="DE315">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="RateCombinationPointBase" id="DE316">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ParticipantIdentifierBase" id="DE319">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ParticipantCodeBase" id="DE320">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,17}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="NilCargoCodeBase" id="DE402">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PCIndBase" id="DE403">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SpecialServiceRequestBase" id="DE404">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="OtherServiceInformationBase" id="DE405">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="EmbargoDetailBase" id="DE406">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SpaceAllocationCodeBase" id="DE409">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AccountingInformationBase" id="DE410">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,34}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AccountingInformationIdentifierBase" id="DE411">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SignatureBase" id="DE414">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,20}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AllotmentIdentificationBase" id="DE417">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,14}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ReasonForAcknowledgementBase" id="DE418">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="VolumeAmountBase" id="DE500">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,9}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ChargeAmountBase" id="DE501">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,12}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ChargeIdentifierBase" id="DE502">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ChargeCodeBase" id="DE503">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="OtherChargeCodeBase" id="DE504">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ServiceCodeBase" id="DE505">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="RateOrChargeBase" id="DE506">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,8}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="RateClassCodeBase" id="DE507">
+				<s:restriction base="s:string">					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AmountOfInsuranceBase" id="DE508">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,11}|XXX"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DeclaredValueForCustomsBase" id="DE509">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,12}|NCV"/>
+					</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DeclaredValueForCarriageBase" id="DE510">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,12}|NVD"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ClassRatePercentageBase" id="DE511">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDRateClassBase" id="DE513">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1}[A-Z]{0,1}[A-Z]{0,1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="WeightBase" id="DE600">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,7}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="WeightCodeBase" id="DE601">
+				<s:restriction base="s:string">
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DensityGroupBase" id="DE602">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DensityIndicatorBase" id="DE603">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="VolumeCodeBase" id="DE604">
+				<s:restriction base="s:string">
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ISOCurrencyCodeBase" id="DE606">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="RateOfExchangeBase" id="DE607">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,11}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="LengthDimensionBase" id="DE608">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,5}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="WidthDimensionBase" id="DE609">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,5}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HeightDimensionBase" id="DE610">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,5}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MeasurementUnitCodeBase" id="DE611">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,3}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CASSSettlementFactorBase" id="DE613">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9\.]{1,12}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CASSBase" id="DE614">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1,2}"/>				
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="NumberOfPiecesBase" id="DE701">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,4}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="NumberOfULDsBase" id="DE702">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ShipmentDescriptionCodeBase" id="DE703">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="MovementPriorityCodeBase" id="DE704">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SpecialHandlingCodeBase" id="DE705">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CommodityItemNumberBase" id="DE707">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{4,7}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ManifestDescriptionOfGoodsBase" id="DE708">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,15}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="NatureAndQuantityOfGoodsBase" id="DE709">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,20}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="GoodsDateIdentifierBase" id="DE710">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SLACBase" id="DE714">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,5}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="FlightNumberBase" id="DE800">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{3}[0-9]?[A-Z]?"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDOwnerCodeBase" id="DE801">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDBase" id="DE802">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}[A-Z0-9]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDRemarksBase" id="DE804">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,53}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDVolumeAvailableCodeBase" id="DE803">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1}"/>				
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AircraftRegistrationBase" id="DE808">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,10}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ULDLoadingIndicatorBase" id="DE811">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>				
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="HarmonisedCommodityCodeBase" id="DE900">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{6,18}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CustomsOriginCodeBase" id="DE906">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{1,2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CustomsReferenceBase" id="DE907">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,15}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SupplementaryCustomsInformationBase" id="DE940">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="CustomsInformationIdentifierBase" id="DE941">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<!-- Hussin Added 21Sep06 -->
+			<s:simpleType name="ActualTimeBase" id="DE203">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{4}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="StatusCodeBase" id="DE400">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DayChangeIndicatorBase" id="DE205">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="OfTimeIndicatorBase" id="DE206">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>				
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DiscrepancyCodeBase" id="DE706">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{4}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AircraftPossibilityCodeBase" id="DE809">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ConnectionRestrictionIndicatorBase" id="DE419">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ICAOCarrierCodeBase" id="DE307">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DayOfWeekBase" id="DE204">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1}"/>					
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="AircraftCodeBase" id="DE810">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="NumberOfStopsBase" id="DE322">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ReasonforNoDisplayBase" id="DE420">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SPSNameBase" id="DE422">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 ]{1,25}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DueCarrierBase" id="DE423">
+				<s:restriction base="s:string">
+					<s:pattern value="[AC]{1}"/>
+				</s:restriction>
+			</s:simpleType>
+			<!--Simple comment-->
+			<s:simpleType name="LineBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,45}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="RecipientOfMessageBase">
+    			<s:restriction base="s:string">
+      				<s:pattern value="[A-Z]{3}" />
+    			</s:restriction>
+  			</s:simpleType>
+			<s:simpleType name="AAIShippingBillNumber">
+    			<s:restriction base="s:string">
+      				<s:pattern value="[0-9]{4}" />
+    			</s:restriction>
+  			</s:simpleType>
+		</s:schema>
+	</types>
+	<message name="CCNMessageSoapIn">
+		<part name="parameter" element="ccn:CCN.MSG"/>
+	</message>
+	<message name="NewMessage"/>
+	<portType name="CCN.MSGSoap">
+		<operation name="ProcessMessage">
+			<input message="ccn:CCNMessageSoapIn"/>
+		</operation>
+	</portType>
+	<binding name="CCN.MSGSoap" type="ccn:CCN.MSGSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ProcessMessage">
+			<soap:operation soapAction="http://www.ccn.com.sg/CCNMSGWS/ProcessMessage" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	</binding>
+	<service name="CCN.MSGWebSrvController">
+		<port name="CCN.MSG" binding="ccn:CCN.MSGSoap">
+			<soap:address location="http://www.ccn.com.sg/CCNMSGWS"/>
+		</port>
+	</service>
+</definitions>

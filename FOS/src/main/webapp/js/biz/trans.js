@@ -714,7 +714,7 @@ Fos.TransTab = function(p) {
     var expPanel = new Fos.SectionExGrid(p,'TRAN',this);
     
 	Fos.TransTab.superclass.constructor.call(this,{id:'T_TRAN_'+p.get('id'),
-		title:C_SR_TRAN+'(F4)',
+		title:C_SR_TRAN,
 		header:false,
 		autoScroll:true,	
 		labelAlign:'right',

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--edited by Kyaw Myo Thet -->
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ccn="http://www.ccn.com.sg/CCNMSGWS" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.ccn.com.sg/CCNMSGWS">
+	<types>
+		<s:schema targetNamespace="http://www.ccn.com.sg/CCNMSGWS" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+  		  <s:element name="CCN.MSG" type="ccn:CCN.MSG"/>
+			<s:complexType name="CCN.MSG">
+				<s:sequence>
+					<s:element name="MsgEnvelope" type="ccn:Envelope"/>
+					<s:element name="MsgBody" type="ccn:MsgBody"/>
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="Envelope">
+				<s:sequence>
+					<s:element name="Priority" type="ccn:PriorityBase" minOccurs="0">
+						<s:annotation>
+							<s:documentation>Priority Code</s:documentation>
+						</s:annotation>
+					</s:element>
+					<s:element name="RecipientPimaAddress" type="ccn:PimaAddressBase"/>
+					<s:element name="SenderPimaAddress" type="ccn:PimaAddressBase"/>
+					<s:element name="GMT" type="ccn:GMTBase"/>
+					<s:element name="SenderOriginalCode" type="ccn:SenderOriginalCodeBase"/>
+					<s:element name="MessageSequenceNumber" type="ccn:InterchangeReferenceNumberBase"/>
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="PriorityBase">
+				<s:restriction base="s:string">
+					<s:pattern value="QK|QU|QP|QD"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="PimaAddressBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9/]{1,35}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="SenderOriginalCodeBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 /]{1,15}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="TTYAddressBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{7}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="GMTBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{6}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="DoubleSignatureBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="InterchangeReferenceNumberBase">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9]{14}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:complexType name="MsgBody">
+				<s:sequence>
+					<s:element name="FMA" type="ccn:FMA"/>
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="FMA">
+				<s:sequence>
+					<s:element name="StandardMessageIdentification" type="ccn:StandardMessageIdentification" />
+					<s:element name="ReasonForAcknowledgement" type="ccn:Reason" />
+					<s:element name="SubMessageTypeIdentification" type="ccn:SubMessageTypeIdentification" />
+					<s:element name="ReceivedMessageDetail" type="ccn:ReceivedMessageDetail" />
+				</s:sequence>
+			</s:complexType>
+			<!-- Level 1 -->
+			<!-- Standard Message Identification-->
+			<s:complexType name="StandardMessageIdentification">
+				<s:sequence>
+					<s:element name="StandardMessageIdentification" type="ccn:StandardMessageIdentifierBase" />
+					<s:element name="MessageTypeVersionNumber" type="ccn:MessageSequenceNumberBase" />
+				</s:sequence>
+			</s:complexType>
+			<!-- ReasonType -->
+			<s:complexType name="Reason">
+				<s:sequence>
+					<s:element name="ReasonForAcknowledgement" type="ccn:ReasonForAcknowledgementBase" minOccurs="1" maxOccurs="99" />
+				</s:sequence>
+			</s:complexType>
+			<!-- Sub-Message Identification-->
+			<s:complexType name="SubMessageTypeIdentification">
+				<s:sequence>
+					<s:element name="SubMessageTypeIdentification" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<!-- ReceivedMessageDetailType -->
+			<s:complexType name="ReceivedMessageDetail">
+				<s:sequence>
+					<s:element name="ReceivedMessageDetail" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+
+			<s:simpleType name="MessageSequenceNumberBase" id="DE100">
+				<s:restriction base="s:string">
+					<s:pattern value="[0-9]{1,2}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="StandardMessageIdentifierBase" id="DE101">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="EndOfMessageCodeBase" id="DE102">
+				<s:restriction base="s:string">
+					<s:enumeration value="LAST"/>
+					<s:enumeration value="CONT"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="LineIdentifierBase" id="DE103">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z]{3}"/>
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="ReasonForAcknowledgementBase" id="DE418">
+				<s:restriction base="s:string">
+					<s:pattern value="[A-Z0-9 \.\-]{1,65}"/>
+				</s:restriction>
+			</s:simpleType>
+		</s:schema>
+	</types>
+	<message name="CCNMessageSoapIn">
+		<part name="parameter" element="ccn:CCN.MSG"/>
+	</message>
+	<message name="NewMessage"/>
+	<portType name="CCN.MSGSoap">
+		<operation name="AirWaybillData">
+			<input message="ccn:CCNMessageSoapIn"/>
+		</operation>
+	</portType>
+	<binding name="CCN.MSGSoap" type="ccn:CCN.MSGSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="AirWaybillData">
+			<soap:operation soapAction="http://www.ccn.com.sg/CCNMSGWS/AirWaybillData" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	</binding>
+	<service name="CCN.MSGService">
+		<port name="CCN.MSG" binding="ccn:CCN.MSGSoap">
+			<soap:address location="http://www.ccn.com.sg/CCNMSGWS"/>
+		</port>
+	</service>
+</definitions>

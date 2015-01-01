@@ -11,10 +11,16 @@ Fos.InspectionDeclTab = function(p,store) {
     		name:'vessName',value:p.get('vessName'),xtype:'textfield',anchor:'99%'};
 	var txtVoyage={fieldLabel:C_VOYA,tabIndex:18,
     		name:'voyaName',value:p.get('voyaName'),xtype:'textfield',anchor:'99%'};
+	
 	var txtSailDate=new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,tabIndex:19,
-			itemCls:VERSION==0?'required':'',editable:false,
-			name:'consSailDate',value:p.get('consSailDate'),
-			xtype:'datefield',format:DATEF,anchor:'99%'});
+		itemCls:'required',
+		editable:false,
+		name:'consSailDate',
+		value:p.get('consSailDate'),
+		xtype:'datefield',
+		format:DATEF,anchor:'99%'
+	});
+	
   	var txtConsMblNo = {fieldLabel:C_M_BL_NO,name:'consMblNo',value:p.get('consMblNo'),xtype:'textfield',anchor:'99%'};
     var txtConsHblNo = {fieldLabel:C_H_BL_NO,name:'consHblNo',value:p.get('consHblNo'),xtype:'textfield',anchor:'99%'};
 	var cboPolEn = {fieldLabel:C_POL,itemCls:'needed',tabIndex:p.get('consBizClass')==BC_I?39:43,
@@ -99,7 +105,8 @@ Fos.InspectionDeclTab = function(p,store) {
 			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){this.find('name','consOperatorName')[0].focus();},this);
 			return;
 		}
-		if(VERSION==0&&txtSailDate.getValue()==''){
+		
+		if(txtSailDate.getValue()==''){
 			XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
 				function(){txtSailDate.focus();},this);
 			return;
@@ -444,9 +451,20 @@ Fos.InspectionDeclTab = function(p,store) {
 	    	   			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}}}
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-					{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorName',value:p.get('consOperatorName'),
-					  	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userName',
-					  	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',editable:false,
+					{fieldLabel:C_OPERATOR,
+						itemCls:'required',
+						tabIndex:2,
+						name:'consOperatorName',
+						value:p.get('consOperatorName'),
+					  	store:getOP_S(),
+					  	xtype:'combo',
+					  	displayField:'userName',
+					  	typeAhead: true,
+					  	mode: 'local',
+					  	triggerAction: 'all',
+					  	selectOnFocus:true,
+					  	anchor:'99%',
+					  	editable:false,
 					  	listeners:{scope:this,
 							blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
 							select:function(c,r,i){p.set('consOperatorId',r.get('userId'));}}},
@@ -460,11 +478,25 @@ Fos.InspectionDeclTab = function(p,store) {
        			   {fieldLabel:C_APPLICATION_NO,tabIndex:26,name:'consBookingDeclareNoUs',value:p.get('consBookingDeclareNoUs'),
            			    xtype:'textfield',anchor:'99%'}
          	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[
-					{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
-							store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
-							valueField:'userName',editable:false,
-							typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+         	    {columnWidth:.25,
+         	    	layout:'form',
+         	    	border:false,
+         	    	labelWidth:70,
+         	    	items:[
+					{fieldLabel:C_SALES,
+						itemCls:'required',
+						tabIndex:3,
+						name:'consSalesRepName',
+						value:p.get('consSalesRepName'),
+							store:getSALE_S(),
+							xtype:'combo',
+							displayField:'userName',
+							valueField:'userName',
+							editable:false,
+							typeAhead: true,
+							mode: 'local',
+							triggerAction: 'all',
+							selectOnFocus:true,anchor:'99%',
 							listeners:{scope:this,
 								blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
 						    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},

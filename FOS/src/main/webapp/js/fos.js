@@ -16,8 +16,8 @@ function getPMenu(){
 	if(!NR(M1_V)) items[items.length]=getCusPanel();
 	if(!NR(M1_J)) items[items.length]=createGMTree();
 	if(!NR(M1_P)) items[items.length]=getSysPanel();
-	//if(VERSION==1&&!NR(M1_W)) 
-		items[items.length]=getWsPanel();
+	
+	//items[items.length]=getWsPanel();
 		
 	
 	return new Ext.Panel({
@@ -228,7 +228,7 @@ function NaviMenu(t,c,f){
 
 function getContPanel(){
 	var items=[];
-	if(VERSION==0&&!NR(M1_C+M2_A)) 
+	if(!NR(M1_C+M2_A)) 
 		items[items.length]=NaviMenu(C_IMP_A,'G_CONS_I_C',function(){return new Fos.ConsignGrid('I','C','');});
 	
 	if(!NR(M1_C+M2_F)) 
@@ -236,7 +236,7 @@ function getContPanel(){
 	if(!NR(M1_C+M2_L)) 
 		items[items.length]=NaviMenu(C_IMP_L,'G_CONS_I_C_LCL',function(){return new Fos.ConsignGrid('I','C','LCL');});
 	
-	if(VERSION==0&&!NR(M1_C+M2_AE)) 
+	if(!NR(M1_C+M2_AE)) 
 		items[items.length]=NaviMenu(C_EXP_A,'G_CONS_E_C',function(){return new Fos.ConsignGrid('E','C','');});
 	
 	if(!NR(M1_C+M2_FE)) 
@@ -250,6 +250,7 @@ function getContPanel(){
 				return new Fos.TaskTab(BC_E,BT_C);
 			}
 		);
+	
 	if(!NR(M1_C+M2_FE)||!NR(M1_C+M2_LE)) 
 		items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_C',
 			function(){
@@ -257,7 +258,8 @@ function getContPanel(){
 			}
 		);
 		
-	items[items.length]=NaviMenu('港区进箱计划','VOYA',function(){return new Fos.VoyagePanel();});
+	if(!CCN)
+		items[items.length]=NaviMenu('港区进箱计划','VOYA',function(){return new Fos.VoyagePanel();});
 
 	
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
@@ -265,38 +267,30 @@ function getContPanel(){
 };
 
 function getBulkPanel(){
-	if(VERSION==0){
-		return createBulkTree();
-	}
-	else{
-		var items=[];
-		if(!NR(M1_B+M2_E))
-			items[items.length]=NaviMenu(C_EXP_BULK,'CONS_E_B',function(){return new Fos.ConsignGrid('E','B','');});
-		
-		
-		if(!NR(M1_B+M2_I)) 
-			items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('I','B','');});
-		
-		if(!NR(M1_B+M2_BV)) 
-			items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_B',
-				function(){
-					return new Fos.TaskTab(BC_E,BT_B);
-				}
-			);
-		
-		if(!NR(M1_B+M2_BV)) 
-			items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_B',
-				function(){
-					return new Fos.TaskTab(BC_I,BT_B);
-				}
-			);
-		
-		/*if(!NR(M1_B+M2_BV)) 
-			items[items.length]=NaviMenu(C_SHIP_DATE,'VOYA',function(){return new Fos.VoyagePanel();});*/
+	var items=[];
+	if(!NR(M1_B+M2_E))
+		items[items.length]=NaviMenu(C_EXP_BULK,'CONS_E_B',function(){return new Fos.ConsignGrid('E','B','');});
 	
-		return new Ext.Panel({title:C_BULK,collapsible:true,layout:'fit',
-			items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
-	}
+	
+	if(!NR(M1_B+M2_I)) 
+		items[items.length]=NaviMenu(C_IMP_BULK,'CONS_I_B',function(){return new Fos.ConsignGrid('I','B','');});
+	
+	if(!NR(M1_B+M2_BV)) 
+		items[items.length] = NaviMenu(C_TASK_LIST_E,'TASK_E_B',
+			function(){
+				return new Fos.TaskTab(BC_E,BT_B);
+			}
+		);
+	
+	if(!NR(M1_B+M2_BV)) 
+		items[items.length] = NaviMenu(C_TASK_LIST_I,'TASK_I_B',
+			function(){
+				return new Fos.TaskTab(BC_I,BT_B);
+			}
+		);
+		
+	return new Ext.Panel({title:C_BULK,collapsible:true,layout:'fit',
+		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
 
 function getOverseasPanel(){
@@ -351,13 +345,16 @@ function getCudePanel(){
 		items[items.length]=NaviMenu(C_EXP_CUDE,'G_CONS_G_E',function(){return new Fos.CustomsGrid('E');});
 	}
 	
-	if(VERSION==0&&!NR(M1_G+M2_I)) 
+	/*if(VERSION==0&&!NR(M1_G+M2_I)) 
 		items[items.length]=NaviMenu(C_IMP_CUDE_E,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','',1);});
 	if(VERSION==0&&!NR(M1_G+M2_E)) 
-		items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});
+		items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});*/
 	
-	if(!NR(M1_I)) 
+	if(!NR(M1_I)){
 		items[items.length]=NaviMenu(C_INSPECTION,'G_CONS_I',function(){return new Fos.InspectionGrid();});
+				
+	}
+		
 
 	if(!NR(M1_M)) 
 		items[items.length]=NaviMenu(C_TRADE,'G_CONS_H_M',function(){return new Fos.TradeGrid();});
@@ -391,6 +388,7 @@ function getDocPanel(){
 
 function getStaPanel(){
 	var items=[];
+	
 	if(!NR(M1_T+T_BUSI)) items[items.length]=NaviMenu(C_STAT_BIZ_SUM,'REPT_BUSI',function(){return new Fos.StatSumTab('REPT_BUSI');});
 	if(!NR(M1_T+T_BUSI)) items[items.length]=NaviMenu(C_STAT_BIZ_SUM_SALES,'REPT_BUSI_SALES',function(){return new Fos.StatSalesSumTab();});
 	if(!NR(M1_T+T_BUEX)) items[items.length]=NaviMenu(C_STAT_PROFIT_SUM,'REPT_BUEX',function(){return new Fos.StatBuexTab('REPT_BUEX');});
@@ -398,27 +396,16 @@ function getStaPanel(){
 	if(!NR(M1_T+T_BUDE)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL,'REPT_BUDE',function(){return new Fos.StatDetailTab('REPT_BUDE');});
 	if(!NR(M1_T+T_BUDS)) items[items.length]=NaviMenu(C_STAT_BIZ_DETAIL_SALES,'REPT_BUDS',function(){return new Fos.StatDetailTab('REPT_BUDS');});
 	if(!NR(M1_T+T_PROF)) items[items.length]=NaviMenu(C_STAT_PROFIT,'REPT_PROF',function(){return new Fos.StatProfitTab('REPT_PROF');});
-	
-	if(VERSION==0&&!NR(M1_T+T_PROF_SALES)) 
-		items[items.length]=NaviMenu(C_STAT_PROFIT_SALES,'REPT_PROF_SALES',function(){return new Fos.StatProfitTab('REPT_PROF_SALES');});
-	
+		
 	if(!NR(M1_T+T_ACAR)) items[items.length]=NaviMenu(C_STAT_AR_AC,'T_ACAR',function(){return new Fos.StatACTab('AR');});
 	if(!NR(M1_T+T_ACAP)) items[items.length]=NaviMenu(C_STAT_AP_AC,'T_ACAP',function(){return new Fos.StatACTab('AP');});
 	if(!NR(M1_T+T_CUEX)) items[items.length]=NaviMenu(C_STAT_AR,'T_CUEX',function(){return new Fos.StatArTab('CUEX');});
 	if(!NR(M1_T+T_VEEX)) items[items.length]=NaviMenu(C_STAT_AP,'T_VEEN',function(){return new Fos.StatApTab();});
-	if(VERSION==0&&!NR(M1_T+T_CUEX)) 
-		items[items.length]=NaviMenu(C_STAT_ARC,'T_SEEX',function(){return new Fos.StatArTab('SEEX');});
 	
 	if(!NR(M1_T+T_WROF)) items[items.length]=NaviMenu(C_STAT_WRITEOFF,'T_WROF',function(){return new Fos.StatWOTab();});
 	if(!NR(M1_T+T_ARA)) items[items.length]=NaviMenu(C_STAT_ARA,'T_ARA',function(){return new Fos.StatAraTab('R');});
 	if(!NR(M1_T+T_APA)) items[items.length]=NaviMenu(C_STAT_APA,'T_APA',function(){return new Fos.StatAraTab('P');});
 	
-	if(VERSION==0&&!NR(M1_T+T_PAY_PLAN)) 
-		items[items.length]=NaviMenu(C_STAT_PAY_PLAN,'T_PAY_PLAN',function(){return new Fos.StatPayPlanTab();});
-	
-	
-	if(VERSION==0&&!NR(M1_T+T_PRCH)) items[items.length]=NaviMenu(C_STAT_PRCH,'T_PRCH',function(){return new Fos.StatPrchTab();});
-	if(VERSION==0&&!NR(M1_T+T_PRCO)) items[items.length]=NaviMenu(C_STAT_PRCO,'T_PRCO',function(){return new Fos.StatPrcoTab();});
 	return new Ext.Panel({title:C_STAT,collapsible:true,autoScroll:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -490,11 +477,11 @@ function getSysPanel(){
 	if(!NR(M1_P+A_ROLE+F_V)) items[items.length]=NaviMenu(C_FUNC_PERMISSION,'T_ROLE',function(){return new Fos.RoleTab();});
 	if(!NR(M1_P+A_USER+F_V)) items[items.length]=NaviMenu(C_USER_MGT,'T_USER',function(){return new Fos.UserTab();});
 	if(!NR(M1_P+A_TEMP+F_V)) items[items.length]=NaviMenu(C_TEMP_MGT,'G_TEMP',function(){return showG_TEMP();});
-	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_COCO,'G_COCO',function(){return showP_COCO();});
-	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_TASK_CFG,'T_TATY',function(){return new Fos.TatyTab();});
+	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_COCO,'G_COCO',function(){return showP_COCO();});
+	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_TASK_CFG,'T_TATY',function(){return new Fos.TatyTab();});
 	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_ACT_LOG,'G_ACLO',function(){return new Fos.AcloGrid();});
-	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_ONLINE_USER,'W_MESS',function(){var w=new Fos.OnlineUserWin();w.show();});
-	if(!NR(M1_P+A_COCO+F_V)&&VERSION!=2) items[items.length]=NaviMenu(C_MSG_TOPIC_SUB,'T_METO',function(){return new Fos.MetoTab();});
+	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_ONLINE_USER,'W_MESS',function(){var w=new Fos.OnlineUserWin();w.show();});
+	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_MSG_TOPIC_SUB,'T_METO',function(){return new Fos.MetoTab();});
 	return  new Ext.Panel({title:C_SYSTEM_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
@@ -511,43 +498,6 @@ function CreateNode(t,c,m,f){
 			}
 		}
 	});
-};
-		
-function createBulkTree(){
-	var root=new Ext.tree.TreeNode({text:C_BULK,leaf:false});
-	if(!NR(M1_B+M2_BC)){
-		var fconS = CreateNode(S_SHIP_S,'FCON_S',M1_B+M2_BC+F_V,function(){return new Fos.ContractListTab('S');});
-		var fconNS = CreateNode(S_SHIP_P,'FCON_P',M1_B+M2_BC+F_CM,function(){return new Fos.ContractListTab('P');});
-		var fcon = new Ext.tree.TreeNode({text:C_FCON,leaf:false,expanded:true});
-		fcon.appendChild(fconS);
-		fcon.appendChild(fconNS);
-		root.appendChild(fcon);
-	}
-	if(!NR(M1_B+M2_BV)){
-		var voya = CreateNode(C_SHIP_DATE,'VOYA',M1_B+M2_BV,function(){return Fos.showG_VOYA();});
-		root.appendChild(voya);
-		var task = CreateNode(C_TASK_LIST,'TASK_B',M1_B+M2_BV,function(){return new Fos.TaskTab(BC_E,BT_B);});
-		root.appendChild(task);
-		
-		var paliS = CreateNode(C_SAILED,'PALI_X_S',M1_B+M2_BV,function(){return new Fos.PakingListGrid('S');});
-		var paliN = CreateNode(C_NOT_SAILED,'PALI_X_N',M1_B+M2_BV,function(){return new Fos.PakingListGrid('N');});
-		var pali = new Ext.tree.TreeNode({text:C_PACKING_LIST,leaf:false,expanded:true});
-		pali.appendChild(paliS);
-		pali.appendChild(paliN);
-		root.appendChild(pali);
-	}
-	if(!NR(M1_B+M2_E)){
-		var buex = CreateNode(C_EXP_BULK,'CONS_E_B',M1_B+M2_E,function(){return new Fos.ConsignGrid('E','B','');});
-		root.appendChild(buex);
-	}
-	if(!NR(M1_B+M2_I)){
-		var buim = CreateNode(C_IMP_BULK,'CONS_I_B',M1_B+M2_I,function(){return new Fos.ConsignGrid('I','B','');});	
-		root.appendChild(buim);
-	}
-	var tree = new Ext.tree.TreePanel({disabled:NR(M1_B),title:C_BULK,rootVisible:false,
-		animate:true,enableDD:false,autoScroll:true,containerScroll:true,root:root
-	});
-	return tree;
 };
 
 function createSMTree(){
@@ -663,7 +613,7 @@ function createGMTree(){
 		var airp = CreateNode(C_AIRP,'AIRP',M1_J+G_AIRP,function(){return showG_PORT('1');});
 		biz.appendChild(airp);
 	}*/
-	if(!NR(M1_J+G_PLAC)&&VERSION!=2){
+	if(!NR(M1_J+G_PLAC)){
 		var plac = CreateNode(C_PLAC,'PLAC',M1_J+G_PLAC,showG_PLAC);
 		biz.appendChild(plac);
 	}
@@ -675,31 +625,31 @@ function createGMTree(){
 		var shli = CreateNode(C_SHLI,'SHLI',M1_J+G_SHLI,showG_SHLI);
 		biz.appendChild(shli);
 	}
-	if(!NR(M1_J+G_UNIT)&&VERSION!=2){
+	if(!NR(M1_J+G_UNIT)){
 		var unit = CreateNode(C_UNIT,'UNIT',M1_J+G_UNIT,showG_UNIT);
 		biz.appendChild(unit);
 	}
-	if(!NR(M1_J+G_PACK)&&VERSION!=2){
+	if(!NR(M1_J+G_PACK)){
 		var pack = CreateNode(C_PACK,'PACK',M1_J+G_PACK,showG_PACK);
 		biz.appendChild(pack);
 	}
-	if(!NR(M1_J+G_COCL)&&VERSION!=2){
+	if(!NR(M1_J+G_COCL)){
 		var cocl = CreateNode(C_COCL,'COCL',M1_J+G_COCL,showG_COCL);
 		biz.appendChild(cocl);
 	}
-	if(!NR(M1_J+G_COTY)&&VERSION!=2){
+	if(!NR(M1_J+G_COTY)){
 		var coty = CreateNode(C_COTY,'COTY',M1_J+G_COTY,showG_COTY);
 		biz.appendChild(coty);
 	}
-	if(!NR(M1_J+G_CACL)&&VERSION!=2){
+	if(!NR(M1_J+G_CACL)){
 		var cacl = CreateNode(C_CACL,'CACL',M1_J+G_CACL,showG_CACL);
 		biz.appendChild(cacl);
 	}
-	if(!NR(M1_J+G_CATY)&&VERSION!=2){
+	if(!NR(M1_J+G_CATY)){
 		var caty = CreateNode(C_CATY,'CATY',M1_J+G_CATY,showG_CATY);
 		biz.appendChild(caty);
 	}
-	if(!NR(M1_J+G_TRTE)&&VERSION!=2){
+	if(!NR(M1_J+G_TRTE)){
 		var trte = CreateNode(C_TRTE,'TRTE',M1_J+G_TRTE,showG_TRTE);
 		biz.appendChild(trte);
 	}
@@ -715,47 +665,45 @@ function createGMTree(){
 		var coun = CreateNode(C_COUN,'COUN',M1_J+G_COUN,showG_COUN);
 		biz.appendChild(coun);
 	}
-	if(!NR(M1_J+G_VEHT)&&VERSION!=2){
+	if(!NR(M1_J+G_VEHT)){
 		var vety = CreateNode(C_VEHT,'VEHT',M1_J+G_VEHT,showG_VEHT);
 		biz.appendChild(vety);
 	}	
 	root.appendChild(biz);
 	
-	if(VERSION!=2){
-		var cus = new Ext.tree.TreeNode({text:C_CUDE_RELATED,leaf:false});
-		if(!NR(M1_J+G_CUTY)){
-			var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
-			cus.appendChild(cuty);
-		}
-		if(!NR(M1_J+G_TRTY)){
-			var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
-			cus.appendChild(trty);
-		}
-		if(!NR(M1_J+G_USAG)){
-			var usag = CreateNode(C_USAG,'USAG',M1_J+G_USAG,showG_USAG);
-			cus.appendChild(usag);
-		}
-		if(!NR(M1_J+G_LETY)){
-			var lety = CreateNode(C_LETY,'LETY',M1_J+G_LETY,showG_LETY);
-			cus.appendChild(lety);
-		}
-		if(!NR(M1_J+G_EXSE)){
-			var exse = CreateNode(C_EXSE,'EXSE',M1_J+G_EXSE,showG_EXSE);
-			cus.appendChild(exse);
-		}
-		if(!NR(M1_J+G_TRAT)){
-			var trat = CreateNode(C_TRAT,'TRAT',M1_J+G_TRAT,showG_TRAT);
-			cus.appendChild(trat);
-		}
-		if(!NR(M1_J+G_ISTY)){
-			var isty = CreateNode(C_ISTY,'ISTY',M1_J+G_ISTY,showG_ISTY);
-			cus.appendChild(isty);	
-		}
-		root.appendChild(cus);
+	var cus = new Ext.tree.TreeNode({text:C_CUDE_RELATED,leaf:false});
+	if(!NR(M1_J+G_CUTY)){
+		var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
+		cus.appendChild(cuty);
 	}
+	if(!NR(M1_J+G_TRTY)){
+		var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
+		cus.appendChild(trty);
+	}
+	if(!NR(M1_J+G_USAG)){
+		var usag = CreateNode(C_USAG,'USAG',M1_J+G_USAG,showG_USAG);
+		cus.appendChild(usag);
+	}
+	if(!NR(M1_J+G_LETY)){
+		var lety = CreateNode(C_LETY,'LETY',M1_J+G_LETY,showG_LETY);
+		cus.appendChild(lety);
+	}
+	if(!NR(M1_J+G_EXSE)){
+		var exse = CreateNode(C_EXSE,'EXSE',M1_J+G_EXSE,showG_EXSE);
+		cus.appendChild(exse);
+	}
+	if(!NR(M1_J+G_TRAT)){
+		var trat = CreateNode(C_TRAT,'TRAT',M1_J+G_TRAT,showG_TRAT);
+		cus.appendChild(trat);
+	}
+	if(!NR(M1_J+G_ISTY)){
+		var isty = CreateNode(C_ISTY,'ISTY',M1_J+G_ISTY,showG_ISTY);
+		cus.appendChild(isty);	
+	}
+	root.appendChild(cus);
 		
 	var set = new Ext.tree.TreeNode({text:C_SETTLE_RELATED,leaf:false});
-	if(!NR(M1_J+G_SEWA)&&VERSION!=2){
+	if(!NR(M1_J+G_SEWA)){
 		var sewa = CreateNode(C_SEWA,'SEWA',M1_J+G_SEWA,showG_SEWA);
 		set.appendChild(sewa);
 	}	

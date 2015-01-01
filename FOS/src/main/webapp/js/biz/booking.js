@@ -267,7 +267,7 @@ Fos.BookTab = function(p) {
 		name:'consSalesRepName',
 		value:p.get('consSalesRepName'),
 		store:getSALE_S(),
-		displayField:VERSION==1?'userName':'userLoginName',
+		displayField:'userName',
 		valueField:'userName',
 		typeAhead: true,
 		mode: 'local',
@@ -295,7 +295,7 @@ Fos.BookTab = function(p) {
 		name:'consOperatorName',
 		value:p.get('consOperatorName'),
 		store:getOP_S(),
-		displayField:VERSION==1?'userName':'userLoginName',
+		displayField:'userName',
 		valueField:'userName',
 		typeAhead: true,
 		mode: 'local',
@@ -3037,7 +3037,7 @@ Fos.BookTab = function(p) {
 	
 	Fos.BookTab.superclass.constructor.call(this, { 
 		id: "T_BOOK_"+p.get('id'),
-		title:C_CONSIGN+"(F1)",
+		title:C_CONSIGN,
 		header:false,
 		autoScroll:true,
 		border:false,

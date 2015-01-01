@@ -2514,7 +2514,7 @@ Fos.RailwayConsign = function(p, listStore) {
 	var tabs = [t1, t2];
 	Fos.RailwayConsign.superclass.constructor.call(this, {
 		id: "T_RAIL_" + p.get('id'),
-		title: C_CONSIGN + "(F1)",
+		title: C_CONSIGN,
 		header: false,
 		autoScroll: true,
 		border: false,

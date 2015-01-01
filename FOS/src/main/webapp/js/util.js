@@ -507,10 +507,11 @@ var ADDTAB=function(tid,f){
 var OW=function(url){window.open(url,'','height=0,width=0,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');};
 var OWF=function(url){window.open(url,'','height=800,width=600,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');};
 var OWW=function(url){window.open(url,'','height=800,width=600,top=0,left=0,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=no,status=no');};
+
 var LC=function(f,e,t,s){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
-		if(VERSION==0?(q.length>=1):(q.length>1) && !f.isExpanded()){
+		if(q.length>1 && !f.isExpanded()){
 			var a=[];			
 			a[0]=new QParam({key:'custCode',value:q+'%',op:LI});
 			if(t!='') a[1]=new QParam({key:t,value:'1',op:EQ});
@@ -520,7 +521,6 @@ var LC=function(f,e,t,s){
 				xmlData:FOSX(xml)
 			});
 		}
-		
 	}
 };
 var listShipper=function(f,e){

@@ -21,10 +21,7 @@
 <script type="text/javascript" src="js/constant.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
 
-
-
 <script type="text/javascript" src="js/store/store-biz.js"></script>
-<script type="text/javascript" src="js/store/store-bulk.js"></script>
 <script type="text/javascript" src="js/store/store-crm.js"></script>
 <script type="text/javascript" src="js/store/store-set.js"></script>
 <script type="text/javascript" src="js/store/store-sys.js"></script>
@@ -58,7 +55,7 @@
 <script type="text/javascript" src="js/set/expense.js"></script>
 
 <script type="text/javascript" src="js/set/ExpensePanel.js"></script>
-<script type="text/javascript" src="js/set/ExpenseGrid.js.js"></script>
+<script type="text/javascript" src="js/set/ExpenseGrid.js"></script>
 
 <script type="text/javascript" src="js/set/invoice.js"></script>
 <script type="text/javascript" src="js/set/voucher.js"></script>
@@ -77,10 +74,6 @@
 <script type="text/javascript" src="js/biz/section.js"></script>
 <script type="text/javascript" src="js/biz/cargo.js"></script>
 <script type="text/javascript" src="js/biz/imp.js"></script>
-
-<script type="text/javascript" src="js/bulk/contract.js"></script>
-<script type="text/javascript" src="js/bulk/packingList.js"></script>
-<script type="text/javascript" src="js/bulk/ship.js"></script>
 
 <script type="text/javascript" src="js/customs/cude.js"></script>
 <script type="text/javascript" src="js/customs/CustomsDeclearTab.js"></script>

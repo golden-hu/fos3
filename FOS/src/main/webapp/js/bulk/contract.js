@@ -280,7 +280,7 @@ Fos.ContractListTab = function(T){
      	store.reload({params:{start:0,limit:C_PS},callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});
 	};
 	var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};
-	var b9={text:C_RESET+'(F5)',iconCls:'refresh',handler:this.reset};
+	var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
 	var re= {scope:this,rowdblclick: function(g,r,e){var c=sm.getSelected();if(c){this.showFcon(c,store);}}};
 	/*new Ext.KeyMap(Ext.getDoc(), {
 		key:'nmdcflq',ctrl:true,

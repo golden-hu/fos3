@@ -100,7 +100,7 @@ Fos.ConsDocGrid = function(p) {
 	
 	Fos.ConsDocGrid.superclass.constructor.call(this,{
 		id:'T_DOC_'+p.get('id'),
-		title:C_DOC+"(F2)",
+		title:C_DOC,
 		header:false,
 		deferredRender:false,
 		clicksToEdit:1,

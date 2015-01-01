@@ -316,8 +316,15 @@ Fos.EntRegTab = function(p,store) {
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
              	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
-     			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+     			     	store:getOP_S(),
+     			     	xtype:'combo',
+     			     	displayField:'userName',
+     			     	valueField:'userId',
+     			     	typeAhead: true,
+     			     	mode: 'local',
+     			     	triggerAction: 'all',
+     			     	selectOnFocus:true,
+     			     	anchor:'99%',
      			     	listeners:{scope:this,
      	    			blur:function(f){
      	    				if(f.getRawValue()==''){
@@ -338,7 +345,9 @@ Fos.EntRegTab = function(p,store) {
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[             		
              		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
-         	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
+         	    		store:getSALE_S(),
+         	    		xtype:'combo',
+         	    		displayField:'userName',
          	    		valueField:'userName',
          	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
          	    		listeners:{scope:this,

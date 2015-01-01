@@ -120,7 +120,7 @@ Fos.SecondShipTab = function(p) {
 	var expPanel = new Fos.SectionExGrid(p,'SESH',this);
 
 	Fos.SecondShipTab.superclass.constructor.call(this, { 
-	id:'T_SESH_'+p.get('id'),title:C_SECOND_SHIP+'(F11)',layout:'border',
+	id:'T_SESH_'+p.get('id'),title:C_SECOND_SHIP,layout:'border',
 	tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addSesh},'-',
 			{text:C_REMOVE+'(R)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeSesh},'-',
 			{text:C_SAVE+'(S)',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save}],
@@ -215,7 +215,7 @@ Fos.BBookingTab = function(p) {
 	var expPanel = new Fos.SectionExGrid(p,'BBOOK',this);
 	
 	Fos.BBookingTab.superclass.constructor.call(this, { 
-	id:'T_BBOOK_'+p.get('id'),title:C_SR_BBOOK+'(F10)',header:false,deferredRender:false,autoScroll:true,
+	id:'T_BBOOK_'+p.get('id'),title:C_SR_BBOOK,header:false,deferredRender:false,autoScroll:true,
 	labelAlign:'right',labelWidth:70,bodyStyle:'padding:0px 0px 0px',border:false,width:800,
 	tbar:[{text:C_SAVE+'(S)',itemId:'TB_S',iconCls:'save',disabled:NR(m+F_M)||p.get('consStatusBBook')>'4',scope:this,handler:this.save},'-',
 			{text:C_BOOK_FAILED+'(F)',itemId:'TB_F',iconCls:'cancel',disabled:NR(m+F_M)||p.get('consStatusBBook')!='1',scope:this,handler:this.cancel},'-',
@@ -497,7 +497,7 @@ Fos.RailwayBlTab = function(p) {
 	]});
 	
 	Fos.RailwayBlTab.superclass.constructor.call(this, { 
-	id:'T_RABL_'+p.get('id'),title:C_RABL+'(F12)',layout:'border',	
+	id:'T_RABL_'+p.get('id'),title:C_RABL,layout:'border',	
 		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M),scope:this,handler:this.addRecord},'-',
 			{text:C_REMOVE+'(R)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeRecord},'-',
 			{text:C_SAVE+'(S)',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save}],

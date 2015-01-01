@@ -438,7 +438,7 @@ Fos.ExpensePanel = function(_consign,f){
 		
 	Fos.ExpensePanel.superclass.constructor.call(this, { 
 		id:"T_EXPE_"+_consign.get('id'),
-		title:C_EXPE+(f=='C'||f=='T'?'(F3)':('-'+_consign.get("consNo"))),
+		title:C_EXPE+(f=='C'||f=='T'?'':('-'+_consign.get("consNo"))),
 		header:false,
 		autoScroll:true,
 		closable:f=='C'||f=='T'?false:true,

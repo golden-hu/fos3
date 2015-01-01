@@ -208,7 +208,7 @@ Fos.SplitTab = function(p) {
     };
     var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_DO;
 	Fos.SplitTab.superclass.constructor.call(this, { 
-	id:'T_SPLIT_'+p.get('id'),title:C_SWITCH+'(F10)',header:false,deferredRender:false,autoScroll:true,
+	id:'T_SPLIT_'+p.get('id'),title:C_SWITCH,header:false,deferredRender:false,autoScroll:true,
 	labelAlign:'right',labelWidth:70,border : false,width:800,
 	tbar:[{text:C_SAVE,itemId:'TB_S',iconCls:'save',disabled:NR(m+F_M),scope:this,handler:this.save},'-',
 			{text:C_DOC_PASS,itemId:'TB_B',disabled:NR(m+F_M)||p.get('consStatusSplit')!=1,iconCls:'docpass',scope:this,handler:this.docPass},'-',

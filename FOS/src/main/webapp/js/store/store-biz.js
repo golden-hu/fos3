@@ -415,7 +415,7 @@ getCONS_STATUS = function(v,m,r){
 	else return '';
 };
 
-var BOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未订舱'],['1','订舱已开始'],['2','已生成配舱回单'],['3','已发送ESI'],['4','订舱失败'],['5','订舱已确认'],['6','已退舱'],['7','已改装漏配']]});
+var BOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未订舱'],['1','订舱已开始'],['2','已生成配舱回单'],['3','已发送ESI'],['4','订舱失败'],['5','订舱已确认'],['6','已退关'],['7','已改配']]});
 getBOST = function(v){if(v>=0) return BOST_S.getById(v).get('NAME'); else return '';};
 
 var BLST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','未确认'],['2','已确认'],['3','已出正本'],['4','已放单']]});

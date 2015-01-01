@@ -321,26 +321,73 @@ Fos.ReliefTab = function(p,store) {
      			    value:p.get('consReliefTariff'),anchor:'99%'}
  				]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-             	 	{fieldLabel:C_OPERATOR,itemCls:'required',tabIndex:2,name:'consOperatorId',value:p.get('consOperatorId'),
-     			     	store:getOP_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',valueField:'userId',
-     			     	typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+             	 	{fieldLabel:C_OPERATOR,
+             	 		itemCls:'required',
+             	 		tabIndex:2,
+             	 		name:'consOperatorId',
+             	 		value:p.get('consOperatorId'),
+     			     	store:getOP_S(),
+     			     	xtype:'combo',
+     			     	displayField:'userName',
+     			     	valueField:'userId',
+     			     	typeAhead: true,
+     			     	mode: 'local',
+     			     	triggerAction: 'all',
+     			     	selectOnFocus:true,
+     			     	anchor:'99%',
      			     	listeners:{scope:this,
-     	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consOperatorId','');p.set('consOperatorName','');}},
-     	    			select:function(c,r,i){p.set('consOperatorName',r.get('userName'));}}},
-     	    		{fieldLabel:C_CONTACT,tabIndex:6,name:'custContact',value:p.get('custContact'),xtype:'textfield',anchor:'99%'},
-             	 	{fieldLabel:C_FREE_TABLE_NO,tabIndex:10,name:'consFreeTableNo',value:p.get('consFreeTableNo'),
-             			xtype:'textfield',anchor:'99%'},
-             		{fieldLabel:C_CONS_CLOSE_DATE,tabIndex:14,name:'consCloseDate',value:p.get('consCloseDate'),
-         			     xtype:'datefield',format:DATEF,anchor:'99%'},
+	     	    			blur:function(f){
+	     	    				if(f.getRawValue()==''){
+	     	    					f.clearValue();
+	     	    					p.set('consOperatorId','');
+	     	    					p.set('consOperatorName','');
+	     	    				}
+	     	    			},
+	     	    			select:function(c,r,i){
+	     	    				p.set('consOperatorName',r.get('userName'));
+	     	    			}
+	     	    		}
+             	 	},
+     	    		{fieldLabel:C_CONTACT,
+             	 		tabIndex:6,
+             	 		name:'custContact',
+             	 		value:p.get('custContact'),
+             	 		xtype:'textfield',
+             	 		anchor:'99%'
+             	 	},
+             	 	{fieldLabel:C_FREE_TABLE_NO,
+             	 		tabIndex:10,
+             	 		name:'consFreeTableNo',
+             	 		value:p.get('consFreeTableNo'),
+             			xtype:'textfield',
+             			anchor:'99%'
+             		},
+             		{fieldLabel:C_CONS_CLOSE_DATE,
+             			tabIndex:14,
+             			name:'consCloseDate',
+             			value:p.get('consCloseDate'),
+         			    xtype:'datefield',
+         			    format:DATEF,anchor:'99%'
+         			},
          			{fieldLabel:C_HS_CODE,xtype:'textfield',tabIndex:18,name:'cargHsCode',value:p.get('cargHsCode'),anchor:'99%'},
          			{fieldLabel:C_RELIEF_VAT,xtype:'numberfield',tabIndex:22,name:'consReliefVat',
          			    value:p.get('consReliefVat'),anchor:'99%'}
          	    ]},
          	    {columnWidth:.25,layout:'form',border:false,labelWidth:70,items:[             		
-             		{fieldLabel:C_SALES,itemCls:'required',tabIndex:3,name:'consSalesRepName',value:p.get('consSalesRepName'),
-         	    		store:getSALE_S(),xtype:'combo',displayField:VERSION==1?'userName':'userLoginName',
+             		{fieldLabel:C_SALES,
+             			itemCls:'required',
+             			tabIndex:3,
+             			name:'consSalesRepName',
+             			value:p.get('consSalesRepName'),
+         	    		store:getSALE_S(),
+         	    		xtype:'combo',
+         	    		displayField:'userName',
          	    		valueField:'userName',
-         	    		typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'99%',
+         	    		typeAhead: true,
+         	    		mode: 'local',
+         	    		triggerAction: 'all',
+         	    		selectOnFocus:true,
+         	    		anchor:'99%',
          	    		listeners:{scope:this,
          	    			blur:function(f){if(f.getRawValue()==''){f.clearValue();p.set('consSalesRepId','');p.set('consSalesRepName','');}},
          	    	    	select:function(c,r,i){p.set('consSalesRepId',r.get('userId'));}}},

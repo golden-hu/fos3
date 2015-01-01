@@ -150,7 +150,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		value:p.get('consOperatorName'),
      	store:getOP_S(),
      	xtype:'combo',
-     	displayField:VERSION==1?'userName':'userLoginName',
+     	displayField:'userName',
      	valueField:'userId',
      	typeAhead: true,
      	mode: 'local',
@@ -216,7 +216,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 		name:'consSalesRepName',
 		value:p.get('consSalesRepName'),
  		store:getSALE_S(),
- 		displayField:VERSION==1?'userName':'userLoginName',
+ 		displayField:'userName',
  		editable:false,
  		valueField:'userName',
  		typeAhead: true,
@@ -383,7 +383,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 	var txtSailDate = new Ext.form.DateField({
 		fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,
 		tabIndex:19,
-		itemCls:VERSION==0?'required':'',
+		itemCls:'required',
 		editable:false,
 		name:'consSailDate',
 		value:p.get('consSailDate'),
@@ -665,7 +665,7 @@ Fos.CustomsDeclearTab = function(p,store) {
 			return;
 		}		
 		
-		if(VERSION==0 && txtSailDate.getValue()==''){
+		if(txtSailDate.getValue()==''){
 			XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
 				function(){txtSailDate.focus();},this);
 			return;
