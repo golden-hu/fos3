@@ -69,4 +69,14 @@
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/servlet/AdminServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+	    <servlet-name>EDI Servlet</servlet-name>
+	    <servlet-class>sg.com.ccn.ExMessageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>EDI Servlet</servlet-name>
+    <url-pattern>/edi/*</url-pattern>
+  </servlet-mapping>
+  	
 </web-app>
