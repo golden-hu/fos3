@@ -1,31 +1,15 @@
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
--- 建立公司
 insert into P_COMPANY (comp_code, comp_name_cn, comp_name_en,comp_active,comp_start_date,comp_end_date,comp_service_level, comp_email,comp_tel,comp_fax,comp_address, comp_contact,create_time, modify_time) 
 values('{CC}','{$companyname}', '', 1, now(), null, 0, '{$email}', '{$tel}', '{$fax}', '', '{$contact}', now(), now()); 
 
--- 建立用户
--- insert into P_USER (user_name, user_login_name, user_email, user_password, user_password_modify_date,active,comp_code,version, removed) 
--- values('admin','admin','{$email}', 'e10adc3949ba59abbe56e057f20f883e',now(),1,'{CC}',0,0);
+insert into P_USER_ROLE (user_id, role_id)
+values('{user_id}', '{role_id}');
 
--- 增加admin角色
--- insert into P_ROLE (role_name,active,comp_code,version,removed) 
--- values ('系统管理员', 1, '{CC}',0,0);
-
--- 给第一个用户admin角色
--- insert into P_USER_ROLE (user_id, role_id)
--- values(1, 1);
-
--- admin费用权限
 insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
 values ('{user_id}', 0, '所有费用', 'R', 1, 1, 1, '{CC}', 0, 0);
 
--- 上面是应收, 这是应付
 insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
 values ('{user_id}', 0, '所有费用', 'P', 1, 1, 1, '{CC}', 0, 0);
 
--- admin权限初始化
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values ('{role_id}', '00', '{CC}');
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values ('{role_id}', '0011', '{CC}');
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values ('{role_id}', '001101', '{CC}');
@@ -162,11 +146,6 @@ INSERT INTO `G_CARGO_CLASS` (`CACL_CODE`, `CACL_NAME_CN`, `CACL_NAME_EN`, `ACTIV
 ('98', '特殊交易品及未分类商品', NULL, 1, '{CC}', 0, 0),
 ('99', '特殊交易品及未分类商品', NULL, 1, '{CC}', 0, 0);
 
-
---
--- 导出表中的数据 `G_CONTAINER_CLASS`
---
-
 INSERT INTO `G_CONTAINER_CLASS` (`COCL_CODE`, `COCL_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('GP', '干货箱', 1, '{CC}', 0, 0),
 ('HC', '干货高箱', 1, '{CC}', 0, 0),
@@ -193,10 +172,6 @@ INSERT INTO `G_CONTAINER_CLASS` (`COCL_CODE`, `COCL_NAME`, `ACTIVE`, `COMP_CODE`
 ('H3', '三层挂衣箱', 1, '{CC}', 0, 0),
 ('H4', '四层挂衣箱', 1, '{CC}', 0, 0),
 ('OO', '超限箱', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_CONTAINER_TYPE`
---
 
 INSERT INTO `G_CONTAINER_TYPE` (`COTY_CODE`, `COTY_LENGTH`, `COCL_CODE`, `COTY_TEU`, `COTY_ISO_CODE`, `COTY_UN_CODE`, `COTY_TARE_WEIGHT`, `COTY_MAX_WEIGHT`, `COTY_MAX_MEASUREMENT`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('10GP', '10', 'GP', 1, NULL, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
@@ -261,10 +236,6 @@ INSERT INTO `G_CONTAINER_TYPE` (`COTY_CODE`, `COTY_LENGTH`, `COCL_CODE`, `COTY_T
 ('45DO', '45', 'DO', 2, NULL, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
 ('20', '40', 'GP', NULL, NULL, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1),
 ('LDJF', '23', 'GP', 12, NULL, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 1);
-
---
--- 导出表中的数据 `G_COUNTRY`
---
 
 INSERT INTO `G_COUNTRY` (`COUN_CODE`, `COUN_NAME_CN`, `COUN_NAME_EN`, `COMP_CODE`, `VERSION`) VALUES
 ('ZW', '津巴布韦', 'ZIMBABWE', '{CC}', 5),
@@ -510,11 +481,6 @@ INSERT INTO `G_COUNTRY` (`COUN_CODE`, `COUN_NAME_CN`, `COUN_NAME_EN`, `COMP_CODE
 ('YT', '马约特', 'MAYOTTE', '{CC}', 0),
 ('01', '比利时', 'BILISHI', '{CC}', 0);
 
-
---
--- 导出表中的数据 `G_CHARGE_CLASS`
---
-
 INSERT INTO `G_CHARGE_CLASS` (`CHCL_CODE`, `CHCL_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('21', '仓储保管-搬运装卸类', 1, '{CC}', 0, 0),
 ('22', '保税监管类', 1, '{CC}', 0, 0),
@@ -535,7 +501,6 @@ INSERT INTO `G_CHARGE_CLASS` (`CHCL_CODE`, `CHCL_NAME`, `ACTIVE`, `COMP_CODE`, `
 ('37', '订舱单证类', 1, '{CC}', 0, 0),
 ('38', '杂费类', 1, '{CC}', 0, 0),
 ('39', '定额包干费类', 1, '{CC}', 0, 0);
-
 
 INSERT INTO `G_CHARGE` (`CHAR_CODE`, `CHAR_NAME`, `CHAR_NAME_EN`, `CURR_CODE`, `UNIT_ID`, `CHCL_ID`, `CHAR_CNY_P`, `CHAR_CNY_R`, `CHAR_USD_P`, `CHAR_USD_R`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('HYF', '海运费', NULL, 'USD', 13, 20, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
@@ -589,18 +554,10 @@ INSERT INTO `G_CHARGE` (`CHAR_CODE`, `CHAR_NAME`, `CHAR_NAME_EN`, `CURR_CODE`, `
 ( 'DCUF', '堆存费', NULL, 'CNY', 12, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
 ( 'DXF', '调箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0),
 ( 'TZXF', '提重箱费', NULL, 'CNY', 13, 25, NULL, NULL, NULL, NULL, 1, '{CC}', 0, 0);
-	
---
--- 导出表中的数据 `G_CURRENCY`
---
 
 INSERT INTO `G_CURRENCY` (`CURR_CODE`, `CURR_NAME`, `CURR_SYMBOL`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('USD', '美元', '$', 1, '{CC}', 0, 0),
 ('CNY', '人民币', '￥', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_DOCUMENT_TYPE`
---
 
 INSERT INTO `G_DOCUMENT_TYPE` (`DOTY_CODE`, `DOTY_NAME`, `DOTY_CLASS`, `DOTY_RETURN_FLAG`, `DOTY_BACK_FLAG`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('FP', '发票', '10', 0, 0, 1, '{CC}', 1, 0),
@@ -636,10 +593,6 @@ INSERT INTO `G_DOCUMENT_TYPE` (`DOTY_CODE`, `DOTY_NAME`, `DOTY_CLASS`, `DOTY_RET
 ('CRJJYJYGGSQD', '出入境检验检疫更改申请单', '30', 0, 0, 1, '{CC}', 1, 0),
 ('TD', '提单', '30', 0, 0, 1, '{CC}', 1, 0);
 
---
--- 导出表中的数据 `G_EXCHANGE_SETTLEMENT`
---
-
 INSERT INTO `G_EXCHANGE_SETTLEMENT` (`EXSE_CODE`, `EXSE_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('1', '信汇', 1, '{CC}', 0, 0),
 ('2', '电汇', 1, '{CC}', 0, 0),
@@ -651,19 +604,11 @@ INSERT INTO `G_EXCHANGE_SETTLEMENT` (`EXSE_CODE`, `EXSE_NAME`, `ACTIVE`, `COMP_C
 ('8', '先结后出', 1, '{CC}', 0, 0),
 ('9', '其    他', 1, '{CC}', 0, 0);
 
---
--- 导出表中的数据 `G_ISSUE_TYPE`
---
-
 INSERT INTO `G_ISSUE_TYPE` (`ISTY_CODE`, `ISTY_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('1', '正本', 1, '{CC}', 0, 0),
 ('2', '电放', 1, '{CC}', 0, 0),
 ('3', 'SEAWAYBILL', 1, '{CC}', 0, 0),
 ('4', '其它', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_LEVY_TYPE`
---
 
 INSERT INTO `G_LEVY_TYPE` (`LETY_CODE`, `LETY_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('101', '一般征税', 1, '{CC}', 0, 0),
@@ -675,22 +620,12 @@ INSERT INTO `G_LEVY_TYPE` (`LETY_CODE`, `LETY_NAME`, `ACTIVE`, `COMP_CODE`, `VER
 ('789', '鼓励项目', 1, '{CC}', 0, 0),
 ('799', '自有资金', 1, '{CC}', 0, 0);
 
-
-
---
--- 导出表中的数据 `G_PAYMENT_TERM`
---
-
 INSERT INTO `G_PAYMENT_TERM` (`PATE_CODE`, `PATE_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('P', 'FREIGHT PREPAID', 1, '{CC}', 0, 0),
 ('C', 'FREIGHT COLLECT', 1, '{CC}', 0, 0),
 ('F', 'FREE', 1, '{CC}', 0, 0),
 ('E', '第三地付款', 1, '{CC}', 0, 0),
 ('L', '第一程预付/第二程到付', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_PLACE`
---
 
 INSERT INTO `G_PLACE` (`PLAC_CODE`, `PLAC_NAME`, `PLAC_NAME_EN`, `PLAC_TYPE`, `COUN_CODE`, `PLAC_PROVINCE_ID`, `PLAC_PROVINCE_NAME`, `PLAC_CITY_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('YSG', '洋山港', 'YANSHAN', 3, 'CN', NULL, NULL, NULL, 1, '{CC}', 0, 0),
@@ -701,10 +636,6 @@ INSERT INTO `G_PLACE` (`PLAC_CODE`, `PLAC_NAME`, `PLAC_NAME_EN`, `PLAC_TYPE`, `C
 ('LJRQ', '罗泾二期', 'LUOJINGERQI', 3, 'CN', NULL, NULL, NULL, 1, '{CC}', 1, 0),
 ('SGWC', '上钢五厂', 'SHANGGANGWUCHANG', 3, 'CN', NULL, NULL, NULL, 1, '{CC}', 1, 0),
 ('TCWX', '拖出维修', 'TUOCHUWEIXIU', 3, 'CN', NULL, NULL, NULL, 1, '{CC}', 2, 0);
-
---
--- 导出表中的数据 `G_SETTLEMENT_WAY`
---
 
 INSERT INTO `G_SETTLEMENT_WAY` (`SEWA_CODE`, `SEWA_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('DH', '电汇', 1, '{CC}', 0, 0),
@@ -723,11 +654,6 @@ INSERT INTO `G_SETTLEMENT_WAY` (`SEWA_CODE`, `SEWA_NAME`, `ACTIVE`, `COMP_CODE`,
 ('RLC', '入立成', 1, '{CC}', 0, 0),
 ('QL', '帐务清理', 1, '{CC}', 0, 0);
 
-
---
--- 导出表中的数据 `G_SHIPPING_LINE`
---
-
 INSERT INTO `G_SHIPPING_LINE` (`SHLI_CODE`, `SHLI_NAME`, `SHLI_NAME_EN`, `SHLI_BULK_FLAG`, `SHLI_CONT_FLAG`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('CNKOR', '中国-南韩', 'CN-KOREA', 1, 1, 1, '{CC}', 0, 0),
 ('CNRUS', '中国一俄罗斯远东', 'CN-RUSSIA', 1, 1, 1, '{CC}', 0, 0),
@@ -745,10 +671,6 @@ INSERT INTO `G_SHIPPING_LINE` (`SHLI_CODE`, `SHLI_NAME`, `SHLI_NAME_EN`, `SHLI_B
 ('CNJAP', '中国-日本', 'CN-JAPAN', 1, 1, 1, '{CC}', 0, 0),
 ('CNIND', '中国-印巴', 'CN-INDIA', 1, 1, 1, '{CC}', 0, 0);
 
---
--- 导出表中的数据 `G_TRADE_TERM`
---
-
 INSERT INTO `G_TRADE_TERM` (`TRTE_CODE`, `TRTE_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('1', 'CIF', 1, '{CC}', 0, 0),
 ('2', 'C&F', 1, '{CC}', 0, 0),
@@ -756,10 +678,6 @@ INSERT INTO `G_TRADE_TERM` (`TRTE_CODE`, `TRTE_NAME`, `ACTIVE`, `COMP_CODE`, `VE
 ('4', 'C&I ', 1, '{CC}', 0, 0),
 ('5', '市场价', 1, '{CC}', 0, 0),
 ('6', '垫仓', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_TRADE_TYPE`
---
 
 INSERT INTO `G_TRADE_TYPE` (`TRTY_CODE`, `TRTY_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('0110', '一般贸易', 1, '{CC}', 0, 0),
@@ -773,10 +691,6 @@ INSERT INTO `G_TRADE_TYPE` (`TRTY_CODE`, `TRTY_NAME`, `ACTIVE`, `COMP_CODE`, `VE
 ('0265', '来料料件复出', 1, '{CC}', 0, 0),
 ('0300', '来料料件退换', 1, '{CC}', 0, 0),
 ('0314', '加工专用油', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_TRANS_TERM`
---
 
 INSERT INTO `G_TRANS_TERM` (`TRAN_CODE`, `TRAN_NAME`, `TRAN_BULK_FLAG`, `TRAN_CONT_FLAG`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('CY-CY', '场到场', 1, 1, 1, '{CC}', 0, 0),
@@ -797,10 +711,6 @@ INSERT INTO `G_TRANS_TERM` (`TRAN_CODE`, `TRAN_NAME`, `TRAN_BULK_FLAG`, `TRAN_CO
 ('FILO&FIO', 'FILO&FIO', 1, NULL, 1, '{CC}', 0, 0),
 ('LINER IN LINER OUT', 'LINER IN LINER OUT', 1, NULL, 1, '{CC}', 0, 0);
 
---
--- 导出表中的数据 `G_TRANS_TYPE`
---
-
 INSERT INTO `G_TRANS_TYPE` (`TRAT_CODE`, `TRAT_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('1', '监管仓库', 1, '{CC}', 0, 0),
 ('2', '江海运输', 1, '{CC}', 0, 0),
@@ -817,10 +727,6 @@ INSERT INTO `G_TRANS_TYPE` (`TRAT_CODE`, `TRAT_NAME`, `ACTIVE`, `COMP_CODE`, `VE
 ('X', '物流园区', 1, '{CC}', 0, 0),
 ('Y', '保税港区', 1, '{CC}', 0, 0),
 ('Z', '出口加工', 1, '{CC}', 0, 0);
-
---
--- 导出表中的数据 `G_UNIT`
---
 
 INSERT INTO `G_UNIT` (`UNIT_CODE`, `UNIT_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('FT', '计费吨', 1, '{CC}', 0, 0),
@@ -937,10 +843,6 @@ INSERT INTO `G_PACKAGE` (`PACK_CODE`, `PACK_NAME`, `ACTIVE`, `COMP_CODE`, `VERSI
 ('W/DRUMS', 'WOODEN DRUMS', 1, '{CC}', 0, 0)
 ;
 
---
--- 导出表中的数据 `G_USAGE`
---
-
 INSERT INTO `G_USAGE` (`USAG_CODE`, `USAG_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('WMNX', '外贸自营内销', 1, '{CC}', 0, 0),
 ('TQNX', '特区内销', 1, '{CC}', 0, 0),
@@ -955,10 +857,6 @@ INSERT INTO `G_USAGE` (`USAG_CODE`, `USAG_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION
 ('QT', '其他', 1, '{CC}', 0, 0),
 ('YCDJ', '以产顶进', 1, '{CC}', 0, 0);
 
---
--- 导出表中的数据 `P_SERIAL_RULE`
---
-
 INSERT INTO `P_SERIAL_RULE` (`seru_code`, `seru_name`, `comp_code`, `seru_rule`, `seru_sn_length`, `seru_uniq_suffix`, `seru_loop_period`) VALUES
 ('consign_no', '委托编号', '{CC}', '<COMP><CONS_TYPE><YY><SN>', 6, '<COMP><CONS_TYPE><YY>', 3),
 ('invoice_no', '发票编号', '{CC}', '<COMP><YY>I<SN>', 6, '<YY>', 3),
@@ -968,9 +866,6 @@ INSERT INTO `P_SERIAL_RULE` (`seru_code`, `seru_name`, `comp_code`, `seru_rule`,
 ('tran_no', '陆运联系单号', '{CC}', '<COMP><YY>DY<SN>', 6, '<YY>', 3),
 ('ware_no', '仓储单号', '{CC}', '<COMP><YY>W<SN>', 6, '<COMP><YY>', 3),
 ('ws_consign_no', '网上订舱编号', '{CC}', '<COMP>W<YY><SN>', 6, '<COMP>W<YY>', 3);
---
--- 导出表中的数据 `P_TEMPLATE`
---
 
 INSERT INTO `P_TEMPLATE` (`TEMP_NAME`, `TEMP_CLASS`, `TEMP_TYPE`, `TETY_ID`, `TETY_CODE`, `TETY_NAME`, `TEMP_FILE_NAME`, `TEMP_DESC`, `ACTIVE`, `CREATE_BY`, `CREATE_TIME`, `MODIFY_BY`, `MODIFY_TIME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('订舱委托书', 'B', 'xls', 26, 'CONS_B', '订舱委托书', NULL, '订舱委托书模板', 1, 1, '2008-10-10 00:00:00', 1, '2008-10-10 00:00:00', '{CC}', 0, 0),
@@ -1023,14 +918,9 @@ INSERT INTO `P_TEMPLATE` (`TEMP_NAME`, `TEMP_CLASS`, `TEMP_TYPE`, `TETY_ID`, `TE
 ('费用列表', 'B', 'xls', 60, 'EXPE_LIST', '费用列表', NULL, '费用列表导出模板', 1, 1, '2008-10-10 00:00:00', 1, '2008-10-10 00:00:00', '{CC}', 0, 0)
 ;
 
---
--- 导出表中的数据 `S_EX_RATE`
---
-
 INSERT INTO `S_EX_RATE` (`EXRA_BASE_CURRENCY`, `EXRA_EX_CURRENCY`, `EXRA_START_DATE`, `EXRA_END_DATE`, `EXRA_RATE`, `ACTIVE`, `MODIFY_BY`, `MODIFY_TIME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('USD', 'CNY', '2009-02-09', NULL, '6.8340', 1, 2, '2009-02-09 15:14:46', '{CC}', 0, 0),
 ('CNY', 'USD', '2009-02-09', NULL, '0.1463', 1, 2, '2009-02-09 15:14:46', '{CC}', 0, 0);
-
 
 INSERT INTO `P_COMPANY_CONFIG` (`COCO_CODE`, `COCO_NAME`, `COCO_VALUE`, `COCO_VALUE_TYPE`, `COCO_VALUE_OPTIONS`, `COCO_GROUP`, `COCO_TYPE`, `COCO_DESC`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('COMPANY_NAME', '公司名称', '{companyname}', 0, NULL, '公司属性', 'A', NULL, '{CC}', 0, 0),
@@ -1077,8 +967,6 @@ INSERT INTO `P_COMPANY_CONFIG` (`COCO_CODE`, `COCO_NAME`, `COCO_VALUE`, `COCO_VA
 ('BIZ_TYPE_CODE_FH', '减免税业务类型代码', 'F', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('BIZ_TYPE_CODE_RH', '企业注册业务类型代码', 'R', 0, NULL, '业务类型设置', 'A', NULL, '{CC}', 0, 0),
 ('CONS_NO_SERIAL_DATE_TYPE', '业务号生成日期类型', 2, 14, NULL, '业务设置', 'A', '开航日期', '{CC}', 0, 0);
-
-
 
 INSERT INTO `P_MESSAGE_TOPIC` (`METO_ID`, `METO_NAME`, `METO_DESC`, `METO_TEMPLATE`, `METO_RULE`, `ACT_NAME`, `TETY_ID`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 (1, '核销单超期未退通知', '核销单, 开船超过30天, 但是未退回', '核销单号: {核销单号}, 委托号: {委托号}, 开船超过30天, 状态未退回', NULL, 'QUARTZ_FDOC_ALERT_WRITEOFF', 43, 1, '{CC}', 1, 0),
