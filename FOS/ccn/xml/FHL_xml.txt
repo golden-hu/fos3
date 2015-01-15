@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CCN.MSG xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <MsgEnvelope>
+    <Priority>QK</Priority>
+    <RecipientPimaAddress>CSGAGT85GHASQFWBSIN</RecipientPimaAddress>
+    <SenderPimaAddress>CSGAGT01XSPHOSQ/SIN81</SenderPimaAddress>
+    <GMT>225422</GMT>
+  </MsgEnvelope>
+<MsgBody>
+  <FHL>
+    <StandardMessageIdentification>
+      <StandardMessageIdentification>FHL</StandardMessageIdentification>
+      <MessageTypeVersionNumber>4</MessageTypeVersionNumber>
+    </StandardMessageIdentification>
+    <MasterAWBConsignmentDetail>
+      <MasterAWBIdentification>
+        <AirlinePrefix>618</AirlinePrefix>
+        <AWBSerialNumber>81810212</AWBSerialNumber>
+      </MasterAWBIdentification>
+      <AWBOriginAndDestination>
+        <AirportccnyCodeOfOrigin>SIN</AirportccnyCodeOfOrigin>
+        <AirportccnyCodeOfDestination>MAA</AirportccnyCodeOfDestination>
+      </AWBOriginAndDestination>
+      <QuantityDetail>
+        <ShipmentDescriptionCode>T</ShipmentDescriptionCode>
+        <NumberOfPieces>2</NumberOfPieces>
+        <WeightCode>K</WeightCode>
+        <Weight>3351</Weight>
+      </QuantityDetail>
+    </MasterAWBConsignmentDetail>
+    <HouseAndFreeTextGroup>
+      <HouseWaybillSummaryDetail>
+        <HWBSerialNumber>APPHK5100003</HWBSerialNumber>
+        <HouseWaybillOriginAndDestination>
+          <AirportccnyCodeOfDeparture>SIN</AirportccnyCodeOfDeparture>
+          <AirportccnyCodeOfDestination>MAA</AirportccnyCodeOfDestination>
+        </HouseWaybillOriginAndDestination>
+        <HouseWaybillTotals>
+          <NumberOfPieces>1</NumberOfPieces>
+          <WeightCode>K</WeightCode>
+          <Weight>78</Weight>
+          <SLAC />
+        </HouseWaybillTotals>
+        <NatureOfGoods>
+          <ManifestDescriptionOfGoods>RFB APPLE TV-GB</ManifestDescriptionOfGoods>
+        </NatureOfGoods>
+        <SpecialHandlingRequirements>
+          <SpecialHandlingCode>SPX</SpecialHandlingCode>
+        </SpecialHandlingRequirements>
+        <SpecialHandlingRequirements>
+          <SpecialHandlingCode>EAP</SpecialHandlingCode>
+        </SpecialHandlingRequirements>
+      </HouseWaybillSummaryDetail>
+      <FreeTextDescriptionOfGoods>
+        <FreeText>RFB APPLE TV-GBR</FreeText>
+      </FreeTextDescriptionOfGoods>
+    </HouseAndFreeTextGroup>
+    <ShipperNameAndAddress>
+      <SHPName>SHIPPERNAME HERE</SHPName>
+      <SHPStreetAddress>
+        <StreetAddress>SHIPPER ADDRESS HERE</StreetAddress>
+      </SHPStreetAddress>
+      <SHPLocation>
+        <Place>SHENZHEN</Place>
+        <StateProvince>44</StateProvince>
+      </SHPLocation>
+      <SHPCodedLocation>
+        <ISOCountryCode>CN</ISOCountryCode>
+        <PostCode>518116</PostCode>
+      </SHPCodedLocation>
+    </ShipperNameAndAddress>
+    <ConsigneeNameAndAddress>
+      <CNEName>CONSIGNEE NAME HERE</CNEName>
+      <CNEStreetAddress>
+        <StreetAddress>CONSIGNEE ADDRESS HERE</StreetAddress>
+      </CNEStreetAddress>
+      <CNELocation>
+        <Place>HINCKLEY</Place>
+        <StateProvince>LEC</StateProvince>
+      </CNELocation>
+      <CNECodedLocation>
+        <ISOCountryCode>GB</ISOCountryCode>
+        <PostCode>LE10 3HZ</PostCode>
+      </CNECodedLocation>
+    </ConsigneeNameAndAddress>
+    <ChargeDeclarations>
+      <ISOCurrencyCode>USD</ISOCurrencyCode>
+      <PrepaidCollectChargeDeclarations>
+        <PCIndWeightValuation>C</PCIndWeightValuation>
+        <PCIndOtherCharges>C</PCIndOtherCharges>
+      </PrepaidCollectChargeDeclarations>
+      <ValueForCarriageDeclaration>
+        <DeclaredValueForCarriage />
+        <NoValueDeclared>NVD</NoValueDeclared>
+      </ValueForCarriageDeclaration>
+      <ValueForCustomsDeclaration>
+        <DeclaredValueForCustoms />
+        <NoCustomsValue>NCV</NoCustomsValue>
+      </ValueForCustomsDeclaration>
+      <ValueForInsuranceDeclaration>
+        <DeclaredValueForInsurance />
+        <NoValue>XXX</NoValue>
+      </ValueForInsuranceDeclaration>
+    </ChargeDeclarations>
+  </FHL>
+</MsgBody>
+</CCN.MSG>

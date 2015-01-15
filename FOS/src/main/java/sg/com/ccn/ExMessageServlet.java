@@ -46,14 +46,14 @@ public class ExMessageServlet extends HttpServlet {
 			inputStream = request.getInputStream();
 			outputStream = response.getOutputStream();	
 			if(action.equals("send")){
+				ExMessageService exService = SpringContextHolder.getBean(ExMessageService.class);
+				String compCode=request.getParameter("compCode");
+				String userLoginName=request.getParameter("userLoginName");
 				String key=request.getParameter("key");
-				if(StringUtil.isNotBlank(key)&&key.equals("ActivateCompany")){
-					//Activate company
-					ExMessageService exService = SpringContextHolder.getBean(ExMessageService.class);
-					String compCode=request.getParameter("compCode");
-					String userLoginName=request.getParameter("userLoginName");
-					exService.activeCompany(compCode, userLoginName);
-					
+				if(key.equals("ActivateCompany")){
+					boolean bool=exService.activeCompany(compCode, userLoginName);
+				}else if(key.equals("ActivateUser")){
+					boolean bool=exService.activeUser(compCode, userLoginName);
 				}
 				else if(StringUtil.isNotBlank(key)&&key.equals("Suspend")){
 					//Suspend

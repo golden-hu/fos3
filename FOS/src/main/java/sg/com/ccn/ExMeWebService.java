@@ -65,15 +65,20 @@ public class ExMeWebService {
 	 * @return
 	 */
 	public String Activate(String accountID,Map<String,String> keyValuePair){
+		String rtStr="";
 		String compCode=keyValuePair.get("compCode");
 		String userLoginName=accountID;
 		boolean accountBoolean=Boolean.valueOf(keyValuePair.get("accountBoolean"));
 		if(accountBoolean){
 			String path = "http://localhost:8080/FOS/edi/?";
 			String param="action=send&key=ActivateCompany&compCode="+compCode+"&userLoginName="+userLoginName;
-			return this.getBackValue(path,param);
+			rtStr=this.getBackValue(path,param);
+		}else{
+			String path = "http://localhost:8080/FOS/edi/?";
+			String param="action=send&key=ActivateUser&compCode="+compCode+"&userLoginName="+userLoginName;
+			rtStr=this.getBackValue(path,param);
 		}
-		return "";
+		return rtStr;
 	}
 	
 	/**
@@ -82,9 +87,9 @@ public class ExMeWebService {
 	 */
 	public static void main(String[] args){
 		ExMeWebService e=new ExMeWebService();
-		String accountID="loginNN11";
+		String accountID="cnn01";
 		Map<String,String> keyValuePair=new HashMap <String,String>();
-		keyValuePair.put("compCode","NN11");
+		keyValuePair.put("compCode","cnn01");
 		keyValuePair.put("accountBoolean","true");
 		e.Activate(accountID, keyValuePair);
 	}

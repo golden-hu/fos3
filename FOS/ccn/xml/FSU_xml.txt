@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CCN.MSG xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<MsgBody>
+  <MsgEnvelope>
+    <Priority>QK</Priority>
+    <RecipientPimaAddress>CSGAGT01XSPHOSQ/SIN81</RecipientPimaAddress>
+    <SenderPimaAddress>CSGAIR01SINFMSQ </SenderPimaAddress>
+    <GMT>225422</GMT>
+  </MsgEnvelope>
+  <FSU>
+    <StandardMessageIdentification>
+      <StandardMessageIdentification>FSU</StandardMessageIdentification>
+      <MessageTypeVersionNumber>12</MessageTypeVersionNumber>
+    </StandardMessageIdentification>
+    <ConsignmentDetail>
+      <AWBIdentification>
+        <AirlinePrefix>618</AirlinePrefix>
+        <AWBSerialNumber>81810212</AWBSerialNumber>
+      </AWBIdentification>
+      <AWBOriginAndDestination>
+        <AirportCodeOfOrigin>SIN</AirportCodeOfOrigin>
+        <AirportCodeOfDestination>MAA</AirportCodeOfDestination>
+      </AWBOriginAndDestination>
+      <QuantityDetail>
+        <ShipmentDescriptionCode>T</ShipmentDescriptionCode>
+        <NumberOfPieces>1</NumberOfPieces>
+        <WeightCode>K</WeightCode>
+        <Weight>11.0</Weight>
+      </QuantityDetail>
+    </ConsignmentDetail>
+    <BKDStatusDetail>
+      <BKDMovementDetail>
+        <CarrierCode>SQ</CarrierCode>
+        <FlightNumber>528</FlightNumber>
+        <Day>10</Day>
+        <Month>JAN</Month>
+        <ArrivalAirportCode>KMG</ArrivalAirportCode>
+        <DepartureAirportCode>CAN</DepartureAirportCode>
+      </BKDMovementDetail>
+      <BKDQuantityDetail>
+        <ShipmentDescriptionCode>T</ShipmentDescriptionCode>
+        <NumberOfPieces>1</NumberOfPieces>
+        <WeightCode>K</WeightCode>
+        <Weight>20.0</Weight>
+      </BKDQuantityDetail>
+      <BKDDepartureTime>
+        <OfTimeIndicator>E</OfTimeIndicator>
+        <Time>0754</Time>
+      </BKDDepartureTime>
+      <BKDArrivalTime>
+        <OfTimeIndicator>E</OfTimeIndicator>
+        <Time>1015</Time>
+      </BKDArrivalTime>
+    </BKDStatusDetail>
+    <OSI>
+      <OSIDetail1>
+        <OtherServiceInformation>CANYYB</OtherServiceInformation>
+      </OSIDetail1>
+      <OSIDetail2>
+        <OtherServiceInformation>3001--</OtherServiceInformation>
+      </OSIDetail2>
+    </OSI>
+  </FSU>
+</MsgBody>
+</CCN.MSG>

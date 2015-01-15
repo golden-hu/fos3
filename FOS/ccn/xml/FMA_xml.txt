@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CCN.MSG xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<MsgBody>
+  <MsgEnvelope>
+    <Priority>QK</Priority>
+    <RecipientPimaAddress>CSGAGT01XSPHOSQ/SIN81</RecipientPimaAddress>
+    <SenderPimaAddress>CSGAIR01SINFMSQ </SenderPimaAddress>
+    <GMT>225422</GMT>
+  </MsgEnvelope>
+  <FMA>
+    <StandardMessageIdentification>
+      <StandardMessageIdentification>FMA</StandardMessageIdentification>
+      <MessageTypeVersionNumber>0</MessageTypeVersionNumber>
+    </StandardMessageIdentification>
+    <ReasonForAcknowledgement>
+      <ReasonForAcknowledgement>FWB RECEIVED</ReasonForAcknowledgement>
+    </ReasonForAcknowledgement>
+    <SubMessageTypeIdentification>
+      <SubMessageTypeIdentification>FWB</SubMessageTypeIdentification>
+      <MessageTypeVersionNumber />
+    </SubMessageTypeIdentification>
+    <ReceivedMessageDetail>
+      <ReceivedMessageDetail>618-87902102SINFRA/T3K2510</ReceivedMessageDetail>
+    </ReceivedMessageDetail>
+  </FMA>
+</MsgBody>
+</CCN.MSG>

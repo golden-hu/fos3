@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CCN.MSG xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<MsgBody>
+ <MsgEnvelope>
+    <Priority>QK</Priority>
+    <RecipientPimaAddress>CSGAGT01XSPHOSQ/SIN81</RecipientPimaAddress>
+    <SenderPimaAddress>CSGAIR01SINFMSQ </SenderPimaAddress>
+    <GMT>225422</GMT>
+  </MsgEnvelope>
+  <FNA>
+    <StandardMessageIdentification>
+      <StandardMessageIdentification>FNA</StandardMessageIdentification>
+      <MessageTypeVersionNumber>0</MessageTypeVersionNumber>
+    </StandardMessageIdentification>
+    <ReasonForRejectionError>
+      <ReasonForRejectionError>INVALID RATE LINE</ReasonForRejectionError>
+    </ReasonForRejectionError>
+    <SubMessageTypeIdentification>
+      <SubMessageTypeIdentification>FWB</SubMessageTypeIdentification>
+      <MessageTypeVersionNumber />
+    </SubMessageTypeIdentification>
+    <ReceivedMessageDetail>
+      <ReceivedMessageDetail>
+	  <MsgBody>
+  <FWB>
+    <StandardMessageIdentification>
+      <StandardMessageIdentification>FWB</StandardMessageIdentification>
+      <MessageTypeVersionNumber>9</MessageTypeVersionNumber>
+    </StandardMessageIdentification>
+    <ConsignmentDetail>
+      <AWBIdentification>
+        <AirlinePrefix>074</AirlinePrefix>
+        <AWBSerialNumber>33645695</AWBSerialNumber>
+      </AWBIdentification>
+      <AWBOriginAndDestination>
+        <AirportCodeOfOrigin>PVG</AirportCodeOfOrigin>
+        <AirportCodeOfDestination>BCN</AirportCodeOfDestination>
+      </AWBOriginAndDestination>
+      <QuantityDetail>
+        <ShipmentDescriptionCode>T</ShipmentDescriptionCode>
+        <NumberOfPieces>1</NumberOfPieces>
+        <WeightCode>K</WeightCode>
+        <Weight>105.0</Weight>
+      </QuantityDetail>
+    </ConsignmentDetail>
+    <FlightBooking>
+      <FlightIdentification>
+        <CarrierCode>KL</CarrierCode>
+        <FlightNumber>894</FlightNumber>
+        <DayOfScheduledDeparture>03</DayOfScheduledDeparture>
+      </FlightIdentification>
+      <FlightIdentification>
+        <CarrierCode>KL</CarrierCode>
+        <FlightNumber>7784</FlightNumber>
+        <DayOfScheduledDeparture>04</DayOfScheduledDeparture>
+      </FlightIdentification>
+    </FlightBooking>
+    <Routing>
+      <FirstDestination>
+        <AirportCityCode>AMS</AirportCityCode>
+        <CarrierCode>KL</CarrierCode>
+      </FirstDestination>
+      <OnwardDestination>
+        <AirportCityCode>BCN</AirportCityCode>
+        <CarrierCode>KL</CarrierCode>
+      </OnwardDestination>
+    </Routing>
+    <Shipper>
+      <ShipperName>
+        <Name>SHIPPER NAME HERE</Name>
+      </ShipperName>
+      <ShipperStreetAddress>
+        <StreetAddress>SHIPPER ADDRESS HERE</StreetAddress>
+      </ShipperStreetAddress>
+      <ShipperLocation>
+        <Place>SHANGHAI</Place>
+        <StateProvince />
+      </ShipperLocation>
+      <ShipperCodedLocation>
+        <ISOCountryCode>CN</ISOCountryCode>
+        <PostCode>200002</PostCode>
+      </ShipperCodedLocation>
+      <ShipperContactDetail>
+        <ContactIdentifier>TE</ContactIdentifier>
+        <ContactNumber>862123279000</ContactNumber>
+      </ShipperContactDetail>
+    </Shipper>
+    <Consignee>
+      <ConsigneeName>
+        <Name>CONSIGNEE NAME HERE</Name>
+      </ConsigneeName>
+      <ConsigneeStreetAddress>
+        <StreetAddress>CONSIGNEE ADDRESS HERE </StreetAddress>
+      </ConsigneeStreetAddress>
+      <ConsigneeLocation>
+        <Place>BARCELONA</Place>
+        <StateProvince>B</StateProvince>
+      </ConsigneeLocation>
+      <ConsigneeCodedLocation>
+        <ISOCountryCode>ES</ISOCountryCode>
+      </ConsigneeCodedLocation>
+      <ConsigneeContactDetail>
+        <ContactIdentifier>TE</ContactIdentifier>
+        <ContactNumber>34932290369</ContactNumber>
+      </ConsigneeContactDetail>
+    </Consignee>
+    <Agent>
+      <AgentAccountDetail>
+        <AgentNumericCode>0830702</AgentNumericCode>
+        <AgentCASSAddress>0002</AgentCASSAddress>
+      </AgentAccountDetail>
+      <AgentName>
+        <Name>AGENT NAME HERE</Name>
+      </AgentName>
+      <AgentPlace>
+        <Place>SHANGHAI</Place>
+      </AgentPlace>
+    </Agent>
+    <ChargeDeclaration>
+      <ISOCurrencyCode>CNY</ISOCurrencyCode>
+      <ChargeCode>PP</ChargeCode>
+      <PCChargeDeclaration>
+        <WeightValuation>P</WeightValuation>
+        <OtherCharges>P</OtherCharges>
+      </PCChargeDeclaration>
+      <CarriageDeclaration>
+        <NoValueDeclared>NVD</NoValueDeclared>
+      </CarriageDeclaration>
+      <CustomDeclaration>
+        <NoCustomValue>NCV</NoCustomValue>
+      </CustomDeclaration>
+      <InsuranceDeclaration>
+        <NoValue>XXX</NoValue>
+      </InsuranceDeclaration>
+    </ChargeDeclaration>
+    <RateDescription>
+      <ChargeLineCount>
+        <AWBRateLineNumber>1</AWBRateLineNumber>
+        <PiecesRCPDetail>
+          <NumberOfPieces>1</NumberOfPieces>
+        </PiecesRCPDetail>
+        <GrossWeight>
+          <WeightCode>K</WeightCode>
+          <Weight>105</Weight>
+        </GrossWeight>
+        <RateClassDetail>
+          <RateClassCode>Q</RateClassCode>
+        </RateClassDetail>
+        <ChargeableWeightDetail>
+          <Weight>105</Weight>
+        </ChargeableWeightDetail>
+        <GoodsDescription>
+          <NatureQuantityGoods>CONSOLIDATION AS PER</NatureQuantityGoods>
+        </GoodsDescription>
+      </ChargeLineCount>
+      <ChargeLineCount>
+        <AWBRateLineNumber>2</AWBRateLineNumber>
+        <Volume>
+          <VolumeCode>MC</VolumeCode>
+          <VolumeAmount>0.36</VolumeAmount>
+        </Volume>
+      </ChargeLineCount>
+    </RateDescription>
+    <PrepaidChargeSummary>
+      <PrepaidChargeSummaryTotal>
+        <ChargeAmount>0</ChargeAmount>
+      </PrepaidChargeSummaryTotal>
+    </PrepaidChargeSummary>
+    <ShipperCertification>
+      <Signature>TOLL GLOBAL FORWARDI</Signature>
+    </ShipperCertification>
+    <CarrierExection>
+      <AWBIssueDetail>
+        <Day>01</Day>
+        <Month>JAN</Month>
+        <Year>15</Year>
+        <Place>SHANGHAI</Place>
+      </AWBIssueDetail>
+      <Authorisation>
+        <Signature>TAMMY SHENG</Signature>
+      </Authorisation>
+    </CarrierExection>
+    <OtherServiceInformation>
+      <OtherServiceInformation1>FLIGHT 1 KL894 03-JAN-14 02 00   FLIGHT 2 KL7784 04-JAN-14 07 00</OtherServiceInformation1>
+    </OtherServiceInformation>
+    <SenderReference>
+      <SenderOfficeFileReference>
+        <FileReference>C00989718</FileReference>
+      </SenderOfficeFileReference>
+      <SenderParticipantIdentification>
+        <ParticipantIdentifier>FFW</ParticipantIdentifier>
+        <ParticipantCode>CWIDTIPSHACNP</ParticipantCode>
+        <AirportCityCode>SHA</AirportCityCode>
+      </SenderParticipantIdentification>
+    </SenderReference>
+    <SpecialHandlingData>
+      <SpecialHandlingRequirement>
+        <SpecialHandlingCode>NSC</SpecialHandlingCode>
+      </SpecialHandlingRequirement>
+    </SpecialHandlingData>
+  </FWB>
+</MsgBody></ReceivedMessageDetail>
+    </ReceivedMessageDetail>
+  </FNA>
+</MsgBody>
+</CCN.MSG>
