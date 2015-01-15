@@ -11,14 +11,6 @@ import java.util.Properties;
 @Component
 public class ConfigUtil implements ServletContextAware {
 	private static String contextPath;
-
-	//cnn interface
-	private  static String initDataDir;
-	private  static String initSql;
-	private  static String mysqlDriver;
-	private  static String mysqlUrl;
-	private  static String mysqlUserName;
-	private  static String mysqlPassword;
 	
 	public static Properties getAppConfig() {
 		return SpringContextHolder.getBean("appConfig");
@@ -79,60 +71,8 @@ public class ConfigUtil implements ServletContextAware {
 		contextPath = servletContext.getRealPath("/");
 	}
 
-	public static String getInitDataDir() {
-    	return initDataDir;
+	public static String getContextPath() {
+    	return contextPath;
     }
-
-	public static void setInitDataDir(String initDataDir) {
-    	ConfigUtil.initDataDir = initDataDir;
-    }
-
-	public static String getInitSql() {
-    	return initSql;
-    }
-
-	public static void setInitSql(String initSql) {
-    	ConfigUtil.initSql = initSql;
-    }
-
-	public static String getMysqlDriver() {
-    	return mysqlDriver;
-    }
-
-	public static void setMysqlDriver(String mysqlDriver) {
-    	ConfigUtil.mysqlDriver = mysqlDriver;
-    }
-
-	public static String getMysqlUrl() {
-    	return mysqlUrl;
-    }
-
-	public static void setMysqlUrl(String mysqlUrl) {
-    	ConfigUtil.mysqlUrl = mysqlUrl;
-    }
-
-	public static String getMysqlUserName() {
-    	return mysqlUserName;
-    }
-
-	public static void setMysqlUserName(String mysqlUserName) {
-    	ConfigUtil.mysqlUserName = mysqlUserName;
-    }
-
-	public static String getMysqlPassword() {
-    	return mysqlPassword;
-    }
-
-	public static void setMysqlPassword(String mysqlPassword) {
-    	ConfigUtil.mysqlPassword = mysqlPassword;
-    }
-	
-	public String getRealInitSqlDir(){
-		return contextPath + ConstUtil.DIR_SEP + getInitDataDir()+ ConstUtil.DIR_SEP + getInitSql();
-	}
-	
-	public String getRealInitTempDir(){
-		return contextPath + ConstUtil.DIR_SEP + getInitDataDir()+ ConstUtil.DIR_SEP + "FOS";
-	}
 	
 }

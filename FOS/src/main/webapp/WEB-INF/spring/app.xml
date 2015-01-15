@@ -30,6 +30,7 @@
 		  p:driverClassName="org.logicalcobwebs.proxool.ProxoolDriver" p:url="proxool.fosdb"/>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<context:component-scan base-package="haitai"/>
+	<context:component-scan base-package="sg/com"/>
 	<aop:aspectj-autoproxy/>
 
 	<bean id="serviceAspect" class="haitai.fw.aop.ServiceAspect"/>
@@ -45,25 +46,5 @@
 		<entry key="mail.stmp.auth" value="true"/>
 		<entry key="mail.stmp.timeout" value="25000"/>
 	</util:map>
-	<bean id="configUtil" class="haitai.fw.util.ConfigUtil">
-		<property name="initDataDir">
-			<value>${fos.dir.initData}</value>
-		</property>
-		<property name="initSql">
-			<value>${fos.dir.initSql}</value>
-		</property>
-		<property name="mysqlDriver">
-			<value>${fos.mysql.driver}</value>
-		</property>
-		<property name="mysqlUrl">
-			<value>${fos.mysql.url}</value>
-		</property>
-		<property name="mysqlUserName">
-			<value>${fos.mysql.username}</value>
-		</property>
-		<property name="mysqlPassword">
-			<value>${fos.mysql.password}</value>
-		</property>
-	</bean>
 	<import resource="task.xml"/>
 </beans>

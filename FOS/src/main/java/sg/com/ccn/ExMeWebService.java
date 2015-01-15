@@ -1,14 +1,19 @@
 package sg.com.ccn;
 
+import haitai.fw.util.SpringContextHolder;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.stereotype.Service;
+@Service
 public class ExMeWebService {
-		
 	/**
 	 * @author
 	 * 解析返回值
@@ -43,24 +48,32 @@ public class ExMeWebService {
 	}
 	
 	/**
-	 * cnn active account
-	 * 
-	 */
-	public String Activate(String compCode,String account,String password){
-		String path = "http://localhost:8080/FOS/edi/?";
-		String param="action=send&key=Activate&compCode="+compCode+"&account="+account+
-				"&password="+password;
-		return this.getBackValue(path,param);
-	}
-	
-	/**
 	 * cnn active Suspend
 	 * 
 	 */
-	public String Suspend(String compCode){
+	/*public String Suspend(String compCode){
 		String path = "http://localhost:8080/FOS/edi/?";
 		String param="action=send&key=Suspend&compCode="+compCode;
 		return this.getBackValue(path,param);
+	}*/
+	
+	/**
+	 * Activate Company Account && User
+	 * key=ActivateCompany 公司帐号
+	 * @param accountID
+	 * @param keyValuePair
+	 * @return
+	 */
+	public String Activate(String accountID,Map<String,String> keyValuePair){
+		String compCode=keyValuePair.get("compCode");
+		String userLoginName=accountID;
+		boolean accountBoolean=Boolean.valueOf(keyValuePair.get("accountBoolean"));
+		if(accountBoolean){
+			String path = "http://localhost:8080/FOS/edi/?";
+			String param="action=send&key=ActivateCompany&compCode="+compCode+"&userLoginName="+userLoginName;
+			return this.getBackValue(path,param);
+		}
+		return "";
 	}
 	
 	/**
@@ -68,7 +81,11 @@ public class ExMeWebService {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		ExMeWebService m=new ExMeWebService();
-		
+		ExMeWebService e=new ExMeWebService();
+		String accountID="loginNN11";
+		Map<String,String> keyValuePair=new HashMap <String,String>();
+		keyValuePair.put("compCode","NN11");
+		keyValuePair.put("accountBoolean","true");
+		e.Activate(accountID, keyValuePair);
 	}
 }

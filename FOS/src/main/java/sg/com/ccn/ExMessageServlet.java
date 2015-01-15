@@ -1,6 +1,7 @@
 package sg.com.ccn;
 
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.SpringContextHolder;
 import haitai.fw.util.StringUtil;
 
 import java.io.BufferedReader;
@@ -46,8 +47,13 @@ public class ExMessageServlet extends HttpServlet {
 			outputStream = response.getOutputStream();	
 			if(action.equals("send")){
 				String key=request.getParameter("key");
-				if(StringUtil.isNotBlank(key)&&key.equals("Activate")){
-					//Activate
+				if(StringUtil.isNotBlank(key)&&key.equals("ActivateCompany")){
+					//Activate company
+					ExMessageService exService = SpringContextHolder.getBean(ExMessageService.class);
+					String compCode=request.getParameter("compCode");
+					String userLoginName=request.getParameter("userLoginName");
+					exService.activeCompany(compCode, userLoginName);
+					
 				}
 				else if(StringUtil.isNotBlank(key)&&key.equals("Suspend")){
 					//Suspend
