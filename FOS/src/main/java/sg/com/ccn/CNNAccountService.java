@@ -6,18 +6,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import haitai.fos.sys.entity.idao.IPRoleDAO;
-import haitai.fos.sys.entity.idao.IPUserDAO;
-import haitai.fos.sys.entity.table.PUser;
-import haitai.fw.session.SessionKeyType;
-import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.SpringContextHolder;
-import haitai.fw.util.TimeUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,29 +17,27 @@ import sg.com.ccn.util.CopyFile;
 import sg.com.ccn.util.InitData;
 
 @Service
-public class ExMessageService {
-	/*@Autowired
-	private IPUserDAO userDao;*/
-	@Autowired
-	private ConfigUtil configUtil;
+public class CNNAccountService {
 	@PersistenceContext(unitName="FOSPU")
 	 private EntityManager em;
 	
-	@SuppressWarnings("unchecked")
-    @Transactional
-    /**
+	/**
      * Activate Company Account
      * @param compCode
      * @param userLoginName
      */
+	@SuppressWarnings("unchecked")
+    @Transactional
 	public boolean activeCompany(String compCode,String userLoginName) {
 		boolean bool=false;
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append("insert into P_USER (");
-		sbUser.append("USER_NAME,USER_LOGIN_NAME,USER_EMAIL,USER_PASSWORD,USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED");
+		sbUser.append("USER_NAME,USER_LOGIN_NAME,USER_EMAIL,USER_PASSWORD,");
+		sbUser.append("USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED");
 		sbUser.append(")");
 		sbUser.append("values(");
-		sbUser.append("'"+userLoginName+"','"+userLoginName+"','{$email}', 'e10adc3949ba59abbe56e057f20f883e',now(),1,'"+compCode+"',0,0");
+		sbUser.append("'"+userLoginName+"','"+userLoginName+"','{$email}',");
+		sbUser.append("'e10adc3949ba59abbe56e057f20f883e',now(),1,'"+compCode+"',0,0");
 		sbUser.append(");");
 		String sqlUser=sbUser.toString();
 		
@@ -115,7 +104,8 @@ public class ExMessageService {
 				String s=ConfigUtil.getContextPath()+
 						ConstUtil.DIR_SEP+Const.initDataDir+ConstUtil.DIR_SEP+"FOS"+ConstUtil.DIR_SEP;
 				String t=ConfigUtil.getContextPath()+
-						ConstUtil.DIR_SEP+"data"+ConstUtil.DIR_SEP+compCode+ConstUtil.DIR_SEP+"template"+ConstUtil.DIR_SEP;
+						ConstUtil.DIR_SEP+"data"+ConstUtil.DIR_SEP+compCode+
+						ConstUtil.DIR_SEP+"template"+ConstUtil.DIR_SEP;
 				confile.fileCopy(s, t);
 				bool=true;
 			}
@@ -131,13 +121,16 @@ public class ExMessageService {
 	 * @param userLoginName
 	 * @return
 	 */
+	@Transactional
 	public boolean activeUser(String compCode,String userLoginName) {
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append("insert into P_USER (");
-		sbUser.append("USER_NAME,USER_LOGIN_NAME,USER_EMAIL,USER_PASSWORD,USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED");
+		sbUser.append("USER_NAME,USER_LOGIN_NAME,USER_EMAIL,USER_PASSWORD,");
+		sbUser.append("USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED");
 		sbUser.append(")");
 		sbUser.append("values(");
-		sbUser.append("'"+userLoginName+"','"+userLoginName+"','{$email}', 'e10adc3949ba59abbe56e057f20f883e',now(),1,'"+compCode+"',0,0");
+		sbUser.append("'"+userLoginName+"','"+userLoginName+"','{$email}',");
+		sbUser.append("'e10adc3949ba59abbe56e057f20f883e',now(),1,'"+compCode+"',0,0");
 		sbUser.append(");");
 		String sqlUser=sbUser.toString();
 		try {
@@ -151,5 +144,61 @@ public class ExMessageService {
 		}
 		return false;
 	}
+	
+	/**
+	 * Suspend || UnSuspend company account || User
+	 * @param compCode
+	 * @param userLoginName
+	 * @return
+	 */
+	@Transactional
+	public boolean suspendOrUnSuspend(String compCode,String userLoginName,
+			Short activeFlag) {
+		StringBuffer sbUser=new StringBuffer();
+		sbUser.append(" update P_USER ");
+		sbUser.append(" set ACTIVE="+activeFlag);
+		sbUser.append(" where USER_NAME='"+userLoginName+"' ");
+		sbUser.append(" and USER_LOGIN_NAME='"+userLoginName+"' ");
+		sbUser.append(" and COMP_CODE='"+compCode+"' ");
+		String sqlUser=sbUser.toString();
+		try {
+			Query queryUpdateUser = em.createNativeQuery(sqlUser);
+			int affectRows = queryUpdateUser.executeUpdate();
+			if(affectRows==1){
+				return true;
+			}
+		}catch (Exception ex) {
+		  ex.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Terminate company account || User
+	 * @param compCode
+	 * @param userLoginName
+	 * @return
+	 */
+	@Transactional
+	public boolean terminate(String compCode,String userLoginName) {
+		StringBuffer sbUser=new StringBuffer();
+		sbUser.append(" update P_USER ");
+		sbUser.append(" set REMOVED=1");
+		sbUser.append(" where USER_NAME='"+userLoginName+"' ");
+		sbUser.append(" and USER_LOGIN_NAME='"+userLoginName+"' ");
+		sbUser.append(" and COMP_CODE='"+compCode+"' ");
+		String sqlUser=sbUser.toString();
+		try {
+			Query queryUpdateUser = em.createNativeQuery(sqlUser);
+			int affectRows = queryUpdateUser.executeUpdate();
+			if(affectRows==1){
+				return true;
+			}
+		}catch (Exception ex) {
+		  ex.printStackTrace();
+		}
+		return false;
+	}
+	
 	
 }

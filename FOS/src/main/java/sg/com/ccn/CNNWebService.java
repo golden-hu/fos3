@@ -1,6 +1,6 @@
 package sg.com.ccn;
 
-import haitai.fw.util.SpringContextHolder;
+import haitai.fw.util.StringUtil;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 @Service
-public class ExMeWebService {
+public class CNNWebService {
 	/**
 	 * @author
 	 * 解析返回值
@@ -46,17 +46,7 @@ public class ExMeWebService {
         }
 		return str;
 	}
-	
-	/**
-	 * cnn active Suspend
-	 * 
-	 */
-	/*public String Suspend(String compCode){
-		String path = "http://localhost:8080/FOS/edi/?";
-		String param="action=send&key=Suspend&compCode="+compCode;
-		return this.getBackValue(path,param);
-	}*/
-	
+
 	/**
 	 * Activate Company Account && User
 	 * key=ActivateCompany 公司帐号
@@ -69,28 +59,95 @@ public class ExMeWebService {
 		String compCode=keyValuePair.get("compCode");
 		String userLoginName=accountID;
 		boolean accountBoolean=Boolean.valueOf(keyValuePair.get("accountBoolean"));
+		String key="";
 		if(accountBoolean){
-			String path = "http://localhost:8080/FOS/edi/?";
-			String param="action=send&key=ActivateCompany&compCode="+compCode+"&userLoginName="+userLoginName;
-			rtStr=this.getBackValue(path,param);
+			key="ActivateCompany";
 		}else{
+			key="ActivateUser";
+		}
+		if(StringUtil.isNotBlank(compCode)){
 			String path = "http://localhost:8080/FOS/edi/?";
-			String param="action=send&key=ActivateUser&compCode="+compCode+"&userLoginName="+userLoginName;
+			String param="action=send&key="+key+"&compCode="+compCode+
+					"&userLoginName="+userLoginName;
 			rtStr=this.getBackValue(path,param);
 		}
 		return rtStr;
 	}
 	
 	/**
+	 * Suspend Company Account || User
+	 * key=Suspend
+	 * @param accountID
+	 * @param keyValuePair
+	 * @return
+	 */
+	public String Suspend(String accountID,Map<String,String> keyValuePair){
+		String rtStr="";
+		String compCode=keyValuePair.get("compCode");
+		String userLoginName=accountID;
+		if(StringUtil.isNotBlank(compCode)){
+			String path = "http://localhost:8080/FOS/edi/?";
+			String param="action=send&key=Suspend&compCode="+compCode+
+					"&userLoginName="+userLoginName;
+			rtStr=this.getBackValue(path,param);
+		}
+		return rtStr;
+	}
+	
+	/**
+	 * UnSuspend Company Account || User
+	 * key=Suspend
+	 * @param accountID
+	 * @param keyValuePair
+	 * @return
+	 */
+	public String UnSuspend(String accountID,Map<String,String> keyValuePair){
+		String rtStr="";
+		String compCode=keyValuePair.get("compCode");
+		String userLoginName=accountID;
+		if(StringUtil.isNotBlank(compCode)){
+			String path = "http://localhost:8080/FOS/edi/?";
+			String param="action=send&key=UnSuspend&compCode="+compCode+
+					"&userLoginName="+userLoginName;
+			rtStr=this.getBackValue(path,param);
+		}
+		return rtStr;
+	}
+	
+	/**
+	 * Terminate Account || User
+	 * key=Suspend
+	 * @param accountID
+	 * @param keyValuePair
+	 * @return
+	 */
+	public String Terminate(String accountID,Map<String,String> keyValuePair){
+		String rtStr="";
+		String compCode=keyValuePair.get("compCode");
+		String userLoginName=accountID;
+		if(StringUtil.isNotBlank(compCode)){
+			String path = "http://localhost:8080/FOS/edi/?";
+			String param="action=send&key=Terminate&compCode="+compCode+
+					"&userLoginName="+userLoginName;
+			rtStr=this.getBackValue(path,param);
+		}
+		return rtStr;
+	}
+	
+	
+	/**
 	 * 本地测试接口主方法
 	 * @param args
 	 */
 	public static void main(String[] args){
-		ExMeWebService e=new ExMeWebService();
+		CNNWebService e=new CNNWebService();
 		String accountID="cnn01";
 		Map<String,String> keyValuePair=new HashMap <String,String>();
 		keyValuePair.put("compCode","cnn01");
 		keyValuePair.put("accountBoolean","true");
-		e.Activate(accountID, keyValuePair);
+		//e.Activate(accountID, keyValuePair);
+		//e.Suspend(accountID, keyValuePair);
+		//e.UnSuspend(accountID, keyValuePair);
+		//e.Terminate(accountID, keyValuePair);
 	}
 }

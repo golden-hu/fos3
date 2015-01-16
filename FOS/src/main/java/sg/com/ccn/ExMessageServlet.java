@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,20 +41,29 @@ public class ExMessageServlet extends HttpServlet {
 		
 		try {
 			inputStream = request.getInputStream();
-			outputStream = response.getOutputStream();	
+			outputStream = response.getOutputStream();
 			if(action.equals("send")){
-				ExMessageService exService = SpringContextHolder.getBean(ExMessageService.class);
+				CNNAccountService exService = SpringContextHolder.getBean(CNNAccountService.class);
 				String compCode=request.getParameter("compCode");
 				String userLoginName=request.getParameter("userLoginName");
 				String key=request.getParameter("key");
 				if(key.equals("ActivateCompany")){
 					boolean bool=exService.activeCompany(compCode, userLoginName);
-				}else if(key.equals("ActivateUser")){
+				}
+				else if(key.equals("ActivateUser")){
 					boolean bool=exService.activeUser(compCode, userLoginName);
 				}
 				else if(StringUtil.isNotBlank(key)&&key.equals("Suspend")){
-					//Suspend
-				} 
+					boolean bool=exService.suspendOrUnSuspend(compCode, userLoginName,
+							Short.parseShort("0"));
+				}
+				else if(StringUtil.isNotBlank(key)&&key.equals("UnSuspend")){
+					boolean bool=exService.suspendOrUnSuspend(compCode, userLoginName,
+							Short.parseShort("1"));
+				}
+				else if(StringUtil.isNotBlank(key)&&key.equals("Terminate")){
+					boolean bool=exService.terminate(compCode, userLoginName);
+				}
 			}
 			
 			sbResult = new StringBuffer();
