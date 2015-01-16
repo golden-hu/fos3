@@ -12,7 +12,7 @@ public class StandardMessageIdentifierBase implements java.io.Serializable {
     private static java.util.HashMap _table_ = new java.util.HashMap();
 
     // Constructor
-    protected StandardMessageIdentifierBase(java.lang.String value) {
+    public StandardMessageIdentifierBase(java.lang.String value) {
         _value_ = value;
         _table_.put(_value_,this);
     }
