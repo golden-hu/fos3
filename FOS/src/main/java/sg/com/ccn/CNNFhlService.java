@@ -62,7 +62,7 @@ public class CNNFhlService {
 		Envelope msgEnvelope=new Envelope();
 		String priority="QK";
 		String recipientPimaAddress="CSGAGT85GHASQFWBSIN";
-		String senderPimaAddress="CSGAGT01XSPHOSQ";
+		String senderPimaAddress="CSGAGT01XSPHOSQ/SIN81";
 		String GMT="225422";
 		String senderOriginalCode="";
 		String messageSequenceNumber="";
@@ -96,77 +96,77 @@ public class CNNFhlService {
 				new QuantityDetail(shipmentDescriptionCode,numberOfPieces,weightCode,weight)
 		));
 		
-		String HWBSerialNumber="";
-		String airportccnyCodeOfDeparture="";
-		String airportccnyCodeOfDestination2="";
-		String numberOfPieces2="";
-		String weightCode2="";
-		String weight2="";
-		String SLAC="";
-		String manifestDescriptionOfGoods="";
-		String specialHandlingCode="";
-		String freeText="";
-		String harmonisedCommodityCode="";
-		String ISOCountryCode="";
-		String informationIdentifier="";
-		String customsInformationIdentifier="";
-		String supplementCustomInformation="";
+		String house_HWBSerialNumber="";
+		String house_airportccnyCodeOfDeparture="";
+		String house_airportccnyCodeOfDestination="";
+		String house_numberOfPieces="";
+		String house_weightCode="";
+		String house_weight="";
+		String house_SLAC="";
+		String house_manifestDescriptionOfGoods="";
+		String house_specialHandlingCode="";
+		String house_freeText="";
+		String house_harmonisedCommodityCode="";
+		String house_ISOCountryCode="";
+		String house_informationIdentifier="";
+		String house_customsInformationIdentifier="";
+		String house_supplementCustomInformation="";
 		fhl.setHouseAndFreeTextGroup(new HouseAndFreeTextGroup(
 				new HouseWaybillSummaryDetail(
-							HWBSerialNumber,
-							new HouseWaybillOriginAndDestination(airportccnyCodeOfDeparture,
-									airportccnyCodeOfDestination2),
-							new HouseWaybillTotals(numberOfPieces2,weightCode2,weight2,SLAC),
-							new NatureOfGoods(manifestDescriptionOfGoods),
+						house_HWBSerialNumber,
+							new HouseWaybillOriginAndDestination(house_airportccnyCodeOfDeparture,
+									house_airportccnyCodeOfDestination),
+							new HouseWaybillTotals(house_numberOfPieces,house_weightCode,house_weight,house_SLAC),
+							new NatureOfGoods(house_manifestDescriptionOfGoods),
 							new SpecialHandlingRequirements[]{
-								new SpecialHandlingRequirements(specialHandlingCode)
+								new SpecialHandlingRequirements(house_specialHandlingCode)
 							}
 				),
 				new FreeTextDescriptionOfGoods[]{
-					new FreeTextDescriptionOfGoods(freeText)
+					new FreeTextDescriptionOfGoods(house_freeText)
 				},
 				new HarmonisedTariffScheduleInformation[]{
-					new HarmonisedTariffScheduleInformation(harmonisedCommodityCode)
+					new HarmonisedTariffScheduleInformation(house_harmonisedCommodityCode)
 				},
 				new OtherCustomsInfo[]{
-					new OtherCustomsInfo(ISOCountryCode,informationIdentifier,
-							customsInformationIdentifier,supplementCustomInformation)
+					new OtherCustomsInfo(house_ISOCountryCode,house_informationIdentifier,
+							house_customsInformationIdentifier,house_supplementCustomInformation)
 				}
 		));
 		
-		String SHPName="";
-		String streetAddress="";
-		String place="";
-		String stateProvince="";
-		String ISOCountryCode2="";
-		String postCode="";
-		String contactIdentifier="";
-		String contactNumber="";
+		String shipper_SHPName="";
+		String shipper_streetAddress="";
+		String shipper_place="";
+		String shipper_stateProvince="";
+		String shipper_ISOCountryCode="";
+		String shipper_postCode="";
+		String shipper_contactIdentifier="";
+		String shipper_contactNumber="";
 		fhl.setShipperNameAndAddress(new ShipperNameAndAddress(
-				SHPName,
-				new StreetAddress(streetAddress),
-				new Location(place,stateProvince),
-				new CodedLocation(ISOCountryCode2,postCode),
+				shipper_SHPName,
+				new StreetAddress(shipper_streetAddress),
+				new Location(shipper_place,shipper_stateProvince),
+				new CodedLocation(shipper_ISOCountryCode,shipper_postCode),
 				new ContactDetail[]{
-					new ContactDetail(contactIdentifier,contactNumber)
+					new ContactDetail(shipper_contactIdentifier,shipper_contactNumber)
 			}
 		));
 		
-		String CNEName="";
-		String streetAddress2="";
-		String place2="";
-		String stateProvince2="";
-		String ISOCountryCode3="";
-		String postCode2="";
-		String contactIdentifier2="";
-		String contactNumber2="";
+		String consignee_CNEName="";
+		String consignee_streetAddress="";
+		String consignee_place="";
+		String consignee_stateProvince="";
+		String consignee_ISOCountryCode="";
+		String consignee_postCode="";
+		String consignee_contactIdentifier="";
+		String consignee_contactNumber="";
 		fhl.setConsigneeNameAndAddress(new ConsigneeNameAndAddress(
-				CNEName,
-				new StreetAddress(streetAddress2),
-				new Location(place2,stateProvince2),
-				new CodedLocation(ISOCountryCode3,postCode2),
+				consignee_CNEName,
+				new StreetAddress(consignee_streetAddress),
+				new Location(consignee_place,consignee_stateProvince),
+				new CodedLocation(consignee_ISOCountryCode,consignee_postCode),
 				new ContactDetail[]{
-					new ContactDetail (contactIdentifier2,contactNumber2)
+					new ContactDetail (consignee_contactIdentifier,consignee_contactNumber)
 				}
 		));
 		
