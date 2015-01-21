@@ -1,14 +1,8 @@
 package sg.com.ccn;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
-import javax.persistence.PersistenceContext;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import haitai.fw.util.ConfigUtil;
-import haitai.fw.util.ConstUtil;
+import haitai.fos.ffop.entity.table.FConsign;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,17 +40,12 @@ import sg.com.ccn.FHL.TSPDetail;
 import sg.com.ccn.FHL.ValueForCarriageDeclaration;
 import sg.com.ccn.FHL.ValueForCustomsDeclaration;
 import sg.com.ccn.FHL.ValueForInsuranceDeclaration;
-import sg.com.ccn.util.Const;
-import sg.com.ccn.util.CopyFile;
-import sg.com.ccn.util.InitData;
 
 @Service
 public class CNNFhlService {
-	@PersistenceContext(unitName="FOSPU")
-	 private EntityManager em;
 	
 	@Transactional
-	public boolean sendFhl() {
+	public boolean sendFhl(FConsign fcon) {
 		boolean bool=false;
 		//msgEnvelope
 		Envelope msgEnvelope=new Envelope();

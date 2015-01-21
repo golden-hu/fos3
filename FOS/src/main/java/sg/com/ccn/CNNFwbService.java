@@ -1,14 +1,8 @@
 package sg.com.ccn;
 
+import haitai.fos.ffop.entity.table.FConsign;
+
 import java.rmi.RemoteException;
-import java.util.List;
-
-import javax.persistence.PersistenceContext;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import haitai.fw.util.ConfigUtil;
-import haitai.fw.util.ConstUtil;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +11,9 @@ import sg.com.ccn.www.CCNMSGWS.*;
 
 @Service
 public class CNNFwbService {
-	@PersistenceContext(unitName="FOSPU")
-	 private EntityManager em;
 	
 	@Transactional
-	public boolean sendFwb() {
+	public boolean sendFwb(FConsign fcon) {
 		boolean bool=false;
 		//msgEnvelope
 		Envelope msgEnvelope=new Envelope();
