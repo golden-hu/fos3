@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import sg.com.ccn.www.CCNMSGWS.*;
+import sg.com.ccn.FWB.*;
 
 @Service
 public class CNNFwbService {

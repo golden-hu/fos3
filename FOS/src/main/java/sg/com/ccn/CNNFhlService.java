@@ -7,39 +7,7 @@ import haitai.fos.ffop.entity.table.FConsign;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import sg.com.ccn.FHL.AWBOriginAndDestination;
-import sg.com.ccn.FHL.CCNMSG;
-import sg.com.ccn.FHL.CCNMSGSoapProxy;
-import sg.com.ccn.FHL.ChargeDeclarations;
-import sg.com.ccn.FHL.CodedLocation;
-import sg.com.ccn.FHL.ConsigneeNameAndAddress;
-import sg.com.ccn.FHL.ContactDetail;
-import sg.com.ccn.FHL.Envelope;
-import sg.com.ccn.FHL.FHL;
-import sg.com.ccn.FHL.FreeTextDescriptionOfGoods;
-import sg.com.ccn.FHL.HarmonisedTariffScheduleInformation;
-import sg.com.ccn.FHL.HouseAndFreeTextGroup;
-import sg.com.ccn.FHL.HouseWaybillOriginAndDestination;
-import sg.com.ccn.FHL.HouseWaybillSummaryDetail;
-import sg.com.ccn.FHL.HouseWaybillTotals;
-import sg.com.ccn.FHL.Location;
-import sg.com.ccn.FHL.MasterAWBConsignmentDetail;
-import sg.com.ccn.FHL.MasterAWBIdentification;
-import sg.com.ccn.FHL.MsgBody;
-import sg.com.ccn.FHL.NatureOfGoods;
-import sg.com.ccn.FHL.OtherCustomsInfo;
-import sg.com.ccn.FHL.ParticipantDetail;
-import sg.com.ccn.FHL.PrepaidCollectChargeDeclarations;
-import sg.com.ccn.FHL.QuantityDetail;
-import sg.com.ccn.FHL.ShipperNameAndAddress;
-import sg.com.ccn.FHL.SpecialHandlingRequirements;
-import sg.com.ccn.FHL.StandardMessageIdentification;
-import sg.com.ccn.FHL.StandardMessageIdentifierBase;
-import sg.com.ccn.FHL.StreetAddress;
-import sg.com.ccn.FHL.TSPDetail;
-import sg.com.ccn.FHL.ValueForCarriageDeclaration;
-import sg.com.ccn.FHL.ValueForCustomsDeclaration;
-import sg.com.ccn.FHL.ValueForInsuranceDeclaration;
+import sg.com.ccn.FHL.*;
 
 @Service
 public class CNNFhlService {
