@@ -3,10 +3,10 @@
     <wb-module deploy-name="FOS">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <property name="java-output-path" value="/fos/target/classes"/>
-        <property name="context-root" value="FOS"/>
+        <property name="context-root" value="fos"/>
+        <property name="component.exclusion.patterns" value="js/fos*.js,js/constant.js,js/resource_Zh_cn.js,js/store.js,js/util.js,js/version.js,js/ws.css,js/ws.js,fos.css"/>
     </wb-module>
 </project-modules>

@@ -1,0 +1,14 @@
+CP ACCOUNT:
+FOSAGTA.USER1@CCNhub.com
+20d2fbe0
+
+teamviewer:
+FMS web server (DEVFMSWEB1)
+411 704 763 
+9098
+ 
+FMS Database server (DEVFMSFOS1)
+411 719 253
+2280
+
+
