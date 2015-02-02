@@ -34,55 +34,51 @@ public class ExMessageServlet extends HttpServlet {
 		OutputStream outputStream = null;
 		StringBuffer sbResult = null;
 		
-		String action = request.getParameter("action");
-		
 		String respCode = "";
 		String respMessage = "";
 		
 		try {
 			inputStream = request.getInputStream();
 			outputStream = response.getOutputStream();
-			if(action.equals("send")){
-				CNNAccountService exService = SpringContextHolder.getBean(CNNAccountService.class);
-				String compCode=request.getParameter("compCode");
-				String userLoginName=request.getParameter("userLoginName");
-				String key=request.getParameter("key");
-				if(key.equals("ActivateCompany")){
-					boolean bool=exService.activeCompany(compCode, userLoginName);
-					if(bool){
-						respCode="0";
-						respMessage="Company activate success";
-					}
+			CNNAccountService exService = SpringContextHolder.getBean(CNNAccountService.class);
+			String compCode=request.getParameter("compCode");
+			String userLoginName=request.getParameter("userLoginName");
+			String key=request.getParameter("key");
+			if(key.equals("ActivateCompany")){
+				boolean bool=exService.activeCompany(compCode, userLoginName);
+				if(bool){
+					respCode="0";
+					respMessage="Company activate success";
 				}
-				else if(key.equals("ActivateUser")){
-					boolean bool=exService.activeUser(compCode, userLoginName);
-					if(bool){
-						respCode="0";
-						respMessage="User activate success";
-					}
+			}
+			else if(key.equals("ActivateUser")){
+				boolean bool=exService.activeUser(compCode, userLoginName);
+				if(bool){
+					respCode="0";
+					respMessage="User activate success";
 				}
-				else if(StringUtil.isNotBlank(key)&&key.equals("Suspend")){
-					boolean bool=exService.suspendOrUnSuspend(compCode, userLoginName,
-							Short.parseShort("0"));
-					if(bool){
-						respCode="0";
-						respMessage="Suspend success";
-					}
+			}
+			else if(StringUtil.isNotBlank(key)&&key.equals("Suspend")){
+				boolean bool=exService.suspendOrUnSuspend(compCode, userLoginName,
+						Short.parseShort("0"));
+				if(bool){
+					respCode="0";
+					respMessage="Suspend success";
 				}
-				else if(StringUtil.isNotBlank(key)&&key.equals("UnSuspend")){
-					boolean bool=exService.suspendOrUnSuspend(compCode, userLoginName,
-							Short.parseShort("1"));
-					if(bool){
-						respCode="0";
-						respMessage="UnSuspend success";
-					}
+			}
+			else if(StringUtil.isNotBlank(key)&&key.equals("UnSuspend")){
+				boolean bool=exService.suspendOrUnSuspend(compCode, userLoginName,
+						Short.parseShort("1"));
+				if(bool){
+					respCode="0";
+					respMessage="UnSuspend success";
 				}
-				else if(StringUtil.isNotBlank(key)&&key.equals("Terminate")){
-					boolean bool=exService.terminate(compCode, userLoginName);
-					if(bool){
-						respCode="0";
-						respMessage="Terminate success";
-					}
+			}
+			else if(StringUtil.isNotBlank(key)&&key.equals("Terminate")){
+				boolean bool=exService.terminate(compCode, userLoginName);
+				if(bool){
+					respCode="0";
+					respMessage="Terminate success";
 				}
 			}
 			

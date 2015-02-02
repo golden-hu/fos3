@@ -67,7 +67,7 @@ public class CNNWebService {
 		}
 		if(StringUtil.isNotBlank(compCode)){
 			String path = "http://localhost:8080/FOS/edi/?";
-			String param="action=send&key="+key+"&compCode="+compCode+
+			String param="key="+key+"&compCode="+compCode+
 					"&userLoginName="+userLoginName;
 			rtStr=this.getBackValue(path,param);
 		}
@@ -87,7 +87,7 @@ public class CNNWebService {
 		String userLoginName=accountID;
 		if(StringUtil.isNotBlank(compCode)){
 			String path = "http://localhost:8080/FOS/edi/?";
-			String param="action=send&key=Suspend&compCode="+compCode+
+			String param="key=Suspend&compCode="+compCode+
 					"&userLoginName="+userLoginName;
 			rtStr=this.getBackValue(path,param);
 		}
@@ -107,7 +107,7 @@ public class CNNWebService {
 		String userLoginName=accountID;
 		if(StringUtil.isNotBlank(compCode)){
 			String path = "http://localhost:8080/FOS/edi/?";
-			String param="action=send&key=UnSuspend&compCode="+compCode+
+			String param="key=UnSuspend&compCode="+compCode+
 					"&userLoginName="+userLoginName;
 			rtStr=this.getBackValue(path,param);
 		}
@@ -127,7 +127,7 @@ public class CNNWebService {
 		String userLoginName=accountID;
 		if(StringUtil.isNotBlank(compCode)){
 			String path = "http://localhost:8080/FOS/edi/?";
-			String param="action=send&key=Terminate&compCode="+compCode+
+			String param="key=Terminate&compCode="+compCode+
 					"&userLoginName="+userLoginName;
 			rtStr=this.getBackValue(path,param);
 		}
