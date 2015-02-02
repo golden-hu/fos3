@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/spring/app.xml</param-value>
@@ -8,6 +8,8 @@
     <param-name>xmlFile</param-name>
     <param-value>WEB-INF/classes/proxool.xml</param-value>
   </context-param>
+  
+  
   <servlet>
     <description>FOS main servlet</description>
     <display-name>FOS</display-name>
@@ -43,56 +45,22 @@
     <session-timeout>600</session-timeout>
   </session-config>
   <servlet>
-    <display-name>Apache-Axis Servlet</display-name>
-    <servlet-name>AxisServlet</servlet-name>
-    <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+    <servlet-name>EDI Servlet</servlet-name>
+    <servlet-class>sg.com.ccn.ExMessageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>/servlet/AxisServlet</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>*.jws</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>/services/*</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <display-name>Axis Admin Servlet</display-name>
-    <servlet-name>AdminServlet</servlet-name>
-    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
-    <load-on-startup>100</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AdminServlet</servlet-name>
-    <url-pattern>/servlet/AdminServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-	    <servlet-name>EDI Servlet</servlet-name>
-	    <servlet-class>sg.com.ccn.ExMessageServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>EDI Servlet</servlet-name>
+    <servlet-name>EDI Servlet</servlet-name>
     <url-pattern>/edi/*</url-pattern>
   </servlet-mapping>
-  
-  
-    <servlet>
-              <servlet-name>CXFServlet</servlet-name>
-              <display-name>CXFServlet</display-name>
-              <servlet-class>
-                     org.apache.cxf.transport.servlet.CXFServlet
-              </servlet-class>
-              <load-on-startup>1</load-on-startup>
-        </servlet>
-
-        <servlet-mapping>
-               <servlet-name>CXFServlet</servlet-name>
-               <url-pattern>/webservice/*</url-pattern>
-        </servlet-mapping>
-  </web-app>
-  	
+  <servlet>
+    <description>Apache CXF Endpoint</description>
+    <display-name>cxf</display-name>
+    <servlet-name>cxf</servlet-name>
+    <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cxf</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
 </web-app>

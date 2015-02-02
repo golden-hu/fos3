@@ -2,3 +2,4 @@ target/
 .settings/
 .idea/
 *.iws
+/.apt_generated/

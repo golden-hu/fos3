@@ -5,6 +5,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_generated"/>
         <property name="java-output-path" value="/fos/target/classes"/>
         <property name="context-root" value="fos"/>
         <property name="component.exclusion.patterns" value="js/fos*.js,js/constant.js,js/resource_Zh_cn.js,js/store.js,js/util.js,js/version.js,js/ws.css,js/ws.js,fos.css"/>
