@@ -1,0 +1,903 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<title>TDefinitions (Apache CXF API 2.7.14 API)</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="TDefinitions (Apache CXF API 2.7.14 API)";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/TDefinitions.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-all.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+<div class="aboutLanguage"><em>Apache CXF API</em></div>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../org/apache/cxf/wsdl/TBindingOperationMessage.html" title="class in org.apache.cxf.wsdl"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../org/apache/cxf/wsdl/TDocumentation.html" title="class in org.apache.cxf.wsdl"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?org/apache/cxf/wsdl/TDefinitions.html" target="_top">Frames</a></li>
+<li><a href="TDefinitions.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">org.apache.cxf.wsdl</div>
+<h2 title="Class TDefinitions" class="title">Class TDefinitions</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
+<li>
+<ul class="inheritance">
+<li><a href="../../../../org/apache/cxf/wsdl/TDocumented.html" title="class in org.apache.cxf.wsdl">org.apache.cxf.wsdl.TDocumented</a></li>
+<li>
+<ul class="inheritance">
+<li><a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html" title="class in org.apache.cxf.wsdl">org.apache.cxf.wsdl.TExtensibleDocumented</a></li>
+<li>
+<ul class="inheritance">
+<li>org.apache.cxf.wsdl.TDefinitions</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<hr>
+<br>
+<pre>public class <span class="strong">TDefinitions</span>
+extends <a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html" title="class in org.apache.cxf.wsdl">TExtensibleDocumented</a></pre>
+<div class="block"><p>Java class for tDefinitions complex type.
+ 
+ <p>The following schema fragment specifies the expected content contained within this class.
+ 
+ <pre>
+ &lt;complexType name="tDefinitions">
+   &lt;complexContent>
+     &lt;extension base="{http://schemas.xmlsoap.org/wsdl/}tExtensibleDocumented">
+       &lt;sequence minOccurs="0">
+         &lt;group ref="{http://schemas.xmlsoap.org/wsdl/}anyTopLevelOptionalElement"/>
+         &lt;choice maxOccurs="unbounded" minOccurs="0">
+           &lt;group ref="{http://schemas.xmlsoap.org/wsdl/}anyTopLevelOptionalElement"/>
+           &lt;any processContents='lax' namespace='##other'/>
+         &lt;/choice>
+       &lt;/sequence>
+       &lt;attribute name="targetNamespace" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}NCName" />
+       &lt;anyAttribute processContents='lax' namespace='##other'/>
+     &lt;/extension>
+   &lt;/complexContent>
+ &lt;/complexType>
+ </pre></div>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl">TImport</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#_import">_import</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl">TBinding</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#binding">binding</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#importOrTypesOrMessage">importOrTypesOrMessage</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl">TMessage</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#message">message</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#name">name</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl">TPortType</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#portType">portType</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl">TService</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#service">service</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#targetNamespace">targetNamespace</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl">TTypes</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#types">types</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="fields_inherited_from_class_org.apache.cxf.wsdl.TExtensibleDocumented">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;org.apache.cxf.wsdl.<a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html" title="class in org.apache.cxf.wsdl">TExtensibleDocumented</a></h3>
+<code><a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html#any">any</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="fields_inherited_from_class_org.apache.cxf.wsdl.TDocumented">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;org.apache.cxf.wsdl.<a href="../../../../org/apache/cxf/wsdl/TDocumented.html" title="class in org.apache.cxf.wsdl">TDocumented</a></h3>
+<code><a href="../../../../org/apache/cxf/wsdl/TDocumented.html#documentation">documentation</a></code></li>
+</ul>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#TDefinitions()">TDefinitions</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl">TBinding</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getBinding()">getBinding</a></strong>()</code>
+<div class="block">Gets the value of the binding property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl">TImport</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getImport()">getImport</a></strong>()</code>
+<div class="block">Gets the value of the import property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getImportOrTypesOrMessage()">getImportOrTypesOrMessage</a></strong>()</code>
+<div class="block">Gets the value of the importOrTypesOrMessage property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl">TMessage</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getMessage()">getMessage</a></strong>()</code>
+<div class="block">Gets the value of the message property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getName()">getName</a></strong>()</code>
+<div class="block">Gets the value of the name property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl">TPortType</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getPortType()">getPortType</a></strong>()</code>
+<div class="block">Gets the value of the portType property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl">TService</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getService()">getService</a></strong>()</code>
+<div class="block">Gets the value of the service property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getTargetNamespace()">getTargetNamespace</a></strong>()</code>
+<div class="block">Gets the value of the targetNamespace property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl">TTypes</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#getTypes()">getTypes</a></strong>()</code>
+<div class="block">Gets the value of the types property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetBinding()">isSetBinding</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetImport()">isSetImport</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetImportOrTypesOrMessage()">isSetImportOrTypesOrMessage</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetMessage()">isSetMessage</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetName()">isSetName</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetPortType()">isSetPortType</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetService()">isSetService</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetTargetNamespace()">isSetTargetNamespace</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#isSetTypes()">isSetTypes</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setBinding(org.apache.cxf.wsdl.TBinding)">setBinding</a></strong>(<a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl">TBinding</a>&nbsp;value)</code>
+<div class="block">Sets the value of the binding property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setImport(org.apache.cxf.wsdl.TImport)">setImport</a></strong>(<a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl">TImport</a>&nbsp;value)</code>
+<div class="block">Sets the value of the import property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setMessage(org.apache.cxf.wsdl.TMessage)">setMessage</a></strong>(<a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl">TMessage</a>&nbsp;value)</code>
+<div class="block">Sets the value of the message property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setName(java.lang.String)">setName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the name property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setPortType(org.apache.cxf.wsdl.TPortType)">setPortType</a></strong>(<a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl">TPortType</a>&nbsp;value)</code>
+<div class="block">Sets the value of the portType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setService(org.apache.cxf.wsdl.TService)">setService</a></strong>(<a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl">TService</a>&nbsp;value)</code>
+<div class="block">Sets the value of the service property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setTargetNamespace(java.lang.String)">setTargetNamespace</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the targetNamespace property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#setTypes(org.apache.cxf.wsdl.TTypes)">setTypes</a></strong>(<a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl">TTypes</a>&nbsp;value)</code>
+<div class="block">Sets the value of the types property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../org/apache/cxf/wsdl/TDefinitions.html#unsetImportOrTypesOrMessage()">unsetImportOrTypesOrMessage</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_org.apache.cxf.wsdl.TExtensibleDocumented">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.apache.cxf.wsdl.<a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html" title="class in org.apache.cxf.wsdl">TExtensibleDocumented</a></h3>
+<code><a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html#getAny()">getAny</a>, <a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html#getOtherAttributes()">getOtherAttributes</a>, <a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html#isSetAny()">isSetAny</a>, <a href="../../../../org/apache/cxf/wsdl/TExtensibleDocumented.html#unsetAny()">unsetAny</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_org.apache.cxf.wsdl.TDocumented">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.apache.cxf.wsdl.<a href="../../../../org/apache/cxf/wsdl/TDocumented.html" title="class in org.apache.cxf.wsdl">TDocumented</a></h3>
+<code><a href="../../../../org/apache/cxf/wsdl/TDocumented.html#getDocumentation()">getDocumentation</a>, <a href="../../../../org/apache/cxf/wsdl/TDocumented.html#isSetDocumentation()">isSetDocumentation</a>, <a href="../../../../org/apache/cxf/wsdl/TDocumented.html#setDocumentation(org.apache.cxf.wsdl.TDocumentation)">setDocumentation</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
+<code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long,%20int)" title="class or interface in java.lang">wait</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="_import">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>_import</h4>
+<pre>protected&nbsp;<a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl">TImport</a> _import</pre>
+</li>
+</ul>
+<a name="types">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>types</h4>
+<pre>protected&nbsp;<a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl">TTypes</a> types</pre>
+</li>
+</ul>
+<a name="message">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>message</h4>
+<pre>protected&nbsp;<a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl">TMessage</a> message</pre>
+</li>
+</ul>
+<a name="portType">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>portType</h4>
+<pre>protected&nbsp;<a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl">TPortType</a> portType</pre>
+</li>
+</ul>
+<a name="binding">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>binding</h4>
+<pre>protected&nbsp;<a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl">TBinding</a> binding</pre>
+</li>
+</ul>
+<a name="service">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>service</h4>
+<pre>protected&nbsp;<a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl">TService</a> service</pre>
+</li>
+</ul>
+<a name="importOrTypesOrMessage">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>importOrTypesOrMessage</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt; importOrTypesOrMessage</pre>
+</li>
+</ul>
+<a name="targetNamespace">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>targetNamespace</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> targetNamespace</pre>
+</li>
+</ul>
+<a name="name">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>name</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> name</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="TDefinitions()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>TDefinitions</h4>
+<pre>public&nbsp;TDefinitions()</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getImport()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getImport</h4>
+<pre>public&nbsp;<a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl">TImport</a>&nbsp;getImport()</pre>
+<div class="block">Gets the value of the import property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl"><code>TImport</code></a></dd></dl>
+</li>
+</ul>
+<a name="setImport(org.apache.cxf.wsdl.TImport)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setImport</h4>
+<pre>public&nbsp;void&nbsp;setImport(<a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl">TImport</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the import property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl"><code>TImport</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetImport()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetImport</h4>
+<pre>public&nbsp;boolean&nbsp;isSetImport()</pre>
+</li>
+</ul>
+<a name="getTypes()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTypes</h4>
+<pre>public&nbsp;<a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl">TTypes</a>&nbsp;getTypes()</pre>
+<div class="block">Gets the value of the types property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl"><code>TTypes</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTypes(org.apache.cxf.wsdl.TTypes)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTypes</h4>
+<pre>public&nbsp;void&nbsp;setTypes(<a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl">TTypes</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the types property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl"><code>TTypes</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetTypes()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetTypes</h4>
+<pre>public&nbsp;boolean&nbsp;isSetTypes()</pre>
+</li>
+</ul>
+<a name="getMessage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMessage</h4>
+<pre>public&nbsp;<a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl">TMessage</a>&nbsp;getMessage()</pre>
+<div class="block">Gets the value of the message property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl"><code>TMessage</code></a></dd></dl>
+</li>
+</ul>
+<a name="setMessage(org.apache.cxf.wsdl.TMessage)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMessage</h4>
+<pre>public&nbsp;void&nbsp;setMessage(<a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl">TMessage</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the message property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl"><code>TMessage</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetMessage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetMessage</h4>
+<pre>public&nbsp;boolean&nbsp;isSetMessage()</pre>
+</li>
+</ul>
+<a name="getPortType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPortType</h4>
+<pre>public&nbsp;<a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl">TPortType</a>&nbsp;getPortType()</pre>
+<div class="block">Gets the value of the portType property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl"><code>TPortType</code></a></dd></dl>
+</li>
+</ul>
+<a name="setPortType(org.apache.cxf.wsdl.TPortType)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPortType</h4>
+<pre>public&nbsp;void&nbsp;setPortType(<a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl">TPortType</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the portType property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl"><code>TPortType</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetPortType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetPortType</h4>
+<pre>public&nbsp;boolean&nbsp;isSetPortType()</pre>
+</li>
+</ul>
+<a name="getBinding()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBinding</h4>
+<pre>public&nbsp;<a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl">TBinding</a>&nbsp;getBinding()</pre>
+<div class="block">Gets the value of the binding property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl"><code>TBinding</code></a></dd></dl>
+</li>
+</ul>
+<a name="setBinding(org.apache.cxf.wsdl.TBinding)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setBinding</h4>
+<pre>public&nbsp;void&nbsp;setBinding(<a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl">TBinding</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the binding property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl"><code>TBinding</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetBinding()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetBinding</h4>
+<pre>public&nbsp;boolean&nbsp;isSetBinding()</pre>
+</li>
+</ul>
+<a name="getService()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getService</h4>
+<pre>public&nbsp;<a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl">TService</a>&nbsp;getService()</pre>
+<div class="block">Gets the value of the service property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl"><code>TService</code></a></dd></dl>
+</li>
+</ul>
+<a name="setService(org.apache.cxf.wsdl.TService)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setService</h4>
+<pre>public&nbsp;void&nbsp;setService(<a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl">TService</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the service property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl"><code>TService</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetService()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetService</h4>
+<pre>public&nbsp;boolean&nbsp;isSetService()</pre>
+</li>
+</ul>
+<a name="getImportOrTypesOrMessage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getImportOrTypesOrMessage</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;getImportOrTypesOrMessage()</pre>
+<div class="block">Gets the value of the importOrTypesOrMessage property.
+ 
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the importOrTypesOrMessage property.
+ 
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getImportOrTypesOrMessage().add(newItem);
+ </pre>
+ 
+ 
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Element.html?is-external=true" title="class or interface in org.w3c.dom"><code>Element</code></a>
+ <a href="http://docs.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html?is-external=true" title="class or interface in javax.xml.bind"><code>JAXBElement</code></a><code>&lt;</code><a href="../../../../org/apache/cxf/wsdl/TService.html" title="class in org.apache.cxf.wsdl"><code>TService</code></a><code>&gt;</code>
+ <a href="http://docs.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html?is-external=true" title="class or interface in javax.xml.bind"><code>JAXBElement</code></a><code>&lt;</code><a href="../../../../org/apache/cxf/wsdl/TPortType.html" title="class in org.apache.cxf.wsdl"><code>TPortType</code></a><code>&gt;</code>
+ <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><code>Object</code></a>
+ <a href="http://docs.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html?is-external=true" title="class or interface in javax.xml.bind"><code>JAXBElement</code></a><code>&lt;</code><a href="../../../../org/apache/cxf/wsdl/TMessage.html" title="class in org.apache.cxf.wsdl"><code>TMessage</code></a><code>&gt;</code>
+ <a href="http://docs.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html?is-external=true" title="class or interface in javax.xml.bind"><code>JAXBElement</code></a><code>&lt;</code><a href="../../../../org/apache/cxf/wsdl/TTypes.html" title="class in org.apache.cxf.wsdl"><code>TTypes</code></a><code>&gt;</code>
+ <a href="http://docs.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html?is-external=true" title="class or interface in javax.xml.bind"><code>JAXBElement</code></a><code>&lt;</code><a href="../../../../org/apache/cxf/wsdl/TBinding.html" title="class in org.apache.cxf.wsdl"><code>TBinding</code></a><code>&gt;</code>
+ <a href="http://docs.oracle.com/javase/6/docs/api/javax/xml/bind/JAXBElement.html?is-external=true" title="class or interface in javax.xml.bind"><code>JAXBElement</code></a><code>&lt;</code><a href="../../../../org/apache/cxf/wsdl/TImport.html" title="class in org.apache.cxf.wsdl"><code>TImport</code></a><code>&gt;</code></div>
+</li>
+</ul>
+<a name="isSetImportOrTypesOrMessage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetImportOrTypesOrMessage</h4>
+<pre>public&nbsp;boolean&nbsp;isSetImportOrTypesOrMessage()</pre>
+</li>
+</ul>
+<a name="unsetImportOrTypesOrMessage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>unsetImportOrTypesOrMessage</h4>
+<pre>public&nbsp;void&nbsp;unsetImportOrTypesOrMessage()</pre>
+</li>
+</ul>
+<a name="getTargetNamespace()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTargetNamespace</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTargetNamespace()</pre>
+<div class="block">Gets the value of the targetNamespace property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTargetNamespace(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTargetNamespace</h4>
+<pre>public&nbsp;void&nbsp;setTargetNamespace(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the targetNamespace property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetTargetNamespace()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSetTargetNamespace</h4>
+<pre>public&nbsp;boolean&nbsp;isSetTargetNamespace()</pre>
+</li>
+</ul>
+<a name="getName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getName()</pre>
+<div class="block">Gets the value of the name property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setName</h4>
+<pre>public&nbsp;void&nbsp;setName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the name property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSetName()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>isSetName</h4>
+<pre>public&nbsp;boolean&nbsp;isSetName()</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/TDefinitions.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-all.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+<div class="aboutLanguage"><em>Apache CXF API</em></div>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../org/apache/cxf/wsdl/TBindingOperationMessage.html" title="class in org.apache.cxf.wsdl"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../org/apache/cxf/wsdl/TDocumentation.html" title="class in org.apache.cxf.wsdl"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?org/apache/cxf/wsdl/TDefinitions.html" target="_top">Frames</a></li>
+<li><a href="TDefinitions.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+<p class="legalCopy"><small>Apache CXF</small></p>
+</body>
+</html>
