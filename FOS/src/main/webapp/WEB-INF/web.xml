@@ -50,7 +50,8 @@
     <servlet-name>EDI Servlet</servlet-name>
     <url-pattern>/edi/*</url-pattern>
   </servlet-mapping>
-  <!-- <servlet>
+  <!--cxf configuration-->
+  <servlet>
     <description>Apache CXF Endpoint</description>
     <display-name>cxf</display-name>
     <servlet-name>cxf</servlet-name>
@@ -60,8 +61,9 @@
   <servlet-mapping>
     <servlet-name>cxf</servlet-name>
     <url-pattern>/services/*</url-pattern>
-  </servlet-mapping> -->
-  <servlet>
+  </servlet-mapping>
+  <!--axis configuration-->
+  <!--<servlet>
     <display-name>Apache-Axis Servlet</display-name>
     <servlet-name>AxisServlet</servlet-name>
     <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
@@ -87,5 +89,5 @@
   <servlet-mapping>
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/servlet/AdminServlet</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
 </web-app>

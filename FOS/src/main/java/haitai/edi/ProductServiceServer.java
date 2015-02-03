@@ -15,7 +15,7 @@ public class ProductServiceServer{
     protected ProductServiceServer() throws Exception {
         System.out.println("Starting Server");
         Object implementor = new haitai.edi.impl.ProductServiceImpl();
-        String address = "http://localhost:9090/ProductServiceImplPort";
+        String address = "http://localhost:8080/productService";
         Endpoint.publish(address, implementor);
     }
     
