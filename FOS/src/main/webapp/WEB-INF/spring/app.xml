@@ -61,7 +61,7 @@
     <bean id="client" class="haitai.edi.ProductService" factory-bean="clientFactory" factory-method="create"/>
     <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
     	<property name="serviceClass" value="haitai.edi.ProductService"/>
-        <property name="address" value="http://localhost:8080/FOS/webservice/productService"/>
+        <property name="address" value="/webservice/productService"/>
     </bean>
     
 </beans>
