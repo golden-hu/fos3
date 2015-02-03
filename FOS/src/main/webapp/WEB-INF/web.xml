@@ -50,7 +50,7 @@
     <servlet-name>EDI Servlet</servlet-name>
     <url-pattern>/edi/*</url-pattern>
   </servlet-mapping>
-  <servlet>
+  <!-- <servlet>
     <description>Apache CXF Endpoint</description>
     <display-name>cxf</display-name>
     <servlet-name>cxf</servlet-name>
@@ -60,7 +60,7 @@
   <servlet-mapping>
     <servlet-name>cxf</servlet-name>
     <url-pattern>/services/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   <servlet>
     <display-name>Apache-Axis Servlet</display-name>
     <servlet-name>AxisServlet</servlet-name>
