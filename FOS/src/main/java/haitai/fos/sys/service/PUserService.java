@@ -437,8 +437,8 @@ public class PUserService {
 			
 			/*String loginPage=ConfigUtil.getContextPath()+
 					ConstUtil.DIR_SEP+"index.jsp";*/
-			/*String loginPage="/FOS/index.jsp";
-			queryMap.put(ConstUtil.REDIRECT_URL, loginPage);*/
+			String loginPage="/FOS/index.jsp";
+			queryMap.put(ConstUtil.REDIRECT_URL, loginPage);
 			
 			return user;
 		}else {
