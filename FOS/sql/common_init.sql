@@ -405,7 +405,9 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('BRANCH_S', 'PBranchService', 'save', '分公司保存'),
 ('SHSC_Q', 'shipScheduleService', 'query', 'ShipSchedule查询'),
 ('SHSC_X', 'shipScheduleService', 'complexQuery', 'ShipSchedule复杂查询'),
-('SHSC_XV', 'shipScheduleService', 'queryVessel', 'ShipSchedule查询船名')
+('SHSC_XV', 'shipScheduleService', 'queryVessel', 'ShipSchedule查询船名'),
+
+('LOGIN_CCN', 'PUserService', 'ccnLogin', '登录')
 ;
 
 

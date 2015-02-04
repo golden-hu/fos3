@@ -59,6 +59,7 @@ public class ConstUtil {
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
 	public static final String ACT_LOGIN = "LOGIN";
+	public static final String ACT_LOGIN_CCN = "LOGIN_CCN";
 	public static final String ACT_LOGOUT = "LOGOUT";
 	public static final String ACT_DAEMON = "DAEMON";
 	public static final String ACT_REPORT_RUN = "REPT_";

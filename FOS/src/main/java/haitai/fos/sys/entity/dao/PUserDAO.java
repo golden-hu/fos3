@@ -55,4 +55,21 @@ public class PUserDAO extends GenericDAO<PUser, Integer> implements IPUserDAO {
 			}
 		});
 	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    public List <PUser> findByAccountId(final String name) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("select t1 from PUser t1 ");
+		sb.append("where t1.removed = 0 ");
+		sb.append("and (t1.userLoginName = :loginName) ");
+		final String queryString = sb.toString();
+		return getJpaTemplate().executeFind(new JpaCallback() {
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				Query query = em.createQuery(queryString);
+				query.setParameter("loginName", name);
+				return query.getResultList();
+			}
+		});
+	}
 }

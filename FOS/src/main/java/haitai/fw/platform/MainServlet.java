@@ -65,7 +65,7 @@ public class MainServlet extends HttpServlet {
 			outputStream = response.getOutputStream();
 			Integer uid = (Integer) SessionManager.getAttr(SessionKeyType.UID);
 			Properties appConfig = SpringContextHolder.getBean("appConfig");
-			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName) && !ConstUtil.ACT_LOGOUT.equals(actName)) {
+			if (uid == null && !ConstUtil.ACT_LOGIN.equals(actName) && !ConstUtil.ACT_LOGOUT.equals(actName) && !ConstUtil.ACT_LOGIN_CCN.equals(actName)) {
 				// 检查是否已经登录(UID为空, 而且不是正在登录)
 				throw new BusinessException("fw.session.expired");
 			} 
@@ -82,7 +82,7 @@ public class MainServlet extends HttpServlet {
 				// 报表
 				response.sendRedirect(ReportUtil.getUrl(request, paramMap,actName));
 			} else {
-				if (!actName.equals(ConstUtil.ACT_LOGIN)
+				if (!actName.equals(ConstUtil.ACT_LOGIN) && !actName.equals(ConstUtil.ACT_LOGIN_CCN)
 						&& ConstUtil.TrueStr.equals(appConfig.getProperty(ConstUtil.CONFIG_CHECK_USER_REPEAT_LOGIN))) {
 					PUserService.checkRepeatLogin();
 				}
@@ -235,7 +235,7 @@ public class MainServlet extends HttpServlet {
 	 * @param actName the action name
 	 */
 	private void regIpInSessionWhenLogin(HttpServletRequest request, String actName) {
-		if(ConstUtil.ACT_LOGIN.equalsIgnoreCase(actName)){
+		if(ConstUtil.ACT_LOGIN.equalsIgnoreCase(actName)||ConstUtil.ACT_LOGIN_CCN.equalsIgnoreCase(actName)){
 			SessionManager.setAttr(SessionKeyType.HOSTNAME, request.getRemoteAddr());
 		}
 	}

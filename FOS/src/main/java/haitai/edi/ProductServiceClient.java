@@ -5,6 +5,9 @@
  */
 
 package haitai.edi;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
@@ -32,11 +35,15 @@ public class ProductServiceClient {
     	
     	JaxWsProxyFactoryBean svr = new JaxWsProxyFactoryBean();
         svr.setServiceClass(ProductService.class);
-        svr.setAddress("http://localhost:8080/productService");
-        ProductService hw = (ProductService) svr.create();
-        String s=hw.sayHi("******");
-        System.out.println(s);
+        svr.setAddress("http://localhost:8080/FOS/services/productService");
+        ProductService ps = (ProductService) svr.create();
+        System.out.println(ps.sayHi("******"));
         
+        String accountId="cnn02-01";
+        HashMap<String,String> keyValuePair=new HashMap <String,String>();
+		keyValuePair.put("compCode","cnn02");
+		keyValuePair.put("accountFlag","U");
+		ps.Activate(accountId, keyValuePair);
     }
 
 }

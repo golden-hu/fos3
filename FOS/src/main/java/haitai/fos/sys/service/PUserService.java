@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.com.ccn.util.Const;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -400,5 +402,48 @@ public class PUserService {
 		}
 		return list;
 	}
-
+	
+	@SuppressWarnings("rawtypes")
+    @Transactional(readOnly = true)
+	public PUser ccnLogin(Map<String, Object> queryMap) {
+		String userLoginName = (String) queryMap.get("accountId");
+		
+		if (StringUtil.isBlank(userLoginName)) {
+			throw new BusinessException("fw.login.fail");
+		}
+		//List <PUser>userList=dao.findByProperties(queryMap);
+		
+		List <PUser>userList=dao.findByAccountId(userLoginName);
+		if (userList != null && userList.size() == 1) {
+			PUser user = userList.get(0);
+			
+			SessionManager.setAttr(SessionKeyType.UID, user.getUserId());
+			SessionManager.setAttr(SessionKeyType.GID, user.getUserDefaultGroup());
+			SessionManager.setAttr(SessionKeyType.USERNAME, user.getUserName());
+			SessionManager.setAttr(SessionKeyType.COMPCODE, user.getCompCode());
+			SessionManager.setAttr(SessionKeyType.USER, user);
+			
+			//licenseUtil.checkLicense();
+			
+			List objList = dao.queryFuncCode();
+			StringBuilder sb = new StringBuilder();
+			for (Object obj : objList) {
+				if (obj instanceof String) {
+					sb.append((String) obj).append(ConstUtil.COMMA);
+				}
+			}
+			user.setFuncCode(sb.toString());
+			ActionLogUtil.log();
+			
+			/*String loginPage=ConfigUtil.getContextPath()+
+					ConstUtil.DIR_SEP+"index.jsp";*/
+			/*String loginPage="/FOS/index.jsp";
+			queryMap.put(ConstUtil.REDIRECT_URL, loginPage);*/
+			
+			return user;
+		}else {
+			throw new BusinessException("fw.login.fail");
+		}
+	}
+	
 }

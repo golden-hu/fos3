@@ -1,32 +1,45 @@
 package sg.com.ccn;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import haitai.fos.sys.entity.table.PUser;
+import haitai.fw.exception.BusinessException;
+import haitai.fw.session.SessionKeyType;
+import haitai.fw.session.SessionManager;
+import haitai.fw.util.ActionLogUtil;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
+import haitai.fw.util.CryptoUtil;
+import haitai.fw.util.NetworkInfo;
+import haitai.fw.util.StringUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.support.RequestContext;
 
 import sg.com.ccn.util.Const;
 import sg.com.ccn.util.CopyFile;
 import sg.com.ccn.util.InitData;
 
-@Service
+//@Service
 public class CNNAccountService {
 	@PersistenceContext(unitName="FOSPU")
 	 private EntityManager em;
+	@Autowired
+	private RequestContext requestContext;
 	
 	/**
      * Activate Company Account
      * @param compCode
      * @param userLoginName
      */
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
     @Transactional
 	public boolean activeCompany(String compCode,String userLoginName) {
 		boolean bool=false;
@@ -113,7 +126,7 @@ public class CNNAccountService {
 			 ex.printStackTrace();
 		}
 		return bool;
-	}
+	}*/
 	
 	/**
 	 * Activate User
@@ -121,7 +134,7 @@ public class CNNAccountService {
 	 * @param userLoginName
 	 * @return
 	 */
-	@Transactional
+	/*@Transactional
 	public boolean activeUser(String compCode,String userLoginName) {
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append("insert into P_USER (");
@@ -143,7 +156,7 @@ public class CNNAccountService {
 		  ex.printStackTrace();
 		}
 		return false;
-	}
+	}*/
 	
 	/**
 	 * Suspend || UnSuspend company account || User
@@ -151,7 +164,7 @@ public class CNNAccountService {
 	 * @param userLoginName
 	 * @return
 	 */
-	@Transactional
+	/*@Transactional
 	public boolean suspendOrUnSuspend(String compCode,String userLoginName,
 			Short activeFlag) {
 		StringBuffer sbUser=new StringBuffer();
@@ -171,7 +184,7 @@ public class CNNAccountService {
 		  ex.printStackTrace();
 		}
 		return false;
-	}
+	}*/
 	
 	/**
 	 * Terminate company account || User
@@ -179,7 +192,7 @@ public class CNNAccountService {
 	 * @param userLoginName
 	 * @return
 	 */
-	@Transactional
+	/*@Transactional
 	public boolean terminate(String compCode,String userLoginName) {
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
@@ -198,7 +211,6 @@ public class CNNAccountService {
 		  ex.printStackTrace();
 		}
 		return false;
-	}
-	
+	}*/
 	
 }
