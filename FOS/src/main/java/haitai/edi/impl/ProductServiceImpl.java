@@ -17,6 +17,7 @@ import sg.com.ccn.util.CopyFile;
 import sg.com.ccn.util.InitData;
 
 import haitai.edi.ProductService;
+import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.StringUtil;
@@ -245,10 +246,29 @@ public class ProductServiceImpl implements ProductService {
 		//return false;
 	}
 
-	@Override
-	public void ValidateAccess(String accountId,HashMap<String, String> keyValuePair) {
+	@SuppressWarnings("unchecked")
+    @Override
+	public String ValidateAccess(String accountId,HashMap<String, String> keyValuePair) {
 		// TODO Auto-generated method stub
-
+		try {
+			StringBuffer sbs = new StringBuffer();
+			sbs.append(" select count(*) from P_USER ");
+			sbs.append(" where USER_LOGIN_NAME='"+accountId+"' ");
+			//sbs.append(" and COMP_CODE='"+compCode+"' ");
+			Query querySelectUser  = em.createNativeQuery(sbs.toString());
+			List<Object> objListUser = querySelectUser.getResultList();
+			if(objListUser!=null&&objListUser.size()>0){
+				Integer i=Integer.parseInt(objListUser.get(0).toString());
+				if(i>0){
+					return "";
+				}
+			}else {
+				throw new BusinessException("fw.login.fail");
+			}
+        } catch (Exception e) {
+	        // TODO: handle exception
+        }
+		return accountId; 
 	}
 
 	@Override

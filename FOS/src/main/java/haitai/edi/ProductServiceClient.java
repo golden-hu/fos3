@@ -39,11 +39,17 @@ public class ProductServiceClient {
         ProductService ps = (ProductService) svr.create();
         System.out.println(ps.sayHi("******"));
         
-        String accountId="cnn02-01";
+        /*String accountId="cnn02-01";
         HashMap<String,String> keyValuePair=new HashMap <String,String>();
 		keyValuePair.put("compCode","cnn02");
 		keyValuePair.put("accountFlag","U");
-		ps.Activate(accountId, keyValuePair);
+		ps.Activate(accountId, keyValuePair);*/
+        
+        String accountId="cnn02-02";
+        HashMap<String,String> keyValuePair=new HashMap <String,String>();
+		keyValuePair.put("compCode","cnn02");
+		keyValuePair.put("accountFlag","U");
+		ps.ValidateAccess(accountId, keyValuePair);
     }
 
 }
