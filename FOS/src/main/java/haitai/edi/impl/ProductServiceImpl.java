@@ -246,12 +246,11 @@ public class ProductServiceImpl implements ProductService {
 		//return false;
 	}
 
-	@SuppressWarnings("unchecked")
     @Override
     @Transactional
-	public String ValidateAccess(String accountId,HashMap<String, String> keyValuePair) {
+	public String ValidateAccess(String accountId) {
 		// TODO Auto-generated method stub
-		String rtStr="";
+		/*String rtStr="";
 		StringBuffer sbs = new StringBuffer();
 		sbs.append(" select count(*) from P_USER ");
 		sbs.append(" where USER_LOGIN_NAME='"+accountId+"' ");
@@ -267,7 +266,8 @@ public class ProductServiceImpl implements ProductService {
 			throw new BusinessException("fw.login.fail");
 		}
 		System.out.println("========"+rtStr);
-		return rtStr; 
+		return rtStr; */
+		return "Validate Access Fail";
 	}
 
 	@Override
@@ -275,4 +275,5 @@ public class ProductServiceImpl implements ProductService {
         System.out.println("sayHi called");
         return "Hello " + text;
     }
+	
 }

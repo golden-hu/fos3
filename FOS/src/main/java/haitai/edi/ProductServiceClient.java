@@ -38,7 +38,6 @@ public class ProductServiceClient {
         svr.setAddress("http://localhost:8080/FOS/services/productService");
         ProductService ps = (ProductService) svr.create();
         System.out.println(ps.sayHi("******"));
-        
         /*String accountId="cnn03";
         HashMap<String,String> keyValuePair=new HashMap <String,String>();
 		keyValuePair.put("compCode","cnn03");
@@ -49,7 +48,7 @@ public class ProductServiceClient {
         HashMap<String,String> keyValuePair=new HashMap <String,String>();
 		keyValuePair.put("compCode","cnn03");
 		keyValuePair.put("accountFlag","A");
-		System.out.println(ps.ValidateAccess(accountId, keyValuePair));
+		System.out.println(ps.ValidateAccess(accountId));
 		
 		
     }

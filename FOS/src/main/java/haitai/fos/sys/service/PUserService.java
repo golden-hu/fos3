@@ -435,13 +435,10 @@ public class PUserService {
 			user.setFuncCode(sb.toString());
 			ActionLogUtil.log();
 			
-			/*String loginPage=ConfigUtil.getContextPath()+
-					ConstUtil.DIR_SEP+"index.jsp";*/
-			
-			String objectName=ConfigUtil.getContextPath().substring(
+			/*String objectName=ConfigUtil.getContextPath().substring(
 					ConfigUtil.getContextPath().length()-4,ConfigUtil.getContextPath().length()-1);
 			String loginPage="/"+objectName+"/index.jsp";
-			queryMap.put(ConstUtil.REDIRECT_URL, loginPage);
+			queryMap.put(ConstUtil.REDIRECT_URL, loginPage);*/
 			
 			return user;
 		}else {
