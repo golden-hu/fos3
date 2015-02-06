@@ -304,7 +304,7 @@ var checkPassEx=function(){
 	else 
 		d+=Cookies.get('USER_PASS_CHANGE_DATE');
 	
-	if(d!=null){
+	if(d!=''){
 		var md=Date.parseDate(d,DATEF);
 		var ed=md.add(Date.DAY,30);
 		var pd=ed.add(Date.DAY,-7);

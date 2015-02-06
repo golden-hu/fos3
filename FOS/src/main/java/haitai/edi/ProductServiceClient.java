@@ -23,14 +23,14 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 public class ProductServiceClient {
 
     public static void main(String[] args) throws Exception {
-       /* QName serviceName = new QName("http://impl.edi.haitai/", "ProductServiceImplService");
+        QName serviceName = new QName("http://impl.edi.haitai/", "ProductServiceImplService");
         QName portName = new QName("http://impl.edi.haitai/", "ProductServiceImplPort");
 
-        Service service = Service.create(serviceName);
+        /*Service service = Service.create(serviceName);
         service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING,
-                        "http://localhost:9090/ProductServiceImplPort"); 
-        haitai.edi.ProductService client = service.getPort(portName,  haitai.edi.ProductService.class);*/
-        
+                        "http://localhost:8080/services/productService"); 
+        haitai.edi.ProductService client = service.getPort(portName,  haitai.edi.ProductService.class);
+        System.out.println(client.sayHi("text"));*/
         // Insert code to invoke methods on the client here
     	
     	JaxWsProxyFactoryBean svr = new JaxWsProxyFactoryBean();
@@ -39,17 +39,19 @@ public class ProductServiceClient {
         ProductService ps = (ProductService) svr.create();
         System.out.println(ps.sayHi("******"));
         
-        /*String accountId="cnn02-01";
+        /*String accountId="cnn03";
         HashMap<String,String> keyValuePair=new HashMap <String,String>();
-		keyValuePair.put("compCode","cnn02");
-		keyValuePair.put("accountFlag","U");
+		keyValuePair.put("compCode","cnn03");
+		keyValuePair.put("accountFlag","A");
 		ps.Activate(accountId, keyValuePair);*/
         
-        String accountId="cnn02-02";
+        String accountId="cnn04";
         HashMap<String,String> keyValuePair=new HashMap <String,String>();
-		keyValuePair.put("compCode","cnn02");
-		keyValuePair.put("accountFlag","U");
-		ps.ValidateAccess(accountId, keyValuePair);
+		keyValuePair.put("compCode","cnn03");
+		keyValuePair.put("accountFlag","A");
+		System.out.println(ps.ValidateAccess(accountId, keyValuePair));
+		
+		
     }
 
 }

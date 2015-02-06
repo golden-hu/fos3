@@ -248,27 +248,26 @@ public class ProductServiceImpl implements ProductService {
 
 	@SuppressWarnings("unchecked")
     @Override
+    @Transactional
 	public String ValidateAccess(String accountId,HashMap<String, String> keyValuePair) {
 		// TODO Auto-generated method stub
-		try {
-			StringBuffer sbs = new StringBuffer();
-			sbs.append(" select count(*) from P_USER ");
-			sbs.append(" where USER_LOGIN_NAME='"+accountId+"' ");
-			//sbs.append(" and COMP_CODE='"+compCode+"' ");
-			Query querySelectUser  = em.createNativeQuery(sbs.toString());
-			List<Object> objListUser = querySelectUser.getResultList();
-			if(objListUser!=null&&objListUser.size()>0){
-				Integer i=Integer.parseInt(objListUser.get(0).toString());
-				if(i>0){
-					return "";
-				}
-			}else {
-				throw new BusinessException("fw.login.fail");
+		String rtStr="";
+		StringBuffer sbs = new StringBuffer();
+		sbs.append(" select count(*) from P_USER ");
+		sbs.append(" where USER_LOGIN_NAME='"+accountId+"' ");
+		//sbs.append(" and COMP_CODE='"+compCode+"' ");
+		Query querySelectUser  = em.createNativeQuery(sbs.toString());
+		List<Object> objListUser = querySelectUser.getResultList();
+		if(objListUser!=null&&objListUser.size()>0){
+			Integer i=Integer.parseInt(objListUser.get(0).toString());
+			if(i==0){
+				rtStr="Validate Access Fail"; 
 			}
-        } catch (Exception e) {
-	        // TODO: handle exception
-        }
-		return accountId; 
+		}else {
+			throw new BusinessException("fw.login.fail");
+		}
+		System.out.println("========"+rtStr);
+		return rtStr; 
 	}
 
 	@Override

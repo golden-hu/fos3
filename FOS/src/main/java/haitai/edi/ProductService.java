@@ -6,7 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService(name = "ProductService", targetNamespace = "http://edi.haitai/")
+@WebService
 public interface ProductService {
 
 	@WebMethod(operationName = "Activate", action = "urn:Activate")
