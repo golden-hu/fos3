@@ -246,11 +246,12 @@ public class ProductServiceImpl implements ProductService {
 		//return false;
 	}
 
+    @SuppressWarnings("unchecked")
     @Override
     @Transactional
 	public String ValidateAccess(String accountId) {
 		// TODO Auto-generated method stub
-		/*String rtStr="";
+		String rtStr="";
 		StringBuffer sbs = new StringBuffer();
 		sbs.append(" select count(*) from P_USER ");
 		sbs.append(" where USER_LOGIN_NAME='"+accountId+"' ");
@@ -265,9 +266,7 @@ public class ProductServiceImpl implements ProductService {
 		}else {
 			throw new BusinessException("fw.login.fail");
 		}
-		System.out.println("========"+rtStr);
-		return rtStr; */
-		return "Validate Access Fail";
+		return rtStr; 
 	}
 
 	@Override
