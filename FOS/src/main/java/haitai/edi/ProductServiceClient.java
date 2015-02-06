@@ -23,10 +23,9 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 public class ProductServiceClient {
 
     public static void main(String[] args) throws Exception {
-        QName serviceName = new QName("http://impl.edi.haitai/", "ProductServiceImplService");
+        /*QName serviceName = new QName("http://impl.edi.haitai/", "ProductServiceImplService");
         QName portName = new QName("http://impl.edi.haitai/", "ProductServiceImplPort");
-
-        /*Service service = Service.create(serviceName);
+        Service service = Service.create(serviceName);
         service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING,
                         "http://localhost:8080/services/productService"); 
         haitai.edi.ProductService client = service.getPort(portName,  haitai.edi.ProductService.class);
