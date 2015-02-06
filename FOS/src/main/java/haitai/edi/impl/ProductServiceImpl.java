@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import sg.com.ccn.util.Const;
@@ -22,7 +23,8 @@ import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.StringUtil;
 
-@WebService(targetNamespace = "http://impl.edi.haitai/", endpointInterface = "haitai.edi.ProductService", portName = "ProductServiceImplPort", serviceName = "ProductServiceImplService")
+//(targetNamespace = "http://impl.edi.haitai/", endpointInterface = "haitai.edi.ProductService", portName = "ProductServiceImplPort", serviceName = "ProductServiceImplService")
+@WebService
 public class ProductServiceImpl implements ProductService {
 	@PersistenceContext(unitName="FOSPU")
 	 private EntityManager em;
@@ -37,6 +39,12 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
 	public void Activate(String accountId, HashMap<String, String> keyValuePair) {
 		// TODO Auto-generated method stub
+		/*JaxWsProxyFactoryBean svr = new JaxWsProxyFactoryBean();
+        svr.setServiceClass(ProductService.class);
+        svr.setAddress("http://localhost:8080/FOS/services/productService");
+        ProductService ps = (ProductService) svr.create();
+        System.out.println(ps.sayHi("******"));*/
+        
 		String compCode=keyValuePair.get("compCode");
 		String accountFlag=keyValuePair.get("accountFlag");
 		String userLoginName=accountId;
