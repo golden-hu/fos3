@@ -5,6 +5,9 @@
  */
 
 package haitai.edi;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
@@ -20,23 +23,34 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 public class ProductServiceClient {
 
     public static void main(String[] args) throws Exception {
-       /* QName serviceName = new QName("http://impl.edi.haitai/", "ProductServiceImplService");
+        /*QName serviceName = new QName("http://impl.edi.haitai/", "ProductServiceImplService");
         QName portName = new QName("http://impl.edi.haitai/", "ProductServiceImplPort");
-
         Service service = Service.create(serviceName);
         service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING,
-                        "http://localhost:9090/ProductServiceImplPort"); 
-        haitai.edi.ProductService client = service.getPort(portName,  haitai.edi.ProductService.class);*/
-        
+                        "http://localhost:8080/services/productService"); 
+        haitai.edi.ProductService client = service.getPort(portName,  haitai.edi.ProductService.class);
+        System.out.println(client.sayHi("text"));*/
         // Insert code to invoke methods on the client here
     	
     	JaxWsProxyFactoryBean svr = new JaxWsProxyFactoryBean();
         svr.setServiceClass(ProductService.class);
-        svr.setAddress("http://localhost:8080/productService");
-        ProductService hw = (ProductService) svr.create();
-        String s=hw.sayHi("******");
-        System.out.println(s);
+        svr.setAddress("http://localhost:8080/FOS/services/productService");
+        ProductService ps = (ProductService) svr.create();
+        System.out.println(ps.sayHi("******"));
         
+        String accountId="cnn04";
+        HashMap<String,String> keyValuePair=new HashMap <String,String>();
+		keyValuePair.put("compCode","cnn04");
+		keyValuePair.put("accountFlag","A");
+		ps.Activate(accountId, keyValuePair);
+        
+        /*String accountId="cnn04";
+        HashMap<String,String> keyValuePair=new HashMap <String,String>();
+		keyValuePair.put("compCode","cnn04");
+		keyValuePair.put("accountFlag","A");
+		System.out.println(ps.ValidateAccess(accountId));*/
+		
+		
     }
 
 }

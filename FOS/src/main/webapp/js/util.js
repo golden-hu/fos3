@@ -304,16 +304,19 @@ var checkPassEx=function(){
 	else 
 		d+=Cookies.get('USER_PASS_CHANGE_DATE');
 	
-	var md=Date.parseDate(d,DATEF);
-	var ed=md.add(Date.DAY,30);
-	var pd=ed.add(Date.DAY,-7);
-	var td=new Date();
-	var bP=td.between(pd,ed);
-	if(bP){
-		var t=new Ext.Template(M_PASS_EXP);
-		var msg = t.apply([ed.format(DATEF)]);
-		XMG.alert(SYS,msg);
+	if(d!=''){
+		var md=Date.parseDate(d,DATEF);
+		var ed=md.add(Date.DAY,30);
+		var pd=ed.add(Date.DAY,-7);
+		var td=new Date();
+		var bP=td.between(pd,ed);
+		if(bP){
+			var t=new Ext.Template(M_PASS_EXP);
+			var msg = t.apply([ed.format(DATEF)]);
+			XMG.alert(SYS,msg);
+		}
 	}
+	
 };
 
 /*

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +42,8 @@ public class ExMessageServlet extends HttpServlet {
 		try {
 			inputStream = request.getInputStream();
 			outputStream = response.getOutputStream();
-			CNNAccountService exService = SpringContextHolder.getBean(CNNAccountService.class);
+			
+			/*CNNAccountService exService = SpringContextHolder.getBean(CNNAccountService.class);
 			String compCode=request.getParameter("compCode");
 			String userLoginName=request.getParameter("userLoginName");
 			String key=request.getParameter("key");
@@ -80,7 +83,8 @@ public class ExMessageServlet extends HttpServlet {
 					respCode="0";
 					respMessage="Terminate success";
 				}
-			}
+			}*/
+			
 			
 			sbResult = new StringBuffer();
 			setResponseHeader(response, sbResult);

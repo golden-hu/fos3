@@ -6,7 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService(name = "ProductService", targetNamespace = "http://edi.haitai/")
+@WebService
 public interface ProductService {
 
 	@WebMethod(operationName = "Activate", action = "urn:Activate")
@@ -18,7 +18,7 @@ public interface ProductService {
 	@WebMethod(operationName = "Terminate", action = "urn:Terminate")
 	public void Terminate(@WebParam(name = "arg0") String accountId,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
 	@WebMethod(operationName = "ValidateAccess", action = "urn:ValidateAccess")
-	public void ValidateAccess(@WebParam(name = "arg0") String accountId,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);	
+	String ValidateAccess(@WebParam(name = "arg0") String accountId);	
 	
 	@WebMethod(operationName = "sayHi", action = "urn:SayHi")
 	String sayHi(@WebParam(name = "arg0") String text);

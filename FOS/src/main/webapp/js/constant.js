@@ -366,6 +366,32 @@ var login = function(f){
 	});
 };
 
+var login_ccn = function(accountId){
+	//checkBrowser();	
+	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
+		params:{A:'LOGIN_CCN',mt:'JSON',accountId:accountId},
+		success: function(r){
+			var user=Ext.util.JSON.decode(r.responseText);
+			saveSession('USER_PERM',user.PUser[0].funcCode);
+			saveSession('USER_ID',user.PUser[0].userId);
+			saveSession('USER_NAME',user.PUser[0].userName);
+			saveSession('USER_IS_OPERATOR',user.PUser[0].userOperatorFlag);
+			saveSession('USER_IS_SALES',user.PUser[0].userSalesFlag);
+			saveSession('USER_ALL_VIEW_FLAG',user.PUser[0].userAllViewFlag);
+			saveSession('USER_PASS_CHANGE_DATE',user.PUser[0].userPasswordModifyDate);	
+			if(self!=top) 
+				top.location='index.jsp';
+			else 
+				window.location='index.jsp';
+		},
+		failure: function(r){
+			var user=Ext.util.JSON.decode(r.responseText);
+			alert(user.FosResponse.msg);
+			f.userLoginName.focus();
+		}
+	});
+};
+
 var loadSession=function(k){
 	var p='';
 	if(window.sessionStorage) 

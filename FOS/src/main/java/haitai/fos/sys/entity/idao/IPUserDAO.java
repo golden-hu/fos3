@@ -21,4 +21,6 @@ public interface IPUserDAO {
 
 	public abstract List<PUser> queryByNameOrEmail(final String name,
 			final String password);
+	
+	public List <PUser> findByAccountId(String userLoginName);
 }
