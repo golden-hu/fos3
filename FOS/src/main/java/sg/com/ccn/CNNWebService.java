@@ -1,4 +1,4 @@
-/*package sg.com.ccn;
+package sg.com.ccn;
 
 import haitai.fw.util.StringUtil;
 
@@ -12,12 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+
+import sg.com.ccn.org.tempuri.IProductAPIServiceProxy;
 @Service
 public class CNNWebService {
-	*//**
+	/**
 	 * @author
 	 * 解析返回值
-	 *//*
+	 */
 	@SuppressWarnings("deprecation")
     public String getBackValue(String sendUrl,String param){
 		String temp="",str="";
@@ -47,13 +49,13 @@ public class CNNWebService {
 		return str;
 	}
 
-	*//**
+	/**
 	 * Activate Company Account && User
 	 * key=ActivateCompany 公司帐号
 	 * @param accountID
 	 * @param keyValuePair
 	 * @return
-	 *//*
+	 */
 	public String Activate(String accountID,Map<String,String> keyValuePair){
 		String rtStr="";
 		String compCode=keyValuePair.get("compCode");
@@ -74,13 +76,13 @@ public class CNNWebService {
 		return rtStr;
 	}
 	
-	*//**
+	/**
 	 * Suspend Company Account || User
 	 * key=Suspend
 	 * @param accountID
 	 * @param keyValuePair
 	 * @return
-	 *//*
+	 */
 	public String Suspend(String accountID,Map<String,String> keyValuePair){
 		String rtStr="";
 		String compCode=keyValuePair.get("compCode");
@@ -94,13 +96,13 @@ public class CNNWebService {
 		return rtStr;
 	}
 	
-	*//**
+	/**
 	 * UnSuspend Company Account || User
 	 * key=Suspend
 	 * @param accountID
 	 * @param keyValuePair
 	 * @return
-	 *//*
+	 */
 	public String UnSuspend(String accountID,Map<String,String> keyValuePair){
 		String rtStr="";
 		String compCode=keyValuePair.get("compCode");
@@ -114,13 +116,13 @@ public class CNNWebService {
 		return rtStr;
 	}
 	
-	*//**
+	/**
 	 * Terminate Account || User
 	 * key=Suspend
 	 * @param accountID
 	 * @param keyValuePair
 	 * @return
-	 *//*
+	 */
 	public String Terminate(String accountID,Map<String,String> keyValuePair){
 		String rtStr="";
 		String compCode=keyValuePair.get("compCode");
@@ -135,20 +137,13 @@ public class CNNWebService {
 	}
 	
 	
-	*//**
+	/**
 	 * 本地测试接口主方法
 	 * @param args
-	 *//*
+	 */
 	public static void main(String[] args){
 		CNNWebService e=new CNNWebService();
-		String accountID="cnn01";
-		Map<String,String> keyValuePair=new HashMap <String,String>();
-		keyValuePair.put("compCode","cnn01");
-		keyValuePair.put("accountBoolean","true");
-		//e.Activate(accountID, keyValuePair);
-		//e.Suspend(accountID, keyValuePair);
-		//e.UnSuspend(accountID, keyValuePair);
-		//e.Terminate(accountID, keyValuePair);
+		IProductAPIServiceProxy ip=new IProductAPIServiceProxy();
+		
 	}
 }
-*/
