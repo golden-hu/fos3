@@ -476,4 +476,13 @@ public class PUserService {
 		}
 	}
 	
+    @Transactional(readOnly = true)
+	public void ccnLogout() {
+    	SessionManager.logoutSession();
+    	SessionManager.setAttr("SessionID", "");
+		SessionManager.setAttr("AccountID", "");
+		SessionManager.setAttr("ProductID", "");
+		SessionManager.setAttr("GlobalCompanyID", "");
+		SessionManager.setAttr("City", "");
+	}
 }

@@ -407,7 +407,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('SHSC_X', 'shipScheduleService', 'complexQuery', 'ShipSchedule复杂查询'),
 ('SHSC_XV', 'shipScheduleService', 'queryVessel', 'ShipSchedule查询船名'),
 
-('LOGIN_CCN', 'PUserService', 'ccnLogin', '登录')
+('LOGIN_CCN', 'PUserService', 'ccnLogin', '登录'),
+('LOGOUT_CCN', 'PUserService', 'ccnLogout', '退出')
 ;
 
 
