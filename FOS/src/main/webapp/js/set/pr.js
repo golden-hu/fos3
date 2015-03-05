@@ -581,9 +581,9 @@ Fos.PrTab = function(p) {
 		border:false,
 		width:800,
 		layout:'border',
-		tbar:p.get('prType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b12,'-',b13,'-',b14,
+		tbar:p.get('prType')=='R'?[b1,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b12,'-',b13,/*'-',b14,*/
 		      '->','-',b15,'-']:
-		      [b1,'-',b2,'-',b7,'-',b16,'-',b8,'-',b9,'-',b10,'-',b11,'-',b12,'-',b13,'-',b14,
+		      [b1,'-',b2,'-',b7,'-',b16,'-',b8,'-',b9,'-',b10,'-',b11,'-',b12,'-',b13,/*'-',b14,*/
 		      '->','-',b15,'-'],
 		items: [{region:'north',height:180,layout:'column',layoutConfig:{columns:4},
 				bodyStyle:'padding:5px 0px 0px 0px',title:p.get('prType')=='R'?C_PR_R_INFO:C_PR_P_INFO,collapsible:true,
