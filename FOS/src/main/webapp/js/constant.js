@@ -366,10 +366,16 @@ var login = function(f){
 	});
 };
 
-var login_ccn = function(accountId){
+var login_ccn = function(SessionID,AccountID,ProductID,GlobalCompanyID,City){
 	//checkBrowser();	
 	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
-		params:{A:'LOGIN_CCN',mt:'JSON',accountId:accountId},
+		params:{A:'LOGIN_CCN',mt:'JSON',
+				SessionID:SessionID,
+				AccountID:AccountID,
+				ProductID:ProductID,
+				GlobalCompanyID:GlobalCompanyID,
+				City:City
+			},
 		success: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);
 			saveSession('USER_PERM',user.PUser[0].funcCode);
