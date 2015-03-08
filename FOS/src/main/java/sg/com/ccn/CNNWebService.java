@@ -8,11 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import sg.com.ccn.org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOCompany;
 import sg.com.ccn.org.tempuri.IProductAPIServiceProxy;
 @Service
 public class CNNWebService {
@@ -143,7 +145,14 @@ public class CNNWebService {
 	 */
 	public static void main(String[] args){
 		CNNWebService e=new CNNWebService();
-		IProductAPIServiceProxy ip=new IProductAPIServiceProxy();
+		IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
 		
+		try {
+			DTOCompany d=iproduct.getCompany("eafac9d2-ef2c-4c24-aff9-da1241e9c16e");
+			System.out.println("****"+d.getGlobalCompanyID());
+        } catch (RemoteException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+        }
 	}
 }

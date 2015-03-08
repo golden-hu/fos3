@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.com.ccn.org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
+import sg.com.ccn.org.tempuri.IProductAPIServiceProxy;
 import sg.com.ccn.util.Const;
 
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -406,8 +409,23 @@ public class PUserService {
 	@SuppressWarnings("rawtypes")
     @Transactional(readOnly = true)
 	public PUser ccnLogin(Map<String, Object> queryMap) {
-		String userLoginName = (String) queryMap.get("accountId");
 		
+		String SessionID = (String) queryMap.get("SessionID");
+		String AccountID = (String) queryMap.get("AccountID");
+		String ProductID = (String) queryMap.get("ProductID");
+		String GlobalCompanyID = (String) queryMap.get("GlobalCompanyID");
+		String City = (String) queryMap.get("City");
+		
+		IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
+		DTOUserAccount account = null;
+        try {
+	        account = iproduct.getUserAccount(AccountID, ProductID);
+        } catch (RemoteException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+		
+		String userLoginName=account.getUserID();
 		if (StringUtil.isBlank(userLoginName)) {
 			throw new BusinessException("fw.login.fail");
 		}
@@ -423,6 +441,13 @@ public class PUserService {
 			SessionManager.setAttr(SessionKeyType.COMPCODE, user.getCompCode());
 			SessionManager.setAttr(SessionKeyType.USER, user);
 			
+			SessionManager.setAttr("SessionID", SessionID);
+			SessionManager.setAttr("AccountID", AccountID);
+			SessionManager.setAttr("ProductID", ProductID);
+			SessionManager.setAttr("GlobalCompanyID", GlobalCompanyID);
+			SessionManager.setAttr("City", City);
+			
+			
 			//licenseUtil.checkLicense();
 			
 			List objList = dao.queryFuncCode();
@@ -434,11 +459,16 @@ public class PUserService {
 			}
 			user.setFuncCode(sb.toString());
 			ActionLogUtil.log();
-			
-			/*String objectName=ConfigUtil.getContextPath().substring(
-					ConfigUtil.getContextPath().length()-4,ConfigUtil.getContextPath().length()-1);
-			String loginPage="/"+objectName+"/index.jsp";
-			queryMap.put(ConstUtil.REDIRECT_URL, loginPage);*/
+			try {
+				//call cnn platform startLog
+	            iproduct.productStartLog(SessionID, AccountID, ProductID);
+	            
+	            ////call cnn platform sessionActive
+	            iproduct.isSessionActive(SessionID, AccountID);
+            } catch (RemoteException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
 			
 			return user;
 		}else {
@@ -446,4 +476,13 @@ public class PUserService {
 		}
 	}
 	
+    @Transactional(readOnly = true)
+	public void ccnLogout() {
+    	SessionManager.logoutSession();
+    	SessionManager.setAttr("SessionID", "");
+		SessionManager.setAttr("AccountID", "");
+		SessionManager.setAttr("ProductID", "");
+		SessionManager.setAttr("GlobalCompanyID", "");
+		SessionManager.setAttr("City", "");
+	}
 }
