@@ -534,18 +534,36 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 				e.set('custId',_expeType=='P'?_consign.get('custId'):'');
 				e.set('custName',_expeType=='P'?_consign.get('custName'):'');
 				e.set('custSname',_expeType=='P'?_consign.get('custSname'):'');
-				e.set('consCustId',e.get('custId'));
-				e.set('consCustName',e.get('custName'));			    		
-				e.set('expeDate',new Date());e.set('id',id);e.set('expeId',id);
-				e.set('version','1');e.set('expeInvoiceNo','');e.set('expeInvoiceDate','');
-				e.set('expeUnitPrice','');e.set('expeInvoiceFlag',1);
-				e.set('expeInnerPrice','');e.set('expeInnerAmount','');e.set('expeTotalAmount','');
-				e.set('expeCommission',0);e.set('expeCommissionRate','');e.set('expeRcAmount','');
+				e.set('consCustId',
+				e.get('custId'));
+				e.set('consCustName',
+				e.get('custName'));			    		
+				e.set('expeDate',new Date());
+				e.set('id',id);
+				e.set('expeId',id);
+				e.set('version','1');
+				e.set('expeInvoiceNo','');
+				e.set('expeInvoiceDate','');
+				e.set('expeUnitPrice','');
+				e.set('expeInvoiceFlag',1);
+				e.set('expeInnerPrice','');
+				e.set('expeInnerAmount','');
+				e.set('expeTotalAmount','');
+				e.set('expeCommission',0);
+				e.set('expeCommissionRate','');
+				e.set('expeRcAmount','');
 				e.set('expeWriteOffDate','');
-				e.set('expeInvoiceAmount',0);e.set('expeWriteOffAmount',0);
-				e.set('expeWriteOffRcAmount',0);e.set('expeStatus',0);e.set('expeBillStatus',0);e.set('expeInvoiceStatus',0);
-				e.set('expeWriteoffStatus',0);e.set('expeAllocationFlag',0);e.set('expeAllocatedFlag',0);
-				e.set('consIdM','');e.set('consNoM','');								
+				e.set('expeInvoiceAmount',0);
+				e.set('expeWriteOffAmount',0);
+				e.set('expeWriteOffRcAmount',0);
+				e.set('expeStatus',0);
+				e.set('expeBillStatus',0);
+				e.set('expeInvoiceStatus',0);
+				e.set('expeWriteoffStatus',0);
+				e.set('expeAllocationFlag',0);
+				e.set('expeAllocatedFlag',0);
+				e.set('consIdM','');
+				e.set('consNoM','');								
 				if(_expeType=='R')
 					frm.ps.add(e);
 				else
