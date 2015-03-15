@@ -1048,7 +1048,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		scope:this,menu: {
 			items: [
 		        {text:C_INVO_TAX,scope:this,handler:this.expInvo},
-		        {text:'应收账单(DebitNote)',scope:this,handler:this.expDebitNote},
+		        {text:'应收账单(DebitNote)',scope:this,handler:this.expDebitNote}
 		    ]
 		}
 	};
