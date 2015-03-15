@@ -924,6 +924,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     		params:{A:a,invoId:p.get('invoId'),invoStatus:s},
 			success: function(r){
 				p.set('invoStatus',s);
+				p.set('version', parseInt(p.get('version')) + 1);
 				this.updateToolBar();
 				XMG.alert(SYS,M_S);
 			},
