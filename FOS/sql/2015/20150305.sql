@@ -1,0 +1,2 @@
+INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) VALUES
+('LOGOUT_CCN', 'PUserService', 'ccnLogout', '退出');
