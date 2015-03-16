@@ -3,7 +3,7 @@
 	<proxool>
 		<alias>fosdb</alias>
 		<driver-url>
-			jdbc:mysql://localhost/fos
+			jdbc:mysql://localhost/fos?useUnicode=true&amp;characterEncoding=utf-8
 		</driver-url>
 		<driver-class>com.mysql.jdbc.Driver</driver-class>
 		<driver-properties>
