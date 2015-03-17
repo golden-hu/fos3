@@ -17,7 +17,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 create database fos;
 use fos;
-grant all privileges on fos.* to fos@localhost identified by 'f0s.h1t1s0ft';
+grant all privileges on fos.* to fos@localhost identified by 'fos';
 flush privileges;
 
 --

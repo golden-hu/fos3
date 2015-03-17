@@ -54,6 +54,7 @@
 					</webResources>
 				</configuration>
 			</plugin>
+			<!--  
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
@@ -79,6 +80,8 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			-->
 		</plugins>
+		
 	</build>
 </project>
