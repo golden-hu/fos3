@@ -367,7 +367,6 @@ var login = function(f){
 };
 
 var login_ccn = function(SessionID,AccountID,ProductID,GlobalCompanyID,City){
-	//checkBrowser();	
 	Ext.Ajax.request({url:SERVICE_URL,method:'POST',
 		params:{A:'LOGIN_CCN',mt:'JSON',
 				SessionID:SessionID,
@@ -391,9 +390,7 @@ var login_ccn = function(SessionID,AccountID,ProductID,GlobalCompanyID,City){
 				window.location='index.jsp';
 		},
 		failure: function(r){
-			var user=Ext.util.JSON.decode(r.responseText);
-			alert(user.FosResponse.msg);
-			f.userLoginName.focus();
+			alert("用户验证失败！");
 		}
 	});
 };

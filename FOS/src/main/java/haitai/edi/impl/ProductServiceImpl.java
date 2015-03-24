@@ -227,7 +227,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public String Suspend(String accountID, HashMap<String, String> keyValuePair) {
-		// TODO Auto-generated method stub
 		//String compCode=keyValuePair.get("compCode");
 		String userLoginName=accountID;
 		
@@ -261,7 +260,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public String UnSuspend(String accountID, HashMap<String, String> keyValuePair) {
-		// TODO Auto-generated method stub
 		//String compCode=keyValuePair.get("compCode");
 		String userLoginName=accountID;
 		
@@ -295,8 +293,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public String Terminate(String accountID, HashMap<String, String> keyValuePair) {
-		// TODO Auto-generated method stub
-		String compCode=keyValuePair.get("compCode");
+		//String compCode=keyValuePair.get("compCode");
 		String userLoginName=accountID;
 		
 		StringBuffer sbUser=new StringBuffer();
@@ -324,7 +321,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
 	public String ValidateAccess(String accountID, HashMap<String, String> keyValuePair) {
-		// TODO Auto-generated method stub
     	IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
     	String productID=keyValuePair.get("ProductID");
 		
