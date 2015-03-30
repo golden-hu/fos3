@@ -10,17 +10,19 @@ import javax.jws.WebService;
 public interface ProductService {
 
 	@WebMethod(operationName = "Activate", action = "urn:Activate")
-	public void Activate(@WebParam(name = "arg0") String accountId,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
-	@WebMethod(operationName = "Suspend", action = "urn:Suspend")
-	public void Suspend(@WebParam(name = "arg0") String accountId,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
-	@WebMethod(operationName = "UnSuspend", action = "urn:UnSuspend")
-	public void UnSuspend(@WebParam(name = "arg0") String accountId,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
-	@WebMethod(operationName = "Terminate", action = "urn:Terminate")
-	public void Terminate(@WebParam(name = "arg0") String accountId,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
-	@WebMethod(operationName = "ValidateAccess", action = "urn:ValidateAccess")
-	String ValidateAccess(@WebParam(name = "arg0") String accountId);	
+	public String Activate(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
 	
-	@WebMethod(operationName = "sayHi", action = "urn:SayHi")
-	String sayHi(@WebParam(name = "arg0") String text);
+	@WebMethod(operationName = "Suspend", action = "urn:Suspend")
+	public String Suspend(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	
+	@WebMethod(operationName = "UnSuspend", action = "urn:UnSuspend")
+	public String UnSuspend(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	
+	@WebMethod(operationName = "Terminate", action = "urn:Terminate")
+	public String Terminate(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	
+	@WebMethod(operationName = "ValidateAccess", action = "urn:ValidateAccess")
+	String ValidateAccess(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	
 	
 }
