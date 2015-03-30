@@ -56,6 +56,7 @@
 
 <script type="text/javascript" src="js/set/ExpensePanel.js"></script>
 <script type="text/javascript" src="js/set/ExpenseGrid.js"></script>
+<script type="text/javascript" src="js/set/ExpenseList.js"></script>
 
 <script type="text/javascript" src="js/set/invoice.js"></script>
 <script type="text/javascript" src="js/set/voucher.js"></script>
