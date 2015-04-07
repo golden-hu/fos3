@@ -22,8 +22,10 @@ public class ProductAPIServiceLocator extends org.apache.axis.client.Service imp
     }
 
     // Use to get a proxy class for BasicHttpBinding_IProductAPIService
-    private java.lang.String BasicHttpBinding_IProductAPIService_address = "http://devchbcps1epouchservices.dev.ccn/ProductAPIService/ProductAPIService.svc";
+    //private java.lang.String BasicHttpBinding_IProductAPIService_address = "http://devchbcps1epouchservices.dev.ccn/ProductAPIService/ProductAPIService.svc";
 
+    private java.lang.String BasicHttpBinding_IProductAPIService_address = "http://epouchservicesdev.ccnhub.com/ProductAPIService/ProductAPIService.svc";
+    
     public java.lang.String getBasicHttpBinding_IProductAPIServiceAddress() {
         return BasicHttpBinding_IProductAPIService_address;
     }
@@ -105,7 +107,7 @@ public class ProductAPIServiceLocator extends org.apache.axis.client.Service imp
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("http://tempuri.org/", "ProductAPIService");
+        return new javax.xml.namespace.QName("http://epouchservicesdev.ccnhub.com", "ProductAPIService");
     }
 
     private java.util.HashSet ports = null;
@@ -113,7 +115,7 @@ public class ProductAPIServiceLocator extends org.apache.axis.client.Service imp
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://tempuri.org/", "BasicHttpBinding_IProductAPIService"));
+            ports.add(new javax.xml.namespace.QName("http://epouchservicesdev.ccnhub.com", "BasicHttpBinding_IProductAPIService"));
         }
         return ports.iterator();
     }

@@ -778,8 +778,12 @@ var RTX = function(r,t,rt){
 		var ty = item.type;
 		if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){
 			x+='<'+n+'>';
-			if(ty==Ext.data.Types.DATE){				
-				x+=r.get(n)?r.get(n).format(item.dateFormat):'';
+			if(ty==Ext.data.Types.DATE){	
+				if(r.get(n)){
+					x+=Ext.util.Format.date(r.get(n),item.dateFormat);
+				}
+				
+				//x+=r.get(n)?r.get(n).format(item.dateFormat):'';
 			}
 			else if(ty==Ext.data.Types.BOOLEAN){
 				x+=r.get(n)?'1':'0';
@@ -809,8 +813,11 @@ var ATX = function(a,t,rt){
 				var ty = item.type;				
 				if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){
 					x+='<'+n+'>';
-					if(ty==Ext.data.Types.DATE) 
-						x+=r.get(n)?r.get(n).format(item.dateFormat):'';
+					if(ty==Ext.data.Types.DATE) {
+						if(r.get(n)){
+							x+=Ext.util.Format.date(r.get(n),item.dateFormat);
+						}
+					}						
 					else if(ty==Ext.data.Types.BOOLEAN)
 						x+=r.get(n)?'1':'0';
 					else
@@ -859,7 +866,10 @@ var RTJ = function(r,rt){
 		var ty = item.type;		
 		if(n!=undefined && r.get(n)!=undefined && r.get(n)!==''){			
 			if(ty==Ext.data.Types.DATE){
-				v[n]=r.get(n)?r.get(n).format('Y-m-d H:i:s'):'';
+				//v[n]=r.get(n)?r.get(n).format('Y-m-d H:i:s'):'';
+				if(r.get(n)){
+					v[n]==Ext.util.Format.date(r.get(n),'Y-m-d H:i:s');
+				}
 			}
 			else if(ty==Ext.data.Types.BOOLEAN){
 				v[n]=r.get(n)?'1':'0';

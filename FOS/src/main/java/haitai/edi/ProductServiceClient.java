@@ -36,7 +36,7 @@ public class ProductServiceClient {
         svr.setServiceClass(ProductService.class);
         svr.setAddress("http://localhost:8080/FOS/services/productService");
         ProductService ps = (ProductService) svr.create();
-        System.out.println(ps.sayHi("******"));
+        
         
         String accountId="cnn04";
         HashMap<String,String> keyValuePair=new HashMap <String,String>();
