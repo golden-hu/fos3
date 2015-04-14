@@ -360,7 +360,6 @@ var login = function(f){
 		},
 		failure: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);
-			alert(user.FosResponse.msg);
 			f.userLoginName.focus();
 		}
 	});
