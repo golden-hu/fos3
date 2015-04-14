@@ -1,0 +1,12 @@
+/**
+ * IWcfAdaptorService.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
+ */
+
+package org.tempuri;
+
+public interface IWcfAdaptorService extends java.rmi.Remote {
+    public void publishDocument(java.lang.String document, javax.xml.rpc.holders.BooleanWrapperHolder publishDocumentResult, javax.xml.rpc.holders.StringHolder errorMessage) throws java.rmi.RemoteException;
+}

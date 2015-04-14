@@ -1,5 +1,5 @@
 //提单
-Fos.BLGrid = function(p){
+Fos.BLGrid = function(_consign){
 	this.sel = GSEL;	
 	this.store = new Ext.data.GroupingStore({
    		url: SERVICE_URL+'?A=BL_Q',
@@ -7,17 +7,17 @@ Fos.BLGrid = function(p){
     	sortInfo:{field:'blId', direction:'DESC'},
     	groupField:'blMBlNo'});    	
 	
-	if(p.get('rowAction')!='N'){
-		if(p.get('consBizType')==BT_B&&p.get('consMasterFlag')==1)
-			this.store.load({params:{mt:'JSON',consMasterId:p.get('consMasterId')}});	
+	if(_consign.get('rowAction')!='N'){
+		if(_consign.get('consBizType')==BT_B&&_consign.get('consMasterFlag')==1)
+			this.store.load({params:{mt:'JSON',consMasterId:_consign.get('consMasterId')}});	
 		else
-			this.store.load({params:{mt:'JSON',consId:p.get('consId')}});	
+			this.store.load({params:{mt:'JSON',consId:_consign.get('consId')}});	
 	}
 	
     this.edit=function(){
     	var b = sm.getSelected();
     	if(b){
-    		var win = new Fos.BlWin(p,b,this.store);    	
+    		var win = new Fos.BlWin(_consign,b,this.store);    	
 			win.show();
     	}
     	else XMG.alert(SYS,M_NO_DATA_SELECTED);
@@ -26,7 +26,7 @@ Fos.BLGrid = function(p){
 	var re = {scope:this,
 		rowdblclick: function(grid, rowIndex, event){
 			var b=grid.getSelectionModel().getSelected();
-			var win = new Fos.BlWin(p,b,this.store);    	
+			var win = new Fos.BlWin(_consign,b,this.store);    	
 			win.show();
 			}
 	};
@@ -58,64 +58,64 @@ Fos.BLGrid = function(p){
 	var newBl = function(t){
 		var rid=GGUID();
 		var bl = new FBl({id:rid,blId:rid,
-		consId:p.get('consId'),
-		consNo:p.get('consNo'),
+		consId:_consign.get('consId'),
+		consNo:_consign.get('consNo'),
 		blType:t,
-		blNo:p.get('consMblNo'),
-		mblNo:p.get('consHblNo'),
-		consBizClass:p.get('consBizClass'),
-		consBizType:p.get('consBizType'),
-		consShipType:p.get('consShipType'),
-		custId:p.get('custId'),
-		custName:p.get('custName'),
-		consTradeContractNo:p.get('consTradeContractNo'),
-		consChargeRemarks:p.get('consChargeRemarks'),
-		blShipper:p.get('consShipper'),
-		blConsignee:p.get('consConsignee'),
-		blNotifyParty:p.get('consNotifyParty'),
-		blNotifyParty2:p.get('consNotifyParty2'),
-		blOverseaAgency:p.get('consNotifyParty2'),
-		blCarrier:p.get('consCarrier'),
-		blCarrierName:p.get('consCarrierName'),
-		blVessel:p.get('vessName'),
-		blVoyage:p.get('voyaName'),
-		blPol:p.get('consPolEn'),
-		blPod:p.get('consPodEn')+','+p.get('consTradeCountry'),
-		blPot:p.get('consPotEn'),
-		blLoadDate:p.get('consLoadDate'),
-		blEtd:p.get('consEtd'),
-		blEta:p.get('consEta'),
-		blReceiptPlace:p.get('consReceiptPlace'),
-		blDeliveryPlace:p.get('consDeliveryPlace'),
-		blContainerNo:p.get('consContainerNo'),
-		blSealNo:p.get('consSealNo'),
-		blPackages:p.get('consCargoPackages'),
-		consMasterId:p.get('consMasterId'),
-		consMasterNo:p.get('consMasterNo'),
-		cargPackages:p.get('consTotalPackages'),
-		cargGrossWeight:p.get('consTotalGrossWeight'),
-		cargNetWeigth:p.get('consTotalNetWeight'),
-		cargMeasurement:p.get('consTotalMeasurement'),
-		fconId:p.get('fconId'),
-		fconContractNo:p.get('consContractNo'),
-		unitId:p.get('unitId'),
-		unitName:p.get('unitCode'),
-		packId:p.get('packId'),
-		packName:p.get('packName'),
+		blNo:t=='MB/L'?_consign.get('consMblNo'):_consign.get('consHblNo'),
+		mblNo:_consign.get('consMblNo'),
+		consBizClass:_consign.get('consBizClass'),
+		consBizType:_consign.get('consBizType'),
+		consShipType:_consign.get('consShipType'),
+		custId:_consign.get('custId'),
+		custName:_consign.get('custName'),
+		consTradeContractNo:_consign.get('consTradeContractNo'),
+		consChargeRemarks:_consign.get('consChargeRemarks'),
+		blShipper:_consign.get('consShipper'),
+		blConsignee:_consign.get('consConsignee'),
+		blNotifyParty:_consign.get('consNotifyParty'),
+		blNotifyParty2:_consign.get('consNotifyParty2'),
+		blOverseaAgency:_consign.get('consNotifyParty2'),
+		blCarrier:_consign.get('consCarrier'),
+		blCarrierName:_consign.get('consCarrierName'),
+		blVessel:_consign.get('vessName'),
+		blVoyage:_consign.get('voyaName'),
+		blPol:_consign.get('consPolEn'),
+		blPod:_consign.get('consPodEn')+','+_consign.get('consTradeCountry'),
+		blPot:_consign.get('consPotEn'),
+		blLoadDate:_consign.get('consLoadDate'),
+		blEtd:_consign.get('consEtd'),
+		blEta:_consign.get('consEta'),
+		blReceiptPlace:_consign.get('consReceiptPlace'),
+		blDeliveryPlace:_consign.get('consDeliveryPlace'),
+		blContainerNo:_consign.get('consContainerNo'),
+		blSealNo:_consign.get('consSealNo'),
+		blPackages:_consign.get('consCargoPackages'),
+		consMasterId:_consign.get('consMasterId'),
+		consMasterNo:_consign.get('consMasterNo'),
+		cargPackages:_consign.get('consTotalPackages'),
+		cargGrossWeight:_consign.get('consTotalGrossWeight'),
+		cargNetWeigth:_consign.get('consTotalNetWeight'),
+		cargMeasurement:_consign.get('consTotalMeasurement'),
+		fconId:_consign.get('fconId'),
+		fconContractNo:_consign.get('consContractNo'),
+		unitId:_consign.get('unitId'),
+		unitName:_consign.get('unitCode'),
+		packId:_consign.get('packId'),
+		packName:_consign.get('packName'),
 		blMergeFlag:0,
 		blSplitFlag:0,
 		blMasterFlag:1,
-		blCargoDesc:p.get('consCargoDesc'),
-		blGrossWeight:p.get('consCargoGrossWeight'),
-		blMeasurement:p.get('consCargoMeasurement'),
-		blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' ('+p.get('consTotalPackages')+') '+getPACK(p.get('packId'))+' ONLY',
-		blPaymentTerm:p.get('pateName'),
-		blPaidAt:p.get('consPaidAt'),
-		blMarks:p.get('consCargoMarks'),
-		blTransTerm:getTRAN(p.get('tranId')),
-		blContainerInfo:p.get('consContainersInfo'),
-		istyId:p.get('istyId'),
-		blOriginalNum:N2EW(p.get('consOriginalBlNum')),
+		blCargoDesc:_consign.get('consCargoDesc'),
+		blGrossWeight:_consign.get('consCargoGrossWeight'),
+		blMeasurement:_consign.get('consCargoMeasurement'),
+		blTotalSay:'SAY TOTAL '+N2EW(_consign.get('consTotalPackages'))+' ('+_consign.get('consTotalPackages')+') '+getPACK(_consign.get('packId'))+' ONLY',
+		blPaymentTerm:_consign.get('pateName'),
+		blPaidAt:_consign.get('consPaidAt'),
+		blMarks:_consign.get('consCargoMarks'),
+		blTransTerm:getTRAN(_consign.get('tranId')),
+		blContainerInfo:_consign.get('consContainersInfo'),
+		istyId:_consign.get('istyId'),
+		blOriginalNum:N2EW(_consign.get('consOriginalBlNum')),
 		blStatus:'1',
 		version:'0',
 		rowAction:'N'});
@@ -125,51 +125,51 @@ Fos.BLGrid = function(p){
 	var newAirBl = function(t){
 		var rid=GGUID();
 		var bl = new FBl({id:rid,blId:rid,
-		consId:p.get('consId'),
-		consNo:p.get('consNo'),
+		consId:_consign.get('consId'),
+		consNo:_consign.get('consNo'),
 		blType:t,
-		blNo:p.get('consHblNo'),
-		mblNo:p.get('consMblNo'),
-		consBizClass:p.get('consBizClass'),
-		consBizType:p.get('consBizType'),
-		custId:p.get('custId'),
-		custName:p.get('custName'),
-		blShipper:p.get('consShipper'),
-		blConsignee:p.get('consConsignee'),
-		blNotifyParty:p.get('consNotifyParty'),
-		blOverseaAgency:p.get('consNotifyParty2'),
-		blCarrierName:p.get('consCarrierName'),
-		blVessel:p.get('vessName'),
-		blVoyage:p.get('voyaName'),
-		blPol:p.get('consPolEn'),
-		blPod:p.get('consPodEn'),
-		blPot:p.get('consPotEn'),
-		blLoadDate:p.get('consLoadDate'),
-		blEtd:p.get('consEtd'),
-		blEta:p.get('consEta'),
-		blReceiptPlace:p.get('consReceiptPlace'),
-		blDeliveryPlace:p.get('consDeliveryPlace'),
-		blPackages:p.get('consTotalPackages'),
-		consMasterId:p.get('consMasterId'),
-		consMasterNo:p.get('consMasterNo'),
-		unitId:p.get('unitId'),
-		unitName:p.get('unitCode'),
-		packId:p.get('packId'),
-		packName:p.get('packName'),
+		blNo:t=='MB/L'?_consign.get('consMblNo'):_consign.get('consHblNo'),
+		mblNo:_consign.get('consMblNo'),
+		consBizClass:_consign.get('consBizClass'),
+		consBizType:_consign.get('consBizType'),
+		custId:_consign.get('custId'),
+		custName:_consign.get('custName'),
+		blShipper:_consign.get('consShipper'),
+		blConsignee:_consign.get('consConsignee'),
+		blNotifyParty:_consign.get('consNotifyParty'),
+		blOverseaAgency:_consign.get('consNotifyParty2'),
+		blCarrierName:_consign.get('consCarrierName'),
+		blVessel:_consign.get('vessName'),
+		blVoyage:_consign.get('voyaName'),
+		blPol:_consign.get('consPolEn'),
+		blPod:_consign.get('consPodEn'),
+		blPot:_consign.get('consPotEn'),
+		blLoadDate:_consign.get('consLoadDate'),
+		blEtd:_consign.get('consEtd'),
+		blEta:_consign.get('consEta'),
+		blReceiptPlace:_consign.get('consReceiptPlace'),
+		blDeliveryPlace:_consign.get('consDeliveryPlace'),
+		blPackages:_consign.get('consTotalPackages'),
+		consMasterId:_consign.get('consMasterId'),
+		consMasterNo:_consign.get('consMasterNo'),
+		unitId:_consign.get('unitId'),
+		unitName:_consign.get('unitCode'),
+		packId:_consign.get('packId'),
+		packName:_consign.get('packName'),
 		blMergeFlag:0,
 		blSplitFlag:0,
 		blMasterFlag:1,
-		blCargoDesc:p.get('consCargoDesc'),
-		blGrossWeight:p.get('consTotalGrossWeight'),
-		blMeasurement:p.get('consTotalMeasurement'),
-		blTotalSay:'SAY TOTAL '+N2EW(p.get('consTotalPackages'))+' ('+p.get('consTotalPackages')+') '+getPACK(p.get('packId'))+' ONLY',
-		blPaymentTerm:p.get('pateName'),
-		blPaidAt:p.get('consPaidAt'),
-		blMarks:p.get('consCargoMarks'),
-		blTransTerm:getTRAN(p.get('tranId')),
-		blContainerInfo:p.get('consContainersInfo'),
-		istyId:p.get('istyId'),
-		blOriginalNum:N2EW(p.get('consOriginalBlNum')),
+		blCargoDesc:_consign.get('consCargoDesc'),
+		blGrossWeight:_consign.get('consTotalGrossWeight'),
+		blMeasurement:_consign.get('consTotalMeasurement'),
+		blTotalSay:'SAY TOTAL '+N2EW(_consign.get('consTotalPackages'))+' ('+_consign.get('consTotalPackages')+') '+getPACK(_consign.get('packId'))+' ONLY',
+		blPaymentTerm:_consign.get('pateName'),
+		blPaidAt:_consign.get('consPaidAt'),
+		blMarks:_consign.get('consCargoMarks'),
+		blTransTerm:getTRAN(_consign.get('tranId')),
+		blContainerInfo:_consign.get('consContainersInfo'),
+		istyId:_consign.get('istyId'),
+		blOriginalNum:N2EW(_consign.get('consOriginalBlNum')),
 		blStatus:'1',
 		version:'0',
 		rowAction:'N'});
@@ -179,36 +179,36 @@ Fos.BLGrid = function(p){
 	var reloadCons=function(){
 		var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
 		reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});					
-		sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+		sc.load({params:{consId:_consign.get('consId')},callback:function(r,o,s){
 			if(s&&r.length>0){
 				var c=r[0];
-				p.beginEdit();
-				p.set('blPackages',c.get('blPackages'));
-				p.set('blGrossWeight',c.get('blGrossWeight'));
-				p.set('blNetWeight',c.get('blNetWeight'));
-				p.set('blMeasurement',c.get('blMeasurement'));
-				p.set('version',c.get('version'));	
-				p.endEdit();
-				var tc = T_MAIN.getComponent('C_'+p.get("id"));
-				var t=tc.getComponent('T_BOOK_'+p.get("id"));
-				t.find('name','blPackages')[0].setValue(p.get('blPackages'));
-				t.find('name','blGrossWeight')[0].setValue(p.get('blGrossWeight'));
-				t.find('name','blNetWeight')[0].setValue(p.get('blNetWeight'));
-				t.find('name','blMeasurement')[0].setValue(p.get('blMeasurement'));
+				_consign.beginEdit();
+				_consign.set('blPackages',c.get('blPackages'));
+				_consign.set('blGrossWeight',c.get('blGrossWeight'));
+				_consign.set('blNetWeight',c.get('blNetWeight'));
+				_consign.set('blMeasurement',c.get('blMeasurement'));
+				_consign.set('version',c.get('version'));	
+				_consign.endEdit();
+				var tc = T_MAIN.getComponent('C_'+_consign.get("id"));
+				var t=tc.getComponent('T_BOOK_'+_consign.get("id"));
+				t.find('name','blPackages')[0].setValue(_consign.get('blPackages'));
+				t.find('name','blGrossWeight')[0].setValue(_consign.get('blGrossWeight'));
+				t.find('name','blNetWeight')[0].setValue(_consign.get('blNetWeight'));
+				t.find('name','blMeasurement')[0].setValue(_consign.get('blMeasurement'));
 				XMG.alert(SYS,M_S);
 			}    						
 		},scope:this});
 	};
 	
 	this.addMBl = function(){
-		var b = p.get('consBizType')==BT_A?newAirBl('MB/L'):newBl('MB/L');
-		var win = new Fos.BlWin(p,b,this.store);    	
+		var b = _consign.get('consBizType')==BT_A?newAirBl('MB/L'):newBl('MB/L');
+		var win = new Fos.BlWin(_consign,b,this.store);    	
 		win.show();
 	};
 	
 	this.addHBl = function(t){
-		var b = p.get('consBizType')==BT_A?newAirBl('HB/L'):newBl('HB/L');
-		var win = new Fos.BlWin(p,b,this.store);    	
+		var b = _consign.get('consBizType')==BT_A?newAirBl('HB/L'):newBl('HB/L');
+		var win = new Fos.BlWin(_consign,b,this.store);    	
 		win.show();
 	};
 	
@@ -224,10 +224,10 @@ Fos.BLGrid = function(p){
 		var xml=ATX(a,'FBl',FBl);
 		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'BL_M'},
 			success: function(res){
-				if(p.get('consBizType')==BT_B&&p.get('consMasterFlag')==1)
-					this.store.reload({params:{mt:'JSON',consMasterId:p.get('consMasterId')}});
+				if(_consign.get('consBizType')==BT_B&&_consign.get('consMasterFlag')==1)
+					this.store.reload({params:{mt:'JSON',consMasterId:_consign.get('consMasterId')}});
 				else
-					this.store.reload({params:{mt:'JSON',consId:p.get('consId')}});
+					this.store.reload({params:{mt:'JSON',consId:_consign.get('consId')}});
 				reloadCons();
 				XMG.alert(SYS,M_S);
 			},
@@ -246,10 +246,10 @@ Fos.BLGrid = function(p){
 			method:'POST',
 			params:{A:'BL_M_C',blId:r.get('blId')},
 			success: function(res){
-				if(p.get('consBizType')==BT_B&&p.get('consMasterFlag')==1)
-					this.store.reload({params:{mt:'JSON',consMasterId:p.get('consMasterId')}});
+				if(_consign.get('consBizType')==BT_B&&_consign.get('consMasterFlag')==1)
+					this.store.reload({params:{mt:'JSON',consMasterId:_consign.get('consMasterId')}});
 				else
-					this.store.reload({params:{mt:'JSON',consId:p.get('consId')}});
+					this.store.reload({params:{mt:'JSON',consId:_consign.get('consId')}});
 				reloadCons();
 				XMG.alert(SYS,M_S);
 			},
@@ -304,10 +304,10 @@ Fos.BLGrid = function(p){
 				method:'POST',
 				params:{A:'BL_S'},
 				success: function(res){
-					if(p.get('consBizType')==BT_B&&p.get('consMasterFlag')==1)
-						this.store.reload({params:{mt:'JSON',consMasterId:p.get('consMasterId')}});
+					if(_consign.get('consBizType')==BT_B&&_consign.get('consMasterFlag')==1)
+						this.store.reload({params:{mt:'JSON',consMasterId:_consign.get('consMasterId')}});
 					else
-						this.store.reload({params:{mt:'JSON',consId:p.get('consId')}});
+						this.store.reload({params:{mt:'JSON',consId:_consign.get('consId')}});
 					reloadCons();
 					XMG.alert(SYS,M_S);
 				},
@@ -334,10 +334,10 @@ Fos.BLGrid = function(p){
 			method:'POST',
 			params:{A:'BL_SP_C',blId:r.get('blId')},
 			success: function(res){
-				if(p.get('consBizType')==BT_B&&p.get('consMasterFlag')==1)
-					this.store.reload({params:{mt:'JSON',consMasterId:p.get('consMasterId')}});
+				if(_consign.get('consBizType')==BT_B&&_consign.get('consMasterFlag')==1)
+					this.store.reload({params:{mt:'JSON',consMasterId:_consign.get('consMasterId')}});
 				else
-					this.store.reload({params:{mt:'JSON',consId:p.get('consId')}});
+					this.store.reload({params:{mt:'JSON',consId:_consign.get('consId')}});
 				reloadCons();
 				XMG.alert(SYS,M_S);
 			},
@@ -351,10 +351,11 @@ Fos.BLGrid = function(p){
 		var bl = newBl(t);
 		this.store.insert(0,bl);
 		bl.set('blNo','');		
+		mblNo:_consign.get('consMblNo'),
 		bl.set('blMarks',c.get('cargMarks'));
 		bl.set('blPackages',''+c.get('cargPackageNum')+c.get('packName'));
 		bl.set('blMeasurement',''+c.get('cargMeasurement')+'CBM');
-		bl.set('blGrossWeight',''+c.get('cargGrossWeight')+(p.get('consBizType')=='C'?'KGS':'MT'));
+		bl.set('blGrossWeight',''+c.get('cargGrossWeight')+(_consign.get('consBizType')=='C'?'KGS':'MT'));
 		bl.set('cargPackages',c.get('cargPackageNum'));
 		bl.set('cargGrossWeight',c.get('cargGrossWeight'));
 		bl.set('cargMeasurement',c.get('cargMeasurement'));
@@ -364,8 +365,8 @@ Fos.BLGrid = function(p){
 		bl.set('packId',c.get('packId'));
 		bl.set('packName',c.get('packName'));
 		bl.set('rowAction','N');
-		bl.set('blTotalSay','SAY TOTAL '+N2EW(c.get('cargPackageNum'))+' ('+p.get('consTotalPackages')+') '+c.get('packName')+'ONLY');
-		showBlWin(p,bl,store);
+		bl.set('blTotalSay','SAY TOTAL '+N2EW(c.get('cargPackageNum'))+' ('+_consign.get('consTotalPackages')+') '+c.get('packName')+'ONLY');
+		showBlWin(_consign,bl,store);
 	};
 	
 	this.removeBl = function(){
@@ -392,13 +393,13 @@ Fos.BLGrid = function(p){
        	else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};	
 
-	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_BL;
+	var m=getRM(_consign.get('consBizClass'),_consign.get('consBizType'),_consign.get('consShipType'))+M3_BL;
 	new Ext.KeyMap(Ext.getDoc(), {
 		key:'nhdebucv',ctrl:true,scope:this,
 		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
+		 	var tc = T_MAIN.getComponent('C_'+_consign.get("id"));
 		 	if(tc&&tc==T_MAIN.getActiveTab()){
-			 	var te=tc.getComponent('T_BL_'+p.get('id'));
+			 	var te=tc.getComponent('T_BL_'+_consign.get('id'));
 			 	if(te==tc.getActiveTab())
 			 	{
 			 		switch(k) {
@@ -444,10 +445,10 @@ Fos.BLGrid = function(p){
 		sm:sm,
 		cm:cm,
 		view:gv,
-		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M)||p.get('rowAction')=='N',scope:this,
+		tbar:[{text:C_ADD+'(N)',iconCls:'add',disabled:NR(m+F_M)||_consign.get('rowAction')=='N',scope:this,
 			   	menu: new Ext.menu.Menu({items: [
-			   		{text:p.get('consBizType')==BT_A?'MAWB(M)':'MB/L(N)',scope:this,handler:this.addMBl},
-			   		{text:p.get('consBizType')==BT_A?'HAWB(H)':'HB/L(H)',scope:this,handler:this.addHBl}]})
+			   		{text:_consign.get('consBizType')==BT_A?'MAWB(M)':'MB/L(N)',scope:this,handler:this.addMBl},
+			   		{text:_consign.get('consBizType')==BT_A?'HAWB(H)':'HB/L(H)',scope:this,handler:this.addHBl}]})
 				},'-',
 				{text:C_REMOVE+'(D)',iconCls:'remove',disabled:NR(m+F_R),scope:this,handler:this.removeBl},'-',
 				{text:C_EDIT+'(E)',iconCls:'option',disabled:NR(m+F_M),scope:this,handler:this.edit},'-',
@@ -461,8 +462,8 @@ Fos.BLGrid = function(p){
 Ext.extend(Fos.BLGrid, Ext.grid.GridPanel);
 
 //提单标签页
-Fos.BLTab = function(p) {
-	this.grid = new Fos.BLGrid(p);
+Fos.BLTab = function(_consign) {
+	this.grid = new Fos.BLGrid(_consign);
 	
 	this.getVendorId=function(){
     	return '';
@@ -472,10 +473,10 @@ Fos.BLTab = function(p) {
 		return '';
 	};
 	
-	var expPanel = new Fos.SectionExGrid(p,'BL',this);	
+	var expPanel = new Fos.SectionExGrid(_consign,'BL',this);	
 	
 	Fos.BLTab.superclass.constructor.call(this, { 
-		id: "T_BL_" +p.get('id'),title:C_SR_BL,layout:'border',
+		id: "T_BL_" +_consign.get('id'),title:C_SR_BL,layout:'border',
 		items: [this.grid,
 	        {region:'center',header:false,layout:'fit',items:[expPanel]
 			}]

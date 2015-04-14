@@ -25,4 +25,4 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (50, '毛重', 'FCustomsEntry', 'cuenCargoGrossWeight', NULL),
 (50, '净重', 'FCustomsEntry', 'cuenCargoNetWeight', NULL),
 (50, '体积', 'FCustomsEntry', 'cuenCargoMeasurement', NULL),
-(51, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);
+(50, '备注', 'FCustomsEntry', 'cuenRemarks', NULL);

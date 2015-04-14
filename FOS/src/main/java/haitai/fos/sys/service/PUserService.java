@@ -13,9 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import sg.com.ccn.org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
-import sg.com.ccn.org.tempuri.IProductAPIServiceProxy;
-import sg.com.ccn.util.Const;
+import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
+import org.tempuri.IProductAPIServiceProxy;
 
 import java.rmi.RemoteException;
 import java.util.*;

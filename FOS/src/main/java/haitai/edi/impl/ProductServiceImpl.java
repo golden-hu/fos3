@@ -16,9 +16,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
-import sg.com.ccn.org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOCompany;
-import sg.com.ccn.org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
-import sg.com.ccn.org.tempuri.IProductAPIServiceProxy;
+import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOCompany;
+import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
+import org.tempuri.IProductAPIServiceProxy;
 import sg.com.ccn.util.Const;
 import sg.com.ccn.util.CopyFile;
 import sg.com.ccn.util.InitData;
