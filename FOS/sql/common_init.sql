@@ -70,6 +70,10 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('ISTY_Q', 'GIssueTypeService', 'query', '签单方式查询'),
 ('LETY_S', 'GLevyTypeService', 'save', '征免方式保存'),
 ('LETY_Q', 'GLevyTypeService', 'query', '征免方式查询'),
+
+('SEIT_S', 'GServiceItemService', 'save', '服务项目保存'),
+('SEIT_Q', 'GServiceItemService', 'query', '服务项目查询'),
+
 ('LIPO_S', 'GLinePortService', 'save', '港口保存'),
 ('LIPO_Q', 'GLinePortService', 'query', '港口查询'),
 ('PORT_S', 'GPortService', 'save', '港口保存'),
@@ -1199,6 +1203,10 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00102902', '编辑', 'F', 1),
 ('00102903', '删除', 'F', 1),
 
+('001030', '服务项目', 'M', 1),
+('00103001', '查看', 'F', 1),
+('00103002', '编辑', 'F', 1),
+('00103003', '删除', 'F', 1),
 
 ('0011', '系统管理', 'M', 1),
 ('001101', '业务分组', 'M', 1),

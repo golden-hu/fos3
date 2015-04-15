@@ -2368,7 +2368,21 @@ CREATE TABLE IF NOT EXISTS G_CARGO_CLASS (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
+--
+-- 表的结构 G_SERVICE_ITEM
+--
 
+CREATE TABLE IF NOT EXISTS G_SERVICE_ITEM (
+  SEIT_ID INT NOT NULL auto_increment,
+  SEIT_NAME VARCHAR(32) NOT NULL,
+  ACTIVE TINYINT(4) default '1',
+  COMP_CODE char(8) NOT NULL,
+  VERSION INT default '0',
+  REMOVED TINYINT(4) NOT NULL default '0',
+  PRIMARY KEY  (SEIT_ID)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 --
 -- 表的结构 G_CARGO_TYPE
 --

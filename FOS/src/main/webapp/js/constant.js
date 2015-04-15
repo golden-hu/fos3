@@ -152,6 +152,7 @@ var G_DOTY='26';
 var G_PATE='27';
 var G_PLAC='28';
 var G_CUTY='29';
+var G_SEIT='30';
 
 var S_COAU='01';
 var S_BILL_R='02';

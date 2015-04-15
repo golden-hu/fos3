@@ -162,3 +162,52 @@ var showG_CUTY = function() {
     return grid;
 };
 
+
+//服务项目
+var showG_SEIT = function() {    
+    var store = GS('SEIT_Q','GServiceItem',GServiceItem,'seitId','DESC','','','id',false);
+    store.load();
+    var ac=ACTIVE();	
+    var sm=getCSM();
+    
+    var cm=new Ext.grid.ColumnModel({columns:[sm,
+		{header:C_NAME,dataIndex:'seitName',editor:new Ext.form.TextField()},
+		ac],
+		defaults:{sortable:true,width:120}
+    });
+    
+    var grid = new  Ext.grid.EditorGridPanel({
+	    id:'G_SEIT',
+	    iconCls:'gen',
+	    title:C_SEIT,
+		header:false,
+		plugins:ac,
+		clicksToEdit:1,
+		closable:true,
+		store: store,
+		sm:sm,
+		cm:cm,
+		tbar:[{
+			text:C_ADD,disabled:NR(M1_J+G_SEIT+F_M),iconCls:'add',
+				handler : function(){            	
+					var p = new GServiceItem({id:GGUID(),seitId:'0',seitName:'',active:1,version:'0',rowAction:'N'});            
+		        	grid.stopEditing();
+		        	store.insert(0,p);
+		        	grid.startEditing(0,1);
+	        	}
+	        },'-',
+	        {text:C_REMOVE,disabled:NR(M1_J+G_SEIT+F_R),iconCls:'remove',
+	        	handler:function(){
+	        		FOS_REMOVE(sm,store);
+	        	}
+	        }, '-', 
+	        {text:C_SAVE,disabled:NR(M1_J+G_SEIT+F_M),iconCls:'save',
+	        	handler:function(){
+	        		FOS_POST(store,'GServiceItem',GServiceItem,'SEIT_S');
+	        		getSEIT_S().reload();
+	        	}
+	        }]
+    }); 
+    return grid;
+};
+

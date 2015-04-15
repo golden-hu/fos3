@@ -700,6 +700,11 @@ function createGMTree(){
 		var isty = CreateNode(C_ISTY,'ISTY',M1_J+G_ISTY,showG_ISTY);
 		cus.appendChild(isty);	
 	}
+	if(!NR(M1_J+G_ISTY)){
+		var seit = CreateNode(C_SEIT,'SEIT',M1_J+G_SEIT,showG_SEIT);
+		cus.appendChild(seit);	
+	}
+	
 	root.appendChild(cus);
 		
 	var set = new Ext.tree.TreeNode({text:C_SETTLE_RELATED,leaf:false});

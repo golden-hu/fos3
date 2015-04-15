@@ -21,6 +21,7 @@ GPaymentTerm = Ext.data.Record.create(['id','pateId','pateCode','pateName','comp
 GTradeType = Ext.data.Record.create(['id','trtyId','trtyCode','trtyName','compCode','active','version','rowAction']);
 GUsage = Ext.data.Record.create(['id','usagId','usagCode','usagName','compCode','active','version','rowAction']);
 GLevyType = Ext.data.Record.create(['id','letyId','letyCode','letyName','compCode','active','removed','version','rowAction']);	
+GServiceItem = Ext.data.Record.create(['id','seitId','seitName','compCode','active','removed','version','rowAction']);	
 GExchangeSettlement = Ext.data.Record.create(['id','exseId','exseCode','exseName','compCode','active','version','rowAction']);	
 GTransType = Ext.data.Record.create(['id','tratId','tratCode','tratName','compCode','active','version','rowAction']);	
 GIssueType = Ext.data.Record.create(['id','istyId','istyCode','istyName','compCode','active','version','rowAction']);
@@ -259,6 +260,7 @@ var getTRAT_S = function(){return getGStore('TRAT','GTransType',GTransType,'trat
 var getTRTE_S = function(){return getGStore('TRTE','GTradeTerm',GTradeTerm,'trteId','ASC','trteId');};
 var getLETY_S = function(){return getGStore('LETY','GLevyType',GLevyType,'letyId','ASC','letyId');};
 var getEXSE_S = function(){return getGStore('EXSE','GExchangeSettlement',GExchangeSettlement,'exseId','ASC','exseId');};
+var getSEIT_S = function(){return getGStore('SEIT','GServiceItem',GServiceItem,'seitId','ASC','seitId');};
 
 var getTS_S = function(){return getGStore('TRAIN','GTrainStation',GTrainStation,'trainId','DESC','');};
 getTS = function(v){if(v){var _cs= getTS_S();return _cs.getById(v)?_cs.getById(v).get('trainNameCn'):v; } else return '';}; 

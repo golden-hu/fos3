@@ -929,6 +929,8 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (33, '货物描述', 'FLoadingList', 'fconCargoDesc', NULL),
 (33, '备注', 'FLoadingList', 'loliRemarks', NULL);
 
+
+
 -- 费用确认单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (34, '船名', 'FConsign', 'vessName', NULL),
@@ -936,6 +938,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (34, '起运港', 'FConsign', 'consPolEn', NULL),
 (34, '客户业务号', 'FConsign', 'consRefNo', NULL),
 (34, '卸货港', 'FConsign', 'consPodEn', NULL),
+(34, '目的港', 'FConsign', 'consDeliveryPlace', NULL),
 (34, '中转港', 'FConsign', 'consPotEn', NULL),
 (34, '件数包装', 'FConsign', 'consCargoPackages', NULL),
 (34, '英文品名', 'FConsign', 'consCargoNameEn', NULL),
@@ -954,7 +957,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (34, '委托日期', 'FConsign', 'consDate', 'toLocalDate'),
 (34, '订舱客户', 'FConsign', 'custName', NULL),
 (34, '联系人', 'FConsign', 'custContact', NULL),
-(34, '客户联系人', 'FConsign', 'custTel', NULL),
+(34, '联系电话', 'FConsign', 'custTel', NULL),
 (34, '客户传真', 'FConsign', 'custFax', NULL),
 (34, '箱型箱量', 'FConsign', 'consContainersInfo', NULL),
 (34, '箱号', 'FConsign', 'consContainerNo', NULL),
