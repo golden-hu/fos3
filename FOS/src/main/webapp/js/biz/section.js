@@ -221,14 +221,14 @@ Fos.BBookingTab = function(p) {
 			{text:C_BOOK_FAILED+'(F)',itemId:'TB_F',iconCls:'cancel',disabled:NR(m+F_M)||p.get('consStatusBBook')!='1',scope:this,handler:this.cancel},'-',
 			{text:C_BOOK_RENEW+'(R)',itemId:'TB_N',iconCls:'renew',disabled:NR(m+F_M)||p.get('consStatusBBook')!='4',scope:this,handler:this.renew},'-',
 			{text:C_BOOK_CONFIRM+'(Q)',itemId:'TB_C',iconCls:'check',disabled:NR(m+F_M)||p.get('consStatusBBook')>='4',scope:this,handler:this.check},'-',
-			{text:C_BOOK_EXIT+'(T)',itemId:'TB_Q',iconCls:'exit',disabled:NR(m+F_M)||p.get('consStatusBBook')!='5',scope:this,handler:this.exit},'-',
+			{text:C_BOOK_EXIT+'(T)',itemId:'TB_Q',iconCls:'exit',disabled:NR(m+F_M)||p.get('consStatusBBook')!='5',scope:this,handler:this.exit},/*'-',
 			{text:C_EXPORT+'(E)',iconCls:'print',disabled:NR(m+F_E),scope:this,
 				menu: {items: [
 		   		{text:C_B_BOOKING_DOC,menu:{items:[
 		   			{text:'Excel',scope:this,handler:this.expExcel},
 		   			{text:C_EMAIL,scope:this,handler:this.expEmail},
 		   			{text:C_FAX,scope:this,handler:function(){}}]}}]}
-		   	},'->',
+		   	},modify by yinyulong 没用按钮*/'->',
 			{itemId:'TB_M',disabled:true,text:C_STATUS_C+getBOST(p.get('consStatusBBook'))},'-'
 			],
 	items: [{
