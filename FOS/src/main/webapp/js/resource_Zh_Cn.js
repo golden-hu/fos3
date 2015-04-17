@@ -1640,3 +1640,4 @@ var C_EXCHANGE_DATE = '换单日期';
 var C_THREE_INSPECTION = '三检日期';
 var C_CUSTOMS_INSPECTION = '海关查验日期';
 var C_DATE_OF_INSPECTION = '商检日期';
+var C_SEIT = '服务类型';
