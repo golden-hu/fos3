@@ -463,6 +463,7 @@ var C_ISTY='签单方式';
 var C_SEWA='结算方式';
 var C_VEHT='车辆类型';
 var C_CUTY='报关类型';
+var C_INTY='报检类型';
 var C_CACL='货物种类';
 var C_CATY='品名';
 var C_GOODS_NAME_S='品名';

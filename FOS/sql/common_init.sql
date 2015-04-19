@@ -115,6 +115,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('VEHT_Q', 'GVehicleTypeService', 'query', '车辆类型查询'),
 ('CUTY_S', 'GCustomsTypeService', 'save', '报关类型保存'),
 ('CUTY_Q', 'GCustomsTypeService', 'query', '报关类型查询'),
+('INTY_S', 'GInspectionTypeService', 'save', '报检类型保存'),
+('INTY_Q', 'GInspectionTypeService', 'query', '报检类型查询'),
 ('PLAC_S', 'GPlaceService', 'save', '港区保存'),
 ('PLAC_Q', 'GPlaceService', 'query', '港区查询'),
 ('CUCA_S', 'CCustomerCategoryService', 'save', '客户类型保存'),
@@ -1207,6 +1209,11 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00103001', '查看', 'F', 1),
 ('00103002', '编辑', 'F', 1),
 ('00103003', '删除', 'F', 1),
+
+('001031', '报检类型', 'M', 1),
+('00103101', '查看', 'F', 1),
+('00103102', '编辑', 'F', 1),
+('00103103', '删除', 'F', 1),
 
 ('0011', '系统管理', 'M', 1),
 ('001101', '业务分组', 'M', 1),

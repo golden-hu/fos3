@@ -53,6 +53,7 @@ GCargoClass = Ext.data.Record.create(['id','caclId','caclCode','caclNameCn','cac
 GCargoType = Ext.data.Record.create(['id','catyId','caclId','catyCode','catyNameCn','catyNameEn','catyManuNo',
    'catySpec','catyCargoType','catyDanagerFlag','catyDanagerNo','catyDanagerProperty','catyRemarks','active','compCode','version','rowAction']);
 GCustomsType = Ext.data.Record.create(['cutyId','cutyCode','cutyName','compCode','active','version','rowAction']);
+GInspectionType = Ext.data.Record.create(['intyId','intyCode','intyName','compCode','active','version','rowAction']);
 
 GTrainStation = Ext.data.Record.create(['id','trainId','trainCode','trainNameEn','trainNameCn','counCode','trainType','trainTypeFlag','compCode','active','version','rowAction']); 
 
@@ -198,8 +199,27 @@ var getTRAN_S = function(){return getGStore('TTER','GTransTerm',GTransTerm,'tran
 getTRAN = function(v){var _cs= getTRAN_S();if(v) return _cs.getById(v)?_cs.getById(v).get('tranCode'):v; else return '';};
 
 
-var getCustomsType_S = function(){return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');};	
-getCustomsType = function(v){var _cs= getCustomsType_S();if(v) return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; else return '';}; 
+var getCustomsType_S = function(){
+	return getGStore('CUTY','GCustomsType',GCustomsType,'cutyId','ASC','');
+};	
+getCustomsType = function(v){
+	var _cs= getCustomsType_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('cutyName'):v; 
+	else 
+		return '';
+}; 
+
+var getInspectionType_S = function(){
+	return getGStore('INTY','GInspectionType',GInspectionType,'intyId','ASC','');
+};	
+getInspectionType = function(v){
+	var _cs= getInspectionType_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('intyName'):v; 
+	else 
+		return '';
+}; 
 
 var CUTY_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','客户自报'],['1','代报']]});
 getCUTY = function(v){var _cs= CUTY_S;if(v) return _cs.getById(v)?_cs.getById(v).get('NAME'):v; else return '';}; 

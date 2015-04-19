@@ -1539,22 +1539,7 @@ CREATE TABLE IF NOT EXISTS F_CUSTOMS_ENTRY (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-CREATE TABLE G_CUSTOMS_TYPE(
-     CUTY_ID         INT             AUTO_INCREMENT,
-     CUTY_NAME       VARCHAR(32) NOT NULL,
-     CUTY_CODE       VARCHAR(32) NOT NULL,
-     ACTIVE          TINYINT NOT NULL default '1',
-     CREATE_BY       INT,
-     CREATE_TIME     DATETIME,
-     MODIFY_BY       INT,
-     MODIFY_TIME     DATETIME,
-     COMP_CODE       CHAR(8)    NOT NULL,
-     VERSION         INT  NOT NULL default '0',
-     REMOVED         TINYINT  NOT NULL default '0',
-     PRIMARY KEY (CUTY_ID)
-)ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
 
 --
 -- 表的结构 F_DO
@@ -2607,6 +2592,21 @@ CREATE TABLE IF NOT EXISTS G_LEVY_TYPE (
 -- --------------------------------------------------------
 
 --
+-- 表委托项目的结构 G_SERVICE_ITEM
+--
+
+CREATE TABLE IF NOT EXISTS G_SERVICE_ITEM (
+  SEIT_ID INT NOT NULL auto_increment,
+  SEIT_NAME VARCHAR(32) NOT NULL,
+  ACTIVE TINYINT(4) default '1',
+  COMP_CODE char(8) NOT NULL,
+  VERSION INT default '0',
+  REMOVED TINYINT(4) NOT NULL default '0',
+  PRIMARY KEY  (SEIT_ID)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
 -- 表的结构 G_LINE_PORT
 --
 
@@ -2855,6 +2855,49 @@ CREATE TABLE IF NOT EXISTS G_UNIT (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
+
+--
+-- 表报关类型的结构 G_CUSTOMS_TYPE 
+--
+
+CREATE TABLE G_CUSTOMS_TYPE(
+     CUTY_ID         INT             AUTO_INCREMENT,
+     CUTY_NAME       VARCHAR(32) NOT NULL,
+     CUTY_CODE       VARCHAR(32),
+     ACTIVE          TINYINT NOT NULL default '1',
+     CREATE_BY       INT,
+     CREATE_TIME     DATETIME,
+     MODIFY_BY       INT,
+     MODIFY_TIME     DATETIME,
+     COMP_CODE       CHAR(8)    NOT NULL,
+     VERSION         INT  NOT NULL default '0',
+     REMOVED         TINYINT  NOT NULL default '0',
+     PRIMARY KEY (CUTY_ID)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 表报检类型的结构 G_INSPECTION_TYPE 
+--
+
+CREATE TABLE G_INSPECTION_TYPE(
+     INTY_ID         INT             AUTO_INCREMENT,
+     INTY_NAME       VARCHAR(32) NOT NULL,
+     INTY_CODE       VARCHAR(32),
+     ACTIVE          TINYINT NOT NULL default '1',
+     CREATE_BY       INT,
+     CREATE_TIME     DATETIME,
+     MODIFY_BY       INT,
+     MODIFY_TIME     DATETIME,
+     COMP_CODE       CHAR(8)    NOT NULL,
+     VERSION         INT  NOT NULL default '0',
+     REMOVED         TINYINT  NOT NULL default '0',
+     PRIMARY KEY (INTY_ID)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
 
 --
 -- 表的结构 G_USAGE

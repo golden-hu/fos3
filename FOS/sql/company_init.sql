@@ -60,8 +60,24 @@ INSERT INTO `C_VENDOR_CATEGORY` (`VECA_NAME`, `COMP_CODE`, `VERSION`, `REMOVED`)
 ('签约供应商', '{CC}', 0, 0);
 
 INSERT INTO `G_CUSTOMS_TYPE` (`CUTY_CODE`, `CUTY_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) VALUES
-('KD','口地', '{CC}', 0, 0),
-('SA','属岸','{CC}', 0, 0);
+('JK','一般进口', '{CC}', 0, 0),
+('CK','一般出口','{CC}', 0, 0),
+('BJ','保税进口', '{CC}', 0, 0),
+('BC','保税出口','{CC}', 0, 0),
+('BS','保税', '{CC}', 0, 0),
+('GJ','过境','{CC}', 0, 0)
+;
+
+INSERT INTO `G_INSPECTION_TYPE` (`INTY_CODE`, `INTY_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('CDJY','产地检验', '{CC}', 0, 0),
+('HZPT','换证凭条','{CC}', 0, 0),
+('HZPD','换证凭单', '{CC}', 0, 0),
+('JKCJ','进口产检','{CC}', 0, 0),
+('JKZJ','进口转检', '{CC}', 0, 0),
+('WJ','卫检', '{CC}', 0, 0),
+('SZ','适载', '{CC}', 0, 0),
+('XZ','熏蒸','{CC}', 0, 0)
+;
 
 INSERT INTO `G_CARGO_CLASS` (`CACL_CODE`, `CACL_NAME_CN`, `CACL_NAME_EN`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('01', '活动物', NULL, 1, '{CC}', 0, 0),
@@ -955,6 +971,19 @@ INSERT INTO `G_USAGE` (`USAG_CODE`, `USAG_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION
 ('HYGG', '货样广告品', 1, '{CC}', 0, 0),
 ('QT', '其他', 1, '{CC}', 0, 0),
 ('YCDJ', '以产顶进', 1, '{CC}', 0, 0);
+
+--
+-- 服务项目 `G_SERVICE_ITEM`
+--
+
+INSERT INTO `G_SERVICE_ITEM` (`SEIT_CODE`, `SEIT_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('TC', '拖车运输', 1, '{CC}', 0, 0),
+('GZ', '港装', 1, '{CC}', 0, 0),
+('MT', '码头', 1, '{CC}', 0, 0),
+('DC', '订舱', 1, '{CC}', 0, 0),
+('WXP', '危品申报/备案', 1, '{CC}', 0, 0),
+('QT', '码头其它', 1, '{CC}', 0, 0);
+
 
 --
 -- 导出表中的数据 `P_SERIAL_RULE`

@@ -142,26 +142,93 @@ var showG_ISTY = function() {
 //报关类型
 var showG_CUTY = function() {    
 	var store = GS('CUTY_Q','GCustomsType',GCustomsType,'cutyId','DESC','','','id',false);
+	
     store.load();
+    
     var ac=ACTIVE();	
     var sm=getCSM();	
+    
     var cm=new Ext.grid.ColumnModel({columns:[sm,
 	{header:C_CODE,dataIndex:'cutyCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_CUTY,dataIndex:'cutyName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 	ac],defaults:{sortable:true,width:100}});
+    
     var grid = new  Ext.grid.EditorGridPanel({id:'G_CUTY',iconCls:'gen',title:C_CUTY,
 	plugins:ac,clicksToEdit:1,closable:true,store:store,sm:sm,cm:cm,
 	tbar:[{
-		text:C_ADD,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'add',handler : function(){            	
-			var p = new GCustomsType({id:GGUID(),vehtId:'0',cutyCode:'',cutyName:'',active:1,version:'0',rowAction:'N'});            
-        	grid.stopEditing();store.insert(0,p);grid.startEditing(0,1);}},'-',
-        {text:C_REMOVE,disabled:NR(M1_J+G_VEHT+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}}, '-', 
-        {text:C_SAVE,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GCustomsType',GCustomsType,'CUTY_S');getCUTY_S().reload();}
+		text:C_ADD,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'add',
+			handler : function(){            	
+				var p = new GCustomsType({id:GGUID(),vehtId:'0',cutyCode:'',cutyName:'',active:1,version:'0',rowAction:'N'});            
+	        	grid.stopEditing();
+	        	store.insert(0,p);
+	        	grid.startEditing(0,1);
+	        }
+		},'-',
+        {text:C_REMOVE,disabled:NR(M1_J+G_VEHT+F_R),iconCls:'remove',
+        		handler:function(){
+        			FOS_REMOVE(sm,store);
+        		}
+        }, '-', 
+        {text:C_SAVE,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'save',
+        	handler:function(){
+        		FOS_POST(store,'GCustomsType',GCustomsType,'CUTY_S');
+        		getCustomsType_S().reload();
+        	}
         }]
     }); 
     return grid;
 };
 
+//报检类型
+var showG_INTY = function() {    
+	var store = GS('INTY_Q','GInspectionType',GInspectionType,'intyId','DESC','','','id',false);
+    store.load();
+    var ac=ACTIVE();	
+    
+    var sm=getCSM();	
+    
+    var cm=new Ext.grid.ColumnModel({columns:[sm,
+        {header:C_CODE,dataIndex:'intyCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+        {header:C_INTY,dataIndex:'intyName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+        ac],
+        defaults:{sortable:true,width:100}
+    });
+    
+    var grid = new  Ext.grid.EditorGridPanel({id:'G_CUTY',
+    	iconCls:'gen',
+    	title:C_INTY,
+    	plugins:ac,
+    	clicksToEdit:1,
+    	closable:true,
+    	store:store,
+    	sm:sm,
+    	cm:cm,
+    	tbar:[{text:C_ADD,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'add',
+    		handler : function(){            	
+				var p = new GInspectionType({id:GGUID(),
+					intyId:'0',
+					active:1,
+					version:'0',
+					rowAction:'N'
+				});            
+				grid.stopEditing();
+				store.insert(0,p);
+				grid.startEditing(0,1);
+			}
+    		},'-',
+    		{text:C_REMOVE,disabled:NR(M1_J+G_VEHT+F_R),iconCls:'remove',
+    			handler:function(){
+    				FOS_REMOVE(sm,store);}
+    		}, '-', 
+    		{text:C_SAVE,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'save',
+    			handler:function(){
+    				FOS_POST(store,'GInspectionType',GInspectionType,'INTY_S');
+    				getCUTY_S().reload();
+    		}
+        }]
+    }); 
+    return grid;
+};
 
 //服务项目
 var showG_SEIT = function() {    

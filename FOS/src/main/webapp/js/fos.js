@@ -676,6 +676,13 @@ function createGMTree(){
 		var cuty = CreateNode(C_CUTY,'CUTY',M1_J+G_CUTY,showG_CUTY);
 		cus.appendChild(cuty);
 	}
+	
+	if(!NR(M1_J+G_INTY)){
+		var inty = CreateNode(C_INTY,'INTY',M1_J+G_INTY,showG_INTY);
+		cus.appendChild(inty);
+	}
+	
+	
 	if(!NR(M1_J+G_TRTY)){
 		var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
 		cus.appendChild(trty);

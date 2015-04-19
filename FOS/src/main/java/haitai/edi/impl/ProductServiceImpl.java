@@ -58,7 +58,6 @@ public class ProductServiceImpl implements ProductService {
 		
 				
 		String productID=keyValuePair.get("ProductID");
-		String uuid=accountID;
 		
 		IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
 		try {
