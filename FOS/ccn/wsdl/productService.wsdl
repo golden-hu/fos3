@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.edi.haitai/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://edi.haitai/" name="ProductServiceImplService" targetNamespace="http://impl.edi.haitai/">
+  <wsdl:import location="http://localhost:8080/FOS/services/productService?wsdl=ProductService.wsdl" namespace="http://edi.haitai/">
+    </wsdl:import>
+  <wsdl:binding name="ProductServiceImplServiceSoapBinding" type="ns1:ProductService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="UnSuspend">
+      <soap:operation soapAction="urn:UnSuspend" style="document"/>
+      <wsdl:input name="UnSuspend">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UnSuspendResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Activate">
+      <soap:operation soapAction="urn:Activate" style="document"/>
+      <wsdl:input name="Activate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ActivateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Suspend">
+      <soap:operation soapAction="urn:Suspend" style="document"/>
+      <wsdl:input name="Suspend">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SuspendResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Terminate">
+      <soap:operation soapAction="urn:Terminate" style="document"/>
+      <wsdl:input name="Terminate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="TerminateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateAccess">
+      <soap:operation soapAction="urn:ValidateAccess" style="document"/>
+      <wsdl:input name="ValidateAccess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ValidateAccessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProductServiceImplService">
+    <wsdl:port binding="tns:ProductServiceImplServiceSoapBinding" name="ProductServiceImplPort">
+      <soap:address location="http://localhost:8080/FOS/services/productService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

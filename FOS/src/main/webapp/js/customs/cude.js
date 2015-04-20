@@ -48,7 +48,7 @@ Fos.CustomsGrid = function(bizClass) {
     		T_MAIN.setActiveTab(t);
     	} 
     	else{
-    		t = new Fos.CustomsDeclearTab(p,store);
+    		t = new Fos.CudeConsignPanel(p,store);
     		T_MAIN.add(t);
     		T_MAIN.setActiveTab(t);
     	}

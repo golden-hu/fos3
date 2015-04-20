@@ -12,8 +12,6 @@ public class DTOAccount  implements java.io.Serializable {
 
     private java.lang.String city;
 
-    private java.lang.String companyName;
-
     private java.lang.String configBy;
 
     private java.lang.String contactNo;
@@ -42,7 +40,6 @@ public class DTOAccount  implements java.io.Serializable {
     public DTOAccount(
            java.lang.String accountID,
            java.lang.String city,
-           java.lang.String companyName,
            java.lang.String configBy,
            java.lang.String contactNo,
            java.lang.String firstName,
@@ -56,7 +53,6 @@ public class DTOAccount  implements java.io.Serializable {
            java.lang.String userType) {
            this.accountID = accountID;
            this.city = city;
-           this.companyName = companyName;
            this.configBy = configBy;
            this.contactNo = contactNo;
            this.firstName = firstName;
@@ -108,26 +104,6 @@ public class DTOAccount  implements java.io.Serializable {
      */
     public void setCity(java.lang.String city) {
         this.city = city;
-    }
-
-
-    /**
-     * Gets the companyName value for this DTOAccount.
-     * 
-     * @return companyName
-     */
-    public java.lang.String getCompanyName() {
-        return companyName;
-    }
-
-
-    /**
-     * Sets the companyName value for this DTOAccount.
-     * 
-     * @param companyName
-     */
-    public void setCompanyName(java.lang.String companyName) {
-        this.companyName = companyName;
     }
 
 
@@ -368,9 +344,6 @@ public class DTOAccount  implements java.io.Serializable {
             ((this.city==null && other.getCity()==null) || 
              (this.city!=null &&
               this.city.equals(other.getCity()))) &&
-            ((this.companyName==null && other.getCompanyName()==null) || 
-             (this.companyName!=null &&
-              this.companyName.equals(other.getCompanyName()))) &&
             ((this.configBy==null && other.getConfigBy()==null) || 
              (this.configBy!=null &&
               this.configBy.equals(other.getConfigBy()))) &&
@@ -420,9 +393,6 @@ public class DTOAccount  implements java.io.Serializable {
         }
         if (getCity() != null) {
             _hashCode += getCity().hashCode();
-        }
-        if (getCompanyName() != null) {
-            _hashCode += getCompanyName().hashCode();
         }
         if (getConfigBy() != null) {
             _hashCode += getConfigBy().hashCode();
@@ -477,13 +447,6 @@ public class DTOAccount  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("city");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "City"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("companyName");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "CompanyName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(true);

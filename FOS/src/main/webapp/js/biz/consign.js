@@ -225,7 +225,7 @@ Fos.showConsignTabs = function(p){
 	
 	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){
 		if(!tc.getComponent('T_CUDE_'+p.get('id'))){
-			tc.add(new Fos.CustomsTab(p));
+			tc.add(new Fos.CudePanel(p));
 		}
 	}
 	else{
@@ -655,7 +655,7 @@ Fos.ConsignTab = function(p){
 		items[items.length]=new Fos.InspectionTab(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1) 
-		items[items.length]=new Fos.CustomsTab(p);
+		items[items.length]=new Fos.CudePanel(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1) 
 		items[items.length]=new Fos.BBookingTab(p);	

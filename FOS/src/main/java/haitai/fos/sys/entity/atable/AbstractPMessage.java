@@ -172,7 +172,7 @@ public abstract class AbstractPMessage extends BaseDomain {
 		this.messToUserName = messToUserName;
 	}
 
-	@Column(name = "comp_code", nullable = false, length = 4)
+	@Column(name = "comp_code", nullable = false)
 	public String getCompCode() {
 		return this.compCode;
 	}

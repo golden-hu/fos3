@@ -69,7 +69,7 @@
 <script type="text/javascript" src="js/biz/warehouse.js"></script>
 <script type="text/javascript" src="js/biz/container.js"></script>
 <script type="text/javascript" src="js/biz/inspection.js"></script>
-<script type="text/javascript" src="js/biz/CustomsTab.js"></script>
+
 
 <script type="text/javascript" src="js/biz/bl.js"></script>
 <script type="text/javascript" src="js/biz/section.js"></script>
@@ -77,9 +77,12 @@
 <script type="text/javascript" src="js/biz/imp.js"></script>
 
 <script type="text/javascript" src="js/customs/cude.js"></script>
-<script type="text/javascript" src="js/customs/CustomsDeclearTab.js"></script>
+<script type="text/javascript" src="js/customs/CudeConsignPanel.js"></script>
+<script type="text/javascript" src="js/customs/CudePanel.js"></script>
+
 <script type="text/javascript" src="js/customs/insp.js"></script>
 <script type="text/javascript" src="js/customs/InspectionDeclTab.js"></script>
+
 <script type="text/javascript" src="js/customs/trade.js"></script>
 <script type="text/javascript" src="js/customs/reliefTax.js"></script>
 <script type="text/javascript" src="js/customs/entReg.js"></script>

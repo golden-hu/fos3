@@ -499,7 +499,7 @@ public abstract class AbstractFWarehouse extends BaseDomain {
 		this.modifyTime = modifyTime;
 	}
 
-	@Column(name = "COMP_CODE", length = 4)
+	@Column(name = "COMP_CODE")
 	public String getCompCode() {
 		return this.compCode;
 	}

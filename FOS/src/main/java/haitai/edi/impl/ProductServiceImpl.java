@@ -13,7 +13,6 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOCompany;
@@ -24,10 +23,8 @@ import sg.com.ccn.util.CopyFile;
 import sg.com.ccn.util.InitData;
 
 import haitai.edi.ProductService;
-import haitai.fw.exception.BusinessException;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
-import haitai.fw.util.StringUtil;
 
 //(targetNamespace = "http://impl.edi.haitai/", endpointInterface = "haitai.edi.ProductService", portName = "ProductServiceImplPort", serviceName = "ProductServiceImplService")
 @WebService
@@ -79,12 +76,12 @@ public class ProductServiceImpl implements ProductService {
 						StringBuffer sbCom=new StringBuffer();
 						sbCom.append("insert into P_COMPANY (");
 						sbCom.append("COMP_CODE,COMP_NAME_CN,COMP_NAME_EN,COMP_ACTIVE,");
-						sbCom.append("COMP_START_DATE,COMP_END_DATE,COMP_EMAIL,COMP_TEL,");
+						sbCom.append("COMP_START_DATE,COMP_EMAIL,COMP_TEL,");
 						sbCom.append("COMP_FAX,COMP_ADDRESS,COMP_CONTACT");
 						sbCom.append(")");
 						sbCom.append("values(");
 						sbCom.append(" '"+compCode+"','"+company.getCompanyName1()+"','"+company.getCompanyName2()+"',1, ");
-						sbCom.append(" now(),'','','', ");
+						sbCom.append(" now(),'','', ");
 						sbCom.append(" '','','' ");
 						sbCom.append(");");
 						String sqlCom=sbCom.toString();

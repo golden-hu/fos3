@@ -85,7 +85,7 @@ public abstract class AbstractPComments extends BaseDomain {
 		this.commBy = commBy;
 	}
 
-	@Column(name = "COMP_CODE", nullable = false, length = 4)
+	@Column(name = "COMP_CODE", nullable = false)
 	public String getCompCode() {
 		return this.compCode;
 	}

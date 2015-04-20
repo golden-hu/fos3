@@ -57,7 +57,7 @@ public abstract class AbstractGLinePort extends BaseDomain {
 		this.portId = portId;
 	}
 
-	@Column(name = "COMP_CODE", nullable = false, length = 4)
+	@Column(name = "COMP_CODE", nullable = false)
 	public String getCompCode() {
 		return this.compCode;
 	}

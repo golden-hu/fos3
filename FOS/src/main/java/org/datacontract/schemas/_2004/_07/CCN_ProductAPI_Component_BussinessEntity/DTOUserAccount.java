@@ -18,6 +18,10 @@ public class DTOUserAccount  implements java.io.Serializable {
 
     private java.lang.String companyCode;
 
+    private java.lang.String companyName;
+
+    private java.lang.String configBy;
+
     private java.lang.String contactNo;
 
     private java.lang.Boolean emailActivated;
@@ -53,6 +57,8 @@ public class DTOUserAccount  implements java.io.Serializable {
            java.lang.String city,
            java.lang.String cityType,
            java.lang.String companyCode,
+           java.lang.String companyName,
+           java.lang.String configBy,
            java.lang.String contactNo,
            java.lang.Boolean emailActivated,
            java.lang.String emailAddress,
@@ -71,6 +77,8 @@ public class DTOUserAccount  implements java.io.Serializable {
            this.city = city;
            this.cityType = cityType;
            this.companyCode = companyCode;
+           this.companyName = companyName;
+           this.configBy = configBy;
            this.contactNo = contactNo;
            this.emailActivated = emailActivated;
            this.emailAddress = emailAddress;
@@ -184,6 +192,46 @@ public class DTOUserAccount  implements java.io.Serializable {
      */
     public void setCompanyCode(java.lang.String companyCode) {
         this.companyCode = companyCode;
+    }
+
+
+    /**
+     * Gets the companyName value for this DTOUserAccount.
+     * 
+     * @return companyName
+     */
+    public java.lang.String getCompanyName() {
+        return companyName;
+    }
+
+
+    /**
+     * Sets the companyName value for this DTOUserAccount.
+     * 
+     * @param companyName
+     */
+    public void setCompanyName(java.lang.String companyName) {
+        this.companyName = companyName;
+    }
+
+
+    /**
+     * Gets the configBy value for this DTOUserAccount.
+     * 
+     * @return configBy
+     */
+    public java.lang.String getConfigBy() {
+        return configBy;
+    }
+
+
+    /**
+     * Sets the configBy value for this DTOUserAccount.
+     * 
+     * @param configBy
+     */
+    public void setConfigBy(java.lang.String configBy) {
+        this.configBy = configBy;
     }
 
 
@@ -473,6 +521,12 @@ public class DTOUserAccount  implements java.io.Serializable {
             ((this.companyCode==null && other.getCompanyCode()==null) || 
              (this.companyCode!=null &&
               this.companyCode.equals(other.getCompanyCode()))) &&
+            ((this.companyName==null && other.getCompanyName()==null) || 
+             (this.companyName!=null &&
+              this.companyName.equals(other.getCompanyName()))) &&
+            ((this.configBy==null && other.getConfigBy()==null) || 
+             (this.configBy!=null &&
+              this.configBy.equals(other.getConfigBy()))) &&
             ((this.contactNo==null && other.getContactNo()==null) || 
              (this.contactNo!=null &&
               this.contactNo.equals(other.getContactNo()))) &&
@@ -545,6 +599,12 @@ public class DTOUserAccount  implements java.io.Serializable {
         }
         if (getCompanyCode() != null) {
             _hashCode += getCompanyCode().hashCode();
+        }
+        if (getCompanyName() != null) {
+            _hashCode += getCompanyName().hashCode();
+        }
+        if (getConfigBy() != null) {
+            _hashCode += getConfigBy().hashCode();
         }
         if (getContactNo() != null) {
             _hashCode += getContactNo().hashCode();
@@ -627,6 +687,20 @@ public class DTOUserAccount  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("companyCode");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "CompanyCode"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("companyName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "CompanyName"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("configBy");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "ConfigBy"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(true);

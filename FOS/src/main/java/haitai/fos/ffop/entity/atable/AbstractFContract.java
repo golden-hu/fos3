@@ -970,7 +970,7 @@ public abstract class AbstractFContract extends BaseDomain {
 		this.modifyTime = modifyTime;
 	}
 
-	@Column(name = "COMP_CODE", length = 4)
+	@Column(name = "COMP_CODE")
 	public String getCompCode() {
 		return this.compCode;
 	}

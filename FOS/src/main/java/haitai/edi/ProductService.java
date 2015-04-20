@@ -10,19 +10,19 @@ import javax.jws.WebService;
 public interface ProductService {
 
 	@WebMethod(operationName = "Activate", action = "urn:Activate")
-	public String Activate(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	public String Activate(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
 	
 	@WebMethod(operationName = "Suspend", action = "urn:Suspend")
-	public String Suspend(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	public String Suspend(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
 	
 	@WebMethod(operationName = "UnSuspend", action = "urn:UnSuspend")
-	public String UnSuspend(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	public String UnSuspend(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
 	
 	@WebMethod(operationName = "Terminate", action = "urn:Terminate")
-	public String Terminate(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	public String Terminate(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
 	
 	@WebMethod(operationName = "ValidateAccess", action = "urn:ValidateAccess")
-	String ValidateAccess(@WebParam(name = "arg0") String accountID,@WebParam(name = "arg1") HashMap<String,String> keyValuePair);
+	String ValidateAccess(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
 	
 	
 }

@@ -128,7 +128,7 @@ public class IProductAPIServiceProxy implements org.tempuri.IProductAPIService {
     return iProductAPIService.createUserAccount(userAccount);
   }
   
-  public java.lang.Boolean saveUserAccount(org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOAccount userAccount) throws java.rmi.RemoteException{
+  public java.lang.Boolean saveUserAccount(org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount userAccount) throws java.rmi.RemoteException{
     if (iProductAPIService == null)
       _initIProductAPIServiceProxy();
     return iProductAPIService.saveUserAccount(userAccount);
@@ -180,6 +180,12 @@ public class IProductAPIServiceProxy implements org.tempuri.IProductAPIService {
     if (iProductAPIService == null)
       _initIProductAPIServiceProxy();
     return iProductAPIService.getEfreightCompanyList(role, productId);
+  }
+  
+  public java.lang.Boolean deleteUserAccountProduct(java.lang.String accountID, java.lang.String productID, java.lang.String configBy) throws java.rmi.RemoteException{
+    if (iProductAPIService == null)
+      _initIProductAPIServiceProxy();
+    return iProductAPIService.deleteUserAccountProduct(accountID, productID, configBy);
   }
   
   

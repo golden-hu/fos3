@@ -1,4 +1,4 @@
-Fos.CustomsDeclearTab = function(p,store) {
+Fos.CudeConsignPanel = function(p,store) {
     
     var locked=p.get('consStatusLock')==1;
     var disable=p.get('editable')==0;
@@ -1003,13 +1003,13 @@ Fos.CustomsDeclearTab = function(p,store) {
 		scope:this,
 		handler:function(){
 			var c = Fos.copyConsign(p);
-			var t = new Fos.CustomsDeclearTab(c,store);
+			var t = new Fos.CudeConsignPanel(c,store);
     		T_MAIN.add(t);
     		T_MAIN.setActiveTab(t);
 		}
 	});
 	
-	Fos.CustomsDeclearTab.superclass.constructor.call(this, { 
+	Fos.CudeConsignPanel.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),
 		title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),
 		header:false,
@@ -1061,4 +1061,4 @@ Fos.CustomsDeclearTab = function(p,store) {
 	     ]
 	});
 };
-Ext.extend(Fos.CustomsDeclearTab,Ext.FormPanel);
+Ext.extend(Fos.CudeConsignPanel,Ext.FormPanel);

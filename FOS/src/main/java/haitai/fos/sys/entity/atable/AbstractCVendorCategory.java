@@ -47,7 +47,7 @@ public abstract class AbstractCVendorCategory extends BaseDomain {
 		this.vecaName = vecaName;
 	}
 
-	@Column(name = "COMP_CODE", unique = false, nullable = false, insertable = true, updatable = true, length = 4)
+	@Column(name = "COMP_CODE", unique = false, nullable = false, insertable = true, updatable = true)
 	public String getCompCode() {
 		return this.compCode;
 	}

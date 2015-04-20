@@ -16,7 +16,7 @@ public class BasicHttpBinding_IProductAPIServiceStub extends org.apache.axis.cli
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[23];
+        _operations = new org.apache.axis.description.OperationDesc[24];
         _initOperationDesc1();
         _initOperationDesc2();
         _initOperationDesc3();
@@ -257,7 +257,7 @@ public class BasicHttpBinding_IProductAPIServiceStub extends org.apache.axis.cli
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("SaveUserAccount");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "userAccount"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "DTOAccount"), org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOAccount.class, false, false);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "userAccount"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/CCN.ProductAPI.Component.BussinessEntity", "DTOUserAccount"), org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount.class, false, false);
         param.setOmittable(true);
         param.setNillable(true);
         oper.addParameter(param);
@@ -403,6 +403,26 @@ public class BasicHttpBinding_IProductAPIServiceStub extends org.apache.axis.cli
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[22] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("DeleteUserAccountProduct");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "accountID"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.microsoft.com/2003/10/Serialization/", "guid"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "productID"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "configBy"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
+        oper.setReturnClass(java.lang.Boolean.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "DeleteUserAccountProductResult"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[23] = oper;
 
     }
 
@@ -1233,7 +1253,7 @@ public class BasicHttpBinding_IProductAPIServiceStub extends org.apache.axis.cli
 }
     }
 
-    public java.lang.Boolean saveUserAccount(org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOAccount userAccount) throws java.rmi.RemoteException {
+    public java.lang.Boolean saveUserAccount(org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount userAccount) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -1532,6 +1552,40 @@ public class BasicHttpBinding_IProductAPIServiceStub extends org.apache.axis.cli
                 return (org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOeFreightCompany[]) _resp;
             } catch (java.lang.Exception _exception) {
                 return (org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOeFreightCompany[]) org.apache.axis.utils.JavaUtils.convert(_resp, org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOeFreightCompany[].class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public java.lang.Boolean deleteUserAccountProduct(java.lang.String accountID, java.lang.String productID, java.lang.String configBy) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[23]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tempuri.org/IProductAPIService/DeleteUserAccountProduct");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "DeleteUserAccountProduct"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {accountID, productID, configBy});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (java.lang.Boolean) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.Boolean.class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

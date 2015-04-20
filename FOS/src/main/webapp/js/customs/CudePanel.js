@@ -1,5 +1,5 @@
 //报关单
-Fos.CustomsTab = function(p) {
+Fos.CudePanel = function(p) {
 	this.sel =GSEL;
 	
 	this.store =  new Ext.data.Store({url:SERVICE_URL,
@@ -907,7 +907,7 @@ Fos.CustomsTab = function(p) {
 	   		]}
 	});
 	
-	Fos.CustomsTab.superclass.constructor.call(this, { 
+	Fos.CudePanel.superclass.constructor.call(this, { 
 		id: "T_CUDE_" +p.get('id'),
 		title:C_SR_CUDE,
 		autoScroll:true,
@@ -929,10 +929,10 @@ Fos.CustomsTab = function(p) {
 	});
 };
 
-Ext.extend(Fos.CustomsTab, Ext.Panel);
+Ext.extend(Fos.CudePanel, Ext.Panel);
 
 Fos.CustomsWin = function(p) {
-	var panel = new Fos.CustomsTab(p);
+	var panel = new Fos.CudePanel(p);
 	Fos.CustomsWin.superclass.constructor.call(this, {title:p.get('consNo')+C_CUSTOM_BILL,
 		modal:true,
 		width:1000,

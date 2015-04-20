@@ -117,7 +117,7 @@ public abstract class AbstractGPort extends BaseDomain {
 		this.counCode = counCode;
 	}
 
-	@Column(name = "COMP_CODE", nullable = false, length = 4)
+	@Column(name = "COMP_CODE", nullable = false)
 	public String getCompCode() {
 		return this.compCode;
 	}

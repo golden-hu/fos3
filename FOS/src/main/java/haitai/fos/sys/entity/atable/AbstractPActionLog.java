@@ -110,7 +110,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 		this.acloIp = acloIp;
 	}
 
-	@Column(name = "COMP_CODE", length = 4)
+	@Column(name = "COMP_CODE")
 	public String getCompCode() {
 		return this.compCode;
 	}

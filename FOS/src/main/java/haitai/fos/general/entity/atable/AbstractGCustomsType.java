@@ -63,7 +63,7 @@ public abstract class AbstractGCustomsType extends BaseDomain {
 		this.version = version;
 	}
 	
-	@Column(name = "COMP_CODE", nullable = false, length = 4)
+	@Column(name = "COMP_CODE", nullable = false)
 	public String getCompCode() {
 		return compCode;
 	}

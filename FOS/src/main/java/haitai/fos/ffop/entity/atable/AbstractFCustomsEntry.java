@@ -336,7 +336,7 @@ public abstract class AbstractFCustomsEntry extends BaseDomain {
 		this.modifyTime = modifyTime;
 	}
 
-	@Column(name = "COMP_CODE", nullable = false, length = 4)
+	@Column(name = "COMP_CODE", nullable = false)
 	public String getCompCode() {
 		return this.compCode;
 	}

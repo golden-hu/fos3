@@ -22,7 +22,7 @@ public class ProductAPIServiceLocator extends org.apache.axis.client.Service imp
     }
 
     // Use to get a proxy class for BasicHttpBinding_IProductAPIService
-    private java.lang.String BasicHttpBinding_IProductAPIService_address = "http://epouchservicesppd.ccnhub.com/ProductAPIService/ProductAPIService.svc";
+    private java.lang.String BasicHttpBinding_IProductAPIService_address = "http://epouchservicesdev.ccnhub.com/ProductAPIService/ProductAPIService.svc";
 
     public java.lang.String getBasicHttpBinding_IProductAPIServiceAddress() {
         return BasicHttpBinding_IProductAPIService_address;
