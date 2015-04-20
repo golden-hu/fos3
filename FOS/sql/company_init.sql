@@ -79,6 +79,20 @@ INSERT INTO `G_INSPECTION_TYPE` (`INTY_CODE`, `INTY_NAME`,`COMP_CODE`, `VERSION`
 ('XZ','熏蒸','{CC}', 0, 0)
 ;
 
+
+INSERT INTO `G_CARGO_PROPERTY` (`CAPR_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('普货', '{CC}', 0, 0),
+('危品','{CC}', 0, 0),
+('展品','{CC}', 0, 0),
+('个人行李物品','{CC}', 0, 0),
+('吉柜','{CC}', 0, 0),
+('机械配件','{CC}', 0, 0),
+('暂时进出境物品','{CC}', 0, 0),
+('过境物品','{CC}', 0, 0),
+('冷藏品','{CC}', 0, 0),
+('生鲜果品','{CC}', 0, 0),
+('其他','{CC}', 0, 0);
+
 INSERT INTO `G_CARGO_CLASS` (`CACL_CODE`, `CACL_NAME_CN`, `CACL_NAME_EN`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('01', '活动物', NULL, 1, '{CC}', 0, 0),
 ('02', '肉及食用杂碎', NULL, 1, '{CC}', 0, 0),

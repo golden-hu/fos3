@@ -194,7 +194,7 @@ var showG_INTY = function() {
         defaults:{sortable:true,width:100}
     });
     
-    var grid = new  Ext.grid.EditorGridPanel({id:'G_CUTY',
+    var grid = new  Ext.grid.EditorGridPanel({id:'G_INTY',
     	iconCls:'gen',
     	title:C_INTY,
     	plugins:ac,
@@ -203,27 +203,27 @@ var showG_INTY = function() {
     	store:store,
     	sm:sm,
     	cm:cm,
-    	tbar:[{text:C_ADD,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'add',
+    	tbar:[{text:C_ADD,disabled:NR(M1_J+G_INTY+F_M),iconCls:'add',
     		handler : function(){            	
 				var p = new GInspectionType({id:GGUID(),
 					intyId:'0',
 					active:1,
 					version:'0',
 					rowAction:'N'
-				});            
+				});
 				grid.stopEditing();
 				store.insert(0,p);
 				grid.startEditing(0,1);
 			}
     		},'-',
-    		{text:C_REMOVE,disabled:NR(M1_J+G_VEHT+F_R),iconCls:'remove',
+    		{text:C_REMOVE,disabled:NR(M1_J+G_INTY+F_R),iconCls:'remove',
     			handler:function(){
     				FOS_REMOVE(sm,store);}
     		}, '-', 
-    		{text:C_SAVE,disabled:NR(M1_J+G_VEHT+F_M),iconCls:'save',
+    		{text:C_SAVE,disabled:NR(M1_J+G_INTY+F_M),iconCls:'save',
     			handler:function(){
     				FOS_POST(store,'GInspectionType',GInspectionType,'INTY_S');
-    				getCUTY_S().reload();
+    				getINTY_S().reload();
     		}
         }]
     }); 
@@ -278,3 +278,45 @@ var showG_SEIT = function() {
     return grid;
 };
 
+//货物属性
+var showG_CAPR = function() {    
+	var store = GS('CAPR_Q','GCargoProperty',GCargoProperty,'caprId','DESC','','','id',false);
+    store.load();
+    var ac=ACTIVE();	
+    var sm=getCSM();
+    var cm=new Ext.grid.ColumnModel({columns:[sm,   
+        {header:C_NAME,dataIndex:'caprName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+        ac],
+        defaults:{sortable:true,width:100}
+    });
+    
+    var grid = new  Ext.grid.EditorGridPanel({id:'G_CAPR',
+    	iconCls:'gen',
+    	title:C_CAPR,
+    	plugins:ac,
+    	clicksToEdit:1,
+    	closable:true,
+    	store:store,
+    	sm:sm,
+    	cm:cm,
+    	tbar:[{
+		text:C_ADD,disabled:NR(M1_J+G_CAPR+F_M),iconCls:'add',handler : function(){            	
+			var p = new GCargoClass({id:GGUID(),caprId:'0',active:1,version:'0',rowAction:'N'});            
+        	grid.stopEditing();
+        	store.insert(0,p);
+        	grid.startEditing(0,1);}
+    	},'-',
+        {text:C_REMOVE,disabled:NR(M1_J+G_CAPR+F_R),iconCls:'remove',
+    		handler:function(){
+    			FOS_REMOVE(sm,store);
+    		}
+    	}, '-', 
+        {text:C_SAVE,disabled:NR(M1_J+G_CAPR+F_M),iconCls:'save',
+        	handler:function(){
+        		FOS_POST(store,'GCargoClass',GCargoClass,'CACL_S');
+        		getCACL_S().reload();
+        	}
+        }]
+    }); 
+    return grid;
+};

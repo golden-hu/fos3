@@ -687,29 +687,40 @@ function createGMTree(){
 		var trty = CreateNode(C_TRTY,'TRTY',M1_J+G_TRTY,showG_TRTY);
 		cus.appendChild(trty);
 	}
+	
 	if(!NR(M1_J+G_USAG)){
 		var usag = CreateNode(C_USAG,'USAG',M1_J+G_USAG,showG_USAG);
 		cus.appendChild(usag);
 	}
+	
 	if(!NR(M1_J+G_LETY)){
 		var lety = CreateNode(C_LETY,'LETY',M1_J+G_LETY,showG_LETY);
 		cus.appendChild(lety);
 	}
+	
 	if(!NR(M1_J+G_EXSE)){
 		var exse = CreateNode(C_EXSE,'EXSE',M1_J+G_EXSE,showG_EXSE);
 		cus.appendChild(exse);
 	}
+	
 	if(!NR(M1_J+G_TRAT)){
 		var trat = CreateNode(C_TRAT,'TRAT',M1_J+G_TRAT,showG_TRAT);
 		cus.appendChild(trat);
 	}
+	
 	if(!NR(M1_J+G_ISTY)){
 		var isty = CreateNode(C_ISTY,'ISTY',M1_J+G_ISTY,showG_ISTY);
 		cus.appendChild(isty);	
 	}
+	
 	if(!NR(M1_J+G_ISTY)){
 		var seit = CreateNode(C_SEIT,'SEIT',M1_J+G_SEIT,showG_SEIT);
 		cus.appendChild(seit);	
+	}
+	
+	if(!NR(M1_J+G_CAPR)){
+		var capr = CreateNode(C_CAPR,'CAPR',M1_J+G_CAPR,showG_CAPR);
+		cus.appendChild(capr);	
 	}
 	
 	root.appendChild(cus);

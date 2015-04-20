@@ -404,6 +404,10 @@ var showG_CACL = function() {
     return grid;
 };
 
+
+
+
+
 //品名
 var showG_CATY = function() {    
 	var store = GS('CATY_Q','GCargoType',GCargoType,'catyId','DESC','','','id',false);

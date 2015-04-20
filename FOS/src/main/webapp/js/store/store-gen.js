@@ -52,6 +52,7 @@ GVehicleType = Ext.data.Record.create(['id','vehtId','vehtName','active','compCo
 GCargoClass = Ext.data.Record.create(['id','caclId','caclCode','caclNameCn','caclNameEn','active','compCode','version','rowAction']);
 GCargoType = Ext.data.Record.create(['id','catyId','caclId','catyCode','catyNameCn','catyNameEn','catyManuNo',
    'catySpec','catyCargoType','catyDanagerFlag','catyDanagerNo','catyDanagerProperty','catyRemarks','active','compCode','version','rowAction']);
+GCargoProperty = Ext.data.Record.create(['id','caprId','caprName','active','compCode','version','rowAction']);
 GCustomsType = Ext.data.Record.create(['cutyId','cutyCode','cutyName','compCode','active','version','rowAction']);
 GInspectionType = Ext.data.Record.create(['intyId','intyCode','intyName','compCode','active','version','rowAction']);
 
@@ -173,8 +174,25 @@ function getPS(){return new Ext.data.Store({url: SERVICE_URL+'?A=PORT_Q',
 	reader: new Ext.data.XmlReader({record:'GPort'},GPort),
 	sortInfo:{field:'portNameEn',direction:'ASC'}});};
 	
-var getCACL_S = function(){return getGStore('CACL','GCargoClass',GCargoClass,'caclId','DESC','');};
-getCACL = function(v){var _cs=getCACL_S();if(v) return _cs.getById(v)?_cs.getById(v).get('caclNameCn'):v; else return '';}; 
+var getCACL_S = function(){
+	return getGStore('CACL','GCargoClass',GCargoClass,'caclId','DESC','');
+};
+getCACL = function(v){
+	var _cs=getCACL_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('caclNameCn'):v; 
+	else return '';
+}; 
+
+var getCAPR_S = function(){
+	return getGStore('CAPR','GCargoProperty',GCargoProperty,'caprId','DESC','');
+};
+getCAPR = function(v){
+	var _cs=getCAPR_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('caprName'):v; 
+	else return '';
+}; 
 
 var getVEHT_S = function(){return getGStore('VEHT','GVehicleType',GVehicleType,'vehtId','ASC','');};	
 getVEHT = function(v){var _cs= getVEHT_S();if(v) return _cs.getById(v)?_cs.getById(v).get('vehtName'):v; else return '';}; 

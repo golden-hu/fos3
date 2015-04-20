@@ -2395,6 +2395,22 @@ CREATE TABLE IF NOT EXISTS G_CARGO_TYPE (
 -- --------------------------------------------------------
 
 --
+-- 表货物属性的结构 G_CARGO_PROPERTY
+--
+
+CREATE TABLE IF NOT EXISTS G_CARGO_PROPERTY (
+  CAPR_ID INT NOT NULL auto_increment,
+  CAPR_NAME VARCHAR(200),
+  ACTIVE TINYINT(4) default '1',
+  COMP_CODE char(8),
+  VERSION INT NOT NULL default '0',
+  REMOVED TINYINT(4) default '0',
+  PRIMARY KEY  (CAPR_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 G_CHARGE
 --
 

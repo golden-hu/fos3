@@ -109,6 +109,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('COCL_Q', 'GContainerClassService', 'query', '箱类查询'),
 ('CACL_S', 'GCargoClassService', 'save', '货物分类保存'),
 ('CACL_Q', 'GCargoClassService', 'query', '货物分类查询'),
+('CAPR_S', 'GCargoPropertyService', 'save', '货物属性保存'),
+('CAPR_Q', 'GCargoPropertyService', 'query', '货物属性查询'),
 ('CATY_S', 'GCargoTypeService', 'save', '货物类型保存'),
 ('CATY_Q', 'GCargoTypeService', 'query', '货物类型查询'),
 ('VEHT_S', 'GVehicleTypeService', 'save', '车辆类型保存'),
@@ -1214,6 +1216,11 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00103101', '查看', 'F', 1),
 ('00103102', '编辑', 'F', 1),
 ('00103103', '删除', 'F', 1),
+
+('001032', '货物属性', 'M', 1),
+('00103201', '查看', 'F', 1),
+('00103202', '编辑', 'F', 1),
+('00103203', '删除', 'F', 1),
 
 ('0011', '系统管理', 'M', 1),
 ('001101', '业务分组', 'M', 1),
