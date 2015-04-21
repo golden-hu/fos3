@@ -22,8 +22,7 @@ public class InitData {
 	 * @param roleId
 	 * @return
 	 */
-    public List <String> readSqlFiles(String compCode,String sqlPath,
-    		Integer userId,Integer roleId) {
+    public List <String> readSqlFiles(String compCode,String sqlPath) {
 	    List <String> sqlList = new ArrayList <String>();
 		    File file = new File(sqlPath);
 		    String encoding="UTF-8";
@@ -35,9 +34,9 @@ public class InitData {
 		    BufferedReader in = new BufferedReader(myFile);
 		    String str;
 		    while ((str = in.readLine()) != null) {
-		    	if(str.contains("{CC}")){str=str.replace("{CC}",compCode);}
-		    	if(str.contains("{user_id}")){str=str.replace("{user_id}",userId+"");}
-		    	if(str.contains("{role_id}")){str=str.replace("{role_id}",roleId+"");}
+		    	if(str.contains("{CC}")){
+		    		str=str.replace("{CC}",compCode);
+		    	}
 		    	temp.append(new String(str));
 		    }
 		    in.close();
@@ -64,9 +63,8 @@ public class InitData {
      */
     public void initSqlFile(String compCode,
     		String sqlFilePath,String sqlDriver,String sqlUrl,
-    		String sqlUserName,String sqlPassword,
-    		Integer userId,Integer roleId){
-    	List<String> sqlList=readSqlFiles(compCode,sqlFilePath,userId,roleId);
+    		String sqlUserName,String sqlPassword){
+    	List<String> sqlList=readSqlFiles(compCode,sqlFilePath);
     	java.sql.Connection conn = null;
     	try {
 				Class.forName(sqlDriver);
