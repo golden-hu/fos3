@@ -218,7 +218,7 @@ PUser = Ext.data.Record.create(['id','userId','userName','userLoginName',
 	'userSystemUserFlag','userManagerFlag','userNetworkFlag',
 	'userGrouViewFlag','userGrouEditFlag','userAllViewFlag','userAllEditFlag',
 	{name:'userPasswordModifyDate',type:'date',dateFormat:'Y-m-d'},
-	'funcCode','active','compCode','version','rowAction']);
+	'uuid','funcCode','active','compCode','version','rowAction']);
 var Cookies = {};
 Cookies.set = function(name, value){
      var argv = arguments;

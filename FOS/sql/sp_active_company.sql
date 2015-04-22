@@ -1,6 +1,6 @@
 
 DELIMITER $$
-create procedure sp_active_company(IN compCode VARCHAR(32),IN compName VARCHAR(256),IN accountName VARCHAR(256),IN accountEmail VARCHAR(256))
+create procedure sp_active_company(IN compCode VARCHAR(32),IN compName VARCHAR(256),IN accountID VARCHAR(256),IN accountName VARCHAR(256),IN accountEmail VARCHAR(256))
 	begin
 		declare userId int;
 		declare roleId int;
@@ -9,8 +9,8 @@ create procedure sp_active_company(IN compCode VARCHAR(32),IN compName VARCHAR(2
 			compName,1,now());
 			
 		insert into P_USER (USER_NAME,USER_LOGIN_NAME,USER_EMAIL,USER_PASSWORD,
-			USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED) 
-			values(accountName,accountName,accountEmail,'e10adc3949ba59abbe56e057f20f883e',now(),1,compCode,0,0);
+			USER_PASSWORD_MODIFY_DATE,UUID,ACTIVE,COMP_CODE,VERSION,REMOVED) 
+			values(accountName,accountName,accountEmail,'e10adc3949ba59abbe56e057f20f883e',now(),accountID,1,compCode,0,0);
 			
 		select LAST_INSERT_ID() into userId;
 			

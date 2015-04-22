@@ -43,6 +43,7 @@ public abstract class AbstractPUser extends BaseDomain {
 	private Short active;
 	private String compCode;
 	private Short removed;
+	private String uuid;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -280,6 +281,15 @@ public abstract class AbstractPUser extends BaseDomain {
 
 	public void setRemoved(Short removed) {
 		this.removed = removed;
+	}
+	
+	@Column(name = "UUID", nullable = false)
+	public String getUuid() {
+		return this.uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 }

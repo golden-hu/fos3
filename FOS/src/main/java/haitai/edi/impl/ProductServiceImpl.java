@@ -1,8 +1,10 @@
 package haitai.edi.impl;
 
+import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
+
 
 
 
@@ -14,14 +16,12 @@ import javax.persistence.Query;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOCompany;
 import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
 import org.tempuri.IProductAPIServiceProxy;
+
 import sg.com.ccn.util.Const;
 import sg.com.ccn.util.CopyFile;
-import sg.com.ccn.util.InitData;
-
 import haitai.edi.ProductService;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     @Transactional
+    @SuppressWarnings("unchecked")
 	public String Activate(String accountID, HashMap<String, String> keyValuePair) {		
 				
 		String productID=keyValuePair.get("ProductID");
@@ -61,25 +62,38 @@ public class ProductServiceImpl implements ProductService {
 				if("A".equals(account.getUserType())){
 					//调用CCN Platform Company Info
 					String globalCompanyID=account.getGlobalCompanyID();
-					DTOCompany company=iproduct.getCompany(globalCompanyID);
-					String compName = company.getCompanyName1();
-					
-					if(company!=null){
+					DTOCompany company=iproduct.getCompany(globalCompanyID);					
+					if(company!=null){				
+						String compName = company.getCompanyName1();
 						
-						String sql ="call sp_active_company('"+compCode+"','"+compName+"','"+userLoginName+"','"+emailAddress+"');";
+						//检查是否激活过
+						
+						String sql1 = " select count(*) from P_COMPANY  where COMP_CODE ='"+compCode+"' ";
+						
+						Query query1  = em.createNativeQuery(sql1);
+						List<Object> objList = query1.getResultList();
+						if(objList!=null && objList.size()>0){
+							BigInteger count = (BigInteger)objList.get(0);
+							if(count.intValue()>0){
+								return "Company already exist."; 
+							}
+						}
+						
+						String sql2 = " select count(*) from P_USER  where USER_LOGIN_NAME ='"+userLoginName+"' ";
+						
+						Query query2  = em.createNativeQuery(sql2);
+						List<Object> objList2 = query2.getResultList();
+						if(objList2!=null && objList2.size()>0){
+							BigInteger count2 = (BigInteger)objList2.get(0);
+							if(count2.intValue()>0){
+								return "User already exist."; 
+							}
+						}
+						
+						String sql ="call sp_active_company('"+compCode+"','"+compName+"','"+accountID+"','"+userLoginName+"','"+emailAddress+"');";
 						try {
 							Query queryUpdateCom = em.createNativeQuery(sql);
-							queryUpdateCom.executeUpdate();
-							
-							
-							//初始化公司和帐号脚本
-							String sqlFilePathComp=ConfigUtil.getContextPath()+
-									ConstUtil.DIR_SEP+Const.initDataDir+ConstUtil.DIR_SEP+Const.initSql;
-							String sqlDriver=Const.mysqlDriver;
-							String sqlUrl=Const.mysqlUrl;
-							String sqlUserName=Const.mysqlUserName;
-							String sqlPassword=Const.mysqlPassword;
-							new InitData().initSqlFile(compCode, sqlFilePathComp, sqlDriver, sqlUrl, sqlUserName, sqlPassword);							
+							queryUpdateCom.executeUpdate();											
 							
 							CopyFile confile= new CopyFile();
 							String s=ConfigUtil.getContextPath()+
@@ -96,19 +110,18 @@ public class ProductServiceImpl implements ProductService {
 						  return "Active User Account failed.";
 						}
 					} 
-					else {
+					else 
 						return "Active User Account failed.";
-					}
 				}
 				else if(account.getUserType().equals("U")){
 					StringBuffer sbUser=new StringBuffer();
 					sbUser.append("insert into P_USER (");
 					sbUser.append("USER_NAME,USER_LOGIN_NAME,USER_EMAIL,USER_PASSWORD,");
-					sbUser.append("USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED");
+					sbUser.append("USER_PASSWORD_MODIFY_DATE,UUID,ACTIVE,COMP_CODE,VERSION,REMOVED");
 					sbUser.append(")");
 					sbUser.append("values(");
 					sbUser.append("'"+userLoginName+"','"+userLoginName+"','"+emailAddress+"',");
-					sbUser.append("'e10adc3949ba59abbe56e057f20f883e',now(),1,'"+compCode+"',0,0");
+					sbUser.append("'e10adc3949ba59abbe56e057f20f883e',now(),accountID,1,'"+compCode+"',0,0");
 					sbUser.append(");");
 					String sqlUser=sbUser.toString();
 					try {
@@ -145,15 +158,11 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String Suspend(String accountID, HashMap<String, String> keyValuePair) {
-		//String compCode=keyValuePair.get("compCode");
-		String userLoginName=accountID;
-		
+	public String Suspend(String accountID, HashMap<String, String> keyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set ACTIVE=0");
-		sbUser.append(" where USER_LOGIN_NAME='"+userLoginName+"' ");
-		//sbUser.append(" and COMP_CODE='"+compCode+"' ");
+		sbUser.append(" where UUID='"+accountID+"' ");
 		String sqlUser=sbUser.toString();
 		try {
 			Query queryUpdateUser = em.createNativeQuery(sqlUser);
@@ -165,8 +174,8 @@ public class ProductServiceImpl implements ProductService {
 				return "Active User Account failed.";
 		}
 		catch (Exception ex) {
-		  ex.printStackTrace();
-		  return "Active User Account failed.";
+			ex.printStackTrace();
+			return "Active User Account failed.";
 		}
 	}
 
@@ -178,15 +187,11 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String UnSuspend(String accountID, HashMap<String, String> keyValuePair) {
-		//String compCode=keyValuePair.get("compCode");
-		String userLoginName=accountID;
-		
+	public String UnSuspend(String accountID, HashMap<String, String> keyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set ACTIVE=1");
-		sbUser.append(" where USER_LOGIN_NAME='"+userLoginName+"' ");
-		//sbUser.append(" and COMP_CODE='"+compCode+"' ");
+		sbUser.append(" where UUID='"+accountID+"' ");
 		String sqlUser=sbUser.toString();
 		try {
 			Query queryUpdateUser = em.createNativeQuery(sqlUser);
@@ -211,15 +216,11 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String Terminate(String accountID, HashMap<String, String> keyValuePair) {
-		//String compCode=keyValuePair.get("compCode");
-		String userLoginName=accountID;
-		
+	public String Terminate(String accountID, HashMap<String, String> keyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set REMOVED=1");
-		sbUser.append(" where USER_LOGIN_NAME='"+userLoginName+"' ");
-		//sbUser.append(" and COMP_CODE='"+compCode+"' ");
+		sbUser.append(" where UUID ='"+accountID+"' ");
 		String sqlUser=sbUser.toString();
 		try {
 			Query queryUpdateUser = em.createNativeQuery(sqlUser);
@@ -245,7 +246,6 @@ public class ProductServiceImpl implements ProductService {
 		
     	try {
 			//调用CCN Platform User Info
-			log.info("-->start call cnn platform account interface");
 			DTOUserAccount account=iproduct.getUserAccount(accountID, productID);
 			if(account!=null&&account.getUserType()!=null){								
 				
@@ -254,18 +254,17 @@ public class ProductServiceImpl implements ProductService {
 				
 				StringBuffer sbs = new StringBuffer();
 				sbs.append(" select count(*) from P_USER ");
-				sbs.append(" where USER_LOGIN_NAME='"+accountID+"' ");
+				sbs.append(" where ACTIVE=1 and REMOVED=0 and UUID='"+accountID+"' ");
 				
 				Query querySelectUser  = em.createNativeQuery(sbs.toString());
-				List<Object> objListUser = querySelectUser.getResultList();
-				if(objListUser!=null&&objListUser.size()>0){
-					Integer i=Integer.parseInt(objListUser.get(0).toString());
-					if(i==0){
-						return "Validate Access Failed"; 
-					}
-					else{						
+				List<Object> objList = querySelectUser.getResultList();
+				if(objList!=null && objList.size()>0){
+					BigInteger count = (BigInteger)objList.get(0);
+					if(count.intValue()==1){
 						return "";
 					}
+					else
+						return "Validate Access Failed."; 
 				}
 				else {
 					return "Validate Access Failed"; 
