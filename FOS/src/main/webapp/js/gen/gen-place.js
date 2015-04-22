@@ -277,7 +277,8 @@ Fos.PortLookWin = function(portType,fn,scope) {
     	grid.startEditing(0, 1);
 	};
 	this.delPort=function(){
-		HTUtil.REMOVE_SM(sm,store);
+		//HTUtil.REMOVE_SM(sm,store);
+		FOS_REMOVE(sm,store);
 	};
 	this.savePort = function(){
 		FOS_POST(store,'GTrainStation',GTrainStation,'TRAIN_S');getTRAIN_S().reload();
