@@ -1,12 +1,13 @@
 package haitai.edi.impl;
 
+import haitai.edi.ProductService;
+import haitai.edi.jaxws.KeyValueOfstringstring;
+
 import java.math.BigInteger;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
-
 
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
@@ -15,19 +16,13 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOCompany;
 import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
+import org.springframework.transaction.annotation.Transactional;
 import org.tempuri.IProductAPIServiceProxy;
 
-import sg.com.ccn.util.Const;
-import sg.com.ccn.util.CopyFile;
-import haitai.edi.ProductService;
-import haitai.fw.util.ConfigUtil;
-import haitai.fw.util.ConstUtil;
-
 //(targetNamespace = "http://impl.edi.haitai/", endpointInterface = "haitai.edi.ProductService", portName = "ProductServiceImplPort", serviceName = "ProductServiceImplService")
-@WebService
+@WebService(targetNamespace = "http://tempuri.org/", endpointInterface = "haitai.edi.ProductService")
 public class ProductServiceImpl implements ProductService {
 	protected final Log log = LogFactory.getLog(getClass());
 	
@@ -45,14 +40,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     @SuppressWarnings("unchecked")
-	public String Activate(String accountID, HashMap<String, String> keyValuePair) {		
+	public String Activate(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
 				
-		String productID=keyValuePair.get("ProductID");
+		//String productID=keyValuePair.get("ProductID");
 		
 		IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
 		try {
 			//调用CCN Platform User Info
-			DTOUserAccount account=iproduct.getUserAccount(accountID, productID);
+			DTOUserAccount account=iproduct.getUserAccount(accountID, "FOS_FMS");
 			if(account!=null&&account.getUserType()!=null){
 				String compCode=account.getCompanyCode();
 				
@@ -95,13 +90,13 @@ public class ProductServiceImpl implements ProductService {
 							Query queryUpdateCom = em.createNativeQuery(sql);
 							queryUpdateCom.executeUpdate();											
 							
-							CopyFile confile= new CopyFile();
-							String s=ConfigUtil.getContextPath()+
-									ConstUtil.DIR_SEP+Const.initDataDir+ConstUtil.DIR_SEP+"FOS"+ConstUtil.DIR_SEP;
-							String t=ConfigUtil.getContextPath()+
+							/*String sourceDir = ConfigUtil.getContextPath()+ConstUtil.DIR_SEP+Const.initDataDir+ConstUtil.DIR_SEP+"FOS"+ConstUtil.DIR_SEP;
+							
+							String targetDir = ConfigUtil.getContextPath()+
 									ConstUtil.DIR_SEP+"data"+ConstUtil.DIR_SEP+compCode+
 									ConstUtil.DIR_SEP+"template"+ConstUtil.DIR_SEP;
-							confile.fileCopy(s, t);
+							
+							FileUtil.copyDirectiory(sourceDir, targetDir);*/
 							
 							return "";
 						}
@@ -158,7 +153,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String Suspend(String accountID, HashMap<String, String> keyValuePair) {		
+	public String Suspend(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set ACTIVE=0");
@@ -187,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String UnSuspend(String accountID, HashMap<String, String> keyValuePair) {		
+	public String UnSuspend(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set ACTIVE=1");
@@ -216,7 +211,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String Terminate(String accountID, HashMap<String, String> keyValuePair) {		
+	public String Terminate(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set REMOVED=1");
@@ -240,17 +235,17 @@ public class ProductServiceImpl implements ProductService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-	public String ValidateAccess(String accountID, HashMap<String, String> keyValuePair) {
+	public String ValidateAccess(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {
     	IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
-    	String productID=keyValuePair.get("ProductID");
+    	//String productID=keyValuePair.get("ProductID");
 		
     	try {
 			//调用CCN Platform User Info
-			DTOUserAccount account=iproduct.getUserAccount(accountID, productID);
+			DTOUserAccount account=iproduct.getUserAccount(accountID, "FOS_FMS");
 			if(account!=null&&account.getUserType()!=null){								
 				
 				String sessionID = account.getGlobalStationID();
-				iproduct.productStartLog(sessionID, accountID,productID);
+				iproduct.productStartLog(sessionID, accountID,"FOS_FMS");
 				
 				StringBuffer sbs = new StringBuffer();
 				sbs.append(" select count(*) from P_USER ");

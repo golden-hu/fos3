@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="ProductService" targetNamespace="http://edi.haitai/" xmlns:ns1="http://edi.haitai/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<wsdl:definitions name="ProductServiceImplService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://tempuri.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:tns="http://edi.haitai/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://edi.haitai/" version="1.0">
+    <xs:schema targetNamespace="http://tempuri.org/" version="1.0" xmlns:tns="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:element name="Activate" type="tns:Activate"/>
 
@@ -23,87 +23,9 @@
 
   <xs:element name="ValidateAccessResponse" type="tns:ValidateAccessResponse"/>
 
-  <xs:complexType name="UnSuspend">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="accountID" type="xs:string"/>
-      <xs:element name="keyValuePair">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element minOccurs="0" name="key" type="xs:string"/>
-                  <xs:element minOccurs="0" name="value" type="xs:string"/>
-                </xs:sequence>
-              </xs:complexType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="UnSuspendResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="Activate">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="accountID" type="xs:string"/>
-      <xs:element name="keyValuePair">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element minOccurs="0" name="key" type="xs:string"/>
-                  <xs:element minOccurs="0" name="value" type="xs:string"/>
-                </xs:sequence>
-              </xs:complexType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ActivateResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="Terminate">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="accountID" type="xs:string"/>
-      <xs:element name="keyValuePair">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element minOccurs="0" name="key" type="xs:string"/>
-                  <xs:element minOccurs="0" name="value" type="xs:string"/>
-                </xs:sequence>
-              </xs:complexType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="TerminateResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="Suspend">
     <xs:sequence>
-      <xs:element minOccurs="0" name="accountID" type="xs:string"/>
+      <xs:element form="qualified" minOccurs="0" name="accountID" type="xs:string"/>
       <xs:element name="keyValuePair">
         <xs:complexType>
           <xs:sequence>
@@ -127,9 +49,87 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="Activate">
+    <xs:sequence>
+      <xs:element form="qualified" minOccurs="0" name="accountID" type="xs:string"/>
+      <xs:element name="keyValuePair">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ActivateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UnSuspend">
+    <xs:sequence>
+      <xs:element form="qualified" minOccurs="0" name="accountID" type="xs:string"/>
+      <xs:element name="keyValuePair">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UnSuspendResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Terminate">
+    <xs:sequence>
+      <xs:element form="qualified" minOccurs="0" name="accountID" type="xs:string"/>
+      <xs:element name="keyValuePair">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TerminateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ValidateAccess">
     <xs:sequence>
-      <xs:element minOccurs="0" name="accountID" type="xs:string"/>
+      <xs:element form="qualified" minOccurs="0" name="accountID" type="xs:string"/>
       <xs:element name="keyValuePair">
         <xs:complexType>
           <xs:sequence>
@@ -155,76 +155,129 @@
 
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="ValidateAccessResponse">
-    <wsdl:part name="parameters" element="ns1:ValidateAccessResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="ValidateAccess">
-    <wsdl:part name="parameters" element="ns1:ValidateAccess">
+    <wsdl:part name="parameters" element="tns:ValidateAccess">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="Suspend">
-    <wsdl:part name="parameters" element="ns1:Suspend">
+    <wsdl:part name="parameters" element="tns:Suspend">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="Activate">
-    <wsdl:part name="parameters" element="ns1:Activate">
+    <wsdl:part name="parameters" element="tns:Activate">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="SuspendResponse">
-    <wsdl:part name="parameters" element="ns1:SuspendResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="TerminateResponse">
-    <wsdl:part name="parameters" element="ns1:TerminateResponse">
+  <wsdl:message name="ValidateAccessResponse">
+    <wsdl:part name="parameters" element="tns:ValidateAccessResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="Terminate">
-    <wsdl:part name="parameters" element="ns1:Terminate">
+    <wsdl:part name="parameters" element="tns:Terminate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="TerminateResponse">
+    <wsdl:part name="parameters" element="tns:TerminateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SuspendResponse">
+    <wsdl:part name="parameters" element="tns:SuspendResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="UnSuspend">
-    <wsdl:part name="parameters" element="ns1:UnSuspend">
+    <wsdl:part name="parameters" element="tns:UnSuspend">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="UnSuspendResponse">
-    <wsdl:part name="parameters" element="ns1:UnSuspendResponse">
+    <wsdl:part name="parameters" element="tns:UnSuspendResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="ActivateResponse">
-    <wsdl:part name="parameters" element="ns1:ActivateResponse">
+    <wsdl:part name="parameters" element="tns:ActivateResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ProductService">
-    <wsdl:operation name="UnSuspend">
-      <wsdl:input name="UnSuspend" message="ns1:UnSuspend">
+    <wsdl:operation name="Suspend">
+      <wsdl:input name="Suspend" message="tns:Suspend">
     </wsdl:input>
-      <wsdl:output name="UnSuspendResponse" message="ns1:UnSuspendResponse">
+      <wsdl:output name="SuspendResponse" message="tns:SuspendResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Activate">
-      <wsdl:input name="Activate" message="ns1:Activate">
+      <wsdl:input name="Activate" message="tns:Activate">
     </wsdl:input>
-      <wsdl:output name="ActivateResponse" message="ns1:ActivateResponse">
+      <wsdl:output name="ActivateResponse" message="tns:ActivateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSuspend">
+      <wsdl:input name="UnSuspend" message="tns:UnSuspend">
+    </wsdl:input>
+      <wsdl:output name="UnSuspendResponse" message="tns:UnSuspendResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Terminate">
-      <wsdl:input name="Terminate" message="ns1:Terminate">
+      <wsdl:input name="Terminate" message="tns:Terminate">
     </wsdl:input>
-      <wsdl:output name="TerminateResponse" message="ns1:TerminateResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="Suspend">
-      <wsdl:input name="Suspend" message="ns1:Suspend">
-    </wsdl:input>
-      <wsdl:output name="SuspendResponse" message="ns1:SuspendResponse">
+      <wsdl:output name="TerminateResponse" message="tns:TerminateResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ValidateAccess">
-      <wsdl:input name="ValidateAccess" message="ns1:ValidateAccess">
+      <wsdl:input name="ValidateAccess" message="tns:ValidateAccess">
     </wsdl:input>
-      <wsdl:output name="ValidateAccessResponse" message="ns1:ValidateAccessResponse">
+      <wsdl:output name="ValidateAccessResponse" message="tns:ValidateAccessResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
+  <wsdl:binding name="ProductServiceImplServiceSoapBinding" type="tns:ProductService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Activate">
+      <soap:operation soapAction="urn:Activate" style="document"/>
+      <wsdl:input name="Activate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ActivateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Suspend">
+      <soap:operation soapAction="urn:Suspend" style="document"/>
+      <wsdl:input name="Suspend">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SuspendResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSuspend">
+      <soap:operation soapAction="urn:UnSuspend" style="document"/>
+      <wsdl:input name="UnSuspend">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UnSuspendResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Terminate">
+      <soap:operation soapAction="urn:Terminate" style="document"/>
+      <wsdl:input name="Terminate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="TerminateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateAccess">
+      <soap:operation soapAction="urn:ValidateAccess" style="document"/>
+      <wsdl:input name="ValidateAccess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ValidateAccessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProductServiceImplService">
+    <wsdl:port name="ProductServiceImplPort" binding="tns:ProductServiceImplServiceSoapBinding">
+      <soap:address location="http://localhost:8080/FOS/services"/>
+    </wsdl:port>
+  </wsdl:service>
 </wsdl:definitions>

@@ -13,16 +13,16 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.7.14
  */
 
-@XmlRootElement(name = "UnSuspend", namespace = "http://edi.haitai/")
+@XmlRootElement(name = "UnSuspend", namespace = "http://tempuri.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UnSuspend", namespace = "http://edi.haitai/", propOrder = {"accountID", "keyValuePair"})
+@XmlType(name = "UnSuspend", namespace = "http://tempuri.org/", propOrder = {"accountID", "keyValuePair"})
 
 public class UnSuspend {
 
-    @XmlElement(name = "accountID")
+    @XmlElement(name = "accountID", namespace = "http://tempuri.org/")
     private java.lang.String accountID;
-    @XmlElement(name = "keyValuePair")
-    private java.util.HashMap<java.lang.String, java.lang.String> keyValuePair;
+    @XmlElement(name = "keyValuePair", namespace = "http://tempuri.org/")
+    private java.util.ArrayList<KeyValueOfstringstring> keyValuePair;
 
     public java.lang.String getAccountID() {
         return this.accountID;
@@ -32,11 +32,11 @@ public class UnSuspend {
         this.accountID = newAccountID;
     }
 
-    public java.util.HashMap<java.lang.String, java.lang.String> getKeyValuePair() {
+    public java.util.ArrayList<KeyValueOfstringstring> getKeyValuePair() {
         return this.keyValuePair;
     }
 
-    public void setKeyValuePair(java.util.HashMap<java.lang.String, java.lang.String> newKeyValuePair)  {
+    public void setKeyValuePair(java.util.ArrayList<KeyValueOfstringstring> newKeyValuePair)  {
         this.keyValuePair = newKeyValuePair;
     }
 

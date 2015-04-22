@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.7.14
  */
 
-@XmlRootElement(name = "ValidateAccessResponse", namespace = "http://edi.haitai/")
+@XmlRootElement(name = "ValidateAccessResponse", namespace = "http://tempuri.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ValidateAccessResponse", namespace = "http://edi.haitai/")
+@XmlType(name = "ValidateAccessResponse", namespace = "http://tempuri.org/")
 
 public class ValidateAccessResponse {
 

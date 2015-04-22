@@ -1,28 +1,35 @@
 package haitai.edi;
 
-import java.util.HashMap;
+import haitai.edi.jaxws.KeyValueOfstringstring;
+
+import java.util.ArrayList;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService
+@WebService(targetNamespace = "http://tempuri.org/")
 public interface ProductService {
 
 	@WebMethod(operationName = "Activate", action = "urn:Activate")
-	public String Activate(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
+	public String Activate(@WebParam(name = "accountID",targetNamespace ="http://tempuri.org/") String accountID,
+			@WebParam(name = "keyValuePair",targetNamespace ="http://tempuri.org/") ArrayList<KeyValueOfstringstring> keyValuePair);
 	
 	@WebMethod(operationName = "Suspend", action = "urn:Suspend")
-	public String Suspend(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
+	public String Suspend(@WebParam(name = "accountID",targetNamespace ="http://tempuri.org/") String accountID,
+			@WebParam(name = "keyValuePair",targetNamespace ="http://tempuri.org/") ArrayList<KeyValueOfstringstring> keyValuePair);
 	
 	@WebMethod(operationName = "UnSuspend", action = "urn:UnSuspend")
-	public String UnSuspend(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
+	public String UnSuspend(@WebParam(name = "accountID",targetNamespace ="http://tempuri.org/") String accountID,
+			@WebParam(name = "keyValuePair",targetNamespace ="http://tempuri.org/") ArrayList<KeyValueOfstringstring> keyValuePair);
 	
 	@WebMethod(operationName = "Terminate", action = "urn:Terminate")
-	public String Terminate(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
+	public String Terminate(@WebParam(name = "accountID",targetNamespace ="http://tempuri.org/") String accountID,
+			@WebParam(name = "keyValuePair",targetNamespace ="http://tempuri.org/") ArrayList<KeyValueOfstringstring> keyValuePair);
 	
 	@WebMethod(operationName = "ValidateAccess", action = "urn:ValidateAccess")
-	String ValidateAccess(@WebParam(name = "accountID") String accountID,@WebParam(name = "keyValuePair") HashMap<String,String> keyValuePair);
+	String ValidateAccess(@WebParam(name = "accountID",targetNamespace ="http://tempuri.org/") String accountID,
+			@WebParam(name = "keyValuePair",targetNamespace ="http://tempuri.org/") ArrayList<KeyValueOfstringstring> keyValuePair);
 	
 	
 }
