@@ -10,14 +10,13 @@ import haitai.fos.sys.entity.idao.IPUserDAO;
 import haitai.fos.sys.entity.table.PUser;
 import haitai.fw.log.FosLogger;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MappingConverterUtil {
@@ -90,12 +89,14 @@ public class MappingConverterUtil {
 	public String toEnDate(String strDate){
 		String from = "yyyy-MM-dd";
 		SimpleDateFormat fromFormat = new SimpleDateFormat(from);
-		String targetDate = null;
+		String targetDate = "";
 		try {
 			Date date = fromFormat.parse(strDate);
-			Calendar c = Calendar.getInstance();
-			c.setTime(date);
-			targetDate = System.out.format(Locale.ENGLISH, "%te-%tb-%tY%n", c, c, c).toString();
+			
+			targetDate = String.format(Locale.ENGLISH, "%te", date);
+			targetDate += "-" + String.format(Locale.ENGLISH, "%tb", date);
+			targetDate += "-" + String.format(Locale.ENGLISH, "%tY", date);
+			targetDate = targetDate.toUpperCase();
 		} catch (ParseException e) {
 			logger.error("convert date (" + strDate + ") from " + from + " failed!");
 		}
