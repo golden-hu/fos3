@@ -1587,7 +1587,6 @@ var C_BOOKER_INFO = '客户委托信息';
 var C_STATION = '火车站';
 var C_CONT_TRACE = '空箱返回管理';
 var C_CONT_OWNER = '箱主';
-var C_EXPIRY_DATE = '返场日期';
 var C_CUST_DAY ='客户滞箱免费期';
 var C_TENANT_DAY = '滞箱免费期';
 var C_CUST_EXT_RATE = '客户超期费率';

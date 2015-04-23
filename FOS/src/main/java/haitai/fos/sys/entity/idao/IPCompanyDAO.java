@@ -2,8 +2,10 @@ package haitai.fos.sys.entity.idao;
 
 import java.util.Map;
 
+import haitai.fos.general.entity.table.GLevyType;
 import haitai.fos.sys.entity.table.PCompany;
 import haitai.fw.entity.FosQuery;
+
 import java.util.List;
 
 public interface IPCompanyDAO {
@@ -19,5 +21,7 @@ public interface IPCompanyDAO {
 
 	public List<PCompany> complexQuery(final List<FosQuery> conditions,
 			final Map<String, Object> propertyMap);
+	
+	public List<PCompany> saveByRowAction(List<PCompany> entityList);
 
 }
