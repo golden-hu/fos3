@@ -13,16 +13,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 
-@XmlRootElement(name = "KeyValueOfstringstring", namespace = "http://tempuri.org/")
+@XmlRootElement(name = "KeyValueOfstringstring", namespace = "http://array.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyValueOfstringstring", namespace = "http://tempuri.org/", propOrder = {"key", "value"})
+@XmlType(name = "KeyValueOfstringstring", namespace = "http://array.org/", propOrder = {"key", "value"})
 
 public class KeyValueOfstringstring {
 
-    @XmlElement(name = "key", namespace = "http://tempuri.org/")
+    @XmlElement(name = "key", namespace = "http://array.org/")
     private java.lang.String key;
     
-    @XmlElement(name = "value", namespace = "http://tempuri.org/")
+    @XmlElement(name = "value", namespace = "http://array.org/")
     private java.lang.String  value;
 
     public java.lang.String getKey() {

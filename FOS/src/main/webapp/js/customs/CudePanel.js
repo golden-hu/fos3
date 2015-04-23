@@ -26,7 +26,7 @@ Fos.CudePanel = function(p) {
 				this.find('name','cudeDocSendDate')[0].setValue(r.get('cudeDocSendDate'));
 				this.find('name','cudeDocRecvDate')[0].setValue(r.get('cudeDocRecvDate'));
 				this.find('name','cudeTransitedFlag')[0].setValue(r.get('cudeTransitedFlag'));
-				this.find('name','cudeRefuncDate')[0].setValue(r.get('cudeRefuncDate'));
+				this.find('name','cudeRefundDate')[0].setValue(r.get('cudeRefundDate'));
 				this.find('name','cudeRefundFlag')[0].setValue(r.get('cudeRefundFlag'));
 				this.find('name','cudeDocColor')[0].setValue(r.get('cudeDocColor'));
 				this.find('name','cudeReleaseDate')[0].setValue(r.get('cudeReleaseDate'));
@@ -540,7 +540,6 @@ Fos.CudePanel = function(p) {
 		tpl:custTpl,
 		itemSelector:'div.list-item',
 		listWidth:400,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead:true,mode:'local',
@@ -575,7 +574,6 @@ Fos.CudePanel = function(p) {
 	var txtCudePodEn = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM,
 		itemCls:'required',
 		name:p.get('consBizClass')==BC_E?'cudePol':'cudePod',
-		xtype:'textfield',
 		anchor:'99%'
 	});
 	
@@ -583,7 +581,6 @@ Fos.CudePanel = function(p) {
 	var txtCudePod = new Ext.form.TextField({fieldLabel:(p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM)+C_ENGLISH,
 		itemCls:'required',
 		name:p.get('consBizClass')==BC_E?'cudePolEn':'cudePodEn',
-		xtype:'textfield',
 		anchor:'99%'
 	});
 	
@@ -591,7 +588,6 @@ Fos.CudePanel = function(p) {
 	var cboCustomer = new Ext.form.ComboBox({fieldLabel:C_BIZ_COMPANY,
 		name:'cudeCustomer',
 		itemCls:'required',
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custNameCn',
 		typeAhead:true,
@@ -634,10 +630,379 @@ Fos.CudePanel = function(p) {
 		anchor:'99%'
 	});	
 	
+	
+	
+	//发货单位、收货单位
+	var txtCargoCompany = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_SHIPPER_COMPANY:C_CONSIGN_COMPANY,
+		name:'cudeCargoCompany',
+		anchor:'99%'
+	});	
+	
+	//许可证号
+	var txtCertificateNo = new Ext.form.TextField({fieldLabel:C_CERTIFICATE_NO,
+		name:'cudeCertificateNo',
+		anchor:'99%'
+	});	
+	
+	//批准文号
+	var txtApprovalNo = new Ext.form.TextField({fieldLabel:C_APPROVAL_NO,
+		name:'cudeApprovalNo',
+		anchor:'99%'
+	});	
+	
+	//合同协议号
+	var txtContractNo = new Ext.form.TextField({fieldLabel:C_CONTRACT_NO_A,
+		name:'consContractNo',
+		itemCls:'needed',
+		anchor:'99%'
+	});	
+	
+	//预录入号
+	var txtPreNo = new Ext.form.TextField({fieldLabel:C_PRE_NO,
+		name:'cudePreNo',
+		anchor:'99%'
+	});	
+	
+	//报关类型
+	var cboCudeType = new Ext.form.ComboBox({fieldLabel:C_CUSTOMS_TYPE,
+		name:'cudeType',
+		value:p.get('cudeType'),
+		store:getCustomsType_S(),
+		displayField:'cutyName',
+		valueField:'cutyName',
+		typeAhead: true,
+		mode: 'remote',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});
+	
+	//商业发票号
+	var txtInvoiceNo = new Ext.form.TextField({fieldLabel:C_COMMERCIAL_INVOICE_NO,
+		name:'cudeInvoiceNo',
+		anchor:'99%'
+	});	
+	
+	//贸易合同号
+	var txtCudeContractNo = new Ext.form.TextField({fieldLabel:C_TRADE_CONTRACT_NO,
+		name:'cudeContractNo',
+		anchor:'99%'
+	});	
+	
+	//报关联系人
+	var txtVendorContact = new Ext.form.TextField({fieldLabel:C_CUDE_CONTACT,
+		name:'cudeVendorContact',
+		anchor:'99%'
+	});	
+	
+	//备案号
+	var txtRecordNo = new Ext.form.TextField({fieldLabel:C_RECORD_NO,
+		name:'cudeRecordNo',
+		anchor:'99%'
+	});	
+	
+	//运输方式
+	var cboTratCode = new Ext.form.ComboBox({fieldLabel:C_TRAT,
+		itemCls:'required',
+		name:'tratCode',
+		store:getTRAT_S(),
+		displayField:'tratName',
+		valueField:'tratName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});
+	
+	//贸易方式
+	var cboTrtyCode = new Ext.form.ComboBox({fieldLabel:C_TRTY,
+		itemCls:'required',
+		name:'trtyCode',
+		store:getTRTY_S(),
+		displayField:'trtyName',
+		valueField:'trtyName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});
+	
+	//运抵国(地区)
+	var txtCountry = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,
+		itemCls:'required',
+		name:p.get('consBizClass')==BC_E?'cudeDischargeCountry':'cudeLoadCountry',
+		anchor:'99%'
+	});	
+	
+	//成交方式
+	var txtTrteCode = new Ext.form.ComboBox({fieldLabel:C_CUDE_TRTE,
+		name:'trteCode',
+		itemCls:'required',
+		store:getTRTE_S(),
+		displayField:'trteName',
+		valueField:'trteName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});	
+	
+	//成交方式(英文)
+	var txtTrteCodeEn = new Ext.form.TextField({fieldLabel:C_CUDE_TRTE+C_ENGLISH,
+		name:'trteCodeEn',
+		anchor:'99%'
+	});	
+	
+	//件数
+	var txtPackageNum = new Ext.form.TextField({fieldLabel:C_PACKAGES,
+		name:'cudePackageNum',
+		itemCls:'required',
+		anchor:'99%'
+	});	
+	
+	//生产厂家
+	var txtManu = new Ext.form.TextField({fieldLabel:C_MANUFACTURE,
+		name:'cudeManu',
+		anchor:'99%'
+	});	
+	
+	//用途
+	var cboUssagName = new Ext.form.ComboBox({fieldLabel:C_USAG,
+		name:'usagName',
+		store:getUSAG_S(),
+		displayField:'usagName',
+		valueField:'usagName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});	
+	
+	//海关备案代码
+	var txtCustomsCode = new Ext.form.TextField({fieldLabel:C_CUST_CUDE_CODE,
+		name:'attr1',
+		xtype:'textfield',
+		anchor:'99%'
+	});	
+	
+	//商业发票日期
+	var dtInvoiceDate = new Ext.form.DateField({fieldLabel:C_COMMERCIAL_INVOICE_DATE,
+		name:'cudeInvoiceDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//合同日期
+	var dtContractDate = new Ext.form.DateField({fieldLabel:C_CONTRACT_DATE,
+		name:'cudeContractDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	
+	//报关联系电话
+	var txtCudeTel = new Ext.form.TextField({fieldLabel:C_CUDE_TEL,
+		name:'cudeVendorTel',
+		anchor:'99%'
+	});	
+	
+	//出口日期
+	var dtCudeEntryDate = new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_E?C_EX_DATE:C_IM_DATE,
+		name:'cudeEntryDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//运输工具名称号码
+	var txtConveyance = new Ext.form.TextField({fieldLabel:C_CONVEYANCE_NAME,
+		name:'cudeConveyance',
+		anchor:'99%'
+	});	
+	
+	//征免性质
+	var cboLetyCode = new Ext.form.ComboBox({fieldLabel:C_LETY,
+		name:'letyCode',
+		store:getLETY_S(),
+		displayField:'letyName',
+		valueField:'letyName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});	
+	
+	//指运港
+	var txtPod = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_POD_A:C_POL,
+		itemCls:'required',
+		name:p.get('consBizClass')==BC_E?'cudePod':'cudePol',
+		anchor:'99%'
+	});	
+	
+	//指运港(英文)
+	var txtPodEn = new Ext.form.TextField({fieldLabel:(p.get('consBizClass')==BC_E?C_POD_A:C_POL)+C_ENGLISH,
+		name:p.get('consBizClass')==BC_E?'cudePodEn':'cudePolEn',
+		anchor:'99%'
+	});	
+	
+	//运费
+	var txtFreight = new Ext.form.TextField({fieldLabel:C_FREIGHT,
+		name:'cudeFreight',
+		anchor:'99%'
+	});	
+	
+	//包装种类
+	var txtPackCode = new Ext.form.TextField({fieldLabel:C_PACK,
+		name:'packCode',
+		itemCls:'required',
+		anchor:'99%'
+	});	
+	
+	//包装种类(英文)
+	var txtPackCodeEn = new Ext.form.TextField({fieldLabel:C_PACK+C_ENGLISH,
+		name:'packCodeEn',
+		anchor:'99%'
+	});	
+	
+	//数量
+	var txtNum = new Ext.form.TextField({fieldLabel:C_QUANTITY,
+		name:'cudeNum',
+		anchor:'99%'
+	});	
+	
+	//杂费
+	var txtCharge = new Ext.form.TextField({fieldLabel:C_CHARGE,
+		name:'cudeCharge',
+		anchor:'99%'
+	});	
+	
+	//装船日期(从)
+	var dtLoadDateF = new Ext.form.DateField({fieldLabel:C_LOAD_DATE_F,
+		name:'cudeShipDateF',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//海关编号
+	var txtCustomsNo = new Ext.form.TextField({fieldLabel:C_CUSTOMS_NO,
+		name:'cudeCustomsNo',
+		anchor:'99%'
+	});	
+	
+	//申报日期
+	var dtDeclarDate = new Ext.form.DateField({fieldLabel:C_DECLARE_DATE,
+		name:'cudeDeclarDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//提运单号
+	var txtBlNo = new Ext.form.TextField({fieldLabel:C_TRAFFIC_NO,
+		name:'cudeBlNo',
+		xtype:'textfield',
+		anchor:'99%'
+	});	
+	
+	//结汇方式
+	var cboExseCode = new Ext.form.ComboBox({fieldLabel:C_EXSE,
+		itemCls:'required',
+		name:'exseCode',
+		store:getEXSE_S(),
+		displayField:'exseName',
+		valueField:'exseName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});	
+	
+	//征税比例
+	var txtLevyPercent = new Ext.form.TextField({fieldLabel:C_LEVY_PERCENT,
+		name:'cudeLevyPercent',
+		anchor:'99%'
+	});	
+	
+	//结汇方式(英文)
+	var txtExseCodeEn = new Ext.form.TextField({fieldLabel:C_EXSE+C_ENGLISH,
+		name:'exseCodeEn',
+		anchor:'99%'
+	});	
+	
+	//境内货源地
+	var txtPlace = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D,
+		itemCls:'required',
+		name:'cudePlace',
+		anchor:'99%'
+	});	
+	
+	//境内货源地(英文)
+	var txtPlaceEn = new Ext.form.TextField({fieldLabel:(p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D)+C_ENGLISH,
+		itemCls:'required',
+		name:'cudePlaceEn',
+		anchor:'99%'
+	});	
+	
+	//毛重
+	var txtGrossWeight = new Ext.form.TextField({fieldLabel:C_GW_S+C_KGS,
+		name:'cudeGrossWeight',
+		itemCls:'required',
+		anchor:'99%'
+	});	
+	
+	
+	//净重
+	var txtNetWeight = new Ext.form.TextField({fieldLabel:C_MW_S+C_KGS,
+		name:'cudeNetWeight',
+		itemCls:'required',
+		anchor:'99%'
+	});	
+	
+	//体积
+	var txtMeasurement = new Ext.form.TextField({fieldLabel:C_CBM_S,
+		name:'cudeMeasurement',
+		anchor:'99%'
+	});	
+	
+	//保费
+	var txtInsurance = new Ext.form.TextField({fieldLabel:C_INSURANCE_FEE,
+		name:'cudeInsurance',
+		anchor:'99%'
+	});	
+	
+	//装船日期(到)
+	var dtShipDateT = new Ext.form.DateField({fieldLabel:C_LOAD_DATE_T,
+		name:'cudeShipDateT',
+		xtype:'datefield',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
 	//大写件数
 	var txtTotalSay = new Ext.form.TextField({fieldLabel:C_PACKAGES_CAP,
 		name:'cudeTotalSay',xtype:'textfield',anchor:'99%'
 	});
+	
+	
+	//合计金额
+	var txtTotalAmount = new Ext.form.TextField({fieldLabel:C_TOTAL_AMOUNT,
+		name:'cudeTotalAmount',
+		xtype:'numberfield',
+		anchor:'99%',
+		listeners:{
+			scope:this,
+			change:function(f,nv,ov){
+				txtTotalAmountCap.setValue(N2D(nv));
+			}
+		}
+	});	
+	
+	
+	
 	
 	var frm = new Ext.FormPanel({title:C_CUSTOM_INFO,height:350,autoScroll:true,
 		labelAlign:'right',labelWidth:100,trackResetOnLoad:false,items:[
@@ -645,86 +1010,27 @@ Fos.CudePanel = function(p) {
 			items:[
 			{layout:'column',border:false,items:[
 			{columnWidth:.25,layout:'form',border:false,items:[
-				cboCustomAgency,txtCudePod,txtCudePodEn,cboCustomer,	
-				{fieldLabel:p.get('consBizClass')==BC_E?C_SHIPPER_COMPANY:C_CONSIGN_COMPANY,name:'cudeCargoCompany',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CERTIFICATE_NO,name:'cudeCertificateNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_APPROVAL_NO,name:'cudeApprovalNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CONTRACT_NO_A,name:'consContractNo',itemCls:'needed',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_PRE_NO,name:'cudePreNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CUSTOMS_TYPE,name:'cudeType',xtype:'combo',value:p.get('cudeType'),
-					store:getCustomsType_S(),displayField:'cutyName',valueField:'cutyName',typeAhead: true,
-					mode: 'remote',triggerAction: 'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_NO,name:'cudeInvoiceNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_TRADE_CONTRACT_NO,name:'cudeContractNo',xtype:'textfield',anchor:'99%'}
-				]},
+				cboCustomAgency,txtCudePod,txtCudePodEn,cboCustomer,txtCargoCompany,txtCertificateNo				,
+				txtApprovalNo,txtContractNo,txtPreNo,cboCudeType,txtInvoiceNo,txtCudeContractNo
+			]},
 			{columnWidth:.25,layout:'form',border:false,items:[
-				{fieldLabel:C_CUDE_CONTACT,name:'cudeVendorContact',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_RECORD_NO,name:'cudeRecordNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_TRAT,itemCls:'required',name:'tratCode',store:getTRAT_S(),xtype:'combo',displayField:'tratName',valueField:'tratName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_TRTY,itemCls:'required',name:'trtyCode',store:getTRTY_S(),xtype:'combo',displayField:'trtyName',valueField:'trtyName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,itemCls:'required',
-					name:p.get('consBizClass')==BC_E?'cudeDischargeCountry':'cudeLoadCountry',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CUDE_TRTE,name:'trteCode',itemCls:'required',store:getTRTE_S(),
-					xtype:'combo',displayField:'trteName',valueField:'trteName',typeAhead:true,
-					mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_CUDE_TRTE+C_ENGLISH,name:'trteCodeEn',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_PACKAGES,name:'cudePackageNum',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				p.get('consBizClass')=='A'?{fieldLabel:C_MANUFACTURE,name:'cudeManu',xtype:'textfield',anchor:'99%'}:{fieldLabel:'用途',name:'usagName',store:getUSAG_S(),xtype:'combo',displayField:'usagName',valueField:'usagName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:C_CUST_CUDE_CODE,name:'attr1',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_COMMERCIAL_INVOICE_DATE,name:'cudeInvoiceDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-				{fieldLabel:C_CONTRACT_DATE,name:'cudeContractDate',xtype:'datefield',format:DATEF,anchor:'99%'}
-				]},
+			    txtVendorContact,txtRecordNo,cboTratCode,cboTrtyCode,txtCountry,txtTrteCode,
+			    txtTrteCodeEn,txtPackageNum,
+				p.get('consBizClass')=='A'?txtManu:cboUssagName,
+				txtCustomsCode,dtInvoiceDate,dtContractDate
+			]},
 			{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_CUDE_TEL,name:'cudeVendorTel',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_EX_DATE:C_IM_DATE,name:'cudeEntryDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-				{fieldLabel:C_CONVEYANCE_NAME,name:'cudeConveyance',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_LETY,name:'letyCode',store:getLETY_S(),xtype:'combo',displayField:'letyName',valueField:'letyName',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_POD_A:C_POL,itemCls:'required',
-					name:p.get('consBizClass')==BC_E?'cudePod':'cudePol',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:(p.get('consBizClass')==BC_E?C_POD_A:C_POL)+C_ENGLISH,itemCls:'required',
-					name:p.get('consBizClass')==BC_E?'cudePodEn':'cudePolEn',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_FREIGHT,name:'cudeFreight',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_PACK,name:'packCode',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_PACK+C_ENGLISH,name:'packCodeEn',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_QUANTITY,name:'cudeNum',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CHARGE,name:'cudeCharge',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_LOAD_DATE_F,name:'cudeShipDateF',xtype:'datefield',format:DATEF,anchor:'99%'}
-				
-				]},
+				txtCudeTel,dtCudeEntryDate,txtConveyance,cboLetyCode,txtPod,txtPodEn,
+				txtFreight,txtPackCode,txtPackCodeEn,txtNum,txtCharge,dtLoadDateF
+			]},
 			{columnWidth:.25,layout:'form',border : false,items:[
-				{fieldLabel:C_CUSTOMS_NO,name:'cudeCustomsNo',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_DECLARE_DATE,name:'cudeDeclarDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-				{fieldLabel:C_TRAFFIC_NO,name:'cudeBlNo',xtype:'textfield',anchor:'99%'},
-				p.get('consBizClass')==BC_E?{fieldLabel:C_EXSE,itemCls:'required',name:'exseCode',
-					store:getEXSE_S(),xtype:'combo',displayField:'exseName',valueField:'exseName',
-					typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'}:
-				{fieldLabel:C_LEVY_PERCENT,name:'cudeLevyPercent',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_EXSE+C_ENGLISH,name:'exseCodeEn',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D,
-					itemCls:'required',name:'cudePlace',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:(p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D)+C_ENGLISH,
-					itemCls:'required',name:'cudePlaceEn',xtype:'textfield',anchor:'99%'},				
-				{fieldLabel:C_GW_S+C_KGS,name:'cudeGrossWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_MW_S+C_KGS,name:'cudeNetWeight',itemCls:'required',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_CBM_S,name:'cudeMeasurement',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_INSURANCE_FEE,name:'cudeInsurance',xtype:'textfield',anchor:'99%'},
-				{fieldLabel:C_LOAD_DATE_T,name:'cudeShipDateT',xtype:'datefield',format:DATEF,anchor:'99%'}
-				
+				txtCustomsNo,dtDeclarDate,txtBlNo,
+				p.get('consBizClass')==BC_E?cboExseCode:txtLevyPercent,txtExseCodeEn,txtPlace,txtPlaceEn,				
+					txtGrossWeight,txtNetWeight,txtMeasurement,txtInsurance
 				]},				
-				{columnWidth:.5,layout:'form',border : false,items:[
-				     txtTotalSay
-				]},
-				{columnWidth:.25,layout:'form',border : false,items:[
- 					{fieldLabel:C_TOTAL_AMOUNT,name:'cudeTotalAmount',xtype:'numberfield',anchor:'99%',listeners:{
- 						scope:this,
- 						change:function(f,nv,ov){
- 							txtTotalAmountCap.setValue(N2D(nv));
- 						}
- 					}}  
- 				]},
-				{columnWidth:.25,layout:'form',border : false,items:[
-				     txtTotalAmountCap   
-   				]}
+				{columnWidth:.5,layout:'form',border : false,items:[txtTotalSay]},
+				{columnWidth:.25,layout:'form',border : false,items:[txtTotalAmount]},
+				{columnWidth:.25,layout:'form',border : false,items:[txtTotalAmountCap]}
 			]},				
 			{layout:'column',border:false,items:[
 				{columnWidth:.5,layout:'form',border:false,items:[
@@ -740,36 +1046,128 @@ Fos.CudePanel = function(p) {
 			this.entryGrid
 		]});
 	
-	var frmRecord = new Ext.FormPanel({title:C_CUDE_RECORD,layout:'column',layoutConfig:{columns:4},padding:5,items: [
-		{columnWidth:.25,layout:'form',border:false,items:[
-			{fieldLabel:C_DOC_SEND_DATE,name:'cudeDocSendDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-			{fieldLabel:C_DOC_BACK_DATE,name:'cudeDocRecvDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-            {fieldLabel:C_TRANSITED_FLAG,name:'cudeTransitedFlag',xtype:'checkbox',anchor:'99%'}
+	
+	//报送日期
+	var dtDocSendDate = new Ext.form.DateField({fieldLabel:C_DOC_SEND_DATE,
+		name:'cudeDocSendDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//放单日期
+	var dtDocRecvDate = new Ext.form.DateField({fieldLabel:C_DOC_BACK_DATE,
+		name:'cudeDocRecvDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//是否转关
+	var chkTransitedFlag = new Ext.form.Checkbox({
+		fieldLabel:C_TRANSITED_FLAG,
+		name:'cudeTransitedFlag',
+		anchor:'99%'
+     });
+	
+	//报关单份数
+	var txtDocNum = new Ext.form.NumberField({fieldLabel:C_CUDE_DOC_NUN,
+		name:'cudeDocNum',
+		anchor:'99%'
+	});	
+	
+	//报退日期
+	var dtRefundDate = new Ext.form.DateField({fieldLabel:C_REFUND_DATE,
+		name:'cudeRefundDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//是否退税
+	var chkRefundFlag = new Ext.form.Checkbox({
+		fieldLabel:C_REFUND_FLAG,
+		name:'cudeRefundFlag',
+		anchor:'99%'
+     });
+	
+	
+	//C_CUDE_DOC_COLOR
+	var cboDocColor = new Ext.form.ComboBox({fieldLabel:C_CUDE_DOC_COLOR,
+		name:'cudeDocColor',
+		store:DC_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});	
+	
+	//放行日期
+	var dtReleaseDate = new Ext.form.DateField({fieldLabel:C_CUDE_RELEASE_DATE,
+		name:'cudeReleaseDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//是否查验
+	var chkInspectionFlag = new Ext.form.Checkbox({
+		fieldLabel:C_INSPECTION_FLAG,
+		name:'cudeInspectionFlag',
+		anchor:'99%'
+     });
+	
+	//退税单份数
+	var txtRefundDocNum = new Ext.form.NumberField({fieldLabel:C_REFUND_DOC_NUN,
+		name:'cudeRefundDocNum',
+		anchor:'99%'
+	});	
+	
+	//退关日期
+	var dtShutoutDate = new Ext.form.DateField({fieldLabel:C_SHUTOUT_DATE,
+		name:'cudeShutoutDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	
+	//是否开箱
+	var chkOpenFlag = new Ext.form.Checkbox({
+		fieldLabel:C_CUDE_OPEN_FLAG,
+		name:'cudeOpenFlag',
+		anchor:'99%'
+     });
+	
+	//税费征收情况
+	var txtTaxLevy = new Ext.form.TextArea({fieldLabel:C_CUDE_TAX_LEVY,
+		name:'cudeTaxLevy',
+		anchor:'99%'
+	});	
+	
+	//备注
+	var txtRemail = new Ext.form.TextField({fieldLabel:C_REMARKS,
+		name:'cudeRemarks',
+		anchor:'99%'
+	});	
+	
+	//报关员
+	var txtDeclarent = new Ext.form.TextArea({fieldLabel:C_DECLARENT,
+		name:'cudeDeclarent',
+		anchor:'99%'
+	});	
+	
+	var frmRecord = new Ext.FormPanel({title:C_CUDE_RECORD,
+		layout:'column',
+		layoutConfig:{columns:4},
+		padding:5,
+		items: [
+		        {columnWidth:.25,layout:'form',border:false,items:[dtDocSendDate,dtDocRecvDate,chkTransitedFlag]},
+		        {columnWidth:.25,layout:'form',border:false,items:[txtDocNum,dtRefundDate,chkRefundFlag]},
+		        {columnWidth:.25,layout:'form',border:false,items:[cboDocColor,dtReleaseDate,chkInspectionFlag]},
+		        {columnWidth:.25,layout:'form',border:false,items:[txtRefundDocNum,dtShutoutDate,chkOpenFlag
 			]},
-         {columnWidth:.25,layout:'form',border:false,items:[
-            {fieldLabel:C_CUDE_DOC_NUN,name:'cudeDocNum',xtype:'numberfield',anchor:'99%'},
-			{fieldLabel:C_REFUNC_DATE,name:'cudeRefuncDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-            {fieldLabel:C_REFUND_FLAG,name:'cudeRefundFlag',xtype:'checkbox',anchor:'99%'}
-			]},
-         {columnWidth:.25,layout:'form',border:false,items:[
-			{fieldLabel:C_CUDE_DOC_COLOR,name:'cudeDocColor',xtype:'combo',store:DC_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'99%'},
-			{fieldLabel:C_CUDE_RELEASE_DATE,name:'cudeReleaseDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-            {fieldLabel:C_INSPECTION_FLAG,name:'cudeInspectionFlag',xtype:'checkbox',anchor:'99%'}
-			]},
-         {columnWidth:.25,layout:'form',border:false,items:[
-            {fieldLabel:C_REFUND_DOC_NUN,name:'cudeRefundDocNum',xtype:'numberfield',anchor:'99%'},
-			{fieldLabel:C_SHUTOUT_DATE,name:'cudeShutoutDate',xtype:'datefield',format:DATEF,anchor:'99%'},
-            {fieldLabel:C_CUDE_OPEN_FLAG,name:'cudeOpenFlag',xtype:'checkbox',anchor:'99%'}
-			]},
-         {columnWidth:.5,layout:'form',border:false,items:[
-        	 {fieldLabel:C_CUDE_TAX_LEVY,name:'cudeTaxLevy',xtype:'textarea',anchor:'99%'}
-        	 ]},
-		 {columnWidth:.5,layout:'form',border:false,items:[
-		     {fieldLabel:C_REMARKS,name:'cudeRemarks',xtype:'textarea',anchor:'99%'}
-		     ]},
-		 {columnWidth:.25,layout:'form',border:false,items:[
-		     {fieldLabel:C_DECLARENT,name:'cudeDeclarent',xtype:'textfield',anchor:'99%'}
-		     ]}
+         {columnWidth:.5,layout:'form',border:false,items:[txtTaxLevy]},
+		 {columnWidth:.5,layout:'form',border:false,items:[txtRemail]},
+		 {columnWidth:.25,layout:'form',border:false,items:[txtDeclarent]}
 		 ]});
 	
 	

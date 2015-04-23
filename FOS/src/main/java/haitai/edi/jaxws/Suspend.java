@@ -4,6 +4,7 @@ package haitai.edi.jaxws;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -22,9 +23,9 @@ public class Suspend {
     @XmlElement(name = "accountID" , namespace = "http://tempuri.org/")
     private java.lang.String accountID;
     
-    @XmlElement(name = "keyValuePair", namespace = "http://tempuri.org/")
+    @XmlElementWrapper(name = "keyValuePair", namespace="http://tempuri.org/")
+    @XmlElement(name = "KeyValueOfstringstring", namespace = "http://array.org/")
     private java.util.ArrayList<KeyValueOfstringstring> keyValuePair;
-
     public java.lang.String getAccountID() {
         return this.accountID;
     }
