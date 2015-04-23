@@ -25,13 +25,9 @@ encoding//src/main/java/org/datacontract/schemas/_2004/_07/CCN_ProductAPI_Compon
 encoding//src/main/java/org/datacontract/schemas/_2004/_07/CCN_ProductAPI_Component_BussinessEntity/RoleCompanyShipper.java=UTF-8
 encoding//src/main/java/org/datacontract/schemas/_2004/_07/CCN_ProductAPI_Component_BussinessEntity_Enum/RoleCodes.java=UTF-8
 encoding//src/main/java/org/tempuri/BasicHttpBinding_IProductAPIServiceStub.java=UTF-8
-encoding//src/main/java/org/tempuri/BasicHttpBinding_IWcfAdaptorServiceStub.java=UTF-8
 encoding//src/main/java/org/tempuri/IProductAPIService.java=UTF-8
-encoding//src/main/java/org/tempuri/IWcfAdaptorService.java=UTF-8
 encoding//src/main/java/org/tempuri/ProductAPIService.java=UTF-8
 encoding//src/main/java/org/tempuri/ProductAPIServiceLocator.java=UTF-8
-encoding//src/main/java/org/tempuri/WcfAdaptorService.java=UTF-8
-encoding//src/main/java/org/tempuri/WcfAdaptorServiceLocator.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/webapp/ws.css=UTF-8
 encoding//src/test/java=UTF-8

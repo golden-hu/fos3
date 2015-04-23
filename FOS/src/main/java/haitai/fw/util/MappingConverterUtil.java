@@ -9,12 +9,15 @@ import haitai.fos.general.entity.table.GTransTerm;
 import haitai.fos.sys.entity.idao.IPUserDAO;
 import haitai.fos.sys.entity.table.PUser;
 import haitai.fw.log.FosLogger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 @Component
 public class MappingConverterUtil {
@@ -73,6 +76,28 @@ public class MappingConverterUtil {
 		} catch (ParseException e) {
 			logger.error("convert date (" + strDate + ") from " + from + " to "
 					+ to + " failed!");
+		}
+		return targetDate;
+	}
+	
+	/**
+	 * 将日期字符串转为特定格式英文日期
+	 * 08-APR-2015
+	 * 
+	 * @param strDate
+	 * @return
+	 */
+	public String toEnDate(String strDate){
+		String from = "yyyy-MM-dd";
+		SimpleDateFormat fromFormat = new SimpleDateFormat(from);
+		String targetDate = null;
+		try {
+			Date date = fromFormat.parse(strDate);
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			targetDate = System.out.format(Locale.ENGLISH, "%te-%tb-%tY%n", c, c, c).toString();
+		} catch (ParseException e) {
+			logger.error("convert date (" + strDate + ") from " + from + " failed!");
 		}
 		return targetDate;
 	}
