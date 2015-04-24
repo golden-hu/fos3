@@ -585,7 +585,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (20, '航次', 'FTrans', 'tranVoyage', NULL),
 (20, 'MBLNO', 'FTrans', 'consMblNo', NULL),
 (20, 'HBLNO', 'FTrans', 'consHblNo', NULL),
-(20, '订舱号', 'FTrans', 'consSoNo', NULL),
+(20, '订舱号', 'FTrans', 'tranSoNo', NULL),
 (20, '装货港', 'FTrans', 'tranPol', NULL),
 (20, '卸货港', 'FTrans', 'tranPod', NULL),
 (20, '截关日期', 'FTrans', 'tranExpiryDate', NULL),

@@ -24,7 +24,7 @@ public class Activate {
     private java.lang.String accountID;
     
     @XmlElementWrapper(name = "keyValuePair", namespace="http://tempuri.org/")
-    @XmlElement(name = "KeyValueOfstringstring", namespace = "http://array.org/")
+    @XmlElement(name = "KeyValueOfstringstring", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
     private java.util.ArrayList<KeyValueOfstringstring> keyValuePair;
 
     public java.lang.String getAccountID() {

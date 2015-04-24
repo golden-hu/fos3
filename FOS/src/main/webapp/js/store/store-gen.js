@@ -239,6 +239,7 @@ getInspectionType = function(v){
 		return '';
 }; 
 
+//报关方式
 var CUTY_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','客户自报'],['1','代报']]});
 getCUTY = function(v){var _cs= CUTY_S;if(v) return _cs.getById(v)?_cs.getById(v).get('NAME'):v; else return '';}; 
 

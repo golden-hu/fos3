@@ -13,16 +13,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 
-@XmlRootElement(name = "KeyValueOfstringstring", namespace = "http://array.org/")
+@XmlRootElement(name = "KeyValueOfstringstring", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyValueOfstringstring", namespace = "http://array.org/", propOrder = {"key", "value"})
+@XmlType(name = "KeyValueOfstringstring", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays", propOrder = {"key", "value"})
 
 public class KeyValueOfstringstring {
 
-    @XmlElement(name = "key", namespace = "http://array.org/")
+    @XmlElement(name = "key", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
     private java.lang.String key;
     
-    @XmlElement(name = "value", namespace = "http://array.org/")
+    @XmlElement(name = "value", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
     private java.lang.String  value;
 
     public java.lang.String getKey() {

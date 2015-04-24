@@ -1150,7 +1150,7 @@ Fos.CudePanel = function(p) {
 	});	
 	
 	//报关员
-	var txtDeclarent = new Ext.form.TextArea({fieldLabel:C_DECLARENT,
+	var txtDeclarent = new Ext.form.TextField({fieldLabel:C_DECLARENT,
 		name:'cudeDeclarent',
 		anchor:'99%'
 	});	
