@@ -2,29 +2,39 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- 建立公司
-insert into P_COMPANY (comp_code, comp_name_cn, comp_name_en,comp_active,comp_start_date,comp_end_date,comp_service_level, comp_email,comp_tel,comp_fax,comp_address, comp_contact,create_time, modify_time) 
-values('{CC}','{$companyname}', '', 1, now(), null, 0, '{$email}', '{$tel}', '{$fax}', '', '{$contact}', now(), now()); 
+insert into P_COMPANY (COMP_CODE, COMP_NAME_CN, COMP_NAME_EN,COMP_ACTIVE,COMP_START_DATE,COMP_END_DATE,
+	COMP_SERVICE_LEVEL,CREATE_TIME, MODIFY_TIME) 
+	values('{CC}','{$companyname}', '', 1, now(), null, 0, now(), now()); 
 
 -- 建立用户
-insert into P_USER (user_name, user_login_name, user_email, user_password, user_password_modify_date,active,comp_code,version, removed) 
+insert into P_USER (USER_NAME, USER_LOGIN_NAME, USER_EMAIL, USER_PASSWORD,USER_PASSWORD_MODIFY_DATE,ACTIVE,COMP_CODE,VERSION,REMOVED) 
 values('admin','admin','{$email}', 'e10adc3949ba59abbe56e057f20f883e',now(),1,'{CC}',0,0);
 
 -- 增加admin角色
-insert into P_ROLE (role_name,active,comp_code,version,removed) 
-values ('系统管理员', 1, '{CC}',0,0);
+insert into P_ROLE (ROLE_NAME,ACTIVE,COMP_CODE,VERSION,REMOVED) values
+ ('系统管理员', 1, '{CC}',0,0);
 
 -- 给第一个用户admin角色
 
-insert into P_USER_ROLE (user_id, role_id)
+insert into P_USER_ROLE (USER_ID, ROLE_ID)
 values(1, 1);
 
 -- admin费用权限
-insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
+insert into P_USER_EXPE_PERMISSION (USER_ID, CHCL_ID, CHCL_NAME, EXPE_TYPE, USEP_EDITABLE, USEP_VIEW_ALL, USEP_EDIT_ALL, COMP_CODE,VERSION,REMOVED) 
 values (1, 0, '所有费用', 'R', 1, 1, 1, '{CC}', 0, 0);
 
 -- 上面是应收, 这是应付
-insert into P_USER_EXPE_PERMISSION (user_id, chcl_id, chcl_name, expe_type, usep_editable, usep_view_all, usep_edit_all, comp_code, version, removed) 
+insert into P_USER_EXPE_PERMISSION (USER_ID, CHCL_ID, CHCL_NAME, EXPE_TYPE, USEP_EDITABLE, USEP_VIEW_ALL, USEP_EDIT_ALL, COMP_CODE,VERSION,REMOVED) 
 values (1, 0, '所有费用', 'P', 1, 1, 1, '{CC}', 0, 0);
+
+
+-- 增加部门
+insert into P_GROUP (GROU_NAME,ACTIVE,COMP_CODE,VERSION,REMOVED) values
+ ('行政部', 1, '{CC}',0,0),
+ ('财务部', 1, '{CC}',0,0),
+ ('市场部', 1, '{CC}',0,0),
+ ('操作部', 1, '{CC}',0,0);
+
 
 -- admin权限初始化
 insert into P_ROLE_FUNCTION(role_id, func_code, comp_code) values (1, '00', '{CC}');

@@ -132,6 +132,14 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 
 	private Short cudeTransFlag;
 	private Short cudePartialFlag;
+	
+	private Integer cudeContainerFreeDays; //免柜期
+	private Date cudeExpireDeclarDate; //免柜期
+	private Date cudeExpireContainerDate; //滞柜日期
+	private Date cudeInspectionDate; //查验日期
+	  
+	  
+	//虚拟字段
 	private Date cudeShipDateF;
 	private Date cudeShipDateT;
 	
@@ -1170,6 +1178,43 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudePartialFlag = cudePartialFlag;
 	}
 	
+	
+	@Column(name = "CUDE_CONTAINER_FREE_DAYS")
+	public Integer getCudeContainerFreeDays() {
+		return cudeContainerFreeDays;
+	}
+
+	public void setCudeContainerFreeDays(Integer cudeContainerFreeDays) {
+		this.cudeContainerFreeDays = cudeContainerFreeDays;
+	}
+
+	@Column(name = "CUDE_EXPIRE_DECLAR_DATE")
+	public Date getCudeExpireDeclarDate() {
+		return cudeExpireDeclarDate;
+	}
+
+	public void setCudeExpireDeclarDate(Date cudeExpireDeclarDate) {
+		this.cudeExpireDeclarDate = cudeExpireDeclarDate;
+	}
+
+	@Column(name = "CUDE_EXPIRE_CONTAINER_DATE")
+	public Date getCudeExpireContainerDate() {
+		return cudeExpireContainerDate;
+	}
+
+	public void setCudeExpireContainerDate(Date cudeExpireContainerDate) {
+		this.cudeExpireContainerDate = cudeExpireContainerDate;
+	}
+
+	@Column(name = "CUDE_INSPECTION_DATE")
+	public Date getCudeInspectionDate() {
+		return cudeInspectionDate;
+	}
+
+	public void setCudeInspectionDate(Date cudeInspectionDate) {
+		this.cudeInspectionDate = cudeInspectionDate;
+	}
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CUDE_SHIP_DATE_F", length = 10)
 	public Date getCudeShipDateF() {

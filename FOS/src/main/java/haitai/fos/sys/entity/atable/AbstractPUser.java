@@ -283,7 +283,7 @@ public abstract class AbstractPUser extends BaseDomain {
 		this.removed = removed;
 	}
 	
-	@Column(name = "UUID", nullable = false)
+	@Column(name = "UUID")
 	public String getUuid() {
 		return this.uuid;
 	}
