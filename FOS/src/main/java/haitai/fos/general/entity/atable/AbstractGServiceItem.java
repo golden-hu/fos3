@@ -14,6 +14,7 @@ public abstract class AbstractGServiceItem extends BaseDomain {
 	private static final long serialVersionUID = 1633256549734067838L;
 	private Integer seitId;
 	private Integer version;
+	private String seitCode;
 	private String seitName;
 	private Short active;
 	private String compCode;
@@ -39,7 +40,14 @@ public abstract class AbstractGServiceItem extends BaseDomain {
 		this.version = version;
 	}
 
-	
+	@Column(name = "SEIT_CODE", nullable = false, length = 32)
+	public String getSeitCode() {
+		return this.seitCode;
+	}
+
+	public void setSeitCode(String seitCode) {
+		this.seitCode = seitCode;
+	}
 
 	@Column(name = "SEIT_NAME", nullable = false, length = 32)
 	public String getSeitName() {
