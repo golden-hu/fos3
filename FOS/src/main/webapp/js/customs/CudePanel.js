@@ -1183,15 +1183,43 @@ Fos.CudePanel = function(p) {
 		anchor:'99%'
 	});	
 	
+	//免柜期 CUDE_CONTAINER_FREE_DAYS
+	var txtContainerFreeDays = new Ext.form.NumberField({fieldLabel:C_CONTAINER_FREE_DAYS,
+		name:'cudeContainerFreeDays',
+		anchor:'99%'
+	});	
+	  
+	//滞报日期 CUDE_EXPIRE_DECLAR_DATE
+	var dtExpireDeclarDate = new Ext.form.DateField({fieldLabel:C_CUDE_EXPIRE_DECLAR_DATE,
+		name:'cudeExpireDeclarDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	//滞柜日期 CUDE_EXPIRE_CONTAINER_DATE
+	var dtExpireContainerDate = new Ext.form.DateField({fieldLabel:C_CUDE_EXPIRE_CONTAINER_DATE,
+		name:'cudeExpireContainerDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+		
+	//查验日期 CUDE_INSPECTION_DATE
+	var dtInspectionDate = new Ext.form.DateField({fieldLabel:C_CUDE_INSPECTION_DATE,
+		name:'cudeInspectionDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
+	
 	var frmRecord = new Ext.FormPanel({title:C_CUDE_RECORD,
 		layout:'column',
 		layoutConfig:{columns:4},
 		padding:5,
 		items: [
-		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCustomAgency,dtDocSendDate,dtDocRecvDate,chkTransitedFlag]},
-		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtVendorContact,txtDocNum,dtRefundDate,chkRefundFlag]},
-		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtCudeTel,cboDocColor,dtReleaseDate,chkInspectionFlag]},
-		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCudeType,txtRefundDocNum,dtShutoutDate,chkOpenFlag
+		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCustomAgency,dtDocSendDate,dtDocRecvDate,txtContainerFreeDays,chkTransitedFlag]},
+		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtVendorContact,txtDocNum,dtRefundDate,dtExpireDeclarDate,chkRefundFlag]},
+		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtCudeTel,cboDocColor,dtReleaseDate,dtExpireContainerDate,chkInspectionFlag]},
+		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCudeType,txtRefundDocNum,dtShutoutDate,dtInspectionDate,chkOpenFlag
 			]},
          {columnWidth:.5,layout:'form',labelAlign:'right',border:false,items:[txtTaxLevy]},
 		 {columnWidth:.5,layout:'form',labelAlign:'right',border:false,items:[txtRemail]},

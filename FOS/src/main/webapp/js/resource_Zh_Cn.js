@@ -1642,3 +1642,10 @@ var C_THREE_INSPECTION = '三检日期';
 var C_CUSTOMS_INSPECTION = '海关查验日期';
 var C_DATE_OF_INSPECTION = '商检日期';
 var C_SEIT = '委托事项';
+
+var C_CONTAINER_FREE_DAYS = '免柜期';
+var C_CUDE_EXPIRE_DECLAR_DATE = '滞报日期';
+var C_CUDE_EXPIRE_CONTAINER_DATE = '滞柜日期';
+var C_CUDE_INSPECTION_DATE = '查验日期 ';
+
+

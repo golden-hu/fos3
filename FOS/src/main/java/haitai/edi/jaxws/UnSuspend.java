@@ -21,11 +21,11 @@ import javax.xml.bind.annotation.XmlType;
 public class UnSuspend {
 
     @XmlElement(name = "accountID", namespace = "http://tempuri.org/")
-    private java.lang.String accountID;
+    public java.lang.String accountID;
     
     @XmlElementWrapper(name = "keyValuePair", namespace="http://tempuri.org/")
     @XmlElement(name = "KeyValueOfstringstring", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
-    private java.util.ArrayList<KeyValueOfstringstring> keyValuePair;
+    public java.util.ArrayList<KeyValueOfstringstring> keyValuePair;
 
     public java.lang.String getAccountID() {
         return this.accountID;

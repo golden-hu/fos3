@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.XmlType;
 
 public class KeyValueOfstringstring {
 
-    @XmlElement(name = "key", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
-    private java.lang.String key;
+    @XmlElement(namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
+    public java.lang.String key;
     
-    @XmlElement(name = "value", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
-    private java.lang.String  value;
+    @XmlElement(namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
+    public java.lang.String  value;
 
     public java.lang.String getKey() {
         return this.key;
