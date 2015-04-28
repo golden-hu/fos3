@@ -267,10 +267,63 @@ public class FConsignDAO extends GenericDAO<FConsign, Integer> implements
 		String sailedFlag = (String) propertyMap.get("voyaSailedFlag");
 		String joinSql = "";
 		if (ConstUtil.TrueStr.equals(sailedFlag)) {
-			joinSql += "t1.consSailDate < '" + TimeUtil.getDay() + "'";
+			joinSql += "t1.consSailDate < '" + TimeUtil.getDay() + "' ";
 		} 
 		else if (ConstUtil.FalseStr.equals(sailedFlag)){
-			joinSql += "(t1.consSailDate >= '" + TimeUtil.getDay() + "' or t1.consSailDate is null)";
+			joinSql += "(t1.consSailDate >= '" + TimeUtil.getDay() + "' or t1.consSailDate is null) ";
+		}
+
+		PUser myself = (PUser) SessionManager.getAttr(SessionKeyType.USER);
+		String uid = SessionManager.getAttr(SessionKeyType.UID).toString();
+		if (ConstUtil.TrueShort.equals(myself.getUserAllViewFlag())) 
+		{						
+		}
+		else if(ConstUtil.TrueShort.equals(myself.getUserGrouViewFlag())){
+			Map<String,Object> qmap = new HashMap<String,Object>();
+			qmap.put("userId", myself.getUserId());
+			List<PGroupUser> groups = gudao.findByProperties(qmap);
+			String inStr = "";
+			for(PGroupUser u : groups){
+				if(StringUtil.isNotBlank(inStr))
+					inStr += ",";
+				inStr += u.getGrouId();
+			}
+			if(StringUtil.isNotBlank(inStr)){
+				joinSql += "t1.deptId in (" + inStr + ")";
+			}
+			else if(myself.getUserDefaultGroup()!=null){
+				joinSql += "t1.deptId = " + myself.getUserDefaultGroup();
+			}
+			else{
+				if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+						&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+					joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
+				} 
+				else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
+				{
+					joinSql += "t1.consSalesRepId = " + uid;
+				} 
+				else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+					joinSql += "t1.consOperatorId = " + uid;
+				} 
+				else {
+					joinSql += "t1.createBy = " + uid;
+				}
+			}
+		}
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())
+				&& ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+			joinSql += "(t1.consSalesRepId = " + uid + " or t1.consOperatorId = " + uid + ") ";
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserSalesFlag())) 
+		{
+			joinSql += "t1.consSalesRepId = " + uid;
+		} 
+		else if (ConstUtil.TrueShort.equals(myself.getUserOperatorFlag())) {
+			joinSql += "t1.consOperatorId = " + uid;
+		} 
+		else {
+			joinSql += "t1.createBy = " + uid;
 		}
 		
 		Class clazz = FConsign.class;
