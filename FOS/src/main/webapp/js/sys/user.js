@@ -31,7 +31,28 @@ Fos.UserTab = function() {
 	this.save = function(){
 		var xml='';
 		var a = store.getModifiedRecords();
-		if(a.length) xml = ATX(a,'PUser',PUser);	
+		
+		if(a.length) {
+			// 将选择的记录也加入到数组中，以解决保存过用户后，不能保存用户角色的bug
+			var selects = sm.getSelections();
+			var arrayTemp = [];
+			for(var j = 0; j < selects.length; j++) {
+				var item = selects[j];
+				for(var i = 0; i < a.length; i++) {
+					var modifyItem = a[i];
+					if(item.get('id') == modifyItem.get('id')) {
+						continue;
+					}
+					if(i == a.length - 1 && item.get('id') != modifyItem.get('id')) {
+						arrayTemp.push(item);
+					}
+				}
+			}
+			for(var i = 0; i < arrayTemp.length; i++) {
+				a.push(arrayTemp[i]);
+			}
+			xml = ATX(a,'PUser',PUser);
+		}	
 		var ra = urStore.getModifiedRecords();
 		if(ra.length>0){var x = ATX(ra,'PUserRole',PUserRole);xml=xml+x;};
 		if(xml!=''){
@@ -39,6 +60,7 @@ Fos.UserTab = function() {
 			success: function(r){				
 				var a = XTRA(r.responseXML,'PUser',PUser);FOSU(store,a,PUser);
 				var b = XTRA(r.responseXML,'PUserRole',PUserRole);FOSU(urStore,b,PUserRole);
+				store.load();urStore.load();
 				XMG.alert(SYS,M_S);getUSER_S().reload();getSALE_S().reload();getOP_S().reload();},
 			failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
 			xmlData:FOSX(xml)});
