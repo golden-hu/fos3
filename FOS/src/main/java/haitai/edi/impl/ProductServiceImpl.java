@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     @SuppressWarnings("unchecked")
-	public String Activate(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
+	public String Activate(String accountID, String JSONKeyValuePair) {		
 				
 		//String productID=keyValuePair.get("ProductID");
 		
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 				String compCode=account.getCompanyCode();
 				
 				String emailAddress=account.getEmailAddress();
-				String userLoginName=account.getUserID();
+				String userLoginName=compCode + "." + account.getUserID();
 				
 				if("A".equals(account.getUserType())){
 					//调用CCN Platform Company Info
@@ -83,20 +83,16 @@ public class ProductServiceImpl implements ProductService {
 							if(count2.intValue()>0){
 								return "User already exist."; 
 							}
-						}
+						}						
 						
-						String sql ="call sp_active_company('"+compCode+"','"+compName+"','"+accountID+"','"+userLoginName+"','"+emailAddress+"');";
 						try {
+							String sql ="call sp_active_company('"+compCode+"','"+compName+"','"+accountID+"','"+userLoginName+"','"+emailAddress+"');";
 							Query queryUpdateCom = em.createNativeQuery(sql);
-							queryUpdateCom.executeUpdate();											
+							queryUpdateCom.executeUpdate();		
 							
-							/*String sourceDir = ConfigUtil.getContextPath()+ConstUtil.DIR_SEP+Const.initDataDir+ConstUtil.DIR_SEP+"FOS"+ConstUtil.DIR_SEP;
-							
-							String targetDir = ConfigUtil.getContextPath()+
-									ConstUtil.DIR_SEP+"data"+ConstUtil.DIR_SEP+compCode+
-									ConstUtil.DIR_SEP+"template"+ConstUtil.DIR_SEP;
-							
-							FileUtil.copyDirectiory(sourceDir, targetDir);*/
+							String sql3 ="call sp_active_company('"+compCode+"');";							
+							Query queryUpdateCom2 = em.createNativeQuery(sql3);
+							queryUpdateCom2.executeUpdate();
 							
 							return "";
 						}
@@ -116,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
 					sbUser.append(")");
 					sbUser.append("values(");
 					sbUser.append("'"+userLoginName+"','"+userLoginName+"','"+emailAddress+"',");
-					sbUser.append("'e10adc3949ba59abbe56e057f20f883e',now(),accountID,1,'"+compCode+"',0,0");
+					sbUser.append("'e10adc3949ba59abbe56e057f20f883e',now(),'"+accountID+"',1,'"+compCode+"',0,0");
 					sbUser.append(");");
 					String sqlUser=sbUser.toString();
 					try {
@@ -153,7 +149,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String Suspend(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
+	public String Suspend(String accountID, String JSONKeyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set ACTIVE=0");
@@ -182,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String UnSuspend(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
+	public String UnSuspend(String accountID, String JSONKeyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set ACTIVE=1");
@@ -211,7 +207,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	@Transactional
-	public String Terminate(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {		
+	public String Terminate(String accountID, String JSONKeyValuePair) {		
 		StringBuffer sbUser=new StringBuffer();
 		sbUser.append(" update P_USER ");
 		sbUser.append(" set REMOVED=1");
@@ -235,7 +231,7 @@ public class ProductServiceImpl implements ProductService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-	public String ValidateAccess(String accountID, ArrayList<KeyValueOfstringstring> keyValuePair) {
+	public String ValidateAccess(String accountID, String JSONKeyValuePair) {
     	IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
     	//String productID=keyValuePair.get("ProductID");
 		

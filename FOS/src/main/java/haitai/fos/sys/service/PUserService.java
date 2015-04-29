@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.datacontract.schemas._2004._07.CCN_ProductAPI_Component_BussinessEntity.DTOUserAccount;
 import org.tempuri.IProductAPIServiceProxy;
 
 import java.rmi.RemoteException;
@@ -416,66 +415,56 @@ public class PUserService {
 		String City = (String) queryMap.get("City");
 		
 		IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
-		DTOUserAccount account = null;
-        try {
-	        account = iproduct.getUserAccount(AccountID, ProductID);
-	        String userLoginName=account.getUserID();
-			if (StringUtil.isBlank(userLoginName)) {
-				throw new BusinessException("fw.login.fail");
-			}
-			//List <PUser>userList=dao.findByProperties(queryMap);
+		
 			
-			List <PUser>userList=dao.findByAccountId(userLoginName);
-			if (userList != null && userList.size() == 1) {
-				PUser user = userList.get(0);
-				
-				SessionManager.setAttr(SessionKeyType.UID, user.getUserId());
-				SessionManager.setAttr(SessionKeyType.GID, user.getUserDefaultGroup());
-				SessionManager.setAttr(SessionKeyType.USERNAME, user.getUserName());
-				SessionManager.setAttr(SessionKeyType.COMPCODE, user.getCompCode());
-				SessionManager.setAttr(SessionKeyType.USER, user);
-				
-				SessionManager.setAttr("SessionID", SessionID);
-				SessionManager.setAttr("AccountID", AccountID);
-				SessionManager.setAttr("ProductID", ProductID);
-				SessionManager.setAttr("GlobalCompanyID", GlobalCompanyID);
-				SessionManager.setAttr("City", City);
-				
-				
-				//licenseUtil.checkLicense();
-				
-				List objList = dao.queryFuncCode();
-				StringBuilder sb = new StringBuilder();
-				for (Object obj : objList) {
-					if (obj instanceof String) {
-						sb.append((String) obj).append(ConstUtil.COMMA);
-					}
+		Map<String,Object> qmap = new HashMap<String,Object>();
+		qmap.put("uuid", AccountID);		
+		List <PUser>userList=dao.findByProperties(qmap);
+		
+		if (userList != null && userList.size() == 1) {
+			PUser user = userList.get(0);
+			
+			SessionManager.setAttr(SessionKeyType.UID, user.getUserId());
+			SessionManager.setAttr(SessionKeyType.GID, user.getUserDefaultGroup());
+			SessionManager.setAttr(SessionKeyType.USERNAME, user.getUserName());
+			SessionManager.setAttr(SessionKeyType.COMPCODE, user.getCompCode());
+			SessionManager.setAttr(SessionKeyType.USER, user);
+			
+			SessionManager.setAttr("SessionID", SessionID);
+			SessionManager.setAttr("AccountID", AccountID);
+			SessionManager.setAttr("ProductID", ProductID);
+			SessionManager.setAttr("GlobalCompanyID", GlobalCompanyID);
+			SessionManager.setAttr("City", City);
+			
+			
+			//licenseUtil.checkLicense();
+			
+			List objList = dao.queryFuncCode();
+			StringBuilder sb = new StringBuilder();
+			for (Object obj : objList) {
+				if (obj instanceof String) {
+					sb.append((String) obj).append(ConstUtil.COMMA);
 				}
-				user.setFuncCode(sb.toString());
-				ActionLogUtil.log();
-				try {
-					//call cnn platform startLog
-		            iproduct.productStartLog(SessionID, AccountID, ProductID);
-		            
-		            ////call cnn platform sessionActive
-		            iproduct.isSessionActive(SessionID, AccountID);
-	            } 
-				catch (RemoteException e) {
-		            // TODO Auto-generated catch block
-		            e.printStackTrace();
-	            }
-				
-				return user;
 			}
-			else {
-				throw new BusinessException("fw.login.fail");
-			}
-	        
-        } 
-        catch (RemoteException e) {
-	        e.printStackTrace();
-	        throw new BusinessException("fw.login.fail");
-        }
+			user.setFuncCode(sb.toString());
+			ActionLogUtil.log();
+			try {
+				//call cnn platform startLog
+	            iproduct.productStartLog(SessionID, AccountID, ProductID);
+	            
+	            ////call cnn platform sessionActive
+	            iproduct.isSessionActive(SessionID, AccountID);
+            } 
+			catch (RemoteException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+			
+			return user;
+		}
+		else {
+			throw new BusinessException("fw.login.fail");
+		}
 	}
 	
     @Transactional(readOnly = true)

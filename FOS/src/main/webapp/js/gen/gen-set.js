@@ -30,7 +30,7 @@ var showG_CURR = function() {
     var cm=new Ext.grid.ColumnModel({columns:[sm,
 	{header:C_CODE,dataIndex:'currCode',editor:new Ext.form.TextField({maxLength:3,allowBlank:false,blankText:'',invalidText:''})},
 	{header:C_NAME,dataIndex:'currName',editor:new Ext.form.TextField({maxLength:16,allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_SYMBOL,dataIndex:'currSymbol',editor:new Ext.form.TextField({maxLength:1,allowBlank: true})},
+	{header:C_SYMBOL,dataIndex:'currSymbol',editor:new Ext.form.TextField({maxLength:4,allowBlank: true})},
 	ac],defaults:{sortable:true,width:100}});
     var grid = new  Ext.grid.EditorGridPanel({
     id:'G_CURR',iconCls:'gen',title:C_CURR,

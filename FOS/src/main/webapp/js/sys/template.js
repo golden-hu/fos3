@@ -2,6 +2,31 @@
 var showG_TEMP = function() {    
 	this.store = GS('TEMP_Q','PTemplate',PTemplate,'tempId','DESC','','S_TEMP','tempId',true);
     this.store.load();    
+    
+    this.add=function(){
+		var p = new PTemplate({id:GGUID(),
+			tempId:'0',
+			tempType:'xls',
+			tempClass:'B',
+			active:1,
+			version:'0',
+			rowAction:'N'
+		});            
+    	grid.stopEditing();
+    	this.store.insert(0,p);
+    	sm.selectFirstRow();
+    	grid.startEditing(0,1);
+	};
+	
+	this.removeTemp=function(){
+		FOS_REMOVE(sm,store);
+	};
+	
+	this.save=function(){
+		grid.stopEditing();
+		FOS_POST(store,'PTemplate',PTemplate,'TEMP_S');
+	};	
+	
     this.upload = function(){
     	var b =grid.getSelectionModel().getSelected();
     	if(b){
@@ -26,6 +51,7 @@ var showG_TEMP = function() {
     	}
     	else XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
+    
     this.download=function(){
     	var b =grid.getSelectionModel().getSelected();
     	if(b){
@@ -34,25 +60,26 @@ var showG_TEMP = function() {
     	}
     	else XMG.alert(SYS,M_NO_DATA_SELECTED);
     };
+    
 	var checkColumn = new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',sortable:true,width:55});
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
     var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_TEMP_NAME,dataIndex:'tempName',width:200,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_TEMP_DESC,dataIndex:'tempDesc',width:150,editor:new Ext.form.TextField()},
-	{header:C_FILE_TYPE,dataIndex:'tempType',width:150,editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
-    	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:TFTY_S})},
-	{header:C_TEMP_TYPE,dataIndex:'tetyId',width:150,renderer:getTETY,editor:new Ext.form.ComboBox({displayField:'tetyName',valueField:'tetyId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getTETY_S(),
-            listeners:{scope:this,select:function(c,r,i){
-            	sm.getSelected().set('tetyCode',r.get('tetyCode'));
-            	sm.getSelected().set('tetyName',r.get('tetyName'));}}})},
-	checkColumn],defaults:{sortable:true,width:100}});
-	this.add=function(){
-		var p = new PTemplate({id:GGUID(),tempId:'0',tempName:'',tempType:'xls',tempClass:'B',tempDesc:'',tetyId:'',tetyName:'',active:1,version:'0',rowAction:'N'});            
-    	grid.stopEditing();this.store.insert(0,p);sm.selectFirstRow();grid.startEditing(0,1);
-	};
-	this.removeTemp=function(){FOS_REMOVE(sm,store);};
-	this.save=function(){grid.stopEditing();FOS_POST(store,'PTemplate',PTemplate,'TEMP_S');};	
+		{header:C_TEMP_NAME,dataIndex:'tempName',width:200,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_TEMP_DESC,dataIndex:'tempDesc',width:150,editor:new Ext.form.TextField()},
+		{header:C_FILE_TYPE,dataIndex:'tempType',width:150,editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
+	    	mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:TFTY_S})},
+		{header:C_TEMP_TYPE,dataIndex:'tetyId',width:150,renderer:getTETY,editor:new Ext.form.ComboBox({displayField:'tetyName',valueField:'tetyId',triggerAction:'all',
+	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getTETY_S(),
+	            listeners:{scope:this,select:function(c,r,i){
+	            	sm.getSelected().set('tetyCode',r.get('tetyCode'));
+	            	sm.getSelected().set('tetyName',r.get('tetyName'));}}})
+	    },
+		checkColumn
+	],
+	defaults:{sortable:true,width:100}
+    });
+	
+	
 	new Ext.KeyMap(Ext.getDoc(),{
 		key:'nrsud',ctrl:true,
 		handler: function(k, e) {
@@ -73,13 +100,17 @@ var showG_TEMP = function() {
 				}
 		 	}
 		},stopEvent:true,scope:this});
-    var grid = new  Ext.grid.EditorGridPanel({id:'G_TEMP',iconCls:'gen',title:C_TEMP_MGT,header:false,
-	plugins:checkColumn,clicksToEdit:1,closable:true,store:this.store,sm:sm,cm:cm,
-	tbar:[{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'add',scope:this,handler:this.add},'-',
-        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_TEMP+F_R),iconCls:'remove',scope:this,handler:this.removeTemp},
-        {itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'save',scope:this,handler:this.save},
-        {itemId:'TB_D',text:C_TEMP_DOWNLOAD+'(D)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'down',scope:this,handler:this.download},
-        {itemId:'TB_U',text:C_TEMP_UPLOAD+'(U)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'up',scope:this,handler:this.upload}
+	
+    var grid = new  Ext.grid.EditorGridPanel({id:'G_TEMP',
+    	iconCls:'gen',
+    	title:C_TEMP_MGT,
+    	header:false,
+		plugins:checkColumn,clicksToEdit:1,closable:true,store:this.store,sm:sm,cm:cm,
+		tbar:[{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'add',scope:this,handler:this.add},'-',
+	        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_TEMP+F_R),iconCls:'remove',scope:this,handler:this.removeTemp},
+	        {itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'save',scope:this,handler:this.save},
+	        {itemId:'TB_D',text:C_TEMP_DOWNLOAD+'(D)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'down',scope:this,handler:this.download},
+	        {itemId:'TB_U',text:C_TEMP_UPLOAD+'(U)',disabled:NR(M1_P+A_TEMP+F_M),iconCls:'up',scope:this,handler:this.upload}
         ]
     });
     return grid;

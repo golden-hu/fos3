@@ -38,7 +38,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 		this.acloId = acloId;
 	}
 
-	@Column(name = "ACLO_ACT_NAME", nullable = false, length = 32)
+	@Column(name = "ACLO_ACT_NAME", nullable = false)
 	public String getAcloActName() {
 		return this.acloActName;
 	}
@@ -47,7 +47,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 		this.acloActName = acloActName;
 	}
 
-	@Column(name = "ACLO_ACT_REMARK", length = 100)
+	@Column(name = "ACLO_ACT_REMARK")
 	public String getAcloActRemark() {
 		return this.acloActRemark;
 	}
@@ -56,7 +56,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 		this.acloActRemark = acloActRemark;
 	}
 
-	@Column(name = "ACLO_TABLE", length = 32)
+	@Column(name = "ACLO_TABLE")
 	public String getAcloTable() {
 		return this.acloTable;
 	}
@@ -74,7 +74,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 		this.acloTid = acloTid;
 	}
 
-	@Column(name = "ACLO_TNO", length = 32)
+	@Column(name = "ACLO_TNO")
 	public String getAcloTno() {
 		return this.acloTno;
 	}
@@ -92,7 +92,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 		this.acloUserId = acloUserId;
 	}
 
-	@Column(name = "ACLO_USER_NAME", length = 16)
+	@Column(name = "ACLO_USER_NAME")
 	public String getAcloUserName() {
 		return this.acloUserName;
 	}
@@ -120,7 +120,7 @@ public abstract class AbstractPActionLog extends BaseDomain {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATE_TIME", nullable = false, length = 19)
+	@Column(name = "CREATE_TIME", nullable = false)
 	public Date getCreateTime() {
 		return this.createTime;
 	}

@@ -24,5 +24,5 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (31, '汇率', 'SVoucherItem', 'initExRate', NULL),
 (31, '折算金额', 'SVoucherItem', 'voitAmountVoucW', NULL);
 
-update p_template_map set TEMA_FIELD='blPaymentTerm', TEMA_CONVERTER = NULL where tety_id=1 and tema_name='付费方式' and TEMA_FIELD='blValuePayment';
+update P_TEMPLATE_MAP set TEMA_FIELD='blPaymentTerm', TEMA_CONVERTER = NULL where tety_id=1 and tema_name='付费方式' and TEMA_FIELD='blValuePayment';
 

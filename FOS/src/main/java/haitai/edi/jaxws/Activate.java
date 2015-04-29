@@ -16,16 +16,15 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Activate", namespace = "http://tempuri.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Activate", namespace = "http://tempuri.org/", propOrder = {"accountID", "keyValuePair"})
+@XmlType(name = "Activate", namespace = "http://tempuri.org/", propOrder = {"accountID", "JSONKeyValuePair"})
 
 public class Activate {
 
     @XmlElement(name = "accountID", namespace = "http://tempuri.org/")
     public java.lang.String accountID;
     
-    @XmlElementWrapper(name = "keyValuePair", namespace="http://tempuri.org/")
-    @XmlElement(name = "KeyValueOfstringstring", namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
-    public java.util.ArrayList<KeyValueOfstringstring> keyValuePair;
+    @XmlElement(name = "JSONKeyValuePair", namespace="http://tempuri.org/")   
+    public String JSONKeyValuePair;
 
     public java.lang.String getAccountID() {
         return this.accountID;
@@ -35,12 +34,12 @@ public class Activate {
         this.accountID = newAccountID;
     }
 
-    public java.util.ArrayList<KeyValueOfstringstring> getKeyValuePair() {
-        return this.keyValuePair;
+    public java.lang.String getJSONKeyValuePair() {
+        return this.JSONKeyValuePair;
     }
 
-    public void setKeyValuePair(java.util.ArrayList<KeyValueOfstringstring> newKeyValuePair)  {
-        this.keyValuePair = newKeyValuePair;
+    public void setKeyValuePair(java.lang.String JSONKeyValuePair)  {
+        this.JSONKeyValuePair = JSONKeyValuePair;
     }
 
 }

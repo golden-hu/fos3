@@ -59,7 +59,7 @@ public abstract class AbstractGCurrency extends BaseDomain {
 		this.currName = currName;
 	}
 
-	@Column(name = "CURR_SYMBOL", length = 1)
+	@Column(name = "CURR_SYMBOL", length = 4)
 	public String getCurrSymbol() {
 		return this.currSymbol;
 	}

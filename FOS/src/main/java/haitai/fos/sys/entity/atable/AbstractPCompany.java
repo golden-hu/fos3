@@ -20,6 +20,7 @@ public abstract class AbstractPCompany extends BaseDomain {
 	private String compNameCn;
 	private String compNameEn;
 	private Short compActive;
+	private Short compInitialFlag;
 	private Date compStartDate;
 	private Date compEndDate;
 	private Short compServiceLevel;
@@ -84,6 +85,17 @@ public abstract class AbstractPCompany extends BaseDomain {
 		this.compActive = compActive;
 	}
 
+	
+	
+	@Column(name = "COMP_INITIAL_FLAG", nullable = false)
+	public Short getCompInitialFlag() {
+		return this.compInitialFlag;
+	}
+
+	public void setCompInitialFlag(Short compInitialFlag) {
+		this.compInitialFlag = compInitialFlag;
+	}
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "COMP_START_DATE", length = 10)
 	public Date getCompStartDate() {
