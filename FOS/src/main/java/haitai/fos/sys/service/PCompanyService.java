@@ -2,6 +2,8 @@ package haitai.fos.sys.service;
 
 import haitai.fos.sys.entity.idao.IPCompanyDAO;
 import haitai.fos.sys.entity.table.PCompany;
+import haitai.fw.session.SessionKeyType;
+import haitai.fw.session.SessionManager;
 import haitai.fw.util.ConfigUtil;
 import haitai.fw.util.ConstUtil;
 import haitai.fw.util.FileUtil;
@@ -53,8 +55,8 @@ public class PCompanyService {
 	
 	@Transactional(readOnly = true)
 	public void initialTemplates(Map<String, Object> queryMap) {
-		String compCode = (String) queryMap.get("compCode");
-		
+		//String compCode = (String) queryMap.get("compCode");
+		String compCode = SessionManager.getStringAttr(SessionKeyType.COMPCODE);
 		String s = ConfigUtil.getContextPath()+ConstUtil.DIR_SEP+"initData"+ConstUtil.DIR_SEP+"template"+ConstUtil.DIR_SEP;		
 		String t=ConfigUtil.getContextPath()+ConstUtil.DIR_SEP+"data"+ConstUtil.DIR_SEP+compCode+ConstUtil.DIR_SEP+"template"+ConstUtil.DIR_SEP;
 		try{

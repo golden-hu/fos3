@@ -2,76 +2,107 @@
 Fos.RoleTab = function() {
 	var store = GS('ROLE_Q','PRole',PRole,'roleId','DESC','','S_ROLE','roleId',false);
     store.load();  
-    this.save = function(){		
-		var xml='';
-		var a = store.getModifiedRecords();
-		if(a.length) var xml = ATX(a,'PRole',PRole);		
-		if(xml!=''){
-			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'ROLE_S'},
-				success: function(r){
-					var a = XTRA(r.responseXML,'PRole',PRole);FOSU(store,a,PRole);
-					XMG.alert(SYS,M_S);getROLE_S().reload();},
-				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
-				xmlData:FOSX(xml)});
-		}
-		else XMG.alert(SYS,M_NC);
-	};
+    
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var active = new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',sortable:true,width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
 		{header:C_NAME,dataIndex:'roleName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_DESC,dataIndex:'roleDesc',editor:new Ext.form.TextField()},
-		active],defaults:{sortable:true,width:100}});
+		active],defaults:{sortable:true,width:100}
+	});
+	
 	this.addRole=function(){
 		var rid=GGUID();
-		var r = new PRole({id:rid,roleId:rid,roleName:'',roleDesc:'',active:'1',version:'0',rowAction:'N'});
-    	this.grid.stopEditing();store.insert(0,r);sm.selectFirstRow();this.grid.startEditing(0,1);
+		var r = new PRole({id:rid,
+			roleId:rid,
+			active:'1',
+			version:'0',
+			rowAction:'N'
+		});
+    	this.grid.stopEditing();
+    	store.insert(0,r);
+    	sm.selectFirstRow();
+    	this.grid.startEditing(0,1);
 	};
-	this.removeRole=function(){FOS_REMOVE(sm,store);};
+	
+	this.removeRole=function(){
+		FOS_REMOVE(sm,store);
+	};
+	
+	this.save = function(){		
+		var xml='';
+		var a = store.getModifiedRecords();
+		if(a.length) 
+			var xml = ATX(a,'PRole',PRole);		
+		if(xml!=''){
+			Ext.Ajax.request({scope:this,
+				url:SERVICE_URL,
+				method:'POST',
+				params:{
+					A:'ROLE_S'
+				},
+				success: function(r){
+					var a = XTRA(r.responseXML,'PRole',PRole);
+					FOSU(store,a,PRole);
+					XMG.alert(SYS,M_S);
+					getROLE_S().reload();
+				},
+				failure: function(r){
+					XMG.alert(SYS,M_F+r.responseText);
+				},
+				xmlData:FOSX(xml)});
+		}
+		else 
+			XMG.alert(SYS,M_NC);
+	};
+	
 	this.setPermission=function(){
 		var b=sm.getSelected();
 		if(b){
 			if(b.get('rowAction')=='N')
 				XMG.alert(SYS,M_SAVE_FIRST);
 			else{
-				var w=new Fos.RoleFuncWin(b);w.show();
+				var w=new Fos.RoleFuncWin(b);
+				w.show();
 			}
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
+	
+	
 	this.grid = new Ext.grid.EditorGridPanel({
 		plugins:active,clicksToEdit:1,height:475,store:store,sm:sm,cm:cm,
-		tbar:[{itemId:'TB_N',text:C_ADD+'(N)',disabled:NR(M1_P+A_ROLE+F_M),iconCls:'add',scope:this,handler:this.addRole},'-',
-		{itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(M1_P+A_ROLE+F_R),iconCls:'remove',handler:this.removeRole},'-',
-		{itemId:'TB_S',text:C_SAVE+'(S)',disabled:NR(M1_P+A_ROLE+F_M),iconCls:'save',scope:this,handler:this.save},'-',
-		{itemId:'TB_P',text:C_PERMISSION_SET+'(P)',disabled:NR(M1_P+A_ROLE+F_M),iconCls:'key',scope:this,handler:this.setPermission}]
+		tbar:[{itemId:'TB_N',text:C_ADD,disabled:NR(M1_P+A_ROLE+F_M),iconCls:'add',scope:this,handler:this.addRole},'-',
+		{itemId:'TB_R',text:C_REMOVE,disabled:NR(M1_P+A_ROLE+F_R),iconCls:'remove',handler:this.removeRole},'-',
+		{itemId:'TB_S',text:C_SAVE,disabled:NR(M1_P+A_ROLE+F_M),iconCls:'save',scope:this,handler:this.save},'-',
+		{itemId:'TB_P',text:C_PERMISSION_SET,disabled:NR(M1_P+A_ROLE+F_M),iconCls:'key',scope:this,handler:this.setPermission}]
 	});	
-	new Ext.KeyMap(Ext.getDoc(),{
-		key:'nrs',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_ROLE');
-		 	if(tc&&tc==T_MAIN.getActiveTab()){
-		 		var tb=this.grid.getTopToolbar();
-		 		switch(k) {
-		 		case Ext.EventObject.N:
-		 			if(!tb.getComponent('TB_N').disabled) this.addRole();break;
-		 		case Ext.EventObject.R:
-		 			if(!tb.getComponent('TB_R').disabled) this.removeRole();break;
-		 		case Ext.EventObject.S:
-		 			if(!tb.getComponent('TB_S').disabled) this.save();break;
-				}
-		 	}
-		},stopEvent:true,scope:this});
-	Fos.RoleTab.superclass.constructor.call(this,{id:'T_ROLE',title:C_ROLE_MGT,iconCls:'gen',header:false,deferredRender:false,
-		autoScroll:true,labelAlign:'right',closable:true,labelWidth:80,border:false,width:800,layout:'fit',
-		items:[this.grid]});
+	
+	
+	Fos.RoleTab.superclass.constructor.call(this,{id:'T_ROLE',
+		title:C_ROLE_MGT,
+		iconCls:'gen',
+		header:false,
+		deferredRender:false,
+		autoScroll:true,
+		labelAlign:'right',
+		closable:true,
+		labelWidth:80,
+		border:false,
+		width:800,
+		layout:'fit',
+		items:[this.grid]
+	});
 };
 Ext.extend(Fos.RoleTab, Ext.Panel);
 
 Fos.RoleFuncWin = function(role) {
 	var us = GS('ROFU_Q','PRoleFunction',PRoleFunction,'funcCode','ASC','','S_ROFU','rofuId',true);			
-	var funcStore=getFUNC_S();
-	var bChildCheck=false;
+	var funcStore = getFUNC_S();
+	
+	var bChildCheck = false;
 	this.reload = false;
 	var nl = {scope:this,
 			checkchange:function(n,c){
@@ -124,9 +155,12 @@ Fos.RoleFuncWin = function(role) {
 		selModel:new Ext.tree.MultiSelectionModel(),
 		listeners:nl
 	});
+	
 	var fp = {};
-	var maxDep = 0;var root;
+	var maxDep = 0;
+	var root;
 	var a = funcStore.getRange();
+	
 	for(var i=0;i<a.length;i++){
 		var fc=a[i].get('funcCode');
 		var n = new Ext.tree.TreeNode({text:a[i].get('funcName'),id:fc,leaf:a[i].get('funcType')=='M'?false:true,
@@ -138,6 +172,7 @@ Fos.RoleFuncWin = function(role) {
 		if(na) na[na.length]=n;
 		else{na=[];na[0]=n;fp[dep]=na;}
 	}
+	
 	for(var i=1;i<maxDep;i++){
 		var na = fp[i];
 		var ca = fp[i+1];
@@ -145,6 +180,7 @@ Fos.RoleFuncWin = function(role) {
 			if(!na[j].isLeaf()) addChiledNode(na[j],ca);
 		}
 	}
+	
 	tree.setRootNode(root);	
 	
 	us.load({params:{mt:'JSON',roleId:role.get('roleId')},callback:function(ra,o,s){

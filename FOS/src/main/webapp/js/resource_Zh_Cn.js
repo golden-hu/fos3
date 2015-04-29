@@ -364,6 +364,7 @@ var C_TEMP_TYPE='模板类别';
 var C_TEMP_MGT='模板管理';
 var C_TEMP_DOWNLOAD='下载模板';
 var C_TEMP_UPLOAD='上传模板';
+var C_TEMP_IMPORT='导入模板';
 var C_FILE_TYPE='文件类型';
 var C_UPLOAD='上传';
 var C_UPLOAD_SUCCESS='上传成功！';
