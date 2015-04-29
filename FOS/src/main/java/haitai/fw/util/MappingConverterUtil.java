@@ -1,5 +1,9 @@
 package haitai.fw.util;
 
+import haitai.fos.ffop.entity.idao.IFConsignDAO;
+import haitai.fos.ffop.entity.table.FConsign;
+import haitai.fos.ffse.entity.idao.ISInvoiceItemDAO;
+import haitai.fos.ffse.entity.table.SInvoiceItem;
 import haitai.fos.general.entity.idao.IGContainerTypeDAO;
 import haitai.fos.general.entity.idao.IGPaymentTermDAO;
 import haitai.fos.general.entity.idao.IGTransTermDAO;
@@ -13,7 +17,10 @@ import haitai.fw.log.FosLogger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +36,10 @@ public class MappingConverterUtil {
 	private IGContainerTypeDAO cotyDao;
 	@Autowired
 	private IPUserDAO userDao;
+	@Autowired
+	private ISInvoiceItemDAO itemDao;
+	@Autowired
+	private IFConsignDAO consignDao;
 	
 	public String Bool(String str) {
 		if ("1".equals(str)) {
@@ -326,5 +337,31 @@ public class MappingConverterUtil {
 			n = "否";
 		}
 		return n;
+	}
+	
+	/**
+	 * 根据费用单票id获取主单号或者分单号
+	 * 1。如果主单号没有，显示分单号
+	 * 
+	 * @param invoiceId
+	 * @return
+	 */
+	public String getHblOrMbl(String invoiceId) {
+		String no = "";
+		if(StringUtil.isNotBlank(invoiceId)) {
+			Map<String, Object> propertyMap = new HashMap<String, Object>();
+			propertyMap.put("invoId", invoiceId);
+			List<SInvoiceItem> itemList = itemDao.findByProperties(propertyMap);
+			if(itemList.size() > 0) {
+				SInvoiceItem item = itemList.get(0);
+				Integer consId = item.getConsId();
+				FConsign c = consignDao.findById(consId);
+				no = c.getConsHblNo();
+				if(StringUtil.isBlank(no)) {
+					no = c.getConsMblNo();
+				}
+			}
+		}
+		return no;
 	}
 }

@@ -125,8 +125,8 @@ var groupViewCfg = {forceFit:false,
 function round2(v){return (Math.round(v*100)/100);};
 function round4(v){return (Math.round(v*10000)/10000);};
 
-var formatDate = function(v){return v ? v.dateFormat(DATEF) : '';};
-var formatDateTime = function(v){return v ? v.dateFormat('Y-m-d H:i') : '';};
+var formatDate = function(v){return v ? Ext.util.Format.date(v, DATEF) : '';};
+var formatDateTime = function(v){return v ? Ext.util.Format.date(v, 'Y-m-d H:i') : '';};
 var numRenderColor  = function(v,m,r){v = parseFloat(v);if(v=='NaN') return '0.00';m.css=(v>0?'green-b':'red-b');return v.toFixed(2);};
 
 var numRender = function(v){
