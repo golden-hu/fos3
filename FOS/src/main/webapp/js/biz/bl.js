@@ -89,6 +89,7 @@ Fos.BLGrid = function(_consign){
 		blDeliveryPlace:_consign.get('consDeliveryPlace'),
 		blContainerNo:_consign.get('consContainerNo'),
 		blSealNo:_consign.get('consSealNo'),
+		blContainerSealNo:_consign.get('consContainerSealNo'),
 		blPackages:_consign.get('consCargoPackages'),
 		consMasterId:_consign.get('consMasterId'),
 		consMasterNo:_consign.get('consMasterNo'),
@@ -1024,7 +1025,7 @@ Fos.BlWin = function(p,b,store) {
     	anchor:'99%'
     });
     
-    var txtContainerNo = new Ext.form.TextField({fieldLabel:C_CONTAINER_NO,
+    /*var txtContainerNo = new Ext.form.TextField({fieldLabel:C_CONTAINER_NO,
     	name:'blContainerNo',
     	value:b.get('blContainerNo'),
     	tabIndex:27,
@@ -1034,6 +1035,13 @@ Fos.BlWin = function(p,b,store) {
     var txtSealNo = new Ext.form.TextField({fieldLabel:C_SEAL_NO,
     	name:'blSealNo',
     	value:b.get('blSealNo'),
+    	tabIndex:28,
+    	anchor:'99%'
+    });*/
+    
+    var txtContainerSealNo = new Ext.form.TextArea({fieldLabel:C_CONTAINER_SEAL_NO,
+    	name:'blContainerSealNo',
+    	value:b.get('blContainerSealNo'),
     	tabIndex:28,
     	anchor:'99%'
     });
@@ -1101,11 +1109,14 @@ Fos.BlWin = function(p,b,store) {
             {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
                 items: [txtTotalSay]
 			},
-            {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
+           /* {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
                 items: [txtContainerNo]
 			},
             {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
                 items: [txtSealNo]
+			},*/
+            {columnWidth:.90,layout: 'form',labelAlign: 'left',labelWidth:85,border : false,
+                items: [txtContainerSealNo]
 			}
         ]};
 	

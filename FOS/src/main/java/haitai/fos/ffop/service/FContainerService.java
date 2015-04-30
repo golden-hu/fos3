@@ -87,9 +87,13 @@ public class FContainerService {
 			List<FContainer> listCont = query(queryMap);
 			StringBuilder sb = new StringBuilder();
 			StringBuilder sb1 = new StringBuilder();
+			// 添加箱封号
+			StringBuilder conSealNoSb = new StringBuilder();
 			for (FContainer cont : listCont) {
 				sb.append(cont.getContNo()).append("/");
 				sb1.append(cont.getContSealNo()).append("/");
+				
+				conSealNoSb.append(cont.getContNo()).append("/").append(cont.getContSealNo()).append(";\n");
 			}
 			if(sb.length() > 0){
 				sb.deleteCharAt(sb.length() - 1);
@@ -100,6 +104,7 @@ public class FContainerService {
 			FConsign consign = consignDao.findById(consId);
 			consign.setConsContainerNo(sb.toString());
 			consign.setConsSealNo(sb1.toString());
+			consign.setConsContainerSealNo(conSealNoSb.toString());
 			retList.add(consignDao.update(consign));
 		}
 		return retList;

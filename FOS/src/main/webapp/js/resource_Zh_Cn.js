@@ -923,6 +923,7 @@ var C_CONT_NO_ORI='原箱号';
 var C_CONT_LIST='箱列表';
 var C_CONT_SHIP_LIST='装箱货物列表';
 var C_SEAL_NO='铅封号';
+var C_CONTAINER_SEAL_NO='箱号/封号';
 var C_ARRIVE_TIME_D='要求抵达时间';
 var C_ARRIVE_TIME_F='实际抵达时间';
 var C_LOAD_TIME='装货时间';
