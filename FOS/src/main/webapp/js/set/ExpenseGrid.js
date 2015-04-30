@@ -22,11 +22,12 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 		x=S_AR; 
 	else 
 		x=S_AC;
+	
 	if(frm.f=='C') 
 		m=m+M3_EXPE+x; 
 	else 
 		m=M1_S+S_EXPE+x;
-	
+		
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false});
 	
 	var cols=[sm];

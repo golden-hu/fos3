@@ -8,6 +8,8 @@ Fos.ExpensePanel = function(_consign,f){
 	else 
 		m=M1_S+S_EXPE;	
 	
+	this.f = f;
+	
 	//客户
 	var txtCustName = new Ext.form.TextField({
 		fieldLabel:C_BOOKER,
