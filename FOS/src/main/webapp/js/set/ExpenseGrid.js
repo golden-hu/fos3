@@ -798,7 +798,8 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 		handler:this.cp
 	});
 	
-    var btnExport = new Ext.Button({text:C_EXPORT,
+    var btnExport = new Ext.Button({itemId: 'TB_E',
+    	text:C_EXPORT,
 		iconCls:'print',
 		disabled:NR(m+F_M)||locked,
 		scope:this,
@@ -846,6 +847,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
     	if(tb.getComponent('TB_B')) tb.getComponent('TB_B').setDisabled(NR(m+F_R)||locked);
     	if(tb.getComponent('TB_C')) tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked);
     	if(tb.getComponent('TB_D')) tb.getComponent('TB_D').setDisabled(NR(m+F_M)||locked);
+    	if(tb.getComponent('TB_E')) tb.getComponent('TB_E').setDisabled(NR(m+F_M)||locked);
     	if(tb.getComponent('TB_CF')) tb.getComponent('TB_CF').setDisabled(NR(m+F_M)||locked);
 	};
 	 

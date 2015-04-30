@@ -400,10 +400,10 @@ Fos.ExpensePanel = function(_consign,f){
 	this.updateTB=function(){
 		var tb=this.getTopToolbar();
 		if(tb.getComponent('TB_A')) 
-			tb.getComponent('TB_A').setDisabled(NR(M1_S+S_EXPE+F_E)||_consign.get('consStatusExp')==1||_consign.get('consStatusAud')!=0);
+			tb.getComponent('TB_A').setDisabled(NR(m+F_E)||_consign.get('consStatusExp')==1||_consign.get('consStatusAud')!=0);
 		
     	if(tb.getComponent('TB_B')) 
-    		tb.getComponent('TB_B').setDisabled(NR(M1_S+S_EXPE+F_E)||_consign.get('consStatusAud')!=0||_consign.get('consStatusExp')==0);
+    		tb.getComponent('TB_B').setDisabled(NR(m+F_E)||_consign.get('consStatusAud')!=0||_consign.get('consStatusExp')==0);
     	
     	this.rg.updateTB();
     	this.pg.updateTB();
