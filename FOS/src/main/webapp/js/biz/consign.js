@@ -361,7 +361,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var colConsMasterNo = {header:C_M_CONS_NO,width:150,dataIndex:"consMasterNo"};
     var colConsRemarks = {header:C_REMARKS,dataIndex:"consRemarks"};
     var colConsContractNo = {header:C_CONTRACT_NO,dataIndex:"consContractNo"};
-    var colCargoOwner = {header:C_CARGO_OWNER,width:200,dataIndex:"consCargoOwnerName"};
+    var colCargoOwner = {header:C_CARGO_OWNER,width:200,dataIndex:"consShipper"};
+    var colConsignee = {header:C_CONSIGNEE,width:200,dataIndex:"consConsignee"};
 	
 	var colBlCargoPackages = {header:C_BL_PACKAGES,width:80,dataIndex:"blCargoPackages",align:'right',css:'font-weight:bold;'};
     var colBlCargoGrossWeight = {header:C_BL_GW,width:80,dataIndex:"blCargoGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
@@ -377,7 +378,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     
     var cm=new Ext.grid.ColumnModel({columns:
     	(bizType==BT_B)?[c1,colStatusLock,colMasterFlag,colConsMasterNo,colStatus,colConsNo,
-    	                 colConsContractNo,colOperator,colCustName,colCargoOwner,colConsDate,
+    	                 colConsContractNo,colOperator,colCustName,colCargoOwner,colConsignee,colConsDate,
     	                 colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
     	                 colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
     	                 colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
