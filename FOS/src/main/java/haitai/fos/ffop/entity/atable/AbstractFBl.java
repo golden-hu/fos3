@@ -53,6 +53,7 @@ public abstract class AbstractFBl extends BaseDomain {
 	private String blDeliveryPlace;
 	private String blContainerNo;
     private String blSealNo;
+    private String blContainerSealNo;
 	private String blPackages;
 	private String blCargoDesc;
 	private String blGrossWeight;
@@ -477,6 +478,16 @@ public abstract class AbstractFBl extends BaseDomain {
 
 	public void setBlSealNo(String blSealNo) {
 		this.blSealNo = blSealNo;
+	}
+	
+	
+	@Column(name = "BL_CONTAINER_SEAL_NO", length = 500)
+	public String getBlContainerSealNo() {
+		return blContainerSealNo;
+	}
+
+	public void setBlContainerSealNo(String blContainerSealNo) {
+		this.blContainerSealNo = blContainerSealNo;
 	}
 
 	@Column(name = "BL_PACKAGES", length = 500)
