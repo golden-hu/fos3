@@ -96,6 +96,7 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (1, '箱型箱量', 'FBl', 'blContainerInfo', NULL),
 (1, '箱号', 'FBl', 'blContainerNo', NULL),
 (1, '铅封号', 'FBl', 'blSealNo', NULL),
+(1, '箱号/封号', 'FBl', 'blContainerSealNo', NULL),
 (1, '清洁提单', 'FBl', 'blCleanFlag', 'getCleanBL'),
 (1, '承运人', 'FBl', 'blCarrierName', NULL),
 (1, '备注', 'FBl', 'blRemarks', NULL),
