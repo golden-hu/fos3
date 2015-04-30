@@ -147,6 +147,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String consScacCode;
 	private String consContainerNo;
 	private String consSealNo;
+	private String consContainerSealNo;
 	private String consCargoDesc;
 	private String consCargoMarks;
 	private String consCargoPackages;
@@ -1584,6 +1585,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 
 	public void setConsSealNo(String consSealNo) {
 		this.consSealNo = consSealNo;
+	}
+
+	@Column(name = "CONS_CONTAINER_SEAL_NO", length = 500)
+	public String getConsContainerSealNo() {
+		return this.consContainerSealNo;
+	}
+
+	public void setConsContainerSealNo(String consContainerSealNo) {
+		this.consContainerSealNo = consContainerSealNo;
 	}
 
 	@Column(name = "CONS_CARGO_DESC", length = 65535)
