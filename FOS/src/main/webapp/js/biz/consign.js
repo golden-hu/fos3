@@ -213,7 +213,7 @@ Fos.showConsignTabs = function(p){
 	
 	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1){
 		if(!tc.getComponent('T_INSP_'+p.get('id'))){
-			tc.add(new Fos.InspectionTab(p));
+			tc.add(new Fos.InspectionPanel(p));
 		}
 	}
 	else{
@@ -653,7 +653,7 @@ Fos.ConsignTab = function(p){
 		items[items.length]=new Fos.BLTab(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1) 
-		items[items.length]=new Fos.InspectionTab(p);
+		items[items.length]=new Fos.InspectionPanel(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1) 
 		items[items.length]=new Fos.CudePanel(p);

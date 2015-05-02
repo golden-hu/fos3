@@ -3,17 +3,23 @@ Fos.InspectionGrid = function() {
 	var queryParams=[];
 	queryParams[queryParams.length]=new QParam({key:'consBizType',value:BT_I,op:1});
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
+	
 	var store = new Ext.data.GroupingStore({
-   		url: SERVICE_URL+'?A=CONS_X',baseParams:bp,
+   		url: SERVICE_URL+'?A=CONS_X',
+   		baseParams:bp,
     	reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FConsign',idProperty:'consId'}, FConsign),remoteSort:true,
-    	sortInfo:{field:'consDate', direction:'DESC'}});    	
+    	sortInfo:{field:'consDate', direction:'DESC'}
+	});    	
 	
 	this.reset=function(){
 		store.baseParams=bp;
 		store.reload({params:{start:0,limit:C_PS}});
 	};
+	
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
+	
 	var c1=new Ext.grid.RowNumberer();
+	
 	var c2={header:'',dataIndex:'consStatusLock',menuDisabled:true,fixed:true,width:25,renderer:function(v){
                if(v==1) return '<div class="locked"></div>'; else return '';
          }};
@@ -34,8 +40,11 @@ Fos.InspectionGrid = function() {
     var c16={header:C_M_BL_NO,width:120,dataIndex:"consMblNo"};
     var c17={header:C_POL,dataIndex:"consPolEn"};
     var c18={header:C_POD,width:100,dataIndex:"consPodEn"};
-    var cm=new Ext.grid.ColumnModel({columns:[c1,c2,c3,c4,c5,c6,c7,c17,c18,c12,c13,c14,c15,c16,c8,c9,c10,c11],
-		defaults: {sortable: true}});
+    
+    var cm=new Ext.grid.ColumnModel({
+    	columns:[c1,c2,c3,c4,c5,c6,c7,c17,c18,c12,c13,c14,c15,c16,c8,c9,c10,c11],
+		defaults: {sortable: true}
+    });
 	
     showInspConsign = function(p){
     	var t = T_MAIN.getComponent('P_CONS_'+p.get("id"));
@@ -43,7 +52,7 @@ Fos.InspectionGrid = function() {
     		T_MAIN.setActiveTab(t);
     	} 
     	else{
-    		t = new Fos.InspectionDeclTab(p,store);
+    		t = new Fos.InspectionConsignPanel(p,store);
     		T_MAIN.add(t);
     		T_MAIN.setActiveTab(t);
     	}
@@ -53,6 +62,7 @@ Fos.InspectionGrid = function() {
 		var c = Fos.newConsign(bizClass,BT_I,'');
 		showInspConsign(c);
 	};
+	
 	this.editConsign = function(){
 		var b=sm.getSelected();
 		if(b) 
@@ -60,6 +70,7 @@ Fos.InspectionGrid = function() {
 		else 
 			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	this.task = function(){
 		var b=sm.getSelected();
 		if(b){
@@ -69,6 +80,7 @@ Fos.InspectionGrid = function() {
 		else 
 			XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};	
+	
 	this.removeConsign = function(){
 		var a =sm.getSelections();
        	if(a.length){
@@ -98,18 +110,27 @@ Fos.InspectionGrid = function() {
 		w.show();
 	};
 	
-	var kw = new Ext.form.TextField({listeners:{scope:this,specialkey:function(c,e){
+	var kw = new Ext.form.TextField({
+		listeners:{scope:this,specialkey:function(c,e){
 		if(e.getKey()==Ext.EventObject.ENTER) 
 			this.fastSearch();
-		}}});
+		}}
+	});
+	
 	this.fastSearch=function(){
 		var consNo=kw.getValue();
-		if(!consNo){XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});return;};
+		
+		if(!consNo){
+			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+			return;
+		}
+		
      	var a=[];     	
      	a[a.length]=new QParam({key:'consBizType',value:BT_I,op:EQ});
      	
      	var c=consNo.indexOf(',');
 		var b=consNo.indexOf('..');
+		
      	if(c>=0){
 			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
 		}
@@ -120,12 +141,15 @@ Fos.InspectionGrid = function() {
 		}
 		else
  			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+     	
      	queryParams = a;
      	store.baseParams={mt:'xml',xml:FOSX(QTX(queryParams))};
+     	
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
-     		}});
+     		}
+     	});
 	};
 	
 	this.exp=function(){		
@@ -143,11 +167,14 @@ Fos.InspectionGrid = function() {
 	};	
 	
 	var m=M1_I+M3_CONS;
-	var b1={text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,menu: 
-	{items: [
+	
+	var b1 = {text:C_ADD,disabled:NR(m+F_M),iconCls:'add',scope:this,menu: 
+	    {items: [
 	         {text:C_EXP_INSP,scope:this,handler:function(){this.newConsign('E');}},
 	         {text:C_IMP_INSP,scope:this,handler:function(){this.newConsign('I');}}
-	         ]}};
+	         ]
+	    }
+	};
 	
 	var b3={text:C_EDIT,disabled:NR(m+F_V),iconCls:'option',handler:this.editConsign};
 	var b4={text:C_REMOVE,disabled:NR(m+F_R),iconCls:'remove',handler:this.removeConsign};
@@ -170,6 +197,7 @@ Fos.InspectionGrid = function() {
 	bbar:PTB(store,C_PS)});	
     store.load({params:{start:0,limit:C_PS}});
 };
+
 Ext.extend(Fos.InspectionGrid, Ext.grid.GridPanel);
 
 Fos.InspConsLookupWin = function(store,setQueryParams){    

@@ -68,7 +68,7 @@
 <script type="text/javascript" src="js/biz/trans.js"></script>
 <script type="text/javascript" src="js/biz/warehouse.js"></script>
 <script type="text/javascript" src="js/biz/container.js"></script>
-<script type="text/javascript" src="js/biz/inspection.js"></script>
+
 
 
 <script type="text/javascript" src="js/biz/bl.js"></script>
@@ -81,7 +81,8 @@
 <script type="text/javascript" src="js/customs/CudePanel.js"></script>
 
 <script type="text/javascript" src="js/customs/insp.js"></script>
-<script type="text/javascript" src="js/customs/InspectionDeclTab.js"></script>
+<script type="text/javascript" src="js/customs/InspectionConsignPanel.js"></script>
+<script type="text/javascript" src="js/customs/InspectionPanel.js"></script>
 
 <script type="text/javascript" src="js/customs/trade.js"></script>
 <script type="text/javascript" src="js/customs/reliefTax.js"></script>

@@ -180,7 +180,7 @@ Fos.CudePanel = function(p) {
 			XMG.alert(SYS,M_SELECT_CUSTOMS_BILL);
 	};	
 	
-	var btnAdd = new Ext.Button({text:C_ADD+'(N)',
+	var btnAdd = new Ext.Button({text:C_ADD,
 		itemId:'TB_A',
 		disabled:NR(m+F_M),
 		iconCls:'add',
@@ -188,7 +188,7 @@ Fos.CudePanel = function(p) {
 		handler:this.addCude
 	});
 	
-	var btnRemove = new Ext.Button({text:C_REMOVE+'(D)',
+	var btnRemove = new Ext.Button({text:C_REMOVE,
 		disabled:NR(m+F_R),
 		iconCls:'remove',
 		scope:this,

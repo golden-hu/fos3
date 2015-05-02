@@ -1,5 +1,5 @@
 //报检单
-Fos.InspectionTab = function(p) {
+Fos.InspectionPanel = function(p) {
 	this.sel=GSEL;
 	this.store = GS('INSP_Q','FInspection',FInspection,'inspId','DESC','','','inspId',false);
 	this.store.load({params:{consId:p.get('consId')}});	
@@ -29,9 +29,8 @@ Fos.InspectionTab = function(p) {
 	{header:C_STATUS,dataIndex:'inspStatus',renderer:getINSPST}
 	],defaults:{sortable:true,width:100}});
 	
-	this.inspGrid=new Ext.grid.GridPanel({title:C_INSP_BILL_LIST,region:'north',
-		autoScroll:true,height:150,store:this.store,sm:sm,cm:cm});
-    this.addInsp = function(){
+	
+	this.addInsp = function(){
 		var rid=GGUID();
     	var b = new FInspection({id:rid,inspId:rid,
     		inspVendorId:p.get('consInspectionVendor'),
@@ -56,6 +55,7 @@ Fos.InspectionTab = function(p) {
       	b.set('rowAction','N');
 		this.inspGrid.getSelectionModel().selectFirstRow();
     };
+    
 	this.removeInsp = function(){
 		var b =this.inspGrid.getSelectionModel().getSelected();
 		if(b){
@@ -68,6 +68,36 @@ Fos.InspectionTab = function(p) {
 	    	}
     	}
 	};
+		
+	var btnAdd = new Ext.Button({text:C_ADD,
+		itemId:'TB_A',
+		disabled:NR(m+F_M),
+		iconCls:'add',
+		scope:this,
+		handler:this.addInsp
+	});
+	
+	var btnRemove = new Ext.Button({text:C_REMOVE,
+		disabled:NR(m+F_R),
+		iconCls:'remove',
+		scope:this,
+		handler:this.removeInsp
+	});
+	
+	this.inspGrid=new Ext.grid.GridPanel({title:C_INSP_BILL_LIST,
+		region:'west',
+		width:200,
+		border:true,
+		autoScroll:true,
+		collapsible:true,
+		store:this.store,
+		split:true,
+		sm:sm,
+		cm:cm,
+		tbar:[btnAdd,'-',btnRemove]
+	});
+	
+    
 	this.save = function(){
 		this.inspGrid.stopEditing();		
 		var b =this.inspGrid.getSelectionModel().getSelected();
@@ -88,6 +118,7 @@ Fos.InspectionTab = function(p) {
 			xmlData:FOSX(xml)});
 		}
 	};
+	
 	this.expExcel=function(){
 		var b = this.inspGrid.getSelectionModel().getSelected();
 		if(b){
@@ -260,39 +291,68 @@ Fos.InspectionTab = function(p) {
 	            ]}
 	);
 	
-    Fos.InspectionTab.superclass.constructor.call(this, { 
+	var btnSave = new Ext.Button({text:C_SAVE,
+		disabled:NR(m+F_M),
+		iconCls:'save',
+		scope:this,
+		handler:this.save
+	});
+	
+	var btnApply = new Ext.Button({text:C_APPLY,
+		disabled:NR(m+F_M),
+		iconCls:'docpass',
+		scope:this,
+		handler:function(){
+			this.updateStatus('1');
+		}
+	});
+	
+	var btnPass = new Ext.Button({text:C_END,
+		disabled:NR(m+F_M),
+		iconCls:'pass',
+		scope:this,
+		handler:function(){
+			this.updateStatus('2');
+		}
+	});
+	
+	var btnExport = new Ext.Button({text:C_EXPORT,
+		disabled:NR(m+F_E),
+		iconCls:'print',
+		scope:this,
+		menu: {items: 
+			[
+		   		{text:C_INSP_BILL,scope:this,handler:this.expExcel}
+	   		]}
+	});
+	
+	var inspDetailPanel = new Ext.Panel({region:'center',
+		autoScroll:true,
+		items:[frm,expPanel],
+		tbar:[btnSave,'-',btnApply,'-',btnPass,'-',btnExport]
+    });
+	
+	
+	
+    Fos.InspectionPanel.superclass.constructor.call(this, { 
 		id:'T_INSP_'+p.get('id'),
 		title:C_SR_INSP,
-		layout:'border',
-		autoScroll:true,
-		tbar:[{text:C_ADD,itemId:'TB_A',disabled:NR(m+F_M),iconCls:'add',scope:this,handler:this.addInsp},'-',
-		{text:C_REMOVE,itemId:'TB_B',disabled:NR(m+F_R),iconCls:'remove',scope:this,handler:this.removeInsp},'-',
-		{text:C_SAVE,itemId:'TB_C',disabled:NR(m+F_M),iconCls:'save',scope:this,handler:this.save},'-',
-		{text:C_APPLY,itemId:'TB_D',disabled:NR(m+F_M),iconCls:'docpass',scope:this,handler:function(){this.updateStatus('1');}},'-',
-		{text:C_END,itemId:'TB_E',disabled:NR(m+F_M),iconCls:'pass',scope:this,handler:function(){this.updateStatus('2');}},'-',	
-		{text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',scope:this,
-					menu: {items: [
-			   		{text:C_INSP_BILL,menu:{items:[
-			   			{text:'Excel',scope:this,handler:this.expExcel},
-			   			{text:C_EMAIL,scope:this,handler:this.expEmail},
-			   			{text:C_FAX,scope:this,handler:function(){}}]}}
-			   		]}},'->'
-		],
-		items: [this.inspGrid,
-		        {xtype:'tabpanel',activeTab:0,region:'center',items:[frm,expPanel]}
-			]
+		layout:'border',		
+		items: [this.inspGrid,inspDetailPanel]
 	});
 };
-Ext.extend(Fos.InspectionTab, Ext.Panel);
+Ext.extend(Fos.InspectionPanel, Ext.Panel);
 
 Fos.InspectionWin = function(p) {
-	var panel = new Fos.InspectionTab(p);
+	var panel = new Fos.InspectionPanel(p);
 	Fos.InspectionWin.superclass.constructor.call(this, {title:p.get('consNo')+C_INSP_BILL,
 		modal:true,
 		width:900,
         height:565,
         layout:'fit',
         plain:false,
+        maximizable:true,
+        maximized:true,
         buttonAlign:'right',
         items:panel
     });
