@@ -32,8 +32,7 @@ var recordToContainer = function(container,record){
     fs.each(function(f){
     	var fa = container.find('name',f.name); 
         if(fa.length>0){
-            var field = fa[0];
-            //record.set(f.name, field.getValue());
+            var field = fa[0];            
             field.setValue(record.get(f.name));
         }
     }, this);

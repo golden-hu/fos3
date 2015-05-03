@@ -875,6 +875,11 @@ Fos.CudeConsignPanel = function(p,store) {
     	win.show();    	
     };
     
+    this.showInsp = function(){
+    	var win = new Fos.InspectionWin(p);
+    	win.show();    	
+    };
+    
     this.MoidfyConsNo=function(){
     	XMG.prompt(SYS,C_CONS_NO_NEW,function(b,v){
 			if(b=='ok'){
@@ -963,6 +968,14 @@ Fos.CudeConsignPanel = function(p,store) {
 		handler:this.showCude
 	});
 	
+	var btnInsp = new Ext.Button({text:C_INSP_BILL,
+		itemId:'TB_INSP',
+		iconCls:'doc',
+		disabled:p.get('rowAction')=='N',
+		scope:this,
+		handler:this.showInsp
+	});
+	
 	var btnExpe = new Ext.Button({text:C_EXPE,
 		itemId:'TB_EXP',
 		iconCls:'dollar',
@@ -1047,17 +1060,18 @@ Fos.CudeConsignPanel = function(p,store) {
          	     numMeasurement,numNetWeight]
          	   }]},
          	 {header:false,border:false,layout:'column',items:[
+         	    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[txtServiceSpec]},
+         	    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[txtRemarks]},
          	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtShipper]},
          	 	{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
            	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtConsignee]},
-         		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]},
-         		{columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[txtServiceSpec]},
-           	    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[txtRemarks]}
+         		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]}
+         		
          	    ]}
          	 ],
 		tbar:[btnSave,'-',btnConfirm,'-',btnCancelConfirm,'-',btnClose,'-',
 	          btnRemove,'-',btnInvalid,'-',btnUnlock,'-',btnModifyConsignNo,'-',btnSaveAs,'-','->',
-	          btnCude,'-',btnExpe,'-',btnDoc,'-',btnAttach
+	          btnCude,'-',btnInsp,'-',btnExpe,'-',btnDoc,'-',btnAttach
 	     ]
 	});
 };

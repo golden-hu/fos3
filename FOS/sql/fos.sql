@@ -1605,7 +1605,55 @@ CREATE TABLE IF NOT EXISTS F_INSPECTION (
   INSP_START_DATE date,
   INSP_COMPLETE_DATE date,
   INSP_CHECK_FLAG TINYINT(4) default '0',
-  INSP_REMARKS VARCHAR(1000),
+  
+  INSP_TYPE VARCHAR(200), -- 报检类型(出口产验,换证凭条,换证凭单,进口产检,进口转检,卫检，适载，熏蒸，装运前检验申请)
+  
+  INSP_CARGO_SAMPLE_FLAG TINYINT(4) default '0', -- 货物抽样
+  INSP_PACKAGE_CHECK_FLAG TINYINT(4) default '0', -- 包装查验
+  INSP_CARGO_SEND_FLAG TINYINT(4) default '0', -- 货物送样
+  INSP_CARGO_CHECK_FLAG TINYINT(4) default '0', -- 货物检验
+  INSP_CERTIFICATION_FLAG TINYINT(4) default '0', -- 检验出证
+  INSP_CERTIFICATION_CHECK_FLAG TINYINT(4) default '0', -- 换证查验
+  
+  INSP_CARGO_SAMPLE_DATE date, -- 抽样日期
+  INSP_PACKAGE_CHECK_DATE date, -- 检包日期
+  INSP_CARGO_SEND_DATE date, -- 送样日期
+  INSP_CARGO_CHECK_DATE date, -- 检验日期
+  INSP_CERTIFICATION_DATE date, -- 出证日期
+  INSP_CERTIFICATION_CHECK_DATE date, -- 查验日期
+  
+  
+  INSP_TS_FLAG TINYINT(4) default '0', -- 检验检疫技术服务
+  INSP_TS_TYPE VARCHAR(64), -- 委托类型 (熏蒸，消毒，卫生除虫，其它)
+  INSP_TS_NO VARCHAR(64), -- 委托号码
+  INSP_TS_APPLY_DATE date, -- 申请日期
+  INSP_TS_OPERATION_DATE date, -- 作业日期
+  INSP_TS_END_DATE date, -- 完成日期
+  INSP_TS_OBJECT VARCHAR(64), -- 作业对象
+  INSP_TS_REMARK TEXT, -- 备注
+   
+  INSP_CS_FLAG TINYINT(4) default '0', -- 箱体卫检
+  INSP_CS_DATE date, -- 卫检日期
+  INSP_CS_NO VARCHAR(64), -- 卫检号
+  INSP_CS_CHECK_FLAG TINYINT(4) default '0', -- 卫检查验
+  INSP_CS_REMARK TEXT, -- 备注
+  
+  INSP_CL_FLAG TINYINT(4) default '0', -- 箱体适载
+  INSP_CL_APPLY_DATE date, -- 申请日期
+  INSP_CL_DATE date, -- 检验日期
+  INSP_CL_NO VARCHAR(64), -- 适载编号
+  INSP_CL_CONTAINER_NO VARCHAR(64), -- 适载柜号
+  INSP_CL_REMARK TEXT, -- 备注
+  
+  INSP_LC_FLAG TINYINT(4) default '0', -- 装运前检验
+  INSP_LC_APPLY_DATE date, -- 申请日期
+  INSP_LC_TYPE VARCHAR(64), -- 委托类型 (监装，监磅，水尺，其它)
+  INSP_LC_OPERATION_DATE date, -- 作业日期
+  INSP_LC_END_DATE date, -- 完成日期
+  INSP_LC_OBJECT VARCHAR(64), -- 作业对象
+  INSP_LC_REMARK TEXT, -- 备注
+  
+  INSP_REMARKS VARCHAR(1000),  
   USER_ID INT,
   GROU_ID INT,
   CREATE_BY INT,

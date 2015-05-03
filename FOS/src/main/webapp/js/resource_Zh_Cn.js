@@ -1649,5 +1649,38 @@ var C_CONTAINER_FREE_DAYS = '免柜期';
 var C_CUDE_EXPIRE_DECLAR_DATE = '滞报日期';
 var C_CUDE_EXPIRE_CONTAINER_DATE = '滞柜日期';
 var C_CUDE_INSPECTION_DATE = '查验日期 ';
+var C_CARGO_SAMPLE = '货物抽样';
+var C_PACKAGE_CHECK = '包装查验';
+var C_CARGO_SEND = '货物送样';
+var C_CARGO_CHECK = '货物检验';
+var C_CERTIFICATION = '检验出证';
+var C_CERTIFICATION_CHECK = '换证查验';
+
+var C_CARGO_SAMPLE_DATE = '抽样日期';
+var C_PACKAGE_CHECK_DATE = '检包日期';
+var C_CARGO_SEND_DATE = '送样日期';
+var C_CARGO_CHECK_DATE = '检验日期';
+var C_CERTIFICATION_DATE = '出证日期';
+var C_CERTIFICATION_CHECK_DATE = '查验日期';
+var C_APPLY_DATE = '申请日期';
+var C_OPERATION_DATE = '作业日期';
+var C_OPERATION_END_DATE = '完成日期';
+var C_TS = '检验检疫技术服务';
+var C_TS_TYPE = '委托类型';
+var C_TS_NO = '委托号码';
+var C_OP_OBJECT = '作业对象';
+var C_CS = '箱体卫检';
+var C_CS_DATE = '卫检日期';
+var C_CS_NO= '卫检号';
+var C_CS_CHECK= '卫检查验';
+var C_CL = '箱体适载';
+var C_CL_DATE = '检验日期';
+var C_CL_NO = '适载编号';
+var C_CL_CONTAINER_NO = '适载柜号';
+var C_LC = '装运前检验';
+var C_LC_TYPE = '委托类型';
+var C_INSP_RECORD = '报检记录';
+
+
 
 

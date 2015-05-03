@@ -64,6 +64,53 @@ public abstract class AbstractFInspection extends BaseDomain {
 	private Date inspStartDate;
 	private Date inspCompleteDate;
 	private Short inspCheckFlag;
+	
+	private String inspType;
+	private Short inspCargoSampleFlag;
+	private Short inspPackageCheckFlag;
+	private Short inspCargoSendFlag;
+	private Short inspCargoCheckFlag;
+	private Short inspCertificationFlag;
+	private Short inspCertificationCheckFlag;
+	
+	private Date inspCargoSampleDate;
+	private Date inspPackageCheckDate;
+	private Date inspCargoSendDate;
+	private Date inspCargoCheckDate;
+	private Date inspCertificationDate;
+	private Date inspCertificationCheckDate;
+	
+	private Short inspTsFlag;
+	private String inspTsType;
+	private String inspTsNo;
+	private Date inspTsApplyDate;
+	private Date inspTsOperationDate;
+	private Date inspTsEndDate;
+	private String inspTsObject;
+	private String inspTsRemark;
+	
+	private Short inspCsFlag;
+	private Date inspCsDate;
+	private String inspCsNo;
+	private Short inspCsCheckFlag;
+	private String inspCsRemark;
+	
+	private Short inspClFlag;
+	private Date inspClApplyDate;
+	private Date inspClDate;
+	private String inspClNo;
+	private String inspClContainerNo;
+	private String inspClRemark;
+	
+	private Short inspLcFlag;
+	private Date inspLcApplyDate;
+	private String inspLcType;
+	private Date inspLcOperationDate;
+	private Date inspLcEndDate;
+	private String inspLcObject;
+	private String inspLcRemark;
+		
+	
 	private String inspRemarks;
 	private Integer userId;
 	private Integer grouId;
@@ -505,6 +552,373 @@ public abstract class AbstractFInspection extends BaseDomain {
 
 	public void setInspCheckFlag(Short inspCheckFlag) {
 		this.inspCheckFlag = inspCheckFlag;
+	}
+	
+	
+	@Column(name = "INSP_TYPE")
+	public String getInspType() {
+		return inspType;
+	}
+
+	public void setInspType(String inspType) {
+		this.inspType = inspType;
+	}
+
+	@Column(name = "INSP_CARGO_SAMPLE_FLAG")
+	public Short getInspCargoSampleFlag() {
+		return inspCargoSampleFlag;
+	}
+
+	public void setInspCargoSampleFlag(Short inspCargoSampleFlag) {
+		this.inspCargoSampleFlag = inspCargoSampleFlag;
+	}
+
+	@Column(name = "INSP_PACKAGE_CHECK_FLAG")
+	public Short getInspPackageCheckFlag() {
+		return inspPackageCheckFlag;
+	}
+
+	public void setInspPackageCheckFlag(Short inspPackageCheckFlag) {
+		this.inspPackageCheckFlag = inspPackageCheckFlag;
+	}
+
+	@Column(name = "INSP_CARGO_SEND_FLAG")
+	public Short getInspCargoSendFlag() {
+		return inspCargoSendFlag;
+	}
+
+	public void setInspCargoSendFlag(Short inspCargoSendFlag) {
+		this.inspCargoSendFlag = inspCargoSendFlag;
+	}
+
+	@Column(name = "INSP_CARGO_CHECK_FLAG")
+	public Short getInspCargoCheckFlag() {
+		return inspCargoCheckFlag;
+	}
+
+	public void setInspCargoCheckFlag(Short inspCargoCheckFlag) {
+		this.inspCargoCheckFlag = inspCargoCheckFlag;
+	}
+
+	@Column(name = "INSP_CERTIFICATION_FLAG")
+	public Short getInspCertificationFlag() {
+		return inspCertificationFlag;
+	}
+
+	public void setInspCertificationFlag(Short inspCertificationFlag) {
+		this.inspCertificationFlag = inspCertificationFlag;
+	}
+
+	@Column(name = "INSP_CERTIFICATION_CHECK_FLAG")
+	public Short getInspCertificationCheckFlag() {
+		return inspCertificationCheckFlag;
+	}
+
+	public void setInspCertificationCheckFlag(Short inspCertificationCheckFlag) {
+		this.inspCertificationCheckFlag = inspCertificationCheckFlag;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CARGO_SAMPLE_DATE")
+	public Date getInspCargoSampleDate() {
+		return inspCargoSampleDate;
+	}
+
+	public void setInspCargoSampleDate(Date inspCargoSampleDate) {
+		this.inspCargoSampleDate = inspCargoSampleDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_PACKAGE_CHECK_DATE")
+	public Date getInspPackageCheckDate() {
+		return inspPackageCheckDate;
+	}
+
+	public void setInspPackageCheckDate(Date inspPackageCheckDate) {
+		this.inspPackageCheckDate = inspPackageCheckDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CARGO_SEND_DATE")
+	public Date getInspCargoSendDate() {
+		return inspCargoSendDate;
+	}
+
+	public void setInspCargoSendDate(Date inspCargoSendDate) {
+		this.inspCargoSendDate = inspCargoSendDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CARGO_CHECK_DATE")
+	public Date getInspCargoCheckDate() {
+		return inspCargoCheckDate;
+	}
+
+	public void setInspCargoCheckDate(Date inspCargoCheckDate) {
+		this.inspCargoCheckDate = inspCargoCheckDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CERTIFICATION_DATE")
+	public Date getInspCertificationDate() {
+		return inspCertificationDate;
+	}
+
+	public void setInspCertificationDate(Date inspCertificationDate) {
+		this.inspCertificationDate = inspCertificationDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CERTIFICATION_CHECK_DATE")
+	public Date getInspCertificationCheckDate() {
+		return inspCertificationCheckDate;
+	}
+
+	public void setInspCertificationCheckDate(Date inspCertificationCheckDate) {
+		this.inspCertificationCheckDate = inspCertificationCheckDate;
+	}
+
+	@Column(name = "INSP_TS_FLAG")
+	public Short getInspTsFlag() {
+		return inspTsFlag;
+	}
+
+	public void setInspTsFlag(Short inspTsFlag) {
+		this.inspTsFlag = inspTsFlag;
+	}
+
+	@Column(name = "INSP_TS_TYPE")
+	public String getInspTsType() {
+		return inspTsType;
+	}
+
+	public void setInspTsType(String inspTsType) {
+		this.inspTsType = inspTsType;
+	}
+
+	@Column(name = "INSP_TS_NO")
+	public String getInspTsNo() {
+		return inspTsNo;
+	}
+
+	public void setInspTsNo(String inspTsNo) {
+		this.inspTsNo = inspTsNo;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_TS_APPLY_DATE")
+	public Date getInspTsApplyDate() {
+		return inspTsApplyDate;
+	}
+
+	public void setInspTsApplyDate(Date inspTsApplyDate) {
+		this.inspTsApplyDate = inspTsApplyDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_TS_OPERATION_DATE")
+	public Date getInspTsOperationDate() {
+		return inspTsOperationDate;
+	}
+
+	public void setInspTsOperationDate(Date inspTsOperationDate) {
+		this.inspTsOperationDate = inspTsOperationDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_TS_END_DATE")
+	public Date getInspTsEndDate() {
+		return inspTsEndDate;
+	}
+
+	public void setInspTsEndDate(Date inspTsEndDate) {
+		this.inspTsEndDate = inspTsEndDate;
+	}
+
+	@Column(name = "INSP_TS_OBJECT")
+	public String getInspTsObject() {
+		return inspTsObject;
+	}
+
+	public void setInspTsObject(String inspTsObject) {
+		this.inspTsObject = inspTsObject;
+	}
+
+	@Column(name = "INSP_TS_REMARK")
+	public String getInspTsRemark() {
+		return inspTsRemark;
+	}
+
+	public void setInspTsRemark(String inspTsRemark) {
+		this.inspTsRemark = inspTsRemark;
+	}
+
+	@Column(name = "INSP_CS_FLAG")
+	public Short getInspCsFlag() {
+		return inspCsFlag;
+	}
+
+	public void setInspCsFlag(Short inspCsFlag) {
+		this.inspCsFlag = inspCsFlag;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CS_DATE")
+	public Date getInspCsDate() {
+		return inspCsDate;
+	}
+
+	public void setInspCsDate(Date inspCsDate) {
+		this.inspCsDate = inspCsDate;
+	}
+
+	@Column(name = "INSP_CS_NO")
+	public String getInspCsNo() {
+		return inspCsNo;
+	}
+
+	public void setInspCsNo(String inspCsNo) {
+		this.inspCsNo = inspCsNo;
+	}
+
+	@Column(name = "INSP_CS_CHECK_FLAG")
+	public Short getInspCsCheckFlag() {
+		return inspCsCheckFlag;
+	}
+
+	public void setInspCsCheckFlag(Short inspCsCheckFlag) {
+		this.inspCsCheckFlag = inspCsCheckFlag;
+	}
+
+	@Column(name = "INSP_CS_REMARK")
+	public String getInspCsRemark() {
+		return inspCsRemark;
+	}
+
+	public void setInspCsRemark(String inspCsRemark) {
+		this.inspCsRemark = inspCsRemark;
+	}
+
+	@Column(name = "INSP_CL_FLAG")
+	public Short getInspClFlag() {
+		return inspClFlag;
+	}
+
+	public void setInspClFlag(Short inspClFlag) {
+		this.inspClFlag = inspClFlag;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CL_APPLY_DATE")
+	public Date getInspClApplyDate() {
+		return inspClApplyDate;
+	}
+
+	public void setInspClApplyDate(Date inspClApplyDate) {
+		this.inspClApplyDate = inspClApplyDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_CL_DATE")
+	public Date getInspClDate() {
+		return inspClDate;
+	}
+
+	public void setInspClDate(Date inspClDate) {
+		this.inspClDate = inspClDate;
+	}
+
+	@Column(name = "INSP_CL_NO")
+	public String getInspClNo() {
+		return inspClNo;
+	}
+
+	public void setInspClNo(String inspClNo) {
+		this.inspClNo = inspClNo;
+	}
+
+	@Column(name = "INSP_CL_CONTAINER_NO")
+	public String getInspClContainerNo() {
+		return inspClContainerNo;
+	}
+
+	public void setInspClContainerNo(String inspClContainerNo) {
+		this.inspClContainerNo = inspClContainerNo;
+	}
+
+	@Column(name = "INSP_CL_REMARK")
+	public String getInspClRemark() {
+		return inspClRemark;
+	}
+
+	public void setInspClRemark(String inspClRemark) {
+		this.inspClRemark = inspClRemark;
+	}
+
+	@Column(name = "INSP_LC_FLAG")
+	public Short getInspLcFlag() {
+		return inspLcFlag;
+	}
+
+	public void setInspLcFlag(Short inspLcFlag) {
+		this.inspLcFlag = inspLcFlag;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_LC_APPLY_DATE")
+	public Date getInspLcApplyDate() {
+		return inspLcApplyDate;
+	}
+
+	public void setInspLcApplyDate(Date inspLcApplyDate) {
+		this.inspLcApplyDate = inspLcApplyDate;
+	}
+
+	@Column(name = "INSP_LC_TYPE")
+	public String getInspLcType() {
+		return inspLcType;
+	}
+
+	public void setInspLcType(String inspLcType) {
+		this.inspLcType = inspLcType;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_LC_OPERATION_DATE")
+	public Date getInspLcOperationDate() {
+		return inspLcOperationDate;
+	}
+
+	public void setInspLcOperationDate(Date inspLcOperationDate) {
+		this.inspLcOperationDate = inspLcOperationDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INSP_LC_END_DATE")
+	public Date getInspLcEndDate() {
+		return inspLcEndDate;
+	}
+
+	public void setInspLcEndDate(Date inspLcEndDate) {
+		this.inspLcEndDate = inspLcEndDate;
+	}
+
+	@Column(name = "INSP_LC_OBJECT")
+	public String getInspLcObject() {
+		return inspLcObject;
+	}
+
+	public void setInspLcObject(String inspLcObject) {
+		this.inspLcObject = inspLcObject;
+	}
+
+	@Column(name = "INSP_LC_REMARK")
+	public String getInspLcRemark() {
+		return inspLcRemark;
+	}
+
+	public void setInspLcRemark(String inspLcRemark) {
+		this.inspLcRemark = inspLcRemark;
 	}
 
 	@Column(name = "INSP_REMARKS", length = 1000)

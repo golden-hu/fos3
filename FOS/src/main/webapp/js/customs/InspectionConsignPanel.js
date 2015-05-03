@@ -727,7 +727,7 @@ Fos.InspectionConsignPanel = function(p,store) {
 	
 	var btnInspBill = new Ext.Button({text:C_INSP_BILL,
 		itemId:'TB_INSP',
-		iconCls:'dollar',
+		iconCls:'doc',
 		disabled:NR(m1+'07')||p.get('rowAction')=='N',
 		scope:this,
 		handler:this.showInsp
