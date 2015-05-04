@@ -1721,7 +1721,7 @@ Fos.BookTab = function(p) {
 	});
     
     //英文品名
-    var txtCargoNameEn = new Ext.form.TextField({fieldLabel:C_CARGO_NAME_EN,
+    var txtCargoNameEn = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_EN,
 		tabIndex:61,
 		name:'consCargoNameEn',
 		value:p.get('consCargoNameEn'),
@@ -1939,26 +1939,13 @@ Fos.BookTab = function(p) {
 		title:'货物小计',
 		collapsible:true,
 		items:p.get('consBizType')==BT_A?[//空运
-		    {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtCargoMarks]},
-		    {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtCargoDesc]},
+		    {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtCargoMarks,txtCargoNameEn]},
+		    {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtCargoDesc,txtCargoNameCn]},
 		    
-		    {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtCargoNameEn]},
-		    {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numGrossWeight]},           
-		    {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numGrossWeightK]},
-		    
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[txtCargoNameCn]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numNetWeight]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numMeasurement]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numMeasurementK]},
-            
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[txtTotalPackages]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[txtPack]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numBulkyCarrier]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numBulkyCustomer]},
-            
-            {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtTotalSay]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numChargeWeight]},
-            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numChargeWeightCustomer]}            		                            
+		    {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[txtTotalPackages,txtTotalSay]},    
+            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[txtPack,numNetWeight]},
+            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numGrossWeight,numMeasurement,numBulkyCarrier,numChargeWeight]},
+            {columnWidth:.25,layout:'form',labelWidth:90,border:false,items:[numGrossWeightK,numMeasurementK,numBulkyCustomer,numChargeWeightCustomer]}
             ]:
          [
           {columnWidth:.5,layout:'form',labelWidth:90,border:false,items:[txtCargoMarks]},
