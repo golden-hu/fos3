@@ -27,7 +27,7 @@ html, body {
     background: transparent url(images/Lock.png) no-repeat;
 }
 .red-row {background-color:#fcc !important;}
-.green-row {background-color:#eee !important;}
+.green-row {background-color:#CCFF99 !important;}
 
  .x-selectable, .x-selectable * { 
          -moz-user-select: text!important; 
@@ -38,6 +38,7 @@ html, body {
 .red-font-row .x-grid3-cell-inner{color:red;}  
 .green-font-row .x-grid3-cell-inner{color:green;}
 .purple-font-row .x-grid3-cell-inner{color:purple;}
+.grey-font-row .x-grid3-cell-inner{color:grey;}
 
 .pin-bg-row .x-grid3-cell-inner{
     background-color: #ffcc99!important;;

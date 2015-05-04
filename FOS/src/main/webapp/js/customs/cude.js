@@ -193,16 +193,39 @@ Fos.CustomsGrid = function(bizClass) {
 			
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-'];
        
+    var gv = new Ext.grid.GridView({forceFit:false,
+		getRowClass:function(row,idx) {			
+			if(row.data.consStatus==2)
+				return 'green-row';
+			if(row.data.consStatus==3)
+				return 'grey-font-row';
+		}
+	});
+    
 	Fos.CustomsGrid.superclass.constructor.call(this, {
-    id:'G_CONS_G_'+bizClass,iconCls:'grid',store: store,
-    title:(bizClass=='I'?C_IMP_CUDE:C_EXP_CUDE)+C_CONS_LIST,header:false,loadMask:true,
-	sm:sm,cm:cm,stripeRows:true,closable:true,
-	listeners:{rowdblclick: function(grid, rowIndex, event){
-			var c=grid.getSelectionModel().getSelected();
-			if(c){showCustomsConsign(c);
-		}}},
-	tbar:tbs,
-	bbar:PTB(store,C_PS)});	
+		id:'G_CONS_G_'+bizClass,
+		title:(bizClass=='I'?C_IMP_CUDE:C_EXP_CUDE)+C_CONS_LIST,
+		iconCls:'grid',
+		store: store,		
+		header:false,
+		loadMask:true,
+		view:gv,
+		sm:sm,
+		cm:cm,
+		stripeRows:true,
+		closable:true,
+		listeners:{
+			rowdblclick: function(grid, rowIndex, event){
+				var c=grid.getSelectionModel().getSelected();
+				if(c){
+					showCustomsConsign(c);
+				}
+			}
+		},
+		tbar:tbs,
+		bbar:PTB(store,C_PS)
+	});	
+	
     store.load({params:{start:0,limit:C_PS}});
 };
 Ext.extend(Fos.CustomsGrid, Ext.grid.GridPanel);

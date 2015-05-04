@@ -298,8 +298,9 @@ var C_APPLY='已申报';
 var C_CANCEL_APPLY = '取消已申报';
 var C_END='已完成';
 var C_UNLOCK='解锁';
-var C_CUSTOMS_PASSED='已通关';
-var C_CANCEL_PASSED = '取消已通关';
+var C_CUSTOMS_PASSED='已放行';
+var C_CANCEL_PASSED = '取消已放行';
+
 var C_CUSTOMS_EXIT='已退关';
 var C_CANCEL_EXIT = '取消已退关';
 var C_SEND_BANK='已托收';

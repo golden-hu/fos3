@@ -165,7 +165,7 @@ Fos.InspectionPanel = function(p) {
 		mode:'local',
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%',
+		anchor:'97.5%',
 		listeners:{scope:this,
 			blur:function(f){
 				if(f.getRawValue()==''){
@@ -194,85 +194,100 @@ Fos.InspectionPanel = function(p) {
 	var txtInspNo = new Ext.form.TextField({fieldLabel:C_NO,
 		name:'inspNo',
 		xtype:'textfield',
-		anchor:'99%'
+		anchor:'95%'
+	});
+	
+	//报检类型
+	var cboInspType = new Ext.form.ComboBox({fieldLabel:C_INTY,
+		itemCls:'required',
+		name:'inspType',
+		value:p.get('inspType'),
+		store:getInspectionType_S(),
+		displayField:'intyName',
+		valueField:'intyName',
+		typeAhead: true,
+		mode: 'remote',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'95%'
 	});
 	
 	var txtRefNo = new Ext.form.TextField({fieldLabel:C_INSP_VENDOR_RN,
 		name:'inspRefNo',
 		xtype:'textfield',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtContact = new Ext.form.TextField({fieldLabel:C_CONTACT,
 		name:'inspVendorContact',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtTel = new Ext.form.TextField({fieldLabel:C_TEL,
 		name:'inspVendorTel',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var dtInspDate = new Ext.form.DateField({fieldLabel:C_INSP_DATE,
 		name:'inspDate',
 		format:DATEF,
-		anchor:'92%'
+		anchor:'95%'
 	});
 	
 	var txtShipperCn = new Ext.form.TextField({fieldLabel:C_SHIPPER_CN,
 		name:'inspShipperCn',
-		anchor:'99%'
+		anchor:'98.75%'
 	});
 	
 	var txtShipperEn = new Ext.form.TextField({fieldLabel:C_EN,
 		name:'inspShipperEn',
-		anchor:'99%'
+		anchor:'98.75%'
 	});
 	
 	var txtConsigneeCn = new Ext.form.TextField({fieldLabel:C_CONSIGNEE_CN,
 		name:'inspConsigneeCn',
-		anchor:'99%'
+		anchor:'98.75%'
 	});
 	
 	var txtConsigneeEn = new Ext.form.TextField({fieldLabel:C_EN,
 		name:'inspConsigneeEn',
-		anchor:'99%'
+		anchor:'98.75%'
 	});
 	
 	var txtCargoName = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_CN_EN,
 		name:'inspCargoName',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtHsNo = new Ext.form.TextArea({fieldLabel:C_HS_CODE,
 		name:'inspHsNo',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtMadeIn = new Ext.form.TextArea({fieldLabel:C_MADE_IN,
 		name:'inspMadeIn',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtNum = new Ext.form.TextArea({fieldLabel:C_QUANTITY_WEIGHT,
 		name:'inspNum',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtValue = new Ext.form.TextArea({fieldLabel:C_CARGO_VALUE,
 		name:'inspValue',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtPackages = new Ext.form.TextArea({fieldLabel:C_PACK_QUANTITY,
 		name:'inspPackages',
 		xtype:'textarea',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtConveyance = new Ext.form.TextField({fieldLabel:C_CONVEYANCE,
 		name:'inspConveyance',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var cboTradeType = new Ext.form.ComboBox({fieldLabel:C_TRTY,
@@ -285,22 +300,22 @@ Fos.InspectionPanel = function(p) {
 		mode:'local',
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtCargoAddress = new Ext.form.TextField({fieldLabel:C_CARGO_ADDRESS,
 		name:'inspCargoAddress',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtContractNo = new Ext.form.TextField({fieldLabel:C_CONTRACT_NO,
 		name:'inspContractNo',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtCreditNo = new Ext.form.TextField({fieldLabel:C_CREDIT_NO,
 		name:'inspCreditNo',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var cboUsage = new Ext.form.ComboBox({fieldLabel:C_USAG,
@@ -312,13 +327,13 @@ Fos.InspectionPanel = function(p) {
 		mode:'local',
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var dtShippingDate = new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_E?C_CARGO_DELIVERY_DATE:C_CARGO_DISCHARGE_DATE,
 		name:'inspShippingDate',
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var cboTradeCountry = new Ext.form.ComboBox({fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_TO:C_COUNTRY_FROM,
@@ -330,50 +345,50 @@ Fos.InspectionPanel = function(p) {
 		mode:'remote',
 		triggerAction: 'all',
 		selectOnFocus:true,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtCertificateNo = new Ext.form.TextField({fieldLabel:C_CERTIFICATE_NO,
 		name:'inspCertificateNo',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	
 	var txtPol = new Ext.form.TextField({fieldLabel:C_PORT_FROM,
 		name:'inspPol',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtPod = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_PORT_TO:C_PORT_IN,
 		name:'inspPod',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtRegisterNo = new Ext.form.TextField({fieldLabel:C_REGISTER_NO,
 		name:'inspRegisterNo',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	
 	var dtClaimDate = new Ext.form.DateField({fieldLabel:C_CLAIM_DATE,
 		name:'inspClaimDate',
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
-	var txtContainerInfo = new Ext.form.TextField({fieldLabel:C_CONT_SPEC_NO,
+	var txtContainerInfo = new Ext.form.TextArea({fieldLabel:C_CONT_SPEC_NO,
 		name:'inspContainerInfo',
-		anchor:'99%'
+		anchor:'98.75%'
 	});
 	
 	var txtSpecialTerm = new Ext.form.TextArea({fieldLabel:C_INSP_SPECIAL_TERM,
 		name:'inspSpecialTerm',
-		anchor:'99%'
+		anchor:'97.5%'
 	});
 	
 	var txtMarks = new Ext.form.TextArea({fieldLabel:C_MARKS_NO,
 		name:'inspMarks',
-		anchor:'99%'
+		anchor:'97.5%'
 	});
 	
 	var dtReceiveDate = new Ext.form.DateField({fieldLabel:C_RECEIVE_DATE,
@@ -384,7 +399,7 @@ Fos.InspectionPanel = function(p) {
 	
 	var txtReceiver = new Ext.form.TextField({fieldLabel:C_RECEIVER,
 		name:'inspReceiver',
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	
@@ -394,19 +409,21 @@ Fos.InspectionPanel = function(p) {
 		layout:'column',
 		title:C_INSP_BILL_INFO,
 		layoutConfig: {columns:4},
-		padding:5,
+		padding:10,
 		autoScroll:true,
 		items: [
 			{columnWidth:.5,layout:'form',labelWidth:100,border:false,items:[cboInspectionVendor]},
-			{columnWidth:.5,layout:'form',border:false,trackResetOnLoad:true,items:[txtInspNo]},
+			{columnWidth:.25,layout:'form',border:false,trackResetOnLoad:true,items:[txtInspNo]},
+			{columnWidth:.25,layout:'form',border:false,trackResetOnLoad:true,items:[cboInspType]},
+			
 			{columnWidth:.25,layout:'form',labelWidth:100,border:false,items:[txtRefNo]},
 			{columnWidth:.25,layout:'form',border:false,trackResetOnLoad:true,items:[txtContact]},
 			{columnWidth:.25,layout:'form',border:false,trackResetOnLoad:true,items:[txtTel]},
 			{columnWidth:.25,layout:'form',border:false,items:[dtInspDate]},
-			{columnWidth:.99,layout:'form',labelWidth:100,border:false,items:[txtShipperCn]},
-			{columnWidth:.99,layout:'form',labelWidth:100,border:false,items:[txtShipperEn]},
-			{columnWidth:.99,layout:'form',labelWidth:100,border:false,items:[txtConsigneeCn]},
-			{columnWidth:.99,layout:'form',labelWidth:100,border:false,items:[txtConsigneeEn]},
+			{columnWidth:1,layout:'form',labelWidth:100,border:false,items:[txtShipperCn]},
+			{columnWidth:1,layout:'form',labelWidth:100,border:false,items:[txtShipperEn]},
+			{columnWidth:1,layout:'form',labelWidth:100,border:false,items:[txtConsigneeCn]},
+			{columnWidth:1,layout:'form',labelWidth:100,border:false,items:[txtConsigneeEn]},
 						
 			{columnWidth:.3,layout: 'form',border :false,labelAlign:'top',items: [txtCargoName]},
 			{columnWidth:.1,layout: 'form',border:false,labelAlign:'top',items: [txtHsNo]},
@@ -415,19 +432,11 @@ Fos.InspectionPanel = function(p) {
             {columnWidth:.1,layout: 'form',border : false,labelAlign:'top',items: [txtValue]},
             {columnWidth:.3,layout: 'form',labelAlign:'top',labelWidth:85,border:false,items: [txtPackages]},
             
-			{columnWidth:.33,layout:'form',labelWidth:100,border:false,items:[txtConveyance]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[cboTradeType]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtCargoAddress]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,trackResetOnLoad:true,items:[txtContractNo]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtCreditNo]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[cboUsage]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[dtShippingDate]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[cboTradeCountry]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtCertificateNo]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtPol]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtPod]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[p.get('consBizClass')==BC_E?txtRegisterNo:dtClaimDate]},
-            {columnWidth:.99,layout:'form',labelWidth:100,border : false,items:[txtContainerInfo]},
+			{columnWidth:.34,layout:'form',labelWidth:150,border:false,items:[txtConveyance,txtContractNo,dtShippingDate,txtPol]},
+            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[cboTradeType,txtCreditNo,cboTradeCountry,txtPod]},
+            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtCargoAddress,cboUsage,txtCertificateNo,p.get('consBizClass')==BC_E?txtRegisterNo:dtClaimDate]},
+                                   
+            {columnWidth:1,layout:'form',labelWidth:150,border : false,items:[txtContainerInfo]},
             {columnWidth:.50,layout:'form',labelWidth:100,border : false,labelAlign:'top',items:[txtSpecialTerm]},
             {columnWidth:.50,layout:'form',labelWidth:100,border : false,labelAlign:'top',items:[txtMarks]},
             {columnWidth:.25,layout:'form',labelWidth:100,border : false,items:[dtReceiveDate]},
