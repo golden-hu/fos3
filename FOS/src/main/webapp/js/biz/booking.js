@@ -317,7 +317,9 @@ Fos.BookTab = function(p) {
 		}
 	});
 	
-	var cboCust = new Ext.form.ComboBox({fieldLabel:(p.get('consBizType')==BT_B)?C_CHARTER:C_BOOKER,
+	var cboCust = new Fos.CustomerLookup({
+		custType:'custBookerFlag',
+		fieldLabel:(p.get('consBizType')==BT_B)?C_CHARTER:C_BOOKER,
 		itemCls:'required',
 		tabIndex:5,
 		name:'custName',
@@ -891,7 +893,8 @@ Fos.BookTab = function(p) {
     
     
 	//订舱代理
-    var cboBookAgency = new Ext.form.ComboBox({fieldLabel:C_BOOK_AGENCY,
+    var cboBookAgency = new Fos.CustomerLookup({fieldLabel:C_BOOK_AGENCY,
+    	custType:'custBookingAgencyFlag',
     	tabIndex:39,
 		name:'consBookingAgencyName',
 		value:p.get('consBookingAgencyName'),
@@ -920,7 +923,7 @@ Fos.BookTab = function(p) {
 				p.set('consBookingAgencySname',r.get('custCode'));
 				p.set('consBookingAgencyName',r.get('custNameCn'));
 				c.setValue(r.get('custNameCn'));    				
-				this.find('name','consBookingAgencyContact')[0].store.reload({params:{custId:r.get('custId')}});
+				cboBookAgencyContact.store.reload({params:{custId:r.get('custId')}});
 			},
         	keydown:{fn:function(f,e){
         		LC(f,e,'custBookingAgencyFlag');},buffer:BF}
@@ -957,7 +960,9 @@ Fos.BookTab = function(p) {
     
    
 	//船公司、航空公司
-	var cboCarrier = new Ext.form.ComboBox({fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,
+	var cboCarrier = new Fos.CustomerLookup({
+		custType:p.get('consBizType')==BT_A?'custAirFlag':'custCarrierFlag',
+		fieldLabel:p.get('consBizType')==BT_A?C_FLIGHTER:C_CARRIER,
 		itemClass:'needed',
 		tabIndex:p.get('consBizClass')==BC_I?42:38,
 		name:'consCarrierName',
@@ -994,7 +999,9 @@ Fos.BookTab = function(p) {
 	});
 	
 	//海外代理
-	var cboOverseaAgency = new Ext.form.ComboBox({fieldLabel:C_OVERSEA_AGENCY,
+	var cboOverseaAgency = new Fos.CustomerLookup({
+		custType:'custOverseaAgencyFlag',
+		fieldLabel:C_OVERSEA_AGENCY,
 		tabIndex:p.get('consBizClass')==BC_I?46:42,
 		name:'consOverseaAgencyName',
 		value:p.get('consOverseaAgencyName'),
@@ -1062,7 +1069,9 @@ Fos.BookTab = function(p) {
 	});
 	
 	//箱公司
-	var cboContainerCompany = new Ext.form.ComboBox({fieldLabel:C_CONTAINER,
+	var cboContainerCompany = new Fos.CustomerLookup({
+		custType:'custContainerFlag',
+		fieldLabel:C_CONTAINER,
 		tabIndex:p.get('consBizClass')==BC_I?48:58,
 		name:'consContainerCompanyName',
 		value:p.get('consContainerCompanyName'),
@@ -1242,7 +1251,9 @@ Fos.BookTab = function(p) {
 	});
     
     //场站
-    var cboCfs = new Ext.form.ComboBox({fieldLabel:C_CFS,
+    var cboCfs = new Fos.CustomerLookup({
+    	custType:'custCfsFlag',
+    	fieldLabel:C_CFS,
     	tabIndex:p.get('consBizClass')==BC_I?49:60,
     	name:'consCfsName',
     	value:p.get('consCfsName'),
@@ -1317,7 +1328,9 @@ Fos.BookTab = function(p) {
     });
     
     //换单代理
-    var cboDoAgency =  new Ext.form.ComboBox({fieldLabel:C_DO_AGENCY,
+    var cboDoAgency =  new Fos.CustomerLookup({
+    	custType:'custDoAgencyFlag',
+    	fieldLabel:C_DO_AGENCY,
 		name:'consDoAgencyName',
 		tabIndex:47,
 		value:p.get('consDoAgencyName'),
@@ -2191,7 +2204,9 @@ Fos.BookTab = function(p) {
 	};
 	
 	//车队
-	var cboTrackVendor = new Ext.form.ComboBox({fieldLabel:C_TRACK_VENDOR,
+	var cboTrackVendor = new Fos.CustomerLookup({
+		custType:'custTrackFlag',
+		fieldLabel:C_TRACK_VENDOR,
 		tabIndex:3,
 		name:'consTrackVendorName',
 		value:p.get('consTrackVendorName'),
@@ -2334,7 +2349,9 @@ Fos.BookTab = function(p) {
 	};
 			
 	//仓库
-	var cboWarehouse = new Ext.form.ComboBox({fieldLabel:C_WAREHOUSE,
+	var cboWarehouse = new Fos.CustomerLookup({
+		custType:'custWarehouseFlag',
+		fieldLabel:C_WAREHOUSE,
 		tabIndex:9,
 		name:'consWarehouseName',
 		value:p.get('consWarehouseName'),
@@ -2431,7 +2448,9 @@ Fos.BookTab = function(p) {
 	});
 
 	//场站
-	var cboCFS =  new Ext.form.ComboBox({fieldLabel:C_CFS,
+	var cboCFS =  new Fos.CustomerLookup({
+		custType:'custCfsFlag',
+		fieldLabel:C_CFS,
 		tabIndex:14,
 		name:'consCfsName',
 		value:p.get('consCfsName'),
@@ -2488,7 +2507,9 @@ Fos.BookTab = function(p) {
 	};
 	
 	//报检公司
-	var cboInspectionVendor = new Ext.form.ComboBox({fieldLabel:C_INSP_AGENCY,
+	var cboInspectionVendor = new Fos.CustomerLookup({
+		custType:'custInspectionFlag',
+		fieldLabel:C_INSP_AGENCY,
 		tabIndex:15,
 		name:'consInspectionVendorName',
 		value:p.get('consInspectionVendorName'),
@@ -2519,7 +2540,9 @@ Fos.BookTab = function(p) {
 	});
 	
 	//报关行
-	var cboCustomsVendor = new Ext.form.ComboBox({fieldLabel:C_CUSTOM_AGENCY,
+	var cboCustomsVendor = new Fos.CustomerLookup({
+		custType:'custCustomFlag',
+		fieldLabel:C_CUSTOM_AGENCY,
 		tabIndex:16,
 		name:'consCustomsVendorName',
 		value:p.get('consCustomsVendorName'),
@@ -2719,7 +2742,9 @@ Fos.BookTab = function(p) {
 	};
 	
 	//发货人
-	var cboCargoOwner = new Ext.form.ComboBox({fieldLabel:C_CARGO_OWNER,
+	var cboCargoOwner = new Fos.CustomerLookup({
+		custType:'custBookerFlag',
+		fieldLabel:C_CARGO_OWNER,
 		tabIndex:1,
 		name:'consCargoOwnerName',
 		value:p.get('consCargoOwnerName'),

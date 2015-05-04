@@ -1,7 +1,5 @@
 //单票界面单证列表
-Fos.ConsDocGrid = function(p) {
-	//this.store = GS('FDOC_Q','FDoc',FDoc,'fdocId','DESC','','','',false);
-	
+Fos.ConsDocGrid = function(p) {	
 	this.store = new Ext.data.Store({url:SERVICE_URL+'?A=FDOC_Q',
 		baseParams:{mt:'XML'},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'FDoc',id:'fdocId'},FDoc),
@@ -50,16 +48,30 @@ Fos.ConsDocGrid = function(p) {
 			editor:new Ext.form.ComboBox({displayField:'dotyCode',valueField:'dotyName',triggerAction:'all',
 				tpl:dotyTpl,itemSelector:'div.list-item',listWidth:300,mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getDOTY_S(),
             listeners:{scope:this,select:function(c,r,i){sm.getSelected().set('dotyId',r.get('dotyId'));}}})},
-    {header:C_BIZ_COMPANY,dataIndex:'fdocCompany',width:100,editor:new Fos.CustomerLookup({
-    	store:getCS(),enableKeyEvents:true,
-    	displayField:'custNameCn',valueField:'custNameCn',typeAhead:true,
-   		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,
-   		triggerAction:'all',selectOnFocus:true,anchor:'99%',custType:'custBookerFlag',
-     	listeners:{scope:this,
-     				select:function(c,r,i){
-     					sm.getSelected().set('fdocCompany',r.get('custNameCn'));
-     				},
-     				keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}})},
+    {header:C_BIZ_COMPANY,dataIndex:'fdocCompany',width:100,
+        editor:new Fos.CustomerLookup({
+        	custType:'custBookerFlag',
+	    	store:getCS(),
+	    	enableKeyEvents:true,
+	    	displayField:'custNameCn',
+	    	valueField:'custNameCn',
+	    	typeAhead:true,
+	   		mode:'local',
+	   		tpl:custTpl,
+	   		itemSelector:'div.list-item',
+	   		listWidth:C_LW,
+	   		triggerAction:'all',
+	   		selectOnFocus:true,anchor:'99%',	   		
+	     	listeners:{scope:this,
+ 				select:function(c,r,i){
+ 					sm.getSelected().set('fdocCompany',r.get('custNameCn'));
+ 				},
+ 				keydown:{
+ 					fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF
+ 				}
+     		}
+        })
+    },
     {header:C_DOC_NO,dataIndex:'fdocNo',width:80,editor:new Ext.form.TextField()},
 	{header:C_DOC_ORI_NUM,dataIndex:'fdocOriginalNum',width:80,editor:new Ext.form.NumberField()},
 	{header:C_DOC_COPY_NUM,dataIndex:'fdocCopyNum',width:80,editor:new Ext.form.NumberField()},

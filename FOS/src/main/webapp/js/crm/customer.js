@@ -609,7 +609,7 @@ Fos.CustomerLookup = Ext.extend(Ext.form.ComboBox, {
 	
 	selectCust:function(cust,scope){
 		scope.setValue(cust.data[scope.valueField || scope.displayField]);
-		scope.fireEvent('select', this, cust, 0);
+		scope.fireEvent('select', scope, cust, 0);
 	},
 	
 	//弹出窗口按钮
@@ -622,11 +622,11 @@ Ext.reg('customerLookup', Fos.CustomerLookup);
 
 //客户lookup
 Fos.CustomerLookWin = function(custType,fn,scope) {
-    var store = new Ext.data.Store({url:SERVICE_URL+'?A=CUST_X&mt=xml',baseParams:{},
+    var store = new Ext.data.Store({url:SERVICE_URL+'?A=CUST_X&mt=xml',
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'CCustomer',idProperty:'custId'},CCustomer),
-		remoteSort:true,sortInfo:{field:'custId', direction:'DESC'}});
-    store.baseParams = {};
-    
+		remoteSort:true,sortInfo:{field:'custId', direction:'DESC'}
+    });
+        
     //委托单位
     if(custType=='custBookerFlag')
     	store.baseParams.custBookerFlag=1;
@@ -677,6 +677,7 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
     	store.baseParams.custTrackFlag=1;
       
     store.load({params:{start:0,limit:C_PS20}});
+    
 	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var cm = new Ext.grid.ColumnModel({columns:[
     	new Ext.grid.RowNumberer(),sm,
@@ -691,17 +692,22 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
 	    ],defaults:{sortable:true,width:100}});
     
 	var rid=GGUID();	
+	
 	//添加按钮的代码
     this.addCustomer = function(){
-    	var p = new CCustomer({id:rid,custId:rid,custCode:'',custClass:'',custNameCn:'',custSnameCn:'',custNameEn:'',custSnameEn:'',
-		custArFlag:1,custApFlag:1,custIndustry:'',cucaId:'',custType:'',counCode:'CN',custProvince:'',custCity:'',
-		custAddress:'',custZip:'',custContact:'',custTel:'',custFax:'',custEmail:'',custUrl:'',custBankCny:'',
-		custAccountCny:'',custBankUsd:'',custAccountUsd:'',custInvoiceHeader:'',custActive:'1',
-		custBookerFlag:'1',custShipperFlag:'1',
-		custShipTo:'',custChargeTo:'',custCreditDay:'',
-		custCreditDay:getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
-		custCreditAmount:getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),custRemarks:'',
-		version:'0',rowAction:'N'});
+    	var p = new CCustomer({id:rid,
+    		custId:rid,
+    		custArFlag:1,
+    		custApFlag:1,
+    		counCode:'CN',
+    		custActive:'1',
+    		custBookerFlag:'1',
+    		custShipperFlag:'1',
+    		custCreditDay:getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS'),
+    		custCreditAmount:getCFG('CUSTOMER_DEFAULT_CRDIT_AMOUNT'),
+    		version:'0',
+    		rowAction:'N'
+    	});
     	var win = new Fos.CustomerWin(p,store);
 		win.show();
     };
