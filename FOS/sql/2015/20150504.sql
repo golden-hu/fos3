@@ -1,0 +1,2 @@
+INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) VALUES
+('ACTIVE_SESSION_CCN', 'PUserService', 'ccnActiveSession', '退出');

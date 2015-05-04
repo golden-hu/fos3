@@ -435,10 +435,7 @@ public class PUserService {
 			SessionManager.setAttr("ProductID", ProductID);
 			SessionManager.setAttr("GlobalCompanyID", GlobalCompanyID);
 			SessionManager.setAttr("City", City);
-			
-			
-			//licenseUtil.checkLicense();
-			
+						
 			List objList = dao.queryFuncCode();
 			StringBuilder sb = new StringBuilder();
 			for (Object obj : objList) {
@@ -449,14 +446,10 @@ public class PUserService {
 			user.setFuncCode(sb.toString());
 			ActionLogUtil.log();
 			try {
-				//call cnn platform startLog
-	            iproduct.productStartLog(SessionID, AccountID, ProductID);
-	            
-	            ////call cnn platform sessionActive
-	            iproduct.isSessionActive(SessionID, AccountID);
+	            iproduct.productStartLog(SessionID, AccountID, ProductID);	            
+	            iproduct.isSessionActive(SessionID, ProductID);
             } 
 			catch (RemoteException e) {
-	            // TODO Auto-generated catch block
 	            e.printStackTrace();
             }
 			
@@ -469,6 +462,18 @@ public class PUserService {
 	
     @Transactional(readOnly = true)
 	public void ccnLogout() {
+    	IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
+    	String SessionID = (String) SessionManager.getAttr("SessionID");
+		String AccountID = (String) SessionManager.getAttr("AccountID");
+		String ProductID = (String) SessionManager.getAttr("ProductID");
+		
+		try {
+			iproduct.productEndLog(SessionID, AccountID, ProductID);
+        } 
+		catch (RemoteException e) {
+            e.printStackTrace();
+        }		
+		
     	SessionManager.logoutSession();
     	SessionManager.setAttr("SessionID", "");
 		SessionManager.setAttr("AccountID", "");
@@ -476,4 +481,18 @@ public class PUserService {
 		SessionManager.setAttr("GlobalCompanyID", "");
 		SessionManager.setAttr("City", "");
 	}
+    
+    @Transactional(readOnly = true)
+   	public void ccnActiveSession() {
+       	IProductAPIServiceProxy iproduct=new IProductAPIServiceProxy();
+       	String SessionID = (String) SessionManager.getAttr("SessionID");
+   		String ProductID = (String) SessionManager.getAttr("ProductID");
+   		
+   		try {
+   			iproduct.isSessionActive(SessionID, ProductID);
+        } 
+   		catch (RemoteException e) {
+           e.printStackTrace();
+       }		
+   	}
 }

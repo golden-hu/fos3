@@ -349,6 +349,7 @@ var login = function(f){
 		params:{A:'LOGIN',mt:'JSON',userLoginName:n,userPassword:p},
 		success: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);
+			saveSession('CCN',0);
 			saveSession('USER_PERM',user.PUser[0].funcCode);
 			saveSession('USER_ID',user.PUser[0].userId);
 			saveSession('USER_NAME',user.PUser[0].userName);
@@ -379,6 +380,8 @@ var login_ccn = function(SessionID,AccountID,ProductID,GlobalCompanyID,City){
 			},
 		success: function(r){
 			var user=Ext.util.JSON.decode(r.responseText);
+			saveSession('CCN',1);
+			saveSession('CCN_SessionID',SessionID);
 			saveSession('USER_PERM',user.PUser[0].funcCode);
 			saveSession('USER_ID',user.PUser[0].userId);
 			saveSession('USER_NAME',user.PUser[0].userName);
@@ -423,5 +426,17 @@ var exit = function(){
 };
 
 var logout = function(){
-	window.location=SERVICE_URL+'?A=LOGOUT';
+	var CCN=loadSession('CCN');
+	if(CCN==1){		
+		Ext.Ajax.request({scope:this,
+			url:SERVICE_URL,
+			method:'POST',
+			params:{A:'LOGOUT_CCN'}
+		});
+		window.close();
+	}
+	else{
+		window.location=SERVICE_URL+'?A=LOGOUT';
+	}
+	
 };

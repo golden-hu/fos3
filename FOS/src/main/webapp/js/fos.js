@@ -55,9 +55,9 @@ Ext.onReady(function(){
 	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));
 	viewport.doLayout();
 	
-	//var task={run:loadMsg,interval:10000};
-	//this.runner = new Ext.util.TaskRunner();
-	//this.runner.start(task);
+	var task={run:ccnActiveSession,interval:60000};
+	this.runner = new Ext.util.TaskRunner();
+	this.runner.start(task);
 });
 
 var getGStore=function(c,r,o,s,d,id){
@@ -840,7 +840,13 @@ function loadMsg(){
 	});
 };
 
-
+function ccnActiveSession(){
+	Ext.Ajax.request({scope:this,
+		url:SERVICE_URL,
+		method:'POST',
+		params:{A:'ACTIVE_SESSION_CCN'}
+	});
+};
 
 
 
