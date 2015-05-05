@@ -347,4 +347,6 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('REPT_PAON', '', 'packing_overdue_now.rptdesign', '即时超期表'),
 ('REPT_PARE', '', 'packing_recent.rptdesign', '最近预计上船明细表'),
 ('REPT_BUSI_SALES', '', 'business_sales.rptdesign', '业务员业务量汇总表'),
-('REPT_BUDS', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)');
+('REPT_BUDS', '', 'business_detail_sales.rptdesign', '业务明细统计表(业务员)'),
+('ANNO_S', 'OAnnouncementService', 'save', '公告保存'),
+('ANNO_Q', 'OAnnouncementService', 'query', '公告查询');
