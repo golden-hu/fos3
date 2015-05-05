@@ -210,6 +210,7 @@ var A_ROLE='02';
 var A_USER='03';
 var A_TEMP='04';
 var A_COCO='05';
+var A_ANNO='06';//公告管理
 
 
 PUser = Ext.data.Record.create(['id','userId','userName','userLoginName',
