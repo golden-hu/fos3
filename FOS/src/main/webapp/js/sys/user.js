@@ -271,7 +271,7 @@ Fos.UsepWin = function(c) {
 		
 	var ed = new Ext.grid.CheckColumn({header:C_EDITABLE,dataIndex:'usepEditable',width:100});
 	var va = new Ext.grid.CheckColumn({header:C_VIEW_ALL,dataIndex:'usepViewAll',width:100});
-	var ea = new Ext.grid.CheckColumn({header:C_VIEW_ALL,dataIndex:'usepEditAll',width:100});
+	var ea = new Ext.grid.CheckColumn({header:C_EDIT_ALL,dataIndex:'usepEditAll',width:100});
 	
 	var cm=new Ext.grid.ColumnModel({columns:[c1,c2,ed,va,ea],
 		defaults:{sortable:true,width:100}
