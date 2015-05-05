@@ -12,7 +12,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consNo',
 		value:p.get('consNo'),
 		xtype:'textfield',
-		anchor:'99%'
+		anchor:'95%'
 	});
 		
 	var cboBooker = new Ext.form.ComboBox({fieldLabel:C_BOOKER,
@@ -32,7 +32,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		listWidth:C_LW,
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%',
+		anchor:'95%',
      	listeners:{
      		scope:this,
 	     	blur:function(f){
@@ -76,7 +76,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		listWidth:C_LW,
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%',
+		anchor:'95%',
      	listeners:{scope:this, 	 			     	
 	     	select:function(c,r,i){ 	 			     		
 	     		c.setValue(r.get('custNameCn'));
@@ -91,7 +91,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consDate',
 		value:p.get('consDate'),
   		format:DATEF,
-  		anchor:'99%',
+  		anchor:'95%',
   		listeners:{
   			select:function(t,d){
   				txtSailDate.setValue(d);
@@ -115,7 +115,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		mode:'local',
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%',
+		anchor:'95%',
    		listeners:{scope:this,
    			blur:function(f){
    				if(f.getRawValue()==''){
@@ -156,7 +156,7 @@ Fos.CudeConsignPanel = function(p,store) {
      	mode: 'local',
      	triggerAction: 'all',
      	selectOnFocus:true,
-     	anchor:'99%',
+     	anchor:'95%',
      	editable:false,
      	listeners:{scope:this,
 			blur:function(f){
@@ -176,7 +176,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		tabIndex:6,
 		name:'custContact',
 		value:p.get('custContact'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	
@@ -184,7 +184,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		tabIndex:10,
 		name:'consRefNo',
 		value:p.get('consRefNo'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var dtCloseDate = new Ext.form.DateField({fieldLabel:C_CONS_CLOSE_DATE,
@@ -192,13 +192,13 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consCloseDate',
 		value:p.get('consCloseDate'),
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtCustomsContact = new Ext.form.TextField({fieldLabel:C_CUDE_CONTACT,
 		tabIndex:22,name:'consCustomsContact',
 		value:p.get('consCustomsContact'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var chkRequireRelief = new Ext.form.Checkbox({
@@ -222,7 +222,7 @@ Fos.CudeConsignPanel = function(p,store) {
  		typeAhead: true,
  		mode: 'local',
  		triggerAction: 'all',
- 		selectOnFocus:true,anchor:'99%',
+ 		selectOnFocus:true,anchor:'95%',
  		listeners:{scope:this,
 			blur:function(f){
 				if(f.getRawValue()==''){
@@ -241,14 +241,14 @@ Fos.CudeConsignPanel = function(p,store) {
 		tabIndex:7,
 		name:'custTel',
 		value:p.get('custTel'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtCustomsDeclearationNo = new Ext.form.TextField({fieldLabel:C_CUSTOMS_DECLEARATION_NO,
 		tabIndex:11,
 		name:'consCustomsDeclearationNo',
 		value:p.get('consCustomsDeclearationNo'),
-	    anchor:'99%'
+	    anchor:'95%'
 	});
 	
 	var txtVerificationNo = new Ext.form.TextField({fieldLabel:C_VERIFICATION_NO,
@@ -256,13 +256,13 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consVerificationNo',
 		value:p.get('consVerificationNo'),
 	    xtype:'textfield',
-	    anchor:'99%'
+	    anchor:'95%'
 	});
 	
 	var txtCustomsTel = new Ext.form.TextField({fieldLabel:C_CUDE_TEL,
 		name:'consCustomsTel',
 		value:p.get('consCustomsTel'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var RequireVerification = new Ext.form.Checkbox({
@@ -286,14 +286,28 @@ Fos.CudeConsignPanel = function(p,store) {
 		mode: 'local',
 		triggerAction: 'all',
 		selectOnFocus:true,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtCustFax = new Ext.form.TextField({fieldLabel:C_FAX,
 		tabIndex:8,
 		name:'custFax',
 		value:p.get('custFax'),
-		anchor:'99%'
+		anchor:'95%'
+	});
+	
+	//委托项目
+	var cboServiceRequired = new Ext.form.MultiSelectComboBox({fieldLabel:'委托项目',
+		name:'consServiceRequired',
+		value:p.get('consServiceRequired'),
+		store:getSEIT_S(),
+		displayField:'seitName',
+		valueField:'seitName',
+		typeAhead: true,
+		mode: 'remote',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'97.5%'
 	});
 	
 	var dtCustomsDeclearDate = new Ext.form.DateField({fieldLabel:C_CUSTOMS_DECLEAR_DATE,
@@ -302,20 +316,20 @@ Fos.CudeConsignPanel = function(p,store) {
 		value:p.get('consCustomsDeclearDate'),
 		xtype:'datefield',
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtHsCode = new Ext.form.TextField({fieldLabel:C_HS_CODE,
 		tabIndex:16,
 		name:'cargHsCode',
 		value:p.get('cargHsCode'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtContainersInfo = new Ext.form.TextField({fieldLabel:C_CONTAINER_INFO,
 		name:'consContainersInfo',
 		value:p.get('consContainersInfo'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	
@@ -325,7 +339,7 @@ Fos.CudeConsignPanel = function(p,store) {
    		name:'consShipper',
    		value:p.get('consShipper'),
     	height:100,
-    	anchor:'99%'
+    	anchor:'97.5%'
     });
 	
 	var txtConsignee = new Ext.form.TextArea({fieldLabel:C_CONSIGNEE,
@@ -335,7 +349,7 @@ Fos.CudeConsignPanel = function(p,store) {
  		id:p.get('consId')+'CONS_CONSIGNEE',
 		xtype:'textarea',
 		height:100,
-		anchor:'99%'
+		anchor:'97.5%'
 	});
 	
 	var txtServiceSpec = new Ext.form.TextArea({fieldLabel:C_CUSTOMS_DECLEAR_ITEMS,
@@ -344,40 +358,39 @@ Fos.CudeConsignPanel = function(p,store) {
    		value:p.get('consServiceSpec'),
    		xtype:'textarea',
    		height:100,
-   		anchor:'99%'
+   		anchor:'97.5%'
    	});
 	
-	var txtRemarks = new Ext.form.TextArea({fieldLabel:C_REMARKS,
+	var txtRemarks = new Ext.form.TextField({fieldLabel:C_REMARKS,
 		tabIndex:26,
 		name:'consRemarks',
 		value:p.get('consRemarks'),
-   		height:100,
-   		anchor:'99%'
+   		anchor:'97.5%'
    	});
 	
     var txtConsMblNo = new Ext.form.TextField({fieldLabel:C_M_BL_NO,
 		name:'consMblNo',
 		value:p.get('consMblNo'),
-		anchor:'99%'
+		anchor:'95%'
 	});
     
     var txtConsHblNo = new Ext.form.TextField({fieldLabel:C_H_BL_NO,
 		name:'consHblNo',
 		value:p.get('consHblNo'),
-		anchor:'99%'
+		anchor:'95%'
 	});
     
     var txtVessName = new Ext.form.TextField({fieldLabel:C_VESS,tabIndex:17,
     	name:'vessName',
     	value:p.get('vessName'),
-    	anchor:'99%'
+    	anchor:'95%'
     });
     
 	var txtVoyage = new Ext.form.TextField({fieldLabel:C_VOYA,
 		tabIndex:18,
 		name:'voyaName',
 		value:p.get('voyaName'),
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var txtSailDate = new Ext.form.DateField({
@@ -388,7 +401,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consSailDate',
 		value:p.get('consSailDate'),
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var cboPolEn = new Ext.form.ComboBox({fieldLabel:C_POL,
@@ -403,7 +416,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		mode:'local',
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%',
+		anchor:'95%',
 		tpl:portTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
@@ -441,7 +454,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		mode:'local',
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'99%',
+		anchor:'95%',
 		tpl:portTpl,
 		itemSelector:'div.list-item',
 		listWidth:C_LW,
@@ -473,27 +486,28 @@ Fos.CudeConsignPanel = function(p,store) {
     var txtPotEn = new Ext.form.TextField({fieldLabel:C_DESTINATION_PORT,
     	name:'consDeliveryPlace',
     	value:p.get('consDeliveryPlace'),
-    	anchor:'99%'
+    	anchor:'95%'
     });
     
     var txtCargoNameEn = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_CN_EN,
 		tabIndex:61,
 		name:'consCargoNameEn',
 		value:p.get('consCargoNameEn'),
-		anchor:'99%'
+		height:100,
+		anchor:'97.5%'
 	});
     
     var txtTotalPackages = new Ext.form.NumberField({fieldLabel:C_PACKAGES,
     	tabIndex:61,
     	name:'consTotalPackages',
     	value:p.get('consTotalPackages'),
-    	anchor:'99%'
+    	anchor:'95%'
     });
 	
 	var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW_S,
 		name:'consTotalGrossWeight',
 		value:p.get('consTotalGrossWeight'),
-		decimalPrecision:4,anchor:'99%'
+		decimalPrecision:4,anchor:'95%'
 	});
 	
 	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_MW_S,
@@ -501,14 +515,14 @@ Fos.CudeConsignPanel = function(p,store) {
 		value:p.get('consTotalNetWeight'),
 		xtype:'numberfield',
 		decimalPrecision:4,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var numMeasurement = new Ext.form.NumberField({fieldLabel:C_CBM_S,
 		name:'consTotalMeasurement',
 		value:p.get('consTotalMeasurement'),
 		decimalPrecision:4,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	//换单日期
@@ -517,7 +531,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consLoadDate',
 	    value:p.get('consLoadDate'),
 	    format:DATEF,
-	    anchor:'99%'
+	    anchor:'95%'
 	});
 	
 	//截关日期用作三检日期
@@ -526,7 +540,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consExpiryDate',
 		value:p.get('consExpiryDate'),
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	//送货日期
@@ -535,7 +549,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consDeliveryDate',
 		value:p.get('consDeliveryDate'),
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	//装货日期用作海关查验日期
@@ -544,7 +558,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		name:'consTrackLoadDate',
 		value:p.get('consTrackLoadDate'),
 		format:DATEF,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	//装箱日期用作商检日期
@@ -552,7 +566,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		tabIndex:13,
 		name:'consContainerLoadDate',
 		value:p.get('consContainerLoadDate'),
-		format:DATEF,anchor:'99%'
+		format:DATEF,anchor:'95%'
 	});
 	
 	function saveShipper(shipperT){
@@ -732,47 +746,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		});
     };
         
-    this.updateToolBar = function(){
-		var tb=this.getTopToolbar();
-		var s = p.get('consStatus'); 
-		locked = p.get('consStatusLock')==1;
-		if(tb.getComponent('TB_S')) 
-			tb.getComponent('TB_S').setDisabled(NR(m+F_M)||locked||disable);
-		
-    	if(tb.getComponent('TB_C')) 
-    		tb.getComponent('TB_C').setDisabled(NR(m+F_M)||locked||disable||s!=0);
-    	
-    	if(tb.getComponent('TB_CC')) 
-    		tb.getComponent('TB_CC').setDisabled(NR(m+F_M)||locked||disable||s!=1);
-    	
-    	if(tb.getComponent('TB_F')) 
-    		tb.getComponent('TB_F').setDisabled(NR(m+F_M)||locked||disable||s!=1);
-    	
-    	if(tb.getComponent('TB_M')) 
-    		tb.getComponent('TB_M').setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
-    	
-    	if(tb.getComponent('TB_R')) 
-    		tb.getComponent('TB_R').setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
-    	
-    	if(tb.getComponent('TB_CUDE')) 
-    		tb.getComponent('TB_CUDE').setDisabled(p.get('rowAction')=='N');
-    	
-    	if(tb.getComponent('TB_EXP')) 
-    		tb.getComponent('TB_EXP').setDisabled(NR(m+M3_EXPE));
-    	
-    	if(tb.getComponent('TB_DOC')) 
-    		tb.getComponent('TB_DOC').setDisabled(NR(m+M3_DOC));
-    	
-    	if(tb.getComponent('TB_ATT')) 
-    		tb.getComponent('TB_ATT').setDisabled(NR(m+F_M));
-    	
-    	if(tb.getComponent('TB_S_ATT')) 
-    		tb.getComponent('TB_S_ATT').setDisabled(NR(m1+M3_ATTACH));
-    	
-    	if(tb.getComponent('TB_U')) 
-    		tb.getComponent('TB_U').setDisabled(NR(m+F_UL)||locked!=1);    	
-    };
-    
+        
     this.check=function(){
     	this.updateStatus('1');
     };
@@ -904,6 +878,43 @@ Fos.CudeConsignPanel = function(p,store) {
 		},this);
     };
     
+    this.updateToolBar = function(){
+		var s = p.get('consStatus'); 
+		locked = p.get('consStatusLock')==1;
+		if(btnSave) 
+			btnSave.setDisabled(NR(m+F_M)||locked||disable);
+		
+    	if(btnConfirm) 
+    		btnConfirm.setDisabled(NR(m+F_M)||locked||disable||s!=0);
+    	
+    	if(btnCancelConfirm) 
+    		btnCancelConfirm.setDisabled(NR(m+F_M)||locked||disable||s!=1);
+    	
+    	if(btnClose) 
+    		btnClose.setDisabled(NR(m+F_M)||locked||disable||s!=1);
+    	
+    	if(btnInvalid) 
+    		btnInvalid.setDisabled(NR(m+F_F)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N');
+    	
+    	if(btnRemove) 
+    		btnRemove.setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
+    	
+    	if(btnCude) 
+    		btnCude.setDisabled(p.get('rowAction')=='N');
+    	
+    	if(btnExpe) 
+    		btnExpe.setDisabled(NR(m+M3_EXPE));
+    	
+    	if(btnDoc) 
+    		btnDoc.setDisabled(NR(m+M3_DOC));
+    	
+    	if(btnAttach) 
+    		btnAttach.setDisabled(NR(m+F_M));
+    	    	
+    	if(btnUnlock) 
+    		btnUnlock.setDisabled(NR(m+F_UL)||locked!=1);    	
+    };
+    
 	var btnSave = new Ext.Button({text:C_SAVE,
 		itemId:'TB_S',
 		iconCls:'save',
@@ -1022,53 +1033,112 @@ Fos.CudeConsignPanel = function(p,store) {
 		}
 	});
 	
+	var consPanel = new Ext.Panel({title:'委托信息',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+				txtConsNo,cboBooker,cboConsCompany
+			]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+	      	 	cboOperator,txtContact,txtRefNo
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	      		cboSalesRep,txtCustTel,txtCustFax
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
+	      		cboDept,chkRequireRelief,RequireVerification
+	  		]},
+	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
+	  		    cboServiceRequired
+   	  		]},
+   	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
+   	  		      txtRemarks
+   	  	    ]}
+	    ]
+	});
+	
+	var recordPanel = new Ext.Panel({title:'操作记录',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+				cboCustomsVendor,txtCustomsDeclearationNo,dtconsContainerLoadDate
+			]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+	      	 	txtCustomsContact,dtExchangeSingle,dtThreeInspection,
+	  			
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
+	      		txtCustomsTel,dtDeliveryDate,dtConsTrackLoadDate
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
+	      		dtConsDate,dtCustomsDeclearDate,dtCloseDate
+	  		]}
+	    ]
+	});
+	
+	var cargoPanel = new Ext.Panel({title:'货物信息',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+		    	txtCargoNameEn]
+		    },
+		    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+		    	txtServiceSpec]
+		    },
+		    
+		    {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
+	 	    	txtTotalPackages,txtContainersInfo]
+	 	   	}, 
+	 	   	{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
+	 	    	numMeasurement,txtHsCode]
+	 	   	},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+	  	    	numGrossWeight
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	  	        numNetWeight
+	  	    ]}                                       
+	    ]
+	});
+	
+	var bookingPanel = new Ext.Panel({title:'订舱信息',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[			
+	    	   	txtVessName,cboPolEn
+			]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	  			txtVoyage,cboPodEn
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
+	      		txtConsMblNo,txtPotEn
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	              txtConsHblNo,txtSailDate
+	  		]},
+	  		{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtShipper]},
+	 	 	{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
+	   	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtConsignee]},
+	 		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]}
+	    ]
+	});
+	
 	Fos.CudeConsignPanel.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),
 		title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),
 		header:false,
 		closable:true,
-		autoScroll:true,
-		padding:5,
+		autoScroll:true,		
 		labelAlign:'right',
-	    items:[
-    		{header:false,border:false,layout:'column',items:[
-	    		{columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-					txtConsNo,cboBooker,cboConsCompany,dtConsDate,cboCustomsVendor,
-		    	   	txtVessName,cboPolEn,dtExchangeSingle,dtconsContainerLoadDate
-	 			]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-             	 	cboOperator,txtContact,txtRefNo,dtCloseDate,txtCustomsContact,
-         			txtVoyage,cboPodEn,dtThreeInspection,chkRequireRelief
-         	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-             		cboSalesRep,txtCustTel,txtCustomsDeclearationNo,txtVerificationNo,
-             		txtCustomsTel,txtConsMblNo,txtPotEn,dtDeliveryDate,RequireVerification
-         	    ]},
-         	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
-             		cboDept,txtCustFax,dtCustomsDeclearDate,txtHsCode,txtContainersInfo,
-                     txtConsHblNo,txtSailDate,dtConsTrackLoadDate
-         		]}
-         	]},
-         	{header:false,border:false,layout:'column',items:[
-         	   {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
-         	     txtCargoNameEn]
-         	   },
-         	   {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
-         	     txtTotalPackages,numGrossWeight]
-         	   }, 
-         	   {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
-         	     numMeasurement,numNetWeight]
-         	   }]},
-         	 {header:false,border:false,layout:'column',items:[
-         	    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[txtServiceSpec]},
-         	    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[txtRemarks]},
-         	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtShipper]},
-         	 	{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
-           	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtConsignee]},
-         		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]}
-         		
-         	    ]}
-         	 ],
+	    items:[consPanel,recordPanel,cargoPanel,bookingPanel],
 		tbar:[btnSave,'-',btnConfirm,'-',btnCancelConfirm,'-',btnClose,'-',
 	          btnRemove,'-',btnInvalid,'-',btnUnlock,'-',btnModifyConsignNo,'-',btnSaveAs,'-','->',
 	          btnCude,'-',btnInsp,'-',btnExpe,'-',btnDoc,'-',btnAttach

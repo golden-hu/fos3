@@ -871,12 +871,16 @@ Fos.CudePanel = function(p) {
    			{columnWidth:.2,layout:'form',labelAlign:'right',border:false,items:[txtGrossWeight]},
    			{columnWidth:.2,layout:'form',labelAlign:'right',border:false,items:[txtNetWeight]},
    			
-   			{columnWidth:.5,layout:'form',labelAlign:'right',border:false,
-   				items:[{fieldLabel:C_CONTAINER_NO,name:'cudeContainerNo',xtype:'textarea',anchor:'99%'}]}, 
-   			{columnWidth:.25,layout:'form',labelAlign:'right',border:false,
-   					items:[p.get('consBizClass')=='A'?txtManu:cboUssagName]},    			
-   			{columnWidth:1,layout:'form',labelAlign:'right',border:false,
-   						items:[{fieldLabel:C_MARKS_REMARKS,name:'cudeMarks',xtype:'textarea',anchor:'99%'}]}
+   			{columnWidth:.2,layout:'form',labelAlign:'right',border:false,
+					items:[p.get('consBizClass')=='A'?txtManu:cboUssagName]}, 
+			
+			{columnWidth:1,layout:'column',labelAlign:'right',border:false,
+				items:[   						       
+		   			{columnWidth:.5,layout:'form',labelAlign:'right',border:false,
+		   				items:[{fieldLabel:C_CONTAINER_NO,name:'cudeContainerNo',xtype:'textarea',anchor:'99%'}]},    			   			
+		   			{columnWidth:.5,layout:'form',labelAlign:'right',border:false,
+		   						items:[{fieldLabel:C_MARKS_REMARKS,name:'cudeMarks',xtype:'textarea',anchor:'99%'}]}
+   				]}
 			]}	
 		]
 	});
@@ -1366,6 +1370,24 @@ Fos.CudePanel = function(p) {
 		}
 	});
 	
+	var btnClose = new Ext.Button({text:C_CUSTOMS_CLOSED,
+		disabled:NR(m+F_M),
+		iconCls:'done',
+		scope:this,
+		handler:function(){
+			this.updateStatus('5');
+		}
+	});
+			
+	var btnCancelClose = new Ext.Button({text:C_CANCEL_CLOSED,
+		disabled:NR(m+F_M),
+		iconCls:'renew',
+		scope:this,
+		handler:function(){
+			this.updateStatus('3');
+		}
+	});
+	
 	var btnExport = new Ext.Button({text:C_EXPORT,
 		disabled:NR(m+F_E),
 		iconCls:'print',
@@ -1389,7 +1411,7 @@ Fos.CudePanel = function(p) {
 		],
 		tbar:[btnSave,'-',btnApply,'-',
 		      btnCancelApply,'-',btnPass,'-',btnCancelPass,'-',
-		      btnExit,'-',btnCancelExit,'-',btnExport]
+		      btnExit,'-',btnCancelExit,'-',btnClose,'-',btnCancelClose,'-',btnExport]
     });
 	
 	Fos.CudePanel.superclass.constructor.call(this, { 

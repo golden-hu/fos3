@@ -198,7 +198,7 @@ Fos.InspectionPanel = function(p) {
 	});
 	
 	//报检类型
-	var cboInspType = new Ext.form.ComboBox({fieldLabel:C_INTY,
+	var cboInspType = new Ext.form.MultiSelectComboBox({fieldLabel:C_INTY,
 		itemCls:'required',
 		name:'inspType',
 		value:p.get('inspType'),

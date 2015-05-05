@@ -12,11 +12,13 @@
 <title>FOS3.0货代运营系统 上海海钛软件科技有限公司</title>
 <link rel="stylesheet" type="text/css" href="fos.css" />
 <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css" />
-<link rel="stylesheet" type="text/css" href="ext/ux/css/ux-all.css" />
+<!-- <link rel="stylesheet" type="text/css" href="ext/ux/css/ux-all.css" /> -->
 
 <script type="text/javascript" src="ext/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="ext/ext-all.js"></script>
-<script type="text/javascript" src="ext/ux/ux-all.js"></script>
+<!-- <script type="text/javascript" src="ext/ux/ux-all.js"></script> -->
+
+<script type="text/javascript" src="js/MultiSelectComboBox.js"></script>
 
 <script type="text/javascript" src="js/resource_Zh_Cn.js"></script>
 <script type="text/javascript" src="js/version.js"></script>

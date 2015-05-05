@@ -55,7 +55,7 @@ Ext.onReady(function(){
 	T_MAIN.setActiveTab(T_MAIN.add(new Ext.Panel({title:new Date().format('Y-m-d')})));
 	viewport.doLayout();
 	
-	var task={run:ccnActiveSession,interval:60000};
+	var task={run:ccnActiveSession,interval:600000};
 	this.runner = new Ext.util.TaskRunner();
 	this.runner.start(task);
 });
