@@ -9,6 +9,8 @@ import java.util.List;
 public interface IOAnnouncementDAO {
 	public void save(OAnnouncement entity);
 
+	public List<OAnnouncement> saveByRowAction(List<OAnnouncement> entityList);
+	
 	public void delete(Integer id);
 
 	public OAnnouncement update(OAnnouncement entity);

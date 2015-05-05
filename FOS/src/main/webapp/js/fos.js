@@ -482,6 +482,7 @@ function getSysPanel(){
 	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_ACT_LOG,'G_ACLO',function(){return new Fos.AcloGrid();});
 	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_ONLINE_USER,'W_MESS',function(){var w=new Fos.OnlineUserWin();w.show();});
 	if(!NR(M1_P+A_COCO+F_V)) items[items.length]=NaviMenu(C_MSG_TOPIC_SUB,'T_METO',function(){return new Fos.MetoTab();});
+	if(!NR(M1_P+A_ANNO+F_V)) items[items.length]=NaviMenu(C_ANNO,'C_ANNO',function(){return new Fos.AnnouncementPanel();});
 	return  new Ext.Panel({title:C_SYSTEM_MGT,collapsible:true,layout:'fit',
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };

@@ -17,7 +17,7 @@ public class OAnnouncementService {
 
 	@Transactional
 	public List<OAnnouncement> save(List<OAnnouncement> entityList) {
-		return null;
+		return dao.saveByRowAction(entityList);
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})

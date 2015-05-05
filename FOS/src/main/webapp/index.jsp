@@ -38,6 +38,7 @@
 <script type="text/javascript" src="js/sys/task.js"></script>
 <script type="text/javascript" src="js/sys/template.js"></script>
 <script type="text/javascript" src="js/sys/user.js"></script>
+<script type="text/javascript" src="js/sys/announcement.js"></script>
 
 <script type="text/javascript" src="js/gen/gen-biz.js"></script>
 <script type="text/javascript" src="js/gen/gen-custom.js"></script>

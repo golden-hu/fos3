@@ -80,6 +80,11 @@ WInquiry = Ext.data.Record.create(['id','winqId','winqCompany','winqCargoDesc','
  	{name:'modiryTime',type:'date',dateFormat:'Y-m-d H:i:s'},
  	'winqStatus','wusrId','wusrFirstName','wusrMobile','wusrCompanyName',
  	'wusrTel','compCode','version','rowAction']);
+ 	
+OAnnouncement = Ext.data.Record.create(['id','annoId','annoTitle','annoType','annoContent','fileName',
+	{name:'annoDate',type:'date',dateFormat:'Y-m-d H:i:s'},'createBy',
+	{name:'createTime',type:'date',dateFormat:'Y-m-d H:i:s'},'removed',
+	'compCode','version','rowAction']); 	
 
 var getTETY_S = function(){
 	return getGStore('TETY','PTemplateType',PTemplateType,'tetyId','DESC','');

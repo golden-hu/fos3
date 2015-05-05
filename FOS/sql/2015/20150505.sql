@@ -25,3 +25,10 @@ INSERT INTO P_ACTION (ACT_NAME, ACT_SERVICE, ACT_METHOD, ACT_REMARK) VALUES
 ('ANNO_S', 'OAnnouncementService', 'save', '公告保存'),
 ('ANNO_Q', 'OAnnouncementService', 'query', '公告查询');
 
+INSERT INTO P_FUNCTION (FUNC_CODE, FUNC_NAME, FUNC_TYPE, ACTIVE) VALUES
+('001106', '公告管理', 'M', 1),
+('00110601', '查看', 'F', 1),
+('00110602', '编辑', 'F', 1),
+('00110603', '删除', 'F', 1);
+
+
