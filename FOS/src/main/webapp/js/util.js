@@ -733,6 +733,16 @@ var RTX4R=function(r,t,pid){
 	return xml;
 };
 
+var ATX4R=function(a,t,pid){
+		var xml ='';
+		for(var i=0;i<a.length;i++){
+			if(a[i].get('rowAction')!='D'&&a[i].get('rowAction')!='N'){
+				xml=xml+RTX4R(a[i],t,pid);
+			}
+		}
+		return xml;
+};
+	
 var SMTX4R=function(sm,t,pid){
 	var xml ='';                			
 	sm.each(function(r){xml=xml+RTX4R(r,t,pid);});

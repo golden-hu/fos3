@@ -1,6 +1,5 @@
 // 公告窗口
 Fos.AnnouncementFuncWin = function(p, store) {
-	console.log(p);
 	var date = new Ext.form.DateField({
 				fieldLabel : C_RELEASE_DATE,
 				name : 'annoDate',
@@ -63,20 +62,10 @@ Fos.AnnouncementFuncWin = function(p, store) {
 							A : 'ANNO_S'
 						},
 						success : function(res) {
-							var c = XTR(res.responseXML,
-									'OAnnouncement', OAnnouncement);
-							var ra = p.get('rowAction');
-							p.beginEdit();
-							for (var i = 0; i < f.keys.length; i++) {
-								var fn = '' + f.keys[i];
-								p.set(fn, c.get(fn));
-							};
-							p.set('rowAction', 'M');
-							p.endEdit();
-							if (ra == 'N' && store) {
+							XMG.alert(SYS,M_S);
+							if (store) {
 								store.reload();
 							}
-							Ext.Msg.alert(SYS, M_S);
 							this.close();
 						},
 						failure : function(res) {
@@ -91,7 +80,7 @@ Fos.AnnouncementFuncWin = function(p, store) {
 				title : p.get('rowAction') == 'N'
 						? C_ADD + C_ANNOUCEMENT
 						: C_EDIT + C_ANNOUCEMENT,
-				iconCls : p.get('rowAction') == 'N' ? 'add' : 'edit',
+				iconCls : p.get('rowAction') == 'N' ? 'add' : 'option',
 				width : 900,
 				height : 480,
 				modal : true,
@@ -135,13 +124,11 @@ Fos.AnnouncementPanel = function() {
 					direction : 'desc'
 				}
 			});
-//			GS('ANNO_Q','OAnnouncement',OAnnouncement,'annoId','DESC','','S_ANNO','roleId',true);
-//	store.baseParams.mt='xml';
 	store.load({
-				/*params : {
+				params : {
 					start : 0,
-					limit : PAGE_SIZE
-				}*/
+					limit : C_PS
+				}
 			});
 
 	var sm = new Ext.grid.CheckboxSelectionModel({
@@ -153,7 +140,7 @@ Fos.AnnouncementPanel = function() {
 							header : C_RELEASE_DATE,
 							dataIndex : 'annoDate',
 							width : 100,
-							renderer:function(v){console.log(v);return v ? Ext.util.Format.date(v, DATEF) : '';}
+							renderer:function(v){return v ? Ext.util.Format.date(v, DATEF) : '';}
 						}, {
 							header : C_TTITLE,
 							dataIndex : 'annoTitle',
@@ -185,31 +172,32 @@ var delNewFun = function(sm, store, action, sheet) {
 	var ra = sm.getSelections();
 	var a1 = [];// 存放新增没保存的
 	var a2 = [];// 存放已有的
-	for (var i = 0; i < ra.length; i++) {
-		var r = ra[i];
-		if (r.get('rowAction') == 'N') {
-			r.set('rowAction', 'D');
-			a1[a1.length] = r;
-		} else
-			a2[a2.length] = r;
-	}
-
 	if (ra.length > 0) {
+		for (var i = 0; i < ra.length; i++) {
+			var r = ra[i];
+			if (r.get('rowAction') == 'N') {
+				r.set('rowAction', 'D');
+				a1[a1.length] = r;
+			} else
+				a2[a2.length] = r;
+		}
+
+	
 		if (a1.length > 0) {
 			store.remove(a1);
 		}
 		if (a2.length > 0) {
-			Ext.Msg.confirm(SYS, CONFIRM_DEL, function(btn) {
+			Ext.Msg.confirm(SYS, M_R_C, function(btn) {
 						if (btn == 'yes') {
-							var xml = HTUtil.ATX4R(a2, sheet);
-							HTUtil.REQUEST(action, xml, function() {
+							var xml = ATX4R(a2, sheet,'annoId');
+							FOSAJAX({A:action}, xml, function() {
 										store.remove(a2);
-									});
+									},this);
 						}
 					}, this);
 		}
 	} else
-		Ext.Msg.alert(SYS, SELECT_FOR_REMOVE);
+		Ext.Msg.alert(SYS, M_R_P);
 };
 
 	this.edit = function() {
