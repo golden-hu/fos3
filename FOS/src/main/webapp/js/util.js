@@ -2621,16 +2621,18 @@ Ext.extend(Fos.HttpProvider, Ext.state.Provider, {
     ,submitState:function() {
         if(!this.dirty){this.dt.delay(this.delay);return;}
         this.dt.cancel();        
-        this.dirty = false;   
-        Ext.Ajax.request({url:this.saveUrl || this.url
-                ,method:this.method
-                ,scope:this
-                ,success:this.onSaveSuccess
-                ,failure:this.onSaveFailure
-                ,queue:Fos.clone(this.queue),
-                params:{A:'USSE_S',mt:'JSON'},
-                jsonData:{"FosRequest":{"data":{"PUserSetting":this.queue}}}
-		});
+        this.dirty = false;
+        if(this.queue.length > 0) {
+	        Ext.Ajax.request({url:this.saveUrl || this.url
+	                ,method:this.method
+	                ,scope:this
+	                ,success:this.onSaveSuccess
+	                ,failure:this.onSaveFailure
+	                ,queue:Fos.clone(this.queue),
+	                params:{A:'USSE_S',mt:'JSON'},
+	                jsonData:{"FosRequest":{"data":{"PUserSetting":this.queue}}}
+			});
+        }
     }
     ,clear:function(name) {this.set(name, undefined);}
     ,onSaveSuccess:function(response, options) {
