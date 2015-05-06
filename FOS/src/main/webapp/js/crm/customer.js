@@ -268,10 +268,13 @@ Fos.CustomerWin = function(p,store,wu){
 		store:this.contStore,
 		tbar:[{text:C_ADD,disabled:NR(M1_V+V_CUST+F_M),iconCls:'add',scope:this,handler:function(){
 				this.cucoId=this.cucoId-1;
-				var r = new CCustomerContact({cucoId:this.cucoId,custId:p.get('custId'),
-					cucoName:'',cucoMobile:'',cucoTel:'',cucoHomeTel:'',cucoEmail:'',cucoFax:'',cucoAddress1:'',cucoTitle:'',cucoMsn:'',
-					cucoQq:'',cucoBirthday:'',cucoGender:'',cucoRemarks:'',version:'0',rowAction:'N'});
-				this.contStore.insert(0,r);this.contGrid.startEditing(0,1);
+				var r = new CCustomerContact({cucoId:this.cucoId,
+					custId:p.get('custId'),					
+					version:'0',
+					rowAction:'N'
+				});
+				this.contStore.insert(0,r);
+				this.contGrid.startEditing(0,1);
 			}},'-',
 			{text:C_REMOVE,disabled:NR(M1_V+V_CUST+F_M),iconCls:'remove',scope:this,handler:function(){
 				var r = this.contGrid.getSelectionModel().getSelections();
@@ -284,9 +287,7 @@ Fos.CustomerWin = function(p,store,wu){
 	});
 	this.save=function(){
 		if(frmCustomer.getForm().isValid()){				
-				p.beginEdit();
-				//frmCustomer.getForm().updateRecord(p);
-				
+				p.beginEdit();				
 				var fs = p.fields;
 		        fs.each(function(f){
 		            var field = frmCustomer.getForm().findField(f.name);
@@ -337,6 +338,7 @@ Fos.CustomerWin = function(p,store,wu){
 			}
 			else{frmValidatePrompt();}
 	};
+	
 	var t1={layout:'column',border:false,items:
 		[{columnWidth:.5,layout: 'form',border:false,defaultType:'textfield',
             items: [{fieldLabel:C_CODE,id:'custCode',value:p.get('custCode'),allowBlank:false,anchor:'90%'},
@@ -354,6 +356,7 @@ Fos.CustomerWin = function(p,store,wu){
             {fieldLabel:C_CPTY,id:'custType',value:p.get('custType'),xtype:'combo',store:COPR_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}
             ]}
          ]};
+	
     var t2={title:C_CONTINF,layout:'form',defaultType: 'textfield',
 				items: [{fieldLabel:C_COUN,id:'counCode',value:p.get('counCode'),xtype:'combo',
 					store:getCOUN_S(),displayField:'counNameCn',valueField:'counCode',
@@ -370,6 +373,7 @@ Fos.CustomerWin = function(p,store,wu){
        			{fieldLabel:C_EMAIL,id:'custEmail',value:p.get('custEmail'),anchor:'90%'},
        			{fieldLabel:C_URL,id:'custUrl',value:p.get('custUrl'),anchor:'90%'}
        			]};
+    
     var t3={title:C_FININF,layout:'form',defaultType:'textfield',
 				items: [
 				{fieldLabel:C_ACCOUNT_AR,id:'custArFlag',checked:p.get('custArFlag')==1,xtype:'checkbox',anchor:'30%'},
@@ -384,6 +388,7 @@ Fos.CustomerWin = function(p,store,wu){
        			{fieldLabel:C_CREDIT_DAY,id:'custCreditDay',value:p.get('custCreditDay'),anchor:'90%'},
        			{fieldLabel:C_CREDIT_AMT,id:'custCreditAmount',value:p.get('custCreditAmount'),anchor:'90%'}]
         	};
+    
     var t4={cls:'x-plain',title:C_EXT_INFO,layout:'form',defaultType: 'textfield',items:[
         		{fieldLabel:C_SHIPPER_DEFAULT,xtype:'textarea',id:'custShipper',value:p.get('custShipper'),anchor:'90%'},
         		{fieldLabel:C_REMARKS,xtype:'textarea',id:'custRemarks',value:p.get('custRemarks'),anchor:'90%'},
@@ -392,7 +397,9 @@ Fos.CustomerWin = function(p,store,wu){
         		{fieldLabel:C_CUST_SA,xtype:'textarea',id:'attr8',value:p.get('attr8'),anchor:'90%'},
         		{fieldLabel:C_CUST_CUDE_CODE,xtype:'textarea',id:'attr1',value:p.get('attr1'),anchor:'90%'}
         		]};
+    
     var t5={title:C_CONTACT_INFO,layout:'fit',deferredRender:false,collapsible:true,bodyStyle:'padding:0px',items:[this.contGrid]};
+    
 	var frmCustomer = new Ext.form.FormPanel({labelWidth:60,id:'F_CUST',bodyStyle:'padding:5px',
     	items:[t1,
           	{xtype:'tabpanel',plain:true,activeTab:0,height:380,labelWidth:100,defaults:{bodyStyle:'padding:10px'},
@@ -427,8 +434,16 @@ Fos.CustomerWin = function(p,store,wu){
         	},t4,t5]
         }]
     });
-    Fos.CustomerWin.superclass.constructor.call(this, {title:C_CUSTOMER_INFO,modal:true,width:600,minWidth:300,
-        minHeight:200,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items: frmCustomer,
+	
+    Fos.CustomerWin.superclass.constructor.call(this, {title:C_CUSTOMER_INFO,
+    	modal:true,
+    	width:600,
+    	minWidth:300,
+        minHeight:200,
+        plain:false,
+        bodyStyle:'padding:0px;',
+        buttonAlign:'right',
+        items: frmCustomer,
         buttons:[{text:C_OK,disabled:NR(M1_V+V_CUST+F_M),scope:this,handler:this.save},
 				{text:C_CANCEL,scope:this,handler:function(){this.close();}}]
         }); 

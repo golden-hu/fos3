@@ -326,7 +326,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
-	var txtContainersInfo = new Ext.form.TextField({fieldLabel:C_CONTAINER_INFO,
+	var txtContainersInfo = new Fos.ContainerEditor({fieldLabel:C_CONTAINER_INFO,
 		name:'consContainersInfo',
 		value:p.get('consContainersInfo'),
 		anchor:'95%'

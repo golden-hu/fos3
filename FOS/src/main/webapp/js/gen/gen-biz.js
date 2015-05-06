@@ -480,3 +480,145 @@ var showG_DOTY = function() {
     return grid;
 };
 
+
+//箱型箱量编辑控件
+Fos.ContainerEditor = Ext.extend(Ext.form.ComboBox, {
+	 triggerClass:'x-form-search-trigger',
+	constructor:function(config){
+		Fos.ContainerEditor.superclass.constructor.apply(this, arguments);
+	},
+	initComponent:function(){
+		Fos.ContainerEditor.superclass.initComponent.call(this);        
+	},
+	
+	selectRecords:function(containerInfo,scope){
+		scope.setValue(containerInfo);
+		//scope.fireEvent('select', scope, records, 0);
+	},
+	
+	//弹出窗口按钮
+	onTriggerClick:function(event){
+		var win = new Fos.ContainerEditorWin(this.getValue(),this.selectRecords,this);
+		win.show();
+	}
+});
+Ext.reg('containerEditor', Fos.ContainerEditor);
+
+//箱型箱量编辑控件弹出框
+Fos.ContainerEditorWin = function(containerInfo,fn,scope) {
+	var Container = Ext.data.Record.create([
+       {name: 'cotyCode', mapping: 1},
+       {name: 'num', mapping: 2}
+   ]);
+   var containerReader = new Ext.data.ArrayReader({
+       idIndex: 0
+   }, Container);
+   
+   var store = new Ext.data.ArrayStore({
+	    autoDestroy: true,
+	    reader:containerReader
+	});
+   
+   if(containerInfo){
+	   var arr = containerInfo.split(";");
+	   for(var i=0;i<arr.length;i++){
+		   var ca = arr[i].split("X");
+		   var c = new Container({cotyCode:ca[0],num:ca[1]});
+		   store.add(c);
+	   }
+   }
+    
+	var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:true});
+	var cm = new Ext.grid.ColumnModel({columns:[
+    	new Ext.grid.RowNumberer(),
+    	sm,
+    	{header:C_COTY,
+    		dataIndex:'cotyCode',
+    		width:100,
+    		renderer:getCOTY,
+			editor:new Ext.form.ComboBox({displayField:'cotyCode',
+				valueField:'cotyCode',
+				triggerAction:'all',
+				mode:'local',
+				selectOnFocus:true,
+				store:getCOTY_S()
+			})
+    	},
+		{header:C_QUANTITY,dataIndex:'num',width:100,editor:new Ext.form.NumberField()}
+	    ],
+	    defaults:{sortable:true,width:100}
+	});
+    	
+	//添加按钮的代码
+    this.addRecord = function(){
+    	grid.stopEditing();
+    	var c = new Container({num:1});
+		store.insert(0,c);
+		grid.startEditing(0, 2);
+    };
+    
+    this.removeRecord=function(){	
+		var a =sm.getSelections();
+       	if(a.length){      
+       		for(var i=0;i<a.length;i++){
+       			store.remove(a[i]);
+       		}       		
+		}
+	};
+	
+   	
+	//ok选择
+	this.sel = function(){
+		var a = store.getRange();
+		if(a.length>0){
+			
+			var containerInfo = '';
+			var map = new HashMap();
+			
+			for(var i=0;i<a.length;i++){
+				var n = map.get(a[i].get('cotyCode'));
+				if(n){
+					map.put(a[i].get('cotyCode'),n+a[i].get('num'));
+				}				
+				else{
+					map.put(a[i].get('cotyCode'),a[i].get('num'));
+				}
+			}
+			
+			var keys = map.keys();
+			for(var i=0;i<keys.length;i++){
+				var key = keys[i];
+				var num = map.get(key);	
+				if(containerInfo!='')
+					containerInfo = containerInfo + ';';	
+				containerInfo = containerInfo + key + 'X' +  num;				
+			}
+			
+			fn(containerInfo,scope);
+			this.close();
+		}
+	};
+	
+	//构建grid
+	var grid = new Ext.grid.EditorGridPanel({store: store,
+		sm:sm,
+		cm:cm,
+		clicksToEdit:1,
+		tbar:[{text:C_ADD,iconCls:'add',handler:this.addRecord}, '-', 
+			{text:C_REMOVE,iconCls:'remove',handler:this.removeRecord},'-']
+	});
+	
+	//配置项
+    Fos.ContainerEditorWin.superclass.constructor.call(this,{title:C_CUST_SEL,
+    	width:600,
+    	height:400,
+    	layout:'fit',
+    	modal:true,
+    	items:grid,
+    	buttons:[{text:C_OK,iconCls:'ok',scope:this,handler:this.sel},
+    	         {text:C_CANCEL,iconCls:'cancel',scope:this,handler:this.close}]
+    	}
+    ); 
+};
+Ext.extend(Fos.ContainerEditorWin,Ext.Window);
+

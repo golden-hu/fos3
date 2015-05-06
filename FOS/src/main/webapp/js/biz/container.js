@@ -1,10 +1,23 @@
 //装箱
 Fos.ContainerTab = function(p) {
 	this.sel =GSEL;
+	
 	this.store = GS('CONT_Q','FContainer',FContainer,'contId','DESC','','','id',false);
+	
 	this.cargoStore = GS('COCA_Q','FContainerCargo',FContainerCargo,'cocaId','DESC','','','id',false);
+	
 	if(p.get('rowAction')!='N'){
-		this.store.load({params:{consId:p.get('consId'),contPreFlag:'N'},scope:this,callback:function(r,o,sc){if(sc){this.reCalculate();}}});
+		this.store.load({
+			params:{
+				consId:p.get('consId'),
+				contPreFlag:'N'},
+				scope:this,
+				callback:function(r,o,sc){
+					if(sc){
+						this.reCalculate();
+					}
+				}
+			});
 		this.cargoStore.load({params:{consId:p.get('consId')}});
 	}
 	var totalPackages = new Ext.form.TextField({width:80,disabled:true});
@@ -38,6 +51,7 @@ Fos.ContainerTab = function(p) {
 	this.autoShip=function(){
 		
 	};
+	
 	var re = {scope:this,
 		rowselect:function(sm,row,record){
 			if(this.sel!=record.get('contId')){
@@ -45,43 +59,47 @@ Fos.ContainerTab = function(p) {
 				var s = this.cargoGrid.getStore();s.removeAll();
 				var a = this.cargoStore.getRange();
 				for(var i=0;i<a.length;i++){if(a[i].get('contId')==this.sel && a[i].get('rowAction')!='D' && a[i].get('rowAction')!='R') s.add(a[i]);}
-			}}
-	};		
+			}
+		}
+	};
+	
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,scope:this,listeners:re});	
 	var soc = new Ext.grid.CheckColumn({header: "SOC",dataIndex:'contSocFlag',width:55});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CONT_NO,dataIndex:'contNo',width:100,
-		editor:new Ext.form.TextField({
-		listeners:{
-			blur:function(t){
-				if(!chkcntrno(t.getValue(),0)){
-					XMG.alert(SYS,'集装箱编码格式不正确，请重新输入！');
-				}
-		}}})},
-	{header:C_SEAL_NO,dataIndex:'contSealNo',width:100,
-		editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_COTY,dataIndex:'cotyCode',width:60,renderer:getCOTY,
-		editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyCode',triggerAction:'all',
-        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S(),
-        listeners:{scope:this,
-        	select:function(c,r,i){
-        		this.grid.getSelectionModel().getSelected().set('cotyId',r.get('cotyId'));
-        		}
-		}})},
-	{header:C_FL,dataIndex:'contFl',width:40,
-		editor:new Ext.form.ComboBox({displayField:'CODE',valueField:'CODE',triggerAction: 'all',
-        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:FL_S})},
-    soc,
-	{header:C_CARGO_NAME_EN,dataIndex:'contCargoNameEn',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_PACKAGES,dataIndex:'contPackageNum',width:60,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_PACK,dataIndex:'packId',width:80,renderer:getPACK,
-			editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
-            listeners:{scope:this,select:function(c,r,i){this.grid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
-	{header:C_GW,dataIndex:'contGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.TextField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_CBM,dataIndex:'contMeasurement',width:60,renderer:rateRender,editor:new Ext.form.TextField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_CONT_LOAD_ADDRESS,dataIndex:'contAddress',width:150,editor:new Ext.form.TextField()},
-	{header:C_REMARKS,dataIndex:'contRemarks',width:100,editor:new Ext.form.TextField()}],defaults:{sortable:true,width:100}});
+		{header:C_CONT_NO,dataIndex:'contNo',width:100,
+			editor:new Ext.form.TextField({
+			listeners:{
+				blur:function(t){
+					if(!chkcntrno(t.getValue(),0)){
+						XMG.alert(SYS,'集装箱编码格式不正确，请重新输入！');
+					}
+			}}})},
+		{header:C_SEAL_NO,dataIndex:'contSealNo',width:100,
+			editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_COTY,dataIndex:'cotyCode',width:60,renderer:getCOTY,
+			editor:new Ext.form.ComboBox({displayField:'cotyCode',valueField:'cotyCode',triggerAction:'all',
+	        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCOTY_S(),
+	        listeners:{scope:this,
+	        	select:function(c,r,i){
+	        		this.grid.getSelectionModel().getSelected().set('cotyId',r.get('cotyId'));
+	        		}
+			}})},
+		{header:C_FL,dataIndex:'contFl',width:40,
+			editor:new Ext.form.ComboBox({displayField:'CODE',valueField:'CODE',triggerAction: 'all',
+	        mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:FL_S})},
+	    soc,
+		{header:C_CARGO_NAME_EN,dataIndex:'contCargoNameEn',width:100,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_PACKAGES,dataIndex:'contPackageNum',width:60,editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_PACK,dataIndex:'packId',width:80,renderer:getPACK,
+				editor:new Ext.form.ComboBox({displayField:'packName',valueField:'packId',triggerAction:'all',
+	            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getPACK_S(),
+	            listeners:{scope:this,select:function(c,r,i){this.grid.getSelectionModel().getSelected().set('packName',r.get('packName'));}}})},
+		{header:C_GW,dataIndex:'contGrossWeight',width:60,renderer:rateRender,editor:new Ext.form.TextField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_CBM,dataIndex:'contMeasurement',width:60,renderer:rateRender,editor:new Ext.form.TextField({decimalPrecision:4,allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_CONT_LOAD_ADDRESS,dataIndex:'contAddress',width:150,editor:new Ext.form.TextField()},
+		{header:C_REMARKS,dataIndex:'contRemarks',width:100,editor:new Ext.form.TextField()}],defaults:{sortable:true,width:100}
+	});
+	
 	this.grid = new Ext.grid.EditorGridPanel({region:'north',height:200,title:C_CONT_LIST,plugins:soc,autoScroll:true,clicksToEdit:1,height:200,
 		store:this.store,sm:sm,cm:cm,listeners:{scope:this,
     	afteredit:function(e){var f=e.field;if(f=='contPackageNum'||f=='contGrossWeight'||f=='contMeasurement'){this.reCalculate();}}}

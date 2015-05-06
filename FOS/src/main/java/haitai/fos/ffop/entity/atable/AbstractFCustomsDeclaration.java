@@ -91,6 +91,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private Date cudeRefundDate;
 	private Date cudeReleaseDate;
 	private Date cudeShutoutDate;
+	private Date cudeCloseDate;
 	private Integer cudeDocNum;
 	private String cudeDocColor;
 	private String cudeInvoiceNo;
@@ -813,6 +814,17 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeShutoutDate = cudeShutoutDate;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CUDE_CLOSE_DATE", length = 10)
+	public Date getCudeCloseDate() {
+		return this.cudeCloseDate;
+	}
+
+	public void setCudeCloseDate(Date cudeCloseDate) {
+		this.cudeCloseDate = cudeCloseDate;
+	}
+
+	
 	@Column(name = "CUDE_INVOICE_NO", length = 32)
 	public String getCudeInvoiceNo() {
 		return this.cudeInvoiceNo;

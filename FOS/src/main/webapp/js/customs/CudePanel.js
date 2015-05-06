@@ -949,6 +949,13 @@ Fos.CudePanel = function(p) {
 		anchor:'99%'
 	});	
 	
+	//结关日期
+	var dtCloseDate = new Ext.form.DateField({fieldLabel:C_CONS_CLOSE_DATE,
+		name:'cudeCloseDate',
+		format:DATEF,
+		anchor:'99%'
+	});	
+	
 	//是否查验
 	var chkInspectionFlag = new Ext.form.Checkbox({
 		fieldLabel:C_INSPECTION_FLAG,
@@ -984,7 +991,7 @@ Fos.CudePanel = function(p) {
 	});	
 	
 	//备注
-	var txtRemail = new Ext.form.TextField({fieldLabel:C_REMARKS,
+	var txtRemail = new Ext.form.TextArea({fieldLabel:C_REMARKS,
 		name:'cudeRemarks',
 		anchor:'99%'
 	});	
@@ -1028,14 +1035,15 @@ Fos.CudePanel = function(p) {
 		layoutConfig:{columns:4},
 		padding:5,
 		items: [
-		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCustomAgency,dtDocSendDate,dtDocRecvDate,txtContainerFreeDays,chkTransitedFlag]},
-		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtVendorContact,txtDocNum,dtRefundDate,dtExpireDeclarDate,chkRefundFlag]},
+		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCustomAgency,dtDocSendDate,dtDocRecvDate,txtContainerFreeDays,chkTransitedFlag,txtDeclarent]},
+		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtVendorContact,txtDocNum,dtRefundDate,dtExpireDeclarDate,chkRefundFlag,dtCloseDate]},
 		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtCudeTel,cboDocColor,dtReleaseDate,dtExpireContainerDate,chkInspectionFlag]},
 		        {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[cboCudeType,txtRefundDocNum,dtShutoutDate,dtInspectionDate,chkOpenFlag
 			]},
-         {columnWidth:.5,layout:'form',labelAlign:'right',border:false,items:[txtTaxLevy]},
-		 {columnWidth:.5,layout:'form',labelAlign:'right',border:false,items:[txtRemail]},
-		 {columnWidth:.25,layout:'form',labelAlign:'right',border:false,items:[txtDeclarent]}
+			{columnWidth:1,layout:'column',border:false,items:[
+		         {columnWidth:.5,layout:'form',labelAlign:'right',border:false,items:[txtTaxLevy]},
+				 {columnWidth:.5,layout:'form',labelAlign:'right',border:false,items:[txtRemail]}
+	         ]}
 		 ]});
 	
 	
