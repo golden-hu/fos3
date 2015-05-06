@@ -1,4 +1,8 @@
-// 公告窗口
+/** 公告窗口
+ * modify by hqw
+ * @param {} p
+ * @param {} store
+ */
 Fos.AnnouncementFuncWin = function(p, store) {
 	var date = new Ext.form.DateField({
 				fieldLabel : C_RELEASE_DATE,
@@ -8,7 +12,6 @@ Fos.AnnouncementFuncWin = function(p, store) {
 				editable : false,
 				anchor : '90%'
 			});
-
 
 	var title = new Ext.form.TextField({
 				fieldLabel : C_TTITLE,
@@ -105,7 +108,9 @@ Fos.AnnouncementFuncWin = function(p, store) {
 Ext.extend(Fos.AnnouncementFuncWin, Ext.Window);
 
 
-// 公告列表
+/**公告列表
+ * modify by hqw
+ */
 Fos.AnnouncementPanel = function() {
 	var store = new Ext.data.Store({
 				url : SERVICE_URL,
@@ -168,37 +173,37 @@ Fos.AnnouncementPanel = function() {
 	};
 
 	// 单表删除时进行判断
-var delNewFun = function(sm, store, action, sheet) {
-	var ra = sm.getSelections();
-	var a1 = [];// 存放新增没保存的
-	var a2 = [];// 存放已有的
-	if (ra.length > 0) {
-		for (var i = 0; i < ra.length; i++) {
-			var r = ra[i];
-			if (r.get('rowAction') == 'N') {
-				r.set('rowAction', 'D');
-				a1[a1.length] = r;
-			} else
-				a2[a2.length] = r;
-		}
-
+	var delNewFun = function(sm, store, action, sheet) {
+		var ra = sm.getSelections();
+		var a1 = [];// 存放新增没保存的
+		var a2 = [];// 存放已有的
+		if (ra.length > 0) {
+			for (var i = 0; i < ra.length; i++) {
+				var r = ra[i];
+				if (r.get('rowAction') == 'N') {
+					r.set('rowAction', 'D');
+					a1[a1.length] = r;
+				} else
+					a2[a2.length] = r;
+			}
 	
-		if (a1.length > 0) {
-			store.remove(a1);
-		}
-		if (a2.length > 0) {
-			Ext.Msg.confirm(SYS, M_R_C, function(btn) {
-						if (btn == 'yes') {
-							var xml = ATX4R(a2, sheet,'annoId');
-							FOSAJAX({A:action}, xml, function() {
-										store.remove(a2);
-									},this);
-						}
-					}, this);
-		}
-	} else
-		Ext.Msg.alert(SYS, M_R_P);
-};
+		
+			if (a1.length > 0) {
+				store.remove(a1);
+			}
+			if (a2.length > 0) {
+				Ext.Msg.confirm(SYS, M_R_C, function(btn) {
+							if (btn == 'yes') {
+								var xml = ATX4R(a2, sheet,'annoId');
+								FOSAJAX({A:action}, xml, function() {
+											store.remove(a2);
+										},this);
+							}
+						}, this);
+			}
+		} else
+			Ext.Msg.alert(SYS, M_R_P);
+	};
 
 	this.edit = function() {
 		var p = sm.getSelected();
@@ -258,3 +263,93 @@ var delNewFun = function(sm, store, action, sheet) {
 	});
 };
 Ext.extend(Fos.AnnouncementPanel, Ext.grid.GridPanel);
+
+/**首页面板--展示公告
+ * modify by hqw
+ */
+Fos.HomePanel = function() {
+	var store = new Ext.data.Store({
+				url : SERVICE_URL + '?A=ANNO_Q&_mt=xml',
+				reader : new Ext.data.XmlReader({
+							totalProperty : 'rowCount',
+							record : 'OAnnouncement',
+							idProperty : 'annoId'
+						}, OAnnouncement),
+				remoteSort : true,
+				sortInfo : {
+					field : 'annoId',
+					direction : 'DESC'
+				}
+			});
+	store.load();
+
+	var formatData = function(data) {
+		data.annoDate=formatDate(data.annoDate);
+		return data;
+	};
+
+	var tpl = new Ext.XTemplate(
+		'<tpl for=".">',
+		'<div class="row-wrap" id="{id}">',
+			'<div class="title"><a href="javascript:void(0);">{annoTitle}</a>({annoDate})</div>',	
+		'</div>',
+		'</tpl>'
+	);
+	tpl.compile();
+
+	var doCallbackFn = function() {
+		var selNode = view.getSelectedNodes()[0];
+		var p = store.getById(selNode.id);
+		if (p) {
+			var win = new Fos.AnnouncementShowWin(p);
+			win.show();
+		}
+	};
+	
+	var view = new Ext.DataView({
+				tpl : tpl,
+				singleSelect : true,
+				overClass : 'row-wrap-over',
+				itemSelector : 'div.row-wrap',
+				store : store,
+				emptyText : '',
+				prepareData : formatData.createDelegate(this),
+				listeners: {
+					'click': {fn:doCallbackFn, scope:this}
+				}
+			});
+
+	Fos.HomePanel.superclass.constructor.call(this, {
+		id : 'C_ANNO_SHOW',
+		title : new Date().format('Y-m-d'),
+		loadMask : true,
+		autoScroll : true,
+		layout:'fit',
+		items:[view]
+	});
+};
+Ext.extend(Fos.HomePanel, Ext.Panel);
+
+
+/**展示公告
+ * modify by hqw
+ * @param {} _r
+ */
+Fos.AnnouncementShowWin = function(_r) {
+	var txtContent = new Ext.Panel({
+				autoScroll : true,
+				html : _r.get('annoContent')
+			});
+	Fos.AnnouncementShowWin.superclass.constructor.call(this, {
+				modal : true,
+				title : _r.get('annoTitle'),
+				width : 630,
+				height : 410,
+				closable : true,
+				plain : false,
+				layout : 'fit',
+				items : [txtContent]
+			});
+};
+Ext.extend(Fos.AnnouncementShowWin, Ext.Window);
+
