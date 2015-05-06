@@ -733,6 +733,16 @@ var RTX4R=function(r,t,pid){
 	return xml;
 };
 
+var ATX4R=function(a,t,pid){
+		var xml ='';
+		for(var i=0;i<a.length;i++){
+			if(a[i].get('rowAction')!='D'&&a[i].get('rowAction')!='N'){
+				xml=xml+RTX4R(a[i],t,pid);
+			}
+		}
+		return xml;
+};
+	
 var SMTX4R=function(sm,t,pid){
 	var xml ='';                			
 	sm.each(function(r){xml=xml+RTX4R(r,t,pid);});
@@ -2611,16 +2621,18 @@ Ext.extend(Fos.HttpProvider, Ext.state.Provider, {
     ,submitState:function() {
         if(!this.dirty){this.dt.delay(this.delay);return;}
         this.dt.cancel();        
-        this.dirty = false;   
-        Ext.Ajax.request({url:this.saveUrl || this.url
-                ,method:this.method
-                ,scope:this
-                ,success:this.onSaveSuccess
-                ,failure:this.onSaveFailure
-                ,queue:Fos.clone(this.queue),
-                params:{A:'USSE_S',mt:'JSON'},
-                jsonData:{"FosRequest":{"data":{"PUserSetting":this.queue}}}
-		});
+        this.dirty = false;
+        if(this.queue.length > 0) {
+	        Ext.Ajax.request({url:this.saveUrl || this.url
+	                ,method:this.method
+	                ,scope:this
+	                ,success:this.onSaveSuccess
+	                ,failure:this.onSaveFailure
+	                ,queue:Fos.clone(this.queue),
+	                params:{A:'USSE_S',mt:'JSON'},
+	                jsonData:{"FosRequest":{"data":{"PUserSetting":this.queue}}}
+			});
+        }
     }
     ,clear:function(name) {this.set(name, undefined);}
     ,onSaveSuccess:function(response, options) {
