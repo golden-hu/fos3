@@ -319,13 +319,26 @@ Fos.HomePanel = function() {
 				}
 			});
 
+	this.refresh = function(){
+		store.reload();
+	};
+	
+	var btnRefresh = new Ext.Button({
+				text : '',
+				iconCls : 'refresh',
+				scope : this,
+				handler : this.refresh
+			});
+			
 	Fos.HomePanel.superclass.constructor.call(this, {
 		id : 'C_ANNO_SHOW',
 		title : new Date().format('Y-m-d'),
 		loadMask : true,
 		autoScroll : true,
+		padding:10,
 		layout:'fit',
-		items:[view]
+		items:[view],
+		tbar : [btnRefresh]
 	});
 };
 Ext.extend(Fos.HomePanel, Ext.Panel);
@@ -343,8 +356,9 @@ Fos.AnnouncementShowWin = function(_r) {
 	Fos.AnnouncementShowWin.superclass.constructor.call(this, {
 				modal : true,
 				title : _r.get('annoTitle'),
-				width : 630,
+				width : 650,
 				height : 410,
+				autoScroll : true,
 				closable : true,
 				plain : false,
 				layout : 'fit',
