@@ -1687,6 +1687,8 @@ var C_CL_CONTAINER_NO = '适载柜号';
 var C_LC = '装运前检验';
 var C_LC_TYPE = '委托类型';
 var C_INSP_RECORD = '报检记录';
+var C_DOC_LIST = '单证清单';
+var C_DOC_SIGN = '单据签收单';
 
 
 

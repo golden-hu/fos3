@@ -1,0 +1,13 @@
+INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`, `TETY_ACTION`, `TETY_PARENT`, `TETY_CHILD`, `TETY_CLASS`, `TETY_TYPE`, `TETY_FORM_FLAG`, `ACTIVE`, `VERSION`, `REMOVED`) VALUES
+(61, '单据签收单模板', 'FDOC_SIGN', '单据签收单模板', 'FDOC_X', NULL, 'FDoc', 'A', 'P', 1, 1, 0, 0);
+
+-- 单票列表
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(61, '单证名称', 'FDoc', 'dotyName', NULL),
+(61, '单证号', 'FDoc', 'fdocNo', NULL),
+(61, '份数', 'FDoc', 'fdocNum', NULL),
+(61, '备注', 'FDoc', 'fdocRemark', NULL);
+
+INSERT INTO `P_TEMPLATE` (`TEMP_NAME`, `TEMP_CLASS`, `TEMP_TYPE`, `TETY_ID`, `TETY_CODE`, `TETY_NAME`, `TEMP_FILE_NAME`, `TEMP_DESC`, `ACTIVE`, `CREATE_BY`, `CREATE_TIME`, `MODIFY_BY`, `MODIFY_TIME`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('单据签收单', 'B', 'xls', 61, 'FDOC_SIGN', '单据签收单', NULL, '单据签收单模板', 1, 3, '2015-05-07 00:00:00', 3, '2015-05-07 00:00:00', '{CC}', 0, 0)
+;

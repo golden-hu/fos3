@@ -124,6 +124,7 @@ public class FDocService {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional(readOnly = true)
 	public List<FDoc> complexQuery(List<FosQuery> conditions, Map queryMap) {
+		
 		List retList = new ArrayList<FDoc>();
 		List objList = dao.complexQuery(conditions, queryMap);
 		for (Object obj : objList) {
@@ -139,6 +140,15 @@ public class FDocService {
 				doc.setConsCargoOwnerName(consign.getConsCargoOwnerName());
 				doc.setConsSalesRepName(consign.getConsSalesRepName());
 				doc.setConsOperatorName(consign.getConsOperatorName());
+				if(doc.getFdocCopyNum()==null){
+					doc.setFdocNum(doc.getFdocOriginalNum());//文件数=正本份数
+				}else{
+					if(doc.getFdocOriginalNum()==null){
+						doc.setFdocNum(doc.getFdocCopyNum());//文件数=副本份数
+					}else{
+						doc.setFdocNum(doc.getFdocOriginalNum()+doc.getFdocCopyNum());//文件数=正本份数+副本份数
+					}
+				}
 				retList.add(doc);
 			}
 		}
