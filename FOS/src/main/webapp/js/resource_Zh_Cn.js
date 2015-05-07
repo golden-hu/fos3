@@ -467,6 +467,7 @@ var C_TRAT='运输方式';
 var C_TRAT_REQIRED='运输方式不能为空！';
 var C_ISTY='签单方式';
 var C_SEWA='结算方式';
+var C_PAYW='付款方式';
 var C_VEHT='车辆类型';
 var C_CUTY='报关类型';
 var C_INTY='报检类型';
@@ -562,6 +563,7 @@ var C_CONSIGNEE_CN='收货人（中文）';
 var C_NOTIFIER='通知人';
 var C_CARRIER='承运人';
 var C_BOOK_AGENCY='订舱代理';
+var C_SHIPPING_AGENCY='船代';
 var C_BOOK_AGENCY_CONTACT='订舱联系人';
 var C_BOOK_AGENCY_TEL='订舱联系电话';
 var C_CFS='场站';
@@ -1687,7 +1689,9 @@ var C_CL_CONTAINER_NO = '适载柜号';
 var C_LC = '装运前检验';
 var C_LC_TYPE = '委托类型';
 var C_INSP_RECORD = '报检记录';
-
-
+var C_CARGO_DANGER_REPORT = '危品申报';
+var C_CARGO_DANGER_REPORT_DATE = '申报日期';
+var C_CARGO_REPORT = '货物备案';
+var C_CARGO_REPORT_DATE = '备案日期';
 
 

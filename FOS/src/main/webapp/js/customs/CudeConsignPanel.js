@@ -85,64 +85,7 @@ Fos.CudeConsignPanel = function(p,store) {
 	     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}
      	}
 	});
-	
-	var dtConsDate = new Ext.form.DateField({fieldLabel:C_CONS_DATE,
-		tabIndex:13,
-		name:'consDate',
-		value:p.get('consDate'),
-  		format:DATEF,
-  		anchor:'95%',
-  		listeners:{
-  			select:function(t,d){
-  				txtSailDate.setValue(d);
-  			}
-  		}
-	});
-	
-	var cboCustomsVendor = new Ext.form.ComboBox({fieldLabel:C_CUSTOM_AGENCY,
-		tabIndex:21,
-		name:'consCustomsVendorName',
-		value:p.get('consCustomsVendorName'),
-		store:getCS(),
-		enableKeyEvents:true,
-		tpl:custTpl,
-		itemSelector:'div.list-item',
-		listWidth:400,
-		xtype:'combo',
-		displayField:'custCode',
-		valueField:'custCode',
-		typeAhead:true,
-		mode:'local',
-		triggerAction:'all',
-		selectOnFocus:true,
-		anchor:'95%',
-   		listeners:{scope:this,
-   			blur:function(f){
-   				if(f.getRawValue()==''){
-   					f.clearValue();
-   					p.set('consCustomsVendor','');
-   					p.set('consCustomsVendorName','');
-   				}
-   			},
-   			select:function(c,r,i){
-   				p.set('consCustomsVendor',r.get('custId'));
-   				p.set('consCustomsVendorName',r.get('custNameCn'));
-   				var obj = this.find('name','consCustomsContact');
-   				if(obj.length>0){
-   					var ct = obj[0];
-   					ct.setValue(r.get('custContact'));    	   					
-   				}
-   				var obj2 = this.find('name','consCustomsTel');
-   				if(obj2.length>0){
-   					var ct = obj2[0];
-   					ct.setValue(r.get('custTel'));    	   					
-   				}
-   				c.setValue(r.get('custNameCn'));
-   			},
-   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}
-   		}
-	});
-	
+		
 	var cboOperator = new Ext.form.ComboBox({fieldLabel:C_OPERATOR,
 		itemCls:'required',
 		tabIndex:2,
@@ -187,19 +130,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
-	var dtCloseDate = new Ext.form.DateField({fieldLabel:C_CONS_CLOSE_DATE,
-		tabIndex:14,
-		name:'consCloseDate',
-		value:p.get('consCloseDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
 	
-	var txtCustomsContact = new Ext.form.TextField({fieldLabel:C_CUDE_CONTACT,
-		tabIndex:22,name:'consCustomsContact',
-		value:p.get('consCustomsContact'),
-		anchor:'95%'
-	});
 	
 	var chkRequireRelief = new Ext.form.Checkbox({
 		tabIndex:20,
@@ -243,13 +174,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		value:p.get('custTel'),
 		anchor:'95%'
 	});
-	
-	var txtCustomsDeclearationNo = new Ext.form.TextField({fieldLabel:C_CUSTOMS_DECLEARATION_NO,
-		tabIndex:11,
-		name:'consCustomsDeclearationNo',
-		value:p.get('consCustomsDeclearationNo'),
-	    anchor:'95%'
-	});
+		
 	
 	var txtVerificationNo = new Ext.form.TextField({fieldLabel:C_VERIFICATION_NO,
 		tabIndex:17,
@@ -259,11 +184,7 @@ Fos.CudeConsignPanel = function(p,store) {
 	    anchor:'95%'
 	});
 	
-	var txtCustomsTel = new Ext.form.TextField({fieldLabel:C_CUDE_TEL,
-		name:'consCustomsTel',
-		value:p.get('consCustomsTel'),
-		anchor:'95%'
-	});
+	
 	
 	var RequireVerification = new Ext.form.Checkbox({
 		labelSeparator:'',
@@ -296,6 +217,57 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//结算方式
+    var cboSettlementWay = new Ext.form.ComboBox({fieldLabel:C_SEWA,
+    		tabIndex:9,
+    		name:'sewaName',
+    		value:p.get('sewaName'),
+    		store:getSEWA_S(),
+    		xtype:'combo',
+    		displayField:'sewaName',
+    		valueField:'sewaName',
+    		typeAhead: true,
+    		mode:'local',
+    		triggerAction:'all',
+    		selectOnFocus:true,
+    		anchor:'90%'
+    });
+    
+    //结算单位
+	var cboSettlementObject = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,
+		anchor:"90%",
+		name:'settlementObjectName',
+		value:p.get('settlementObjectName'),
+		store:getCS(),
+		displayField:'custNameCn',
+		valueField:'custId',
+		 typeAhead:true,
+		 enableKeyEvents:true,
+		 mode:'local',
+		 tpl:custTpl,
+		 itemSelector:'div.list-item',
+		 listWidth:400,
+		 triggerAction:'all',
+		 selectOnFocus:true,
+		 listeners:{scope:this,
+			 keydown:{
+				 fn:function(f,e){
+					 LC(f,e,t=='R'?'custArFlag':'custApFlag');
+				 },buffer:500
+			},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('settlementObjectId','');
+				}
+			},
+	    	select:function(c,r,i){
+	    		p.set('settlementObjectId',r.get('custId'));
+	    	}
+		 }
+	});
+	
+    
 	//委托项目
 	var cboServiceRequired = new Ext.form.MultiSelectComboBox({fieldLabel:'委托项目',
 		name:'consServiceRequired',
@@ -310,6 +282,141 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'97.5%'
 	});
 	
+	var txtRemarks = new Ext.form.TextField({fieldLabel:C_REMARKS,
+		tabIndex:26,
+		name:'consRemarks',
+		value:p.get('consRemarks'),
+   		anchor:'97.5%'
+   	});
+	
+	var consPanel = new Ext.Panel({title:'委托信息',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+				txtConsNo,cboBooker,cboConsCompany,cboSettlementWay
+			]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+	      	 	cboOperator,txtContact,txtRefNo,cboSettlementObject
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	      		cboSalesRep,txtCustTel,txtCustFax
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
+	      		cboDept,chkRequireRelief,RequireVerification
+	  		]},
+	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
+	  		    cboServiceRequired
+   	  		]},
+   	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
+   	  		      txtRemarks
+   	  	    ]}
+	    ]
+	});
+	
+	//报关行
+	var cboCustomsVendor = new Ext.form.ComboBox({fieldLabel:C_CUSTOM_AGENCY,
+		tabIndex:21,
+		name:'consCustomsVendorName',
+		value:p.get('consCustomsVendorName'),
+		store:getCS(),
+		enableKeyEvents:true,
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:400,
+		xtype:'combo',
+		displayField:'custCode',
+		valueField:'custCode',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'95%',
+   		listeners:{scope:this,
+   			blur:function(f){
+   				if(f.getRawValue()==''){
+   					f.clearValue();
+   					p.set('consCustomsVendor','');
+   					p.set('consCustomsVendorName','');
+   				}
+   			},
+   			select:function(c,r,i){
+   				p.set('consCustomsVendor',r.get('custId'));
+   				p.set('consCustomsVendorName',r.get('custNameCn'));
+   				var obj = this.find('name','consCustomsContact');
+   				if(obj.length>0){
+   					var ct = obj[0];
+   					ct.setValue(r.get('custContact'));    	   					
+   				}
+   				var obj2 = this.find('name','consCustomsTel');
+   				if(obj2.length>0){
+   					var ct = obj2[0];
+   					ct.setValue(r.get('custTel'));    	   					
+   				}
+   				c.setValue(r.get('custNameCn'));
+   			},
+   			keydown:{fn:function(f,e){LC(f,e,'custCustomFlag');},buffer:BF}
+   		}
+	});
+	
+	
+	//报关行联系人
+	var txtCustomsContact = new Ext.form.TextField({fieldLabel:C_CUDE_CONTACT,
+		tabIndex:22,name:'consCustomsContact',
+		value:p.get('consCustomsContact'),
+		anchor:'95%'
+	});
+	
+	//报关行联系电话
+	var txtCustomsTel = new Ext.form.TextField({fieldLabel:C_CUDE_TEL,
+		name:'consCustomsTel',
+		value:p.get('consCustomsTel'),
+		anchor:'95%'
+	});
+	
+	//委托日期
+	var dtConsDate = new Ext.form.DateField({fieldLabel:C_CONS_DATE,
+		tabIndex:13,
+		name:'consDate',
+		value:p.get('consDate'),
+  		format:DATEF,
+  		anchor:'95%',
+  		listeners:{
+  			select:function(t,d){
+  				txtSailDate.setValue(d);
+  			}
+  		}
+	});
+	
+	//报关单号
+	var txtCustomsDeclearationNo = new Ext.form.TextField({fieldLabel:C_CUSTOMS_DECLEARATION_NO,
+		tabIndex:11,
+		name:'consCustomsDeclearationNo',
+		value:p.get('consCustomsDeclearationNo'),
+	    anchor:'95%'
+	});
+	
+	//换单日期
+	var dtExchangeSingle = new Ext.form.DateField({fieldLabel:C_EXCHANGE_DATE,
+		tabIndex:13,
+		name:'consLoadDate',
+	    value:p.get('consLoadDate'),
+	    format:DATEF,
+	    anchor:'95%'
+	});
+	
+	
+	//送货日期
+	var dtDeliveryDate = new Ext.form.DateField({fieldLabel:C_DELIVERY_DATE,
+		tabIndex:13,
+		name:'consDeliveryDate',
+		value:p.get('consDeliveryDate'),
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//申报日期
 	var dtCustomsDeclearDate = new Ext.form.DateField({fieldLabel:C_CUSTOMS_DECLEAR_DATE,
 		tabIndex:12,
 		name:'consCustomsDeclearDate',
@@ -319,6 +426,151 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//装箱日期用作商检日期
+	var dtconsContainerLoadDate = new Ext.form.DateField({fieldLabel:C_DATE_OF_INSPECTION,
+		tabIndex:13,
+		name:'consContainerLoadDate',
+		value:p.get('consContainerLoadDate'),
+		format:DATEF,anchor:'95%'
+	});
+	
+	
+	//截关日期用作三检日期
+	var dtThreeInspection = new Ext.form.DateField({fieldLabel:C_THREE_INSPECTION,
+		tabIndex:13,
+		name:'consExpiryDate',
+		value:p.get('consExpiryDate'),
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//装货日期用作海关查验日期
+	var dtConsTrackLoadDate = new Ext.form.DateField({fieldLabel:C_CUSTOMS_INSPECTION,
+		tabIndex:13,
+		name:'consTrackLoadDate',
+		value:p.get('consTrackLoadDate'),
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//结关日期
+	var dtCloseDate = new Ext.form.DateField({fieldLabel:C_CONS_CLOSE_DATE,
+		tabIndex:14,
+		name:'consCloseDate',
+		value:p.get('consCloseDate'),
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//危品申报
+	var chkCargDangerReportFlag = new Ext.form.Checkbox({
+		tabIndex:20,
+		labelSeparator:'',
+     	name:'cargDangerReportFlag',
+     	checked:p.get('cargDangerReportFlag')==1,
+     	boxLabel:C_CARGO_DANGER_REPORT
+     });
+	
+	//危品申报日期
+	var dtCargDangerReportDate = new Ext.form.DateField({fieldLabel:C_CARGO_DANGER_REPORT_DATE,
+		tabIndex:14,
+		name:'cargDangerReportDate',
+		value:p.get('cargDangerReportDate'),
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//货物备案
+	var chkCargReportFlag = new Ext.form.Checkbox({
+		tabIndex:20,
+		labelSeparator:'',
+     	name:'cargReportFlag',
+     	checked:p.get('cargReportFlag')==1,
+     	boxLabel:C_CARGO_REPORT
+     });
+	
+	//货物备案日期
+	var dtCargReportDate = new Ext.form.DateField({fieldLabel:C_CARGO_REPORT_DATE,
+		tabIndex:14,
+		name:'cargReportDate',
+		value:p.get('cargReportDate'),
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	
+	var recordPanel = new Ext.Panel({title:'操作记录',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+				cboCustomsVendor,txtCustomsDeclearationNo,dtconsContainerLoadDate,chkCargDangerReportFlag
+			]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+	      	 	txtCustomsContact,dtExchangeSingle,dtThreeInspection,dtCargDangerReportDate  			
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
+	      		txtCustomsTel,dtDeliveryDate,dtConsTrackLoadDate,chkCargReportFlag
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
+	      		dtConsDate,dtCustomsDeclearDate,dtCloseDate,dtCargReportDate
+	  		]}
+	    ]
+	});
+	
+	//中英文品名
+	var txtCargoNameEn = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_CN_EN,
+		tabIndex:61,
+		name:'consCargoNameEn',
+		value:p.get('consCargoNameEn'),
+		height:100,
+		anchor:'97.5%'
+	});
+	    
+	//申报要素
+	var txtServiceSpec = new Ext.form.TextArea({fieldLabel:C_CUSTOMS_DECLEAR_ITEMS,
+		tabIndex:25,
+		name:'consServiceSpec',
+   		value:p.get('consServiceSpec'),
+   		xtype:'textarea',
+   		height:100,
+   		anchor:'97.5%'
+   	});
+		
+	//件数
+    var txtTotalPackages = new Ext.form.NumberField({fieldLabel:C_PACKAGES,
+    	tabIndex:61,
+    	name:'consTotalPackages',
+    	value:p.get('consTotalPackages'),
+    	anchor:'95%'
+    });
+	
+    //毛重
+	var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW_S,
+		name:'consTotalGrossWeight',
+		value:p.get('consTotalGrossWeight'),
+		decimalPrecision:4,anchor:'95%'
+	});
+	
+	//净重
+	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_MW_S,
+		name:'consTotalNetWeight',
+		value:p.get('consTotalNetWeight'),
+		xtype:'numberfield',
+		decimalPrecision:4,
+		anchor:'95%'
+	});
+	
+	//体积
+	var numMeasurement = new Ext.form.NumberField({fieldLabel:C_CBM_S,
+		name:'consTotalMeasurement',
+		value:p.get('consTotalMeasurement'),
+		decimalPrecision:4,
+		anchor:'95%'
+	});
+	
+	//HS 编码
 	var txtHsCode = new Ext.form.TextField({fieldLabel:C_HS_CODE,
 		tabIndex:16,
 		name:'cargHsCode',
@@ -326,13 +578,41 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//箱型箱量
 	var txtContainersInfo = new Fos.ContainerEditor({fieldLabel:C_CONTAINER_INFO,
 		name:'consContainersInfo',
 		value:p.get('consContainersInfo'),
 		anchor:'95%'
 	});
 	
+	var cargoPanel = new Ext.Panel({title:'货物信息',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+		    	txtCargoNameEn]
+		    },
+		    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
+		    	txtServiceSpec]
+		    },
+		    
+		    {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
+	 	    	txtTotalPackages,txtContainersInfo]
+	 	   	}, 
+	 	   	{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
+	 	    	numMeasurement,txtHsCode]
+	 	   	},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
+	  	    	numGrossWeight
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	  	        numNetWeight
+	  	    ]}                                       
+	    ]
+	});
 	
+	//发货人
 	var txtShipper = new Ext.form.TextArea({fieldLabel:C_SHIPPER,
 		tabIndex:23,
    		id:p.get('consId')+'CONS_SHIPPER',
@@ -342,6 +622,7 @@ Fos.CudeConsignPanel = function(p,store) {
     	anchor:'97.5%'
     });
 	
+	//收货人
 	var txtConsignee = new Ext.form.TextArea({fieldLabel:C_CONSIGNEE,
 		tabIndex:24,
 		name:'consConsignee',
@@ -350,42 +631,30 @@ Fos.CudeConsignPanel = function(p,store) {
 		xtype:'textarea',
 		height:100,
 		anchor:'97.5%'
-	});
+	});	
 	
-	var txtServiceSpec = new Ext.form.TextArea({fieldLabel:C_CUSTOMS_DECLEAR_ITEMS,
-		tabIndex:25,
-		name:'consServiceSpec',
-   		value:p.get('consServiceSpec'),
-   		xtype:'textarea',
-   		height:100,
-   		anchor:'97.5%'
-   	});
-	
-	var txtRemarks = new Ext.form.TextField({fieldLabel:C_REMARKS,
-		tabIndex:26,
-		name:'consRemarks',
-		value:p.get('consRemarks'),
-   		anchor:'97.5%'
-   	});
-	
+	//MB/L NO
     var txtConsMblNo = new Ext.form.TextField({fieldLabel:C_M_BL_NO,
 		name:'consMblNo',
 		value:p.get('consMblNo'),
 		anchor:'95%'
 	});
     
+    //HB/L NO
     var txtConsHblNo = new Ext.form.TextField({fieldLabel:C_H_BL_NO,
 		name:'consHblNo',
 		value:p.get('consHblNo'),
 		anchor:'95%'
 	});
     
+    //船名
     var txtVessName = new Ext.form.TextField({fieldLabel:C_VESS,tabIndex:17,
     	name:'vessName',
     	value:p.get('vessName'),
     	anchor:'95%'
     });
     
+    //航次
 	var txtVoyage = new Ext.form.TextField({fieldLabel:C_VOYA,
 		tabIndex:18,
 		name:'voyaName',
@@ -393,6 +662,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//开航日期
 	var txtSailDate = new Ext.form.DateField({
 		fieldLabel:p.get('consBizClass')==BC_I?C_ETA:C_SAIL_DATE,
 		tabIndex:19,
@@ -404,6 +674,51 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//船名
+    var txtVessNameCn = new Ext.form.TextField({fieldLabel:C_VESS_NAME_CN,
+    	tabIndex:17,
+    	name:'vessNameCn',
+    	value:p.get('vessNameCn'),
+    	anchor:'95%'
+    });
+    
+    //订舱代理做为船代
+    var cboBookAgency = new Fos.CustomerLookup({fieldLabel:C_SHIPPING_AGENCY,
+    	tabIndex:39,
+		name:'consBookingAgencyName',
+		value:p.get('consBookingAgencyName'),
+		store:getCS(),
+		enableKeyEvents:true,
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:C_LW,
+		displayField:'custCode',
+		valueField:'custCode',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'95%',
+		listeners:{scope:this,
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consBookingAgency','');
+					p.set('consBookingAgencyName','');
+				}
+			},
+        	select:function(c,r,i){
+				p.set('consBookingAgency',r.get('custId'));
+				p.set('consBookingAgencySname',r.get('custCode'));
+				p.set('consBookingAgencyName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn')); 
+			},
+        	keydown:{fn:function(f,e){
+        		LC(f,e,'');},buffer:BF}
+		}
+	});
+    
+	//起运港
 	var cboPolEn = new Ext.form.ComboBox({fieldLabel:C_POL,
 		itemCls:'needed',
 		tabIndex:p.get('consBizClass')==BC_I?39:43,
@@ -442,6 +757,7 @@ Fos.CudeConsignPanel = function(p,store) {
         }
 	});
 	
+	//目的港
     var cboPodEn = new Ext.form.ComboBox({fieldLabel:C_POD,
 		itemCls:'needed',
 		tabIndex:p.get('consBizClass')==BC_I?40:47,
@@ -483,91 +799,12 @@ Fos.CudeConsignPanel = function(p,store) {
          }
     });
     
+    //中转港
     var txtPotEn = new Ext.form.TextField({fieldLabel:C_DESTINATION_PORT,
     	name:'consDeliveryPlace',
     	value:p.get('consDeliveryPlace'),
     	anchor:'95%'
     });
-    
-    var txtCargoNameEn = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_CN_EN,
-		tabIndex:61,
-		name:'consCargoNameEn',
-		value:p.get('consCargoNameEn'),
-		height:100,
-		anchor:'97.5%'
-	});
-    
-    var txtTotalPackages = new Ext.form.NumberField({fieldLabel:C_PACKAGES,
-    	tabIndex:61,
-    	name:'consTotalPackages',
-    	value:p.get('consTotalPackages'),
-    	anchor:'95%'
-    });
-	
-	var numGrossWeight = new Ext.form.NumberField({fieldLabel:C_GW_S,
-		name:'consTotalGrossWeight',
-		value:p.get('consTotalGrossWeight'),
-		decimalPrecision:4,anchor:'95%'
-	});
-	
-	var numNetWeight = new Ext.form.NumberField({fieldLabel:C_MW_S,
-		name:'consTotalNetWeight',
-		value:p.get('consTotalNetWeight'),
-		xtype:'numberfield',
-		decimalPrecision:4,
-		anchor:'95%'
-	});
-	
-	var numMeasurement = new Ext.form.NumberField({fieldLabel:C_CBM_S,
-		name:'consTotalMeasurement',
-		value:p.get('consTotalMeasurement'),
-		decimalPrecision:4,
-		anchor:'95%'
-	});
-	
-	//换单日期
-	var dtExchangeSingle = new Ext.form.DateField({fieldLabel:C_EXCHANGE_DATE,
-		tabIndex:13,
-		name:'consLoadDate',
-	    value:p.get('consLoadDate'),
-	    format:DATEF,
-	    anchor:'95%'
-	});
-	
-	//截关日期用作三检日期
-	var dtThreeInspection = new Ext.form.DateField({fieldLabel:C_THREE_INSPECTION,
-		tabIndex:13,
-		name:'consExpiryDate',
-		value:p.get('consExpiryDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//送货日期
-	var dtDeliveryDate = new Ext.form.DateField({fieldLabel:C_DELIVERY_DATE,
-		tabIndex:13,
-		name:'consDeliveryDate',
-		value:p.get('consDeliveryDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//装货日期用作海关查验日期
-	var dtConsTrackLoadDate = new Ext.form.DateField({fieldLabel:C_CUSTOMS_INSPECTION,
-		tabIndex:13,
-		name:'consTrackLoadDate',
-		value:p.get('consTrackLoadDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//装箱日期用作商检日期
-	var dtconsContainerLoadDate = new Ext.form.DateField({fieldLabel:C_DATE_OF_INSPECTION,
-		tabIndex:13,
-		name:'consContainerLoadDate',
-		value:p.get('consContainerLoadDate'),
-		format:DATEF,anchor:'95%'
-	});
 	
 	function saveShipper(shipperT){
     	var cushName = '';
@@ -644,6 +881,32 @@ Fos.CudeConsignPanel = function(p,store) {
     		selShipper(2);
     	}
     });    
+    
+    var bookingPanel = new Ext.Panel({title:'订舱信息',
+		border:true,
+		layout:'column',
+		padding:10,
+		items:[
+		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[			
+	    	   	txtVessName,cboPolEn,txtVessNameCn
+			]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	  			txtVoyage,cboPodEn,cboBookAgency
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
+	      		txtConsMblNo,txtPotEn
+	  	    ]},
+	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
+	              txtConsHblNo,txtSailDate
+	  		]},
+	  		 {columnWidth:1,layout:'column',border:false,items:[
+		  		{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtShipper]},
+		 	 	{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
+		   	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtConsignee]},
+		 		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]}
+	   	 	]}
+	    ]
+	});
 	
 	this.save = function(){
     	if(this.find('name','custName')[0].getValue()==''){
@@ -1031,105 +1294,8 @@ Fos.CudeConsignPanel = function(p,store) {
     		T_MAIN.add(t);
     		T_MAIN.setActiveTab(t);
 		}
-	});
+	});	
 	
-	var consPanel = new Ext.Panel({title:'委托信息',
-		border:true,
-		layout:'column',
-		padding:10,
-		items:[
-		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-				txtConsNo,cboBooker,cboConsCompany
-			]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-	      	 	cboOperator,txtContact,txtRefNo
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-	      		cboSalesRep,txtCustTel,txtCustFax
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
-	      		cboDept,chkRequireRelief,RequireVerification
-	  		]},
-	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
-	  		    cboServiceRequired
-   	  		]},
-   	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
-   	  		      txtRemarks
-   	  	    ]}
-	    ]
-	});
-	
-	var recordPanel = new Ext.Panel({title:'操作记录',
-		border:true,
-		layout:'column',
-		padding:10,
-		items:[
-		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-				cboCustomsVendor,txtCustomsDeclearationNo,dtconsContainerLoadDate
-			]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-	      	 	txtCustomsContact,dtExchangeSingle,dtThreeInspection,
-	  			
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
-	      		txtCustomsTel,dtDeliveryDate,dtConsTrackLoadDate
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
-	      		dtConsDate,dtCustomsDeclearDate,dtCloseDate
-	  		]}
-	    ]
-	});
-	
-	var cargoPanel = new Ext.Panel({title:'货物信息',
-		border:true,
-		layout:'column',
-		padding:10,
-		items:[
-		    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
-		    	txtCargoNameEn]
-		    },
-		    {columnWidth:.5,layout:'form',labelWidth:80,border:false,items:[
-		    	txtServiceSpec]
-		    },
-		    
-		    {columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
-	 	    	txtTotalPackages,txtContainersInfo]
-	 	   	}, 
-	 	   	{columnWidth:.25,layout:'form',labelWidth:80,border:false,items:[
-	 	    	numMeasurement,txtHsCode]
-	 	   	},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-	  	    	numGrossWeight
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-	  	        numNetWeight
-	  	    ]}                                       
-	    ]
-	});
-	
-	var bookingPanel = new Ext.Panel({title:'订舱信息',
-		border:true,
-		layout:'column',
-		padding:10,
-		items:[
-		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[			
-	    	   	txtVessName,cboPolEn
-			]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-	  			txtVoyage,cboPodEn
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
-	      		txtConsMblNo,txtPotEn
-	  	    ]},
-	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-	              txtConsHblNo,txtSailDate
-	  		]},
-	  		{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtShipper]},
-	 	 	{columnWidth:.05,border:false,items:[bSaveShipper,bSearchShipper]},
-	   	 	{columnWidth:.45,layout:'form',labelWidth:80,border:false,items:[txtConsignee]},
-	 		{columnWidth:.05,border:false,items:[bSaveConsignee,bSearchConsignee]}
-	    ]
-	});
 	
 	Fos.CudeConsignPanel.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),

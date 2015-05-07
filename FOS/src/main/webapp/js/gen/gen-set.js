@@ -4,22 +4,128 @@ var showG_SEWA = function() {
     store.load();
     var ac=ACTIVE();	
     var sm=getCSM();
-    var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_CODE,dataIndex:'sewaCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	{header:C_NAME,dataIndex:'sewaName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
-	ac],defaults:{sortable:true,width:100}});
-    var grid = new  Ext.grid.EditorGridPanel({id:'G_SEWA',iconCls:'gen',title:C_SEWA,
-	plugins:ac,clicksToEdit:1,closable:true,store:store,sm:sm,cm:cm,
-	tbar:[{
-		text:C_ADD,disabled:NR(M1_J+G_SEWA+F_M),iconCls:'add',handler : function(){            	
-			var p = new GSettlementWay({id:GGUID(),sewaId:'0',sewaCode:'',sewaName:'',active:1,version:'0',rowAction:'N'});            
-        	grid.stopEditing();store.insert(0,p);grid.startEditing(0,1);}},'-',
-        {text:C_REMOVE,disabled:NR(M1_J+G_SEWA+F_R),iconCls:'remove',handler:function(){FOS_REMOVE(sm,store);}}, '-', 
-        {text:C_SAVE,disabled:NR(M1_J+G_SEWA+F_M),iconCls:'save',handler:function(){FOS_POST(store,'GSettlementWay',GSettlementWay,'SEWA_S');getSEWA_S().reload();}
-        }]
+    
+    var cm=new Ext.grid.ColumnModel({columns:
+    	[sm,
+			{header:C_CODE,dataIndex:'sewaCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+			{header:C_NAME,dataIndex:'sewaName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+			ac
+		],
+		defaults:{sortable:true,width:100}
+    });
+    
+    var btnAdd = new Ext.Button({
+		text:C_ADD,disabled:NR(M1_J+G_SEWA+F_M),
+		iconCls:'add',
+		handler : function(){            	
+			var p = new GSettlementWay({
+				id:GGUID(),
+				sewaId:'0',
+				active:1,
+				version:'0',
+				rowAction:'N'
+			});            
+	    	grid.stopEditing();
+	    	store.insert(0,p);
+	    	grid.startEditing(0,1);
+    	}
+	});
+    
+    var btnRemove = new Ext.Button({text:C_REMOVE,
+    	disabled:NR(M1_J+G_SEWA+F_R),
+    	iconCls:'remove',
+    	handler:function(){
+    		FOS_REMOVE(sm,store);
+    	}
+    });
+    
+    var btnSave = new Ext.Button({text:C_SAVE,
+    	disabled:NR(M1_J+G_SEWA+F_M),
+    	iconCls:'save',
+    	handler:function(){
+    		FOS_POST(store,'GSettlementWay',GSettlementWay,'SEWA_S');
+    		getSEWA_S().reload();
+    	}
+    });
+    
+    var grid = new  Ext.grid.EditorGridPanel({id:'G_SEWA',
+    	iconCls:'gen',
+    	title:C_SEWA,
+    	plugins:ac,
+    	clicksToEdit:1,
+    	closable:true,
+    	store:store,
+    	sm:sm,
+    	cm:cm,
+    	tbar:[btnAdd,'-',btnRemove, '-', btnSave]
     }); 
     return grid;
 };
+
+//付款方式
+var showG_PAYW = function() {    
+	var store = GS('PAYW_Q','GPaymentWay',GPaymentWay,'paywId','DESC','','','id',false);
+    store.load();
+    var ac=ACTIVE();	
+    var sm=getCSM();
+    
+    var cm=new Ext.grid.ColumnModel({columns:
+    	[sm,
+			{header:C_CODE,dataIndex:'paywCode',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+			{header:C_NAME,dataIndex:'paywName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
+			ac
+		],
+		defaults:{sortable:true,width:100}
+    });
+    
+    var btnAdd = new Ext.Button({
+		text:C_ADD,disabled:NR(M1_J+G_PAYW+F_M),
+		iconCls:'add',
+		handler : function(){            	
+			var p = new GPaymentWay({
+				id:GGUID(),
+				paywId:'0',
+				active:1,
+				version:'0',
+				rowAction:'N'
+			});            
+	    	grid.stopEditing();
+	    	store.insert(0,p);
+	    	grid.startEditing(0,1);
+    	}
+	});
+    
+    var btnRemove = new Ext.Button({text:C_REMOVE,
+    	disabled:NR(M1_J+G_PAYW+F_R),
+    	iconCls:'remove',
+    	handler:function(){
+    		FOS_REMOVE(sm,store);
+    	}
+    });
+    
+    var btnSave = new Ext.Button({text:C_SAVE,
+    	disabled:NR(M1_J+G_PAYW+F_M),
+    	iconCls:'save',
+    	handler:function(){
+    		FOS_POST(store,'GPaymentWay',GPaymentWay,'PAYW_S');
+    		getPAYW_S().reload();
+    	}
+    });
+    
+    var grid = new  Ext.grid.EditorGridPanel({id:'G_PAYW',
+    	iconCls:'gen',
+    	title:C_PAYW,
+    	plugins:ac,
+    	clicksToEdit:1,
+    	closable:true,
+    	store:store,
+    	sm:sm,
+    	cm:cm,
+    	tbar:[btnAdd,'-',btnRemove, '-', btnSave]
+    }); 
+    return grid;
+};
+
 
 //币种
 var showG_CURR = function() {    

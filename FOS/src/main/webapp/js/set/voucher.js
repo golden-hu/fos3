@@ -1119,6 +1119,22 @@ Ext.extend(Fos.VoucherTab,Ext.FormPanel);
 
 //收付核销单查询
 Fos.VoucLookupWin = function(t) {    
+	
+	//付款方式
+    var cboPaymentWay = new Ext.form.ComboBox({fieldLabel:C_PAYW,
+    		tabIndex:7,
+    		name:'voucPaymentType',
+    		store:getPAYW_S(),
+    		xtype:'combo',
+    		displayField:'paywName',
+    		valueField:'paywId',
+    		typeAhead: true,
+    		mode:'local',
+    		triggerAction:'all',
+    		selectOnFocus:true,
+    		anchor:'90%'
+    });
+	
 	var frmLookup = new Ext.form.FormPanel({labelWidth:70,labelAlign:"right",
     	items:[{id:'T_VOUC_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:200,defaults:{bodyStyle:'padding:10px'},
             items:[{id:'T_VOUC_LOOK_1',title:t=='R'?C_LOOK_BY_VOUC_NO_R:C_LOOK_BY_VOUC_NO_P,layout:'form',
@@ -1142,7 +1158,7 @@ Fos.VoucLookupWin = function(t) {
 	             		xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
 	             		tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
 	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-	             	{fieldLabel:C_SEWA,tabIndex:7,name:'voucPaymentType',store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
+	             	cboPaymentWay,
 	             	{fieldLabel:C_CHECK_NO,tabIndex:10,name:'voucCheckNo',xtype:'textfield',format:DATEF,anchor:'90%'},
 	             	{fieldLabel:C_STATUS,tabIndex:13,name:'voucStatus',store:VOST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'}]},
 	             	{columnWidth:.33,layout:'form',border:false,

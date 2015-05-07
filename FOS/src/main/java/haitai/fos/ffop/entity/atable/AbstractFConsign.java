@@ -334,6 +334,16 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private Short consInspectionFlag;
 	private Short consWsFlag;
 	private Short consWsAcceptFlag;
+	
+	private Short cargDangerReportFlag;
+	private Short cargReportFlag;
+	private Date cargDangerReportDate;
+	private Date cargReportDate;
+	private String sewaName;
+	private Integer settlementObjectId;
+	private String settlementObjectName;
+	
+	
 	private Integer userId;
 	private Integer grouId;
 	private Integer createBy;
@@ -3771,4 +3781,70 @@ public abstract class AbstractFConsign extends BaseDomain {
 	public void setConsTotalMeasurementCustomer(Double consTotalMeasurementCustomer) {
 		this.consTotalMeasurementCustomer = consTotalMeasurementCustomer;
 	}
+
+	@Column(name = "CARG_DANGER_REPORT_FLAG")
+	public Short getCargDangerReportFlag() {
+		return cargDangerReportFlag;
+	}
+
+	public void setCargDangerReportFlag(Short cargDangerReportFlag) {
+		this.cargDangerReportFlag = cargDangerReportFlag;
+	}
+
+	@Column(name = "CARG_REPORT_FLAG")
+	public Short getCargReportFlag() {
+		return cargReportFlag;
+	}
+
+	public void setCargReportFlag(Short cargReportFlag) {
+		this.cargReportFlag = cargReportFlag;
+	}
+
+	@Column(name = "CARG_DANGER_REPORT_DATE")
+	public Date getCargDangerReportDate() {
+		return cargDangerReportDate;
+	}
+
+	public void setCargDangerReportDate(Date cargDangerReportDate) {
+		this.cargDangerReportDate = cargDangerReportDate;
+	}
+
+	@Column(name = "CARG_REPORT_DATE")
+	public Date getCargReportDate() {
+		return cargReportDate;
+	}
+
+	public void setCargReportDate(Date cargReportDate) {
+		this.cargReportDate = cargReportDate;
+	}
+
+	@Column(name = "SEWA_NAME")
+	public String getSewaName() {
+		return sewaName;
+	}
+
+	public void setSewaName(String sewaName) {
+		this.sewaName = sewaName;
+	}
+
+	@Column(name = "SETTLEMENT_OBJECT_ID")
+	public Integer getSettlementObjectId() {
+		return settlementObjectId;
+	}
+
+	public void setSettlementObjectId(Integer settlementObjectId) {
+		this.settlementObjectId = settlementObjectId;
+	}
+
+	@Column(name = "SETTLEMENT_OBJECT_NAME")
+	public String getSettlementObjectName() {
+		return settlementObjectName;
+	}
+
+	public void setSettlementObjectName(String settlementObjectName) {
+		this.settlementObjectName = settlementObjectName;
+	}
+	
+	
+	
 }

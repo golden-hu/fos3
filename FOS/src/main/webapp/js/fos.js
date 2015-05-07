@@ -726,6 +726,8 @@ function createGMTree(){
 		cus.appendChild(capr);	
 	}
 	
+	
+	
 	root.appendChild(cus);
 		
 	var set = new Ext.tree.TreeNode({text:C_SETTLE_RELATED,leaf:false});
@@ -733,6 +735,12 @@ function createGMTree(){
 		var sewa = CreateNode(C_SEWA,'SEWA',M1_J+G_SEWA,showG_SEWA);
 		set.appendChild(sewa);
 	}	
+	
+	if(!NR(M1_J+G_PAYW)){
+		var payw = CreateNode(C_PAYW,'PAYW',M1_J+G_PAYW,showG_PAYW);
+		set.appendChild(payw);	
+	}
+	
 	if(!NR(M1_J+G_CURR)){
 		var curr = CreateNode(C_CURR,'CURR',M1_J+G_CURR,showG_CURR);
 		set.appendChild(curr);

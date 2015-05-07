@@ -570,6 +570,22 @@ Fos.PrTab = function(p) {
     	tb.getComponent('TB_14').setDisabled(NR(M1_S+(p.get('prType')=='R'?S_PR_R:S_PR_P)+F_E));
     	tb.getComponent('TB_15').setText(C_STATUS_C+p.get('prType')=='R'?getERST(p.get('prStatus')):getPRST(p.get('prStatus')));
     };
+    
+    //付款方式
+    var cboPaymentWay = new Ext.form.ComboBox({fieldLabel:C_PAYW,
+    	tabIndex:7,
+    	name:'prPaymentType',
+    	value:p.get('prPaymentType'),
+    	store:getPAYW_S(),
+    	xtype:'combo',
+    	displayField:'paywName',
+    	valueField:'paywId',
+    	typeAhead: true,
+    	mode:'local',
+    	triggerAction: 'all',
+    	selectOnFocus:true,
+    	anchor:'90%'
+    });
    
 	Fos.PrTab.superclass.constructor.call(this, { 
 		id: 'T_PR_'+p.get('id'),
@@ -625,7 +641,7 @@ Fos.PrTab = function(p) {
 	                items: [{fieldLabel:HL(C_AMOUNT),tabIndex:6,name:'prAmount',value:p.get('prAmount'),xtype:'numberfield',anchor:'90%'},
 	                {fieldLabel:C_CUST_BANK,tabIndex:10,name:'custBank',value:p.get('custBank'),xtype:'textfield',anchor:'90%'}]},
 	            {columnWidth:.25,layout: 'form',border : false,
-	                items: [{fieldLabel:C_SEWA,tabIndex:7,name:'prPaymentType',value:p.get('prPaymentType'),store:getSEWA_S(),xtype:'combo',displayField:'sewaName',valueField:'sewaId',typeAhead: true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
+	                items: [cboPaymentWay,
 	                {fieldLabel:C_CUST_BANK_ACCOUNT,tabIndex:11,name:'custAccount',value:p.get('custAccount'),xtype:'textfield',format:DATEF,anchor:'90%'}]},
 	            {columnWidth:.99,layout:'form',border:false,items:[{fieldLabel:C_REMARKS,name:'prRemarks',value:p.get('prRemarks'),tabIndex:12,xtype:'textarea',anchor:'90%'}]}
 	            ]},

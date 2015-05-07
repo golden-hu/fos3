@@ -86,6 +86,10 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('PATE_Q', 'GPaymentTermService', 'query', '支付条款查询'),
 ('SEWA_S', 'GSettlementWayService', 'save', '结算方式保存'),
 ('SEWA_Q', 'GSettlementWayService', 'query', '结算方式查询'),
+
+('PAYW_S', 'GPaymentWayService', 'save', '付款方式保存'),
+('PAYW_Q', 'GPaymentWayService', 'query', '付款方式查询'),
+
 ('SHLI_S', 'GShippingLineService', 'save', '航线保存'),
 ('SHLI_Q', 'GShippingLineService', 'query', '航线查询'),
 ('TRTE_S', 'GTradeTermService', 'save', '贸易条款保存'),
@@ -1175,6 +1179,7 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00102101', '查看', 'F', 1),
 ('00102102', '编辑', 'F', 1),
 ('00102103', '删除', 'F', 1),
+
 ('001022', '币种', 'M', 1),
 ('00102201', '查看', 'F', 1),
 ('00102202', '编辑', 'F', 1),
@@ -1222,6 +1227,11 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00103201', '查看', 'F', 1),
 ('00103202', '编辑', 'F', 1),
 ('00103203', '删除', 'F', 1),
+
+('001033', '付款方式', 'M', 1),
+('00103301', '查看', 'F', 1),
+('00103302', '编辑', 'F', 1),
+('00103303', '删除', 'F', 1),
 
 ('0011', '系统管理', 'M', 1),
 ('001101', '业务分组', 'M', 1),

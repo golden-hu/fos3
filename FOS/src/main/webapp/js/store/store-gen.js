@@ -34,6 +34,7 @@ GExchangeSettlement = Ext.data.Record.create(['id','exseId','exseCode','exseName
 GTransType = Ext.data.Record.create(['id','tratId','tratCode','tratName','compCode','active','version','rowAction']);	
 GIssueType = Ext.data.Record.create(['id','istyId','istyCode','istyName','compCode','active','version','rowAction']);
 GSettlementWay = Ext.data.Record.create(['id','sewaId','sewaCode','sewaName','compCode','active','version','rowAction']);
+GPaymentWay = Ext.data.Record.create(['id','paywId','paywCode','paywName','compCode','active','version','rowAction']);
 GCurrency = Ext.data.Record.create(['id','currId','currCode','currName','currSymbol','compCode','active','version','rowAction']);
 GChargeClass = Ext.data.Record.create(['id','chclId','chclCode','chclName','active','compCode','version','rowAction']);
 GCharge = Ext.data.Record.create(['id','charId','charCode','charName','charNameEn','currCode','unitId','chclId','charCnyP','charCnyR','charUsdP','charUsdR','active','compCode','version','rowAction']);
@@ -426,6 +427,18 @@ getSEWA = function(v){
 	else 
 		return '';
 }; 
+
+var getPAYW_S = function(){
+	return getGStore('PAYW','GPaymentWay',GPaymentWay,'paywId','ASC','');
+};
+
+getPAYW = function(v){
+	var _cs= getPAYW_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('paywName'):v; 
+	else 
+		return '';
+};
 
 var getISTY_S = function(){
 	return getGStore('ISTY','GIssueType',GIssueType,'istyId','ASC','');

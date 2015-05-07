@@ -747,22 +747,30 @@ INSERT INTO `G_PLACE` (`PLAC_CODE`, `PLAC_NAME`, `PLAC_NAME_EN`, `PLAC_TYPE`, `C
 -- 导出表中的数据 `G_SETTLEMENT_WAY`
 --
 
+INSERT INTO `G_PAYMENT_WAY` (`PAYW_CODE`, `PAYW_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('DH', '电汇', 1, 'JAH', 0, 0),
+('ZP', '支票', 1, 'JAH', 0, 0),
+('WHHK', '外汇划款', 1, 'JAH', 0, 0),
+('DZLH', '电子联行付款', 1, 'JAH', 0, 0),
+('DJPZ', '贷记凭证', 1, 'JAH', 0, 0),
+('XJ', '现金', 1, 'JAH', 0, 0),
+('SD', '水单', 1, 'JAH', 0, 0),
+('ZZ', '转帐', 1, 'JAH', 0, 0),
+('TS', '托收', 1, 'JAH', 0, 0),
+('NK', '银行内扣', 1, 'JAH', 0, 0),
+('BP', '本票', 1, 'JAH', 0, 0),
+('HP', '汇票', 1, 'JAH', 0, 0),
+('CE', '定舱差额', 1, 'JAH', 0, 0),
+('RLC', '入立成', 1, 'JAH', 0, 0),
+('QL', '帐务清理', 1, 'JAH', 0, 0);
+
+
 INSERT INTO `G_SETTLEMENT_WAY` (`SEWA_CODE`, `SEWA_NAME`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
-('DH', '电汇', 1, '{CC}', 0, 0),
-('ZP', '支票', 1, '{CC}', 0, 0),
-('WHHK', '外汇划款', 1, '{CC}', 0, 0),
-('DZLH', '电子联行付款', 1, '{CC}', 0, 0),
-('DJPZ', '贷记凭证', 1, '{CC}', 0, 0),
-('XJ', '现金', 1, '{CC}', 0, 0),
-('SD', '水单', 1, '{CC}', 0, 0),
-('ZZ', '转帐', 1, '{CC}', 0, 0),
-('TS', '托收', 1, '{CC}', 0, 0),
-('NK', '银行内扣', 1, '{CC}', 0, 0),
-('BP', '本票', 1, '{CC}', 0, 0),
-('HP', '汇票', 1, '{CC}', 0, 0),
-('CE', '定舱差额', 1, '{CC}', 0, 0),
-('RLC', '入立成', 1, '{CC}', 0, 0),
-('QL', '帐务清理', 1, '{CC}', 0, 0);
+('PPYJ', '普票月结', 1, 'JAH', 0, 0),
+('ZPYJ', '专票月结', 1, 'JAH', 0, 0),
+('PPPJ', '普票票结', 1, 'JAH', 0, 0),
+('ZPPJ', '专票票结', 1, 'JAH', 0, 0),
+('BKP', '不开票', 1, 'JAH', 0, 0);
 
 
 --
