@@ -51,7 +51,8 @@ INSERT INTO `P_TEMPLATE_TYPE` (`TETY_ID`, `TETY_NAME`, `TETY_CODE`, `TETY_DESC`,
 (53, '业务流程表', 'BUSINESS_PROCESS', '业务流程表', 'CONS_T_X', 'FConsign', 'FTas	k', 'B', 'P', 1, 1, 0, 0),
 (54, '提单十联单', 'FBL_MANIFEST', '提单十联单', 'BL_Q', 'FBl', '', 'B', 'P', 1, 1, 0, 0),
 (55, 'DEBIT NOTE', 'DEBIT_NOTE', NULL, 'INVO_Q', 'SInvoice', 'SinvoiceItem', 'B', 'P', 1, 1, 1, 0),
-(60, '费用列表', 'EXPE_LIST', '费用列表导出模板', 'EXPE_X_S', NULL, 'SExpense', 'A', 'P', 1, 1, 1, 0);
+(60, '费用列表', 'EXPE_LIST', '费用列表导出模板', 'EXPE_X_S', NULL, 'SExpense', 'A', 'P', 1, 1, 1, 0),
+(61, '单据签收单模板', 'FDOC_SIGN', '单据签收单模板', 'FDOC_X', NULL, 'FDoc', 'A', 'P', 1, 1, 0, 0);
 -- 提单
 INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
 (1, '发货人', 'FBl', 'blShipper', NULL),
@@ -1570,3 +1571,13 @@ INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`
 (60, '已开票金额', 'SExpense', 'expeInvoiceAmount', NULL),
 (60, '已核销金额', 'SExpense', 'expeWriteOffAmount', NULL),
 (60, '备注', 'FConsign', 'expeRemarks', NULL);
+
+
+
+-- 单票列表
+INSERT INTO `P_TEMPLATE_MAP` (`TETY_ID`, `TEMA_NAME`, `TEMA_TABLE`, `TEMA_FIELD`, `TEMA_CONVERTER`) VALUES
+(61, '单证名称', 'FDoc', 'dotyName', NULL),
+(61, '单证号', 'FDoc', 'fdocNo', NULL),
+(61, '份数', 'FDoc', 'fdocNum', NULL),
+(61, '备注', 'FDoc', 'fdocRemark', NULL);
+

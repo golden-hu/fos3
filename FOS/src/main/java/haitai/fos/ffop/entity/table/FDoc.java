@@ -25,6 +25,11 @@ public class FDoc extends AbstractFDoc {
 	private String consCargoOwnerName;
 	private String consSalesRepName;
 	private String consOperatorName;
+	private Integer fdocNum;
+	
+	FDoc(){
+		
+	}
 	
 	@Transient
 	public String getVessName() {
@@ -97,4 +102,14 @@ public class FDoc extends AbstractFDoc {
 	public void setConsOperatorName(String consOperatorName) {
 		this.consOperatorName = consOperatorName;
 	}
+	@Transient
+	public Integer getFdocNum() {
+		return fdocNum;
+	}
+
+	public void setFdocNum(Integer fdocNum) {
+		this.fdocNum = fdocNum;
+	}
+	
+	
 }

@@ -97,7 +97,7 @@ Fos.ConsDocGrid = function(p) {
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
     {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()},
-    {header:C_REMARKS,dataIndex:'fdocRemarks',width:80,editor:new Ext.form.TextField()}
+    {header:C_REMARKS,dataIndex:'fdocRemark',width:80,editor:new Ext.form.TextField()}
 	],defaults:{sortable:true,width:100}});
 	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_DOC;
 	
@@ -217,7 +217,7 @@ Fos.DocGrid = function(s) {
 			editor:new Ext.form.ComboBox({displayField:'NAME',valueField:'CODE',triggerAction:'all',
             mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:ITTY_S})},
     {header:C_DOC_BACK_SIGNER,dataIndex:'fdocBackSigner',width:80,editor:new Ext.form.TextField()},  
-    {header:C_REMARKS,dataIndex:'fdocRemarks',width:80,editor:new Ext.form.TextField()},
+    {header:C_REMARKS,dataIndex:'fdocRemark',width:80,editor:new Ext.form.TextField()},
     {header:C_VESS,dataIndex:'vessName',width:120},
     {header:C_VOYA,dataIndex:'voyaName',width:80},
     {header:C_BL_NO,dataIndex:'consMblNo',width:120},
@@ -260,7 +260,20 @@ Fos.DocGrid = function(s) {
     
 	var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};    
     var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
-	
+	var btnExport = new Ext.Button({
+    	text:C_EXPORT,
+		iconCls:'print',
+		disabled:NR(M1_D+F_E),
+		scope:this,
+		menu: {items: [
+           {text:C_DOC_LIST,scope:this,handler:function(){
+		    	  EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');
+    		}}, 
+           {text:C_DOC_SIGN,scope:this,handler:function(){
+		    	  EXP('C','FDOC_SIGN',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');
+    		}}]
+		}
+    });
 	Fos.DocGrid.superclass.constructor.call(this,{
 		clicksToEdit:1,
 		id:'G_DOC_'+s,
@@ -283,10 +296,7 @@ Fos.DocGrid = function(s) {
 						FOS_POST(store,'FDoc',FDoc,'FDOC_S');
 					}},'-',
 		      {text:C_SEARCH,disabled:NR(M1_D+F_M),iconCls:'search',disabled:NR(M1_D+F_V),handler:this.search},'-',
-		      kw,b8,'-',b9,'-',
-		      {text:C_EXPORT,disabled:NR(M1_D+F_E),iconCls:'print',disabled:NR(M1_D+F_E),scope:this,handler:function(){
-		    	  EXP('C','FDOC_LIST',store.baseParams.xml?'&mt=xml&xml='+store.baseParams.xml:'&mt=xml');
-    		}},'-'],
+		      kw,b8,'-',b9,'-',btnExport,'-'],
 		bbar:PTB(store,C_PS)});
 };
 Ext.extend(Fos.DocGrid, Ext.grid.EditorGridPanel);
