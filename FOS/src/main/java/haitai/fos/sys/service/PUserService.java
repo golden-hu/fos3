@@ -8,16 +8,18 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
 
+import org.apache.axis.message.SOAPHeaderElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.tempuri.IProductAPIServiceProxy;
 
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.xml.soap.SOAPElement;
 
 @Service
 public class PUserService {

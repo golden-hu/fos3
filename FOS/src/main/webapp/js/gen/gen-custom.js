@@ -284,10 +284,36 @@ var showG_CAPR = function() {
     store.load();
     var ac=ACTIVE();	
     var sm=getCSM();
+    
     var cm=new Ext.grid.ColumnModel({columns:[sm,   
         {header:C_NAME,dataIndex:'caprName',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},
         ac],
         defaults:{sortable:true,width:100}
+    });
+    
+    var btnAdd = new Ext.Button({
+		text:C_ADD,disabled:NR(M1_J+G_CAPR+F_M),
+		iconCls:'add',
+		handler : function(){            	
+			var p = new GCargoClass({id:GGUID(),caprId:'0',active:1,version:'0',rowAction:'N'});            
+        	grid.stopEditing();
+        	store.insert(0,p);
+        	grid.startEditing(0,1);
+        }
+    });
+    
+    var btnRemove = new Ext.Button({text:C_REMOVE,disabled:NR(M1_J+G_CAPR+F_R),iconCls:'remove',
+		handler:function(){
+			FOS_REMOVE(sm,store);
+		}
+	});
+    
+    var btnSave = new Ext.Button({text:C_SAVE,disabled:NR(M1_J+G_CAPR+F_M),
+    	iconCls:'save',
+    	handler:function(){
+    		FOS_POST(store,'GCargoProperty',GCargoProperty,'CACL_S');
+    		getCAPR_S().reload();
+    	}
     });
     
     var grid = new  Ext.grid.EditorGridPanel({id:'G_CAPR',
@@ -299,24 +325,7 @@ var showG_CAPR = function() {
     	store:store,
     	sm:sm,
     	cm:cm,
-    	tbar:[{
-		text:C_ADD,disabled:NR(M1_J+G_CAPR+F_M),iconCls:'add',handler : function(){            	
-			var p = new GCargoClass({id:GGUID(),caprId:'0',active:1,version:'0',rowAction:'N'});            
-        	grid.stopEditing();
-        	store.insert(0,p);
-        	grid.startEditing(0,1);}
-    	},'-',
-        {text:C_REMOVE,disabled:NR(M1_J+G_CAPR+F_R),iconCls:'remove',
-    		handler:function(){
-    			FOS_REMOVE(sm,store);
-    		}
-    	}, '-', 
-        {text:C_SAVE,disabled:NR(M1_J+G_CAPR+F_M),iconCls:'save',
-        	handler:function(){
-        		FOS_POST(store,'GCargoClass',GCargoClass,'CACL_S');
-        		getCACL_S().reload();
-        	}
-        }]
+    	tbar:[btnAdd,'-',btnRemove, '-', btnSave]
     }); 
     return grid;
 };

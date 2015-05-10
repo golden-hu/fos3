@@ -585,6 +585,20 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//货物属性
+	var cboCargoProperty = new Ext.form.ComboBox({fieldLabel:C_CAPR,
+		name:'caprName',
+		value:p.get('caprName'),
+		store:getCAPR_S(),
+		displayField:'caprName',
+		valueField:'caprName',
+		typeAhead: true,
+		mode: 'remote',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'99%'
+	});
+	
 	var cargoPanel = new Ext.Panel({title:'货物信息',
 		border:true,
 		layout:'column',
@@ -604,7 +618,7 @@ Fos.CudeConsignPanel = function(p,store) {
 	 	    	numMeasurement,txtHsCode]
 	 	   	},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-	  	    	numGrossWeight
+	  	    	numGrossWeight,cboCargoProperty
 	  	    ]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 	  	        numNetWeight

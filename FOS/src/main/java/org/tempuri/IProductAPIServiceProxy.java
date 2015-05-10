@@ -22,7 +22,6 @@ public class IProductAPIServiceProxy implements org.tempuri.IProductAPIService {
         else
           _endpoint = (String)((javax.xml.rpc.Stub)iProductAPIService)._getProperty("javax.xml.rpc.service.endpoint.address");
       }
-      
     }
     catch (javax.xml.rpc.ServiceException serviceException) {}
   }

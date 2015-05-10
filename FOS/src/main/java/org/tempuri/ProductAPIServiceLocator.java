@@ -7,6 +7,8 @@
 
 package org.tempuri;
 
+import org.apache.axis.message.SOAPHeaderElement;
+
 public class ProductAPIServiceLocator extends org.apache.axis.client.Service implements org.tempuri.ProductAPIService {
 
     public ProductAPIServiceLocator() {
@@ -54,11 +56,22 @@ public class ProductAPIServiceLocator extends org.apache.axis.client.Service imp
         try {
             org.tempuri.BasicHttpBinding_IProductAPIServiceStub _stub = new org.tempuri.BasicHttpBinding_IProductAPIServiceStub(portAddress, this);
             _stub.setPortName(getBasicHttpBinding_IProductAPIServiceWSDDServiceName());
+            
+            try{
+            	SOAPHeaderElement headerElement = new SOAPHeaderElement("", "RequestSOAPHeader");
+                headerElement.addChildElement("ProductKey").setValue("FOS_FMS");            
+                _stub.setHeader(headerElement);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             return _stub;
         }
         catch (org.apache.axis.AxisFault e) {
             return null;
         }
+       
     }
 
     public void setBasicHttpBinding_IProductAPIServiceEndpointAddress(java.lang.String address) {
