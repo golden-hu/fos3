@@ -297,6 +297,11 @@ var inspLcTypeStore = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
 	data:[['0','监装'],['1','监磅'],['2','水尺'],['3','其它']]
 });
 
+
+var cudeBizTypeStore = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
+	data:[['C','外贸集装箱'],['B','外贸散货'],['O','其他']]
+});
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 var getTRAIN_S = function(){
 	if(Ext.StoreMgr.containsKey('S_TRAIN')){

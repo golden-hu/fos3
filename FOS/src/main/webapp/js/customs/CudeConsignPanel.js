@@ -5,6 +5,7 @@ Fos.CudeConsignPanel = function(p,store) {
     var m=getRM(p.get('consBizClass'),BT_G,'')+M3_CONS;
     var m1 = getRM(p.get('consBizClass'),BT_G,'');
         
+    //业务号
     var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
 		style:'{font-weight:bold;color:green;}',
 		disabled:true,
@@ -15,7 +16,85 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 		
-	var cboBooker = new Ext.form.ComboBox({fieldLabel:C_BOOKER,
+  //操作
+	var cboOperator = new Ext.form.ComboBox({fieldLabel:C_OPERATOR,
+		itemCls:'required',
+		tabIndex:2,
+		name:'consOperatorName',
+		value:p.get('consOperatorName'),
+     	store:getOP_S(),
+     	xtype:'combo',
+     	displayField:'userName',
+     	valueField:'userId',
+     	typeAhead: true,
+     	mode: 'local',
+     	triggerAction: 'all',
+     	selectOnFocus:true,
+     	anchor:'95%',
+     	editable:false,
+     	listeners:{scope:this,
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consOperatorId','');
+					p.set('consOperatorName','');
+				}
+			},
+			select:function(c,r,i){
+				p.set('consOperatorId',r.get('userId'));
+			}
+		}
+	});
+	
+	//业务员
+	var cboSalesRep = new Ext.form.ComboBox({fieldLabel:C_SALES,
+		itemCls:'required',
+		tabIndex:3,
+		name:'consSalesRepName',
+		value:p.get('consSalesRepName'),
+ 		store:getSALE_S(),
+ 		displayField:'userName',
+ 		editable:false,
+ 		valueField:'userName',
+ 		typeAhead: true,
+ 		mode: 'local',
+ 		triggerAction: 'all',
+ 		selectOnFocus:true,anchor:'95%',
+ 		listeners:{scope:this,
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('consSalesRepId','');
+					p.set('consSalesRepName','');
+				}
+			},
+	    	select:function(c,r,i){
+	    		p.set('consSalesRepId',r.get('userId'));
+	    	}
+		}
+	});
+	
+	//部门
+	var cboDept = new Ext.form.ComboBox({fieldLabel:C_DEPT,
+		itemCls:'required',
+		tabIndex:4,
+		name:'deptId',
+		value:p.get('deptId'),
+		editable:false,
+		store:getGROU_S(),
+		displayField:'grouName',
+		valueField:'grouId',
+		typeAhead: true,
+		mode: 'local',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'95%'
+	});
+	
+	
+    //委托单位
+	var cboBooker = new Fos.CustomerLookup({fieldLabel:C_BOOKER,
+		custType:'custBookerFlag',
 		itemCls:'required',
 		tabIndex:5,
 		name:'custName',
@@ -60,7 +139,45 @@ Fos.CudeConsignPanel = function(p,store) {
 	     }
 	});
 	
-	var cboConsCompany = new Ext.form.ComboBox({fieldLabel:C_BIZ_COMPANY,
+	
+	
+	//客户联系人
+	var txtContact = new Ext.form.TextField({fieldLabel:C_CONTACT,
+		tabIndex:6,
+		name:'custContact',
+		value:p.get('custContact'),
+		anchor:'95%'
+	});
+	
+	
+	//客户联系电话
+	var txtCustTel = new Ext.form.TextField({fieldLabel:C_PHONE,
+		tabIndex:7,
+		name:'custTel',
+		value:p.get('custTel'),
+		anchor:'95%'
+	});
+		
+	//客户传真
+	var txtCustFax = new Ext.form.TextField({fieldLabel:C_FAX,
+		tabIndex:8,
+		name:'custFax',
+		value:p.get('custFax'),
+		anchor:'95%'
+	});
+	
+	
+	//职务
+	var txtCudeTitle = new Ext.form.TextField({fieldLabel:C_CUDE_TITLE,
+		tabIndex:8,
+		name:'cudeTite',
+		value:p.get('cudeTite'),
+		anchor:'95%'
+	});
+	
+	//经营单位
+	var cboConsCompany = new Fos.CustomerLookup({fieldLabel:C_BIZ_COMPANY,
+		custType:'custBookerFlag',
 		tabIndex:9,
 		name:'consCompany',
 		value:p.get('consCompany'),
@@ -82,47 +199,15 @@ Fos.CudeConsignPanel = function(p,store) {
 	     		c.setValue(r.get('custNameCn'));
 	     		p.set('consCompany',r.get('custNameCn'));
 	     	},
-	     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}
+	     	keydown:{
+	     		fn:function(f,e){
+	     			LC(f,e,'custBookerFlag');
+	     		},buffer:BF
+	     	}
      	}
 	});
 		
-	var cboOperator = new Ext.form.ComboBox({fieldLabel:C_OPERATOR,
-		itemCls:'required',
-		tabIndex:2,
-		name:'consOperatorName',
-		value:p.get('consOperatorName'),
-     	store:getOP_S(),
-     	xtype:'combo',
-     	displayField:'userName',
-     	valueField:'userId',
-     	typeAhead: true,
-     	mode: 'local',
-     	triggerAction: 'all',
-     	selectOnFocus:true,
-     	anchor:'95%',
-     	editable:false,
-     	listeners:{scope:this,
-			blur:function(f){
-				if(f.getRawValue()==''){
-					f.clearValue();
-					p.set('consOperatorId','');
-					p.set('consOperatorName','');
-				}
-			},
-			select:function(c,r,i){
-				p.set('consOperatorId',r.get('userId'));
-			}
-		}
-	});
-	
-	var txtContact = new Ext.form.TextField({fieldLabel:C_CONTACT,
-		tabIndex:6,
-		name:'custContact',
-		value:p.get('custContact'),
-		anchor:'95%'
-	});
-	
-	
+	//客户业务号
 	var txtRefNo = new Ext.form.TextField({fieldLabel:C_REF_NO,
 		tabIndex:10,
 		name:'consRefNo',
@@ -131,78 +216,13 @@ Fos.CudeConsignPanel = function(p,store) {
 	});
 	
 	
-	
-	var chkRequireRelief = new Ext.form.Checkbox({
-		tabIndex:20,
-		hidden:p.get('consBizClass')=='I',
-		labelSeparator:'',
-     	name:'consRequireRelief',
-     	checked:p.get('consRequireRelief')==1,
-     	boxLabel:C_REQUIRE_RELIEF
-     });
-	
-	var cboSalesRep = new Ext.form.ComboBox({fieldLabel:C_SALES,
-		itemCls:'required',
-		tabIndex:3,
-		name:'consSalesRepName',
-		value:p.get('consSalesRepName'),
- 		store:getSALE_S(),
- 		displayField:'userName',
- 		editable:false,
- 		valueField:'userName',
- 		typeAhead: true,
- 		mode: 'local',
- 		triggerAction: 'all',
- 		selectOnFocus:true,anchor:'95%',
- 		listeners:{scope:this,
-			blur:function(f){
-				if(f.getRawValue()==''){
-					f.clearValue();
-					p.set('consSalesRepId','');
-					p.set('consSalesRepName','');
-				}
-			},
-	    	select:function(c,r,i){
-	    		p.set('consSalesRepId',r.get('userId'));
-	    	}
-		}
-	});
-	
-	var txtCustTel = new Ext.form.TextField({fieldLabel:C_PHONE,
-		tabIndex:7,
-		name:'custTel',
-		value:p.get('custTel'),
-		anchor:'95%'
-	});
-		
-	
-	var txtVerificationNo = new Ext.form.TextField({fieldLabel:C_VERIFICATION_NO,
-		tabIndex:17,
-		name:'consVerificationNo',
-		value:p.get('consVerificationNo'),
-	    xtype:'textfield',
-	    anchor:'95%'
-	});
-	
-	
-	
-	var RequireVerification = new Ext.form.Checkbox({
-		labelSeparator:'',
-		tabIndex:19,
-		name:'consRequireVerification',
-		checked:p.get('consRequireVerification')==1,
-    	boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP
-    });
-	
-	var cboDept = new Ext.form.ComboBox({fieldLabel:C_DEPT,
-		itemCls:'required',
-		tabIndex:4,
-		name:'deptId',
-		value:p.get('deptId'),
-		editable:false,
-		store:getGROU_S(),
-		displayField:'grouName',
-		valueField:'grouId',
+	//业务类型
+	var cboCudeBizType = new Ext.form.ComboBox({fieldLabel:C_BIZ_TYPE,
+		name:'cudeBizType',
+		value:p.get('cudeBizType'),
+		store:cudeBizTypeStore,
+		displayField:'NAME',
+		valueField:'NAME',
 		typeAhead: true,
 		mode: 'local',
 		triggerAction: 'all',
@@ -210,10 +230,26 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
-	var txtCustFax = new Ext.form.TextField({fieldLabel:C_FAX,
-		tabIndex:8,
-		name:'custFax',
-		value:p.get('custFax'),
+	
+	//合同号
+	var txtContractNo = new Ext.form.TextField({fieldLabel:C_CONTRACT_NO,
+		tabIndex:12,
+		name:'consContractNo',
+		value:p.get('consContractNo'),
+		anchor:'95%'
+	});
+	
+	//贸易方式
+	var cboTrtyName = new Ext.form.ComboBox({fieldLabel:C_TRTY,
+		itemCls:'required',
+		name:'trtyName',
+		store:getTRTY_S(),
+		displayField:'trtyName',
+		valueField:'trtyName',
+		typeAhead:true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
 		anchor:'95%'
 	});
 	
@@ -230,12 +266,13 @@ Fos.CudeConsignPanel = function(p,store) {
     		mode:'local',
     		triggerAction:'all',
     		selectOnFocus:true,
-    		anchor:'90%'
+    		anchor:'95%'
     });
     
     //结算单位
-	var cboSettlementObject = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,
-		anchor:"90%",
+	var cboSettlementObject = new Fos.CustomerLookup({fieldLabel:C_SETTLE_OBJECT,
+		custType:'',
+		anchor:"95%",
 		name:'settlementObjectName',
 		value:p.get('settlementObjectName'),
 		store:getCS(),
@@ -252,7 +289,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		 listeners:{scope:this,
 			 keydown:{
 				 fn:function(f,e){
-					 LC(f,e,t=='R'?'custArFlag':'custApFlag');
+					 LC(f,e,'');
 				 },buffer:500
 			},
 			blur:function(f){
@@ -282,6 +319,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'97.5%'
 	});
 	
+	//备注
 	var txtRemarks = new Ext.form.TextField({fieldLabel:C_REMARKS,
 		tabIndex:26,
 		name:'consRemarks',
@@ -295,16 +333,16 @@ Fos.CudeConsignPanel = function(p,store) {
 		padding:10,
 		items:[
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-				txtConsNo,cboBooker,cboConsCompany,cboSettlementWay
+				txtConsNo,cboBooker,cboCudeBizType,txtContractNo
 			]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-	      	 	cboOperator,txtContact,txtRefNo,cboSettlementObject
+	      	 	cboOperator,txtContact,cboConsCompany,cboTrtyName
 	  	    ]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-	      		cboSalesRep,txtCustTel,txtCustFax
+	      		cboSalesRep,txtCustTel,txtRefNo,cboSettlementWay
 	  	    ]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[         	        
-	      		cboDept,chkRequireRelief,RequireVerification
+	      		cboDept,txtCudeTitle,txtCustFax,cboSettlementObject
 	  		]},
 	  		{columnWidth:.5,layout:'form',border:false,labelWidth:80,items:[         	        
 	  		    cboServiceRequired
@@ -316,7 +354,8 @@ Fos.CudeConsignPanel = function(p,store) {
 	});
 	
 	//报关行
-	var cboCustomsVendor = new Ext.form.ComboBox({fieldLabel:C_CUSTOM_AGENCY,
+	var cboCustomsVendor = new Fos.CustomerLookup({fieldLabel:C_CUSTOM_AGENCY,
+		custType:'custCustomFlag',
 		tabIndex:21,
 		name:'consCustomsVendorName',
 		value:p.get('consCustomsVendorName'),
@@ -498,6 +537,24 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
 	
+	//是否需签发出口退税联
+	var chkRequireRelief = new Ext.form.Checkbox({
+		tabIndex:20,
+		hidden:p.get('consBizClass')=='I',
+		labelSeparator:'',
+     	name:'consRequireRelief',
+     	checked:p.get('consRequireRelief')==1,
+     	boxLabel:C_REQUIRE_RELIEF
+     });
+	
+	//是否需签发收汇核销联
+	var chkRequireVerification = new Ext.form.Checkbox({
+		labelSeparator:'',
+		tabIndex:19,
+		name:'consRequireVerification',
+		checked:p.get('consRequireVerification')==1,
+    	boxLabel:p.get('consBizClass')=='I'?C_REQUIRE_VERIFICATION_IMP:C_REQUIRE_VERIFICATION_EXP
+    });
 	
 	var recordPanel = new Ext.Panel({title:'操作记录',
 		border:true,
@@ -505,10 +562,10 @@ Fos.CudeConsignPanel = function(p,store) {
 		padding:10,
 		items:[
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
-				cboCustomsVendor,txtCustomsDeclearationNo,dtconsContainerLoadDate,chkCargDangerReportFlag
+				cboCustomsVendor,txtCustomsDeclearationNo,dtconsContainerLoadDate,chkCargDangerReportFlag,chkRequireRelief
 			]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[             	 	
-	      	 	txtCustomsContact,dtExchangeSingle,dtThreeInspection,dtCargDangerReportDate  			
+	      	 	txtCustomsContact,dtExchangeSingle,dtThreeInspection,dtCargDangerReportDate,chkRequireVerification	
 	  	    ]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[      		
 	      		txtCustomsTel,dtDeliveryDate,dtConsTrackLoadDate,chkCargReportFlag
@@ -596,7 +653,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		mode: 'remote',
 		triggerAction: 'all',
 		selectOnFocus:true,
-		anchor:'99%'
+		anchor:'95%'
 	});
 	
 	var cargoPanel = new Ext.Panel({title:'货物信息',
@@ -698,6 +755,7 @@ Fos.CudeConsignPanel = function(p,store) {
     
     //订舱代理做为船代
     var cboBookAgency = new Fos.CustomerLookup({fieldLabel:C_SHIPPING_AGENCY,
+    	custType:'',
     	tabIndex:39,
 		name:'consBookingAgencyName',
 		value:p.get('consBookingAgencyName'),
@@ -1178,6 +1236,9 @@ Fos.CudeConsignPanel = function(p,store) {
     	
     	if(btnCude) 
     		btnCude.setDisabled(p.get('rowAction')=='N');
+    	
+    	if(btnInsp) 
+    		btnInsp.setDisabled(p.get('rowAction')=='N');
     	
     	if(btnExpe) 
     		btnExpe.setDisabled(NR(m+M3_EXPE));

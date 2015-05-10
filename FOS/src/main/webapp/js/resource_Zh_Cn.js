@@ -1695,4 +1695,4 @@ var C_CARGO_REPORT = '货物备案';
 var C_CARGO_REPORT_DATE = '备案日期';
 var C_DOC_LIST = '单证清单';
 var C_DOC_SIGN = '单据签收单';
-
+var C_CUDE_TITLE = '职务';

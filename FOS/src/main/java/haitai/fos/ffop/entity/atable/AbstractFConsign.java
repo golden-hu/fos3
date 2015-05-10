@@ -219,6 +219,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String caclName;
 	private Integer trteId;
 	private Integer trtyId;
+	private String trtyName;
 	private Integer tranId;
 	private String tranCode;
 	private Integer tranIdCarrier;
@@ -342,7 +343,8 @@ public abstract class AbstractFConsign extends BaseDomain {
 	private String sewaName;
 	private Integer settlementObjectId;
 	private String settlementObjectName;
-	
+	private String cudeBizType;
+	private String cudeTitle;
 	
 	private Integer userId;
 	private Integer grouId;
@@ -2245,6 +2247,15 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.trtyId = trtyId;
 	}
 
+	@Column(name = "TRTY_NAME")
+	public String getTrtyName() {
+		return this.trtyName;
+	}
+
+	public void setTrtyName(String trtyName) {
+		this.trtyName = trtyName;
+	}
+	
 	@Column(name = "TRAN_ID")
 	public Integer getTranId() {
 		return this.tranId;
@@ -3844,6 +3855,26 @@ public abstract class AbstractFConsign extends BaseDomain {
 	public void setSettlementObjectName(String settlementObjectName) {
 		this.settlementObjectName = settlementObjectName;
 	}
+	
+	@Column(name = "CUDE_BIZ_TYPE")
+	public String getCudeBizType() {
+		return cudeBizType;
+	}
+
+	public void setCudeBizType(String cudeBizType) {
+		this.cudeBizType = cudeBizType;
+	}
+	
+	@Column(name = "CUDE_TITLE")
+	public String getCudeTitle() {
+		return cudeTitle;
+	}
+
+	public void setCudeTitle(String cudeTitle) {
+		this.cudeTitle = cudeTitle;
+	}
+	
+	
 	
 	
 	

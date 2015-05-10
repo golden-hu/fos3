@@ -935,6 +935,7 @@ CREATE TABLE F_CONSIGN (
 	CACL_NAME 					VARCHAR(200),
 	TRTE_ID 					INT,
 	TRTY_ID 					INT,
+	TRTY_NAME 					VARCHAR(32),
 	TRAN_ID 					INT,
 	TRAN_CODE 					VARCHAR(32),
 	TRAN_ID_CARRIER 			INT,
@@ -1088,7 +1089,9 @@ CREATE TABLE F_CONSIGN (
 	SEWA_NAME 						    VARCHAR(32), -- 结算方式
 	SETTLEMENT_OBJECT_ID				INT, -- 结算对象ID
 	SETTLEMENT_OBJECT_NAME				INT, -- 结算对象名称
-	CAPR_NAME 					VARCHAR(32), -- 货物属性
+	CAPR_NAME 							VARCHAR(32), -- 货物属性
+	CUDE_BIZ_TYPE 						VARCHAR(32), -- 关务业务类型  C-外贸集装箱  B-外贸散货 O - 其他
+	CUDE_TITLE 							VARCHAR(32), -- 关务业务 职务
 	
 	USER_ID 					INT,
 	GROU_ID 					INT,
