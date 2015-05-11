@@ -1268,7 +1268,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	});
 	
 	//账单号
-	var c3 = new Ext.form.TextField({fieldLabel:C_INVO_NO,
+	var txtInvoNo = new Ext.form.TextField({fieldLabel:C_INVO_NO,
 		tabIndex:3,
 		name:'invoNo',
 		disabled:true,
@@ -1277,23 +1277,21 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	});
 	
 	//币种
-	var c4 = new Ext.form.TextField({fieldLabel:C_CURR,
+	var txtCurr = new Ext.form.TextField({fieldLabel:C_CURR,
 		tabIndex:4,
 		name:'currCode',
 		allowBlank:false,
 		value:p.get('currCode'),
 		disabled:true,
-		xtype:'textfield',
 		anchor:'95%'
 	});
 	
 	//银行
-	var c5 = new Ext.form.ComboBox({fieldLabel:C_BANK,
+	var txtInvoBank = new Ext.form.ComboBox({fieldLabel:C_BANK,
 		tabIndex:5,
 		name:'invoBank',
 		value:p.get('invoBank'),
 		store:getCOBA_S(),
-		xtype:'combo',
 		displayField:'cobaBank',
 		valueField:'cobaBank',
 		typeAhead: true,
@@ -1312,22 +1310,20 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	});
 	
 	//账单日期
-	var c6 = new Ext.form.DateField({fieldLabel:HL(C_INVO_DATE),
+	var dtInvoDate = new Ext.form.DateField({fieldLabel:HL(C_INVO_DATE),
 		tabIndex:6,
 		name:'invoDate',
 		value:p.get('invoDate'),
-		xtype:'datefield',
 		format:DATEF,
 		anchor:'95%'
 	});
 	
 	//汇率
-	var c7 = new Ext.form.NumberField({fieldLabel:C_EX_RATE,
+	var txtInvoExRate = new Ext.form.NumberField({fieldLabel:C_EX_RATE,
 		tabIndex:7,
 		name:'invoExRate',
 		value:p.get('invoExRate'),
 		disabled:p.get('currCode')=='CNY',
-		xtype:'numberfield',
 		decimalPrecision:4,
 		anchor:'95%',
         listeners:{scope:this,
@@ -1351,60 +1347,71 @@ Fos.InvoiceTab = function(p,billNo,arr) {
         }
 	});
 	
-	var c8 = {fieldLabel:C_BANK_ACCOUNT,
+	//银行账号
+	var txtInvoAccount = new Ext.form.TextField({fieldLabel:C_BANK_ACCOUNT,
 		tabIndex:8,
 		name:'invoAccount',
 		value:p.get('invoAccount'),
-		xtype:'textfield',
 		anchor:'95%'
-	};
+	});
 	
-	var c9 = {fieldLabel:C_TAX_NO,
+	//发票号
+	var txtInvoTaxNo = new Ext.form.TextField({fieldLabel:C_TAX_NO,
 		disabled:p.get('invoType')=='R'?true:false,
 		tabIndex:9,
 		name:'invoTaxNo',
 		value:p.get('invoTaxNo'),
-		xtype:'textfield',
 		anchor:'95%'
-	};
+	});
 	
-	var c10 = {fieldLabel:C_INVO_AMOUNT,
+	//账单金额
+	var txtInvoAmount = new Ext.form.TextField({fieldLabel:C_INVO_AMOUNT,
 		tabIndex:10,
 		name:'invoAmount',
 		value:p.get('invoAmount'),
 		disabled:true,
-		xtype:'textfield',
 		anchor:'95%'
-	};
+	});
 	
-	var c11 = {fieldLabel:C_DUE_DATE,
+	//付款日期
+	var dtInvoDueDate = new Ext.form.DateField({fieldLabel:C_DUE_DATE,
 		tabIndex:11,
 		name:'invoDueDate',
 		value:p.get('invoDueDate'),
-		xtype:'datefield',
 		format:DATEF,
 		anchor:'95%'
-	};
+	});
 	
-	var c12 = {fieldLabel:C_WRITEOFFED_AMOUNT,
+	//已核销金额
+	var txtInvoAmountWriteOff = new Ext.form.TextField({fieldLabel:C_WRITEOFFED_AMOUNT,
 		tabIndex:12,
 		name:'invoAmountWriteOff',
 		value:p.get('invoAmountWriteOff'),
 		disabled:true,
-		xtype:'textfield',
 		anchor:'95%'
-	};	
+	});	
 	
-	var c14 = {fieldLabel:C_CONS_NO,
-		tabIndex:14,name:'invoConsNo',value:p.get('invoConsNo'),xtype:'textfield',anchor:'95%'};
+	//业务号
+	var txtInvoConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
+		tabIndex:14,
+		name:'invoConsNo',
+		value:p.get('invoConsNo'),
+		anchor:'95%'
+	});
 	
-	var c15={fieldLabel:C_DEBIT_NOTE,tabIndex:15,name:'invoDebitnoteFlag',checked:p.get('invoDebitnoteFlag')=='1',xtype:'checkbox',anchor:'95%'};
+	//是否DEBIT NOTE
+	var chkInvoDebitnoteFlag = new Ext.form.Checkbox({fieldLabel:C_DEBIT_NOTE,
+		tabIndex:15,
+		name:'invoDebitnoteFlag',
+		checked:p.get('invoDebitnoteFlag')=='1',
+		anchor:'95%'
+	});
 
+	//备注
 	var txtInvoRemarks = new Ext.form.TextArea({fieldLabel:C_REMARKS,
 		tabIndex:13,
 		name:'invoRemarks',
 		value:p.get('invoRemarks'),
-		xtype:'textarea',
 		anchor:'97.5%'
 	});
 	
@@ -1412,12 +1419,9 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		id: 'T_INVO_'+p.get('id'),
 		title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),
 		layout:'border',
-		//autoScroll:true,
 		labelAlign:'right',
 		closable:true,
-		//labelWidth:70,
 		border:false,
-		//width:800,
 		tbar:p.get('invoType')=='R'?[btSave,'-',btnRemove,'-',btnAudit,'-',btnCancelAudit,'-',btnInvalid,'-',btnModifyInvoiceNo,'-',btnExport,'-',btnAdd,'-',btnWriteOff,'->','-',btnStatus,'-']:
 									[btSave,'-',btnRemove,'-',btnAudit,'-',btnCancelAudit,'-',btnInvalid,'-',btnExpoftAp,'-',btnAdd,'-',btnWriteOff,'->','-',btnStatus,'-'],
 		bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
@@ -1426,29 +1430,45 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 				{xtype:'tbtext',text:C_MODIFY_TIME_C+formatDateTime(p.get('modifyTime'))},'-',
 				{xtype:'tbtext',text:C_AUDIT_BY_C+getUSER(p.get('invoChecker'))},'-',
 				{xtype:'tbtext',text:C_AUDIT_TIME_C+formatDate(p.get('invoCheckDate'))}],
-		items: [{region:'north',layout:'column',height:200,layoutConfig:{columns:4},bodyStyle:'padding:5px 0px 0px 0px',title:'头信息',collapsible:true,
+		items: [{region:'north',
+			layout:'column',
+			height:180,
+			layoutConfig:{columns:4},
+			padding:10,
+			header:false,
+			border:false,
+			collapsible:true,
 	    	items:p.get('invoType')=='R'?[    		
 	    		{columnWidth:.5,layout:'form',border:false,items:[cboCustomer]},
 	        	{columnWidth:.5,layout:'form',border:false,items:[txtInvoTitel]},
-	        	{columnWidth:.25,layout:'form',border:false,items:[c3,c4,c5]},
-	            {columnWidth:.25,layout:'form',border:false,items: [c6,c7,c8]},
-	            {columnWidth:.25,layout: 'form',border : false,items: [c9,c10,c14]},
-	            {columnWidth:.25,layout: 'form',border : false,items: [c11,c12,c15]},
+	        	
+	        	{columnWidth:.25,layout:'form',border:false,items:[txtInvoNo,txtCurr,txtInvoBank]},
+	            {columnWidth:.25,layout:'form',border:false,items: [dtInvoDate,txtInvoExRate,txtInvoAccount]},
+	            {columnWidth:.25,layout: 'form',border : false,items: [txtInvoTaxNo,txtInvoAmount,txtInvoConsNo]},
+	            {columnWidth:.25,layout: 'form',border : false,items: [dtInvoDueDate,txtInvoAmountWriteOff,chkInvoDebitnoteFlag]},
+	            
 	            {columnWidth:.5,layout:'form',border:false,items:[txtInvoRemarks]}
 	            ]:[
 	            {columnWidth:.5,layout:'form',border:false,items:[cboCustomer]},
-				{columnWidth:.25,layout:'form',border:false,items:[c3]},
-				{columnWidth:.25,layout:'form',border:false,items:[c9]},				
-	            {columnWidth:.25,layout:'form',border:false,items:[c4,c5]},
-	            {columnWidth:.25,layout:'form',border:false,items: [c7,c8]},
-	            {columnWidth:.25,layout: 'form',border:false,items: [c10,c14]},
-	            {columnWidth:.25,layout: 'form',border : false,items: [c12,c15]},
+				{columnWidth:.25,layout:'form',border:false,items:[txtInvoNo]},
+				{columnWidth:.25,layout:'form',border:false,items:[txtInvoTaxNo]},		
+				
+	            {columnWidth:.25,layout:'form',border:false,items:[txtCurr,txtInvoBank]},
+	            {columnWidth:.25,layout:'form',border:false,items: [txtInvoExRate,txtInvoAccount]},
+	            {columnWidth:.25,layout: 'form',border:false,items: [txtInvoAmount,txtInvoConsNo]},
+	            {columnWidth:.25,layout: 'form',border : false,items: [txtInvoAmountWriteOff,chkInvoDebitnoteFlag]},
+	            
 	            {columnWidth:.5,layout:'form',border:false,items:[txtInvoRemarks]}
 	        ]},
-			{id:'T_INV_T_'+p.get('id'),xtype:'tabpanel',plain:true,region:'center',activeTab:0,
-	            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
-	            {id:'T_INV_LI_'+p.get('id'),layout:'fit',title:C_INVO_LINE+'(L)',
-	            	items:[this.entryGrid]}]:[{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
+			{id:'T_INV_T_'+p.get('id'),
+	        	xtype:'tabpanel',
+	        	plain:true,
+	        	region:'center',
+	        	activeTab:0,
+	        	border:false,
+	            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',border:false,title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
+	            {id:'T_INV_LI_'+p.get('id'),layout:'fit',border:false,title:C_INVO_LINE,items:[this.entryGrid]}]:
+	            [{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
 	        ]
 	});
 };
