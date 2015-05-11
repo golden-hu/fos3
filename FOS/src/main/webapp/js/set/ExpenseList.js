@@ -1,10 +1,17 @@
 //应收应付费用管理
 Fos.ExpenseList = function(t){
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL,
-		baseParams:{A:'EXPE_X_S',mt:'xml',expeType:t},
+		baseParams:{
+			A:'EXPE_X_S',
+			mt:'xml',
+			expeType:t
+		},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
 			record:'SExpense',idProperty:'expeId'},SExpense),
-		sortInfo:{field:'consNo', direction:'DESC'},remoteSort:true,autoLoad:false});
+		sortInfo:{field:'consNo', direction:'DESC'},
+		remoteSort:true,
+		autoLoad:false
+	});
 	
 	var consNo = {header:C_CONS_NO,dataIndex:'consNo',width:150};
 	
@@ -57,101 +64,7 @@ Fos.ExpenseList = function(t){
 		title=C_EXPE_D;
 	}
 	
-	//生成账单
-	this.genInvoice=function(){
-    	var a = sm.getSelections();
-    	if(a.length>0){
-    		for(var j=0;j < a.length;j++){
-    			if(a[j].get('rowAction')=='N'){
-    				XMG.alert(SYS,M_SAVE_FIRST);
-    				return;
-    			}else if(a[j].get('expeInvoiceNo').length>0){
-    				XMG.alert(SYS,C_INVOCIE_NO_EXISTED);
-    				return;
-    			}else if(a[0].get('custId')!=a[j].get('custId')){
-    				XMG.alert(SYS,C_SETTLE_OBJECT_DIFFERENT);
-    				return
-    			}
-    		}
-    		var currCode='CNY';
-    		for(var i=0;i<a.lenth;i++){
-    			if(a[i].get('currCode')!=currCode){
-    				currCode = a[i].get('currCode');
-    				break;
-    			}
-    		}
-    		if(currCode != a[0].get('currCode')){
-    			var w=new Fos.CurrencyWin();
-        		w.addButton({text:C_OK,scope:this,handler:function(){
-        			currCode = w.findById('currCode').getValue();
-        			w.close();
-        			var id=GGUID();
-        			var e = new SInvoice({invoId:id,
-        				id:id,invoNo:'N'+id,
-        				custId:a[0].get('custId'),
-        				custName:a[0].get('custName'),
-        				custSname:a[0].get('custSname'),
-        				invoTitle:a[0].get('custName'),
-        				currCode:currCode,
-        				invoType:t=='P'?'P':'R',
-        				invoDate:new Date(),
-        				invoExRate:getExRate(currCode,'CNY'),
-        				invoWriteOffStatus:'0',
-        				invoPrFlag:'0',
-        				invoUploadFlag:'0',
-        				invoStatus:'0',
-        				version:'0',
-        				rowAction:'N'});
-        			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
-        			T_MAIN.setActiveTab(tab);
-        		}},this);
-        		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);
-        		w.show();
-    		}
-    		else{
-    			var id=GGUID();
-    			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
-    				custId:a[0].get('custId'),
-    				custName:a[0].get('custName'),
-    				custSname:a[0].get('custSname'),
-    				invoTitle:a[0].get('custName'),
-    				currCode:currCode,
-    				invoType:t=='P'?'P':'R',
-    				invoDate:new Date(),
-    				invoExRate:getExRate(currCode,'CNY'),
-    				invoWriteOffStatus:'0',
-    				invoPrFlag:'0',
-    				invoUploadFlag:'0',
-    				invoStatus:'0',
-    				version:'0',rowAction:'N'});
-    			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
-    			T_MAIN.setActiveTab(tab);
-    		}
-    	}else{
-    		XMG.alert(SYS,M_NO_DATA_SELECTED);
-    	}
-    };
-    
-    //生成对帐单
-    this.genBill = function(){
-    	var r = sm.getSelections();
-    	var id = GGUID();
-    	if(r.length>0){
-    		for(var i=0;i<r.length;i++){
-    			if(r[i].get('expeBillStatus')!=0){
-    				XMG.alert(SYS,C_BILL_NO_EXISTED);
-    				return;
-    			}
-    		}
-    		var e = new SBill({id:id,billId:id,billNo:'N'+id,custId:r[0].get('custId'),custName:r[0].get('custName'),
-    			custSname:r[0].get('custSname'),
-				billType:t,billDate:new Date(),currCode:'CNY',billStatus:'0',version:'0',rowAction:'N'});
-			var tab = T_MAIN.add(new Fos.BillTab(e,r));
-			T_MAIN.setActiveTab(tab);
-    	}else{
-    		XMG.alert(SYS,M_NO_DATA_SELECTED);
-    	}
-    };
+	
     
 	//业务号
 	var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
@@ -160,7 +73,7 @@ Fos.ExpenseList = function(t){
 	});
 	
 	//结算单位
-	var cboCustId = new Ext.form.ComboBox({fieldLabel:C_SETTLE_OBJECT,
+	var cboCustId = new Fos.CustomerLookup({fieldLabel:C_SETTLE_OBJECT,
 		anchor:"90%",
 		name:'custId',
 		store:getCS(),
@@ -175,7 +88,11 @@ Fos.ExpenseList = function(t){
 		 triggerAction:'all',
 		 selectOnFocus:true,
 		 listeners:{scope:this,
-			 keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}
+			 keydown:{
+				 fn:function(f,e){
+					 LC(f,e,'');
+				 },buffer:500
+			}
 		 }
 	});
 	
@@ -335,20 +252,129 @@ Fos.ExpenseList = function(t){
 		}
 	};
 	
-	var btnExport = new Ext.Button({text:C_EXPORT,iconCls:'print',
-		scope:this,handler:exportExpense});
+	var btnExport = new Ext.Button({text:C_EXPORT,
+		iconCls:'print',
+		scope:this,
+		handler:exportExpense
+	});
 	
    
+	//生成账单
+	this.genInvoice=function(){
+    	var a = sm.getSelections();
+    	if(a.length>0){
+    		for(var j=0;j < a.length;j++){
+    			if(a[j].get('rowAction')=='N'){
+    				XMG.alert(SYS,M_SAVE_FIRST);
+    				return;
+    			}else if(a[j].get('expeInvoiceNo').length>0){
+    				XMG.alert(SYS,C_INVOCIE_NO_EXISTED);
+    				return;
+    			}else if(a[0].get('custId')!=a[j].get('custId')){
+    				XMG.alert(SYS,C_SETTLE_OBJECT_DIFFERENT);
+    				return
+    			}
+    		}
+    		var currCode='CNY';
+    		for(var i=0;i<a.lenth;i++){
+    			if(a[i].get('currCode')!=currCode){
+    				currCode = a[i].get('currCode');
+    				break;
+    			}
+    		}
+    		if(currCode != a[0].get('currCode')){
+    			var w=new Fos.CurrencyWin();
+        		w.addButton({text:C_OK,scope:this,handler:function(){
+        			currCode = w.findById('currCode').getValue();
+        			w.close();
+        			var id=GGUID();
+        			var e = new SInvoice({invoId:id,
+        				id:id,invoNo:'N'+id,
+        				custId:a[0].get('custId'),
+        				custName:a[0].get('custName'),
+        				custSname:a[0].get('custSname'),
+        				invoTitle:a[0].get('custName'),
+        				currCode:currCode,
+        				invoType:t=='P'?'P':'R',
+        				invoDate:new Date(),
+        				invoExRate:getExRate(currCode,'CNY'),
+        				invoWriteOffStatus:'0',
+        				invoPrFlag:'0',
+        				invoUploadFlag:'0',
+        				invoStatus:'0',
+        				version:'0',
+        				rowAction:'N'});
+        			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
+        			T_MAIN.setActiveTab(tab);
+        		}},this);
+        		w.addButton({text:C_CANCEL,handler:function(){w.close();}},this);
+        		w.show();
+    		}
+    		else{
+    			var id=GGUID();
+    			var e = new SInvoice({invoId:id,id:id,invoNo:'N'+id,
+    				custId:a[0].get('custId'),
+    				custName:a[0].get('custName'),
+    				custSname:a[0].get('custSname'),
+    				invoTitle:a[0].get('custName'),
+    				currCode:currCode,
+    				invoType:t=='P'?'P':'R',
+    				invoDate:new Date(),
+    				invoExRate:getExRate(currCode,'CNY'),
+    				invoWriteOffStatus:'0',
+    				invoPrFlag:'0',
+    				invoUploadFlag:'0',
+    				invoStatus:'0',
+    				version:'0',rowAction:'N'});
+    			var tab = T_MAIN.add(new Fos.InvoiceTab(e,'',a));
+    			T_MAIN.setActiveTab(tab);
+    		}
+    	}else{
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
+    	}
+    };
+    
+    //生成对帐单
+    this.genBill = function(){
+    	var r = sm.getSelections();
+    	var id = GGUID();
+    	if(r.length>0){
+    		for(var i=0;i<r.length;i++){
+    			if(r[i].get('expeBillStatus')!=0){
+    				XMG.alert(SYS,C_BILL_NO_EXISTED);
+    				return;
+    			}
+    		}
+    		var e = new SBill({id:id,billId:id,billNo:'N'+id,custId:r[0].get('custId'),custName:r[0].get('custName'),
+    			custSname:r[0].get('custSname'),
+				billType:t,billDate:new Date(),currCode:'CNY',billStatus:'0',version:'0',rowAction:'N'});
+			var tab = T_MAIN.add(new Fos.BillTab(e,r));
+			T_MAIN.setActiveTab(tab);
+    	}else{
+    		XMG.alert(SYS,M_NO_DATA_SELECTED);
+    	}
+    };
+    
     //生成账单按钮
-	var genInvoice = new Ext.Button({text:C_GEN_INVOICE,iconCls:'save',
-		scope:this,handler:this.genInvoice});
+	var genInvoice = new Ext.Button({text:C_GEN_INVOICE,
+		iconCls:'save',
+		scope:this,
+		handler:this.genInvoice
+	});
 	
 	//生成对帐单
-	var genBill = new Ext.Button({text:C_GEN_BILL,iconCls:'save',scope:this,
-			handler:this.genBill});
+	var genBill = new Ext.Button({text:C_GEN_BILL,
+		iconCls:'save',
+		scope:this,
+		handler:this.genBill
+	});
 	
 	 //查询按钮
-	var searchButton = {text:C_SEARCH,iconCls:'search',scope:this,handler:this.reload};
+	var searchButton = new Ext.Button({text:C_SEARCH,
+		iconCls:'search',
+		scope:this,
+		handler:this.reload
+	});
 	
 	var selectPanel = new Ext.Panel({plain:true,height:100,layout:'column',region:'north',
 		defaults:{bodyStyle:'padding:10px'},items:[
@@ -379,9 +405,13 @@ Fos.ExpenseList = function(t){
 	});
 
 	Fos.ExpenseList.superclass.constructor.call(this,{
-		id:'EXPENSE_'+t,title:title,closable:true,layout:'border',
+		id:'EXPENSE_'+t,
+		title:title,
+		closable:true,
+		layout:'border',
 		items:[selectPanel,this.grid]
 	});
+	
 	store.load({params:{start:0,limit:200}});
 };
 Ext.extend(Fos.ExpenseList,Ext.Panel);

@@ -244,6 +244,7 @@ Fos.InvoiceGrid = function(t) {
            	if(btn=='yes'){
            		var b = false;
            		var c = false;
+           		
                	for(var i=0;i<a.length;i++){
                		if(a[i].get('invoStatus')!='0') {
                			b=true;
@@ -252,31 +253,42 @@ Fos.InvoiceGrid = function(t) {
                			c=true;
                		}
                	}
+               	
                	if(b) {
                		XMG.alert(SYS,M_INVO_CONFIRMED);
-               	}else if(c) {
+               	}
+               	else if(c) {
                		XMG.alert(SYS,C_IS_WRITEOFF);
                	}
                	else {
                		var xml = SMTX4R(sm,'SInvoice','invoId');
-               		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'INVO_S'},
-					success: function(){sm.each(function(p){store.remove(p);});XMG.alert(SYS,M_S);},
-					failure: function(r,o){XMG.alert(SYS,M_F+r.responseText);},
-					xmlData:FOSX(xml)});
+               		Ext.Ajax.request({url:SERVICE_URL,
+               			method:'POST',
+               			params:{
+               				A:'INVO_S'
+               			},
+               			success: function(){
+               				sm.each(function(p){store.remove(p);});
+               				XMG.alert(SYS,M_S);
+               			},
+               			failure: function(r,o){
+               				XMG.alert(SYS,M_F+r.responseText);
+               			},
+               			xmlData:FOSX(xml)
+               		});
                	}
            }});
 		}
        	else XMG.alert(SYS,M_R_P);
     };
     
-    var b8={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch}; 
-    var b9={text:C_RESET,iconCls:'refresh',handler:this.reset};
     
     this.pagingNav=function(page){
         var tc = T_MAIN.getComponent('G_INVO_'+t);
         if(tc&&tc==T_MAIN.getActiveTab()){
             var pt = this.getBottomToolbar();
-            if (!pt[page].disabled) pt.onClick(page);
+            if (!pt[page].disabled) 
+            	pt.onClick(page);
          }
     };
     
@@ -297,22 +309,70 @@ Fos.InvoiceGrid = function(t) {
 		}
     };
     
+    var btnAdd = new Ext.Button({text:C_ADD,
+    	disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),
+    	iconCls:'add',
+    	scope:this,
+    	handler:this.add
+    });
+    
+    var btnEdit = new Ext.Button({text:C_EDIT,
+    	disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),
+    	iconCls:'option',
+    	handler:this.edit
+    });
+    
+    var btnRemove = new Ext.Button({text:C_REMOVE,
+    	disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R),
+    	iconCls:'remove',
+    	handler:this.removeInvo
+    });
+    
+    var btnSearch = new Ext.Button({text:C_SEARCH,
+    	iconCls:'search',
+    	handler:this.search
+    });
+    
+    var btnExport = new Ext.Button({text:C_EXPORT,
+    	disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),
+    	iconCls:'print',
+    	handler:this.exp
+    });
+    
+    var btnFastSearch = new Ext.Button({text:C_FAST_SEARCH,
+    	iconCls:'search',
+    	handler:this.fastSearch
+    }); 
+    
+    var btnReset = new Ext.Button({text:C_RESET,
+    	iconCls:'refresh',
+    	handler:this.reset
+    });
+    
+    
 	Fos.InvoiceGrid.superclass.constructor.call(this, {    
-    id:'G_INVO_'+t,iconCls:'grid',store: store,title:t=='R'?C_INVO_R_MGT:C_INVO_P_MGT,header:false,autoScroll:true,
-	sm:sm,cm:cm,stripeRows:true,closable:true,listeners:rowCtxEvents,view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:[{text:C_ADD,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'add',scope:this,handler:this.add},'-',
-		{text:C_EDIT,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_M),iconCls:'option',handler:this.edit},'-',
-		{text:C_REMOVE,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_R),iconCls:'remove',handler:this.removeInvo},'-',
-		{text:C_SEARCH,iconCls:'search',handler:this.search},'-',
-		{text:C_EXPORT,disabled:NR(M1_S+(t=='R'?S_INVO_R:S_INVO_P)+F_E),iconCls:'print',handler:this.exp},'-',
-        kw,b8,'-',b9,'-'],
-	bbar:PTB(store,C_PS)});
+	    id:'G_INVO_'+t,
+	    iconCls:'grid',
+	    store: store,
+	    title:t=='R'?C_INVO_R_MGT:C_INVO_P_MGT,
+	    header:false,
+	    autoScroll:true,
+		sm:sm,
+		cm:cm,
+		stripeRows:true,
+		closable:true,
+		listeners:rowCtxEvents,
+		view:new Ext.grid.GroupingView(groupViewCfg),
+		tbar:[btnAdd,'-',btnEdit,'-',btnRemove,'-',btnSearch,'-',btnExport,'-',kw,btnFastSearch,'-',btnReset,'-'],
+		bbar:PTB(store,C_PS)
+	});
 };
 Ext.extend(Fos.InvoiceGrid, Ext.grid.GridPanel);
 
 Fos.ExpenseLookupWin = function(store) {
 	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:false}); 
 	var rowNum = new Ext.grid.RowNumberer();
+	
 	var cm=new Ext.grid.ColumnModel({columns:[rowNum,sm,
 		{header:C_SETTLE_OBJECT,width:200,dataIndex:"custName"},		
 		{header:C_CONS_NO,width:120,dataIndex:"consNo"},		
@@ -333,18 +393,37 @@ Fos.ExpenseLookupWin = function(store) {
 		{header:C_INVO_NO,width:100,dataIndex:"expeInvoiceNo"},
 		{header:C_INVO_TITLE,width:200,dataIndex:"expeInvoiceTitle"},
 		{header:C_REMARKS,width:100,dataIndex:"expeRemarks"}
-		],defaults:{sortable:true,width:100}});
+		],defaults:{sortable:true,width:100}
+	});
+	
 	var filters = new Ext.grid.GridFilters({
 		  filters:[{type: 'string',  dataIndex: 'consNo'},
 		    {type: 'string',  dataIndex: 'charName'},
 		    {type: 'string',  dataIndex: 'currCode'},
 		    {type: 'date',  dataIndex: 'consSailDate'},
-		    {type: 'numeric', dataIndex: 'expeTotalAmount'}]});
+		    {type: 'numeric', dataIndex: 'expeTotalAmount'}]
+	});
+	
     this.grid = new Ext.grid.GridPanel({ 
-    header:false,store:store,sm:sm,cm:cm,plugins:filters,loadMask:true,view:new Ext.grid.GroupingView(groupViewCfg)});	
+    	header:false,
+    	store:store,
+    	sm:sm,
+    	cm:cm,
+    	plugins:filters,
+    	loadMask:true,
+    	view:new Ext.grid.GroupingView(groupViewCfg)
+    });	
    
-    Fos.ExpenseLookupWin.superclass.constructor.call(this,{title:C_ADD_EXPE,modal:true,layout:'fit',width:900,
-        height:600,plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:this.grid
+    Fos.ExpenseLookupWin.superclass.constructor.call(this,{
+    	title:C_ADD_EXPE,
+    	modal:true,
+    	layout:'fit',
+    	width:900,
+        height:600,
+        plain:false,
+        bodyStyle:'padding:0px;',
+        buttonAlign:'right',
+        items:this.grid
     }); 
 };
 Ext.extend(Fos.ExpenseLookupWin,Ext.Window);
@@ -409,7 +488,8 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 	
 	if(billNo){
 		showInvoiceItem();
-	}else if(arr){
+	}
+	else if(arr){
 		showInvoiceItem();
 	}
 	else if(p.get('rowAction')!='N') 
@@ -533,72 +613,70 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 			this.reCalculate();
 		}
 	};
-	new Ext.KeyMap(Ext.getDoc(), {
-		key:'ad',ctrl:true,
-		handler: function(k, e) {
-		 	var tc = T_MAIN.getComponent('T_INVO_'+p.get('id'));
-		 	if(tc&&tc==T_MAIN.getActiveTab())			 	{
-		 		var ti=tc.getComponent('T_INV_T_'+p.get('id'));
-		 		var te=ti.getComponent('T_INV_EN_'+p.get('id'));		 		
-		 		if(te==ti.getActiveTab()){		 			
-		 			var tb=this.getTopToolbar();
-		 			switch(k) {
-			 		case Ext.EventObject.A:
-						if(!tb.getComponent('TB_A').disabled) this.add();break;
-			 		case Ext.EventObject.D:
-			 			if(!tb.getComponent('TB_B').disabled) this.removeInit();break;			 		
-					}
-		 		}
-		 	}
-		},stopEvent:true,scope:this});
+	
+	var btnAdd = new Ext.Button({itemId:'TB_A',
+		text:C_ADD,
+		iconCls:'add',
+		disabled:p.get('invoStatus')!='0',
+		scope:this,
+		handler:this.add
+	});
+	
+	var btnRemove = new Ext.Button({itemId:'TB_B',
+		text:C_REMOVE,
+		iconCls:'remove',
+		disabled:p.get('invoStatus')!='0',
+		scope:this,
+		handler:this.removeInit
+	});
 	
 	Fos.InvoItemGrid.superclass.constructor.call(this, {
-	id:'G_INVO_I'+p.get('id'),
-	border:true,
-	autoScroll:true,
-	clicksToEdit:1,
-	header:false,
-	height:270,
-	stripeRows:true,
-    store:store,
-    sm:sm,
-    cm:cm,
-    listeners:{scope:this,
-    	afteredit:function(e){
-    	var f=e.field;var r=e.record;
-    	if(f=='initInvoiceAmountOri'){
-			if(e.value>r.get('expeTotalAmount')-r.get('expeInvoiceAmount')){
-				XMG.alert(SYS,M_INVO_OVER,function(){
-					r.set('initInvoiceAmountOri',e.originalValue);
-					e.grid.stopEditing();e.grid.startEditing(e.row,e.column);
-				});
-			}
-			else{
-				r.set('initInvoiceAmount',round2(e.value*r.get('initExRate')/p.get('invoExRate')));
+		id:'G_INVO_I'+p.get('id'),
+		border:true,
+		autoScroll:true,
+		clicksToEdit:1,
+		header:false,
+		height:270,
+		stripeRows:true,
+	    store:store,
+	    sm:sm,
+	    cm:cm,
+	    listeners:{scope:this,
+	    	afteredit:function(e){
+	    	var f=e.field;var r=e.record;
+	    	if(f=='initInvoiceAmountOri'){
+				if(e.value>r.get('expeTotalAmount')-r.get('expeInvoiceAmount')){
+					XMG.alert(SYS,M_INVO_OVER,function(){
+						r.set('initInvoiceAmountOri',e.originalValue);
+						e.grid.stopEditing();e.grid.startEditing(e.row,e.column);
+					});
+				}
+				else{
+					r.set('initInvoiceAmount',round2(e.value*r.get('initExRate')/p.get('invoExRate')));
+					this.reCalculate();
+				}
+	    	}
+	    	else if(f=='initInvoiceAmount'){
+				var iv = round2(e.value*p.get('invoExRate')/r.get('initExRate'));
+				if(iv>r.get('expeTotalAmount')-r.get('expeInvoiceAmount')){
+					XMG.alert(SYS,M_INVO_OVER,function(){
+					r.set('initInvoiceAmount',e.originalValue);
+					e.grid.stopEditing();
+					e.grid.startEditing(e.row,e.column);
+					});				
+				}
+				else{
+					r.set('initInvoiceAmountOri',iv);
+					this.reCalculate();
+				}
+	    	}
+	    	else if(f=='initExRate'){			
+				r.set('initInvoiceAmount',round2(e.value*r.get('initInvoiceAmountOri')/p.get('invoExRate')));
 				this.reCalculate();
-			}
-    	}
-    	else if(f=='initInvoiceAmount'){
-			var iv = round2(e.value*p.get('invoExRate')/r.get('initExRate'));
-			if(iv>r.get('expeTotalAmount')-r.get('expeInvoiceAmount')){
-				XMG.alert(SYS,M_INVO_OVER,function(){
-				r.set('initInvoiceAmount',e.originalValue);
-				e.grid.stopEditing();
-				e.grid.startEditing(e.row,e.column);
-				});				
-			}
-			else{
-				r.set('initInvoiceAmountOri',iv);
-				this.reCalculate();
-			}
-    	}
-    	else if(f=='initExRate'){			
-			r.set('initInvoiceAmount',round2(e.value*r.get('initInvoiceAmountOri')/p.get('invoExRate')));
-			this.reCalculate();
-    	}
-    }},
-    tbar:[{itemId:'TB_A',text:C_ADD+'(A)',iconCls:'add',disabled:p.get('invoStatus')!='0',scope:this,handler:this.add}, '-', 		
-		{itemId:'TB_B',text:C_REMOVE+'(D)',iconCls:'remove',disabled:p.get('invoStatus')!='0',scope:this,handler:this.removeInit}]});
+	    	}
+	    }
+	},
+    tbar:[btnAdd, '-', btnRemove]});
 };    
 Ext.extend(Fos.InvoItemGrid, Ext.grid.EditorGridPanel);
 
@@ -631,10 +709,19 @@ Fos.InvoEntryGrid = function(p,frm) {
 		{header:C_CHAR,dataIndex:"charName",editor:new Ext.form.TextField({allowBlank:false,blankText:''})},
 		{header:C_QUANTITY,dataIndex:"inenNum",editor:new Ext.form.NumberField({decimalPrecision:4})},
 		{header:C_UNIT,hidden:true,dataIndex:"unitName",editor:new Ext.form.TextField()},		
-		{header:C_UNIT_PRICE,dataIndex:"inenUnitPrice",align:'right',renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4})},
+		{header:C_UNIT_PRICE,dataIndex:"inenUnitPrice",align:'right',renderer:rateRender,
+			editor:new Ext.form.NumberField({decimalPrecision:4})
+		},
 		{header:C_CURR_BASE,dataIndex:'currCode',width: 100,
-			editor:new Ext.form.ComboBox({displayField:'currCode',valueField:'currCode',triggerAction: 'all',
-            mode:'local',selectOnFocus:true,listClass:'x-combo-list-small',store:getCURR_S()})},		
+			editor:new Ext.form.ComboBox({displayField:'currCode',
+				valueField:'currCode',
+				triggerAction: 'all',
+				mode:'local',
+				selectOnFocus:true,
+				listClass:'x-combo-list-small',
+				store:getCURR_S()
+			})
+		},		
 		{header:C_ORI_AMOUNT,dataIndex:"inenTotalAmount",align:'right',renderer:numRender,editor:new Ext.form.NumberField()},
 		{header:C_EX_RATE,dataIndex:"inenExRate",renderer:rateRender,editor:new Ext.form.NumberField({decimalPrecision:4})},
 		{header:C_INVO_AMOUNT,dataIndex:"inenInvoiceAmount",align:'right',renderer:numRender,editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
@@ -691,7 +778,7 @@ Fos.InvoEntryGrid = function(p,frm) {
 		}
 	};
 	
-	this.refresh=function(){
+	this.refresh = function(){
 		var a=store.getRange();
 		for(var i=0;i<a.length;i++){
 			a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');
@@ -731,6 +818,38 @@ Fos.InvoEntryGrid = function(p,frm) {
 		p.set('invoAmountCapitalEn',p.get('currCode')+' '+N2D(total));
 	};
 	
+	var btnAdd = new Ext.Button({itemId:'TB_A',
+		text:C_ADD,
+		iconCls:'add',
+		disabled:p.get('invoStatus')!='0',
+		scope:this,
+		handler:this.add
+	});
+	
+	var btnRemove = new Ext.Button({itemId:'TB_B',
+		text:C_REMOVE,
+		iconCls:'remove',
+		disabled:p.get('invoStatus')!='0',
+		scope:this,
+		handler:this.removeInen
+	});
+	
+	var btnMerge = new Ext.Button({itemId:'TB_C',
+		text:C_MERGE,
+		iconCls:'save',
+		disabled:p.get('invoStatus')!='0',
+		scope:this,
+		handler:this.merge
+	});
+	
+	var btnRefresh = new Ext.Button({itemId:'TB_D',
+		text:C_REFRESH,
+		iconCls:'refresh',
+		disabled:p.get('invoStatus')!='0',
+		scope:this,
+		handler:this.refresh
+	});
+	
 	
 	Fos.InvoEntryGrid.superclass.constructor.call(this, {
 		id:'G_INVO_E'+p.get('id'),
@@ -766,11 +885,10 @@ Fos.InvoEntryGrid = function(p,frm) {
 				}
 		    }
 	    },
-	    bbar:[{xtype:'tbtext',text:C_TOTAL_AMOUNT_C},'-',sumEn,'-',{xtype:'tbtext',text:C_CAP_AMOUNT_C},'-',sumCap,'-',{xtype:'tbtext',text:C_CAP_AMOUNT_E},'-',sumCapEn],
-	    tbar:[{itemId:'TB_A',text:C_ADD,iconCls:'add',disabled:p.get('invoStatus')!='0',scope:this,handler:this.add}, '-',
-			{itemId:'TB_B',text:C_REMOVE,iconCls:'remove',disabled:p.get('invoStatus')!='0',scope:this,handler:this.removeInen},
-			{itemId:'TB_C',text:C_MERGE,iconCls:'save',disabled:p.get('invoStatus')!='0',scope:this,handler:this.merge},
-			{itemId:'TB_D',text:C_REFRESH,iconCls:'refresh',disabled:p.get('invoStatus')!='0',scope:this,handler:this.refresh}]
+	    bbar:[{xtype:'tbtext',text:C_TOTAL_AMOUNT_C},'-',sumEn,'-',
+	          {xtype:'tbtext',text:C_CAP_AMOUNT_C},'-',sumCap,'-',
+	          {xtype:'tbtext',text:C_CAP_AMOUNT_E},'-',sumCapEn],
+	    tbar:[btnAdd, '-',btnRemove,btnMerge,btnRefresh]
     });
 };    
 Ext.extend(Fos.InvoEntryGrid, Ext.grid.EditorGridPanel);
@@ -797,12 +915,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		p.beginEdit();
 		this.getForm().updateRecord(p);
 		p.endEdit();
-		
-		/*
-		if(p.get('invoAmount')<p.get('invoAmountEntry')){
-			XMG.alert(SYS,M_INVO_ENTRY_OVER);return;};		
-   	 	*/
-		
+				
    	 	var xml = RTX(p,'SInvoice',SInvoice);
    	 	var a = this.itemGrid.getStore().getModifiedRecords();
 		if(a.length>0){
@@ -998,52 +1111,56 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     	handler:this.save
     });
     
-    var b2={itemId:'TB_B',
+    var btnRemove = new Ext.Button({itemId:'TB_B',
     	text:C_REMOVE,
     	iconCls:'remove',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_R)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
     	scope:this,
     	handler:this.removeInvo
-    };
+    });
     
-    var b3={itemId:'TB_C',
+    //审核
+    var btnAudit = new Ext.Button({itemId:'TB_C',
     	text:C_AUDIT,
     	iconCls:'check',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='0'||p.get('rowAction')=='N',
     	scope:this,
     	handler:this.check
-    };
+    });
     
-    var b4={itemId:'TB_D',
+    //取消审核
+    var btnCancelAudit = new Ext.Button({itemId:'TB_D',
     	text:C_CANCEL_AUDIT,
     	iconCls:'renew',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_A)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')==2,
     	scope:this,
     	handler:this.renew
-    };
+    });
     
-    var b5={itemId:'TB_E',
+    //作废
+    var btnInvalid = new Ext.Button({itemId:'TB_E',
     	text:C_INVALID,
     	iconCls:'cancel',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_F)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0',
     	scope:this,
     	handler:this.cancel
-    };
+    });
     
-    var b6={itemId:'TB_F',
+    var btnModifyInvoiceNo = new Ext.Button({itemId:'TB_F',
     	text:C_MODIFY_INVO_NO,
     	iconCls:'option',
     	disabled:NR(M1_S+(p.get('invoType')=='R'?S_INVO_R:S_INVO_P)+F_IM)||p.get('invoStatus')!='0'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
     	scope:this,
     	handler:this.editTax
-    };
+    });
     
     //导出发票，应收账单
     this.expDebitNote = function(){
     	EXPC('DEBIT_NOTE','&invoId='+p.get('invoId'));
     };
     
-    var b7 = {text:C_EXPORT+'(E)',iconCls:'print',
+    //导出应收账单
+    var btnExport = new Ext.Button({text:C_EXPORT+'(E)',iconCls:'print',
 		disabled:p.get('invoWriteOffStatus')!='0',
 		scope:this,menu: {
 			items: [
@@ -1051,112 +1168,127 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		        {text:'应收账单(DebitNote)',scope:this,handler:this.expDebitNote}
 		    ]
 		}
-	};
+	});
     
-    //应付账单
-	var b11={text:C_EXPORT,
+    //导出应付账单
+	var btnExpoftAp = new Ext.Button({text:C_EXPORT,
 		iconCls:'print',
 		disabled:p.get('invoWriteOffStatus')!='0',
 		scope:this,
 		menu: {items: [{text:'应付账单(CreditNote)',scope:this,handler:this.expDebitNote}]}
-	}; 
+	}); 
 	
-	var b8={itemId:'TB_M',
+	//状态
+	var btnStatus = new Ext.Button({itemId:'TB_M',
 		disabled:true,
 		text:C_STATUS_C+getIVST(p.get('invoStatus'))+'/'+getWRST(p.get('invoWriteOffStatus'))
-	};
+	});
 	
-	var b9={itemId:'TB_G',
+	//新增
+	var btnAdd = new Ext.Button({itemId:'TB_G',
 		text:C_ADD,
 		iconCls:'add',
 		scope:this,
 		handler:this.addInvoice
-	};
+	});
 	
-	var b10={itemId:'TB_H',
+	//核销
+	var btnWriteOff = new Ext.Button({itemId:'TB_H',
 		text:p.get('invoType')=='R'?C_WRITEOFF_R:C_WRITEOFF_P,
 		iconCls:'save',			 
-		disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
+		disabled:NR(M1_S+(p.get('invoType')=='R'?S_VOUC_R:S_VOUC_P)+F_M)
+			||p.get('invoStatus')!='1'||p.get('invoWriteOffStatus')!='0'||p.get('rowAction')=='N',
 		scope:this,
 		handler:this.genVoucher
-	};
+	});
 	
 	//结算单位
-	var cboCustomer = {fieldLabel:HL(C_SETTLE_OBJECT),
+	var cboCustomer = new Fos.CustomerLookup({
+		fieldLabel:HL(C_SETTLE_OBJECT),
 		tabIndex:1,
 		name:'custName',
 		value:p.get('custName'),
 		store:getCS(),
 		enableKeyEvents:true,
 		allowBlank:false,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead:true,
 		triggerAction:'all',
 		selectOnFocus:true,
-		anchor:'95%',
+		anchor:'97.5%',
    		mode:'local',
    		tpl:custTpl,
    		itemSelector:'div.list-item',
    		listWidth:400,
-   		listeners:{scope:this,
-   		select:function(c,r,i){
-			if(p.get('invoType')=='R'){
-				var invTitle=r.get('custInvoiceHeader');
-				if(!invTitle) invTitle=r.get('custNameCn');				
-				this.find('name','invoTitle')[0].setValue(invTitle);
-				var dd=r.get('custCreditDay');
-				if(!dd) dd=getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS');
-				this.find('name','invoDueDate')[0].setValue(new Date().add(Date.DAY,parseInt(dd)));
+   		listeners:{
+   			scope:this,
+   			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('custId','');
+					p.set('custSname','');
+					p.set('custName','');
+					p.set('invoTitle','');				
+				}
+			},
+   			select:function(c,r,i){
+				if(p.get('invoType')=='R'){
+					var invTitle=r.get('custInvoiceHeader');
+					if(!invTitle) invTitle=r.get('custNameCn');				
+					this.find('name','invoTitle')[0].setValue(invTitle);
+					var dd=r.get('custCreditDay');
+					if(!dd) dd=getCFG('CUSTOMER_DEFAULT_CRDIT_DAYS');
+					this.find('name','invoDueDate')[0].setValue(new Date().add(Date.DAY,parseInt(dd)));
+				}
+				else
+				{
+					p.set('invoTitle',r.get('custNameCn'));				
+				}
+				
+				p.set('custId',r.get('custId'));
+				p.set('custSname',r.get('custCode'));
+				p.set('custName',r.get('custNameCn'));
+				c.setValue(r.get('custNameCn'));
+			},
+			keydown:{fn:function(f,e){
+				LC(f,e,'');
+				},buffer:500
 			}
-			else{
-				p.set('invoTitle',r.get('custNameCn'));				
-			}
-			p.set('custId',r.get('custId'));
-			p.set('custSname',r.get('custCode'));
-			p.set('custName',r.get('custNameCn'));
-			c.setValue(r.get('custNameCn'));
-		},
-		keydown:{fn:function(f,e){
-			LC(f,e,p.get('invoType')=='R'?'custArFlag':'custApFlag');
-			},buffer:500}
 		}
-	};
+	});
 	
 	//发票抬头
-	var txtInvoTitel = {fieldLabel:HL(C_INVO_TITLE),
+	var txtInvoTitel = new Ext.form.TextField({fieldLabel:HL(C_INVO_TITLE),
 		tabIndex:2,
 		name:'invoTitle',
 		allowBlank:false,
 		value:p.get('invoTitle'),
-		xtype:'textfield',
-		anchor:'95%'
-	};
+		anchor:'97.5%'
+	});
 	
 	//账单号
-	var c3={fieldLabel:C_INVO_NO,
+	var c3 = new Ext.form.TextField({fieldLabel:C_INVO_NO,
 		tabIndex:3,
 		name:'invoNo',
 		disabled:true,
 		value:p.get('invoNo'),
-		xtype:'textfield',
-		anchor:'90%'
-	};
+		anchor:'95%'
+	});
 	
 	//币种
-	var c4={fieldLabel:C_CURR,
+	var c4 = new Ext.form.TextField({fieldLabel:C_CURR,
 		tabIndex:4,
 		name:'currCode',
 		allowBlank:false,
 		value:p.get('currCode'),
 		disabled:true,
 		xtype:'textfield',
-		anchor:'90%'
-	};
+		anchor:'95%'
+	});
 	
 	//银行
-	var c5={fieldLabel:C_BANK,
+	var c5 = new Ext.form.ComboBox({fieldLabel:C_BANK,
 		tabIndex:5,
 		name:'invoBank',
 		value:p.get('invoBank'),
@@ -1168,7 +1300,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 		mode: 'local',
 		triggerAction: 'all',
 		selectOnFocus:true,
-		anchor:'90%',
+		anchor:'95%',
     	listeners:{scope:this,
     		select:function(c,r,i){
     			this.find('name','invoAccount')[0].setValue(r.get('cobaAccount'));
@@ -1177,27 +1309,27 @@ Fos.InvoiceTab = function(p,billNo,arr) {
     			cbx.store.filterBy(function(rec,id){return rec.get('currCode')==p.get('currCode');});
     		}
     	}
-	};
+	});
 	
 	//账单日期
-	var c6={fieldLabel:HL(C_INVO_DATE),
+	var c6 = new Ext.form.DateField({fieldLabel:HL(C_INVO_DATE),
 		tabIndex:6,
 		name:'invoDate',
 		value:p.get('invoDate'),
 		xtype:'datefield',
 		format:DATEF,
-		anchor:'90%'
-	};
+		anchor:'95%'
+	});
 	
 	//汇率
-	var c7={fieldLabel:C_EX_RATE,
+	var c7 = new Ext.form.NumberField({fieldLabel:C_EX_RATE,
 		tabIndex:7,
 		name:'invoExRate',
 		value:p.get('invoExRate'),
 		disabled:p.get('currCode')=='CNY',
 		xtype:'numberfield',
 		decimalPrecision:4,
-		anchor:'90%',
+		anchor:'95%',
         listeners:{scope:this,
         	change:function(f,nv,ov){
         		var a = this.itemGrid.getStore().getRange();
@@ -1217,31 +1349,77 @@ Fos.InvoiceTab = function(p,billNo,arr) {
         		}
         	}
         }
+	});
+	
+	var c8 = {fieldLabel:C_BANK_ACCOUNT,
+		tabIndex:8,
+		name:'invoAccount',
+		value:p.get('invoAccount'),
+		xtype:'textfield',
+		anchor:'95%'
 	};
 	
-	var c8={fieldLabel:C_BANK_ACCOUNT,tabIndex:8,name:'invoAccount',value:p.get('invoAccount'),xtype:'textfield',anchor:'90%'};
-	var c9={fieldLabel:C_TAX_NO,disabled:p.get('invoType')=='R'?true:false,tabIndex:9,name:'invoTaxNo',value:p.get('invoTaxNo'),xtype:'textfield',anchor:'90%'};
-	var c10={fieldLabel:C_INVO_AMOUNT,tabIndex:10,name:'invoAmount',value:p.get('invoAmount'),disabled:true,xtype:'textfield',anchor:'90%'};
-	var c11={fieldLabel:C_DUE_DATE,tabIndex:11,name:'invoDueDate',value:p.get('invoDueDate'),xtype:'datefield',format:DATEF,anchor:'90%'};
-	var c12={fieldLabel:C_WRITEOFFED_AMOUNT,tabIndex:12,name:'invoAmountWriteOff',value:p.get('invoAmountWriteOff'),disabled:true,xtype:'textfield',anchor:'90%'};
-	var c13={fieldLabel:C_REMARKS,tabIndex:13,name:'invoRemarks',value:p.get('invoRemarks'),xtype:'textarea',anchor:'90%'};
-	var c14={fieldLabel:C_CONS_NO,tabIndex:14,name:'invoConsNo',value:p.get('invoConsNo'),xtype:'textfield',anchor:'90%'};
-	var c15={fieldLabel:C_DEBIT_NOTE,tabIndex:15,name:'invoDebitnoteFlag',checked:p.get('invoDebitnoteFlag')=='1',xtype:'checkbox',anchor:'90%'};
+	var c9 = {fieldLabel:C_TAX_NO,
+		disabled:p.get('invoType')=='R'?true:false,
+		tabIndex:9,
+		name:'invoTaxNo',
+		value:p.get('invoTaxNo'),
+		xtype:'textfield',
+		anchor:'95%'
+	};
+	
+	var c10 = {fieldLabel:C_INVO_AMOUNT,
+		tabIndex:10,
+		name:'invoAmount',
+		value:p.get('invoAmount'),
+		disabled:true,
+		xtype:'textfield',
+		anchor:'95%'
+	};
+	
+	var c11 = {fieldLabel:C_DUE_DATE,
+		tabIndex:11,
+		name:'invoDueDate',
+		value:p.get('invoDueDate'),
+		xtype:'datefield',
+		format:DATEF,
+		anchor:'95%'
+	};
+	
+	var c12 = {fieldLabel:C_WRITEOFFED_AMOUNT,
+		tabIndex:12,
+		name:'invoAmountWriteOff',
+		value:p.get('invoAmountWriteOff'),
+		disabled:true,
+		xtype:'textfield',
+		anchor:'95%'
+	};	
+	
+	var c14 = {fieldLabel:C_CONS_NO,
+		tabIndex:14,name:'invoConsNo',value:p.get('invoConsNo'),xtype:'textfield',anchor:'95%'};
+	
+	var c15={fieldLabel:C_DEBIT_NOTE,tabIndex:15,name:'invoDebitnoteFlag',checked:p.get('invoDebitnoteFlag')=='1',xtype:'checkbox',anchor:'95%'};
 
+	var txtInvoRemarks = new Ext.form.TextArea({fieldLabel:C_REMARKS,
+		tabIndex:13,
+		name:'invoRemarks',
+		value:p.get('invoRemarks'),
+		xtype:'textarea',
+		anchor:'97.5%'
+	});
 	
 	Fos.InvoiceTab.superclass.constructor.call(this, { 
 		id: 'T_INVO_'+p.get('id'),
 		title:(p.get('invoType')=='R'?C_AR:C_AP)+C_INVO+'-'+p.get('invoNo'),
 		layout:'border',
-		autoScroll:true,
+		//autoScroll:true,
 		labelAlign:'right',
 		closable:true,
-		labelWidth:70,
-		bodyStyle:'padding:0px 0px 20px 0px',
+		//labelWidth:70,
 		border:false,
-		width:800,
-		tbar:p.get('invoType')=='R'?[btSave,'-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',b7,'-',b9,'-',b10,'->','-',b8,'-']:
-									[btSave,'-',b2,'-',b3,'-',b4,'-',b5,'-',b11,'-',b9,'-',b10,'->','-',b8,'-'],
+		//width:800,
+		tbar:p.get('invoType')=='R'?[btSave,'-',btnRemove,'-',btnAudit,'-',btnCancelAudit,'-',btnInvalid,'-',btnModifyInvoiceNo,'-',btnExport,'-',btnAdd,'-',btnWriteOff,'->','-',btnStatus,'-']:
+									[btSave,'-',btnRemove,'-',btnAudit,'-',btnCancelAudit,'-',btnInvalid,'-',btnExpoftAp,'-',btnAdd,'-',btnWriteOff,'->','-',btnStatus,'-'],
 		bbar:[{xtype:'tbtext',text:C_CREATE_BY_C+getUSER(p.get('createBy'))},'-',
 				{xtype:'tbtext',text:C_CREATE_TIME_C+formatDateTime(p.get('createTime'))},'-',
 				{xtype:'tbtext',text:C_MODIFY_BY_C+getUSER(p.get('modifyBy'))},'-',
@@ -1256,7 +1434,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	            {columnWidth:.25,layout:'form',border:false,items: [c6,c7,c8]},
 	            {columnWidth:.25,layout: 'form',border : false,items: [c9,c10,c14]},
 	            {columnWidth:.25,layout: 'form',border : false,items: [c11,c12,c15]},
-	            {columnWidth:.99,layout:'form',border:false,items:[c13]}
+	            {columnWidth:.5,layout:'form',border:false,items:[txtInvoRemarks]}
 	            ]:[
 	            {columnWidth:.5,layout:'form',border:false,items:[cboCustomer]},
 				{columnWidth:.25,layout:'form',border:false,items:[c3]},
@@ -1265,7 +1443,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	            {columnWidth:.25,layout:'form',border:false,items: [c7,c8]},
 	            {columnWidth:.25,layout: 'form',border:false,items: [c10,c14]},
 	            {columnWidth:.25,layout: 'form',border : false,items: [c12,c15]},
-	            {columnWidth:.99,layout:'form',border:false,items:[c13]}
+	            {columnWidth:.5,layout:'form',border:false,items:[txtInvoRemarks]}
 	        ]},
 			{id:'T_INV_T_'+p.get('id'),xtype:'tabpanel',plain:true,region:'center',activeTab:0,
 	            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
@@ -1281,43 +1459,43 @@ Fos.InvoLookupWin = function(t) {
 	var frmLookup = new Ext.form.FormPanel({labelWidth:70,labelAlign:"right",
     	items:[{id:'T_INVO_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:200,defaults:{bodyStyle:'padding:10px'},
             items:[{id:'T_INVO_LOOK_1',title:C_LOOK_BY_INVO_NO,layout:'form',
-				items:[{fieldLabel:C_INVO_NO,name:'invoNo',xtype:'textarea',anchor:'90%'},
+				items:[{fieldLabel:C_INVO_NO,name:'invoNo',xtype:'textarea',anchor:'95%'},
             	{boxLabel:C_LOOK_SMART,name:'invoNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
        			]},
        			{id:'T_INVO_LOOK_2',title:C_LOOK_BY_TAX_NO,layout:'form',
 				items: [
-					{fieldLabel:C_TAX_NO,name:'invoTaxNo',xtype:'textarea',anchor:'90%'},
+					{fieldLabel:C_TAX_NO,name:'invoTaxNo',xtype:'textarea',anchor:'95%'},
 					{boxLabel:C_LOOK_SMART,name:'invoTaxNoM',xtype:'checkbox',checked:true,labelSeparator:'',anchor:'50%'}
 				]},
         		{id:'T_INVO_LOOK_3',title:C_LOOK_COMPLEX,layout:'column',items:[
         			{columnWidth:.33,layout:'form',border:false,
 	             	items:[
 	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
-	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%',
+	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
 	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
-	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-        			{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'90%'},
-        			{fieldLabel:C_BL_NO,name:'consMblNo',xtype:'textfield',anchor:'90%'},
-        			{fieldLabel:C_INVO_STATUS,tabIndex:10,name:'invoStatus',store:IVST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-        			{fieldLabel:C_WRITEOFF_STATUS,name:'invoWriteOffStatus',xtype:'combo',store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'}
+	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
+        			{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'95%'},
+        			{fieldLabel:C_BL_NO,name:'consMblNo',xtype:'textfield',anchor:'95%'},
+        			{fieldLabel:C_INVO_STATUS,tabIndex:10,name:'invoStatus',store:IVST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
+        			{fieldLabel:C_WRITEOFF_STATUS,name:'invoWriteOffStatus',xtype:'combo',store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%'}
 	             	]},
 	             	{columnWidth:.33,layout:'form',border:false,
 	             	items:[
-	             	{fieldLabel:C_INVO_DATE,name:'invoDate',xtype:'datefield',format:DATEF,anchor:'90%'},
-	             	{fieldLabel:C_DUE_DATE,name:'invoDueDate',xtype:'datefield',format:DATEF,anchor:'90%'},
-	             	{fieldLabel:C_SAIL_DATE,name:'consSailDate',xtype:'datefield',format:DATEF,anchor:'90%'},
+	             	{fieldLabel:C_INVO_DATE,name:'invoDate',xtype:'datefield',format:DATEF,anchor:'95%'},
+	             	{fieldLabel:C_DUE_DATE,name:'invoDueDate',xtype:'datefield',format:DATEF,anchor:'95%'},
+	             	{fieldLabel:C_SAIL_DATE,name:'consSailDate',xtype:'datefield',format:DATEF,anchor:'95%'},
 	             	{fieldLabel:C_VESS,name:'vessName',store:getVES(),enableKeyEvents:true,
-	             		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%',
+	             		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
 	             		listeners:{scope:this,keydown:{fn:function(f,e){LV(f,e);},buffer:500}}},
-	             	{fieldLabel:C_INVO_AMOUNT,name:'invoAmount',xtype:'numberfield',anchor:'90%'}
+	             	{fieldLabel:C_INVO_AMOUNT,name:'invoAmount',xtype:'numberfield',anchor:'95%'}
 	             	]},
 	             	{columnWidth:.34,layout:'form',border:false,
 	             	items:[	             	
-	             	{fieldLabel:C_TO,name:'invoDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
-	             	{fieldLabel:C_TO,name:'invoDueDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
-	             	{fieldLabel:C_TO,name:'consSailDate2',xtype:'datefield',format:DATEF,anchor:'90%'}	,
-	             	{fieldLabel:C_VOYA,tabIndex:10,name:'voyaName',xtype:'textfield',anchor:'90%'},
-	             	{fieldLabel:C_TO,name:'invoAmount2',xtype:'numberfield',anchor:'90%'}
+	             	{fieldLabel:C_TO,name:'invoDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
+	             	{fieldLabel:C_TO,name:'invoDueDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
+	             	{fieldLabel:C_TO,name:'consSailDate2',xtype:'datefield',format:DATEF,anchor:'95%'}	,
+	             	{fieldLabel:C_VOYA,tabIndex:10,name:'voyaName',xtype:'textfield',anchor:'95%'},
+	             	{fieldLabel:C_TO,name:'invoAmount2',xtype:'numberfield',anchor:'95%'}
 	             	]}
 	        	]}
         	]}
