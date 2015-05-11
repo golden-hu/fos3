@@ -754,7 +754,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consOverseaAgencyName = consOverseaAgencyName;
 	}
 
-	@Column(name = "CONS_SHIPPER", length = 500)
+	@Column(name = "CONS_SHIPPER")
 	public String getConsShipper() {
 		return this.consShipper;
 	}
@@ -763,7 +763,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consShipper = consShipper;
 	}
 
-	@Column(name = "CONS_CONSIGNEE", length = 500)
+	@Column(name = "CONS_CONSIGNEE")
 	public String getConsConsignee() {
 		return this.consConsignee;
 	}
@@ -772,7 +772,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consConsignee = consConsignee;
 	}
 
-	@Column(name = "CONS_NOTIFY_PARTY", length = 500)
+	@Column(name = "CONS_NOTIFY_PARTY")
 	public String getConsNotifyParty() {
 		return this.consNotifyParty;
 	}
@@ -781,7 +781,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consNotifyParty = consNotifyParty;
 	}
 
-	@Column(name = "CONS_NOTIFY_PARTY2", length = 500)
+	@Column(name = "CONS_NOTIFY_PARTY2")
 	public String getConsNotifyParty2() {
 		return this.consNotifyParty2;
 	}
@@ -790,7 +790,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consNotifyParty2 = consNotifyParty2;
 	}
 
-	@Column(name = "CONS_F_SHIPPER", length = 500)
+	@Column(name = "CONS_F_SHIPPER")
 	public String getConsFShipper() {
 		return this.consFShipper;
 	}
@@ -799,7 +799,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consFShipper = consFShipper;
 	}
 
-	@Column(name = "CONS_F_CONSIGNEE", length = 500)
+	@Column(name = "CONS_F_CONSIGNEE")
 	public String getConsFConsignee() {
 		return this.consFConsignee;
 	}
@@ -808,7 +808,7 @@ public abstract class AbstractFConsign extends BaseDomain {
 		this.consFConsignee = consFConsignee;
 	}
 
-	@Column(name = "CONS_F_NOTIFY_PARTY", length = 500)
+	@Column(name = "CONS_F_NOTIFY_PARTY")
 	public String getConsFNotifyParty() {
 		return this.consFNotifyParty;
 	}

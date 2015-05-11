@@ -362,8 +362,8 @@ Fos.CudePanel = function(p) {
 	
 	
 	//报关行
-	var cboCustomAgency = new Ext.form.ComboBox({fieldLabel:C_CUSTOM_AGENCY,
-		itemCls:'required',
+	var cboCustomAgency = new Fos.CustomerLookup({fieldLabel:C_CUSTOM_AGENCY,
+		custType:'custCustomFlag',
 		name:'cudeVendorName',
 		store:getCS(),
 		enableKeyEvents:true,
@@ -402,22 +402,20 @@ Fos.CudePanel = function(p) {
 	
 	//出口口岸
 	var txtCudePodEn = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM,
-		itemCls:'required',
 		name:p.get('consBizClass')==BC_E?'cudePol':'cudePod',
 		anchor:'99%'
 	});
 	
 	//出口口岸英文
 	var txtCudePod = new Ext.form.TextField({fieldLabel:(p.get('consBizClass')==BC_E?C_PORT_EX:C_PORT_IM)+C_ENGLISH,
-		itemCls:'required',
 		name:p.get('consBizClass')==BC_E?'cudePolEn':'cudePodEn',
 		anchor:'99%'
 	});
 	
 	//经营单位
-	var cboCustomer = new Ext.form.ComboBox({fieldLabel:C_BIZ_COMPANY,
+	var cboCustomer = new Fos.CustomerLookup({fieldLabel:C_BIZ_COMPANY,
+		custType:'custBookerFlag',
 		name:'cudeCustomer',
-		itemCls:'required',
 		displayField:'custCode',
 		valueField:'custNameCn',
 		typeAhead:true,
@@ -429,11 +427,15 @@ Fos.CudePanel = function(p) {
 		listWidth:C_LW,
 		triggerAction:'all',
 		selectOnFocus:true,anchor:'99%',
-	     listeners:{scope:this, 	 			     	
+	    listeners:{scope:this, 	 			     	
 	     	select:function(c,r,i){ 	 			     		
 	     		c.setValue(r.get('custNameCn'));
 	     	},
-	     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}
+	     	keydown:{fn:function(f,e){
+	     		LC(f,e,'custBookerFlag');
+	     		},buffer:BF
+	     	}
+	     }
 	});
 	
 	//可分批
@@ -483,7 +485,6 @@ Fos.CudePanel = function(p) {
 	//合同协议号
 	var txtContractNo = new Ext.form.TextField({fieldLabel:C_CONTRACT_NO_A,
 		name:'consContractNo',
-		itemCls:'needed',
 		anchor:'99%'
 	});	
 	
@@ -533,7 +534,6 @@ Fos.CudePanel = function(p) {
 	
 	//运输方式
 	var cboTratCode = new Ext.form.ComboBox({fieldLabel:C_TRAT,
-		itemCls:'required',
 		name:'tratCode',
 		store:getTRAT_S(),
 		displayField:'tratName',
@@ -547,7 +547,6 @@ Fos.CudePanel = function(p) {
 	
 	//贸易方式
 	var cboTrtyCode = new Ext.form.ComboBox({fieldLabel:C_TRTY,
-		itemCls:'required',
 		name:'trtyCode',
 		store:getTRTY_S(),
 		displayField:'trtyName',
@@ -561,7 +560,6 @@ Fos.CudePanel = function(p) {
 	
 	//运抵国(地区)
 	var txtCountry = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_COD_A:C_COL_A,
-		itemCls:'required',
 		name:p.get('consBizClass')==BC_E?'cudeDischargeCountry':'cudeLoadCountry',
 		anchor:'99%'
 	});	
@@ -569,7 +567,6 @@ Fos.CudePanel = function(p) {
 	//成交方式
 	var txtTrteCode = new Ext.form.ComboBox({fieldLabel:C_CUDE_TRTE,
 		name:'trteCode',
-		itemCls:'required',
 		store:getTRTE_S(),
 		displayField:'trteName',
 		valueField:'trteName',
@@ -589,7 +586,6 @@ Fos.CudePanel = function(p) {
 	//件数
 	var txtPackageNum = new Ext.form.TextField({fieldLabel:C_PACKAGES,
 		name:'cudePackageNum',
-		itemCls:'required',
 		anchor:'99%'
 	});	
 	
@@ -668,7 +664,6 @@ Fos.CudePanel = function(p) {
 	
 	//指运港
 	var txtPod = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_POD_A:C_POL,
-		itemCls:'required',
 		name:p.get('consBizClass')==BC_E?'cudePod':'cudePol',
 		anchor:'99%'
 	});	
@@ -688,7 +683,6 @@ Fos.CudePanel = function(p) {
 	//包装种类
 	var txtPackCode = new Ext.form.TextField({fieldLabel:C_PACK,
 		name:'packCode',
-		itemCls:'required',
 		anchor:'99%'
 	});	
 	
@@ -739,7 +733,6 @@ Fos.CudePanel = function(p) {
 	
 	//结汇方式
 	var cboExseCode = new Ext.form.ComboBox({fieldLabel:C_EXSE,
-		itemCls:'required',
 		name:'exseCode',
 		store:getEXSE_S(),
 		displayField:'exseName',
@@ -765,14 +758,12 @@ Fos.CudePanel = function(p) {
 	
 	//境内货源地
 	var txtPlace = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D,
-		itemCls:'required',
 		name:'cudePlace',
 		anchor:'99%'
 	});	
 	
 	//境内货源地(英文)
 	var txtPlaceEn = new Ext.form.TextField({fieldLabel:(p.get('consBizClass')==BC_E?C_ORI_PLACE_D:C_DES_PLACE_D)+C_ENGLISH,
-		itemCls:'required',
 		name:'cudePlaceEn',
 		anchor:'99%'
 	});	
@@ -780,7 +771,6 @@ Fos.CudePanel = function(p) {
 	//毛重
 	var txtGrossWeight = new Ext.form.TextField({fieldLabel:C_GW_S+C_KGS,
 		name:'cudeGrossWeight',
-		itemCls:'required',
 		anchor:'99%'
 	});	
 	
@@ -788,7 +778,6 @@ Fos.CudePanel = function(p) {
 	//净重
 	var txtNetWeight = new Ext.form.TextField({fieldLabel:C_MW_S+C_KGS,
 		name:'cudeNetWeight',
-		itemCls:'required',
 		anchor:'99%'
 	});	
 	
@@ -1137,78 +1126,7 @@ Fos.CudePanel = function(p) {
         }		
 		var xml='';
 		var a =this.store.getModifiedRecords();
-		for(var i=0;i<a.length;i++){
-            if(a[i].get('rowAction')!='R'&&a[i].get('rowAction')!='D'){
-            	if(a[i].get('cudeVendorId')==''){
-            		XMG.alert(SYS,M_CUDE_VENDOR_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_E && a[i].get('cudePol')==''){
-            		XMG.alert(SYS,C_PORT_EX_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_I && a[i].get('cudePod')==''){
-            		XMG.alert(SYS,C_PORT_IM_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('cudeCustomer')==''){
-            		XMG.alert(SYS,C_BIZ_COMPANY_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('tratCode')==''){
-            		XMG.alert(SYS,C_TRAT_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('trtyCode')==''){
-            		XMG.alert(SYS,C_TRTY_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_E && a[i].get('cudeDischargeCountry')==''){
-            		XMG.alert(SYS,C_COD_A_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_I && a[i].get('cudeLoadCountry')==''){
-            		XMG.alert(SYS,C_COL_A_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('trteCode')==''){
-            		XMG.alert(SYS,C_CUDE_TRTE_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('cudePackageNum')==''){
-            		XMG.alert(SYS,C_PACKAGES_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_E && a[i].get('cudePod')==''){
-            		XMG.alert(SYS,C_POD_A_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_I && a[i].get('cudePol')==''){
-            		XMG.alert(SYS,C_POL_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('packCode')==''){
-            		XMG.alert(SYS,C_PACK_REQIRED);
-            		return;
-            	}
-            	if(p.get('consBizClass')==BC_E&&a[i].get('exseCode')==''){
-            		XMG.alert(SYS,C_EXSE_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('cudePlace')==''){
-            		XMG.alert(SYS,p.get('consBizClass')==BC_E?C_ORI_PLACE_D_REQIRED:C_DES_PLACE_D_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('cudeGrossWeight')==''){
-            		XMG.alert(SYS,C_GW_S_REQIRED);
-            		return;
-            	}
-            	if(a[i].get('cudeNetWeight')==''){
-            		XMG.alert(SYS,C_MW_S_REQIRED);
-            		return;
-            	}
-           }
-        }
+		
 		
 		if(a.length>0){
 			xml = ATX(a,'FCustomsDeclaration',FCustomsDeclaration);
@@ -1226,32 +1144,38 @@ Fos.CudePanel = function(p) {
 		};		
 		
 		if(xml!=''){
-		 	Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'CUDE_S'},
-			success: function(res){
-				var a = XTRA(res.responseXML,'FCustomsEntry',FCustomsEntry);
-				var fields = FCustomsEntry.prototype.fields;
-				var sa=this.entryStore.getRange();
-				for(i=0;i<sa.length;i++){
-					for(var j=0;j<a.length;j++){	
-						if(sa[i].get('id')==a[j].get('id')){
-							for(var k = 0;k < fields.length;k++){
-								var f = fields.items[k];
-								var fn=f.name;
-								sa[i].set(fn,a[j].get(fn));
+		 	Ext.Ajax.request({scope:this,
+		 		url:SERVICE_URL,
+		 		method:'POST',
+		 		params:{A:'CUDE_S'},
+				success: function(res){
+					var a = XTRA(res.responseXML,'FCustomsEntry',FCustomsEntry);
+					var fields = FCustomsEntry.prototype.fields;
+					var sa=this.entryStore.getRange();
+					for(i=0;i<sa.length;i++){
+						for(var j=0;j<a.length;j++){	
+							if(sa[i].get('id')==a[j].get('id')){
+								for(var k = 0;k < fields.length;k++){
+									var f = fields.items[k];
+									var fn=f.name;
+									sa[i].set(fn,a[j].get(fn));
+								}
+								break;
 							}
-							break;
 						}
 					}
-				}
-				this.entryStore.suspendEvents();
-				this.entryStore.commitChanges();
-				this.entryStore.resumeEvents();
-				var b = XTRA(res.responseXML,'FCustomsDeclaration',FCustomsDeclaration);
-				FOSU(this.store,b,FCustomsDeclaration);
-				XMG.alert(SYS,M_S);
-			},
-			failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
-			xmlData:FOSX(xml)});
+					this.entryStore.suspendEvents();
+					this.entryStore.commitChanges();
+					this.entryStore.resumeEvents();
+					var b = XTRA(res.responseXML,'FCustomsDeclaration',FCustomsDeclaration);
+					FOSU(this.store,b,FCustomsDeclaration);
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(res){
+					XMG.alert(SYS,M_F+res.responseText);
+				},
+				xmlData:FOSX(xml)
+			});
 		}
 	};
 	

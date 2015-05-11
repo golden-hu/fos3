@@ -37,7 +37,9 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 		width:200,
 		dataIndex:"custName",
 		align:'left',
-		editor:new Ext.form.ComboBox({displayField:'custNameCn',
+		editor:new Fos.CustomerLookup({
+			custType:'',
+			displayField:'custNameCn',
 			valueField:'custNameCn',
 			triggerAction:'all',
 	        mode:'local',
@@ -64,7 +66,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 	        	},
 	       		keydown:{
 	       			fn:function(f,e){
-	       				LC(f,e,_expeType=='R'?'custArFlag':'custApFlag',1);
+	       				LC(f,e,'');
 	       			},buffer:500
        			}
         	}

@@ -194,6 +194,34 @@ var showG_INTY = function() {
         defaults:{sortable:true,width:100}
     });
     
+    var btnAdd = new Ext.Button({text:C_ADD,disabled:NR(M1_J+G_INTY+F_M),iconCls:'add',
+		handler : function(){            	
+			var p = new GInspectionType({id:GGUID(),
+				intyId:'0',
+				active:1,
+				version:'0',
+				rowAction:'N'
+			});
+			grid.stopEditing();
+			store.insert(0,p);
+			grid.startEditing(0,1);
+		}
+	});
+    
+    var btnRemove = new Ext.Button({text:C_REMOVE,disabled:NR(M1_J+G_INTY+F_R),
+    	iconCls:'remove',
+		handler:function(){
+			FOS_REMOVE(sm,store);}
+	});
+    
+    var btnSave = new Ext.Button({text:C_SAVE,disabled:NR(M1_J+G_INTY+F_M),
+    	iconCls:'save',
+		handler:function(){
+			FOS_POST(store,'GInspectionType',GInspectionType,'INTY_S');
+			getINTY_S().reload();
+		}
+	});
+    
     var grid = new  Ext.grid.EditorGridPanel({id:'G_INTY',
     	iconCls:'gen',
     	title:C_INTY,
@@ -203,29 +231,7 @@ var showG_INTY = function() {
     	store:store,
     	sm:sm,
     	cm:cm,
-    	tbar:[{text:C_ADD,disabled:NR(M1_J+G_INTY+F_M),iconCls:'add',
-    		handler : function(){            	
-				var p = new GInspectionType({id:GGUID(),
-					intyId:'0',
-					active:1,
-					version:'0',
-					rowAction:'N'
-				});
-				grid.stopEditing();
-				store.insert(0,p);
-				grid.startEditing(0,1);
-			}
-    		},'-',
-    		{text:C_REMOVE,disabled:NR(M1_J+G_INTY+F_R),iconCls:'remove',
-    			handler:function(){
-    				FOS_REMOVE(sm,store);}
-    		}, '-', 
-    		{text:C_SAVE,disabled:NR(M1_J+G_INTY+F_M),iconCls:'save',
-    			handler:function(){
-    				FOS_POST(store,'GInspectionType',GInspectionType,'INTY_S');
-    				getINTY_S().reload();
-    		}
-        }]
+    	tbar:[btnAdd,'-',btnRemove, '-',btnSave]
     }); 
     return grid;
 };
@@ -238,9 +244,53 @@ var showG_SEIT = function() {
     var sm=getCSM();
     
     var cm=new Ext.grid.ColumnModel({columns:[sm,
+        {header:C_CODE,dataIndex:'seitCode',editor:new Ext.form.TextField()},
 		{header:C_NAME,dataIndex:'seitName',editor:new Ext.form.TextField()},
 		ac],
 		defaults:{sortable:true,width:120}
+    });
+    
+    var btnAdd = new Ext.Button({
+		text:C_ADD,disabled:NR(M1_J+G_SEIT+F_M),iconCls:'add',
+		handler : function(){            	
+			var p = new GServiceItem({id:GGUID(),
+				seitId:'0',
+				active:1,
+				version:'0',
+				rowAction:'N'
+			});            
+        	grid.stopEditing();
+        	store.insert(0,p);
+        	grid.startEditing(0,1);
+    	}
+    });
+    
+    var btnRemove = new Ext.Button({text:C_REMOVE,disabled:NR(M1_J+G_SEIT+F_R),
+    	iconCls:'remove',
+    	handler:function(){
+    		FOS_REMOVE(sm,store);
+    	}
+    });
+    
+    var btnSave = new Ext.Button( {text:C_SAVE,disabled:NR(M1_J+G_SEIT+F_M),
+    	iconCls:'save',
+    	handler:function(){
+    		var a =store.getModifiedRecords();
+    		if(a.length){
+    			for(var i =0;i<a.length;i++){
+    				if(!a[i].get('seitCode')){
+    					HTWarrning(C_CODE+M_REQIRED);	
+    					return;
+    				}
+    				if(!a[i].get('seitName')){
+    					HTWarrning(C_NAME+M_REQIRED);	
+    					return;
+    				}
+    			}
+    		}
+    		FOS_POST(store,'GServiceItem',GServiceItem,'SEIT_S');
+    		getSEIT_S().reload();
+    	}
     });
     
     var grid = new  Ext.grid.EditorGridPanel({
@@ -254,26 +304,7 @@ var showG_SEIT = function() {
 		store: store,
 		sm:sm,
 		cm:cm,
-		tbar:[{
-			text:C_ADD,disabled:NR(M1_J+G_SEIT+F_M),iconCls:'add',
-				handler : function(){            	
-					var p = new GServiceItem({id:GGUID(),seitId:'0',seitName:'',active:1,version:'0',rowAction:'N'});            
-		        	grid.stopEditing();
-		        	store.insert(0,p);
-		        	grid.startEditing(0,1);
-	        	}
-	        },'-',
-	        {text:C_REMOVE,disabled:NR(M1_J+G_SEIT+F_R),iconCls:'remove',
-	        	handler:function(){
-	        		FOS_REMOVE(sm,store);
-	        	}
-	        }, '-', 
-	        {text:C_SAVE,disabled:NR(M1_J+G_SEIT+F_M),iconCls:'save',
-	        	handler:function(){
-	        		FOS_POST(store,'GServiceItem',GServiceItem,'SEIT_S');
-	        		getSEIT_S().reload();
-	        	}
-	        }]
+		tbar:[btnAdd,'-',btnRemove, '-', btnSave]
     }); 
     return grid;
 };
@@ -311,6 +342,16 @@ var showG_CAPR = function() {
     var btnSave = new Ext.Button({text:C_SAVE,disabled:NR(M1_J+G_CAPR+F_M),
     	iconCls:'save',
     	handler:function(){
+    		var a =store.getModifiedRecords();
+    		if(a.length){
+    			for(var i =0;i<a.length;i++){
+    				if(!a[i].get('caprName')){
+    					HTWarrning(C_NAME+M_REQIRED);
+    					return;
+    				}
+    			}
+    		}
+    		
     		FOS_POST(store,'GCargoProperty',GCargoProperty,'CACL_S');
     		getCAPR_S().reload();
     	}

@@ -58,9 +58,15 @@ public class FCustomsDeclarationService {
 					throw new BusinessException("fw.row_action_null");
 				}
 				consId = entity.getConsId();
-				num += Integer.parseInt(entity.getCudePackageNum());
-				weight += Double.parseDouble(entity.getCudeGrossWeight());
-				netWeight += Double.parseDouble(entity.getCudeNetWeight());
+				if(entity.getCudePackageNum()!=null)
+					num += Integer.parseInt(entity.getCudePackageNum());
+				
+				if(entity.getCudeGrossWeight()!=null)
+					weight += Double.parseDouble(entity.getCudeGrossWeight());
+				
+				if(entity.getCudeNetWeight()!=null)
+					netWeight += Double.parseDouble(entity.getCudeNetWeight());
+				
 				idMap.put(oldId, entity.getCudeId());
 			}
 		}

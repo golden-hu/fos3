@@ -7,6 +7,27 @@ frmValidatePrompt = function(){
 	Ext.Msg.show({title:SYS,msg:M_DATA_NOT_COMPLETE,modal:true,buttons: Ext.Msg.OK});
 };
 
+var HTWarrning = function(msg){
+	Ext.Msg.show({
+	   title:'FOS3.0',
+	   msg: msg,
+	   buttons: Ext.Msg.OK,
+	   icon: Ext.MessageBox.WARNING,
+	   minWidth:300						   
+	});
+};
+
+var HTInfo = function(msg){
+	Ext.Msg.show({
+	   title:'FOS3.0',
+	   msg: msg,
+	   buttons: Ext.Msg.OK,
+	   icon: Ext.MessageBox.INFO,
+	   minWidth:300						   
+	});
+};
+
+
 //将一个容器内的字段的值更新到一条record对象中
 var saveToRecord = function(container,record){
 	record.beginEdit();
@@ -979,26 +1000,48 @@ var FOSAJAX=function(p,x,f,s){
 		xmlData:FOSX(x)
 		});
 };
-var O2S=function(s){return Ext.urlEncode(s.lastOptions);};
+
+var O2S=function(s){
+	return Ext.urlEncode(s.lastOptions);
+};
+
 var FOS_POST_R = function(s,a,p,x,n){
-	Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:a},
-		success: function(res){if(!n) s.remove(p);s.loadData(res.responseXML,true);XMG.alert(SYS,M_S);},
-		failure: function(res){XMG.alert(SYS,M_F+res.responseText);},
+	Ext.Ajax.request({url:SERVICE_URL,
+		method:'POST',
+		params:{A:a},
+		success: function(res){
+			if(!n) 
+				s.remove(p);
+			s.loadData(res.responseXML,true);
+			XMG.alert(SYS,M_S);
+		},
+		failure: function(res){
+			XMG.alert(SYS,M_F+res.responseText);
+		},
 		xmlData:FOSX(x)
 	});
 };
+
 var FOS_POST = function(store,t,rt,action){
 	var a =store.getModifiedRecords();
 	if(a.length){
 		var x = ATX(a,t,rt);
 		if(x!='')
 		{
-			Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:action},
+			Ext.Ajax.request({scope:this,
+				url:SERVICE_URL,
+				method:'POST',
+				params:{A:action},
 				success: function(r){
-					var b = XTRA(r.responseXML,t,rt);FOSU(store,b,rt);
-					XMG.alert(SYS,M_S);
+					var b = XTRA(r.responseXML,t,rt);
+					FOSU(store,b,rt);
+					//XMG.alert(SYS,M_S);
+					HTInfo(M_S);
 				},
-				failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
+				failure: function(r){
+					//XMG.alert(SYS,M_F+r.responseText);
+					HTWarrning(M_F+r.responseText);
+				},
 				xmlData:FOSX(x)
 			});
 		}
@@ -1018,23 +1061,37 @@ var FOS_REMOVE=function(sm,store){
 };
 
 var FOS_REMOVE_A=function(a,store){
-	for(var i=0;i<a.length;i++){a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');store.remove(a[i]);}
+	for(var i=0;i<a.length;i++){
+		a[i].set('rowAction',a[i].get('rowAction')=='N'?'D':'R');
+		store.remove(a[i]);
+	}
 };
 
 var CREATE_E_MENU=function(t,fd,fe,ff,s){
 	return {text:t,
 		menu:{items:[
-		             {text:'Excel',scope:s,handler:fd},
-		             {text:C_EMAIL,scope:s,handler:fe},
-		             {text:'传真',scope:s,handler:ff}]
+             {text:'Excel',scope:s,handler:fd},
+             {text:C_EMAIL,scope:s,handler:fe},
+             {text:'传真',scope:s,handler:ff}]
 		}
 	};
 };
 
-function getCSM(){return new Ext.grid.CheckboxSelectionModel({singleSelect:false});};
-function PTB(s,ps){return new Ext.PagingToolbar({pageSize:ps,store:s,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:C_NR});};
-function ACTIVE(){return new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',width:55});};
-function CHKCLM(t,d,w){return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});};
+function getCSM(){
+	return new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+};
+
+function PTB(s,ps){
+	return new Ext.PagingToolbar({pageSize:ps,store:s,displayInfo:true,displayMsg:'{0} - {1} of {2}',emptyMsg:C_NR});
+};
+
+function ACTIVE(){
+	return new Ext.grid.CheckColumn({header:C_ACTIVE,dataIndex:'active',width:55});
+};
+
+function CHKCLM(t,d,w){
+	return new Ext.grid.CheckColumn({header:t,dataIndex:d,width:w?w:55});
+};
 
 function CreateNode(t,c,m,f){
  	return new Ext.tree.TreeNode({text:t,id:'M_'+c,leaf:true,

@@ -52,14 +52,18 @@ Ext.onReady(function(){
 	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
 	P_MENU.on('expand',function(){T_MAIN.getActiveTab().doLayout();});
 	T_MAIN.on('tabchange',function(m,a){a.doLayout();});
-	T_MAIN.setActiveTab(T_MAIN.add(
-	new Fos.HomePanel()//首页公告信息
-	));
+	
+	//首页公告信息
+	T_MAIN.setActiveTab(T_MAIN.add(new Fos.HomePanel()));
+	
 	viewport.doLayout();
 	
-	var task={run:ccnActiveSession,interval:600000};
-	this.runner = new Ext.util.TaskRunner();
-	this.runner.start(task);
+	var CCN=loadSession('CCN');
+	if(CCN==1){		
+		var task={run:ccnActiveSession,interval:600000};
+		this.runner = new Ext.util.TaskRunner();
+		this.runner.start(task);
+	}
 });
 
 var getGStore=function(c,r,o,s,d,id){

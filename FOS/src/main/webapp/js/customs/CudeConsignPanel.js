@@ -241,7 +241,6 @@ Fos.CudeConsignPanel = function(p,store) {
 	
 	//贸易方式
 	var cboTrtyName = new Ext.form.ComboBox({fieldLabel:C_TRTY,
-		itemCls:'required',
 		name:'trtyName',
 		store:getTRTY_S(),
 		displayField:'trtyName',
