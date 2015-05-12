@@ -171,6 +171,10 @@ Fos.ExpenseList = function(t){
     var dtExpeWriteOffDate = new Ext.form.DateField({fieldLabel:C_WRITEOFF_DATE+C_FROM,anchor:"90%",name:'expeWriteOffDate',format:DATEF});
     var dtExpeWriteOffDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'expeWriteOffDate2',format:DATEF});
     
+    //委托日期
+    var dtConsDate = new Ext.form.DateField({fieldLabel:C_CONS_DATE+C_FROM,anchor:"90%",name:'consDate',format:DATEF});
+    var dtConsDate2 = new Ext.form.DateField({fieldLabel:C_TO,anchor:"90%",name:'consDate2',format:DATEF});
+    
     var queryParams = [];
     queryParams[queryParams.length] = new QParam({key:'expeType',value:t,op:1});
     
@@ -228,10 +232,20 @@ Fos.ExpenseList = function(t){
  		}
  		else if(expeWriteOffDate) 
  			a[a.length]=new QParam({key:'expeWriteOffDate',value:expeWriteOffDate,op:op});
+ 		
+ 		//委托日期
+ 		var consDate=dtConsDate.getValue();
+ 		var consDate2=dtConsDate2.getValue();
+ 		if(consDate && consDate2){
+ 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
+ 			a[a.length]=new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
+ 		}
+ 		else if(consDate) 
+ 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:op});
    
  		queryParams = a;
  		
-     	store.baseParams={A:'EXPE_X_S',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
+     	store.baseParams={A:'EXPE_X',mt:'xml',expeType:t,xml:FOSX(QTX(a))};
      	store.reload({params:{start:0,limit:C_PS},
      		callback:function(r){
      			if(r.length==0) 
@@ -376,19 +390,19 @@ Fos.ExpenseList = function(t){
 		handler:this.reload
 	});
 	
-	var selectPanel = new Ext.Panel({plain:true,height:100,layout:'column',region:'north',
+	var selectPanel = new Ext.Panel({plain:true,height:120,layout:'column',region:'north',
 		defaults:{bodyStyle:'padding:10px'},items:[
 			{columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[txtConsNo,dtExpeInvoiceDate,cboExpeInvoiceFlag]
+		    	items:[txtConsNo,dtExpeInvoiceDate,cboExpeInvoiceFlag,cboExpeWriteoffStatus]
 		    },
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
 		    	items:[cboCustId,dtExpeInvoiceDate2,cboExpeInvoiceStatus]
 		    },
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[cboCurrCode,dtExpeWriteOffDate,cboExpeWriteoffStatus]
+		    	items:[cboCurrCode,dtExpeWriteOffDate,dtConsDate]
 		    },
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		    	items:[txtExpeInvoiceNo,dtExpeWriteOffDate2]
+		    	items:[txtExpeInvoiceNo,dtExpeWriteOffDate2,dtConsDate2]
 		    }]
 		});
 	
