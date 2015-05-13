@@ -708,6 +708,9 @@ var getSEIT_S = function(){
 	return getGStore('SEIT','GServiceItem',GServiceItem,'seitId','ASC','seitId');
 };
 
+var getCCTY_S = function(){
+	return getGStore('CCTY','GCargoCheckType',GCargoCheckType,'cctyId','ASC','cctyId');
+};
 
 var BASE_PORT='';
 var BASE_PORT_NAME='';

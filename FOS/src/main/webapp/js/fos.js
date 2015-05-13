@@ -730,7 +730,10 @@ function createGMTree(){
 		cus.appendChild(capr);	
 	}
 	
-	
+	if(!NR(M1_J+G_CCTY)){
+		var ccty = CreateNode(C_CCTY,'CCTY',M1_J+G_CCTY,showG_CCTY);
+		cus.appendChild(ccty);	
+	}
 	
 	root.appendChild(cus);
 		

@@ -395,7 +395,7 @@ var showG_CCTY = function() {
         }
     });
     
-    var btnRemove = new Ext.Button({text:C_REMOVE,disabled:NR(M1_J+G_CAPR+F_R),iconCls:'remove',
+    var btnRemove = new Ext.Button({text:C_REMOVE,disabled:NR(M1_J+G_CCTY+F_R),iconCls:'remove',
 		handler:function(){
 			FOS_REMOVE(sm,store);
 		}
@@ -407,7 +407,7 @@ var showG_CCTY = function() {
     		var a =store.getModifiedRecords();
     		if(a.length){
     			for(var i =0;i<a.length;i++){
-    				if(!a[i].get('caprName')){
+    				if(!a[i].get('cctyName')){
     					HTWarrning(C_NAME+M_REQIRED);
     					return;
     				}

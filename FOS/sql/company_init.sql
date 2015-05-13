@@ -103,6 +103,11 @@ INSERT INTO `G_CARGO_PROPERTY` (`CAPR_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) V
 ('生鲜果品','{CC}', 0, 0),
 ('其他','{CC}', 0, 0);
 
+INSERT INTO `G_CARGO_CHECK_TYPE` (`CCTY_NAME`,`COMP_CODE`, `VERSION`, `REMOVED`) VALUES
+('人工查验', '{CC}', 0, 0),
+('机检查验','{CC}', 0, 0),
+('其他','{CC}', 0, 0);
+
 INSERT INTO `G_CARGO_CLASS` (`CACL_CODE`, `CACL_NAME_CN`, `CACL_NAME_EN`, `ACTIVE`, `COMP_CODE`, `VERSION`, `REMOVED`) VALUES
 ('01', '活动物', NULL, 1, '{CC}', 0, 0),
 ('02', '肉及食用杂碎', NULL, 1, '{CC}', 0, 0),
