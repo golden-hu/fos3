@@ -142,23 +142,18 @@ Fos.showConsign = function(p,listStore){
 
 Fos.showConsignTabs = function(p){
 	var tc = T_MAIN.getComponent('C_'+p.get("id"));
-	if(p.get('rowAction')!='N'){
-		if(!tc.getComponent('T_DOC_'+p.get('id'))){
-			tc.add(new Fos.ConsDocGrid(p));
-		};
-		
-		if(!tc.getComponent('T_EXPE_'+p.get('id'))){
-			tc.add(new Fos.ExpensePanel(p,'C'));
-		};
-		
-		if(!tc.getComponent('G_ATTACH'+p.get('id'))){
-			tc.add(new Fos.AttachTab(p));
-		};
-		
-		/*if(!tc.getComponent('G_SECURITY_ATTACH'+p.get('id'))){
-			tc.add(new Fos.SecurityAttachTab(p));
-		};*/
-	}
+	
+	if(!tc.getComponent('T_DOC_'+p.get('id'))){
+		tc.add(new Fos.ConsDocGrid(p));
+	};
+	
+	if(!tc.getComponent('T_EXPE_'+p.get('id'))){
+		tc.add(new Fos.ExpensePanel(p,'C'));
+	};
+	
+	if(!tc.getComponent('G_ATTACH'+p.get('id'))){
+		tc.add(new Fos.AttachTab(p));
+	};
 	
 	if(p.get('consServiceRequired').indexOf(SR_TRAN)!=-1){
 		if(!tc.getComponent('T_TRAN_'+p.get('id'))){

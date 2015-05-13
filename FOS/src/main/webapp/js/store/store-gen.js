@@ -20,10 +20,20 @@ GContainerType = Ext.data.Record.create(['id','cotyId','cotyCode','cotyLength','
     'cotyIsoCode','cotyUnCode','cotyTareWeight','cotyMaxWeight','cotyMaxMeasurement',
     'active','compCode','version','rowAction']); 
 
-GPort = Ext.data.Record.create(['id','portId','portCode','portNameEn','portNameCn','counCode','portType','portCnty','portArea','compCode','active','version','rowAction']); 
-GPlace = Ext.data.Record.create(['id','placId','placCode','placNameEn','placName','placType','placDesc','counCode','placProvinceId','placProvinceName','placCityId','placCityName','custId','custName','custSname','placAddress','placStation','active','compCode','version','rowAction']); 
-GPackage = Ext.data.Record.create(['id','packId','packCode','packName','packNameCn','compCode','active','version','rowAction']); 
-GTradeTerm = Ext.data.Record.create(['id','trteId','trteCode','trteName','compCode','active','version','rowAction']); 	
+GPort = Ext.data.Record.create(['id','portId','portCode','portNameEn','portNameCn',
+	'counCode','portType','portCnty','portArea','compCode','active','version','rowAction']); 
+
+GPlace = Ext.data.Record.create(['id','placId','placCode','placNameEn','placName',
+	'placType','placDesc','counCode','placProvinceId','placProvinceName','placCityId',
+	'placCityName','custId','custName','custSname','placAddress','placStation',
+	'active','compCode','version','rowAction']); 
+
+GPackage = Ext.data.Record.create(['id','packId','packCode','packName','packNameCn',
+	'compCode','active','version','rowAction']); 
+
+GTradeTerm = Ext.data.Record.create(['id','trteId','trteCode','trteName',
+	'compCode','active','version','rowAction']); 	
+
 GTransTerm = Ext.data.Record.create(['id','tranId','tranCode','tranName','tranBulkFlag','tranContFlag','compCode','active','version','rowAction']);
 GPaymentTerm = Ext.data.Record.create(['id','pateId','pateCode','pateName','compCode','active','version','rowAction']);
 GTradeType = Ext.data.Record.create(['id','trtyId','trtyCode','trtyName','compCode','active','version','rowAction']);
@@ -56,17 +66,27 @@ GVoyage = Ext.data.Record.create(
 	'voyaSailedFlag','voyaShipMapFlag',
 	'voyaDispatcherId','voyaDispatcherName','voyaOperatorId','voyaOperatorName',
 	'compCode','active','version','rowAction']);
+
 GDocumentType = Ext.data.Record.create(['id','dotyCode','dotyId','dotyName','dotyClass','dotyReturnFlag','dotyBackFlag','compCode','active','version','rowAction']);
+
 GVehicleType = Ext.data.Record.create(['id','vehtId','vehtName','active','compCode','version','rowAction']);
+
 GCargoClass = Ext.data.Record.create(['id','caclId','caclCode','caclNameCn','caclNameEn','active','compCode','version','rowAction']);
+
 GCargoType = Ext.data.Record.create(['id','catyId','caclId','catyCode','catyNameCn','catyNameEn','catyManuNo',
    'catySpec','catyCargoType','catyDanagerFlag','catyDanagerNo','catyDanagerProperty','catyRemarks','active','compCode','version','rowAction']);
+
 GCargoProperty = Ext.data.Record.create(['id','caprId','caprName','active','compCode','version','rowAction']);
+
 GCustomsType = Ext.data.Record.create(['cutyId','cutyCode','cutyName','compCode','active','version','rowAction']);
+
 GInspectionType = Ext.data.Record.create(['intyId','intyCode','intyName','compCode','active','version','rowAction']);
 
 GTrainStation = Ext.data.Record.create(['id','trainId','trainCode','trainNameEn','trainNameCn',
-      'counCode','trainType','trainTypeFlag','compCode','active','version','rowAction']); 
+	'counCode','trainType','trainTypeFlag','compCode','active','version','rowAction']); 
+
+GCargoCheckType = Ext.data.Record.create(['id','cctyId','cctyCode','cctyName',
+	'compCode','active','version','rowAction']); 
 
 var CONT_TYPE_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
 	data:[['0','货主SOC'],['1','我司SOC'],['2','COC']]

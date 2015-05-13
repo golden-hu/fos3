@@ -35,206 +35,7 @@ Fos.BookTab = function(p) {
 				this.hbl_s.load({params:{consId:p.get('consId'),blType:'H/BL'}});
 	};
 	
-    this.save = function(){    	
-    	var tb=this.getTopToolbar();
-		if(!p.get('custId')){
-			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);
-			return;
-		};
-		
-		if(this.find('name','deptId')[0].getValue()==''){
-			XMG.alert(SYS,M_DEPT_REQIRED,function(){
-				this.find('name','deptId')[0].focus();
-			},this);
-			return;
-		};	
-		
-		if(this.find('name','consSalesRepName')[0].getValue()==''){
-			XMG.alert(SYS,M_SALES_REQIRED,function(){
-				this.find('name','consSalesRepName')[0].focus();},this);
-			return;
-		};
-		
-		if(this.find('name','consOperatorName')[0].getValue()==''){
-			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){
-				this.find('name','consOperatorName')[0].focus();},this);
-			return;
-		};
-		
-		if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B ||p.get('consBizType')==BT_C){
-			if(this.find('name','consPolEn')[0].getValue()==''){
-				XMG.alert(SYS,M_POD_REQIRED,function(){
-					this.find('name','consPodEn')[0].focus();
-				},this);
-				return;
-			};
-			
-			if(this.find('name','consPodEn')[0].getValue()==''){
-				XMG.alert(SYS,M_POD_REQIRED,function(){
-					this.find('name','consPodEn')[0].focus();
-				},this);
-				return;
-			};
-			
-			if(p.get('consBizClass')==BC_E&&this.find('name','consEtd')[0].getValue()==''){
-				XMG.alert(SYS,M_ETD_REQIRED,function(){
-					this.find('name','consEtd')[0].focus();
-				},this);
-				return;
-			};
-			
-			if(p.get('consBizClass')==BC_I && this.find('name','consEta')[0].getValue()==''){
-				XMG.alert(SYS,M_ETA_REQIRED,function(){
-					this.find('name','consEta')[0].focus();
-				},this);
-				return;
-			};
-		}
-			
-		var f = FConsign.prototype.fields;
-		for (var i = 0; i < f.keys.length; i++) {
-        	var fn = ''+f.keys[i];
-        	var fc = this.find('name',fn);
-        	if(fc!=undefined&&fc.length>0){
-        		p.set(fn,fc[0].getValue());
-        	}
-   	 	}
-   	 	var df=this.findById('cargDanagerFlag');
-   	 	if(df!=undefined&&df.checkbox)
-   	 		p.set('cargDanagerFlag',this.findById('cargDanagerFlag').checkbox.dom.checked);
-   	 	
-   	 	var rf=this.findById('cargReeterFlag');
-   	 	if(rf!=undefined&&rf.checkbox)
-   	 		p.set('cargReeterFlag',this.findById('cargReeterFlag').checkbox.dom.checked);
-   	 	
-   	 	var bf=this.findById('cargBigFlag');
-   	 	if(bf!=undefined&&bf.checkbox)
-   	 	p.set('cargBigFlag',this.findById('cargBigFlag').checkbox.dom.checked);
-   	 	   	 	
-  	 	var consServiceRequired = '';   	 	
-  	 	if(this.find('name','SR_TRAN')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_TRAN')[0].getValue()?SR_TRAN:'';
-  	 	if(this.find('name','SR_WARE')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_WARE')[0].getValue()?SR_WARE:'';
-  	 	if(this.find('name','SR_INSP')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_INSP')[0].getValue()?SR_INSP:'';
-  	 	if(this.find('name','SR_CUDE')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_CUDE')[0].getValue()?SR_CUDE:'';
-  	 	if(this.find('name','SR_CONT')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_CONT')[0].getValue()?SR_CONT:'';
-  	 	if(this.find('name','SR_BL')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_BL')[0].getValue()?SR_BL:'';
-  	 	if(this.find('name','SR_BBOOK')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_BBOOK')[0].getValue()?SR_BBOOK:'';
-  	 	if(this.find('name','SR_RABL')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_RABL')[0].getValue()?SR_RABL:'';
-  	 	if(this.find('name','SR_SESH')[0]) 
-  	 		consServiceRequired+=this.find('name','SR_SESH')[0].getValue()?SR_SESH:'';
-  	 	p.set('consServiceRequired',consServiceRequired);
-   	 	
-   	 	if(p.get('consBizType')==BT_C){
-	   	 	var c =this.cont_s.getModifiedRecords();
-	   	 	if(c.length>0){
-	   	 		var tc=0;var cif='';var tn=0;	   	 		
-	   	 		var ra = this.contGrid.getStore().getRange();
-	   	 		for(var i=0;i<ra.length;i++){
-	   	 			var ct = ra[i].get('cotyId');
-	   	 			var cc=getCOTY(ct);
-	   	 			var cl=getCLCODE(ct);
-	   	 			var teu=getCTEU(ct);
-	   	 			var n = ra[i].get('contNum');
-	   	 			tn+=teu*n;
-	   	 			cif+=n+'X'+cc+' ';
-	   	 			tc=tc+n;
-	   	 			if(cl=='FR'||cl=='OT') bf=true;
-	   	 			else if(cl=='DG') df=true;
-	   	 			else if(cl=='RF') rf=true;
-	   	 		}
-	   	 		p.set('consTotalContainers',tc);
-	   	 		p.set('consContainersInfo',cif);
-	   	 		p.set('consContainersTeu',tn);
-	   	 	}
-   	 	}
-   	 	
-   	 	p.set('consCargoPackages',''+p.get('consTotalPackages')+p.get('packName'));
- 		p.set('consCargoNetWeight',''+p.get('consTotalNetWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
- 		p.set('consCargoGrossWeight',''+p.get('consTotalGrossWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
- 		p.set('consCargoMeasurement',''+p.get('consTotalMeasurement')+'CBM');
-   	 	
- 		var xml = RTX(p,'FConsign',FConsign);
-   	 	if(p.get('consBizType')==BT_C){
-			var c =this.cont_s.getModifiedRecords();
-			if(c.length>0){
-				var x = ATX(c,'FContainer',FContainer);
-				xml=xml+x;
-			};
-			if(p.get('consBizClass')==BC_I){
-				var cc =this.hbl_s.getModifiedRecords();
-				if(cc.length>0){
-					var x = ATX(cc,'FBl',FBl);xml=xml+x;
-				};
-			}
-		}
-   	 	
-   	 	var cargos =this.carg_s.getModifiedRecords();
-		if(cargos.length>0){
-			var x = ATX(cargos,'FCargo',FCargo);
-			xml=xml+x;
-		};
-		
-		tb.getComponent('TB_A').setDisabled(true);
-   	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,
-   	 		method:'POST',
-   	 		params:{A:p.get('wconId')?'WCON_S':'CONS_S'},
-			success: function(res){
-				tb.getComponent('TB_A').setDisabled(false);
-				
-				var c = XTR(res.responseXML,'FConsign',FConsign);
-				var ra=p.get('rowAction');
-				var f = FConsign.prototype.fields;
-				
-				p.beginEdit();
-   				for (var i = 0; i < f.keys.length; i++) {
-   					var fn = ''+f.keys[i];
-   					p.set(fn,c.get(fn));
-   				}
-				if(ra=='N'){
-					var t = T_MAIN.getComponent('C_'+ p.get('id'));
-					var title=getBT(p.get('consBizType'))+getBC(p.get('consBizClass'))+getSHTY(p.get('consShipType'))+'委托【'+p.get("consNo")+'】';
-					t.setTitle(title);
-					this.find('name','consNo')[0].setValue(p.get('consNo'));
-					
-					var mn = this.find('name','consMasterNo');
-					if(mn && mn.length>0){
-						masterNo = mn[0];
-						masterNo.setValue(p.get('consMasterNo'));
-					}
-					p.set('rowAction','M');
-				}
-				p.endEdit();
-				
-				if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B || p.get('consBizType')==BT_C){
-					var a = XTRA(res.responseXML,'FCargo',FCargo);
-					FOSU(this.carg_s,a,FCargo);
-				}
-				if(p.get('consBizType')==BT_C){
-					var b = XTRA(res.responseXML,'FContainer',FContainer);
-					FOSU(this.cont_s,b,FContainer);
-				}				
-				if(p.get('consBizType')==BT_C&&p.get('consBizClass')==BC_I){
-					var c = XTRA(res.responseXML,'FBl',FBl);
-					FOSU(this.hbl_s,c,FBl);
-				}
-				XMG.alert(SYS,M_S);
-				Fos.showConsignTabs(p);				
-			},
-			failure: function(res){
-				XMG.alert(SYS,M_F+res.responseText);
-				tb.getComponent('TB_A').setDisabled(false);
-			},
-			xmlData:FOSX(xml)
-		});
-    };    
+    
     
     var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
 		style:'{font-weight:bold;color:green;}',
@@ -3198,6 +2999,207 @@ Fos.BookTab = function(p) {
     	if(tb.getComponent('TB_M_CONS_NO')) tb.getComponent('TB_M_CONS_NO').setDisabled(NR(m+F_MIDIFY_CONS_NO)||locked==1||p.get('consStatus')==7||p.get('consStatus')==8);
     };
     
+    this.save = function(){    	
+    	var tb=this.getTopToolbar();
+		if(!p.get('custId')){
+			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);
+			return;
+		};
+		
+		if(this.find('name','deptId')[0].getValue()==''){
+			XMG.alert(SYS,M_DEPT_REQIRED,function(){
+				this.find('name','deptId')[0].focus();
+			},this);
+			return;
+		};	
+		
+		if(this.find('name','consSalesRepName')[0].getValue()==''){
+			XMG.alert(SYS,M_SALES_REQIRED,function(){
+				this.find('name','consSalesRepName')[0].focus();},this);
+			return;
+		};
+		
+		if(this.find('name','consOperatorName')[0].getValue()==''){
+			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){
+				this.find('name','consOperatorName')[0].focus();},this);
+			return;
+		};
+		
+		if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B ||p.get('consBizType')==BT_C){
+			if(this.find('name','consPolEn')[0].getValue()==''){
+				XMG.alert(SYS,M_POD_REQIRED,function(){
+					this.find('name','consPodEn')[0].focus();
+				},this);
+				return;
+			};
+			
+			if(this.find('name','consPodEn')[0].getValue()==''){
+				XMG.alert(SYS,M_POD_REQIRED,function(){
+					this.find('name','consPodEn')[0].focus();
+				},this);
+				return;
+			};
+			
+			if(p.get('consBizClass')==BC_E&&this.find('name','consEtd')[0].getValue()==''){
+				XMG.alert(SYS,M_ETD_REQIRED,function(){
+					this.find('name','consEtd')[0].focus();
+				},this);
+				return;
+			};
+			
+			if(p.get('consBizClass')==BC_I && this.find('name','consEta')[0].getValue()==''){
+				XMG.alert(SYS,M_ETA_REQIRED,function(){
+					this.find('name','consEta')[0].focus();
+				},this);
+				return;
+			};
+		}
+			
+		var f = FConsign.prototype.fields;
+		for (var i = 0; i < f.keys.length; i++) {
+        	var fn = ''+f.keys[i];
+        	var fc = this.find('name',fn);
+        	if(fc!=undefined&&fc.length>0){
+        		p.set(fn,fc[0].getValue());
+        	}
+   	 	}
+   	 	var df=this.findById('cargDanagerFlag');
+   	 	if(df!=undefined&&df.checkbox)
+   	 		p.set('cargDanagerFlag',this.findById('cargDanagerFlag').checkbox.dom.checked);
+   	 	
+   	 	var rf=this.findById('cargReeterFlag');
+   	 	if(rf!=undefined&&rf.checkbox)
+   	 		p.set('cargReeterFlag',this.findById('cargReeterFlag').checkbox.dom.checked);
+   	 	
+   	 	var bf=this.findById('cargBigFlag');
+   	 	if(bf!=undefined&&bf.checkbox)
+   	 	p.set('cargBigFlag',this.findById('cargBigFlag').checkbox.dom.checked);
+   	 	   	 	
+  	 	var consServiceRequired = '';   	 	
+  	 	if(this.find('name','SR_TRAN')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_TRAN')[0].getValue()?SR_TRAN:'';
+  	 	if(this.find('name','SR_WARE')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_WARE')[0].getValue()?SR_WARE:'';
+  	 	if(this.find('name','SR_INSP')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_INSP')[0].getValue()?SR_INSP:'';
+  	 	if(this.find('name','SR_CUDE')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_CUDE')[0].getValue()?SR_CUDE:'';
+  	 	if(this.find('name','SR_CONT')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_CONT')[0].getValue()?SR_CONT:'';
+  	 	if(this.find('name','SR_BL')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_BL')[0].getValue()?SR_BL:'';
+  	 	if(this.find('name','SR_BBOOK')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_BBOOK')[0].getValue()?SR_BBOOK:'';
+  	 	if(this.find('name','SR_RABL')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_RABL')[0].getValue()?SR_RABL:'';
+  	 	if(this.find('name','SR_SESH')[0]) 
+  	 		consServiceRequired+=this.find('name','SR_SESH')[0].getValue()?SR_SESH:'';
+  	 	p.set('consServiceRequired',consServiceRequired);
+   	 	
+   	 	if(p.get('consBizType')==BT_C){
+	   	 	var c =this.cont_s.getModifiedRecords();
+	   	 	if(c.length>0){
+	   	 		var tc=0;var cif='';var tn=0;	   	 		
+	   	 		var ra = this.contGrid.getStore().getRange();
+	   	 		for(var i=0;i<ra.length;i++){
+	   	 			var ct = ra[i].get('cotyId');
+	   	 			var cc=getCOTY(ct);
+	   	 			var cl=getCLCODE(ct);
+	   	 			var teu=getCTEU(ct);
+	   	 			var n = ra[i].get('contNum');
+	   	 			tn+=teu*n;
+	   	 			cif+=n+'X'+cc+' ';
+	   	 			tc=tc+n;
+	   	 			if(cl=='FR'||cl=='OT') bf=true;
+	   	 			else if(cl=='DG') df=true;
+	   	 			else if(cl=='RF') rf=true;
+	   	 		}
+	   	 		p.set('consTotalContainers',tc);
+	   	 		p.set('consContainersInfo',cif);
+	   	 		p.set('consContainersTeu',tn);
+	   	 	}
+   	 	}
+   	 	
+   	 	p.set('consCargoPackages',''+p.get('consTotalPackages')+p.get('packName'));
+ 		p.set('consCargoNetWeight',''+p.get('consTotalNetWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
+ 		p.set('consCargoGrossWeight',''+p.get('consTotalGrossWeight')+(p.get('consBizType')==BT_C?'KGS':'MT'));
+ 		p.set('consCargoMeasurement',''+p.get('consTotalMeasurement')+'CBM');
+   	 	
+ 		var xml = RTX(p,'FConsign',FConsign);
+   	 	if(p.get('consBizType')==BT_C){
+			var c =this.cont_s.getModifiedRecords();
+			if(c.length>0){
+				var x = ATX(c,'FContainer',FContainer);
+				xml=xml+x;
+			};
+			if(p.get('consBizClass')==BC_I){
+				var cc =this.hbl_s.getModifiedRecords();
+				if(cc.length>0){
+					var x = ATX(cc,'FBl',FBl);xml=xml+x;
+				};
+			}
+		}
+   	 	
+   	 	var cargos =this.carg_s.getModifiedRecords();
+		if(cargos.length>0){
+			var x = ATX(cargos,'FCargo',FCargo);
+			xml=xml+x;
+		};
+		
+		tb.getComponent('TB_A').setDisabled(true);
+   	 	Ext.Ajax.request({scope:this,url:SERVICE_URL,
+   	 		method:'POST',
+   	 		params:{A:p.get('wconId')?'WCON_S':'CONS_S'},
+			success: function(res){
+				tb.getComponent('TB_A').setDisabled(false);
+				
+				var c = XTR(res.responseXML,'FConsign',FConsign);
+				var ra=p.get('rowAction');
+				var f = FConsign.prototype.fields;
+				
+				p.beginEdit();
+   				for (var i = 0; i < f.keys.length; i++) {
+   					var fn = ''+f.keys[i];
+   					p.set(fn,c.get(fn));
+   				}
+				if(ra=='N'){
+					var t = T_MAIN.getComponent('C_'+ p.get('id'));
+					var title=getBT(p.get('consBizType'))+getBC(p.get('consBizClass'))+getSHTY(p.get('consShipType'))+'委托【'+p.get("consNo")+'】';
+					t.setTitle(title);
+					this.find('name','consNo')[0].setValue(p.get('consNo'));
+					
+					var mn = this.find('name','consMasterNo');
+					if(mn && mn.length>0){
+						masterNo = mn[0];
+						masterNo.setValue(p.get('consMasterNo'));
+					}
+					p.set('rowAction','M');
+				}
+				p.endEdit();
+				
+				if(p.get('consBizType')==BT_A || p.get('consBizType')==BT_B || p.get('consBizType')==BT_C){
+					var a = XTRA(res.responseXML,'FCargo',FCargo);
+					FOSU(this.carg_s,a,FCargo);
+				}
+				if(p.get('consBizType')==BT_C){
+					var b = XTRA(res.responseXML,'FContainer',FContainer);
+					FOSU(this.cont_s,b,FContainer);
+				}				
+				if(p.get('consBizType')==BT_C&&p.get('consBizClass')==BC_I){
+					var c = XTRA(res.responseXML,'FBl',FBl);
+					FOSU(this.hbl_s,c,FBl);
+				}
+				XMG.alert(SYS,M_S);
+				Fos.showConsignTabs(p);				
+			},
+			failure: function(res){
+				XMG.alert(SYS,M_F+res.responseText);
+				tb.getComponent('TB_A').setDisabled(false);
+			},
+			xmlData:FOSX(xml)
+		});
+    };    
+    
     //保存
 	var btnSave = new Ext.Button({text:C_SAVE,
 		itemId:'TB_A',
@@ -3369,7 +3371,8 @@ Fos.BookTab = function(p) {
 		handler:this.MoidfyConsNo
 	});
 	
-	var exp1=CREATE_E_MENU(M_ARRIVE_ADVICE,function(){this.expExcel('ARAD');},function(){this.expEmail('ARAD',M_ARRIVE_ADVICE);},function(){this.expFax('ARAD',M_ARRIVE_ADVICE);},this);
+	var exp1 = CREATE_E_MENU(M_ARRIVE_ADVICE,function(){this.expExcel('ARAD');},function(){this.expEmail('ARAD',M_ARRIVE_ADVICE);},function(){this.expFax('ARAD',M_ARRIVE_ADVICE);},this);
+	
 	var exp2=CREATE_E_MENU(M_BOOK,function(){this.expExcel('CONS_B');},function(){this.expEmail('CONS_B',M_BOOK);},function(){this.expFax('CONS_B',M_BOOK);},this);
 	var exp3=CREATE_E_MENU(M_BOOK_CONFIRM,function(){this.expExcel('BOOK_C');},function(){this.expEmail('BOOK_C',M_BOOK_CONFIRM);},function(){this.expFax('BOOK_C',M_BOOK_CONFIRM);},this);
 	var exp4=CREATE_E_MENU(M_CONSIGN,function(){this.expExcel('CONS');},function(){this.expEmail('CONS',M_CONSIGN);},function(){this.expFax('CONS',M_CONSIGN);},this);
@@ -3416,8 +3419,7 @@ Fos.BookTab = function(p) {
 		header:false,
 		autoScroll:true,
 		border:false,
-		labelAlign:'right',
-		bodyStyle:'padding:2px 10px 10px 2px',
+		labelAlign:'right',		
 		tbar:tbs,		
 		items:[
 		    {id:'T_BOOK_T_'+p.get('id'),

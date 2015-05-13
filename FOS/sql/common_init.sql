@@ -73,6 +73,8 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 
 ('SEIT_S', 'GServiceItemService', 'save', '服务项目保存'),
 ('SEIT_Q', 'GServiceItemService', 'query', '服务项目查询'),
+('CCTY_S', 'GCargoCheckTypeService', 'save', '货物查验类型保存'),
+('CCTY_Q', 'GCargoCheckTypeService', 'query', '货物查验类型查询'),
 
 ('LIPO_S', 'GLinePortService', 'save', '港口保存'),
 ('LIPO_Q', 'GLinePortService', 'query', '港口查询'),
@@ -1232,6 +1234,11 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00103301', '查看', 'F', 1),
 ('00103302', '编辑', 'F', 1),
 ('00103303', '删除', 'F', 1),
+
+('001034', '货物查验类型', 'M', 1),
+('00103401', '查看', 'F', 1),
+('00103402', '编辑', 'F', 1),
+('00103403', '删除', 'F', 1),
 
 ('0011', '系统管理', 'M', 1),
 ('001101', '业务分组', 'M', 1),

@@ -155,7 +155,8 @@ var G_CUTY='29';
 var G_SEIT='30';
 var G_INTY='31';
 var G_CAPR = '32';
-var G_PAYW = '32';
+var G_PAYW = '33';
+var G_CCTY = '34';
 
 var S_COAU='01';
 var S_BILL_R='02';

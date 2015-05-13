@@ -2575,6 +2575,23 @@ CREATE TABLE IF NOT EXISTS G_LEVY_TYPE (
 -- --------------------------------------------------------
 
 --
+-- 表报关货物查验类型的结构 G_CARGO_CHECK_TYPE
+--
+
+CREATE TABLE IF NOT EXISTS G_CARGO_CHECK_TYPE (
+  CCTY_ID INT NOT NULL auto_increment,
+  CCTY_NAME VARCHAR(16) NOT NULL,
+  ACTIVE TINYINT(4) default '1',
+  COMP_CODE VARCHAR(32) NOT NULL,
+  VERSION INT NOT NULL default '0',
+  REMOVED TINYINT(4) NOT NULL default '0',
+  PRIMARY KEY  (CCTY_ID)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+
+--
 -- 表委托项目的结构 G_SERVICE_ITEM
 --
 
