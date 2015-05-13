@@ -370,6 +370,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     
     var colHarbourOpenTime = {header:C_HARBOUR_OPEN_TIME,dataIndex:"harbourOpenTime",width:150};
     var colHarbourCloseTime = {header:C_HARBOUR_CLOSE_TIME,dataIndex:"harbourCloseTime",width:150};
+    // 业务员
+    var colSalesRep = {header:C_SALES,width:80,dataIndex:"consSalesRepName"};
     
     var cm=new Ext.grid.ColumnModel({columns:
     	(bizType==BT_B)?[c1,colStatusLock,colMasterFlag,colConsMasterNo,colStatus,colConsNo,
@@ -379,7 +381,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     	                 colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
     	                 colBlCargoPackages,colBlCargoGrossWeight,colBlCargoMeasurement,colShippedGrossWeight,
     	                 colShippedMeasurement,colPotEn,colCarrierName,colBookingAgencyName,colConsRemarks]:
-	    	            [c1,colStatusLock,colMasterFlag,colStatus,colConsMasterNo,colOperator,colConsNo,colCustName,
+	    	            [c1,colStatusLock,colMasterFlag,colStatus,colConsMasterNo,colOperator,colSalesRep,colConsNo,colCustName,
 	    	             colConsDate,colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
 	    	             colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
 	    	             colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
