@@ -208,7 +208,7 @@ Fos.showConsignTabs = function(p){
 	
 	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1){
 		if(!tc.getComponent('T_INSP_'+p.get('id'))){
-			tc.add(new Fos.InspectionPanel(p));
+			tc.add(new Fos.InspGridPanel(p));
 		}
 	}
 	else{
@@ -220,7 +220,7 @@ Fos.showConsignTabs = function(p){
 	
 	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1){
 		if(!tc.getComponent('T_CUDE_'+p.get('id'))){
-			tc.add(new Fos.CudePanel(p));
+			tc.add(new Fos.CudeGridPanel(p));
 		}
 	}
 	else{
@@ -293,12 +293,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
 	store.baseParams=bp;
 	
-    store.load({params:{start:0,limit:C_PS}});
-	
-    this.reset=function(){
-    	store.baseParams=bp;
-    	store.reload({params:{start:0,limit:C_PS}});
-    };
+    store.load({params:{start:0,limit:C_PS}});   
     
 	var sm=new Ext.grid.RowSelectionModel({singleSelect:true});	
 	var c1=new Ext.grid.RowNumberer();
@@ -375,142 +370,24 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     
     var cm=new Ext.grid.ColumnModel({columns:
     	(bizType==BT_B)?[c1,colStatusLock,colMasterFlag,colConsMasterNo,colStatus,colConsNo,
-    	                 colConsContractNo,colOperator,colCustName,colCargoOwner,colConsignee,colConsDate,
-    	                 colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
-    	                 colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
-    	                 colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
-    	                 colBlCargoPackages,colBlCargoGrossWeight,colBlCargoMeasurement,colShippedGrossWeight,
-    	                 colShippedMeasurement,colPotEn,colCarrierName,colBookingAgencyName,colConsRemarks]:
-	    	            [c1,colStatusLock,colMasterFlag,colStatus,colConsMasterNo,colOperator,colSalesRep,colConsNo,colCustName,
-	    	             colConsDate,colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
-	    	             colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
-	    	             colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
-	    	             colContainersInfo,colTotalContainers,colPotEn,colCarrierName,colBookingAgencyName,
-	    	             colConsRemarks,colConsContractNo],
+             colConsContractNo,colOperator,colCustName,colCargoOwner,colConsignee,colConsDate,
+             colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
+             colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
+             colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
+             colBlCargoPackages,colBlCargoGrossWeight,colBlCargoMeasurement,colShippedGrossWeight,
+             colShippedMeasurement,colPotEn,colCarrierName,colBookingAgencyName,colConsRemarks]:
+            [c1,colStatusLock,colMasterFlag,colStatus,colConsMasterNo,colOperator,colSalesRep,colConsNo,colCustName,
+             colConsDate,colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
+             colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
+             colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
+             colContainersInfo,colTotalContainers,colPotEn,colCarrierName,colBookingAgencyName,
+             colConsRemarks,colConsContractNo],
 		defaults: {sortable: true}
-    });
-	
-	this.addConsign = function(){
-		var c = sm.getSelected();
-		if(c.get('consMasterFlag')=='1'){
-			var b = Fos.copyConsign(c);
-			b.set('consMasterFlag',0);
-			b.set('consMasterId',c.get('consId'));
-			b.set('consMasterNo',c.get('consNo'));
-			b.set('vessId',c.get('vessId'));
-			b.set('vessName',c.get('vessName'));
-			b.set('voyaId',c.get('voyaId'));
-			b.set('voyaName',c.get('voyaName'));
-			b.set('consPol',c.get('consPol'));
-			b.set('consPolName',c.get('consPolName'));
-			b.set('consPod',c.get('consPod'));			
-			b.set('consPodName',c.get('consPodName'));
-			b.set('consPot',c.get('consPot'));			
-			b.set('consPotName',c.get('consPotName'));
-			b.set('consTranCountry',c.get('consTranCountry'));
-			b.set('consTradeCountry',c.get('consTradeCountry'));
-			b.set('consOverseaAgency',c.get('consOverseaAgency'));			
-			b.set('consOverseaAgencyName',c.get('consOverseaAgencyName'));
-			b.set('consHarbour',c.get('consHarbour'));
-			b.set('consCfs',c.get('consCfs'));
-			b.set('consCfsName',c.get('consCfsName'));
-			b.set('consBookingAgency',c.get('consBookingAgency'));
-			b.set('consBookingAgencyName',c.get('consBookingAgencyName'));
-			b.set('consCarrier',c.get('consCarrier'));
-			b.set('consCarrierName',c.get('consCarrierName'));
-			b.set('consExternalFlag',external?external:0);
-			Fos.showConsign(b);
-		}
-		else 
-			XMG.alert(SYS,M_SEL_M_CONS);
-	};
-	
-	this.newConsign = function(){
-		var c=Fos.newConsign(bizClass,bizType,shipType);
-		c.set('consExternalFlag',external?external:'0');
-		Fos.showConsign(c);
-	};
-	
-	this.editConsign = function(){
-		var b=sm.getSelected();
-		if(b) Fos.showConsign(b); 
-		else XMG.alert(SYS,M_NO_DATA_SELECTED);
-	};
-	
-	this.task = function(){
-		var b=sm.getSelected();
-		if(b){
-			var w=new Fos.TaskWin(b);w.show();
-		}
-		else 
-			XMG.alert(SYS,M_NO_DATA_SELECTED);
-	};
-	
-	this.removeConsign = function(){
-		var a =sm.getSelections();
-       	if(a.length){
-       		XMG.confirm(SYS,M_R_C,function(btn){
-           	if(btn=='yes'){
-           		var xml = SMTX4RM(sm,'FConsign','consId','consMasterId');
-           		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
-				success: function(){
-					sm.each(function(p){store.remove(p);});
-					XMG.alert(SYS,M_S);
-				},
-				failure: function(r,o){
-					XMG.alert(SYS,M_F+r.responseText);
-				},
-				xmlData:FOSX(xml)});
-           }});
-		}
-       	else 
-       		XMG.alert(SYS,M_R_P);
-    };
+    });		
     
     setQueryParams=function(a){
     	queryParams = a;
-    };
-    
-	this.search = function(){
-		var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store,setQueryParams);
-		w.show();
-	};
-	
-	var rowCtxEvents = {
-		rowdblclick: function(grid, rowIndex, event){
-			var c=grid.getSelectionModel().getSelected();
-			if(c){
-				Fos.showConsign(c);
-			}
-		},
-		render: function(g) {
-			var target = g.getView().el.dom.childNodes[0].childNodes[1];
-			var firstGridDropTarget = new Ext.dd.DropTarget(target, {
-				ddGroup:'consGridDDGroup',
-				copy:false,
-				notifyDrop : function(ddSource, e, data){
-					var rfrom = g.getStore().getById(data.selections[0].id);
-					var t = Ext.lib.Event.getTarget(e);
-					var rindex = g.getView().findRowIndex(t);
-					var rto = g.getStore().getAt(rindex);
-					if(rto.get('consMasterFlag')!='1'||rfrom.get('consMasterId')==rto.get('consId')) 
-						return false;
-					var t=new Ext.Template(M_LCL_TRANS);
-					var msg=t.apply([rfrom.get('consNo'),rto.get('consNo')]);
-					Ext.Msg.confirm(SYS,msg,function(btn){
-    					if (btn == 'yes'){
-        					Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
-								params:{A:'CONS_MNO_U',consMasterFlag:0,consMasterId:rto.get('consId'),consMasterNo:rto.get('consNo'),consId:rfrom.get('consId')},
-								success: function(r){store.reload(store.lastOptions);XMG.alert(SYS,M_S);return true;},
-								failure: function(r){XMG.alert(SYS,M_F+r.responseText); return false;}
-							});					
-    					}
-    					else return false;
-					});					
-				}
-			}); 
-		}
-	};	
+    };	
 	
 	var kw = new Ext.form.TextField({listeners:{scope:this,
 		specialkey:function(c,e){
@@ -518,55 +395,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 				this.fastSearch();
 			}
 		}
-	});
-	
-	this.fastSearch=function(){
-		var consNo=kw.getValue();
-		if(!consNo){
-			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
-			return;
-		};
-		
-     	var a=[];
-     	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
-    	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
-    	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
-    	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
-    	
-    	var c=consNo.indexOf(',');
-		var b=consNo.indexOf('..');
-		
-     	if(c>=0){
-			a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
-		}
-		else if(b>=0){
-			var ra=consNo.split('..');
-			a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
-			a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
-		}
-		else
- 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
-     	queryParams = a;
-    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
-     	store.reload({params:{start:0,limit:C_PS},
-     		callback:function(r){
-     			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
-     		}});
-	};
-	
-	this.exp=function(){
-		if(queryParams.length>0){
-			var a = queryParams;
-			var qa = [];
-			for(var i=0;i<a.length;i++){
-				qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
-			}
-			EXPC('CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
-		}
-		else{
-			EXPC('CONS_LIST','&mt=JSON&start=0&limit=500');
-		}
-	};
+	});	
   	
   	var title=getBC(bizClass);
   	if(bizType!='C')
@@ -579,49 +408,253 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
   	title+=C_CONS_LIST;
   	
 	var m=getRM(bizClass,bizType,shipType)+M3_CONS;
-	
-	var b1={text:C_ADD,
+		
+	//新增委托
+	var btnAdd = new Ext.Button({
+		text:C_ADD,
 		disabled:NR(m+F_M)||(bizType==BT_C&&shipType==''),
 		iconCls:'add',
-		handler:this.newConsign
-	};
-	
-	var b2={text:(shipType=='LCL'?C_LCL:C_FIGHT_SINGLE),
+		handler:function(){
+			var c=Fos.newConsign(bizClass,bizType,shipType);
+			c.set('consExternalFlag',external?external:'0');
+			Fos.showConsign(c);
+		}
+	});
+		
+	//并单
+	var btnMerge = new Ext.Button({
+		text:(shipType=='LCL'?C_LCL_ADD_CONSIGN:C_MERGE_CONSIGN),
 		disabled:NR(m+F_M),
 		iconCls:'add',
-		handler:this.addConsign
-	};
+		handler:function(){
+			var c = sm.getSelected();
+			if(c.get('consMasterFlag')=='1'){
+				var b = Fos.copyConsign(c);
+				b.set('consMasterFlag',0);
+				b.set('consMasterId',c.get('consId'));
+				b.set('consMasterNo',c.get('consNo'));
+				b.set('vessId',c.get('vessId'));
+				b.set('vessName',c.get('vessName'));
+				b.set('voyaId',c.get('voyaId'));
+				b.set('voyaName',c.get('voyaName'));
+				b.set('consPol',c.get('consPol'));
+				b.set('consPolName',c.get('consPolName'));
+				b.set('consPod',c.get('consPod'));			
+				b.set('consPodName',c.get('consPodName'));
+				b.set('consPot',c.get('consPot'));			
+				b.set('consPotName',c.get('consPotName'));
+				b.set('consTranCountry',c.get('consTranCountry'));
+				b.set('consTradeCountry',c.get('consTradeCountry'));
+				b.set('consOverseaAgency',c.get('consOverseaAgency'));			
+				b.set('consOverseaAgencyName',c.get('consOverseaAgencyName'));
+				b.set('consHarbour',c.get('consHarbour'));
+				b.set('consCfs',c.get('consCfs'));
+				b.set('consCfsName',c.get('consCfsName'));
+				b.set('consBookingAgency',c.get('consBookingAgency'));
+				b.set('consBookingAgencyName',c.get('consBookingAgencyName'));
+				b.set('consCarrier',c.get('consCarrier'));
+				b.set('consCarrierName',c.get('consCarrierName'));
+				b.set('consExternalFlag',external?external:0);
+				Fos.showConsign(b);
+			}
+			else 
+				XMG.alert(SYS,M_SEL_M_CONS);
+		}
+	});
 	
-	var b3={text:C_EDIT,
+	//编辑
+	var btnEdit = new Ext.Button({text:C_EDIT,
 		disabled:NR(m+F_V),
 		iconCls:'option',
-		handler:this.editConsign
-	};
-	
-	var b4={text:C_REMOVE,
+		handler:function(){
+			var b=sm.getSelected();
+			if(b) 
+				Fos.showConsign(b); 
+			else 
+				XMG.alert(SYS,M_NO_DATA_SELECTED);
+		}
+	});
+	    
+	//删除
+	var btnRemove = new Ext.Button({text:C_REMOVE,
 		disabled:NR(m+F_R),
 		iconCls:'remove',
-		handler:this.removeConsign
-	};
+		handler:function(){
+			var a =sm.getSelections();
+	       	if(a.length){
+	       		XMG.confirm(SYS,M_R_C,function(btn){
+	           	if(btn=='yes'){
+	           		var xml = SMTX4RM(sm,'FConsign','consId','consMasterId');
+	           		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:{A:'CONS_S'},
+					success: function(){
+						sm.each(function(p){store.remove(p);});
+						XMG.alert(SYS,M_S);
+					},
+					failure: function(r,o){
+						XMG.alert(SYS,M_F+r.responseText);
+					},
+					xmlData:FOSX(xml)});
+	           }});
+			}
+	       	else 
+	       		XMG.alert(SYS,M_R_P);
+	    }
+	});
+		
+	//高级查询
+	var btnSearch = new Ext.Button({text:C_SEARCH,
+		iconCls:'search',
+		handler:function(){
+			var w=new Fos.ConsLookupWin(bizClass,bizType,shipType,'CONS_X',store,setQueryParams);
+			w.show();
+		}
+	});	
 	
-	var b5={text:C_SEARCH,iconCls:'search',handler:this.search};	
-	var b6={text:C_EXPORT,disabled:NR(m+F_E),iconCls:'print',handler:this.exp};	
-	var b7={text:C_FAST_SEARCH,iconCls:'search',handler:this.fastSearch};	
-	var b8={text:C_RESET,iconCls:'refresh',handler:this.reset};
-	var b9={text:C_TASK,iconCls:'task',handler:this.task};
-    var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
+	
+	//导出
+	var btnExport = new Ext.Button({text:C_EXPORT,
+		disabled:NR(m+F_E),
+		iconCls:'print',
+		handler:function(){
+			if(queryParams.length>0){
+				var a = queryParams;
+				var qa = [];
+				for(var i=0;i<a.length;i++){
+					qa[i] = {key:a[i].get('key'),op:a[i].get('op'),value:a[i].get('value')};
+				}
+				EXPC('CONS_LIST','&mt=JSON&xml='+Ext.util.JSON.encode(FOSJ(QTJ(qa))));
+			}
+			else{
+				EXPC('CONS_LIST','&mt=JSON&start=0&limit=500');
+			}
+		}
+	});	
+		
+	//快速查询
+	var btnFastSearch = new Ext.Button({text:C_FAST_SEARCH,
+		iconCls:'search',
+		handler:function(){
+			var consNo=kw.getValue();
+			if(!consNo){
+				XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+				return;
+			};
+			
+	     	var a=[];
+	     	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+	    	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+	    	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+	    	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+	    	
+	    	var c=consNo.indexOf(',');
+			var b=consNo.indexOf('..');
+			
+	     	if(c>=0){
+				a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
+			}
+			else if(b>=0){
+				var ra=consNo.split('..');
+				a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
+				a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
+			}
+			else
+	 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
+	     	
+	     	queryParams = a;
+	    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
+	     	store.reload({params:{start:0,limit:C_PS},
+	     		callback:function(r){
+	     			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
+	     		}
+	     	});
+		}
+	});	
+	
+	
+	//重置
+	var btnReset = new Ext.Button({text:C_RESET,
+		iconCls:'refresh',
+		handler:function(){
+	    	store.baseParams=bp;
+	    	store.reload({params:{start:0,limit:C_PS}});
+	    }
+	});
+		
+	
+	//任务
+	var btnTask = new Ext.Button({text:C_TASK,
+		iconCls:'task',
+		handler:function(){
+			var b=sm.getSelected();
+			if(b){
+				var w=new Fos.TaskWin(b);w.show();
+			}
+			else 
+				XMG.alert(SYS,M_NO_DATA_SELECTED);
+		}
+	});
+	
+    var tbs=[btnAdd, '-',btnEdit,'-',btnRemove,'-',btnSearch,'-',btnExport,'-',kw,btnFastSearch,'-',btnReset,'-',btnTask,'-'];
     
-    if(bizType==BT_B) 
-    	tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
-    else if (bizType==BT_C&&bizClass==BC_E)
-    	tbs=[b1, '-',b2,'-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-',b9,'-'];
+    if(bizType==BT_B){
+    	tbs=[btnAdd, '-',btnEdit,'-',btnRemove,'-',btnSearch,'-',btnExport,'-',kw,btnFastSearch,'-',btnReset,'-',btnTask,'-'];
+    }     	
+    else if (bizType==BT_C&&bizClass==BC_E){
+    	tbs=[btnAdd, '-',btnMerge,'-',btnEdit,'-',btnRemove,'-',btnSearch,'-',btnExport,'-',kw,btnFastSearch,'-',btnReset,'-',btnTask,'-'];
+    }
+    	
+    
 	Fos.ConsignGrid.superclass.constructor.call(this, {
-    id:'G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''),iconCls:'grid',
-    store: store,title:title,header:false,loadMask:true,
-	sm:sm,cm:cm,stripeRows:true,closable:true,ddGroup:'consGridDDGroup',enableDragDrop:shipType=='LCL'?true:false,	
-	listeners:rowCtxEvents,
-	view:new Ext.grid.GroupingView(groupViewCfg),
-	tbar:tbs,bbar:PTB(store,C_PS)});    
+	    id:'G_CONS_'+bizClass+'_'+bizType+(shipType==''?'':'_'+shipType)+(external?'_'+external:''),
+	    iconCls:'grid',
+	    store: store,
+	    title:title,
+	    header:false,
+	    loadMask:true,
+		sm:sm,
+		cm:cm,
+		stripeRows:true,
+		closable:true,
+		ddGroup:'consGridDDGroup',
+		enableDragDrop:shipType=='LCL'?true:false,	
+		listeners:{
+			rowdblclick: function(grid, rowIndex, event){
+				var c=grid.getSelectionModel().getSelected();
+				if(c){
+					Fos.showConsign(c);
+				}
+			},
+			render: function(g) {
+				var target = g.getView().el.dom.childNodes[0].childNodes[1];
+				var firstGridDropTarget = new Ext.dd.DropTarget(target, {
+					ddGroup:'consGridDDGroup',
+					copy:false,
+					notifyDrop : function(ddSource, e, data){
+						var rfrom = g.getStore().getById(data.selections[0].id);
+						var t = Ext.lib.Event.getTarget(e);
+						var rindex = g.getView().findRowIndex(t);
+						var rto = g.getStore().getAt(rindex);
+						if(rto.get('consMasterFlag')!='1'||rfrom.get('consMasterId')==rto.get('consId')) 
+							return false;
+						var t=new Ext.Template(M_LCL_TRANS);
+						var msg=t.apply([rfrom.get('consNo'),rto.get('consNo')]);
+						Ext.Msg.confirm(SYS,msg,function(btn){
+	    					if (btn == 'yes'){
+	        					Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+									params:{A:'CONS_MNO_U',consMasterFlag:0,consMasterId:rto.get('consId'),consMasterNo:rto.get('consNo'),consId:rfrom.get('consId')},
+									success: function(r){store.reload(store.lastOptions);XMG.alert(SYS,M_S);return true;},
+									failure: function(r){XMG.alert(SYS,M_F+r.responseText); return false;}
+								});					
+	    					}
+	    					else return false;
+						});					
+					}
+				}); 
+			}
+		},
+		view:new Ext.grid.GroupingView(groupViewCfg),
+		tbar:tbs,bbar:PTB(store,C_PS)
+	});    
 };
 Ext.extend(Fos.ConsignGrid, Ext.grid.GridPanel);
 
@@ -650,10 +683,10 @@ Fos.ConsignTab = function(p){
 		items[items.length]=new Fos.BLTab(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_INSP)!=-1) 
-		items[items.length]=new Fos.InspectionPanel(p);
+		items[items.length]=new Fos.InspGridPanel(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_CUDE)!=-1) 
-		items[items.length]=new Fos.CudePanel(p);
+		items[items.length]=new Fos.CudeGridPanel(p);
 	
 	if(p.get('consServiceRequired').indexOf(SR_BBOOK)!=-1) 
 		items[items.length]=new Fos.BBookingTab(p);	

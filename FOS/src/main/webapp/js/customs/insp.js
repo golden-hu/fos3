@@ -1,5 +1,5 @@
 //关务 - 报检
-Fos.InspectionGrid = function() {
+Fos.InspectionConsignGrid = function() {
 	var queryParams=[];
 	queryParams[queryParams.length]=new QParam({key:'consBizType',value:BT_I,op:1});
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
@@ -185,20 +185,33 @@ Fos.InspectionGrid = function() {
 			
     var tbs=[b1, '-',b3,'-',b4,'-',b5,'-',b6,'-',kw,b7,'-',b8,'-'];
        
-	Fos.InspectionGrid.superclass.constructor.call(this, {
-    id:'G_CONS_I',iconCls:'grid',store: store,
-    title:C_INSPECTION+C_CONS_LIST,header:false,loadMask:true,
-	sm:sm,cm:cm,stripeRows:true,closable:true,
-	listeners:{rowdblclick: function(grid, rowIndex, event){
-			var c=grid.getSelectionModel().getSelected();
-			if(c){showInspConsign(c);
-		}}},
-	tbar:tbs,
-	bbar:PTB(store,C_PS)});	
-    store.load({params:{start:0,limit:C_PS}});
+	Fos.InspectionConsignGrid.superclass.constructor.call(this, {
+	    id:'G_CONS_I',
+	    iconCls:'grid',
+	    store: store,
+	    title:C_INSPECTION+C_CONS_LIST,
+	    header:false,
+	    loadMask:true,
+		sm:sm,
+		cm:cm,
+		stripeRows:true,
+		closable:true,
+		listeners:{
+			rowdblclick: function(grid, rowIndex, event){
+				var c=grid.getSelectionModel().getSelected();
+				if(c){
+					showInspConsign(c);
+				}
+			}
+		},
+		tbar:tbs,
+		bbar:PTB(store,C_PS)
+	});
+	
+	store.load({params:{start:0,limit:C_PS}});
 };
 
-Ext.extend(Fos.InspectionGrid, Ext.grid.GridPanel);
+Ext.extend(Fos.InspectionConsignGrid, Ext.grid.GridPanel);
 
 Fos.InspConsLookupWin = function(store,setQueryParams){    
 	this.reload=function(){

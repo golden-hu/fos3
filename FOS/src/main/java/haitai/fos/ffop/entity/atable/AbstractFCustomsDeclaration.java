@@ -138,7 +138,7 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 	private Date cudeExpireDeclarDate; //免柜期
 	private Date cudeExpireContainerDate; //滞柜日期
 	private Date cudeInspectionDate; //查验日期
-	  
+	private String cudeInspectionRemark; //查验备注
 	  
 	//虚拟字段
 	private Date cudeShipDateF;
@@ -1227,6 +1227,19 @@ public abstract class AbstractFCustomsDeclaration extends BaseDomain {
 		this.cudeInspectionDate = cudeInspectionDate;
 	}
 
+	
+	
+	@Column(name = "CUDE_INSPECTION_REMARK")
+	public String getCudeInspectionRemark() {
+		return cudeInspectionRemark;
+	}
+
+	public void setCudeInspectionRemark(String cudeInspectionRemark) {
+		this.cudeInspectionRemark = cudeInspectionRemark;
+	}
+	
+	
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CUDE_SHIP_DATE_F", length = 10)
 	public Date getCudeShipDateF() {

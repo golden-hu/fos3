@@ -1158,35 +1158,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		});
     };
     
-    this.showExp=function(){
-    	var win = new Fos.ExWin(p);
-    	win.show();
-    };    
     
-    this.showDoc=function(){
-    	var win = new Fos.DocWin(p);
-    	win.show();
-    };    
-    
-    this.showAttach=function(){
-    	var win = new Fos.AttachWin(p);
-    	win.show();
-    };    
-    
-    this.showSecurityAttach=function(){
-    	var win = new Fos.SecurityAttachWin(p);
-    	win.show();
-    };
-    
-    this.showCude = function(){
-    	var win = new Fos.CustomsWin(p);
-    	win.show();    	
-    };
-    
-    this.showInsp = function(){
-    	var win = new Fos.InspectionWin(p);
-    	win.show();    	
-    };
     
     this.MoidfyConsNo=function(){
     	XMG.prompt(SYS,C_CONS_NO_NEW,function(b,v){
@@ -1232,22 +1204,7 @@ Fos.CudeConsignPanel = function(p,store) {
     	
     	if(btnRemove) 
     		btnRemove.setDisabled(NR(m+F_R)||locked||disable||s!=0||p.get('rowAction')=='N');
-    	
-    	if(btnCude) 
-    		btnCude.setDisabled(p.get('rowAction')=='N');
-    	
-    	if(btnInsp) 
-    		btnInsp.setDisabled(p.get('rowAction')=='N');
-    	
-    	if(btnExpe) 
-    		btnExpe.setDisabled(NR(m+M3_EXPE));
-    	
-    	if(btnDoc) 
-    		btnDoc.setDisabled(NR(m+M3_DOC));
-    	
-    	if(btnAttach) 
-    		btnAttach.setDisabled(NR(m+F_M));
-    	    	
+    	    	    	
     	if(btnUnlock) 
     		btnUnlock.setDisabled(NR(m+F_UL)||locked!=1);    	
     };
@@ -1308,46 +1265,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		handler:this.unlock
 	});
 	
-	var btnCude = new Ext.Button({text:C_CUSTOM_BILL,
-		itemId:'TB_CUDE',
-		iconCls:'doc',
-		disabled:p.get('rowAction')=='N',
-		scope:this,
-		handler:this.showCude
-	});
-	
-	var btnInsp = new Ext.Button({text:C_INSP_BILL,
-		itemId:'TB_INSP',
-		iconCls:'doc',
-		disabled:p.get('rowAction')=='N',
-		scope:this,
-		handler:this.showInsp
-	});
-	
-	var btnExpe = new Ext.Button({text:C_EXPE,
-		itemId:'TB_EXP',
-		iconCls:'dollar',
-		disabled:NR(m1+M3_EXPE)||p.get('rowAction')=='N',
-		scope:this,
-		handler:this.showExp
-	});
-	
-	var btnDoc = new Ext.Button({text:C_DOC,
-		itemId:'TB_DOC',
-		iconCls:'doc',
-		disabled:NR(m1+M3_DOC)||p.get('rowAction')=='N',
-		scope:this,
-		handler:this.showDoc
-	});
-	
-	var btnAttach = new Ext.Button({text:C_ATTACH,
-		itemId:'TB_ATT',
-		iconCls:'attach',
-		disabled:NR(m1+F_M)||p.get('rowAction')=='N',
-		scope:this,
-		handler:this.showAttach
-	});	
-	
+		
 	var btnModifyConsignNo = new Ext.Button({text:C_MODIFY_CONS_NO,
 		itemId:'TB_M_CONS_NO',
 		iconCls:'option',
@@ -1370,19 +1288,34 @@ Fos.CudeConsignPanel = function(p,store) {
 		}
 	});	
 	
+	var consignPanel = new Ext.Panel({
+		title:C_CONSIGN,
+		autoScroll:true,
+	    items:[consPanel,recordPanel,cargoPanel,bookingPanel],
+		tbar:[btnSave,'-',btnConfirm,'-',btnCancelConfirm,'-',btnClose,'-',
+	          btnRemove,'-',btnInvalid,'-',btnUnlock,'-',btnModifyConsignNo,'-',btnSaveAs,'-'
+	     ]
+		
+	});
+	
+	var items=[];
+	items[0] = consignPanel;
+	    
+	if(p.get('rowAction')!='N'){
+		items[items.length] = new Fos.CudeGridPanel(p);
+		//items[items.length] = new Fos.InspGridPanel(p);
+		items[items.length] = new Fos.ExpensePanel(p,'C');
+		items[items.length] = new Fos.ConsDocGrid(p);
+		items[items.length] = new Fos.AttachTab(p);
+	}
+	
 	
 	Fos.CudeConsignPanel.superclass.constructor.call(this, { 
 		id: "P_CONS_"+p.get('id'),
 		title:C_CUSTOMS+C_CONSIGN+'-'+p.get("consNo"),
-		header:false,
 		closable:true,
-		autoScroll:true,		
-		labelAlign:'right',
-	    items:[consPanel,recordPanel,cargoPanel,bookingPanel],
-		tbar:[btnSave,'-',btnConfirm,'-',btnCancelConfirm,'-',btnClose,'-',
-	          btnRemove,'-',btnInvalid,'-',btnUnlock,'-',btnModifyConsignNo,'-',btnSaveAs,'-','->',
-	          btnCude,'-',btnInsp,'-',btnExpe,'-',btnDoc,'-',btnAttach
-	     ]
+		activeTab:0,
+		items:items
 	});
 };
-Ext.extend(Fos.CudeConsignPanel,Ext.FormPanel);
+Ext.extend(Fos.CudeConsignPanel,Ext.TabPanel);

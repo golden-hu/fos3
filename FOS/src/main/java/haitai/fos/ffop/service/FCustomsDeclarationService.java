@@ -33,31 +33,38 @@ public class FCustomsDeclarationService {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Transactional
 	public List save(List entityList) {
-		Integer consId = null;
+		/*Integer consId = null;
 		Integer num = 0;
 		Double weight = 0.0;
-		Double netWeight = 0.0;
+		Double netWeight = 0.0;*/
+		
 		List retList = new ArrayList();
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
+		
 		// handle parent first
 		for (Object obj : entityList) { 
 			if (obj instanceof FCustomsDeclaration) {
 				FCustomsDeclaration entity = (FCustomsDeclaration) obj;
 				Integer oldId = entity.getCudeId();
+				
 				if (entity.getRowAction() == RowAction.N) {
 					entity.setCudeId(null);
 					dao.save(entity);
 					retList.add(entity);
-				} else if (entity.getRowAction() == RowAction.M) {
+				} 				
+				else if (entity.getRowAction() == RowAction.M) {
 					retList.add(dao.update(entity));
-				} else if (entity.getRowAction() == RowAction.R) {
+				}				
+				else if (entity.getRowAction() == RowAction.R) {
 					FCustomsDeclaration delEntity = dao.findById(entity.getCudeId());
 					delEntity.setRowAction(RowAction.R);
 					dao.update(delEntity);
-				} else {
+				} 
+				else {
 					throw new BusinessException("fw.row_action_null");
 				}
-				consId = entity.getConsId();
+				
+				/*consId = entity.getConsId();
 				if(entity.getCudePackageNum()!=null)
 					num += Integer.parseInt(entity.getCudePackageNum());
 				
@@ -65,7 +72,7 @@ public class FCustomsDeclarationService {
 					weight += Double.parseDouble(entity.getCudeGrossWeight());
 				
 				if(entity.getCudeNetWeight()!=null)
-					netWeight += Double.parseDouble(entity.getCudeNetWeight());
+					netWeight += Double.parseDouble(entity.getCudeNetWeight());*/
 				
 				idMap.put(oldId, entity.getCudeId());
 			}
@@ -90,7 +97,8 @@ public class FCustomsDeclarationService {
 					throw new BusinessException("fw.row_action_null");
 				}
 
-			} else if (obj instanceof FCustomsEntry) {
+			} 
+			else if (obj instanceof FCustomsEntry) {
 				FCustomsEntry entity = (FCustomsEntry) obj;
 				if (entity.getRowAction() == RowAction.N) {
 					entity.setCuenId(null);
@@ -108,11 +116,13 @@ public class FCustomsDeclarationService {
 				}
 			}
 		}
-		FConsign consign = consDao.findById(consId);
+		
+		/*FConsign consign = consDao.findById(consId);
 		consign.setConsTotalPackages(num);
 		consign.setConsTotalGrossWeight(weight);
 		consign.setConsTotalNetWeight(netWeight);
-		consDao.update(consign);
+		consDao.update(consign);*/
+		
 		return retList;
 	}
 

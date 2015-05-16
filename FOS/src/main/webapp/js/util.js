@@ -950,7 +950,6 @@ var FOSJA = function(o,t){
 
 var FOSU=function(store,a,rt){
 	var fields = rt.prototype.fields;
-	//var sa=store.getModifiedRecords();
 	var sa=store.getRange();
 	for(var i=0;i<sa.length;i++){
 		for(var j=0;j<a.length;j++){	

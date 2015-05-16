@@ -357,7 +357,7 @@ function getCudePanel(){
 		items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});*/
 	
 	if(!NR(M1_I)){
-		items[items.length]=NaviMenu(C_INSPECTION,'G_CONS_I',function(){return new Fos.InspectionGrid();});
+		items[items.length]=NaviMenu(C_INSPECTION,'G_CONS_I',function(){return new Fos.InspectionConsignGrid();});
 				
 	}
 		

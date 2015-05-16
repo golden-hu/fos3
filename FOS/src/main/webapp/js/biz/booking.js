@@ -3435,7 +3435,7 @@ Fos.BookTab = function(p) {
 		}]
 	});
 };
-Ext.extend(Fos.BookTab,Ext.FormPanel);
+Ext.extend(Fos.BookTab,Ext.Panel);
 
 //收发货人选择窗口
 Fos.ShipperWin=function(custId,shipperT,fn){

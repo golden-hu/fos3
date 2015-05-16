@@ -1,164 +1,147 @@
-//报检单
-Fos.InspectionPanel = function(p) {
-	var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'));
-	if(p.get('consBizType')==BT_G)
+//报检单列表
+Fos.InspGridPanel = function(_consign) {
+	var m=getRM(_consign.get('consBizClass'),_consign.get('consBizType'),_consign.get('consShipType'));
+	if(_consign.get('consBizType')==BT_G)
 		m = m + M3_CUDE;
 	else
 		m = m + M3_INSP;
 	
-	this.sel=GSEL;
-	this.store = GS('INSP_Q','FInspection',FInspection,'inspId','DESC','','','inspId',false);
+	var store = GS('INSP_Q','FInspection',FInspection,'inspId','DESC','','','inspId',false);
 	
-	this.store.load({params:{consId:p.get('consId')}});	
+	store.load({params:{consId:_consign.get('consId')}});	
 	
-	var re = {scope:this,
-		rowselect:function(sm,row,r){
-			if(this.sel!=r.get('id')){
-				this.sel=r.get('id');
-				recordToContainer(frm,r);
-				recordToContainer(frmRecord,r);
-				
-				var ts = this.findById('inspTsFlag');
-		   	 	if(ts!=undefined && ts.checkbox){		   	 		
-		   	 		ts.checkbox.dom.checked = r.get('inspTsFlag');
-		   	 	}
-		   	 		
-		   	 	var cs = this.findById('inspCsFlag');
-			 	if(cs!=undefined&&cs.checkbox){
-			 		cs.checkbox.dom.checked = r.get('inspCsFlag');
-			 	}
-			 	
-			 	var cl = this.findById('inspClFlag');
-			 	if(cl!=undefined&&cl.checkbox){
-			 		cl.checkbox.dom.checked = r.get('inspClFlag');
-			 	}
-			 					 	
-			 	var lc = this.findById('inspLcFlag');
-			 	if(lc!=undefined&&cl.checkbox){
-			 		lc.checkbox.dom.checked = r.get('inspLcFlag');
-			 	}			 	
-		   	 	
-				this.updateToolBar();
-			}
-		},
-		rowdeselect:function(sm,row,r){			
-			saveToRecord(frm,r);
-			saveToRecord(frmRecord,r);
-		}
-	};
-	
-	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true,scope:this,listeners:re});
+	var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
 	var cm=new Ext.grid.ColumnModel({columns:[sm,	
-	{header:C_STATUS,dataIndex:'inspStatus',renderer:getINSPST},	
-	{header:C_INSP_BILL_NO,dataIndex:'inspNo'},
-	{header:C_INSP_AGENCY,dataIndex:'inspVendorName',width:150},
-	{header:C_INSP_VENDOR_RN,dataIndex:'inspRefNo',width:150},
-	{header:C_INSP_DATE,dataIndex:'inspDate',renderer:formatDate},
-	
-	],defaults:{sortable:true,width:100}});
-	
-	
-	this.addInsp = function(){
-		var rid=GGUID();
-    	var b = new FInspection({id:rid,inspId:rid,
-    		inspVendorId:p.get('consInspectionVendor'),
-    		inspVendorName:p.get('consInspectionVendorName'),
-			consId:p.get('consId'),consNo:p.get('consNo'),
-			inspDate:new Date(),
-			inspShipperEn:p.get('consShipper'),
-			inspConsigneeEn:p.get('consConsignee'),					
-			inspCargoName:p.get('consCargoDesc'),
-			inspNum:p.get('consCargoGrossWeight'),
-			inspPackages:p.get('consCargoPackages'),
-			inspConveyance:p.get('vessName')+' '+p.get('voyaName'),
-			inspContractNo:p.get('consTradeContractNo'),
-			inspShippingDate:p.get('consLoadDate'),
-			inspTradeCountry:getCOUN(p.get('consTradeCountry')),
-			inspPol:p.get('consPolEn'),
-			inspPod:p.get('consPodEn'),
-			inspContainerInfo:p.get('consContainersInfo'),
-			inspMarks:p.get('consCargoMarks'),
-			inspStatus:'0',version:'0',rowAction:'N'});
-      	this.store.insert(0,b);
-      	b.set('rowAction','N');
-		this.inspGrid.getSelectionModel().selectFirstRow();
-    };
-    
-	this.removeInsp = function(){
-		var b =this.inspGrid.getSelectionModel().getSelected();
-		if(b){
-	    	if(b.get('inspStatus')!=0) 
-	    		XMG.alert(SYS,M_INSP_CONFIRMED);
-	    	else{
-	    		b.set('rowAction',b.get('rowAction')=='N'?'D':'R');
-	    		this.store.remove(b);
-	    		frm.getForm().reset();
-	    	}
-    	}
-	};
+		{header:C_STATUS,dataIndex:'inspStatus',renderer:getINSPST},	
+		{header:C_INSP_BILL_NO,dataIndex:'inspNo'},
+		{header:C_INSP_AGENCY,dataIndex:'inspVendorName',width:150},
+		{header:C_INSP_VENDOR_RN,dataIndex:'inspRefNo',width:150},
+		{header:C_INSP_DATE,dataIndex:'inspDate',renderer:formatDate}
+		],
+		defaults:{sortable:true,width:100}
+	});
+	    
 		
 	var btnAdd = new Ext.Button({text:C_ADD,
 		itemId:'TB_A',
 		disabled:NR(m+F_M),
 		iconCls:'add',
 		scope:this,
-		handler:this.addInsp
+		handler:function(){
+			var rid=GGUID();
+	    	var r = new FInspection({id:rid,
+	    		inspId:rid,
+	    		inspVendorId:_consign.get('consInspectionVendor'),
+	    		inspVendorName:_consign.get('consInspectionVendorName'),
+				consId:_consign.get('consId'),consNo:_consign.get('consNo'),
+				inspDate:new Date(),
+				inspShipperEn:_consign.get('consShipper'),
+				inspConsigneeEn:_consign.get('consConsignee'),					
+				inspCargoName:_consign.get('consCargoDesc'),
+				inspNum:_consign.get('consCargoGrossWeight'),
+				inspPackages:_consign.get('consCargoPackages'),
+				inspConveyance:_consign.get('vessName')+' '+_consign.get('voyaName'),
+				inspContractNo:_consign.get('consTradeContractNo'),
+				inspShippingDate:_consign.get('consLoadDate'),
+				inspTradeCountry:getCOUN(_consign.get('consTradeCountry')),
+				inspPol:_consign.get('consPolEn'),
+				inspPod:_consign.get('consPodEn'),
+				inspContainerInfo:_consign.get('consContainersInfo'),
+				inspMarks:_consign.get('consCargoMarks'),
+				inspStatus:'0',
+				version:'0',
+				rowAction:'N'
+			});
+	    	
+	    	var win = new Fos.InspectionWin(store,_consign,r);
+			win.show();
+	    }
 	});
 	
 	var btnRemove = new Ext.Button({text:C_REMOVE,
 		disabled:NR(m+F_R),
 		iconCls:'remove',
 		scope:this,
-		handler:this.removeInsp
+		handler:function(){
+			var a =sm.getSelections();
+	       	if(a.length){
+	       		XMG.confirm(SYS,M_R_C,function(btn){
+	           	if(btn=='yes'){
+	           		var xml = SMTX4R(sm,'FInspection','inspId');
+	           		Ext.Ajax.request({
+	           			url:SERVICE_URL,
+	           			method:'POST',
+	           			params:{A:'INSP_S'},
+						success: function(){
+							sm.each(function(p){store.remove(p);});
+							XMG.alert(SYS,M_S);
+						},
+						failure: function(r,o){
+							XMG.alert(SYS,M_F+r.responseText);
+						},
+						xmlData:FOSX(xml)
+					});
+	           }});
+			}
+	       	else 
+	       		XMG.alert(SYS,M_R_P);
+		}
 	});
 	
-	this.inspGrid=new Ext.grid.GridPanel({title:C_INSP_BILL_LIST,
-		region:'west',
-		width:200,
-		border:true,
-		autoScroll:true,
-		collapsible:true,
-		store:this.store,
-		split:true,
+	//编辑
+	var btnEdit = new Ext.Button({text:C_EDIT,
+		disabled:NR(m+F_V),
+		iconCls:'option',
+		handler:function(){
+			var r = sm.getSelected();
+			if(r){
+				var win = new Fos.InspectionWin(store,_consign,r);
+				win.show();
+			}
+			else 
+				XMG.alert(SYS,M_NO_DATA_SELECTED);
+		}
+	});
+	
+	Fos.InspGridPanel.superclass.constructor.call(this, { 
+		title:C_SR_INSP,
+		autoScroll:true,		
+		store:store,
 		sm:sm,
 		cm:cm,
-		tbar:[btnAdd,'-',btnRemove]
-	});
-	
-    
-	
-    	
-    this.getVendorId=function(){
-    	var b =this.inspGrid.getSelectionModel().getSelected();
-    	if(b&&b.get('inspVendorId'))
-    		return b.get('inspVendorId');
-    	else if(this.store.getRange().length>0){
-    		var a = this.store.getRange();
-    		return a[0].get('inspVendorId');
-    	}
-    	else
-    		return p.get('consInspectionVendor');
-    };
-    
-	this.getVendorName=function(){
-		var b =this.inspGrid.getSelectionModel().getSelected();
-		if(b&&b.get('inspVendorName'))
-			return b.get('inspVendorName');
-		else if(this.store.getRange().length>0){
-			var a = this.store.getRange();
-			return a[0].get('inspVendorName');
+		tbar:[btnAdd,'-',btnEdit,'-',btnRemove],
+		listeners:{
+			rowdblclick: function(grid, rowIndex, event){
+				var r = sm.getSelected();
+				if(r){
+					var win = new Fos.InspectionWin(store,_consign,r);
+					win.show();
+				}
+			}
 		}
-		else
-			return p.get('consInspectionVendorName');
-	};
-	
-	var expPanel = new Fos.SectionExGrid(p,'INSP',this);
+	});
+};
 
-	var cboInspectionVendor = new Ext.form.ComboBox({fieldLabel:C_INSP_AGENCY,
+Ext.extend(Fos.InspGridPanel, Ext.grid.GridPanel);
+
+
+//报检单
+Fos.InspectionWin = function(_store,_consign,_insp) {
+	var m=getRM(_consign.get('consBizClass'),_consign.get('consBizType'),_consign.get('consShipType'));
+	if(_consign.get('consBizType')==BT_G)
+		m = m + M3_CUDE;
+	else
+		m = m + M3_INSP;    
+		
+	var expPanel = new Fos.SectionExGrid(_consign,'INSP',this);
+
+	//报检公司
+	var cboInspectionVendor = new Fos.CustomerLookup({fieldLabel:C_INSP_AGENCY,
+		custType:'custInspectionFlag',
 		name:'inspVendorName',
+		value:_insp.get('inspVendorName'),
 		store:getCS(),
 		enableKeyEvents:true,
-		xtype:'combo',
 		displayField:'custCode',
 		valueField:'custCode',
 		typeAhead:true,
@@ -169,22 +152,16 @@ Fos.InspectionPanel = function(p) {
 		listeners:{scope:this,
 			blur:function(f){
 				if(f.getRawValue()==''){
-					f.clearValue();
-					var b =this.inspGrid.getSelectionModel().getSelected();
-					if(b){
-						b.set('inspVendorId','');
-						b.set('inspVendorName','');
-					}
+					f.clearValue();					
+					_insp.set('inspVendorId','');
+					_insp.set('inspVendorName','');
 				}
 			},
 			select:function(c,r,i){
 				this.find('name','inspVendorContact')[0].setValue(r.get('custContact'));
 				this.find('name','inspVendorTel')[0].setValue(r.get('custTel'));
-				var b =this.inspGrid.getSelectionModel().getSelected();
-				if(b){
-					b.set('inspVendorId',r.get('custId'));
-					b.set('inspVendorName',r.get('custNameCn'));								
-				}
+				_insp.set('inspVendorId',r.get('custId'));
+				_insp.set('inspVendorName',r.get('custNameCn'));	
 				c.setValue(r.get('custNameCn'));
 			},
 			keydown:{fn:function(f,e){LC(f,e,'custInspectionFlag');},buffer:BF}
@@ -193,7 +170,7 @@ Fos.InspectionPanel = function(p) {
 
 	var txtInspNo = new Ext.form.TextField({fieldLabel:C_NO,
 		name:'inspNo',
-		xtype:'textfield',
+		value:_insp.get('inspNo'),
 		anchor:'95%'
 	});
 	
@@ -201,7 +178,7 @@ Fos.InspectionPanel = function(p) {
 	var cboInspType = new Ext.form.MultiSelectComboBox({fieldLabel:C_INTY,
 		itemCls:'required',
 		name:'inspType',
-		value:p.get('inspType'),
+		value:_insp.get('inspType'),
 		store:getInspectionType_S(),
 		displayField:'intyName',
 		valueField:'intyName',
@@ -214,86 +191,99 @@ Fos.InspectionPanel = function(p) {
 	
 	var txtRefNo = new Ext.form.TextField({fieldLabel:C_INSP_VENDOR_RN,
 		name:'inspRefNo',
-		xtype:'textfield',
+		value:_insp.get('inspRefNo'),
 		anchor:'95%'
 	});
 	
 	var txtContact = new Ext.form.TextField({fieldLabel:C_CONTACT,
 		name:'inspVendorContact',
+		value:_insp.get('inspVendorContact'),
 		anchor:'95%'
 	});
 	
 	var txtTel = new Ext.form.TextField({fieldLabel:C_TEL,
 		name:'inspVendorTel',
+		value:_insp.get('inspVendorTel'),
 		anchor:'95%'
 	});
 	
 	var dtInspDate = new Ext.form.DateField({fieldLabel:C_INSP_DATE,
 		name:'inspDate',
+		value:_insp.get('inspDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
 	
 	var txtShipperCn = new Ext.form.TextField({fieldLabel:C_SHIPPER_CN,
 		name:'inspShipperCn',
+		value:_insp.get('inspShipperCn'),
 		anchor:'98.75%'
 	});
 	
 	var txtShipperEn = new Ext.form.TextField({fieldLabel:C_EN,
 		name:'inspShipperEn',
+		value:_insp.get('inspShipperEn'),
 		anchor:'98.75%'
 	});
 	
 	var txtConsigneeCn = new Ext.form.TextField({fieldLabel:C_CONSIGNEE_CN,
 		name:'inspConsigneeCn',
+		value:_insp.get('inspConsigneeCn'),
 		anchor:'98.75%'
 	});
 	
 	var txtConsigneeEn = new Ext.form.TextField({fieldLabel:C_EN,
 		name:'inspConsigneeEn',
+		value:_insp.get('inspConsigneeEn'),
 		anchor:'98.75%'
 	});
 	
 	var txtCargoName = new Ext.form.TextArea({fieldLabel:C_CARGO_NAME_CN_EN,
 		name:'inspCargoName',
+		value:_insp.get('inspCargoName'),
 		anchor:'95%'
 	});
 	
 	var txtHsNo = new Ext.form.TextArea({fieldLabel:C_HS_CODE,
 		name:'inspHsNo',
+		value:_insp.get('inspHsNo'),
 		anchor:'95%'
 	});
 	
 	var txtMadeIn = new Ext.form.TextArea({fieldLabel:C_MADE_IN,
 		name:'inspMadeIn',
+		value:_insp.get('inspMadeIn'),
 		anchor:'95%'
 	});
 	
 	var txtNum = new Ext.form.TextArea({fieldLabel:C_QUANTITY_WEIGHT,
 		name:'inspNum',
+		value:_insp.get('inspNum'),
 		anchor:'95%'
 	});
 	
 	var txtValue = new Ext.form.TextArea({fieldLabel:C_CARGO_VALUE,
 		name:'inspValue',
+		value:_insp.get('inspValue'),
 		anchor:'95%'
 	});
 	
 	var txtPackages = new Ext.form.TextArea({fieldLabel:C_PACK_QUANTITY,
 		name:'inspPackages',
-		xtype:'textarea',
+		value:_insp.get('inspPackages'),
 		anchor:'95%'
 	});
 	
 	var txtConveyance = new Ext.form.TextField({fieldLabel:C_CONVEYANCE,
 		name:'inspConveyance',
+		value:_insp.get('inspConveyance'),
 		anchor:'95%'
 	});
 	
 	var cboTradeType = new Ext.form.ComboBox({fieldLabel:C_TRTY,
 		name:'inspTradeType',
+		value:_insp.get('inspTradeType'),
 		store:getTRTY_S(),
-		xtype:'combo',
 		displayField:'trtyName',
 		valueField:'trtyName',
 		typeAhead:true,
@@ -305,21 +295,25 @@ Fos.InspectionPanel = function(p) {
 	
 	var txtCargoAddress = new Ext.form.TextField({fieldLabel:C_CARGO_ADDRESS,
 		name:'inspCargoAddress',
+		value:_insp.get('inspCargoAddress'),
 		anchor:'95%'
 	});
 	
 	var txtContractNo = new Ext.form.TextField({fieldLabel:C_CONTRACT_NO,
 		name:'inspContractNo',
+		value:_insp.get('inspContractNo'),
 		anchor:'95%'
 	});
 	
 	var txtCreditNo = new Ext.form.TextField({fieldLabel:C_CREDIT_NO,
 		name:'inspCreditNo',
+		value:_insp.get('inspCreditNo'),
 		anchor:'95%'
 	});
 	
 	var cboUsage = new Ext.form.ComboBox({fieldLabel:C_USAG,
 		name:'inspUsage',
+		value:_insp.get('inspUsage'),
 		store:getUSAG_S(),
 		displayField:'usagName',
 		valueField:'usagName',
@@ -330,14 +324,16 @@ Fos.InspectionPanel = function(p) {
 		anchor:'95%'
 	});
 	
-	var dtShippingDate = new Ext.form.DateField({fieldLabel:p.get('consBizClass')==BC_E?C_CARGO_DELIVERY_DATE:C_CARGO_DISCHARGE_DATE,
+	var dtShippingDate = new Ext.form.DateField({fieldLabel:_consign.get('consBizClass')==BC_E?C_CARGO_DELIVERY_DATE:C_CARGO_DISCHARGE_DATE,
 		name:'inspShippingDate',
+		value:_insp.get('inspShippingDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
 	
-	var cboTradeCountry = new Ext.form.ComboBox({fieldLabel:p.get('consBizClass')==BC_E?C_COUNTRY_TO:C_COUNTRY_FROM,
+	var cboTradeCountry = new Ext.form.ComboBox({fieldLabel:_consign.get('consBizClass')==BC_E?C_COUNTRY_TO:C_COUNTRY_FROM,
 		name:'inspTradeCountry',
+		value:_insp.get('inspTradeCountry'),
 		store:getCOUN_S(),
 		displayField:'counNameEn',
 		valueField:'counNameEn',
@@ -350,60 +346,70 @@ Fos.InspectionPanel = function(p) {
 	
 	var txtCertificateNo = new Ext.form.TextField({fieldLabel:C_CERTIFICATE_NO,
 		name:'inspCertificateNo',
+		value:_insp.get('inspCertificateNo'),
 		anchor:'95%'
 	});
 	
 	
 	var txtPol = new Ext.form.TextField({fieldLabel:C_PORT_FROM,
 		name:'inspPol',
+		value:_insp.get('inspPol'),
 		anchor:'95%'
 	});
 	
-	var txtPod = new Ext.form.TextField({fieldLabel:p.get('consBizClass')==BC_E?C_PORT_TO:C_PORT_IN,
+	var txtPod = new Ext.form.TextField({fieldLabel:_consign.get('consBizClass')==BC_E?C_PORT_TO:C_PORT_IN,
 		name:'inspPod',
+		value:_insp.get('inspPod'),
 		anchor:'95%'
 	});
 	
 	var txtRegisterNo = new Ext.form.TextField({fieldLabel:C_REGISTER_NO,
 		name:'inspRegisterNo',
+		value:_insp.get('inspRegisterNo'),
 		anchor:'95%'
 	});
 	
 	
 	var dtClaimDate = new Ext.form.DateField({fieldLabel:C_CLAIM_DATE,
 		name:'inspClaimDate',
+		value:_insp.get('inspClaimDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
 	
 	var txtContainerInfo = new Ext.form.TextArea({fieldLabel:C_CONT_SPEC_NO,
 		name:'inspContainerInfo',
+		value:_insp.get('inspContainerInfo'),
 		anchor:'98.75%'
 	});
 	
 	var txtSpecialTerm = new Ext.form.TextArea({fieldLabel:C_INSP_SPECIAL_TERM,
 		name:'inspSpecialTerm',
+		value:_insp.get('inspSpecialTerm'),
 		anchor:'97.5%'
 	});
 	
 	var txtMarks = new Ext.form.TextArea({fieldLabel:C_MARKS_NO,
 		name:'inspMarks',
+		value:_insp.get('inspMarks'),
 		anchor:'97.5%'
 	});
 	
 	var dtReceiveDate = new Ext.form.DateField({fieldLabel:C_RECEIVE_DATE,
 		name:'inspReceiveDate',
+		value:_insp.get('inspReceiveDate'),
 		format:DATEF,
 		anchor:'92%'
 	});
 	
 	var txtReceiver = new Ext.form.TextField({fieldLabel:C_RECEIVER,
 		name:'inspReceiver',
+		value:_insp.get('inspReceiver'),
 		anchor:'95%'
 	});
 	
 	
-	var frm = new Ext.FormPanel({labelAlign:'right',
+	var frm = new Ext.Panel({labelAlign:'right',
 		labelWidth:60,
 		trackResetOnLoad:false,
 		layout:'column',
@@ -434,7 +440,7 @@ Fos.InspectionPanel = function(p) {
             
 			{columnWidth:.34,layout:'form',labelWidth:150,border:false,items:[txtConveyance,txtContractNo,dtShippingDate,txtPol]},
             {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[cboTradeType,txtCreditNo,cboTradeCountry,txtPod]},
-            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtCargoAddress,cboUsage,txtCertificateNo,p.get('consBizClass')==BC_E?txtRegisterNo:dtClaimDate]},
+            {columnWidth:.33,layout:'form',labelWidth:100,border : false,items:[txtCargoAddress,cboUsage,txtCertificateNo,_consign.get('consBizClass')==BC_E?txtRegisterNo:dtClaimDate]},
                                    
             {columnWidth:1,layout:'form',labelWidth:150,border : false,items:[txtContainerInfo]},
             {columnWidth:.50,layout:'form',labelWidth:100,border : false,labelAlign:'top',items:[txtSpecialTerm]},
@@ -448,6 +454,7 @@ Fos.InspectionPanel = function(p) {
 	var chkCargoSampleFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CARGO_SAMPLE,
 		name:'inspCargoSampleFlag',
+		value:_insp.get('inspCargoSampleFlag'),
 		anchor:'95%'
      });
 	
@@ -455,6 +462,7 @@ Fos.InspectionPanel = function(p) {
 	var chkPackageCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_PACKAGE_CHECK,
 		name:'inspPackageCheckFlag',
+		value:_insp.get('inspPackageCheckFlag'),
 		anchor:'95%'
      });
 	
@@ -462,6 +470,7 @@ Fos.InspectionPanel = function(p) {
 	var chkCargoSendFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CARGO_SEND,
 		name:'inspCargoSendFlag',
+		value:_insp.get('inspCargoSendFlag'),
 		anchor:'95%'
      });
 	
@@ -469,6 +478,7 @@ Fos.InspectionPanel = function(p) {
 	var chkCargoCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CARGO_CHECK,
 		name:'inspCargoCheckFlag',
+		value:_insp.get('inspCargoCheckFlag'),
 		anchor:'95%'
      });
 	
@@ -476,6 +486,7 @@ Fos.InspectionPanel = function(p) {
 	var chkCertificationFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CERTIFICATION,
 		name:'inspCertificationFlag',
+		value:_insp.get('inspCertificationFlag'),
 		anchor:'95%'
      });
 	
@@ -483,12 +494,14 @@ Fos.InspectionPanel = function(p) {
 	var chkCertificationCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CERTIFICATION_CHECK,
 		name:'inspCertificationCheckFlag',
+		value:_insp.get('inspCertificationCheckFlag'),
 		anchor:'95%'
      });
 	
 	//抽样日期
 	var dtCargoSampleDate = new Ext.form.DateField({fieldLabel:C_CARGO_SAMPLE_DATE,
 		name:'inspCargoSampleDate',
+		value:_insp.get('inspCargoSampleDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -496,6 +509,7 @@ Fos.InspectionPanel = function(p) {
 	//检包日期
 	var dtPackageCheckDate = new Ext.form.DateField({fieldLabel:C_PACKAGE_CHECK_DATE,
 		name:'inspPackageCheckDate',
+		value:_insp.get('inspPackageCheckDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -503,6 +517,7 @@ Fos.InspectionPanel = function(p) {
 	//送样日期
 	var dtCargoSendDate = new Ext.form.DateField({fieldLabel:C_CARGO_SEND_DATE,
 		name:'inspCargoSendDate',
+		value:_insp.get('inspCargoSendDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -510,6 +525,7 @@ Fos.InspectionPanel = function(p) {
 	//检验日期
 	var dtCargoCheckDate = new Ext.form.DateField({fieldLabel:C_CARGO_CHECK_DATE,
 		name:'inspCargoCheckDate',
+		value:_insp.get('inspCargoCheckDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -517,6 +533,7 @@ Fos.InspectionPanel = function(p) {
 	//出证日期
 	var dtCertificationDate = new Ext.form.DateField({fieldLabel:C_CERTIFICATION_DATE,
 		name:'inspCertificationDate',
+		value:_insp.get('inspCertificationDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -524,6 +541,7 @@ Fos.InspectionPanel = function(p) {
 	//查验日期
 	var dtCertificationCheckDate = new Ext.form.DateField({fieldLabel:C_CERTIFICATION_CHECK_DATE,
 		name:'inspCertificationCheckDate',
+		value:_insp.get('inspCertificationCheckDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -531,6 +549,7 @@ Fos.InspectionPanel = function(p) {
 	//委托类型 (熏蒸，消毒，卫生除虫，其它)
 	var cboTsType = new Ext.form.ComboBox({fieldLabel:C_TS_TYPE,
 		name:'inspTsType',
+		value:_insp.get('inspTsType'),
 		store:inspTsTypeStore,
 		displayField:'NAME',
 		valueField:'NAME',
@@ -543,12 +562,14 @@ Fos.InspectionPanel = function(p) {
 	
 	var txtTsNo = new Ext.form.TextField({fieldLabel:C_TS_NO,
 		name:'inspTsNo',
+		value:_insp.get('inspTsNo'),
 		anchor:'95%'
 	});
 	
 	//申请日期
 	var dtTsApplyDate = new Ext.form.DateField({fieldLabel:C_APPLY_DATE,
 		name:'inspTsApplyDate',
+		value:_insp.get('inspTsApplyDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -556,6 +577,7 @@ Fos.InspectionPanel = function(p) {
 	//作业日期
 	var dtTsOperationDate = new Ext.form.DateField({fieldLabel:C_OPERATION_DATE,
 		name:'inspTsOperationDate',
+		value:_insp.get('inspTsOperationDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -563,36 +585,42 @@ Fos.InspectionPanel = function(p) {
 	//完成日期
 	var dtTsEndDate = new Ext.form.DateField({fieldLabel:C_OPERATION_END_DATE,
 		name:'inspTsEndDate',
+		value:_insp.get('inspTsEndDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
 	
 	var txtTsObject = new Ext.form.TextField({fieldLabel:C_OP_OBJECT,
 		name:'inspTsObject',
+		value:_insp.get('inspTsObject'),
 		anchor:'95%'
 	});
 	
 	var txtTsRemark = new Ext.form.TextArea({fieldLabel:C_REMARKS,
 		name:'inspTsRemark',
+		value:_insp.get('inspTsRemark'),
 		anchor:'95%'
 	});
 	
 	//检验检疫技术服务
-	var setTS = new Ext.form.FieldSet({id:'inspTsFlag',
+	var setTS = new Ext.form.FieldSet({
+		id:'inspTsFlag',
     	labelAlign:'right',
     	labelWidth:60,
     	checkboxToggle:true,
-    	checkboxName:'inspTsFlag',
+    	checkboxName:'inspTsFlag',    	
+    	collapsed: _insp.get('inspTsFlag')==0,
     	title:C_TS,
     	autoHeight:true,
-    	defaultType:'textfield',
     	items:[cboTsType,txtTsNo,dtTsApplyDate,dtTsOperationDate,dtTsEndDate,txtTsObject,txtTsRemark]
     });
+		
 	
 	
 	//卫检日期
 	var dtCsDate = new Ext.form.DateField({fieldLabel:C_CS_DATE,
 		name:'inspCsDate',
+		value:_insp.get('inspCsDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -600,6 +628,7 @@ Fos.InspectionPanel = function(p) {
 	//卫检号
 	var txtCsNo = new Ext.form.TextField({fieldLabel:C_CS_NO,
 		name:'inspCsNo',
+		value:_insp.get('inspCsNo'),
 		anchor:'95%'
 	});
 	
@@ -607,11 +636,13 @@ Fos.InspectionPanel = function(p) {
 	var chkCsCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CS_CHECK,
 		name:'inspCsCheckFlag',
+		value:_insp.get('inspCsCheckFlag'),
 		anchor:'95%'
      });
 	
 	var txtCsRemark = new Ext.form.TextArea({fieldLabel:C_REMARKS,
 		name:'inspCsRemark',
+		value:_insp.get('inspCsRemark'),
 		anchor:'95%'
 	});
 	
@@ -621,9 +652,9 @@ Fos.InspectionPanel = function(p) {
     	labelWidth:60,
     	checkboxToggle:true,
     	checkboxName:'inspCsFlag',
+    	collapsed: _insp.get('inspCsFlag')==0,
     	title:C_CS,
     	autoHeight:true,
-    	defaultType:'textfield',
     	items:[dtCsDate,txtCsNo,chkCsCheckFlag,txtCsRemark]
     });
 	
@@ -631,6 +662,7 @@ Fos.InspectionPanel = function(p) {
 	//申请日期
 	var dtClApplyDate = new Ext.form.DateField({fieldLabel:C_APPLY_DATE,
 		name:'inspClApplyDate',
+		value:_insp.get('inspClApplyDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -638,6 +670,7 @@ Fos.InspectionPanel = function(p) {
 	//检验日期
 	var dtClDate = new Ext.form.DateField({fieldLabel:C_CL_DATE,
 		name:'inspClDate',
+		value:_insp.get('inspClDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -645,17 +678,20 @@ Fos.InspectionPanel = function(p) {
 	//适载编号
 	var txtClNo = new Ext.form.TextField({fieldLabel:C_CL_NO,
 		name:'inspClNo',
+		value:_insp.get('inspClNo'),
 		anchor:'95%'
 	});
 	
 	//适载柜号
 	var txtClContainerNo = new Ext.form.TextField({fieldLabel:C_CL_CONTAINER_NO,
 		name:'inspClContainerNo',
+		value:_insp.get('inspClContainerNo'),
 		anchor:'95%'
 	});
 	
 	var txtClRemark = new Ext.form.TextArea({fieldLabel:C_REMARKS,
 		name:'inspClRemark',
+		value:_insp.get('inspClRemark'),
 		anchor:'95%'
 	});
 	
@@ -665,6 +701,7 @@ Fos.InspectionPanel = function(p) {
     	labelWidth:60,
     	checkboxToggle:true,
     	checkboxName:'inspClFlag',
+    	collapsed: _insp.get('inspClFlag')==0,
     	title:C_CL,
     	autoHeight:true,
     	defaultType:'textfield',
@@ -675,6 +712,7 @@ Fos.InspectionPanel = function(p) {
 	//申请日期
 	var dtLcApplyDate = new Ext.form.DateField({fieldLabel:C_APPLY_DATE,
 		name:'inspLcApplyDate',
+		value:_insp.get('inspLcApplyDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -682,6 +720,7 @@ Fos.InspectionPanel = function(p) {
 	//委托类型 (监装，监磅，水尺，其它)
 	var cboLcType = new Ext.form.ComboBox({fieldLabel:C_LC_TYPE,
 		name:'inspLcType',
+		value:_insp.get('inspLcType'),
 		store:inspLcTypeStore,
 		displayField:'NAME',
 		valueField:'NAME',
@@ -695,6 +734,7 @@ Fos.InspectionPanel = function(p) {
 	//作业日期
 	var dtLcOperationDate = new Ext.form.DateField({fieldLabel:C_OPERATION_DATE,
 		name:'inspLcOperationDate',
+		value:_insp.get('inspLcOperationDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -702,17 +742,20 @@ Fos.InspectionPanel = function(p) {
 	//完成日期
 	var dtLcEndDate = new Ext.form.DateField({fieldLabel:C_OPERATION_END_DATE,
 		name:'inspLcEndDate',
+		value:_insp.get('inspLcEndDate'),
 		format:DATEF,
 		anchor:'95%'
 	});
 	
 	var txtLcObject = new Ext.form.TextField({fieldLabel:C_OP_OBJECT,
 		name:'inspLcObject',
+		value:_insp.get('inspLcObject'),
 		anchor:'95%'
 	});
 	
 	var txtLcRemark = new Ext.form.TextArea({fieldLabel:C_REMARKS,
 		name:'inspLcRemark',
+		value:_insp.get('inspLcRemark'),
 		anchor:'95%'
 	});
 	
@@ -722,18 +765,17 @@ Fos.InspectionPanel = function(p) {
     	labelWidth:60,
     	checkboxToggle:true,
     	checkboxName:'inspLcFlag',
+    	collapsed: _insp.get('inspLcFlag')==0,
     	title:C_LC,
     	autoHeight:true,
-    	defaultType:'textfield',
     	items:[dtLcApplyDate,cboLcType,dtLcOperationDate,dtLcEndDate,txtLcObject,txtLcRemark]
     });
+		
 	
-	
-	
-	var frmRecord = new Ext.FormPanel({title:C_INSP_RECORD,
+	var frmRecord = new Ext.Panel({title:C_INSP_RECORD,
 		layout:'column',
 		layoutConfig:{columns:4},
-		padding:5,
+		padding:10,
 		items: [ 
 	         {width:260,layout:'column',border:false,
 	        	 items:[
@@ -751,118 +793,93 @@ Fos.InspectionPanel = function(p) {
 		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[setLC]}
 		]
 	});
-	
-	this.save = function(){
-		this.inspGrid.stopEditing();		
-		var b =this.inspGrid.getSelectionModel().getSelected();
 		
-		if(b){
-			/*b.beginEdit();
-			frm.getForm().updateRecord(b);
-			frmRecord.getForm.updateRecord(b);
-			b.endEdit();*/
-			saveToRecord(frm,b);
-			saveToRecord(frmRecord,b);
-		}
-		
-		var ts = this.findById('inspTsFlag');
-   	 	if(ts!=undefined&&ts.checkbox)
-   	 		b.set('inspTsFlag',this.findById('inspTsFlag').checkbox.dom.checked);
-   	 	
-   	 	var cs = this.findById('inspCsFlag');
-	 	if(cs!=undefined&&cs.checkbox)
-	 		b.set('inspCsFlag',this.findById('inspCsFlag').checkbox.dom.checked);
-	 	
-	 	var cl = this.findById('inspClFlag');
-	 	if(cl!=undefined&&cl.checkbox)
-	 		b.set('inspClFlag',this.findById('inspClFlag').checkbox.dom.checked);
-	 	
-	 	var lc = this.findById('inspLcFlag');
-	 	if(lc!=undefined&&cl.checkbox)
-	 		b.set('inspLcFlag',this.findById('inspLcFlag').checkbox.dom.checked);
-	 	
-	 	
-		var xml='';
-		var a =this.store.getModifiedRecords();
-		if(a.length>0){
-			xml = ATX(a,'FInspection',FInspection);
-		}
-		if(xml!=''){
-		 	Ext.Ajax.request({scope:this,
-		 		url:SERVICE_URL,
-		 		method:'POST',
-		 		params:{
-		 			A:'INSP_S'
-		 		},
-				success: function(res){
-					var a = XTRA(res.responseXML,'FInspection',FInspection);
-					FOSU(this.store,a,FInspection);
-					XMG.alert(SYS,M_S);
-				},
-				failure: function(res){
-					XMG.alert(SYS,M_F+res.responseText);
-				},
-				xmlData:FOSX(xml)
-			});
-		}
-	};
-	
-	this.expExcel=function(){
-		var b = this.inspGrid.getSelectionModel().getSelected();
-		if(b){
-			EXPC('INSP','&inspId='+b.get('inspId'));
-		}
-	};
-	
-	this.expEmail=function(){
-		var b = this.inspGrid.getSelectionModel().getSelected();
-		if(b){
-			var to='',cc='',sub=C_INSP_BILL;
-			var msg='';
-			EXPM(to,cc,sub,msg,'INSP','inspId='+b.get('inspId'));
-		}
-	};
-	
-	this.updateStatus=function(s){
-    	var b = this.inspGrid.getSelectionModel().getSelected();
-    	if(b){
-	    	Ext.Ajax.request({scope:this,
-	    		url:SERVICE_URL,
-	    		method:'POST',
-	    		params:{
-	    			A:'INSP_U',
-	    			consId:b.get('consId'),
-	    			inspId:b.get('inspId'),
-	    			inspStatus:s
-	    		},
-				success: function(r){
-					b.set('inspStatus',s);
-					this.updateToolBar();
-					XMG.alert(SYS,M_S);
-				},
-				failure: function(r){
-					XMG.alert(SYS,M_F+r.responseText);
-				}
-			});
-		}
+	this.updateStatus=function(s){    	
+    	Ext.Ajax.request({scope:this,
+    		url:SERVICE_URL,
+    		method:'POST',
+    		params:{
+    			A:'INSP_U',
+    			consId:_insp.get('consId'),
+    			inspId:_insp.get('inspId'),
+    			inspStatus:s
+    		},
+			success: function(r){
+				_insp.set('inspStatus',s);
+				this.updateToolBar();
+				XMG.alert(SYS,M_S);
+			},
+			failure: function(r){
+				XMG.alert(SYS,M_F+r.responseText);
+			}
+		});
     };    
     
     this.updateToolBar=function(){
-    	var b = this.inspGrid.getSelectionModel().getSelected();
-    	var s=b.get('inspStatus');
-    	if(b){
-    		btnRemove.setDisabled(NR(m+F_R)||s!=0);
-    		btnSave.setDisabled(NR(m+F_M)||s!=0);
-    		btnApply.setDisabled(NR(m+F_M)||s!=0);
-    		btnPass.setDisabled(NR(m+F_M)||s!=1);
-		}
+    	var s = _insp.get('inspStatus');
+		btnRemove.setDisabled(NR(m+F_R)||s!=0);
+		btnSave.setDisabled(NR(m+F_M)||s!=0);
+		btnApply.setDisabled(NR(m+F_M)||s!=0);
+		btnPass.setDisabled(NR(m+F_M)||s!=1);
     };
     
 	var btnSave = new Ext.Button({text:C_SAVE,
 		disabled:NR(m+F_M),
 		iconCls:'save',
 		scope:this,
-		handler:this.save
+		handler:function(){
+			saveToRecord(frm,_insp);
+			saveToRecord(frmRecord,_insp);
+			
+			var ts = this.findById('inspTsFlag');
+	   	 	if(ts!=undefined&&ts.checkbox)
+	   	 		_insp.set('inspTsFlag',this.findById('inspTsFlag').checkbox.dom.checked);
+	   	 	
+	   	 	var cs = this.findById('inspCsFlag');
+		 	if(cs!=undefined&&cs.checkbox)
+		 		_insp.set('inspCsFlag',this.findById('inspCsFlag').checkbox.dom.checked);
+		 	
+		 	var cl = this.findById('inspClFlag');
+		 	if(cl!=undefined&&cl.checkbox)
+		 		_insp.set('inspClFlag',this.findById('inspClFlag').checkbox.dom.checked);
+		 	
+		 	var lc = this.findById('inspLcFlag');
+		 	if(lc!=undefined&&cl.checkbox)
+		 		_insp.set('inspLcFlag',this.findById('inspLcFlag').checkbox.dom.checked);
+		 	
+		 	
+			var xml= RTX(_insp,'FInspection',FInspection);
+			
+			btnSave.setDisabled(true);
+		 	Ext.Ajax.request({scope:this,
+		 		url:SERVICE_URL,
+		 		method:'POST',
+		 		params:{
+		 			A:'INSP_S'
+		 		},
+				success: function(res){										
+					var insp = XTR(res.responseXML,'FInspection',FInspection);							
+					var ra = _insp.get('rowAction');					
+					var f = FInspection.prototype.fields;
+					_insp.beginEdit();
+	   				for (var i = 0; i < f.keys.length; i++) {
+	   					var fn = ''+f.keys[i];
+	   					_insp.set(fn,insp.get(fn));
+	   				}								
+					
+					if(ra=='N'){
+						_store.add(_insp);
+	   				}
+					XMG.alert(SYS,M_S);
+					btnSave.setDisabled(false);
+				},
+				failure: function(res){
+					XMG.alert(SYS,M_F+res.responseText);
+					btnSave.setDisabled(false);
+				},
+				xmlData:FOSX(xml)
+			});
+		}
 	});
 	
 	var btnApply = new Ext.Button({text:C_APPLY,
@@ -889,11 +906,16 @@ Fos.InspectionPanel = function(p) {
 		scope:this,
 		menu: {items: 
 			[
-		   		{text:C_INSP_BILL,scope:this,handler:this.expExcel}
+		   		{text:C_INSP_BILL,scope:this,handler:function(){
+		   			var b = this.inspGrid.getSelectionModel().getSelected();
+		   			if(b){
+		   				EXPC('INSP','&inspId='+b.get('inspId'));
+		   			}
+		   		}}
 	   		]}
 	});
 	
-	var inspDetailPanel = new Ext.Panel({region:'center',
+	var inspDetailPanel = new Ext.Panel({
 		autoScroll:true,
 		items:[frm,frmRecord,
 		       {border:false,layout:'fit',items:expPanel}
@@ -911,28 +933,18 @@ Fos.InspectionPanel = function(p) {
 		}
     });
 	
-    Fos.InspectionPanel.superclass.constructor.call(this, { 
-		id:'T_INSP_'+p.get('id'),
+    Fos.InspectionWin.superclass.constructor.call(this, {    	
 		title:C_SR_INSP,
-		header:p.get('bizType')=='I',
-		layout:'border',		
-		items: [this.inspGrid,inspDetailPanel]
-	});
-};
-Ext.extend(Fos.InspectionPanel, Ext.Panel);
-
-Fos.InspectionWin = function(p) {
-	var panel = new Fos.InspectionPanel(p);
-	Fos.InspectionWin.superclass.constructor.call(this, {title:p.get('consNo')+C_INSP_BILL,
 		modal:true,
-		width:900,
-        height:565,
+		width:1000,
+        height:600,
         layout:'fit',
-        plain:false,
         maximizable:true,
         maximized:true,
+        plain:false,
         buttonAlign:'right',
-        items:panel
-    });
+        items:inspDetailPanel
+	});
 };
-Ext.extend(Fos.InspectionWin,Ext.Window);
+Ext.extend(Fos.InspectionWin, Ext.Window);
+
