@@ -48,6 +48,12 @@ Fos.InspGridPanel = function(_consign) {
 				inspPod:_consign.get('consPodEn'),
 				inspContainerInfo:_consign.get('consContainersInfo'),
 				inspMarks:_consign.get('consCargoMarks'),
+				inspCargoSampleFlag:0,
+				inspPackageCheckFlag:0,
+				inspCargoSendFlag:0,
+				inspCargoCheckFlag:0,
+				inspCertificationFlag:0,
+				inspCertificationCheckFlag:0,
 				inspStatus:'0',
 				version:'0',
 				rowAction:'N'
@@ -455,93 +461,159 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		fieldLabel:C_CARGO_SAMPLE,
 		name:'inspCargoSampleFlag',
 		value:_insp.get('inspCargoSampleFlag'),
-		anchor:'95%'
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCargoSampleDate.setDisabled(false);
+     			else
+     				dtCargoSampleDate.setDisabled(true);
+     		}
+     	}
      });
+	
+	
+	//抽样日期
+	var dtCargoSampleDate = new Ext.form.DateField({fieldLabel:C_CARGO_SAMPLE_DATE,
+		name:'inspCargoSampleDate',
+		value:_insp.get('inspCargoSampleDate'),
+		disabled:_insp.get('inspCargoSampleFlag')==0,
+		format:DATEF,
+		anchor:'95%'
+	});
+	
 	
 	//包装查验
 	var chkPackageCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_PACKAGE_CHECK,
 		name:'inspPackageCheckFlag',
-		value:_insp.get('inspPackageCheckFlag'),
-		anchor:'95%'
+		value:_insp.get('inspPackageCheckFlag'),		
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtPackageCheckDate.setDisabled(false);
+     			else
+     				dtPackageCheckDate.setDisabled(true);
+     		}
+     	}
      });
+	
+	//检包日期
+	var dtPackageCheckDate = new Ext.form.DateField({fieldLabel:C_PACKAGE_CHECK_DATE,
+		name:'inspPackageCheckDate',
+		value:_insp.get('inspPackageCheckDate'),
+		disabled:_insp.get('inspPackageCheckFlag')==0,
+		format:DATEF,
+		anchor:'95%'
+	});
+	
 	
 	//货物送样
 	var chkCargoSendFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CARGO_SEND,
 		name:'inspCargoSendFlag',
 		value:_insp.get('inspCargoSendFlag'),
-		anchor:'95%'
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCargoSendDate.setDisabled(false);
+     			else
+     				dtCargoSendDate.setDisabled(true);
+     		}
+     	}
      });
+	
+	//送样日期
+	var dtCargoSendDate = new Ext.form.DateField({fieldLabel:C_CARGO_SEND_DATE,
+		name:'inspCargoSendDate',
+		value:_insp.get('inspCargoSendDate'),
+		disabled:_insp.get('inspCargoSendFlag')==0,
+		format:DATEF,
+		anchor:'95%'
+	});
+	
 	
 	//货物检验
 	var chkCargoCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CARGO_CHECK,
 		name:'inspCargoCheckFlag',
 		value:_insp.get('inspCargoCheckFlag'),
-		anchor:'95%'
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCargoCheckDate.setDisabled(false);
+     			else
+     				dtCargoCheckDate.setDisabled(true);
+     		}
+     	}
      });
+	
+	//检验日期
+	var dtCargoCheckDate = new Ext.form.DateField({fieldLabel:C_CARGO_CHECK_DATE,
+		name:'inspCargoCheckDate',
+		value:_insp.get('inspCargoCheckDate'),
+		disabled:_insp.get('inspCargoCheckFlag')==0,
+		format:DATEF,
+		anchor:'95%'
+	});
+	
 	
 	//检验出证
 	var chkCertificationFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CERTIFICATION,
 		name:'inspCertificationFlag',
 		value:_insp.get('inspCertificationFlag'),
-		anchor:'95%'
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCertificationDate.setDisabled(false);
+     			else
+     				dtCertificationDate.setDisabled(true);
+     		}
+     	}
      });
+	
+	//出证日期
+	var dtCertificationDate = new Ext.form.DateField({fieldLabel:C_CERTIFICATION_DATE,
+		name:'inspCertificationDate',
+		value:_insp.get('inspCertificationDate'),
+		disabled:_insp.get('inspCertificationFlag')==0,
+		format:DATEF,
+		anchor:'95%'
+	});
+	
 	
 	//换证查验
 	var chkCertificationCheckFlag = new Ext.form.Checkbox({
 		fieldLabel:C_CERTIFICATION_CHECK,
 		name:'inspCertificationCheckFlag',
 		value:_insp.get('inspCertificationCheckFlag'),
-		anchor:'95%'
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCertificationCheckDate.setDisabled(false);
+     			else
+     				dtCertificationCheckDate.setDisabled(true);
+     		}
+     	}
      });
-	
-	//抽样日期
-	var dtCargoSampleDate = new Ext.form.DateField({fieldLabel:C_CARGO_SAMPLE_DATE,
-		name:'inspCargoSampleDate',
-		value:_insp.get('inspCargoSampleDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//检包日期
-	var dtPackageCheckDate = new Ext.form.DateField({fieldLabel:C_PACKAGE_CHECK_DATE,
-		name:'inspPackageCheckDate',
-		value:_insp.get('inspPackageCheckDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//送样日期
-	var dtCargoSendDate = new Ext.form.DateField({fieldLabel:C_CARGO_SEND_DATE,
-		name:'inspCargoSendDate',
-		value:_insp.get('inspCargoSendDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//检验日期
-	var dtCargoCheckDate = new Ext.form.DateField({fieldLabel:C_CARGO_CHECK_DATE,
-		name:'inspCargoCheckDate',
-		value:_insp.get('inspCargoCheckDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
-	
-	//出证日期
-	var dtCertificationDate = new Ext.form.DateField({fieldLabel:C_CERTIFICATION_DATE,
-		name:'inspCertificationDate',
-		value:_insp.get('inspCertificationDate'),
-		format:DATEF,
-		anchor:'95%'
-	});
 	
 	//查验日期
 	var dtCertificationCheckDate = new Ext.form.DateField({fieldLabel:C_CERTIFICATION_CHECK_DATE,
 		name:'inspCertificationCheckDate',
 		value:_insp.get('inspCertificationCheckDate'),
+		disabled:_insp.get('inspCertificationCheckFlag')==0,
 		format:DATEF,
 		anchor:'95%'
 	});

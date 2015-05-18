@@ -985,13 +985,29 @@ Fos.CustomsWin = function(_store,_consign,_cude,_item) {
 		fieldLabel:C_INSPECTION_FLAG,
 		name:'cudeInspectionFlag',
 		value:_cude.get('cudeInspectionFlag'),
-		anchor:'95%'
+		anchor:'95%',
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked){
+     				cboCctyName.setDisabled(false);
+     				dtInspectionDate.setDisabled(false);
+     				txtInspectionRemark.setDisabled(false);
+     			}     				
+     			else{
+     				cboCctyName.setDisabled(true);
+     				dtInspectionDate.setDisabled(true);
+     				txtInspectionRemark.setDisabled(true);
+     			}
+     		}
+     	}
      });
 	
 	//查验类型
 	var cboCctyName = new Ext.form.ComboBox({fieldLabel:C_CCTY,
 		name:'cctyName',
 		value:_cude.get('cctyName'),
+		disabled:_cude.get('cudeInspectionFlag')==0,
 		store:getCCTY_S(),
 		displayField:'cctyName',
 		valueField:'cctyName',
@@ -1006,6 +1022,7 @@ Fos.CustomsWin = function(_store,_consign,_cude,_item) {
 	var dtInspectionDate = new Ext.form.DateField({fieldLabel:C_CUDE_INSPECTION_DATE,
 		name:'cudeInspectionDate',
 		value:_cude.get('cudeInspectionDate'),
+		disabled:_cude.get('cudeInspectionFlag')==0,
 		format:DATEF,
 		anchor:'95%'
 	});	
@@ -1014,6 +1031,7 @@ Fos.CustomsWin = function(_store,_consign,_cude,_item) {
 	var txtInspectionRemark = new Ext.form.TextField({fieldLabel:C_INSPECTION_REMARK,
 		name:'cudeInspectionRemark',
 		value:_cude.get('cudeInspectionRemark'),
+		disabled:_cude.get('cudeInspectionFlag')==0,
 		anchor:'95%'
 	});	
 	

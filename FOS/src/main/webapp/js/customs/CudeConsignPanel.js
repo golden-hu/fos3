@@ -506,7 +506,16 @@ Fos.CudeConsignPanel = function(p,store) {
 		labelSeparator:'',
      	name:'cargDangerReportFlag',
      	checked:p.get('cargDangerReportFlag')==1,
-     	boxLabel:C_CARGO_DANGER_REPORT
+     	boxLabel:C_CARGO_DANGER_REPORT,
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCargDangerReportDate.setDisabled(false);
+     			else
+     				dtCargDangerReportDate.setDisabled(true);
+     		}
+     	}
      });
 	
 	//危品申报日期
@@ -514,6 +523,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		tabIndex:14,
 		name:'cargDangerReportDate',
 		value:p.get('cargDangerReportDate'),
+		disabled:p.get('cargDangerReportFlag')==0,
 		format:DATEF,
 		anchor:'95%'
 	});
@@ -524,7 +534,16 @@ Fos.CudeConsignPanel = function(p,store) {
 		labelSeparator:'',
      	name:'cargReportFlag',
      	checked:p.get('cargReportFlag')==1,
-     	boxLabel:C_CARGO_REPORT
+     	boxLabel:C_CARGO_REPORT,
+     	listeners:{
+     		scope:this,
+     		'check':function(c,checked){
+     			if(checked)
+     				dtCargReportDate.setDisabled(false);
+     			else
+     				dtCargReportDate.setDisabled(true);
+     		}
+     	}
      });
 	
 	//货物备案日期
@@ -532,6 +551,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		tabIndex:14,
 		name:'cargReportDate',
 		value:p.get('cargReportDate'),
+		disabled:p.get('cargReportFlag')==0,
 		format:DATEF,
 		anchor:'95%'
 	});
