@@ -978,88 +978,7 @@ Fos.CudeConsignPanel = function(p,store) {
 	   	 	]}
 	    ]
 	});
-	
-	this.save = function(){
-    	if(this.find('name','custName')[0].getValue()==''){
-			XMG.alert(SYS,M_CUST_REQIRED,function(){
-				this.find('name','custName')[0].focus();
-			},this);
-			return;
-		}
-    	
-		if(!p.get('custId')){
-			XMG.alert(SYS,M_CUST_MUST_PREDEFINED);
-			return;
-		}
-		
-		if(this.find('name','deptId')[0].getValue()==''){
-			XMG.alert(SYS,M_DEPT_REQIRED,function(){
-				this.find('name','deptId')[0].focus();
-				},this);
-			return;
-		}
-		
-		if(this.find('name','consSalesRepName')[0].getValue()==''){
-			XMG.alert(SYS,M_SALES_REQIRED,function(){
-				this.find('name','consSalesRepName')[0].focus();
-			},this);
-			return;
-		}
-		
-		if(this.find('name','consOperatorName')[0].getValue()==''){
-			XMG.alert(SYS,M_OPERATOR_REQIRED,function(){
-				this.find('name','consOperatorName')[0].focus();
-				},this);
-			return;
-		}		
-		
-		if(txtSailDate.getValue()==''){
-			XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
-				function(){txtSailDate.focus();},this);
-			return;
-		};
-				
-		var f = FConsign.prototype.fields;
-		for (var i = 0; i < f.keys.length; i++) {
-        	var fn = ''+f.keys[i];
-        	var fc = this.find('name',fn);
-        	if(fc!=undefined&&fc.length>0){
-        		p.set(fn,fc[0].getValue());
-        	}
-   	 	}    	 	
-   	 	var xml = RTX(p,'FConsign',FConsign);
-   	 	
-   	 	Ext.Ajax.request({scope:this,
-   	 		url:SERVICE_URL,
-   	 		method:'POST',
-   	 		params:{A:'CONS_S'},
-			success: function(res){
-				var c = XTR(res.responseXML,'FConsign',FConsign);
-				var ra=p.get('rowAction');
-				var f = FConsign.prototype.fields;
-				p.beginEdit();
-   				for (var i = 0; i < f.keys.length; i++) {
-   					var fn = ''+f.keys[i];
-   					p.set(fn,c.get(fn));
-   				}
-				if(ra=='N'){
-					var title=(p.get('consBizClass')=='I'?C_IMP:C_EXP)+C_CUSTOMS+'委托【'+p.get("consNo")+'】';
-					this.setTitle(title);
-					this.find('name','consNo')[0].setValue(p.get('consNo'));
-					p.set('rowAction','M');
-					store.add(p);
-				}
-				p.endEdit();
-				this.updateToolBar();
-				XMG.alert(SYS,M_S);
-			},
-			failure: function(res){
-				XMG.alert(SYS,M_F+res.responseText);
-			},
-			xmlData:FOSX(xml)
-		});
-    };    
-    
+	    
     this.updateStatus=function(s){
 		Ext.Ajax.request({scope:this,
 			url:SERVICE_URL,
@@ -1079,110 +998,7 @@ Fos.CudeConsignPanel = function(p,store) {
 			}
 		});
     };
-        
-        
-    this.check=function(){
-    	this.updateStatus('1');
-    };
-    
-    this.cancelCheck = function(){
-    	this.updateStatus('0');
-    };
-    
-    this.finish=function(){
-    	this.updateStatus('2');
-    };
-    
-    this.cancel=function(){
-    	XMG.confirm(SYS,M_CONS_CANCEL_C,
-    		function(btn){
-	    		if(btn=='yes')
-	    			this.updateStatus('3');
-    		},this);
-    };
-    		
-    this.del=function(){
-    	if(p.get('consStatus')!='0')
-       		XMG.alert(SYS,M_CONS_CONFIRMED);
-       	else {
-       		XMG.confirm(SYS,M_R_C,function(btn){
-       			if(btn=='yes'){
-       				p.set('rowAction','R');
-               		var xml = RTX4R(p,'FConsign','consId');
-               		Ext.Ajax.request({url:SERVICE_URL,
-               			method:'POST',
-               			params:{A:'CONS_S'},
-						success: function(){
-							store.remove(p);
-							XMG.alert(SYS,M_S,function(){T_MAIN.remove('P_CONS_'+p.get('id'));});
-						},
-						failure: function(r,o){
-							XMG.alert(SYS,M_F+r.responseText);
-						},
-						xmlData:FOSX(xml)
-					});
-               	}
-           });
-       	}
-    };
-    
-    this.unlock = function(){
-    	Ext.Ajax.request({scope:this,
-    		url:SERVICE_URL,
-    		method:'POST',
-    		params:{
-    			A:'CONS_U',
-    			consId:p.get('consId'),
-    			consStatusLock:0
-    		},
-			success: function(r){
-				p.set('consStatusLock',0);
-				this.updateToolBar(p.get('consStatus'));
-				
-				XMG.alert(SYS,M_S);
-				var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
-						reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
-				sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
-					if(s&&r.length>0){
-						var c=r[0];
-						p.beginEdit();					
-						p.set('version',c.get('version'));
-						p.endEdit();
-						XMG.alert(SYS,M_S);
-					}    						
-				},scope:this});				
-			},
-			failure: function(r){
-				XMG.alert(SYS,M_F+r.responseText);
-			}
-		});
-    };
-    
-    
-    
-    this.MoidfyConsNo=function(){
-    	XMG.prompt(SYS,C_CONS_NO_NEW,function(b,v){
-			if(b=='ok'){
-				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
-		    		params:{A:'CONS_MODIFY_NO',consId:p.get('consId'),consNo:v},
-				success: function(res){
-					var c = XTR(res.responseXML,'FConsign',FConsign);
-					
-					p.beginEdit();	
-					p.set('consNo',v);
-					p.set('version',c.get('version'));
-					p.endEdit();
-										
-					var title=(p.get('consBizClass')=='I'?C_IMP:C_EXP)+C_CUSTOMS+'委托【'+p.get("consNo")+'】';
-					this.setTitle(title);
-					this.find('name','consNo')[0].setValue(p.get('consNo'));
-										
-					XMG.alert(SYS,M_S);					
-				},
-				failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
-			}
-		},this);
-    };
+                    		
     
     this.updateToolBar = function(){
 		var s = p.get('consStatus'); 
@@ -1210,73 +1026,223 @@ Fos.CudeConsignPanel = function(p,store) {
     };
     
 	var btnSave = new Ext.Button({text:C_SAVE,
-		itemId:'TB_S',
 		iconCls:'save',
 		disabled:NR(m+F_M)||locked||disable,
 		scope:this,
-		handler:this.save
+		handler:function(){
+	    	if(this.find('name','custName')[0].getValue()==''){
+				XMG.alert(SYS,M_CUST_REQIRED,function(){
+					this.find('name','custName')[0].focus();
+				},this);
+				return;
+			}
+	    	
+			if(!p.get('custId')){
+				XMG.alert(SYS,M_CUST_MUST_PREDEFINED);
+				return;
+			}
+			
+			if(this.find('name','deptId')[0].getValue()==''){
+				XMG.alert(SYS,M_DEPT_REQIRED,function(){
+					this.find('name','deptId')[0].focus();
+					},this);
+				return;
+			}
+			
+			if(this.find('name','consSalesRepName')[0].getValue()==''){
+				XMG.alert(SYS,M_SALES_REQIRED,function(){
+					this.find('name','consSalesRepName')[0].focus();
+				},this);
+				return;
+			}
+			
+			if(this.find('name','consOperatorName')[0].getValue()==''){
+				XMG.alert(SYS,M_OPERATOR_REQIRED,function(){
+					this.find('name','consOperatorName')[0].focus();
+					},this);
+				return;
+			}		
+			
+			if(txtSailDate.getValue()==''){
+				XMG.alert(SYS,p.get('consBizClass')==BC_I?M_ETA_REQIRED:M_ETD_REQIRED,
+					function(){txtSailDate.focus();},this);
+				return;
+			};
+								
+			saveToRecord(consignPanel,p);
+	   	 	var xml = RTX(p,'FConsign',FConsign);
+	   	 	
+	   	 	Ext.Ajax.request({scope:this,
+	   	 		url:SERVICE_URL,
+	   	 		method:'POST',
+	   	 		params:{A:'CONS_S'},
+				success: function(res){
+					var c = XTR(res.responseXML,'FConsign',FConsign);
+					var ra=p.get('rowAction');
+					var f = FConsign.prototype.fields;
+					p.beginEdit();
+	   				for (var i = 0; i < f.keys.length; i++) {
+	   					var fn = ''+f.keys[i];
+	   					p.set(fn,c.get(fn));
+	   				}
+					if(ra=='N'){
+						var title=(p.get('consBizClass')=='I'?C_IMP:C_EXP)+C_CUSTOMS+'委托【'+p.get("consNo")+'】';
+						this.setTitle(title);
+						this.find('name','consNo')[0].setValue(p.get('consNo'));
+						p.set('rowAction','M');
+						store.add(p);
+					}
+					p.endEdit();
+					this.updateToolBar();
+					XMG.alert(SYS,M_S);
+				},
+				failure: function(res){
+					XMG.alert(SYS,M_F+res.responseText);
+				},
+				xmlData:FOSX(xml)
+			});
+	    }
 	});
 	
 	var btnConfirm = new Ext.Button({text:C_BOOK_CONFIRM,
-		itemId:'TB_C',
 		iconCls:'check',
 		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',
 		scope:this,
-		handler:this.check
+		handler:function(){
+	    	this.updateStatus('1');
+	    }
 	});
 		
 	var btnCancelConfirm = new Ext.Button({text:C_CANCEL_CONFIRM,
-		itemId:'TB_CC',
 		iconCls:'check',
 		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1||p.get('rowAction')=='N',
 		scope:this,
-		handler:this.cancelCheck
+		handler:function(){
+	    	this.updateStatus('0');
+	    }
 	});
 	
 	var btnClose = new Ext.Button({text:C_CONS_CLOSED,
-		itemId:'TB_F',
 		iconCls:'check',
 		disabled:NR(m+F_M)||locked||disable||p.get('consStatus')!=1,
 		scope:this,
-		handler:this.finish
+		handler:function(){
+	    	this.updateStatus('2');
+	    }
 	});
 	
 	var btnRemove = new Ext.Button({text:C_REMOVE,
-		itemId:'TB_R',
 		iconCls:'remove',
 		disabled:NR(m+F_R)||locked||disable||p.get('consStatus')!=0||p.get('rowAction')=='N',
 		scope:this,
-		handler:this.del
+		handler:function(){
+	    	if(p.get('consStatus')!='0')
+	       		XMG.alert(SYS,M_CONS_CONFIRMED);
+	       	else {
+	       		XMG.confirm(SYS,M_R_C,function(btn){
+	       			if(btn=='yes'){
+	       				p.set('rowAction','R');
+	               		var xml = RTX4R(p,'FConsign','consId');
+	               		Ext.Ajax.request({url:SERVICE_URL,
+	               			method:'POST',
+	               			params:{A:'CONS_S'},
+							success: function(){
+								store.remove(p);
+								XMG.alert(SYS,M_S,function(){T_MAIN.remove('P_CONS_'+p.get('id'));});
+							},
+							failure: function(r,o){
+								XMG.alert(SYS,M_F+r.responseText);
+							},
+							xmlData:FOSX(xml)
+						});
+	               	}
+	           });
+	       	}
+	    }
 	});
 	
 	var btnInvalid = new Ext.Button({text:C_INVALID,
-		itemId:'TB_M',
 		iconCls:'cancel',
 		disabled:NR(m+F_F)||locked||disable||p.get('consStatus')==0||p.get('rowAction')=='N',
 		scope:this,
-		handler:this.cancel
+		handler:function(){
+	    	XMG.confirm(SYS,M_CONS_CANCEL_C,
+        		function(btn){
+    	    		if(btn=='yes')
+    	    			this.updateStatus('3');
+        		},this);
+        }
 	});
 	
 	var btnUnlock = new Ext.Button({text:C_UNLOCK,
-		itemId:'TB_U',
 		iconCls:'unlock',
 		disabled:NR(m+F_UL)||locked!=1,
 		scope:this,
-		handler:this.unlock
+		handler:function(){
+	    	Ext.Ajax.request({scope:this,
+	    		url:SERVICE_URL,
+	    		method:'POST',
+	    		params:{
+	    			A:'CONS_U',
+	    			consId:p.get('consId'),
+	    			consStatusLock:0
+	    		},
+				success: function(r){
+					p.set('consStatusLock',0);
+					this.updateToolBar(p.get('consStatus'));
+					
+					XMG.alert(SYS,M_S);
+					var sc = new Ext.data.Store({url: SERVICE_URL+'?A='+'CONS_Q',
+							reader: new Ext.data.XmlReader({record:'FConsign'}, FConsign)});
+					sc.load({params:{consId:p.get('consId')},callback:function(r,o,s){
+						if(s&&r.length>0){
+							var c=r[0];
+							p.beginEdit();					
+							p.set('version',c.get('version'));
+							p.endEdit();
+							XMG.alert(SYS,M_S);
+						}    						
+					},scope:this});				
+				},
+				failure: function(r){
+					XMG.alert(SYS,M_F+r.responseText);
+				}
+			});
+	    }
 	});
 	
 		
 	var btnModifyConsignNo = new Ext.Button({text:C_MODIFY_CONS_NO,
-		itemId:'TB_M_CONS_NO',
 		iconCls:'option',
 		disabled:NR(m1+F_M)||locked==1||p.get('consStatus')==7||p.get('rowAction')=='N',
 		scope:this,
-		handler:this.MoidfyConsNo
+		handler:function(){
+	    	XMG.prompt(SYS,C_CONS_NO_NEW,function(b,v){
+				if(b=='ok'){
+					Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',
+			    		params:{A:'CONS_MODIFY_NO',consId:p.get('consId'),consNo:v},
+					success: function(res){
+						var c = XTR(res.responseXML,'FConsign',FConsign);
+						
+						p.beginEdit();	
+						p.set('consNo',v);
+						p.set('version',c.get('version'));
+						p.endEdit();
+											
+						var title=(p.get('consBizClass')=='I'?C_IMP:C_EXP)+C_CUSTOMS+'委托【'+p.get("consNo")+'】';
+						this.setTitle(title);
+						this.find('name','consNo')[0].setValue(p.get('consNo'));
+											
+						XMG.alert(SYS,M_S);					
+					},
+					failure: function(r){XMG.alert(SYS,M_F+r.responseText);}});
+				}
+			},this);
+	    }
 	});
 	
 	//另存
 	var btnSaveAs = new Ext.Button({text:C_COPY,
-		itemId:'TB_N',
 		iconCls:'copy',
 		disabled:NR(m1+F_M)||p.get('rowAction')=='N',
 		scope:this,
@@ -1303,7 +1269,7 @@ Fos.CudeConsignPanel = function(p,store) {
 	    
 	if(p.get('rowAction')!='N'){
 		items[items.length] = new Fos.CudeGridPanel(p);
-		//items[items.length] = new Fos.InspGridPanel(p);
+		items[items.length] = new Fos.InspGridPanel(p);
 		items[items.length] = new Fos.ExpensePanel(p,'C');
 		items[items.length] = new Fos.ConsDocGrid(p);
 		items[items.length] = new Fos.AttachTab(p);

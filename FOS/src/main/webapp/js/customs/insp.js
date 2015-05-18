@@ -2,6 +2,7 @@
 Fos.InspectionConsignGrid = function() {
 	var queryParams=[];
 	queryParams[queryParams.length]=new QParam({key:'consBizType',value:BT_I,op:1});
+	
 	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
 	
 	var store = new Ext.data.GroupingStore({
@@ -25,6 +26,7 @@ Fos.InspectionConsignGrid = function() {
          }};
    
     var c3={header:C_STATUS,width:60,dataIndex:"consStatus",renderer:getTRADE_S};
+    
     var c4={header:C_CONS_NO,width:120,dataIndex:"consNo"};
     var c5={header:C_BOOKER,width:200,dataIndex:"custName"};
     var c6={header:C_CONS_DATE,width:80,dataIndex:"consDate",renderer:formatDate};   
@@ -198,7 +200,7 @@ Fos.InspectionConsignGrid = function() {
 		closable:true,
 		listeners:{
 			rowdblclick: function(grid, rowIndex, event){
-				var c=grid.getSelectionModel().getSelected();
+				var c=sm.getSelected();
 				if(c){
 					showInspConsign(c);
 				}

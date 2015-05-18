@@ -700,9 +700,13 @@ Fos.ConsignTab = function(p){
 	if(p.get('consBizClass')==BC_I && p.get('consShipType')==ST_L) 
 		items[items.length]=new Fos.SplitTab(p);	
 	
-	var status={itemId:'TB_M',disabled:true,text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))};
+	var status = {itemId:'TB_M',
+			disabled:true,
+			text:C_STATUS+'：'+(p.get('consBizClass')==BC_I?getCIST(p.get('consStatus')):getCOST(p.get('consStatus')))
+		};
 	
 	var title=getBT(p.get('consBizType'));title+=getBC(p.get('consBizClass'));
+	
 	if(p.get('consBizType')==BT_C){
 	   if(p.get('consBizClass')==BC_I&&p.get('consShipType')=='LCL') title+=C_SWITCH; 
 	   else title+=getSHTY(p.get('consShipType'));

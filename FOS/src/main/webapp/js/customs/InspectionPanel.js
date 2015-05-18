@@ -602,20 +602,8 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		anchor:'95%'
 	});
 	
-	//检验检疫技术服务
-	var setTS = new Ext.form.FieldSet({
-		id:'inspTsFlag',
-    	labelAlign:'right',
-    	labelWidth:60,
-    	checkboxToggle:true,
-    	checkboxName:'inspTsFlag',    	
-    	collapsed: _insp.get('inspTsFlag')==0,
-    	title:C_TS,
-    	autoHeight:true,
-    	items:[cboTsType,txtTsNo,dtTsApplyDate,dtTsOperationDate,dtTsEndDate,txtTsObject,txtTsRemark]
-    });
-		
 	
+			
 	
 	//卫检日期
 	var dtCsDate = new Ext.form.DateField({fieldLabel:C_CS_DATE,
@@ -646,17 +634,6 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		anchor:'95%'
 	});
 	
-	//箱体卫检
-	var setCS = new Ext.form.FieldSet({id:'inspCsFlag',
-    	labelAlign:'right',
-    	labelWidth:60,
-    	checkboxToggle:true,
-    	checkboxName:'inspCsFlag',
-    	collapsed: _insp.get('inspCsFlag')==0,
-    	title:C_CS,
-    	autoHeight:true,
-    	items:[dtCsDate,txtCsNo,chkCsCheckFlag,txtCsRemark]
-    });
 	
 	
 	//申请日期
@@ -695,18 +672,7 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		anchor:'95%'
 	});
 	
-	//箱体适载
-	var setCL = new Ext.form.FieldSet({id:'inspClFlag',
-    	labelAlign:'right',
-    	labelWidth:60,
-    	checkboxToggle:true,
-    	checkboxName:'inspClFlag',
-    	collapsed: _insp.get('inspClFlag')==0,
-    	title:C_CL,
-    	autoHeight:true,
-    	defaultType:'textfield',
-    	items:[dtClApplyDate,dtClDate,txtClNo,txtClContainerNo,txtClRemark]
-    });
+	
 	
 	
 	//申请日期
@@ -759,18 +725,7 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		anchor:'95%'
 	});
 	
-	//装运前检验
-	var setLC = new Ext.form.FieldSet({id:'inspLcFlag',
-    	labelAlign:'right',
-    	labelWidth:60,
-    	checkboxToggle:true,
-    	checkboxName:'inspLcFlag',
-    	collapsed: _insp.get('inspLcFlag')==0,
-    	title:C_LC,
-    	autoHeight:true,
-    	items:[dtLcApplyDate,cboLcType,dtLcOperationDate,dtLcEndDate,txtLcObject,txtLcRemark]
-    });
-		
+	
 	
 	var frmRecord = new Ext.Panel({title:C_INSP_RECORD,
 		layout:'column',
@@ -787,13 +742,56 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 			        		       dtCargoCheckDate,dtCertificationDate,dtCertificationCheckDate]}
 		        ]
 	         },
-		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[setTS]},
-		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[setCS]},
-		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[setCL]},
-		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[setLC]}
+		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[{//检验检疫技术服务
+		    	 xtype:'fieldset',
+		 		id:'inspTsFlag',
+		    	labelAlign:'right',
+		    	labelWidth:60,
+		    	checkboxToggle:true,
+		    	checkboxName:'inspTsFlag',    	
+		    	collapsed: _insp.get('inspTsFlag')==0,
+		    	title:C_TS,
+		    	autoHeight:true,
+		    	items:[cboTsType,txtTsNo,dtTsApplyDate,dtTsOperationDate,dtTsEndDate,txtTsObject,txtTsRemark]
+		    }]},
+		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[{id:'inspCsFlag',//箱体卫检
+		    	 xtype:'fieldset',
+		     	labelAlign:'right',
+		    	labelWidth:60,
+		    	checkboxToggle:true,
+		    	checkboxName:'inspCsFlag',
+		    	collapsed: _insp.get('inspCsFlag')==0,
+		    	title:C_CS,
+		    	autoHeight:true,
+		    	items:[dtCsDate,txtCsNo,chkCsCheckFlag,txtCsRemark]
+		    }]},
+		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[{id:'inspClFlag',//箱体适载
+		    	 xtype:'fieldset',
+		     	labelAlign:'right',
+		    	labelWidth:60,
+		    	checkboxToggle:true,
+		    	checkboxName:'inspClFlag',
+		    	collapsed: _insp.get('inspClFlag')==0,
+		    	title:C_CL,
+		    	autoHeight:true,
+		    	defaultType:'textfield',
+		    	items:[dtClApplyDate,dtClDate,txtClNo,txtClContainerNo,txtClRemark]
+		    }]},
+		     {columnWidth:.25,layout:'fit',border:false,padding:5,items:[{id:'inspLcFlag',//装运前检验
+		    	 xtype:'fieldset',
+		     	labelAlign:'right',
+		    	labelWidth:60,
+		    	checkboxToggle:true,
+		    	checkboxName:'inspLcFlag',
+		    	collapsed: _insp.get('inspLcFlag')==0,
+		    	title:C_LC,
+		    	autoHeight:true,
+		    	items:[dtLcApplyDate,cboLcType,dtLcOperationDate,dtLcEndDate,txtLcObject,txtLcRemark]
+		    }]}
 		]
 	});
 		
+	
 	this.updateStatus=function(s){    	
     	Ext.Ajax.request({scope:this,
     		url:SERVICE_URL,
@@ -844,7 +842,7 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		 		_insp.set('inspClFlag',this.findById('inspClFlag').checkbox.dom.checked);
 		 	
 		 	var lc = this.findById('inspLcFlag');
-		 	if(lc!=undefined&&cl.checkbox)
+		 	if(lc!=undefined&&lc.checkbox)
 		 		_insp.set('inspLcFlag',this.findById('inspLcFlag').checkbox.dom.checked);
 		 	
 		 	
@@ -920,17 +918,7 @@ Fos.InspectionWin = function(_store,_consign,_insp) {
 		items:[frm,frmRecord,
 		       {border:false,layout:'fit',items:expPanel}
 		],
-		tbar:[btnSave,'-',btnApply,'-',btnPass,'-',btnExport],
-		listeners:{
-			scope:this,
-			'afterlayout':function(){
-				setTS.checkbox.dom.checked = false;
-				setCS.checkbox.dom.checked = false;	
-				setCL.checkbox.dom.checked = false;
-				setLC.checkbox.dom.checked = false;
-			}
-	
-		}
+		tbar:[btnSave,'-',btnApply,'-',btnPass,'-',btnExport]
     });
 	
     Fos.InspectionWin.superclass.constructor.call(this, {    	
