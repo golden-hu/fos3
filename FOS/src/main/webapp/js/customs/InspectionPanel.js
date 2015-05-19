@@ -16,7 +16,24 @@ Fos.InspGridPanel = function(_consign) {
 		{header:C_INSP_BILL_NO,dataIndex:'inspNo'},
 		{header:C_INSP_AGENCY,dataIndex:'inspVendorName',width:150},
 		{header:C_INSP_VENDOR_RN,dataIndex:'inspRefNo',width:150},
-		{header:C_INSP_DATE,dataIndex:'inspDate',renderer:formatDate}
+		{header:C_INSP_DATE,dataIndex:'inspDate',renderer:formatDate},
+		{header:C_CARGO_SAMPLE,dataIndex:'inspCargoSampleFlag',renderer:boolRender,width:100},	
+		{header:C_CARGO_SAMPLE_DATE,dataIndex:'inspCargoSampleDate',renderer:formatDate},
+		
+		{header:C_PACKAGE_CHECK,dataIndex:'inspPackageCheckFlag',renderer:boolRender,width:100},	
+		{header:C_PACKAGE_CHECK_DATE,dataIndex:'inspPackageCheckDate',renderer:formatDate},
+		
+		{header:C_CARGO_SEND,dataIndex:'inspCargoSendFlag',renderer:boolRender,width:100},	
+		{header:C_CARGO_SEND_DATE,dataIndex:'inspCargoSendDate',renderer:formatDate},
+		
+		{header:C_CARGO_CHECK,dataIndex:'inspCargoCheckFlag',renderer:boolRender,width:100},	
+		{header:C_CARGO_CHECK_DATE,dataIndex:'inspCargoCheckDate',renderer:formatDate},
+		
+		{header:C_CERTIFICATION,dataIndex:'inspCertificationFlag',renderer:boolRender,width:100},	
+		{header:C_CERTIFICATION_DATE,dataIndex:'inspCertificationDate',renderer:formatDate},
+		
+		{header:C_CERTIFICATION_CHECK,dataIndex:'inspCertificationCheckFlag',renderer:boolRender,width:100},	
+		{header:C_CERTIFICATION_CHECK_DATE,dataIndex:'inspCertificationCheckDate',renderer:formatDate}
 		],
 		defaults:{sortable:true,width:100}
 	});

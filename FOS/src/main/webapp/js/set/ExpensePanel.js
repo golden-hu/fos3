@@ -10,6 +10,28 @@ Fos.ExpensePanel = function(_consign,f){
 	
 	this.f = f;
 	
+	/*this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
+	if(_consign.get('rowAction')!='N')
+		this.store.load({params:{consId:_consign.get('consId')},callback:function(){
+			var a=this.store.getRange();			
+			for(var i=0;i<a.length;i++){
+				if(a[i].get('expeType')=='R'){
+					if(!NR(m+S_AR+F_V))
+						this.rs.add(a[i]);
+				}
+				else if(a[i].get('expeType')=='P'){
+				 	if(!NR(m+S_AP+F_V))
+						this.ps.add(a[i]);
+				}else if(!NR(m+S_AP+F_V)){
+						this.ds.add(a[i]);
+				}
+			}
+			this.calcR();
+			this.calcP();
+			this.reCalculate();			
+		},scope:this
+	});*/
+	
 	//客户
 	var txtCustName = new Ext.form.TextField({
 		fieldLabel:C_BOOKER,
@@ -237,45 +259,9 @@ Fos.ExpensePanel = function(_consign,f){
                 ]}
 			]});
 			
-	var PCny = new Ext.form.TextField({width:80,disabled:true});
-	var PUsd = new Ext.form.TextField({width:80,disabled:true});
-	var PLoc = new Ext.form.TextField({width:80,disabled:true});
-	var PRc = new Ext.form.TextField({width:80,disabled:true});
-	
-	this.store = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	
-	var sumCnyR = new Ext.form.TextField({width:80,disabled:true});
-	var sumUsdR = new Ext.form.TextField({width:80,disabled:true});
-	var sumLocR = new Ext.form.TextField({width:80,disabled:true});
-	var sumRcR = new Ext.form.TextField({width:80,disabled:true});
-	
-	this.sumCnyR=0;
-	this.sumUsdR=0;
-	this.sumLocR=0;
-	this.sumRcR=0;
-	
-	this.rs=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	this.calcR=function(){
-		var d=this.rs.getRange();
-		this.sumCnyR=0;
-		this.sumUsdR=0;
-		this.sumLocR=0;
-		this.sumRcR=0;
-		for(var i=0;i<d.length;i++){
-			if(d[i].get('currCode')=='CNY')
-				this.sumCnyR+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='USD')
-				this.sumUsdR+=parseFloat(d[i].get('expeTotalAmount'));
-			this.sumLocR+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));			
-			this.sumRcR+=parseFloat(d[i].get('expeWriteOffRcAmount'));
-		}
-		sumCnyR.setValue(round2(this.sumCnyR));
-		sumUsdR.setValue(round2(this.sumUsdR));
-		sumLocR.setValue(round2(this.sumLocR));
-		sumRcR.setValue(round2(this.sumRcR));
-	};
-	
-	this.rg = new Fos.ExpenseGrid(_consign,'R',this,this.rs);
+			
+	//应收GRID
+	var gridAr = new Fos.ExpenseGrid(_consign,'R',this);	
 	var pR = new Ext.Panel({
 		width:Ext.isIE?document.body.clientWidth-240:'auto',
 		layout:'fit',
@@ -283,89 +269,96 @@ Fos.ExpensePanel = function(_consign,f){
 		collapsible:true,
 		autoscroll:true,
 		border:false,
-		items:[this.rg],
-		bbar:[C_SUM_CNY_C,sumCnyR,'-',C_SUM_USD_C,sumUsdR,'-',C_SUM_LOC_C,sumLocR,'-',C_SUM_RC,sumRcR]
+		items:[gridAr]
 	});		
-	
-	var sumCnyP = new Ext.form.TextField({width:80,disabled:true});
-	var sumUsdP = new Ext.form.TextField({width:80,disabled:true});
-	var sumLocP = new Ext.form.TextField({width:80,disabled:true});
-	var sumRcP = new Ext.form.TextField({width:80,disabled:true});
-	
-	this.sumCnyP=0;this.sumUsdP=0;this.sumLocP=0;this.sumRcP=0;
-	this.ps=GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	
-	
-	this.calcP=function(){
-		var d=this.ps.getRange();
-		this.sumCnyP=0;
-		this.sumUsdP=0;
-		this.sumLocP=0;
-		this.sumRcP=0;
-		for(var i=0;i<d.length;i++){
-			if(d[i].get('currCode')=='CNY')
-				this.sumCnyP+=parseFloat(d[i].get('expeTotalAmount'));
-			else if(d[i].get('currCode')=='USD')
-				this.sumUsdP+=parseFloat(d[i].get('expeTotalAmount'));
-			this.sumLocP+=parseFloat(d[i].get('expeTotalAmount')*d[i].get('expeExRate'));
-			this.sumRcP+=parseFloat(d[i].get('expeWriteOffRcAmount'));
-		};
-		sumCnyP.setValue(round2(this.sumCnyP));
-		sumUsdP.setValue(round2(this.sumUsdP));
-		sumLocP.setValue(round2(this.sumLocP));
-		sumRcP.setValue(round2(this.sumRcP));
-	};
-	
-	this.pg = new Fos.ExpenseGrid(_consign,'P',this,this.ps);
+		
+	//应付GRID
+	var gridAp = new Fos.ExpenseGrid(_consign,'P',this);
 	var pP = new Ext.Panel({width:Ext.isIE?document.body.clientWidth-240:'auto',
 		layout:'fit',
 		title:C_EXPE_P,
 		collapsible:true,
 		border:false,
-		items:[this.pg],
-		bbar:[C_SUM_CNY_C,sumCnyP,'-',C_SUM_USD_C,sumUsdP,'-',C_SUM_LOC_C,sumLocP,'-',C_SUM_RC,sumRcP]
+		items:[gridAp]
 	});
 	
-	this.ds = GS('EXPE_PERM_Q','SExpense',SExpense,'expeId','DESC','','','',false);
-	this.dg = new Fos.ExpenseGrid(_consign,'D',this,this.ds);
-	
 	//代收代付
+	var gridD = new Fos.ExpenseGrid(_consign,'D',this);
 	var pD = new Ext.Panel({width:Ext.isIE?800:'auto',
 		layout:'fit',
 		title:C_EXPE_D,
 		collapsible:true,
 		border:false,
-		items:[this.dg]
+		items:[gridD]
 	});	
-	
-	this.reCalculate = function(){		
-		PCny.setValue(round2(this.sumCnyR-this.sumCnyP));
-		PUsd.setValue(round2(this.sumUsdR-this.sumUsdP));
-		PLoc.setValue(round2(this.sumLocR-this.sumLocP));
-		PRc.setValue(round2(this.sumRcR-this.sumRcP));		
-	};
-	
-	if(_consign.get('rowAction')!='N')
-		this.store.load({params:{consId:_consign.get('consId')},callback:function(){
-			var a=this.store.getRange();			
+			
+	//利润计算
+	this.calculateProfit = function(){
+		var a = gridAr.store.getRange();
+		var rb = gridAp.store.getRange();
+		for(var i=0;i<rb.length;i++){
+			a[a.length] = rb[i];
+		}
+		
+		var totalAmount = 0.00;
+		var sumInfo = '利润合计：';
+		var map = new HashMap();
+				
+		if(a.length){
 			for(var i=0;i<a.length;i++){
-				if(a[i].get('expeType')=='R'){
-					if(!NR(m+S_AR+F_V))
-						this.rs.add(a[i]);
+				var ra = map.get(a[i].get('currCode'));
+				if(ra && ra.length>0){
+					ra[ra.length] = a[i];
 				}
-				else if(a[i].get('expeType')=='P'){
-				 	if(!NR(m+S_AP+F_V))
-						this.ps.add(a[i]);
-				}else if(!NR(m+S_AP+F_V)){
-						this.ds.add(a[i]);
+				else{
+					ra = [];
+					ra[ra.length] = a[i];
+					map.put(a[i].get('currCode'),ra);
 				}
 			}
-			this.calcR();
-			this.calcP();
-			this.reCalculate();			
-		},scope:this});
-	
-	this.UN=new Ext.data.SimpleStore({id:0,fields:['U','N'],data:getUN(_consign)});	
+			
+			var keys = map.keys();
+						
+			for(var i=0;i<keys.length;i++){
+				var key = keys[i];
+				var ra = map.get(key);
+				var total = 0.00;
+				var totalCny = 0.00;
+				
+				for(var j=0;j<ra.length;j++){
+					var r = ra[j];
+					if(r.get('expeType')=='R'){
+						total = total + r.get('expeTotalAmount');
+						if(r.get('currCode')=='CNY')
+							totalCny = totalCny + r.get('expeTotalAmount');
+						else{
+							totalCny = totalCny+r.get('expeTotalAmount')*r.get('expeExRate');							
+						}
+					}							
+					else if(r.get('expeType')=='P'){
+						total = total - r.get('expeTotalAmount');
+						if(r.get('currCode')=='CNY')
+							totalCny = totalCny - r.get('expeTotalAmount');
+						else{
+							totalCny = totalCny-r.get('expeTotalAmount')*r.get('expeExRate');							
+						}
+					}
+				}
+				total = round2(total);
+				
+				sumInfo = sumInfo + key + '：' +  total + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				totalAmount = totalAmount + totalCny;
+			}
+			totalAmount = round2(totalAmount);
+			
+			if(totalAmount<0)
+				sumInfo = sumInfo + '折合本币：<font color="red">' +  totalAmount + '</font>';
+			else
+				sumInfo = sumInfo + '折合本币：' +  totalAmount;
+			
+			txtSumInfo.setText(sumInfo);
+		}
+	};
 	
 	this.updateStatus=function(s){
 		Ext.Ajax.request({scope:this,
@@ -389,21 +382,13 @@ Fos.ExpensePanel = function(_consign,f){
 		});
 	};
 	
-	this.check = function(){
-		this.updateStatus('1');
-	};
-	
-	this.unCheck=function(){
-		this.updateStatus('0');
-	};
 	
 	this.updateTB=function(){
-		var tb=this.getTopToolbar();
-		if(tb.getComponent('TB_A')) 
-			tb.getComponent('TB_A').setDisabled(NR(m+F_E)||_consign.get('consStatusExp')==1||_consign.get('consStatusAud')!=0);
+		if(btnCheck) 
+			btnCheck.setDisabled(NR(m+F_E)||_consign.get('consStatusExp')==1||_consign.get('consStatusAud')!=0);
 		
-    	if(tb.getComponent('TB_B')) 
-    		tb.getComponent('TB_B').setDisabled(NR(m+F_E)||_consign.get('consStatusAud')!=0||_consign.get('consStatusExp')==0);
+    	if(btnUncheck) 
+    		btnUncheck.setDisabled(NR(m+F_E)||_consign.get('consStatusAud')!=0||_consign.get('consStatusExp')==0);
     	
     	this.rg.updateTB();
     	this.pg.updateTB();
@@ -422,22 +407,30 @@ Fos.ExpensePanel = function(_consign,f){
 		else{this.rg.setHeight(250);this.pg.setHeight(250);}
 	};
 		
-	var tb1 = {itemId:'TB_A',
+	this.UN=new Ext.data.SimpleStore({id:0,fields:['U','N'],data:getUN(_consign)});	
+	
+	var btnCheck = new Ext.Button({itemId:'TB_A',
 		text:C_EXPE_AUDIT,
 		disabled:NR(m+F_E)||_consign.get('consStatusExp')==1||_consign.get('consStatusAud')!=0,
 		iconCls:'check',
 		scope:this,
-		handler:this.check
-	};
+		handler:function(){
+			this.updateStatus('1');
+		}
+	});
 	
-	var tb2 = {itemId:'TB_B',
+	var btnUncheck = new Ext.Button({itemId:'TB_B',
 		text:C_EXPE_UNCHECK,
 		disabled:NR(m+F_E)||_consign.get('consStatusAud')!=0||_consign.get('consStatusExp')==0,
 		iconCls:'renew',
 		scope:this,
-		handler:this.unCheck
-	};
+		handler:function(){
+			this.updateStatus('0');
+		}
+	});
 		
+	var txtSumInfo = new  Ext.Toolbar.TextItem({text:''});
+	
 	Fos.ExpensePanel.superclass.constructor.call(this, { 
 		id:"T_EXPE_"+_consign.get('id'),
 		title:C_EXPE+(f=='C'||f=='T'?'':('-'+_consign.get("consNo"))),
@@ -448,12 +441,7 @@ Fos.ExpensePanel = function(_consign,f){
 		labelAlign:'right',
 		border:true,
 		items: f=='T'?[pR,pP]:[pBiz,pR,pP,pD],
-		tbar:[tb1,'-',
-		      tb2,'-',
-		      C_PROFIT_CNY,PCny,'-',
-		      C_PROFIT_USD,PUsd,'-',
-		      C_PROFIT_LOC,PLoc,'-',
-		      C_PROFIT_RC,PRc]
+		tbar:[btnCheck,'-',btnUncheck,'-',txtSumInfo]
 	});
 };
 Ext.extend(Fos.ExpensePanel, Ext.Panel);

@@ -46,9 +46,7 @@ Ext.onReady(function(){
 	Ext.get('loading-mask').fadeOut({remove:true});},50);
 	
 	iniStore();
-	
-	checkPassEx();
-	
+		
 	P_MENU.on('collapse',function(){T_MAIN.getActiveTab().doLayout();});
 	P_MENU.on('expand',function(){T_MAIN.getActiveTab().doLayout();});
 	T_MAIN.on('tabchange',function(m,a){a.doLayout();});

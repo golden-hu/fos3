@@ -1,16 +1,85 @@
 //单票费用列表
-Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {	
+Fos.ExpenseGrid = function(_consign,_expeType,_parent) {	
+	
+	this.store = new Ext.data.Store({url:SERVICE_URL,
+		baseParams:{A:'EXPE_PERM_Q',
+			expeType:_expeType,	
+			mt:'xml'},
+		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
+			record:'SExpense',idProperty:'expeId'},SExpense),
+		remoteSort:true,sortInfo:{field:'expeId', direction:'ASC'}
+	});
+	
+	if(_consign.get('rowAction')!='N'){
+		this.store.baseParams.consId = _consign.get('consId');
 		
-	this.reCalculate = function(){
-		if(_expeType=='R') 
-			frm.calcR(); 
-		else if(_expeType=='P') 
-			frm.calcP(); 
-		else if(_expeType=='D') 
-			frm.calcD(); 
-		else 
-			frm.calcC();
-		frm.reCalculate();
+		this.store.load({
+			callback:function(){
+				this.reCalculate();
+			},
+			scope:this
+		});
+	}
+	
+	this.reCalculate = function(){		
+		if(this.store){
+			var a = this.store.getRange();		
+			var totalAmount = 0.00;
+			var sumInfo = '合计&nbsp;&nbsp;';
+			var map = new HashMap();
+					
+			if(a.length){
+				for(var i=0;i<a.length;i++){
+					var ra = map.get(a[i].get('currCode'));
+					if(ra && ra.length>0){
+						ra[ra.length] = a[i];
+					}
+					else{
+						ra = [];
+						ra[ra.length] = a[i];
+						map.put(a[i].get('currCode'),ra);
+					}
+				}
+				
+				var keys = map.keys();
+				for(var i=0;i<keys.length;i++){
+					var key = keys[i];
+					var ra = map.get(key);
+					var total = 0.00;
+					var totalCny = 0.00;
+					
+					for(var j=0;j<ra.length;j++){
+						var r = ra[j];
+						total = total + r.get('expeTotalAmount');
+						
+						if(r.get('currCode')=='CNY')
+							totalCny = total;
+						else{
+							totalCny = total*r.get('expeExRate');
+						}
+					}
+					total = round2(total);
+					totalAmount = totalAmount + totalCny;				
+					
+					sumInfo = sumInfo + key + '：' +  total + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					
+				}
+				totalAmount = round2(totalAmount);
+				
+				sumInfo = sumInfo + '折合本币：' +  totalAmount;
+				txtSumInfo.setText(sumInfo);
+			}
+			
+			
+			
+			var task = new Ext.util.DelayedTask(function(){
+				if(_parent)
+					_parent.calculateProfit();
+			});		
+			 task.delay(500); 
+		}
+		
+		
 	};
 	
 	var m=getRM(_consign.get('consBizClass'),_consign.get('consBizType'),_consign.get('consShipType'));
@@ -23,7 +92,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 	else 
 		x=S_AC;
 	
-	if(frm.f=='C') 
+	if(_parent.f=='C') 
 		m=m+M3_EXPE+x; 
 	else 
 		m=M1_S+S_EXPE+x;
@@ -115,7 +184,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 		        scope:this,
 		        select:function(c,r,i){
 		        	var b=this.getSelectionModel().getSelected();
-		        	var rec=frm.UN.getById(r.get('unitCode'));
+		        	var rec=_parent.UN.getById(r.get('unitCode'));
 		        	b.set('expeNum',rec?rec.get('N'):1);
 	        	}
 			}
@@ -212,7 +281,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 	cols[cols.length] = {header:C_INVO_NO,
 		align:'left',
 		dataIndex:"expeInvoiceNo",
-		renderer:frm.f=='C'?'':invoRender
+		renderer:_parent.f=='C'?'':invoRender
 	};
     
 	//税务发票号
@@ -386,10 +455,11 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
     		expeTotalAmount:'0',
     		expeCommission:0,
     		expeNum:'1',
-    		version:'0'});
+    		version:'0',
+    		rowAction:'N'
+		});
     	this.stopEditing();
-    	store.insert(0,e);
-    	e.set('rowAction','N');
+    	this.store.insert(0,e);
     	sm.selectFirstRow();
     	this.startEditing(0, 1);
 	};
@@ -402,7 +472,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 					XMG.alert(SYS,M_REMOVE_EXP_INVOICED);
 				else{
 					r[i].set('rowAction',r[i].get('rowAction')=='N'?'D':'R');
-					store.remove(r[i]);
+					this.store.remove(r[i]);
 					this.reCalculate();
 				}
 			}
@@ -412,7 +482,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 	};
 	
 	this.save=function(){
-		var a = store.getModifiedRecords();
+		var a = this.store.getModifiedRecords();
 		if(a.length){
 			for(var i=0;i<a.length;i++){
 				if(a[i].get('rowAction')!='R'&&a[i].get('rowAction')!='D'){
@@ -450,10 +520,13 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 			if(x!=''){								
 				var tb=this.getTopToolbar();
 				tb.getComponent('TB_C').setDisabled(true);
-				Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'EXPE_S'},
+				Ext.Ajax.request({scope:this,
+					url:SERVICE_URL,
+					method:'POST',
+					params:{A:'EXPE_S'},
 					success: function(res){
 						var a = XTRA(res.responseXML,'SExpense',SExpense);
-						FOSU(store,a,SExpense);
+						FOSU(this.store,a,SExpense);
 						XMG.alert(SYS,M_S);
 						tb.getComponent('TB_C').setDisabled(false);
 					},
@@ -505,9 +578,9 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 			e.set('expeAllocatedFlag',0);
 			e.set('consIdM','');
 			e.set('consNoM','');
-			this.stopEditing();
-			store.insert(0,e);
 			e.set('rowAction','N');
+			this.stopEditing();
+			this.store.insert(0,e);			
 			this.startEditing(0,1);
 			this.reCalculate();
 		}
@@ -568,9 +641,11 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 				e.set('consIdM','');
 				e.set('consNoM','');								
 				if(_expeType=='R')
-					frm.ps.add(e);
+					_parent.gridAr.store.add(e);
+				else if(_expeType=='P')
+					_parent.gridAp.store.add(e);
 				else
-					frm.rs.add(e);
+					_parent.gridD.store.add(e);
 			}
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
@@ -633,7 +708,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 			    		expeNum:r.get('expeNum'),
 			    		version:'0',
 			    		rowAction:'N'});
-					store.add(e);
+					this.store.add(e);
 				};
 				this.reCalculate();
 			}
@@ -656,6 +731,7 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 		}
 		else XMG.alert(SYS,M_NO_DATA_SELECTED);
 	};
+	
 	var locked=_consign.get('consStatusExp')==1||_consign.get('consStatusAud')!=0;
 	
 	//导出费用确认单
@@ -864,13 +940,15 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 		topBar = [btnAdd,'-',btnRemove,'-',btnSave];
 	}
 	
+	var txtSumInfo = new  Ext.Toolbar.TextItem({text:''});
+	
 	Fos.ExpenseGrid.superclass.constructor.call(this, {id:'G_EXOE_'+_consign.get('consNo')+_expeType,
 		border:true,
 		autoScroll:true,
 		clicksToEdit:1,
 		height:200,
 	    stripeRows:true,
-	    store:store,
+	    store:this.store,
 	    sm:sm,
 	    cm:cm,
 	    listeners:{scope:this,
@@ -918,7 +996,8 @@ Fos.ExpenseGrid = function(_consign,_expeType,frm,store) {
 				}
 		    }
 		},
-	    tbar:topBar
+	    tbar:topBar,
+	    bbar:[txtSumInfo]
     });
 };
 Ext.extend(Fos.ExpenseGrid, Ext.grid.EditorGridPanel);
