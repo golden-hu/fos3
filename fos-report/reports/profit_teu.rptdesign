@@ -232,6 +232,9 @@
 				sql += " and c.CONS_SAIL_DATE >= '" + params["F"] + "'";
 				sql += " and c.CONS_SAIL_DATE <= '" + params["T"] + "'";	
 			}
+			
+			sql += " group by c.CONS_ID,c.CONS_CONTAINERS_TEU,c.CONS_CARRIER_NAME,c.CUST_SNAME, u.USER_NAME, l.SHLI_NAME";
+				
 			this.queryText = sql;]]></method>
             <property name="dataSource">dsFos</property>
             <list-property name="resultSet">
@@ -290,37 +293,33 @@
                     <property name="dataType">decimal</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select 
-c.CONS_ID,
-c.CONS_CONTAINERS_TEU,
-c.CONS_CARRIER_NAME,
-c.CUST_SNAME, 
-u.USER_NAME, 
-l.SHLI_NAME,
-sum(if(e.expe_type = 'R', 
-e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE, 0)) as R,
-sum(if(e.expe_type = 'P', 
-e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE, 0)) as P,
-sum(if(e.expe_type = 'R', 
-e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE, 
--1 * e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE)) as I
-from 
-S_EXPENSE e, F_CONSIGN c
-left join P_USER u on c.CONS_SALES_REP_ID = u.USER_ID
-left join G_SHIPPING_LINE l on c.SHLI_ID = l.SHLI_ID
-where e.CONS_ID = c.CONS_ID
-and c.CONS_BIZ_TYPE = 'C'
-and e.REMOVED = 0
-and c.REMOVED = 0
-and c.COMP_CODE = ?
-and e.COMP_CODE = ?
-group by
-c.CONS_ID,
-c.CONS_CONTAINERS_TEU,
-c.CONS_CARRIER_NAME,
-c.CUST_SNAME, 
-u.USER_NAME, 
-l.SHLI_NAME]]></xml-property>
+            <xml-property name="queryText">
+				<![CDATA[select 
+				c.CONS_ID,
+				c.CONS_CONTAINERS_TEU,
+				c.CONS_CARRIER_NAME,
+				c.CUST_SNAME, 
+				u.USER_NAME, 
+				l.SHLI_NAME,
+				sum(if(e.expe_type = 'R', 
+				e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE, 0)) as R,
+				sum(if(e.expe_type = 'P', 
+				e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE, 0)) as P,
+				sum(if(e.expe_type = 'R', 
+				e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE, 
+				-1 * e.EXPE_TOTAL_AMOUNT * e.EXPE_EX_RATE)) as I
+				from 
+				S_EXPENSE e, F_CONSIGN c
+				left join P_USER u on c.CONS_SALES_REP_ID = u.USER_ID
+				left join G_SHIPPING_LINE l on c.SHLI_ID = l.SHLI_ID
+				where e.CONS_ID = c.CONS_ID
+				and c.CONS_BIZ_TYPE = 'C'
+				and e.REMOVED = 0
+				and c.REMOVED = 0
+				and c.COMP_CODE = ?
+				and e.COMP_CODE = ?
+			]]>
+			</xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsCompany" id="373">
             <list-property name="columnHints">
