@@ -1,8 +1,5 @@
 package haitai.edi;
 
-import haitai.edi.jaxws.KeyValueOfstringstring;
-
-import java.util.ArrayList;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

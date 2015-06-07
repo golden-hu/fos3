@@ -7,6 +7,9 @@
 
 package org.tempuri;
 
+import haitai.fw.util.EncryptUtil;
+import haitai.fw.util.TimeUtil;
+
 import org.apache.axis.message.SOAPHeaderElement;
 
 public class ProductAPIServiceLocator extends org.apache.axis.client.Service implements org.tempuri.ProductAPIService {
@@ -59,7 +62,10 @@ public class ProductAPIServiceLocator extends org.apache.axis.client.Service imp
             
             try{
             	SOAPHeaderElement headerElement = new SOAPHeaderElement("", "RequestSOAPHeader");
-                headerElement.addChildElement("ProductKey").setValue("FOS_FMS");            
+            	String ts = TimeUtil.getUTCTimeStr();
+            	String key = "amuio5hyKd6jjgTFasdad768asMNHiyasd";
+            	String productKey = EncryptUtil.Encrypt3DES("FOS_FMS"+ts, key);
+                headerElement.addChildElement("ProductKey").setValue(productKey);            
                 _stub.setHeader(headerElement);
             }
             catch (Exception e) {

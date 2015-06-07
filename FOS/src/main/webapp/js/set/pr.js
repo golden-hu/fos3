@@ -11,6 +11,7 @@ Fos.PrGrid = function(t){
 		store.baseParams=bp;
 		store.reload({params:{start:0,limit:C_PS}});
 	};
+	
 	var showPr= function(p){
 		var tab = T_MAIN.getComponent("T_PR_"+ p.get("id"));
 		if(tab) {

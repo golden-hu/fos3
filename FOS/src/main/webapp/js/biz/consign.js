@@ -289,9 +289,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	
 	if(shipType!='') 
 		queryParams[queryParams.length] = new QParam({key:'consShipType',value:shipType,op:EQ});
-	
-	var bp={mt:'xml',xml:FOSX(QTX(queryParams))};
-	store.baseParams=bp;
+		
+	store.baseParams.xml = FOSX(QTX(queryParams));
 	
     store.load({params:{start:0,limit:C_PS}});   
     
@@ -358,9 +357,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     var colBlCargoGrossWeight = {header:C_BL_GW,width:80,dataIndex:"blCargoGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
     var colBlCargoMeasurement = {header:C_BL_CBM,width:80,dataIndex:"blCargoMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
 	
-	var colShippedGrossWeight = {header:C_SHIPPED_GW,width:80,dataIndex:"consShippedGrossWeight",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    var colShippedMeasurement = {header:C_SHIPPED_MEASUREMENT,width:80,dataIndex:"consShippedMeasurement",renderer:rateRender,align:'right',css:'font-weight:bold;'};
-    var colOperator = {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};    
+	    var colOperator = {header:C_OPERATOR,width:80,dataIndex:"consOperatorName"};    
     var colEta = {header:C_ETA,dataIndex:"consEta",renderer:formatDate};
     
     var colHarbourOpenTime = {header:C_HARBOUR_OPEN_TIME,dataIndex:"harbourOpenTime",width:150};
@@ -374,8 +371,8 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
              colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
              colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
              colMblNo,colHblNo,colTotalPackages,colTotalGrossWeight,colTotalMeasurement,
-             colBlCargoPackages,colBlCargoGrossWeight,colBlCargoMeasurement,colShippedGrossWeight,
-             colShippedMeasurement,colPotEn,colCarrierName,colBookingAgencyName,colConsRemarks]:
+             colBlCargoPackages,colBlCargoGrossWeight,colBlCargoMeasurement,
+             colPotEn,colCarrierName,colBookingAgencyName,colConsRemarks]:
             [c1,colStatusLock,colMasterFlag,colStatus,colConsMasterNo,colOperator,colSalesRep,colConsNo,colCustName,
              colConsDate,colTranId,colPateId,colShipType,colVessName,colVoyaName,colHarbourOpenTime,
              colHarbourCloseTime,colLoadDate,colSailDate,colEta,colPolEn,colPodEn,colDestination,
@@ -389,13 +386,7 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
     	queryParams = a;
     };	
 	
-	var kw = new Ext.form.TextField({listeners:{scope:this,
-		specialkey:function(c,e){
-			if(e.getKey()==Ext.EventObject.ENTER) 
-				this.fastSearch();
-			}
-		}
-	});	
+	
   	
   	var title=getBC(bizClass);
   	if(bizType!='C')
@@ -530,44 +521,51 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 		}
 	});	
 		
+	var fastSearch = function(){
+		var consNo=kw.getValue();
+		if(!consNo){
+			XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
+			return;
+		};
+		
+		var queryParams = [];
+		queryParams[queryParams.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+		queryParams[queryParams.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+		queryParams[queryParams.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+    	if(shipType!='') 
+    		queryParams[queryParams.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
+		
+    	queryParams[queryParams.length] = new QParam({key:'consNo',value:consNo,op:LI,orGroup:'consNo'});
+    	queryParams[queryParams.length] = new QParam({key:'consMblNo',value:consNo,op:LI,orGroup:'consNo'});
+    	queryParams[queryParams.length] = new QParam({key:'consHblNo',value:consNo,op:LI,orGroup:'consNo'});
+    	queryParams[queryParams.length] = new QParam({key:'containerNo',value:consNo,op:LI,orGroup:'consNo'});
+    	queryParams[queryParams.length] = new QParam({key:'consRefNo',value:consNo,op:LI,orGroup:'consNo'});
+    	queryParams[queryParams.length] = new QParam({key:'consContractNo',value:consNo,op:LI,orGroup:'consNo'});
+		
+ 		store.baseParams.xml=FOSX(QTX(queryParams)); 		
+    	
+     	store.reload({params:{start:0,limit:C_PS},
+     		callback:function(r){
+     			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
+     		}
+     	});
+	}
+	
+	var kw = new Ext.form.TextField({
+		emptyText:'业务号/客户业务号/合同号/提单号/箱号',
+		width:250,
+		listeners:{scope:this,		
+		specialkey:function(c,e){
+			if(e.getKey()==Ext.EventObject.ENTER) 
+				fastSearch();
+			}
+		}
+	});	
+	
 	//快速查询
 	var btnFastSearch = new Ext.Button({text:C_FAST_SEARCH,
 		iconCls:'search',
-		handler:function(){
-			var consNo=kw.getValue();
-			if(!consNo){
-				XMG.alert(SYS,M_INPUT_BIZ_NO,function(b){kw.focus();});
-				return;
-			};
-			
-	     	var a=[];
-	     	a[a.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
-	    	a[a.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
-	    	a[a.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
-	    	if(shipType!='') a[a.length]=new QParam({key:'consShipType',value:shipType,op:EQ});
-	    	
-	    	var c=consNo.indexOf(',');
-			var b=consNo.indexOf('..');
-			
-	     	if(c>=0){
-				a[a.length]=new QParam({key:'consNo',value:consNo,op:IN});
-			}
-			else if(b>=0){
-				var ra=consNo.split('..');
-				a[a.length]=new QParam({key:'consNo',value:ra[0],op:GE});
-				a[a.length]=new QParam({key:'consNo',value:ra[1],op:LE});
-			}
-			else
-	 			a[a.length]=new QParam({key:'consNo',value:consNo,op:LI});
-	     	
-	     	queryParams = a;
-	    	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};     	
-	     	store.reload({params:{start:0,limit:C_PS},
-	     		callback:function(r){
-	     			if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);
-	     		}
-	     	});
-		}
+		handler:fastSearch
 	});	
 	
 	
@@ -575,7 +573,15 @@ Fos.ConsignGrid = function(bizClass,bizType,shipType,external) {
 	var btnReset = new Ext.Button({text:C_RESET,
 		iconCls:'refresh',
 		handler:function(){
-	    	store.baseParams=bp;
+			kw.setValue('');
+			var queryParams = [];
+			queryParams[queryParams.length]= new QParam({key:'consBizClass',value:bizClass,op:EQ});
+			queryParams[queryParams.length]= new QParam({key:'consBizType',value:bizType,op:EQ});
+			queryParams[queryParams.length]= new QParam({key:'consExternalFlag',value:external?external:'0',op:EQ});
+	    	if(shipType!='') 
+	    		queryParams[queryParams.length]=new QParam({key:'consShipType',value:shipType,op:EQ});						
+	 		store.baseParams.xml=FOSX(QTX(queryParams)); 
+	 		
 	    	store.reload({params:{start:0,limit:C_PS}});
 	    }
 	});

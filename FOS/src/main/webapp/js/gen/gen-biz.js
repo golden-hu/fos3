@@ -414,7 +414,7 @@ var showG_CATY = function() {
     store.load();
     var ac=ACTIVE();	
     var sm=getCSM();
-    var df = new Ext.grid.CheckColumn({header:C_IS_DANAGER,dataIndex:'catyDanagerFlag',sortable:true,width:100});
+    var df = new Ext.grid.CheckColumn({header:C_IS_DANGOUS,dataIndex:'catyDanagerFlag',sortable:true,width:100});
     var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
     var cm=new Ext.grid.ColumnModel({columns:[sm,
     {header:C_CSNAME,dataIndex:'catyNameCn',editor:new Ext.form.TextField({allowBlank:false,blankText:'',invalidText:''})},

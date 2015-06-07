@@ -348,12 +348,7 @@ function getCudePanel(){
 		items[items.length]=NaviMenu(C_IMP_CUDE,'G_CONS_G_I',function(){return new Fos.CustomsGrid('I');});
 		items[items.length]=NaviMenu(C_EXP_CUDE,'G_CONS_G_E',function(){return new Fos.CustomsGrid('E');});
 	}
-	
-	/*if(VERSION==0&&!NR(M1_G+M2_I)) 
-		items[items.length]=NaviMenu(C_IMP_CUDE_E,'G_CONS_I_G',function(){return new Fos.ConsignGrid('I','G','',1);});
-	if(VERSION==0&&!NR(M1_G+M2_E)) 
-		items[items.length]=NaviMenu(C_EXP_CUDE_E,'G_CONS_E_G_E',function(){return new Fos.ConsignGrid('E','G','',1);});*/
-	
+		
 	if(!NR(M1_I)){
 		items[items.length]=NaviMenu(C_INSPECTION,'G_CONS_I',function(){return new Fos.InspectionConsignGrid();});
 				
@@ -527,10 +522,10 @@ function createSMTree(){
 			var invoR = CreateNode(C_INVO_R,'INVO_R',M1_S+S_INVO_R+F_V,function(){return new Fos.InvoiceGrid('R');});
 			arN.appendChild(invoR);
 		}
-		if(!NR(M1_S+S_PR_R)){
+		/*if(!NR(M1_S+S_PR_R)){
 			var prR = CreateNode(C_PR_R,'PR_R',M1_S+S_PR_R+F_V,function(){return new Fos.PrGrid('R');});
 			arN.appendChild(prR);
-		}
+		}*/
 		if(!NR(M1_S+S_VOUC_R)){
 			var voucR = CreateNode(C_WRITEOFF_R,'VOUC_R',M1_S+S_VOUC_R+F_V,function(){return new Fos.VoucherGrid('R');});
 			arN.appendChild(voucR);

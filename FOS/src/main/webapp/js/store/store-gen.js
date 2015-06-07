@@ -254,14 +254,6 @@ getVETY = function(v){
 	else return '';
 };
 
-var CTST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
-	data:[['0',S_SHIP_NOT],['1',S_SHIP_PARTY],['2',S_SHIP_ALL]]
-});
-getCTST = function(v){
-	if(v>=0) 
-		return CTST_S.getById(v).get('NAME'); 
-	else return '';
-};
 
 var COST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
 	data:[['0','未订舱'],['1','订舱已开始'],['2','订舱已确认'],['3','已退关'],['4','已改配'],

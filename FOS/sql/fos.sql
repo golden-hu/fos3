@@ -2320,20 +2320,6 @@ CREATE TABLE IF NOT EXISTS G_CARGO_CLASS (
   PRIMARY KEY  (CACL_ID)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
---
--- 表的结构 G_SERVICE_ITEM
---
-
-CREATE TABLE IF NOT EXISTS G_SERVICE_ITEM (
-  SEIT_ID INT NOT NULL auto_increment,
-  SEIT_NAME VARCHAR(32) NOT NULL,
-  ACTIVE TINYINT(4) default '1',
-  COMP_CODE VARCHAR(32) NOT NULL,
-  VERSION INT default '0',
-  REMOVED TINYINT(4) NOT NULL default '0',
-  PRIMARY KEY  (SEIT_ID)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 --
@@ -2593,21 +2579,6 @@ CREATE TABLE IF NOT EXISTS G_CARGO_CHECK_TYPE (
 
 
 --
--- 表委托项目的结构 G_SERVICE_ITEM
---
-
-CREATE TABLE IF NOT EXISTS G_SERVICE_ITEM (
-  SEIT_ID INT NOT NULL auto_increment,
-  SEIT_NAME VARCHAR(32) NOT NULL,
-  ACTIVE TINYINT(4) default '1',
-  COMP_CODE VARCHAR(32) NOT NULL,
-  VERSION INT default '0',
-  REMOVED TINYINT(4) NOT NULL default '0',
-  PRIMARY KEY  (SEIT_ID)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
---
 -- 表的结构 G_LINE_PORT
 --
 
@@ -2744,7 +2715,7 @@ CREATE TABLE IF NOT EXISTS G_PAYMENT_WAY (
   COMP_CODE VARCHAR(32) NOT NULL,
   VERSION INT NOT NULL default '0',
   REMOVED TINYINT(4) NOT NULL default '0',
-  PRIMARY KEY  (SEWA_ID)
+  PRIMARY KEY  (PAYW_ID)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

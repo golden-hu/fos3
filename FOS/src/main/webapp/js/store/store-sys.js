@@ -1,4 +1,4 @@
-QParam = Ext.data.Record.create(['key','op','value']); 
+QParam = Ext.data.Record.create(['key','op','value','orGroup']); 
 
 PBranch = Ext.data.Record.create(['id','branchId','branchName','compCode','version','rowAction']);
 

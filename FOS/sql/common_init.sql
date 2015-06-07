@@ -393,13 +393,6 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('REPT_PRCO', '', 'profit_commission.rptdesign', '代理费占利润比例统计'),
 ('REPT_PALI', '', 'packing_list.rptdesign', '出货港发货通知书'),
 ('REPT_VOCU', '', 'voyage_cust.rptdesign', '船期表'),
-('REPT_PACU', '', 'packing_cust.rptdesign', '发货汇总清单-规格'),
-('REPT_EXCO', '', 'packing_fee_confirm.rptdesign', '码头费用确认书'),
-('REPT_PAHY', '', 'packing_hy.rptdesign', '发货汇总清单-发货方式'),
-('REPT_PACBM', '', 'packing_cbm.rptdesign', '发货汇总清单-规格(体积)'),
-('REPT_PAPI', '', 'packing_pieces.rptdesign', '发货汇总清单-规格(支数)'),
-('REPT_PASL', '', 'packing_seamless.rptdesign', '发货汇总清单-西姆莱斯'),
-('REPT_PAIV', '', 'packing_inventory.rptdesign', '盘存表'),
 ('REPT_SEEX', '', 'settlement_expense.rptdesign', '客户应收费用统计'),
 ('REPT_PAOD', '', 'packing_overdue.rptdesign', '超期表'),
 ('REPT_PAPL', '', 'packing_pieces_length.rptdesign', '发货汇总清单-规格(支数总长度)'),
@@ -412,7 +405,6 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 ('PCOM_Q', 'PCommentsService', 'query', '评论查询'),
 ('COTR_Q', 'FContainerTraceService', 'query', '集装箱管理查询'),
 ('COTR_S', 'FContainerTraceService', 'save', '集装箱管理保存'),
-('FORBEIJING_S', 'FConsignService', 'saveForBeijing', '业务保存'),
 ('TRAIN_Q', 'GTrainStationService', 'query', '火车站管理查询'),
 ('TRAIN_S', 'GTrainStationService', 'save', '火车站管理保存'),
 ('BRANCH_Q', 'PBranchService', 'query', '分公司查询'),
@@ -423,8 +415,9 @@ INSERT INTO `P_ACTION` (`ACT_NAME`, `ACT_SERVICE`, `ACT_METHOD`, `ACT_REMARK`) V
 
 ('LOGIN_CCN', 'PUserService', 'ccnLogin', '登录'),
 ('LOGOUT_CCN', 'PUserService', 'ccnLogout', '退出'),
-('ACTIVE_SESSION_CCN', 'PUserService', 'ccnActiveSession', '退出')
-;
+('ACTIVE_SESSION_CCN', 'PUserService', 'ccnActiveSession', '退出'),
+('ANNO_S', 'OAnnouncementService', 'save', '公告保存'),
+('ANNO_Q', 'OAnnouncementService', 'query', '公告查询');
 
 
 --
@@ -960,12 +953,7 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00070305', '作废', 'F', 1),
 ('00070306', '审核', 'F', 1),
 ('00070311', '修改税务发票号', 'F', 1),
-('000704', '托收单', 'M', 1),
-('00070401', '查看', 'F', 1),
-('00070402', '编辑', 'F', 1),
-('00070403', '删除', 'F', 1),
-('00070404', '导出', 'F', 1),
-('00070405', '作废', 'F', 1),
+
 ('000705', '收款核销', 'M', 1),
 ('00070501', '查看', 'F', 1),
 ('00070502', '编辑', 'F', 1),
@@ -1261,6 +1249,10 @@ INSERT INTO `P_FUNCTION` (`FUNC_CODE`, `FUNC_NAME`, `FUNC_TYPE`, `ACTIVE`) VALUE
 ('00110501', '查看', 'F', 1),
 ('00110502', '编辑', 'F', 1),
 ('00110503', '删除', 'F', 1),
+('001106', '公告管理', 'M', 1),
+('00110601', '查看', 'F', 1),
+('00110602', '编辑', 'F', 1),
+('00110603', '删除', 'F', 1),
 
 ('0013', '加工贸易', 'M', 1),
 ('001301', '委托', 'M', 1),

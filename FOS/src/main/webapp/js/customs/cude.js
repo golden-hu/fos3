@@ -241,240 +241,516 @@ Ext.extend(Fos.CustomsGrid, Ext.grid.GridPanel);
 
 
 Fos.CustomsConsLookupWin = function(store,setQueryParams,bizClass){    
-	this.reload=function(){
-     	var a=[];var op=1;
-     	a[a.length]=new QParam({key:'consBizType',value:BT_G,op:1});
-     	a[a.length]=new QParam({key:'consBizClass',value:bizClass,op:1});
-     	
- 		var custId=panel.find('name','custId')[0].getValue();
- 		if(custId) 
- 			a[a.length]=new QParam({key:'custId',value:custId,op:op}); 
- 		var consCompany=panel.find('name','consCompany')[0].getValue();        		
- 		if(consCompany) 
- 			a[a.length]=new QParam({key:'consCompany',value:consCompany,op:op});
- 		var consSalesRepId=panel.find('name','consSalesRepId')[0].getValue();        		
- 		if(consSalesRepId) 
- 			a[a.length]=new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
- 		var consOperatorId=panel.find('name','consOperatorId')[0].getValue();        		
- 		if(consOperatorId) 
- 			a[a.length]=new QParam({key:'consOperatorId',value:consOperatorId,op:op});
+	
+		
+	//委托单位
+    var cboBooker = new Fos.CustomerLookup({fieldLabel:C_BOOKER,
+    	custType:'custBookerFlag',
+    	name:'custId',
+    	store:getCS(),
+		displayField:'custCode',
+		valueField:'custId',
+		typeAhead:true,
+		enableKeyEvents:true,
+		mode:'local',
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:400,
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'90%',
+      	listeners:{
+      		scope:this,
+      		keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}
+      	}
+    });
+    
+  //经营单位
+	var cboConsCompany = new Fos.CustomerLookup({fieldLabel:C_BIZ_COMPANY,
+		name:'consCompany',
+		displayField:'custCode',
+		valueField:'custNameCn',
+		typeAhead:true,
+  		store:getCS(),
+  		enableKeyEvents:true,
+		mode:'local',
+		tpl:custTpl,
+		itemSelector:'div.list-item',
+		listWidth:C_LW,
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'90%',
+	    listeners:{
+	    	scope:this, 	 			     	
+	     	select:function(c,r,i){ 	 			     		
+	     		c.setValue(r.get('custNameCn'));
+	     	},
+	     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}
+	     }
+	});
+    
+	//操作
+	var cboOperator = new Ext.form.ComboBox({fieldLabel:C_OPERATOR,
+		name:'consOperatorId',
+		store:getOP_S(),
+      	displayField:'userLoginName',
+      	valueField:'userId',
+      	typeAhead: true,
+      	mode: 'local',
+      	triggerAction: 'all',
+      	selectOnFocus:true,
+      	anchor:'90%'
+    });
+	
+	//业务员
+	var cboSalesRep = new Ext.form.ComboBox({fieldLabel:C_SALES,
+		name:'consSalesRepId',
+		store:getSALE_S(),
+      	displayField:'userLoginName',
+      	valueField:'userId',
+      	typeAhead: true,
+      	mode: 'local',
+      	triggerAction: 'all',
+      	selectOnFocus:true,
+      	anchor:'90%'
+    });
+	
+	//
+	var cboStatusAud = new Ext.form.ComboBox({fieldLabel:C_CONS_AUDIT_STATUS,
+		name:'consStatusAud',
+      	store:AUST_S,
+      	displayField:'NAME',
+      	valueField:'CODE',
+      	typeAhead: true,
+      	mode:'local',
+      	triggerAction:'all',
+      	selectOnFocus:true,
+      	anchor:'90%'
+    });
+	
+	var cboStatusAr = new Ext.form.ComboBox({fieldLabel:C_WRITEOFF_STATUS_R,
+		name:'consStatusAr',
+      	store:WRST_S,
+      	displayField:'NAME',
+      	valueField:'CODE',
+      	typeAhead: true,
+      	mode:'local',
+      	triggerAction:'all',
+      	selectOnFocus:true,
+      	anchor:'90%'
+    });
+	
+	var cboStatusAp = new Ext.form.ComboBox({fieldLabel:C_WRITEOFF_STATUS_P,
+		name:'consStatusAp',
+		store:WRST_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'90%'
+	});
+	
+	var txtTotalPackages = new Ext.form.TextField({fieldLabel:C_PACKAGES,
+		name:'consTotalPackages',
+		anchor:'90%'
+	});
+	
+	var txtTotalGrossWeight = new Ext.form.TextField({fieldLabel:C_GW_S,
+		name:'consTotalGrossWeight',
+		anchor:'90%'
+	});
+	
+	var dtDeliveryDate = new Ext.form.DateField({fieldLabel:C_DELIVERY_DATE,
+		name:'consDeliveryDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	//海关商检日期
+	var dtCustomsInspectionDate = new Ext.form.DateField({fieldLabel:C_CUSTOMS_INSPECTION,
+		tabIndex:13,
+		name:'consTrackLoadDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	
+	
+	var dtConsDate = new Ext.form.DateField({fieldLabel:C_CONS_DATE,
+		name:'consDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var dtCloseDate = new Ext.form.DateField({fieldLabel:C_CONS_CLOSE_DATE,
+		name:'consCloseDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var dtCustomsDeclearDate = new Ext.form.DateField({fieldLabel:C_CUSTOMS_DECLEAR_DATE,
+		name:'consCustomsDeclearDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var txtVerificationNo = new Ext.form.TextField({fieldLabel:C_VERIFICATION_NO,
+		name:'consVerificationNo',
+		anchor:'90%'
+	});
+	
+	var txtMblNo = new Ext.form.TextField({fieldLabel:C_TRAFFIC_NO,
+		name:'consMblNo',
+		anchor:'90%'
+	});
+	
+	
+	
+	var cboStatusInvoR = new Ext.form.ComboBox({fieldLabel:C_INVO_STATUS_R,
+		name:'consStatusInvoR',
+		store:INST_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'90%'
+	});
+	
+	var cboStatusInvoP = new Ext.form.ComboBox({fieldLabel:C_INVO_STATUS_P,
+		name:'consStatusInvoP',
+ 		store:INST_S,
+ 		displayField:'NAME',
+ 		valueField:'CODE',
+ 		typeAhead: true,
+ 		mode:'local',
+ 		triggerAction:'all',
+ 		selectOnFocus:true,
+ 		anchor:'90%'
+ 	});
+	
+	var dtLoadDate = new Ext.form.DateField({fieldLabel:C_EXCHANGE_DATE,
+		name:'consLoadDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	
+	var dtExpiryDate = new Ext.form.DateField({fieldLabel:C_THREE_INSPECTION,
+		name:'consExpiryDate',
+     	format:DATEF,
+     	anchor:'90%'
+     });
+	
+	var dtDeliveryDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consDeliveryDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var dtCustomsInspectionDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consTrackLoadDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	
+	//商检日期
+	var dtInspectionDate = new Ext.form.DateField({fieldLabel:C_DATE_OF_INSPECTION,
+		tabIndex:13,
+		name:'consContainerLoadDate',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var dtInspectionDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consContainerLoadDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+		 
+	var dtConsDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	
+	var dtCloseDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consCloseDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var dtCustomsDeclearDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consCustomsDeclearDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+	
+	var txtRefNo = new Ext.form.TextField({fieldLabel:C_REF_NO,
+		name:'consRefNo',
+		anchor:'90%'
+	});
+	
+ 	
+	var cboStatusExp = new Ext.form.ComboBox({fieldLabel:C_EXPE_CONFIRM_STATUS,
+		name:'consStatusExp',
+ 		store:EXPC_S,
+ 		displayField:'NAME',
+ 		valueField:'CODE',
+ 		typeAhead: true,
+ 		mode:'local',
+ 		triggerAction:'all',
+ 		selectOnFocus:true,
+ 		anchor:'90%'
+ 	});
+	
  		
- 		var consDate=panel.find('name','consDate')[0].getValue();
- 		var consDate2=panel.find('name','consDate2')[0].getValue();
+	var txtVessName = new Ext.form.TextField({fieldLabel:C_VESS,
+		name:'vessName',
+		anchor:'90%'
+	});
+ 	
+	var txtVoyaName = new Ext.form.TextField({fieldLabel:C_VOYA,
+		name:'voyaName',
+		anchor:'90%'
+	});
+ 	
+	var dtLoadDate2= new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consLoadDate2',
+		format:DATEF,
+		anchor:'90%'
+	});
+			
+			
+	var dtExpiryDate2 = new Ext.form.DateField({fieldLabel:C_TO,
+		name:'consExpiryDate2',
+ 		format:DATEF,
+ 		anchor:'90%'
+     });
+     
+	var txtCargoName = new Ext.form.TextField({fieldLabel:C_CARGO_NAME,
+		name:'consCargoNameEn',
+		anchor:'90%'
+	});
+	
+	var panel = new Ext.Panel({plain:true,
+		height:340,
+		layout:'column',
+		padding:10,
+		items:
+			[{columnWidth:.33,
+				layout:'form',
+				border:false,
+				labelWidth:80,
+				labelAlign:"right",
+				items:[cboBooker,cboConsCompany,cboOperator,cboSalesRep,cboStatusAud,
+				       cboStatusAr,cboStatusAp,txtTotalPackages,txtTotalGrossWeight,
+				       cboStatusInvoR,
+				       txtVessName,txtCargoName
+			]},
+				       
+			{columnWidth:.33,
+				layout:'form',
+				border:false,
+				labelWidth:80,
+				labelAlign:"right",
+				items:[dtConsDate,dtCloseDate,dtCustomsDeclearDate,dtLoadDate,dtExpiryDate,dtDeliveryDate,dtCustomsInspectionDate,dtInspectionDate,
+				       txtVerificationNo,cboStatusInvoP,txtVoyaName
+			]},
+			
+			{columnWidth:.34,
+				layout:'form',
+				border:false,
+				labelWidth:80,
+				labelAlign:"right",
+				items:[dtConsDate2,dtCloseDate2,dtCustomsDeclearDate2,dtLoadDate2,dtExpiryDate2,dtDeliveryDate2,dtCustomsInspectionDate2,dtInspectionDate2,
+				       txtMblNo,cboStatusExp,txtRefNo,
+			]}
+		]
+	});
+	
+	
+	this.reload=function(){
+     	var a=[];
+     	var op=1;
+     	
+     	a[a.length] = new QParam({key:'consBizType',value:BT_G,op:1});
+     	a[a.length] = new QParam({key:'consBizClass',value:bizClass,op:1});
+     	
+ 		var custId = cboBooker.getValue();
+ 		if(custId) 
+ 			a[a.length] = new QParam({key:'custId',value:custId,op:op}); 
+ 		
+ 		var consCompany = cboConsCompany.getValue();        		
+ 		if(consCompany) 
+ 			a[a.length] = new QParam({key:'consCompany',value:consCompany,op:op});
+ 		
+ 		var consSalesRepId = cboSalesRep.getValue();        		
+ 		if(consSalesRepId) 
+ 			a[a.length] = new QParam({key:'consSalesRepId',value:consSalesRepId,op:op});
+ 		
+ 		var consOperatorId = cboOperator.getValue();        		
+ 		if(consOperatorId) 
+ 			a[a.length] = new QParam({key:'consOperatorId',value:consOperatorId,op:op});
+ 		
+ 		var consDate = dtConsDate.getValue();
+ 		var consDate2 = dtConsDate2.getValue();
  		if(consDate && consDate2){
- 			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consDate',value:consDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consDate',value:consDate2.format(DATEF),op:3});
  		}
  		else if(consDate) 
  			a[a.length]=new QParam({key:'consDate',value:consDate.format(DATEF),op:op});
  		
- 		var consCloseDate=panel.find('name','consCloseDate')[0].getValue();
- 		var consCloseDate2=panel.find('name','consCloseDate2')[0].getValue();
+ 		var consCloseDate = dtCloseDate.getValue();
+ 		var consCloseDate2 = dtCloseDate2.getValue();
  		if(consDate && consCloseDate2){
- 			a[a.length]=new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consCloseDate',value:consDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consCloseDate',value:consDate2.format(DATEF),op:3});
  		}
  		else if(consCloseDate) 
- 			a[a.length]=new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consCloseDate',value:consCloseDate.format(DATEF),op:op});
  		
- 		var consCustomsDeclearDate=panel.find('name','consCustomsDeclearDate')[0].getValue();
- 		var consCustomsDeclearDate2=panel.find('name','consCustomsDeclearDate2')[0].getValue();
+ 		var consCustomsDeclearDate = dtCustomsDeclearDate.getValue();
+ 		var consCustomsDeclearDate2 = dtCustomsDeclearDate2.getValue();
  		if(consCustomsDeclearDate && consCustomsDeclearDate2){
- 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate2.format(DATEF),op:3});
  		}
  		else if(consCustomsDeclearDate) 
- 			a[a.length]=new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consCustomsDeclearDate',value:consCustomsDeclearDate.format(DATEF),op:op});
  		
- 		var consVerificationNo=panel.find('name','consVerificationNo')[0].getValue();        		
+ 		var consVerificationNo = txtVerificationNo.getValue();        		
  		if(consVerificationNo) 
  			a[a.length]=new QParam({key:'consVerificationNo',value:consVerificationNo,op:op});
  		
- 		var consRefNo=panel.find('name','consRefNo')[0].getValue();        		
+ 		var consRefNo = txtRefNo.getValue();        		
  		if(consRefNo) 
  			a[a.length]=new QParam({key:'consRefNo',value:consRefNo,op:op});
  		
- 		var consStatusAud=panel.find('name','consStatusAud')[0].getValue();        		
+ 		var consStatusAud = cboStatusAud.getValue();        		
  		if(consStatusAud) 
- 			a[a.length]=new QParam({key:'consStatusAud',value:consStatusAud,op:op});
- 		var consStatusAr=panel.find('name','consStatusAr')[0].getValue();        		
+ 			a[a.length] = new QParam({key:'consStatusAud',value:consStatusAud,op:op});
+ 		
+ 		var consStatusAr = cboStatusAr.getValue();        		
  		if(consStatusAr) 
- 			a[a.length]=new QParam({key:'consStatusAr',value:consStatusAr,op:op});
- 		var consStatusAp=panel.find('name','consStatusAp')[0].getValue();        		
+ 			a[a.length] = new QParam({key:'consStatusAr',value:consStatusAr,op:op});
+ 		
+ 		var consStatusAp = cboStatusAp.getValue();        		
  		if(consStatusAp) 
- 			a[a.length]=new QParam({key:'consStatusAp',value:consStatusAp,op:op});
- 		var consMblNo=panel.find('name','consMblNo')[0].getValue();
+ 			a[a.length] = new QParam({key:'consStatusAp',value:consStatusAp,op:op});
+ 		
+ 		var consMblNo = txtMblNo.getValue();
  		if(consMblNo) 
- 			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:7});
- 		var consStatusInvoR=panel.find('name','consStatusInvoR')[0].getValue();        		
+ 			a[a.length] = new QParam({key:'consMblNo',value:consMblNo,op:7});
+ 		
+ 		var consStatusInvoR = cboStatusInvoR.getValue();        		
  		if(consStatusInvoR) 
- 			a[a.length]=new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
- 		var consStatusInvoP=panel.find('name','consStatusInvoP')[0].getValue();        		
+ 			a[a.length] = new QParam({key:'consStatusInvoR',value:consStatusInvoR,op:op});
+ 		
+ 		var consStatusInvoP = cboStatusInvoP.getValue();        		
  		if(consStatusInvoP) 
- 			a[a.length]=new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
- 		var consStatusExp=panel.find('name','consStatusExp')[0].getValue();        		
+ 			a[a.length] = new QParam({key:'consStatusInvoP',value:consStatusInvoP,op:op});
+ 		
+ 		var consStatusExp = cboStatusExp.getValue();        		
  		if(consStatusExp) 
  			a[a.length]=new QParam({key:'consStatusExp',value:consStatusExp,op:op});
-     	var vessName=panel.find('name','vessName')[0].getValue();        		
- 		if(vessName) 
- 			a[a.length]=new QParam({key:'vessName',value:vessName,op:op});
- 		var voyaName=panel.find('name','voyaName')[0].getValue();        		
- 		if(voyaName) 
- 			a[a.length]=new QParam({key:'voyaName',value:voyaName,op:op});
- 		var consTotalPackages=panel.find('name','consTotalPackages')[0].getValue();        		
- 		if(consTotalPackages) 
- 			a[a.length]=new QParam({key:'consTotalPackages',value:consTotalPackages,op:op});
- 		var consTotalGrossWeight=panel.find('name','consTotalGrossWeight')[0].getValue();        		
- 		if(consTotalGrossWeight) 
- 			a[a.length]=new QParam({key:'consTotalGrossWeight',value:consTotalGrossWeight,op:op});
  		
- 		var consLoadDate=panel.find('name','consLoadDate')[0].getValue();
- 		var consLoadDate2=panel.find('name','consLoadDate2')[0].getValue();
+     	var vessName = txtVessName.getValue();        		
+ 		if(vessName) 
+ 			a[a.length] = new QParam({key:'vessName',value:vessName,op:op});
+ 		
+ 		var voyaName = txtVoyaName.getValue();        		
+ 		if(voyaName) 
+ 			a[a.length] = new QParam({key:'voyaName',value:voyaName,op:op});
+ 		
+ 		var consTotalPackages = txtTotalPackages.getValue();        		
+ 		if(consTotalPackages) 
+ 			a[a.length] = new QParam({key:'consTotalPackages',value:consTotalPackages,op:op});
+ 		
+ 		var consTotalGrossWeight = txtTotalGrossWeight.getValue();        		
+ 		if(consTotalGrossWeight) 
+ 			a[a.length] = new QParam({key:'consTotalGrossWeight',value:consTotalGrossWeight,op:op});
+ 		
+ 		var consLoadDate = dtLoadDate.getValue();
+ 		var consLoadDate2 = dtLoadDate.getValue();
  		if(consLoadDate && consLoadDate2){
- 			a[a.length]=new QParam({key:'consLoadDate',value:consLoadDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consLoadDate',value:consLoadDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consLoadDate',value:consLoadDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consLoadDate',value:consLoadDate2.format(DATEF),op:3});
  		}
  		else if(consLoadDate) 
- 			a[a.length]=new QParam({key:'consLoadDate',value:consLoadDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consLoadDate',value:consLoadDate.format(DATEF),op:op});
  		
  		
- 		var consExpiryDate=panel.find('name','consExpiryDate')[0].getValue();
- 		var consExpiryDate2=panel.find('name','consExpiryDate2')[0].getValue();
+ 		var consExpiryDate = dtExpiryDate.getValue();
+ 		var consExpiryDate2 = dtExpiryDate2.getValue();
  		if(consExpiryDate && consExpiryDate2){
- 			a[a.length]=new QParam({key:'consExpiryDate',value:consExpiryDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consExpiryDate',value:consExpiryDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consExpiryDate',value:consExpiryDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consExpiryDate',value:consExpiryDate2.format(DATEF),op:3});
  		}
  		else if(consExpiryDate) 
- 			a[a.length]=new QParam({key:'consExpiryDate',value:consExpiryDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consExpiryDate',value:consExpiryDate.format(DATEF),op:op});
  		
- 		var consDeliveryDate=panel.find('name','consDeliveryDate')[0].getValue();
- 		var consDeliveryDate2=panel.find('name','consDeliveryDate2')[0].getValue();
+ 		var consDeliveryDate = dtDeliveryDate.getValue();
+ 		var consDeliveryDate2 = dtDeliveryDate2.getValue();
  		if(consDeliveryDate && consDeliveryDate2){
- 			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consDeliveryDate',value:consDeliveryDate2.format(DATEF),op:3});
  		}
  		else if(consDeliveryDate) 
- 			a[a.length]=new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consDeliveryDate',value:consDeliveryDate.format(DATEF),op:op});
  		
- 		var consTrackLoadDate=panel.find('name','consTrackLoadDate')[0].getValue();
- 		var consTrackLoadDate2=panel.find('name','consTrackLoadDate2')[0].getValue();
+ 		var consTrackLoadDate = dtCustomsInspectionDate.getValue();
+ 		var consTrackLoadDate2 = dtCustomsInspectionDate2.getValue();
  		if(consTrackLoadDate && consTrackLoadDate2){
- 			a[a.length]=new QParam({key:'consTrackLoadDate',value:consTrackLoadDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consTrackLoadDate',value:consTrackLoadDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consTrackLoadDate',value:consTrackLoadDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consTrackLoadDate',value:consTrackLoadDate2.format(DATEF),op:3});
  		}
  		else if(consTrackLoadDate) 
- 			a[a.length]=new QParam({key:'consTrackLoadDate',value:consTrackLoadDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consTrackLoadDate',value:consTrackLoadDate.format(DATEF),op:op});
  		
- 		var consContainerLoadDate=panel.find('name','consContainerLoadDate')[0].getValue();
- 		var consContainerLoadDate2=panel.find('name','consContainerLoadDate2')[0].getValue();
+ 		var consContainerLoadDate = dtInspectionDate.getValue();
+ 		var consContainerLoadDate2 = dtInspectionDate2.getValue();
  		if(consContainerLoadDate && consContainerLoadDate2){
- 			a[a.length]=new QParam({key:'consContainerLoadDate',value:consContainerLoadDate.format(DATEF),op:5});
- 			a[a.length]=new QParam({key:'consContainerLoadDate',value:consContainerLoadDate2.format(DATEF),op:3});
+ 			a[a.length] = new QParam({key:'consContainerLoadDate',value:consContainerLoadDate.format(DATEF),op:5});
+ 			a[a.length] = new QParam({key:'consContainerLoadDate',value:consContainerLoadDate2.format(DATEF),op:3});
  		}
  		else if(consContainerLoadDate) 
- 			a[a.length]=new QParam({key:'consContainerLoadDate',value:consContainerLoadDate.format(DATEF),op:op});
+ 			a[a.length] = new QParam({key:'consContainerLoadDate',value:consContainerLoadDate.format(DATEF),op:op});
+ 		
+ 		
+ 		var cargoName = txtCargoName.getValue();        		
+ 		if(cargoName) 
+ 			a[a.length] = new QParam({key:'consCargoNameEn',value:cargoName,op:LI});
+ 		
+ 		
  		setQueryParams(a);
      	store.baseParams={mt:'xml',xml:FOSX(QTX(a))};
-     	store.reload({params:{start:0,limit:C_PS},
+     	store.reload({scope:this,
+     		params:{start:0,limit:C_PS},
      		callback:function(r){
-     			if(r.length==0) 
+     			if(r.length==0) {
      				XMG.alert(SYS,M_NOT_FOUND);
      			}
+     			else{
+     				this.close();
+     			}
+     		}
      	});
     };		
-		
-	var panel = new Ext.Panel({plain:true,height:340,layout:'column',
-		defaults:{bodyStyle:'padding:10px'},items:
-			[{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-	    	items:[{fieldLabel:C_BOOKER,name:'custId',store:getCS(),
-        		xtype:'combo',displayField:'custCode',valueField:'custId',
-        		typeAhead:true,enableKeyEvents:true,
-        		mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:400,
-        		triggerAction:'all',selectOnFocus:true,anchor:'90%',
-              	listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:500}}},			
-			{fieldLabel:C_BIZ_COMPANY,name:'consCompany',xtype:'combo',displayField:'custCode',valueField:'custNameCn',typeAhead:true,
- 			     		store:getCS(),enableKeyEvents:true,
- 	 					mode:'local',tpl:custTpl,itemSelector:'div.list-item',listWidth:C_LW,triggerAction:'all',
- 	 					selectOnFocus:true,anchor:'90%',
- 	 			     	listeners:{scope:this, 	 			     	
- 	 			     	select:function(c,r,i){ 	 			     		
- 	 			     		c.setValue(r.get('custNameCn'));
- 	 			     	},
- 	 			     	keydown:{fn:function(f,e){LC(f,e,'custBookerFlag');},buffer:BF}}},	
-        	{fieldLabel:C_OPERATOR,name:'consOperatorId',store:getOP_S(),xtype:'combo',
-              	displayField:'userLoginName',valueField:'userId',typeAhead: true,
-              	mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-        	{fieldLabel:C_SALES,name:'consSalesRepId',store:getSALE_S(),xtype:'combo',
-              	displayField:'userLoginName',valueField:'userId',typeAhead: true,
-              	mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'90%'},
-         	{fieldLabel:C_CONS_AUDIT_STATUS,name:'consStatusAud',xtype:'combo',
-              	store:AUST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-         	{fieldLabel:C_WRITEOFF_STATUS_R,name:'consStatusAr',xtype:'combo',
-              	store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-              	mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-              	{fieldLabel:C_WRITEOFF_STATUS_P,name:'consStatusAp',xtype:'combo',
-        		store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-        	{fieldLabel:C_PACKAGES,name:'consTotalPackages',xtype:'textfield',anchor:'90%'},
-        	{fieldLabel:C_GW_S,name:'consTotalGrossWeight',xtype:'textfield',anchor:'90%'},
-     	    {fieldLabel:C_DELIVERY_DATE,tabIndex:13,name:'consDeliveryDate',
-     			xtype:'datefield',format:DATEF,anchor:'90%'
-     		},
-     		{fieldLabel:C_CUSTOMS_INSPECTION,tabIndex:13,name:'consTrackLoadDate',
-     			xtype:'datefield',format:DATEF,anchor:'90%'
-     		},
-     		{fieldLabel:C_DATE_OF_INSPECTION,tabIndex:13,name:'consContainerLoadDate',
-     			xtype:'datefield',format:DATEF,anchor:'90%'
-     		},]},
-      	{columnWidth:.33,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-   		items:[{fieldLabel:C_CONS_DATE,name:'consDate',xtype:'datefield',format:DATEF,anchor:'90%'},
-        	{fieldLabel:C_CONS_CLOSE_DATE,name:'consCloseDate',xtype:'datefield',format:DATEF,anchor:'90%'},
-        	{fieldLabel:C_CUSTOMS_DECLEAR_DATE,name:'consCustomsDeclearDate',xtype:'datefield',format:DATEF,anchor:'90%'},
-        	{fieldLabel:C_VERIFICATION_NO,name:'consVerificationNo',xtype:'textfield',anchor:'90%'},
-        	{fieldLabel:C_TRAFFIC_NO,name:'consMblNo',xtype:'textfield',anchor:'90%'},
-			{fieldLabel:C_INVO_STATUS_R,name:'consStatusInvoR',xtype:'combo',
-        		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-        		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-        	{fieldLabel:C_INVO_STATUS_P,name:'consStatusInvoP',xtype:'combo',
-         		store:INST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-         	{fieldLabel:C_EXCHANGE_DATE,tabIndex:13,name:'consLoadDate',
-         		    xtype:'datefield',format:DATEF,anchor:'90%'
-         			},
-         	{fieldLabel:C_THREE_INSPECTION,tabIndex:13,name:'consExpiryDate',
-             	xtype:'datefield',format:DATEF,anchor:'90%'
-             },
-             {fieldLabel:C_TO,tabIndex:13,name:'consDeliveryDate2',
-  				xtype:'datefield',format:DATEF,anchor:'90%'
-  			 },
-  			{fieldLabel:C_TO,tabIndex:13,name:'consTrackLoadDate2',
-   				xtype:'datefield',format:DATEF,anchor:'90%'
-   			 },
-   			{fieldLabel:C_TO,tabIndex:13,name:'consContainerLoadDate2',
-   				xtype:'datefield',format:DATEF,anchor:'90%'
-   			 }
-			]},
-		{columnWidth:.34,layout:'form',border:false,labelWidth:80,labelAlign:"right",
-		items:[{fieldLabel:C_TO,name:'consDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
-        	{fieldLabel:C_TO,name:'consCloseDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
-        	{fieldLabel:C_TO,name:'consCustomsDeclearDate2',xtype:'datefield',format:DATEF,anchor:'90%'},
-         	{fieldLabel:C_REF_NO,name:'consRefNo',xtype:'textfield',anchor:'90%'},
-			{fieldLabel:C_EXPE_CONFIRM_STATUS,name:'consStatusExp',xtype:'combo',
-         		store:EXPC_S,displayField:'NAME',valueField:'CODE',typeAhead: true,
-         		mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'90%'},
-         	{fieldLabel:C_VESS,name:'vessName',xtype:'textfield',anchor:'90%'},
-         	{fieldLabel:C_VOYA,name:'voyaName',xtype:'textfield',anchor:'90%'},
-         	{fieldLabel:C_TO,tabIndex:13,name:'consLoadDate2',
-     		    xtype:'datefield',format:DATEF,anchor:'90%'
-     			},
-     	    {fieldLabel:C_TO,tabIndex:13,name:'consExpiryDate2',
-         		xtype:'datefield',format:DATEF,anchor:'90%'
-             },
-		]}
-	]});
-    Fos.CustomsConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,iconCls:'search',modal:true,
-    	width:800,height:400,buttonAlign:'right',items:panel,
+    
+    Fos.CustomsConsLookupWin.superclass.constructor.call(this, {title:C_CONS_QUERY,
+    	iconCls:'search',
+    	modal:true,
+    	width:800,
+    	height:400,
+    	buttonAlign:'right',
+    	items:panel,
 		buttons:[{text:C_OK,scope:this,handler:this.reload},
 		         {text:C_CANCEL,scope:this,handler:this.close}]
 	}); 

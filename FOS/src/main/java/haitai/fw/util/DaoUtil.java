@@ -7,6 +7,7 @@ import haitai.fw.log.FosLogger;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Query;
+
 
 public class DaoUtil {
 	private static FosLogger logger = new FosLogger(DaoUtil.class);
@@ -64,7 +66,7 @@ public class DaoUtil {
 	}
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static void setParameters(final List<FosQuery> conditions,
+	public static void setParameters(List<FosQuery> conditions,
 			final Map<String, Object> propertyMap, Query query, boolean isRowCount,
 			Class... clazz) {		
 		List<Map<String, Field>> fieldMaps = new ArrayList<Map<String,Field>>();
@@ -73,6 +75,11 @@ public class DaoUtil {
 		}
 		
 		Set<String> conditionSet = new HashSet<String>();		
+		
+		if(conditions == null){
+			conditions = plusMap2Conditions(conditions, propertyMap);
+		}
+		
 		for (FosQuery fosQuery : conditions) {
 			//可能包括t1.
 			String key = fosQuery.getKey();
@@ -181,76 +188,100 @@ public class DaoUtil {
 		}
 	}
 	
+	public static List<FosQuery> plusMap2Conditions(final List<FosQuery> conditions,
+			final Map<String, Object> propertyMap) {
+		final List<FosQuery> finalConditions;
+		if (conditions == null) {
+			finalConditions = new ArrayList<FosQuery>();
+		} else {
+			finalConditions = conditions;
+		}
+		if (propertyMap != null) {
+			for (Map.Entry<String, Object> entry : propertyMap.entrySet()) {
+				FosQuery field = new FosQuery(entry.getKey(), ConstUtil.SQL_REAL_EQUAL, ""+entry.getValue());
+				if (!finalConditions.contains(field)) {
+					finalConditions.add(field);
+				}
+			}
+		}
+		return finalConditions;
+	}
+	
 	@SuppressWarnings({"rawtypes"})
 	public static void buildSql(List<FosQuery> conditions,
 			Map<String, Object> propertyMap, StringBuffer sb,
 			boolean isRowCount, Class... clazz) {
-		QueryUtil.formatOpAndValue(conditions);
-		List<Map<String, Field>> fieldMaps = new ArrayList<Map<String,Field>>();
+		
+		List<Map<String, Field>> fieldMaps = new ArrayList<Map<String, Field>>();
 		for (int i = 0; i < clazz.length; i++) {
 			fieldMaps.add(getCachedFieldMap(clazz[i]));
 		}
-		Set<String> conditionSet = new HashSet<String>();
-		int i = 0;
-		for (FosQuery fosQuery : conditions) {
-			//有些查询字段, 不按照这个类的缺省顺序, 里面已经有了(t?.)
-			//可能包括t1.
-			String key = fosQuery.getKey();
-			String realKey = fosQuery.getKey();
-			Map<String, Field> foundMap = null;
-			int intTableSeq = 1;
-			if (StringUtil.contains(key, ConstUtil.STRING_DOT)) {
-				realKey = key.substring(key.indexOf(ConstUtil.STRING_DOT) + 1);
-				intTableSeq = Integer.parseInt(key.substring(1, 2));
-				foundMap = fieldMaps.get(intTableSeq - 1);
-			} else {
-				for (Map<String, Field> fieldMap : fieldMaps) {
-					if (fieldMap.containsKey(realKey)) {
-						foundMap = fieldMap;
-						break;
-					}
-					intTableSeq++;
+		Set<String> parsedSet = new HashSet<String>();
+		if(conditions == null){
+			conditions = plusMap2Conditions(conditions, propertyMap);
+		}
+		
+		QueryUtil.formatOpAndValue(conditions);
+		
+		List<FosQuery> noGroupList = new ArrayList<FosQuery>();
+		
+		//如果有orGroup的查询条件，根据orGroup分组
+		Map<String,List<FosQuery>> orGroupMap = new HashMap<String,List<FosQuery>>();
+				
+		
+		if(conditions.size()>0)
+			appendSqlWhere(sb);
+		
+		for (FosQuery q : conditions) {			
+			if(StringUtil.isNotBlank(q.getOrGroup())){
+				List<FosQuery> qList = orGroupMap.get(q.getOrGroup());
+				if(qList!=null){
+					qList.add(q);
 				}
-			}
-			if (foundMap != null) {
-				appendSqlAnd(sb, i);
-				if (!StringUtil.contains(key, ConstUtil.STRING_DOT))
-					sb.append("t").append(intTableSeq).append(ConstUtil.STRING_DOT);
-				sb.append(key).append(" ").append(fosQuery.getOp()).append(" ");
-				if (ConstUtil.SQL_REAL_IN.equalsIgnoreCase(fosQuery.getOp()))
-					sb.append("(");
-				sb.append(":");
-				while (conditionSet.contains(realKey)) {
-					realKey += "_1";
+				else{
+					qList = new ArrayList<FosQuery>();
+					qList.add(q);
+					orGroupMap.put(q.getOrGroup(), qList);
 				}
-				conditionSet.add(realKey);
-				sb.append(realKey);
-				if (ConstUtil.SQL_REAL_IN.equalsIgnoreCase(fosQuery.getOp()))
-					sb.append(")");
-				i++;
+			}			
+			else{
+				noGroupList.add(q);
 			}
 		}
 		
-		removeSqlWhere(sb, i);
+		buildAndSql(noGroupList,sb,fieldMaps,parsedSet,0);
+		
+		Collection<List<FosQuery>> orList =   orGroupMap.values();
+		for(List<FosQuery> list : orList){
+			appendSqlAnd(sb);
+			sb.append(" ( ");
+			buildAndSql(list,sb,fieldMaps,parsedSet,1);
+			sb.append(" ) ");
+		}
+				
+		removeSqlWhere(sb);
 		
 		if (isRowCount)
 			return;
-		
+
 		if (propertyMap != null && propertyMap.containsKey(HttpHeader.ORDERBY)) {
+			
 			int intTableSeq = 1;
 			for (Map<String, Field> fieldMap : fieldMaps) {
 				if (fieldMap.containsKey(propertyMap.get(HttpHeader.ORDERBY))) {
-					sb.append(" order by ").append("t").append(intTableSeq)
-							.append(".").append((String) propertyMap
-											.get(HttpHeader.ORDERBY));
+					sb.append(" order by ").append("t").append(intTableSeq).append(".")
+							.append(propertyMap.get(HttpHeader.ORDERBY));
 					break;
 				}
 				intTableSeq++;
 			}
-		}
-		if (propertyMap != null && propertyMap.containsKey(HttpHeader.ORDERDIR)) {
-			sb.append(" ");
-			sb.append((String) propertyMap.get(HttpHeader.ORDERDIR));
+			if (propertyMap != null && propertyMap.containsKey(HttpHeader.ORDERDIR)) {
+				if(clazz.length>0){
+					sb.append(" ");
+					sb.append(propertyMap.get(HttpHeader.ORDERDIR));
+				}
+				
+			}
 		}
 	}
 
@@ -258,7 +289,7 @@ public class DaoUtil {
 	 * 给sql语句加上where和and
 	 * @param sb
 	 * @param i
-	 */
+	 *//*
 	private static void appendSqlAnd(StringBuffer sb, int i) {
 		if(i == 0 && sb.lastIndexOf("where") == -1){
 			sb.append(" where ");
@@ -273,7 +304,7 @@ public class DaoUtil {
 		}
 	}
 	
-	/**
+	*//**
 	 * 如果没有条件, 要去掉sql最后的where
 	 * @param sb
 	 * @param i
@@ -320,6 +351,131 @@ public class DaoUtil {
 			classMap.put(fieldName, fieldMap);
 		}
 		return fieldMap;
+	}
+	
+	
+	public static void buildAndSql(List<FosQuery> conditions, StringBuffer sb,
+			List<Map<String, Field>> fieldMaps,Set<String> parsedSet,int groupType){
+		for (FosQuery htQuery : conditions) {
+			// 有些查询字段, 不按照这个类的缺省顺序, 里面已经有了(t?.)
+			// 可能包括t1.
+			String key = htQuery.getKey();
+			String realKey = htQuery.getKey();
+			Map<String, Field> foundMap = null;
+			int intTableSeq = 1;
+			if (StringUtil.contains(key, ConstUtil.STRING_DOT)) {
+				realKey = key.substring(key.indexOf(ConstUtil.STRING_DOT) + 1);
+				intTableSeq = Integer.parseInt(key.substring(1, 2));
+				foundMap = fieldMaps.get(intTableSeq - 1);
+			} 
+			else {
+				for (Map<String, Field> fieldMap : fieldMaps) {
+					if (fieldMap.containsKey(realKey)) {
+						foundMap = fieldMap;
+						break;
+					}
+					intTableSeq++;
+				}
+			}
+			if (foundMap != null) {
+				if(groupType==1)
+					appendSqlOr(sb);
+				else
+					appendSqlAnd(sb);
+				
+				if (!StringUtil.contains(key, ConstUtil.STRING_DOT))
+					sb.append("t").append(intTableSeq).append(ConstUtil.STRING_DOT);
+				sb.append(key).append(" ").append(htQuery.getOp()).append(" ");
+				
+				if (htQuery.getOp().equals(ConstUtil.SQL_OP_IN) || htQuery.getOp().equals(ConstUtil.SQL_OP_NOT_IN))
+					sb.append("(");
+				
+				sb.append(":");
+				
+				while (parsedSet.contains(realKey)) {
+					realKey += "_1";
+				}
+				parsedSet.add(realKey);
+				sb.append(realKey);
+				
+				if (htQuery.getOp().equals(ConstUtil.SQL_OP_IN) || htQuery.getOp().equals(ConstUtil.SQL_OP_NOT_IN))
+					sb.append(")");
+				
+			}
+		}
+	}
+	
+	
+	/**
+	 * 给sql语句加上where和and
+	 * 
+	 * @param sb
+	 * @param i
+	 */
+	private static void appendSqlAnd(StringBuffer sb, int i) {
+		if (i == 0 && sb.lastIndexOf("where") == -1) {
+			sb.append(" where ");
+		}
+		if (i > 0) {
+			sb.append(" and ");
+		} else {
+			String s = sb.toString().trim().toLowerCase();
+			if (!s.endsWith(" and") && !s.endsWith(" where")) {
+				sb.append(" and ");
+			}
+		}
+	}
+
+	/**
+	 * 给sql语句加上where
+	 * 
+	 * @param sb
+	 * @param i
+	 */
+	private static void appendSqlWhere(StringBuffer sb) {
+		if (sb.lastIndexOf("where") == -1) {
+			sb.append(" where ");
+		}
+	}
+	
+	/**
+	 * 给sql语句加上and
+	 * 
+	 * @param sb
+	 * @param i
+	 */
+	private static void appendSqlAnd(StringBuffer sb) {		
+		String s = sb.toString().trim().toLowerCase();
+		if (!s.endsWith(" and") && !s.endsWith(" where") && !s.endsWith(" !(")) {
+			sb.append(" and ");
+		}
+	}
+	
+	/**
+	 * 给sql语句加上or
+	 * 
+	 * @param sb
+	 * @param i
+	 */
+	private static void appendSqlOr(StringBuffer sb) {		
+		String s = sb.toString().trim().toLowerCase();
+		if (!s.endsWith(" or") && !s.endsWith("(")) {
+			sb.append(" or ");
+		}
+	}
+	
+	
+	
+	/**
+	 * 如果没有条件, 要去掉sql最后的where
+	 * 
+	 * @param sb
+	 * @param i
+	 */
+	private static void removeSqlWhere(StringBuffer sb) {
+		if (sb.toString().trim().toLowerCase().endsWith(" where")) {
+			sb.delete(sb.lastIndexOf(" where"), sb.length());
+		}
 	}
 
 }

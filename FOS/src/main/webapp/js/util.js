@@ -864,7 +864,13 @@ var QTX=function(a){
 	var x='';
 	for(var i=0;i<a.length;i++)
 	{
-		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value></fosQuery>\n';
+		x+='<fosQuery><key>'+a[i].get('key')+'</key>'+'<op>'+a[i].get('op')+'</op>'+'<value>'+a[i].get('value')+'</value>';
+		
+		if(a[i].get('orGroup')){
+			x+='<orGroup>'+a[i].get('orGroup')+'</orGroup>';
+		}
+		
+		x+='</fosQuery>\n';
 	}
 	return x;
 };

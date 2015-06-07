@@ -12,9 +12,11 @@ import haitai.fos.ffse.entity.table.SInvoiceItem;
 import haitai.fos.ffse.entity.table.SVoucherItem;
 import haitai.fos.general.entity.idao.IGTrainStationDao;
 import haitai.fos.general.entity.idao.IGChargeDAO;
+import haitai.fos.general.entity.idao.IGVesselDAO;
 import haitai.fos.general.entity.idao.IGVoyageDAO;
 import haitai.fos.general.entity.table.GCharge;
 import haitai.fos.general.entity.table.GTrainStation;
+import haitai.fos.general.entity.table.GVessel;
 import haitai.fos.general.entity.table.GVoyage;
 import haitai.fos.sys.entity.idao.IPCompanyConfigDAO;
 import haitai.fos.sys.entity.idao.IPTaskTypeDAO;
@@ -31,11 +33,13 @@ import haitai.fw.session.SessionKeyType;
 import haitai.fw.session.SessionManager;
 import haitai.fw.util.*;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
+
 
 
 import java.text.ParseException;
@@ -105,7 +109,7 @@ public class FConsignService {
 	private ISVoucherItemDAO voucherItemDao;
 	
 	@Autowired
-	private IGTrainStationDao trainStationDao;
+	private IGVesselDAO vesselDao;
 	
 	@Autowired
 	private IPUserDAO userDao;
@@ -363,80 +367,8 @@ public class FConsignService {
 			entity.setConsId(null);
 			checkSalesIdNotNull(entity);
 			checkBlNoDuplicated(entity);
-			if ((ConstUtil.CONS_BIZ_TYPE_BULK.equals(entity.getConsBizType())||ConstUtil.CONS_BIZ_TYPE_OVERSEAS.equals(entity.getConsBizType())) && entity.getVoyaId() != null) {
-				Map<String, Object> queryMap = new HashMap<String, Object>();
-				queryMap.put("custId", String.valueOf(entity.getCustId()));
-				queryMap.put("voyaId", String.valueOf(entity.getVoyaId()));
-				List<FConsign> mergeList = dao.findByProperties(queryMap);
-				switch (mergeList.size()) {
-					case 0:
-						entity = saveNormalConsign(entity);
-						generateTask(entity);
-						sendShipNotice(entity);
-						break;
-					case 1:
-						FConsign firstEntity = mergeList.get(0);
-						// 把第一个分单复制一份, 作为主单
-						FConsign masterEntity = new FConsign();
-						BeanUtils.copyProperties(firstEntity, masterEntity);
-						masterEntity.setConsId(null);
-						dao.save(masterEntity);
-						//把主单的id更新到自己的masterId字段
-						masterEntity.setConsMasterId(masterEntity.getConsId());
-						masterEntity = dao.update(masterEntity);
-						//把主单的id->分单的masterId字段, 第一个分单的编号+_1
-						firstEntity.setConsNo(masterEntity.getConsNo()
-								+ ConstUtil.STRING_DASH
-								+ StringUtil.formatTwoNumber(1));
-						firstEntity.setConsMasterId(masterEntity.getConsId());
-						firstEntity.setConsMasterNo(masterEntity.getConsNo());
-						firstEntity.setConsMasterFlag(ConstUtil.FalseShort);
-						firstEntity = dao.update(firstEntity);
-						//并更新第一个分单对应的contract, loadingList,packingList上的consNo
-						//还有doc,bl,expense
-						Integer consId = firstEntity.getConsId();
-						String consNo = firstEntity.getConsNo();
-						contractDao.updateConsNoByConsId(consId, consNo);
-						loadingListDao.updateConsNoByConsId(consId, consNo);
-						packingListDao.updateConsNoByConsId(consId, consNo);
-						docDao.updateConsNoByConsId(consId, consNo);
-						blDao.updateConsNoByConsId(consId, consNo);
-						expenseDao.updateConsNoByConsId(consId, consNo);
-						// 新的要保存的第二个分单
-						entity.setConsNo(masterEntity.getConsNo()
-								+ ConstUtil.STRING_DASH
-								+ StringUtil.formatTwoNumber(2));
-						entity.setConsMasterId(masterEntity.getConsId());
-						entity.setConsMasterNo(masterEntity.getConsNo());
-						entity.setConsMasterFlag(ConstUtil.FalseShort);
-						dao.save(entity);
-						// 更新主单上的一些统计字段
-						sumSomeField(masterEntity, entity);
-						dao.update(masterEntity);
-						generateTask(masterEntity, firstEntity);
-						break;
-					default:
-						FConsign master = mergeList.get(0);
-						// 找到主单
-						for (FConsign item : mergeList) {
-							if (ConstUtil.TrueShort.equals(item.getConsMasterFlag())) {
-								master = item;
-							}
-						}
-						// 新的要保存的第N个分单
-						entity.setConsNo(master.getConsNo() + ConstUtil.STRING_DASH
-								+ StringUtil.formatTwoNumber(mergeList.size()));
-						entity.setConsMasterId(master.getConsId());
-						entity.setConsMasterNo(master.getConsNo());
-						entity.setConsMasterFlag(ConstUtil.FalseShort);
-						dao.save(entity);
-						// 更新主单上的一些统计字段
-						sumSomeField(master, entity);
-						dao.update(master);
-						break;
-				}
-			} 
-			else if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
+			
+			if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
 					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterId()!=null){
 					FCLFightSingle(entity,sb);
 					sb.delete(0, sb.length());
@@ -447,32 +379,57 @@ public class FConsignService {
 				generateTask(entity);
 			}
 			
-			retList.add(entity);
-			entity.setEditable(ConstUtil.TrueShort);
-			if (entity.getLoliId() != null && entity.getLoliId() > 0) {
-				syncLoadingList(entity);
-				syncPackingList(entity);
-				updateFactQuantity(entity, false);
+			//自动保存船名
+			if(entity.getVessName()!=null){
+				Map<String,Object> map = new HashMap<String,Object>();
+				String vessName = entity.getVessName();
+				map.put("vessNameEn", vessName);
+				List<GVessel> t = vesselDao.findByProperties(map);
+				if(t.size()==0){
+					GVessel v = new GVessel();
+					v.setVessNameEn(vessName);
+					v.setVessNameCn(entity.getVessNameCn());
+					v.setActive((short) 1);
+					v.setRowAction(RowAction.N);
+					vesselDao.save(v);
+				}
 			}
+			
+			retList.add(entity);
+			entity.setEditable(ConstUtil.TrueShort);			
 		} 
 		else if (entity.getRowAction() == RowAction.M) {
 			checkSalesIdNotNull(entity);
 			checkBlNoDuplicated(entity);
 			syncTask(entity);
 			syncExp(entity);
-			FConsign retEntity = dao.update(entity);
+			FConsign retEntity = dao.update(entity);			
+			
 			retEntity.setEditable(ConstUtil.TrueShort);
 			retList.add(retEntity);
+			
+			//自动保存船名
+			if(entity.getVessName()!=null){
+				Map<String,Object> map = new HashMap<String,Object>();
+				String vessName = entity.getVessName();
+				map.put("vessNameEn", vessName);
+				List<GVessel> t = vesselDao.findByProperties(map);
+				if(t.size()==0){
+					GVessel v = new GVessel();
+					v.setVessNameEn(vessName);
+					v.setVessNameCn(entity.getVessNameCn());
+					v.setActive((short) 1);
+					v.setRowAction(RowAction.N);
+					vesselDao.save(v);
+				}
+			}
+		
 			if(ConstUtil.CONS_BIZ_TYPE_CONTAINER.equals(entity.getConsBizType()) && 
 					ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterFlag().intValue()==0){
 				syncBranchConsign(entity,sb,consContainerNum);
 			}
-			if (retEntity.getLoliId() != null && entity.getLoliId() > 0) {
-				syncLoadingList(entity);
-				syncPackingList(entity);
-				updateFactQuantity(retEntity, false);
-			}
-		} else if (entity.getRowAction() == RowAction.R) {
+		} 
+		else if (entity.getRowAction() == RowAction.R) {
 			FConsign delEntity = dao.findById(entity.getConsId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("consId", entity.getConsId().toString());
@@ -497,12 +454,10 @@ public class FConsignService {
 						ConstUtil.CONS_SHIP_TYPE_FCL.equals(entity.getConsShipType())&&entity.getConsMasterFlag().intValue()==0){
 					syncBranchConsign(entity,sb,consContainerNum);
 				}
-				if (delEntity.getLoliId() != null && delEntity.getLoliId() > 0) {
-					updateFactQuantity(delEntity, true);
-				}
 			}
 			
-		} else {
+		} 
+		else {
 			throw new BusinessException("fw.row_action_null");
 		}
 	}
@@ -608,26 +563,6 @@ public class FConsignService {
 		}
 	}
 
-	/**
-	 * 散货在生成主单的时候,
-	 * 要发送配船通知rowAction=N,consBizType=B,consMasterFlag=1
-	 *
-	 * @param entity the consign
-	 */
-	private void sendShipNotice(FConsign entity) {
-		List<Object> contractNoList = contractDao.queryByVoyaIdAndCustId(entity.getVoyaId(), entity.getCustId());
-		String contractNo = "";
-		for (Object obj : contractNoList) {
-			if (obj instanceof String) {
-				String no = (String) obj;
-				contractNo += no + ConstUtil.COMMA;
-			}
-		}
-		FConsign cloneObj = new FConsign();
-		BeanUtils.copyProperties(entity, cloneObj);
-		cloneObj.setConsContractNo(contractNo);
-		messageService.triggerMessage(cloneObj);
-	}
 
 	/**
 	 * 委托上的eta, sail_date, cons_date修改的时候,
@@ -713,19 +648,6 @@ public class FConsignService {
 				|| ObjectUtil.isNotEqual(entity.getConsSailDate(), dbEntity.getConsSailDate());
 	}
 
-	private void generateTask(FConsign master, FConsign slave) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("consId", "" + slave.getConsId());
-		List<FTask> taskList = taskDao.findByProperties(map);
-		for (FTask task : taskList) {
-			task.setConsId(master.getConsId());
-			task.setConsNo(master.getConsNo());
-			task.setConsMasterId(master.getConsMasterId());
-			task.setConsMasterNo(master.getConsMasterNo());
-			taskDao.update(task);
-		}
-	}
-
 	private void generateTask(FConsign entity) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tatyBizClass", entity.getConsBizClass());
@@ -770,6 +692,8 @@ public class FConsignService {
 			entity.setConsMasterNo(no);
 		}
 		dao.save(entity);
+		
+		
 		//如果consMasterId为空，系统将它设置成跟consId一样
 		if (entity.getConsMasterId() == null) {
 			entity.setConsMasterId(entity.getConsId());
@@ -778,48 +702,7 @@ public class FConsignService {
 		return entity;
 	}
 
-	/**
-	 * @param masterEntity the master consign
-	 * @param entity	   the consign
-	 */
-	private void sumSomeField(FConsign masterEntity, FConsign entity) {
-		Integer totalPackages = 0;
-		if (entity.getConsTotalPackages() != null) {
-			totalPackages += entity.getConsTotalPackages();
-		}
-		if (masterEntity.getConsTotalPackages() != null) {
-			totalPackages += masterEntity.getConsTotalPackages();
-		}
-		masterEntity.setConsTotalPackages(totalPackages);
-
-		Double totalGrossWeight = (double) 0;
-		if (entity.getConsTotalGrossWeight() != null) {
-			totalGrossWeight += entity.getConsTotalGrossWeight();
-		}
-		if (masterEntity.getConsTotalGrossWeight() != null) {
-			totalGrossWeight += masterEntity.getConsTotalGrossWeight();
-		}
-		masterEntity.setConsTotalGrossWeight(totalGrossWeight);
-
-		Double totalNetWeight = (double) 0;
-		if (entity.getConsTotalNetWeight() != null) {
-			totalNetWeight += entity.getConsTotalNetWeight();
-		}
-		if (masterEntity.getConsTotalNetWeight() != null) {
-			totalNetWeight += masterEntity.getConsTotalNetWeight();
-		}
-		masterEntity.setConsTotalNetWeight(totalNetWeight);
-
-		Double totalMeasurement = (double) 0;
-		if (entity.getConsTotalMeasurement() != null) {
-			totalMeasurement += entity.getConsTotalMeasurement();
-		}
-		if (masterEntity.getConsTotalMeasurement() != null) {
-			totalMeasurement += masterEntity.getConsTotalMeasurement();
-		}
-		masterEntity.setConsTotalMeasurement(totalMeasurement);
-	}
-
+	
 	/**
 	 * @param entity the consign
 	 * @return the consign no
@@ -879,65 +762,7 @@ public class FConsignService {
 	}
 
 	
-	private void updateFactQuantity(FConsign entity, boolean isDelete) {
-		FContract contract = contractDao.findById(entity.getFconId());
-		FLoadingList loadingList = loadingListDao.findById(entity.getLoliId());
-		if (isDelete) {
-			loadingList.setLoliFactQuantity((double) 0);
-			loadingList.setLoliFactCbm((double) 0);
-			loadingList.setLoliStatus(ConstUtil.FalseShort);
-		} else {
-			loadingList.setLoliFactQuantity(entity.getConsTotalGrossWeight());
-			loadingList.setLoliFactCbm(entity.getConsTotalMeasurement());
-			loadingList.setLoliStatus(ConstUtil.TrueShort);
-		}
-		loadingListDao.update(loadingList);
-
-		//把配船货物表的factQuantity统计一下, 写到合同表的factQuantity字段, 
-		//还要更新consId, consNo, consMblNo
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		queryMap.put("fconId", "" + entity.getFconId());
-		List<FLoadingList> objlist = loadingListDao.findByProperties(queryMap);
-		Double quantity = (double) 0;
-		Set<String> consNoSet = new HashSet<String>();
-		Set<String> blNoSet = new HashSet<String>();
-		Integer consId = null;
-		String consNo = "";
-		String blNo = "";
-		for (FLoadingList item : objlist) {
-			if (item.getLoliFactQuantity() != null) {
-				quantity += item.getLoliFactQuantity();
-			}
-			consId = item.getConsId();
-			consNoSet.add(item.getConsNo());
-			blNoSet.add(item.getConsMblNo());
-		}
-		contract.setFconFactQuantity(quantity);
-		for (String str : consNoSet) {
-			consNo += str + ConstUtil.COMMA;
-		}
-		for (String str : blNoSet) {
-			blNo += str + ConstUtil.COMMA;
-		}
-		contract.setConsId(consId);
-		contract.setConsNo(consNo);
-		contract.setConsMblNo(blNo);
-		contractDao.update(contract);
-
-		//更新到航次上
-		GVoyage voyage = voyageDao.findById(loadingList.getVoyaId());
-		Map<String, Object> propertyMap = new HashMap<String, Object>();
-		propertyMap.put("voyaId", voyage.getVoyaId());
-		List<FLoadingList> list = loadingListDao.findByProperties(propertyMap);
-		quantity = (double) 0;
-		for (FLoadingList item : list) {
-			if (item.getLoliFactQuantity() != null) {
-				quantity += item.getLoliFactQuantity();
-			}
-		}
-		voyage.setVoyaFactQuantity(quantity);
-		voyageDao.update(voyage);
-	}
+	
 
 	/**
 	 * 把委托id和委托号回写到货物列表
@@ -958,26 +783,6 @@ public class FConsignService {
 				loadingList.setConsMblNo(entity.getConsMblNo());
 			}
 			loadingListDao.update(loadingList);
-		}
-	}
-
-	private void syncPackingList(FConsign entity) {
-		if (entity.getLoliId() != null && entity.getLoliId() > 0) {
-			Map<String, Object> queryMap = new HashMap<String, Object>();
-			queryMap.put("loliId", entity.getLoliId());
-			List<FPackingList> list = packingListDao.findByProperties(queryMap);
-			for (FPackingList packingList : list) {
-				if (packingList.getConsId() == null) {
-					packingList.setConsId(entity.getConsId());
-				}
-				if (StringUtil.isBlank(packingList.getConsNo())) {
-					packingList.setConsNo(entity.getConsNo());
-				}
-				if (StringUtil.isBlank(packingList.getConsMblNo())) {
-					packingList.setConsMblNo(entity.getConsMblNo());
-				}
-				packingListDao.update(packingList);
-			}
 		}
 	}
 
@@ -1086,12 +891,6 @@ public class FConsignService {
 		List objList = dao.complexQueryCheck(conditions, queryMap);
 		checkMergeStatistics(retList, objList);		
 		if (queryMap.containsKey(ConstUtil.PARAM_EAGER)) {
-			/*queryMap.put("consId", (String)queryMap.get("consId"));
-			queryMap.put("consBizType", (String)queryMap.get("consBizType"));
-		    String expeType = (String)queryMap.get("expeType");
-			if(StringUtil.isNotBlank(expeType)){
-				queryMap.put("expeType", (String)queryMap.get("expeType"));
-			}*/
 			String sort = (String)queryMap.get("sort");
 			if(StringUtil.isNotBlank(sort)){
 				queryMap.put("sort", sort);
@@ -1436,88 +1235,13 @@ public class FConsignService {
 		return retList;
 	}
 	
-	/*
-	 * 北京永顺定制的服务，只要保存业务F_CONSIGN和费用S_EXPENSE即可
-	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	@Transactional
-	public List saveForBeijing(List entityList) {
-		List retList = new ArrayList();
-		// handle consign first
-		for (Object obj : entityList) {
-			if (obj instanceof FConsign) {
-				FConsign entity = (FConsign) obj;
-				saveSimpleConsign(entity, retList);
-				break;
-			}
-		}
-		return retList;
-	}
 	
-	private void saveSimpleConsign(FConsign entity, List<Object> retList) {
-		if (entity.getRowAction() == RowAction.N) {
-			entity.setConsId(null);
-			checkSalesIdNotNull(entity);
-			checkConsNoDuplicated(entity);
-			checkBlNoDuplicated(entity);
-			dao.save(entity);
-			entity.setEditable(ConstUtil.TrueShort);
-			retList.add(entity);
-			//自动保存火车站
-			if(entity.getAttr1()!=null){
-				Map<String,Object> map = new HashMap<String,Object>();
-				String originStation = entity.getAttr1();
-				map.put("trainNameCn", originStation);
-				List<GTrainStation> t = trainStationDao.findByProperties(map);
-				if(t.size()==0){
-					GTrainStation station = new GTrainStation();
-					station.setTrainCode(originStation);
-					station.setTrainNameCn(originStation);
-					station.setActive((short) 1);
-					trainStationDao.save(station);
-				}
-			}
-		} else if (entity.getRowAction() == RowAction.M) {
-			checkSalesIdNotNull(entity);
-			checkBlNoDuplicated(entity);
-			FConsign retEntity = dao.update(entity);
-			retEntity.setEditable(ConstUtil.TrueShort);
-			retList.add(retEntity);
-		} else if (entity.getRowAction() == RowAction.R) {
-			FConsign delEntity = dao.findById(entity.getConsId());
-			delEntity.setRowAction(RowAction.R); 
-			dao.update(delEntity);
-		} else {
-			throw new BusinessException("fw.row_action_null");
-		}
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void checkConsNoDuplicated(FConsign entity) {
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		queryMap.put("consNo", entity.getConsNo());
-		List<FConsign> list = query(queryMap);
-		//如果>0, 说明肯定存在了
-		if (list.size() > 0) {
-			throw new BusinessException("fos.cons_no.existing");
-		}
-	}
 	
 	//检查业务员ID是否为空且业务员的名字是否与业务员ID匹配
 	private void checkSalesIdNotNull(FConsign entity) {
 		if(entity.getConsSalesRepId()==null){
 			throw new BusinessException("fos.cons_sales_id.null");
 		}
-		/*else{
-			Integer consSalesId = entity.getConsSalesRepId();
-			PUser user = userDao.findById(consSalesId);
-		    Integer userId = user.getUserId();
-		    String userName = user.getUserName();
-	        if(!userId.equals(entity.getConsSalesRepId())||!userName.equals(entity.getConsSalesRepName())){
-	             throw new BusinessException("fos.cons_sales_id.not_match");
-	        }
-		}*/
 	}
 	
 }

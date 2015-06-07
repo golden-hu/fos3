@@ -1,12 +1,9 @@
 package haitai.edi.impl;
 
 import haitai.edi.ProductService;
-import haitai.edi.jaxws.KeyValueOfstringstring;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.jws.WebService;

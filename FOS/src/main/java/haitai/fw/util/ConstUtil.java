@@ -147,7 +147,9 @@ public class ConstUtil {
 	public static final String SQL_OP_NOT_EQUAL = "6";
 	public static final String SQL_OP_LIKE = "7";
 	public static final String SQL_OP_IN = "8";
-
+	public static final String SQL_OP_NOT_LIKE = "9";
+	public static final String SQL_OP_NOT_IN = "10";
+	
 	public static final String CELL_TYPE_NUMBER = "isNumber";
 	public static final String CELL_TYPE_STRING = "isString";
 	public static final String CELL_TYPE_BOOL = "isBool";

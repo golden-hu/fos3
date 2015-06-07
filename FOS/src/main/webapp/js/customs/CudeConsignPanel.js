@@ -737,13 +737,61 @@ Fos.CudeConsignPanel = function(p,store) {
 		anchor:'95%'
 	});
     
-    //船名
-    var txtVessName = new Ext.form.TextField({fieldLabel:C_VESS,tabIndex:17,
-    	name:'vessName',
-    	value:p.get('vessName'),
-    	anchor:'95%'
-    });
-    
+        
+  //船名
+	var cboVessel = new Ext.form.ComboBox({fieldLabel:C_VESS,
+		itemCls:'needed',
+		tabIndex:34,
+		name:'vessName',
+		value:p.get('vessName'),
+		store:getVES(),
+		enableKeyEvents:true,
+		displayField:'vessNameEn',
+		valueField:'vessNameEn',
+		typeAhead:true,
+		mode:'local',
+		tpl:vessTpl,
+		itemSelector:'div.list-item',
+		listWidth:400,
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'95%',
+		listeners:{scope:this,
+			select:function(c,r,i){
+				p.set('vessNameCn',r.get('vessNameCn'));
+				var vcn=this.find('name','vessNameCn')[0];
+				if(vcn) 
+					vcn.setValue(r.get('vessNameCn'));
+			},
+			blur:function(f){
+				if(f.getRawValue()==''){
+					f.clearValue();
+					p.set('vessId','');
+					p.set('vessName','');
+				}
+			},
+			keydown:{fn:function(f,e){
+				LV(f,e,vt);
+			},buffer:BF}
+		}
+	});
+	
+	Ext.Ajax.request({url:SERVICE_URL,
+		method:'POST',
+		params:{
+			A:'VESS_X',
+			start:0,
+			limit:20,
+			sort:'vessId',
+			dir:'DESC'
+		},
+		scope:this,
+		success: function(r,o){
+			cboVessel.store.loadData(r.responseXML,false);
+		}
+	});
+	
+	
     //航次
 	var txtVoyage = new Ext.form.TextField({fieldLabel:C_VOYA,
 		tabIndex:18,
@@ -979,7 +1027,7 @@ Fos.CudeConsignPanel = function(p,store) {
 		padding:10,
 		items:[
 		    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[			
-	    	   	txtVessName,cboPolEn,txtVessNameCn
+	    	   	cboVessel,cboPolEn,txtVessNameCn
 			]},
 	  	    {columnWidth:.25,layout:'form',border:false,labelWidth:80,items:[
 	  			txtVoyage,cboPodEn,cboBookAgency

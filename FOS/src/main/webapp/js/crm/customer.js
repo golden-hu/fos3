@@ -729,7 +729,8 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
     
     //查询按钮的代码
 	this.search = function(){
-		var w=new Fos.CustomerLW(store);w.show();
+		var w=new Fos.CustomerLW(store);
+		w.show();
 	};
 	
 	//ok选择
@@ -744,16 +745,38 @@ Fos.CustomerLookWin = function(custType,fn,scope) {
 		}
 	};
 	
+	var btnAdd = new Ext.Button({text:C_ADD,
+		disabled:NR(M1_V),
+		iconCls:'add',
+		handler:this.addCustomer
+	});
+	
+	var btnSearch = new Ext.Button({text:C_SEARCH,
+		iconCls:'search',
+		handler:this.search
+	});
+	
 	//构建grid
-	var grid = new Ext.grid.GridPanel({store: store,sm:sm,cm:cm,
-		listeners:{scope:this,rowdblclick:this.sel},
+	var grid = new Ext.grid.GridPanel({
+		store: store,
+		sm:sm,
+		cm:cm,
+		listeners:{
+			scope:this,
+			rowdblclick:this.sel
+		},
 		bbar:PTB(store,C_PS20),
-		tbar:[{text:C_ADD,disabled:NR(M1_V),iconCls:'add',handler:this.addCustomer}, '-', 
-			{text:C_SEARCH,iconCls:'search',handler:this.search},'-']
+		tbar:[btnAdd, '-',btnSearch,'-']
 	});
 	
 	//配置项
-    Fos.CustomerLookWin.superclass.constructor.call(this,{title:C_CUST_SEL,width:600,height:400,layout:'fit',modal:true,items:grid,
+    Fos.CustomerLookWin.superclass.constructor.call(this,{
+    	title:C_CUST_SEL,
+    	width:600,
+    	height:400,
+    	layout:'fit',
+    	modal:true,
+    	items:grid,
     	buttons:[{text:C_OK,iconCls:'ok',scope:this,handler:this.sel},
     	         {text:C_CANCEL,iconCls:'cancel',scope:this,handler:this.close}]
     	}
