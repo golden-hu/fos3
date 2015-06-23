@@ -169,16 +169,17 @@ var getCFGD=function(v){
 	return _cs.getById(v)?_cs.getById(v).get('cocoDesc'):'';
 };
 
-var MESU_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','内部用户'],['2','客户供应商'],['3','系统角色']]});
+var MESU_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1',C_MESU_TYPE_I],['2',C_MESU_TYPE_E],['3',C_MESU_TYPE_S]]});
 getMESU_T = function(v){if(v>=0) return MESU_T_S.getById(v).get('NAME'); else return '';};
 
-var ROLE_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1','操作员'],['2','业务员'],['3','调度']]});
+var ROLE_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['1',C_OPERATOR],['2',C_SALES],['3',C_DISPATCHER]]});
 getROLE_T = function(v){if(v>=0) return ROLE_T_S.getById(v).get('NAME'); else return '';};
 
 var TECL_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['A','普通'],['B','套打']]});
 getTECL = function(v){if(v) return TECL_S.getById(v).get('NAME'); else return '';};
 
-var ACLO_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['FConsign','委托'],['FBl','提单'],['SExpense','费用'],['SInvoice','账单'],['SVoucher','收、付款单'],['SPr','付款申请']]});
+var ACLO_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
+	data:[['FConsign',C_CONSIGN],['FBl',C_SR_BL],['SExpense',C_EXPE],['SInvoice',C_INVO],['SVoucher',C_VOUC_R+'/'+C_VOUC_P],['SPr',C_PR_P]]});
 getACLO = function(v){if(v) return ACLO_S.getById(v).get('NAME'); else return '';};
 
 var getFUNC_S = function(){return getGStore('FUNC','PFunction',PFunction,'funcCode','ASC','');};
@@ -214,10 +215,10 @@ var MM_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
 var CONF_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME']});
 
 var DATY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
-	data:[['CONS_DATE','委托生成日期'],
-	      ['CONS_ETA','预计船到日期'],
-	      ['CONS_SAIL_DATE','开船日期'],
-	      ['BASE_TASK_D','依赖任务完成日']]
+	data:[['CONS_DATE',C_CONS_DATE],
+	      ['CONS_ETA',C_ETD_V],
+	      ['CONS_SAIL_DATE',C_SAIL_DATE],
+	      ['BASE_TASK_D',C_DEPEND_TASK_DATE]]
 });
 
 getDATY = function(v){
@@ -227,7 +228,7 @@ getDATY = function(v){
 		return '';
 };
 
-var Y_O_N=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','否'],['1','是']]});
+var Y_O_N=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0',C_NOT],['1',C_YES]]});
 getY_O_N = function(v){if(v>=0) return Y_O_N.getById(v).get('NAME'); else return '';};
 
 var getArrayStore = function(){

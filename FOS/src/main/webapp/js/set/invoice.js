@@ -14,10 +14,17 @@ var showInvoice= function(p){
 
 Fos.InvoiceGrid = function(t) {
 	var store = new Ext.data.GroupingStore({url:SERVICE_URL,
-		baseParams:{A:'INVO_Q',mt:'xml',invoType:t},
+		baseParams:{
+			A:'INVO_Q',
+			mt:'xml',
+			invoType:t
+		},
 		reader:new Ext.data.XmlReader({totalProperty:'rowCount',
-			record:'SInvoice',idProperty:'invoId'},SInvoice),
-		remoteSort:true,sortInfo:{field:'invoId', direction:'DESC'}
+			record:'SInvoice',
+			idProperty:'invoId'
+		},SInvoice),
+		remoteSort:true,
+		sortInfo:{field:'invoId', direction:'DESC'}
 	});	
     store.load({params:{start:0,limit:C_PS}});
     		
@@ -70,29 +77,37 @@ Fos.InvoiceGrid = function(t) {
         		var custId=at.find('name','custId')[0].getValue();
         		if(custId) 
         			a[a.length]=new QParam({key:'custId',value:custId,op:EQ});
+        		
         		var currCode=at.find('name','currCode')[0].getValue();        		
         		if(currCode) 
         			a[a.length]=new QParam({key:'currCode',value:currCode,op:EQ});
+        		
         		var invoStatus=at.find('name','invoStatus')[0].getValue();        		
         		if(invoStatus) 
         			a[a.length]=new QParam({key:'invoStatus',value:invoStatus,op:EQ});
         		else 
         			a[a.length]=new QParam({key:'invoStatus',value:2,op:NE});
+        		
         		var invoWriteOffStatus=at.find('name','invoWriteOffStatus')[0].getValue();        
         		if(invoWriteOffStatus) 
         			a[a.length]=new QParam({key:'invoWriteOffStatus',value:invoWriteOffStatus,op:EQ});
+        		
         		var consNo=at.find('name','consNo')[0].getValue();        		
         		if(consNo) 
         			a[a.length]=new QParam({key:'consNo',value:consNo,op:EQ});
+        		
         		var consMblNo=at.find('name','consMblNo')[0].getValue();        		
         		if(consMblNo) 
         			a[a.length]=new QParam({key:'consMblNo',value:consMblNo,op:EQ});
+        		
         		var vessName=at.find('name','vessName')[0].getValue();        		
         		if(vessName) 
         			a[a.length]=new QParam({key:'vessName',value:vessName,op:EQ});
+        		
         		var voyaName=at.find('name','voyaName')[0].getValue();        		
         		if(voyaName) 
-        			a[a.length]=new QParam({key:'voyaName',value:voyaName,op:EQ});        		
+        			a[a.length]=new QParam({key:'voyaName',value:voyaName,op:EQ});       
+        		
         		var invoDate=at.find('name','invoDate')[0].getValue();
         		var invoDate2=at.find('name','invoDate2')[0].getValue();
         		if(invoDate && invoDate2){
@@ -101,6 +116,7 @@ Fos.InvoiceGrid = function(t) {
         		}
         		else if(invoDate) 
         			a[a.length]=new QParam({key:'invoDate',value:invoDate,op:EQ});
+        		
         		var invoDueDate=at.find('name','invoDueDate')[0].getValue();
         		var invoDueDate2=at.find('name','invoDueDate2')[0].getValue();
         		if(invoDueDate && invoDueDate2){
@@ -109,6 +125,7 @@ Fos.InvoiceGrid = function(t) {
         		}
         		else if(invoDueDate) 
         			a[a.length]=new QParam({key:'invoDueDate',value:invoDueDate,op:EQ});
+        		
         		var consSailDate=at.find('name','consSailDate')[0].getValue();
         		var consSailDate2=at.find('name','consSailDate2')[0].getValue();
         		if(consSailDate && consSailDate2){
@@ -117,6 +134,7 @@ Fos.InvoiceGrid = function(t) {
         		}
         		else if(consSailDate) 
         			a[a.length]=new QParam({key:'consSailDate',value:consSailDate,op:EQ});
+        		
         		var invoAmount=at.find('name','invoAmount')[0].getValue();
         		var invoAmount2=at.find('name','invoAmount2')[0].getValue();
         		if(invoAmount && invoAmount2){
@@ -126,10 +144,17 @@ Fos.InvoiceGrid = function(t) {
         		else if(invoAmount) 
         			a[a.length]=new QParam({key:'invoAmount',value:invoAmount,op:EQ});
         	}
+        	
         	store.baseParams={A:'INVO_X',mt:'xml',invoType:t,xml:FOSX(QTX(a))};
      		store.reload({params:{start:0,limit:C_PS},
-     			callback:function(r){if(r.length==0) XMG.alert(SYS,M_NOT_FOUND);}});win.close();
+     			callback:function(r){
+     				if(r.length==0) 
+     					XMG.alert(SYS,M_NOT_FOUND);
+     				}
+     		});
+     		win.close();
 		}},this);
+		
 		win.addButton({text:C_CANCEL,handler : function(){win.close();}},this);
 		win.show();
     };
@@ -504,9 +529,12 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 		{header:C_CURR_BASE,dataIndex:'expeCurrCode'},
 		{header:C_ORI_AMOUNT,align:'right',renderer:numRender,dataIndex:'expeTotalAmount'},
 		{header:C_INVOICED_AMOUNT,align:'right',renderer:numRender,dataIndex:'expeInvoiceAmount'},
-		{header:C_INVOICE_AMOUNT_ORI,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountOri',css:'background:#ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},		
-		{header:C_INVO_EX_RATE,dataIndex:'initExRate',renderer:rateRender,css:'background: #f4f090;',editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
-		{header:C_EX_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount',css:'background: #ffaa66;',editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
+		{header:C_INVOICE_AMOUNT_ORI,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountOri',css:'background:#ffaa66;',
+			editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},		
+		{header:C_INVO_EX_RATE,dataIndex:'initExRate',renderer:rateRender,css:'background: #f4f090;',
+			editor:new Ext.form.NumberField({decimalPrecision:4,blankText:'',invalidText:''})},
+		{header:C_EX_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmount',css:'background: #ffaa66;',
+			editor:new Ext.form.NumberField({allowBlank:false,blankText:'',invalidText:''})},
 		{header:C_WRITEOFFED_AMOUNT,align:'right',renderer:numRender,dataIndex:'initInvoiceAmountOriW'},
 		{header:C_CONS_NO,width:120,dataIndex:"consNo",renderer:consRender},
 		{header:C_VESS,width:80,dataIndex:"consVessel"},
@@ -530,11 +558,18 @@ Fos.InvoItemGrid = function(p,frm,billNo,arr){
 	this.add=function(){
 		if(p.get('custId')){
 			var eStore = new Ext.data.GroupingStore({url:SERVICE_URL+'?A=EXPE_INV_Q',
-				baseParams:{mt:'xml',custId:p.get('custId'),pateCode:'P',expeAllocatedFlag:0,
-					expeType:p.get('invoType')},
+				baseParams:{
+					mt:'xml',
+					custId:p.get('custId'),
+					pateCode:'P',
+					expeAllocatedFlag:0,
+					expeType:p.get('invoType')
+				},
 				reader:new Ext.data.XmlReader({totalProperty:'rowCount',record:'SExpense',idProperty:'expeId'},SExpense),
 				remoteSort:true,sortInfo:{field:'consNo', direction:'DESC'},groupField:'consNo'});
-				eStore.load();
+			
+			eStore.load();
+				
 			var win = new Fos.ExpenseLookupWin(eStore);
 			win.addButton({text:C_OK,scope:this,handler:function(){
 				var g = win.grid;
@@ -1004,7 +1039,8 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 			scope:this,
 			handler:function(){
 			currCode = w.findById('currCode').getValue();
-			w.close();var id=GGUID();
+			w.close();
+			var id=GGUID();
 			var e = new SInvoice({invoId:id,
 				id:id,
 				invoNo:'N'+id,
@@ -1439,7 +1475,7 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 			border:false,
 			collapsible:true,
 	    	items:p.get('invoType')=='R'?[    		
-	    		{columnWidth:.5,layout:'form',border:false,items:[cboCustomer]},
+	    		{columnWidth:.5,layout:'form',border:false,labelWidth:150,items:[cboCustomer]},
 	        	{columnWidth:.5,layout:'form',border:false,items:[txtInvoTitel]},
 	        	
 	        	{columnWidth:.25,layout:'form',border:false,items:[txtInvoNo,txtCurr,txtInvoBank]},
@@ -1466,7 +1502,13 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 	        	region:'center',
 	        	activeTab:0,
 	        	border:false,
-	            items:p.get('invoType')=='R'?[{id:'T_INV_EN_'+p.get('id'),layout:'fit',border:false,title:C_EXPE_LINE+'(E)',items:[this.itemGrid]},
+	            items:p.get('invoType')=='R'?[
+	                {id:'T_INV_EN_'+p.get('id'),
+	            	layout:'fit',
+	            	border:false,
+	            	title:C_EXPE_LINE,
+	            	items:[this.itemGrid]
+	            },
 	            {id:'T_INV_LI_'+p.get('id'),layout:'fit',border:false,title:C_INVO_LINE,items:[this.entryGrid]}]:
 	            [{layout:'fit',title:C_EXPE_LINE,items:[this.itemGrid]}]}
 	        ]
@@ -1475,7 +1517,117 @@ Fos.InvoiceTab = function(p,billNo,arr) {
 Ext.extend(Fos.InvoiceTab, Ext.FormPanel);
 
 //发票查询
-Fos.InvoLookupWin = function(t) {    
+Fos.InvoLookupWin = function(t) {  
+	
+	//结算单位
+	var cboSettleObject = new Fos.CustomerLookup({fieldLabel:C_SETTLE_OBJECT,
+		tabIndex:1,
+		name:'custId',
+		store:getCS(),
+		enableKeyEvents:true,
+     	displayField:'custCode',
+     	valueField:'custId',
+     	typeAhead:true,
+     	mode:'local',
+     	triggerAction: 'all',
+     	selectOnFocus:true,
+     	anchor:'95%',
+     	tpl:custTpl,
+     	itemSelector:'div.list-item',
+     	listWidth:400,
+     	listeners:{
+     		scope:this,
+     		keydown:{fn:function(f,e){LC(f,e,'');},buffer:500}
+     	}
+	});
+	
+	//币种
+	var cboCurr = new Ext.form.ComboBox({fieldLabel:C_CURR,
+		tabIndex:4,
+		name:'currCode',
+		store:getCURR_S(),
+		displayField:'currCode',
+		valueField:'currCode',
+		typeAhead: true,
+		mode: 'local',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'95%'
+	});
+	
+	//业务号
+	var txtConsNo = new Ext.form.TextField({fieldLabel:C_CONS_NO,
+		name:'consNo',
+		anchor:'95%'
+	});
+	
+	//MB/L No
+	var txtMblNo = new Ext.form.TextField({fieldLabel:C_BL_NO,
+		name:'consMblNo',
+		anchor:'95%'
+	});
+	
+	
+	//发票状态
+	var cboInvoStatus = new Ext.form.ComboBox({fieldLabel:C_INVO_STATUS,
+		tabIndex:10,
+		name:'invoStatus',
+		store:IVST_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode: 'local',
+		triggerAction: 'all',
+		selectOnFocus:true,
+		anchor:'95%'
+	});
+	
+	//核销状态
+	var cboWriteOffStatus = new Ext.form.ComboBox({fieldLabel:C_WRITEOFF_STATUS,
+		name:'invoWriteOffStatus',
+		store:WRST_S,
+		displayField:'NAME',
+		valueField:'CODE',
+		typeAhead: true,
+		mode:'local',
+		triggerAction:'all',
+		selectOnFocus:true,
+		anchor:'95%'
+	});
+	
+	//发票日期
+	var dtInvoDate = new Ext.form.DateField({fieldLabel:C_INVO_DATE,
+		name:'invoDate',
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//付款日期
+	var dtDueDate = new Ext.form.DateField({fieldLabel:C_DUE_DATE,
+		name:'invoDueDate',
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//开航日期
+	var dtSailDate = new Ext.form.DateField({fieldLabel:C_SAIL_DATE,
+		name:'consSailDate',
+		format:DATEF,
+		anchor:'95%'
+	});
+	
+	//船名
+	var txtVess = new Ext.form.TextField({fieldLabel:C_VESS,
+		name:'vessName',
+		anchor:'95%'
+	});
+	
+	//
+	var txtInvoAmount = new Ext.form.NumberField({fieldLabel:C_INVO_AMOUNT,
+		name:'invoAmount',
+		anchor:'95%'
+	});
+			
 	var frmLookup = new Ext.form.FormPanel({labelWidth:70,labelAlign:"right",
     	items:[{id:'T_INVO_LOOK',xtype:'tabpanel',plain:true,activeTab:0,height:200,defaults:{bodyStyle:'padding:10px'},
             items:[{id:'T_INVO_LOOK_1',title:C_LOOK_BY_INVO_NO,layout:'form',
@@ -1489,40 +1641,36 @@ Fos.InvoLookupWin = function(t) {
 				]},
         		{id:'T_INVO_LOOK_3',title:C_LOOK_COMPLEX,layout:'column',items:[
         			{columnWidth:.33,layout:'form',border:false,
-	             	items:[
-	             	{fieldLabel:C_SETTLE_OBJECT,tabIndex:1,name:'custId',store:getCS(),enableKeyEvents:true,
-	             	xtype:'combo',displayField:'custCode',valueField:'custId',typeAhead:true,mode:'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%',
-	             	tpl:custTpl,itemSelector:'div.list-item',listWidth:400,listeners:{scope:this,keydown:{fn:function(f,e){LC(f,e,t=='R'?'custArFlag':'custApFlag');},buffer:500}}},
-	             	{fieldLabel:C_CURR,tabIndex:4,name:'currCode',store:getCURR_S(),xtype:'combo',displayField:'currCode',valueField:'currCode',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-        			{fieldLabel:C_CONS_NO,name:'consNo',xtype:'textfield',anchor:'95%'},
-        			{fieldLabel:C_BL_NO,name:'consMblNo',xtype:'textfield',anchor:'95%'},
-        			{fieldLabel:C_INVO_STATUS,tabIndex:10,name:'invoStatus',store:IVST_S,xtype:'combo',displayField:'NAME',valueField:'CODE',typeAhead: true,mode: 'local',triggerAction: 'all',selectOnFocus:true,anchor:'95%'},
-        			{fieldLabel:C_WRITEOFF_STATUS,name:'invoWriteOffStatus',xtype:'combo',store:WRST_S,displayField:'NAME',valueField:'CODE',typeAhead: true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%'}
-	             	]},
+        				items:[cboSettleObject,cboCurr,txtConsNo,txtMblNo,cboInvoStatus,cboWriteOffStatus]
+        			},
 	             	{columnWidth:.33,layout:'form',border:false,
-	             	items:[
-	             	{fieldLabel:C_INVO_DATE,name:'invoDate',xtype:'datefield',format:DATEF,anchor:'95%'},
-	             	{fieldLabel:C_DUE_DATE,name:'invoDueDate',xtype:'datefield',format:DATEF,anchor:'95%'},
-	             	{fieldLabel:C_SAIL_DATE,name:'consSailDate',xtype:'datefield',format:DATEF,anchor:'95%'},
-	             	{fieldLabel:C_VESS,name:'vessName',store:getVES(),enableKeyEvents:true,
-	             		xtype:'combo',displayField:'vessNameEn',valueField:'vessNameEn',typeAhead:true,mode:'local',triggerAction:'all',selectOnFocus:true,anchor:'95%',
-	             		listeners:{scope:this,keydown:{fn:function(f,e){LV(f,e);},buffer:500}}},
-	             	{fieldLabel:C_INVO_AMOUNT,name:'invoAmount',xtype:'numberfield',anchor:'95%'}
-	             	]},
+        				items:[dtInvoDate,dtDueDate,dtSailDate,txtVess,txtInvoAmount]
+        			},
 	             	{columnWidth:.34,layout:'form',border:false,
-	             	items:[	             	
-	             	{fieldLabel:C_TO,name:'invoDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
-	             	{fieldLabel:C_TO,name:'invoDueDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
-	             	{fieldLabel:C_TO,name:'consSailDate2',xtype:'datefield',format:DATEF,anchor:'95%'}	,
-	             	{fieldLabel:C_VOYA,tabIndex:10,name:'voyaName',xtype:'textfield',anchor:'95%'},
-	             	{fieldLabel:C_TO,name:'invoAmount2',xtype:'numberfield',anchor:'95%'}
-	             	]}
+		             	items:[	             	
+		             	{fieldLabel:C_TO,name:'invoDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
+		             	{fieldLabel:C_TO,name:'invoDueDate2',xtype:'datefield',format:DATEF,anchor:'95%'},
+		             	{fieldLabel:C_TO,name:'consSailDate2',xtype:'datefield',format:DATEF,anchor:'95%'}	,
+		             	{fieldLabel:C_VOYA,tabIndex:10,name:'voyaName',xtype:'textfield',anchor:'95%'},
+		             	{fieldLabel:C_TO,name:'invoAmount2',xtype:'numberfield',anchor:'95%'}
+		             	]
+        			}
 	        	]}
         	]}
         ]
     });
-    Fos.InvoLookupWin.superclass.constructor.call(this, {title:C_INVO_QUERY,iconCls:'search',modal:true,width:600,minWidth:300,
-        minHeight:200,plain:true,bodyStyle:'padding:0px;',buttonAlign:'right',items:frmLookup}); 
+	
+    Fos.InvoLookupWin.superclass.constructor.call(this, {title:C_INVO_QUERY,
+    	iconCls:'search',
+    	modal:true,
+    	width:600,
+    	minWidth:300,
+        minHeight:200,
+        plain:true,
+        bodyStyle:'padding:0px;',
+        buttonAlign:'right',
+        items:frmLookup
+	}); 
 };
 Ext.extend(Fos.InvoLookupWin, Ext.Window);
 

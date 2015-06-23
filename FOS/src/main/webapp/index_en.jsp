@@ -107,10 +107,11 @@
   <tr>
   <td align="left" nowrap="nowrap"><img src=<%=PhotoAddress%> width=180 height = 60></td>
   <td align="right"nowrap="nowrap">
-  <font size="-1">您好！<%=session.getAttribute("UserName")%>
- |<a href='#' onclick="javascript:changePass();">修改密码</a>
- |<a href='#' onclick="javascript:logout();">退出</a>
- |<a href='http://www.hitisoft.com:8080/hcms/help.jsp' target="_blank">在线帮助</a>
+  <font size="-1">Wellcome,<%=session.getAttribute("UserName")%>
+ |<a href='#' onclick="javascript:changePass();">Change Password</a>
+ |<a href='#' onclick="javascript:logout();">Exit</a>
+ |<a href='index.jsp'>中文</a>
+ |<a href='http://www.hitisoft.com:8080/hcms/help.jsp' target="_blank">Help</a>
  |&nbsp;&nbsp;
   </font>
   </td>

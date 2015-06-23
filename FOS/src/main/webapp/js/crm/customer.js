@@ -54,7 +54,7 @@ Fos.CustomerGrid = function(sales) {
 		{header:C_INDUSTRY,dataIndex:'custIndustry',width:100,renderer:getINDU},
 		{header:C_CPTY,dataIndex:'custType',width:100,renderer:getCOPR},
 		{header:C_CUCA,dataIndex:'cucaId',width:100,renderer:getCUCA},
-		{header:C_COUN,dataIndex:'counCode',width:100,renderer:getCOUN},CCT,CMT],defaults:{sortable:true,width:100}});
+		{header:C_COUN,dataIndex:'counCode',width:100,renderer:getCOUN},C_CT,C_MT],defaults:{sortable:true,width:100}});
 	var re={rowdblclick:function(g,r,e){this.edit();}};
     var showCustWin=function(p){
     	var win = new Fos.CustomerWin(p,store);    	

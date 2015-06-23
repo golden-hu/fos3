@@ -222,51 +222,137 @@ var getCHAR_PERM_P_S=function(){
 };
 
 
-var getCURR_S = function(){return getGStore('CURR','GCurrency',GCurrency,'currCode','ASC','');};
-getCURR = function(v,m,r){var _cs= getCURR_S();if(v) return _cs.getById(v)?_cs.getById(v).get('currName'):v; else return '';}; 
+var getCURR_S = function(){
+	return getGStore('CURR','GCurrency',GCurrency,'currCode','ASC','');
+};
+getCURR = function(v,m,r){
+	var _cs= getCURR_S();
+	if(v) 
+		return _cs.getById(v)?_cs.getById(v).get('currName'):v; 
+	else 
+		return '';
+}; 
 
-var IVST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已审核'],['2','已作废']]});
-getIVST = function(v){if(v>=0) return IVST_S.getById(v).get('NAME'); else return '';};
+var IVST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已审核'],['2','已作废']]});
+getIVST = function(v){
+	if(v>=0) 
+		return IVST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var VOST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已审核'],['2','已作废']]});
-getVOST = function(v){if(v>=0) return VOST_S.getById(v).get('NAME'); else return '';};
+var VOST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已审核'],['2','已作废']]});
+getVOST = function(v){
+	if(v>=0) 
+		return VOST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var RCAT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','预收款'],['1','其它应收款']]});
-getRCAT = function(v){if(v>=0) return RCAT_S.getById(v).get('NAME'); else return '';};
+var RCAT_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','预收款'],['1','其它应收款']]});
+getRCAT = function(v){
+	if(v>=0) 
+		return RCAT_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var PCAT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','预付款'],['1','其它应付款']]});
-getPCAT = function(v){if(v>=0) return PCAT_S.getById(v).get('NAME'); else return '';};
+var PCAT_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','预付款'],['1','其它应付款']]});
+getPCAT = function(v){
+	if(v>=0) 
+		return PCAT_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var PRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未提交'],['1','已提交'],['2','已财务审核'],['3','已经理审核'],['4','已付款'],['5','已作废']]});
-getPRST = function(v){if(v>=0) return PRST_S.getById(v).get('NAME'); else return '';};
+var PRST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未提交'],['1','已提交'],
+                 ['2','已财务审核'],['3','已经理审核'],['4','已付款'],['5','已作废']]});
+getPRST = function(v){
+	if(v>=0) 
+		return PRST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var ERST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未托收'],['1','已托收'],['2','已回单'],['3','已到帐'],['4','托收失败'],['5','已作废']]});
-getERST = function(v){if(v>=0) return ERST_S.getById(v).get('NAME'); else return '';};
+var ERST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未托收'],['1','已托收'],['2','已回单'],['3','已到帐'],['4','托收失败'],['5','已作废']]});
+getERST = function(v){
+	if(v>=0) 
+		return ERST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var AUST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已财务审核'],['2','已经理审核']]});
-getAUST = function(v){if(v>=0) return AUST_S.getById(v).get('NAME'); else return '';};
+var AUST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未审核'],['1','已财务审核'],['2','已经理审核']]});
+getAUST = function(v){
+	if(v>=0) 
+		return AUST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
 
 var EXST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认'],['2','已开票'],['3','已核销']]});
-getEXST = function(v){if(v>=0) return EXST_S.getById(v).get('NAME'); else return '';};
+getEXST = function(v){
+	if(v>=0) 
+		return EXST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var BIST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未对账'],['1','已对账'],['2','已作废']]});
-getBIST = function(v){if(v>=0) return BIST_S.getById(v).get('NAME'); else return '';};
+var BIST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未对账'],['1','已对账'],['2','已作废']]});
+getBIST = function(v){
+	if(v>=0) 
+		return BIST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
 var WRST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['1','部分核销'],['2','已核销']]});
-getWRST = function(v){if(v>=0) return WRST_S.getById(v).get('NAME'); else return '';};
-var WRSN_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['2','已核销']]});
-getWRSN = function(v){if(v>=0) return WRSN_S.getById(v).get('NAME'); else return '';};
-var INST_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未开账单'],['1','部分开账单'],['2','已开账单']]});
-getINST = function(v){if(v>=0) return INST_S.getById(v).get('NAME'); else return '';};
-var EXPC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认']]});
-getEXPC = function(v){if(v>=0) return EXPC_S.getById(v).get('NAME'); else return '';};
+getWRST = function(v){
+	if(v>=0) 
+		return WRST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
-var EXHI_T_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','应收账单'],['1','应付帐单'],['2','收款核销'],['3','付款核销']]});
-getEXHI_T = function(v){if(v>=0) return EXHI_T_S.getById(v).get('NAME'); else return '';};
+var WRSN_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未核销'],['2','已核销']]});
+getWRSN = function(v){
+	if(v>=0) 
+		return WRSN_S.getById(v).get('NAME'); 
+	else return '';
+};
 
-var EXTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['R','应收'],['P','应付']]});
-getEXTY = function(v){if(v) return EXTY_S.getById(v).get('NAME'); else return '';};
+var INST_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未开账单'],['1','部分开账单'],['2','已开账单']]});
+getINST = function(v){
+	if(v>=0) 
+		return INST_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
+
+var EXPC_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','未确认'],['1','已确认']]});
+getEXPC = function(v){
+	if(v>=0) 
+		return EXPC_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
+
+var EXHI_T_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['0','应收账单'],['1','应付帐单'],['2','收款核销'],['3','付款核销']]});
+getEXHI_T = function(v){
+	if(v>=0) 
+		return EXHI_T_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
+
+var EXTY_S = new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],data:[['R','应收'],['P','应付']]});
+getEXTY = function(v){
+	if(v) 
+		return EXTY_S.getById(v).get('NAME'); 
+	else 
+		return '';
+};
 
 var IRTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
 	data:[['1','三月期'],['2','六月期'],['3','一年期']]});

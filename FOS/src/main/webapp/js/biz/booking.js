@@ -1439,14 +1439,14 @@ Fos.BookTab = function(p) {
     		Ext.getCmp(p.get('consId')+'CONS_NOTIFY_PARTY2').setValue(cushName);
     };
     
-    var bSaveShipper = new Ext.Button({text:'保存',handler:function(){saveShipper(1);}});
-    var bSearchShipper = new Ext.Button({text:'选择',handler:function(){selShipper(1);}});
-    var bSaveConsignee = new Ext.Button({text:'保存',handler:function(){saveShipper(2);}});
-    var bSearchConsignee = new Ext.Button({text:'选择',handler:function(){selShipper(2);}});
-    var bSaveNotifyParty = new Ext.Button({text:'保存',handler:function(){saveShipper(3);}});
-    var bSearchNotifyParty = new Ext.Button({text:'选择',handler:function(){selShipper(3);}});
-    var bSaveNotifyParty2 = new Ext.Button({text:'保存',handler:function(){saveShipper(4);}});
-    var bSearchNotifyParty2 = new Ext.Button({text:'选择',handler:function(){selShipper(4);}});
+    var bSaveShipper = new Ext.Button({text:C_SAVE,handler:function(){saveShipper(1);}});
+    var bSearchShipper = new Ext.Button({text:C_SEL,handler:function(){selShipper(1);}});
+    var bSaveConsignee = new Ext.Button({text:C_SAVE,handler:function(){saveShipper(2);}});
+    var bSearchConsignee = new Ext.Button({text:C_SEL,handler:function(){selShipper(2);}});
+    var bSaveNotifyParty = new Ext.Button({text:C_SAVE,handler:function(){saveShipper(3);}});
+    var bSearchNotifyParty = new Ext.Button({text:C_SEL,handler:function(){selShipper(3);}});
+    var bSaveNotifyParty2 = new Ext.Button({text:C_SAVE,handler:function(){saveShipper(4);}});
+    var bSearchNotifyParty2 = new Ext.Button({text:C_SEL,handler:function(){selShipper(4);}});
     
     //发货人
     var txtShipper = new Ext.form.TextArea({fieldLabel:C_SHIPPER,

@@ -123,8 +123,7 @@ function getCStatistic(ct){
 	return '00';
 };
 
-var C_CT={header:"创建时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"};
-var C_MT={header:"修改时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"};
+
 
 var XMG = Ext.MessageBox;
 var SR_TRAN='B';
@@ -476,8 +475,9 @@ Ext.ux.TabCloseMenu = function(){
     }
 };
 
-var CCT={header:"创建时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"};
-var CMT={header:"修改时间",width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"};
+var C_CT={header:C_CREATE_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"createTime"};
+var C_MT={header:C_MODIFY_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"};
+
 var getUN=function(p){
 	var a=[];
 	a[a.length]=['EACH','1'];
@@ -537,7 +537,9 @@ var LC=function(f,e,t,s){
 		if(q.length>1 && !f.isExpanded()){
 			var a=[];			
 			a[0]=new QParam({key:'custCode',value:q+'%',op:LI});
-			if(t!='') a[1]=new QParam({key:t,value:'1',op:EQ});
+			if(t!='') 
+				a[1]=new QParam({key:t,value:'1',op:EQ});
+			
 			var xml = QTX(a);
 	   		Ext.Ajax.request({url:SERVICE_URL,method:'POST',params:s==1?{A:'CUST_X',S:1}:{A:'CUST_X'},
 				success: function(r,o){f.store.loadData(r.responseXML,false);f.expand();},
@@ -546,6 +548,7 @@ var LC=function(f,e,t,s){
 		}
 	}
 };
+
 var listShipper=function(f,e){
 	if(e.getKey()!=e.ENTER){	
 		var q=f.getRawValue();
@@ -1378,7 +1381,9 @@ function checkContainerNo(n){
 function N2W(dValue,maxDec){
     dValue = dValue.toString().replace(/,/g, "");  
     dValue = dValue.replace(/^0+/, "");
-    if (dValue == "") { return "零元整"; }
+    if (dValue == "") { 
+    	return "零元整"; 
+    }
     else if (isNaN(dValue)) { return '';}   
     var minus = "";
     var CN_SYMBOL = "";

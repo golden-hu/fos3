@@ -264,73 +264,6 @@ Fos.AttachTab = function(p) {
 };
 Ext.extend(Fos.AttachTab,Ext.grid.GridPanel);
 
-//保密附件TAB
-Fos.SecurityAttachTab = function(p) {
-	this.store = GS('ATTACH_Q','FAttach',FAttach,'attachId','DESC','','S_ATTACH','attachId',true);
-    this.store.load({params:{consId:p.get('consId'),securityFlag:'1'}});
-    this.upload = function(){    	
-		var win = new Fos.FileUploadWin(C_ATTACH_UPLOAD,C_ATTACH_FILE_P);
-		win.addButton({text:C_UPLOAD,scope:this,handler:function(){
-			var f = Fos.FileUploadWin.superclass.findById.call(win,'F_UP');
-			if(f.getForm().isValid()){
-            	f.getForm().submit({
-                	url: SERVICE_URL+'?mt=json&A=ATTACH_U&uf=1&consId='+p.get('consId')+'&consNo='+p.get('consNo')+'&securityFlag='+1,
-                	waitMsg:'Uploading...',
-                	scope:this,
-                	success: function(f, o){
-                		XMG.alert(SYS,C_UPLOAD_SUCCESS);
-                		win.close();
-                		this.store.load({params:{consId:p.get('consId'),securityFlag:'1'}});
-                	}
-            	});
-        }}});
-        win.addButton({text:C_CANCEL,handler:function(){win.close();}},this);
-		win.show();	    	
-    };
-    this.download=function(){
-    	var b =sm.getSelected();
-    	if(b){
-	    	var url = SERVICE_URL+'?A='+'ATTACH_D&attachId='+b.get('attachId')+'&securityFlag='+1;
-	    	window.open(url,'download', 'height=100, width=400, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no');
-    	}
-    	else XMG.alert(SYS,M_NO_DATA_SELECTED);
-    };
-    this.removeAttach=function(){
-    	var a =sm.getSelections();
-    	if(a.length>0){
-       		XMG.confirm(SYS,M_R_C,function(btn){
-           	if(btn=='yes'){
-           		var xml = SMTX4R(sm,'FAttach','attachId');	    		
-	    		Ext.Ajax.request({scope:this,url:SERVICE_URL,method:'POST',params:{A:'ATTACH_R',attachId:p.get('attachId')},
-	    		success: function(r){
-	    			XMG.alert(SYS,M_S);			
-	    			this.store.load({params:{consId:p.get('consId'),securityFlag:'1'}});
-	    		},
-	    		failure: function(r){XMG.alert(SYS,M_F+r.responseText);},
-	    		xmlData:FOSX(xml)});
-            }},this);
-		}
-    };
-    
-    var sm=new Ext.grid.CheckboxSelectionModel({singleSelect:true});
-    var cm=new Ext.grid.ColumnModel({columns:[sm,
-	{header:C_FILE_NAME,dataIndex:'attachFileName',width:200},
-	{header:C_MODIFY_TIME,width:100,align:'right',renderer:formatDateTime,dataIndex:"modifyTime"}
-	],defaults:{sortable:true,width:100}});
-	
-    var m=getRM(p.get('consBizClass'),p.get('consBizType'),p.get('consShipType'))+M3_CONS;
-    
-	Fos.SecurityAttachTab.superclass.constructor.call(this, {id:'G_SECURITY_ATTACH'+p.get('consId'),title:C_SECURITY_ATTACH,header:false,
-	closable:false,store:this.store,sm:sm,cm:cm,
-	tbar:[
-	      {itemId:'TB_U',text:C_ATTACH_UPLOAD+'(U)',disabled:NR(m+F_M),iconCls:'up',scope:this,handler:this.upload},'-',
-	    {itemId:'TB_D',text:C_ATTACH_DOWNLOAD+'(D)',disabled:NR(m+F_M),iconCls:'down',scope:this,handler:this.download},'-',
-        {itemId:'TB_R',text:C_REMOVE+'(R)',disabled:NR(m+F_R),iconCls:'remove',scope:this,handler:this.removeAttach}
-        ]
-    });   
-};
-Ext.extend(Fos.SecurityAttachTab,Ext.grid.GridPanel);
-
 //附件窗口
 Fos.AttachWin = function(p) {
 	var panel = new Fos.AttachTab(p);
@@ -338,11 +271,3 @@ Fos.AttachWin = function(p) {
         height:565,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
 };
 Ext.extend(Fos.AttachWin,Ext.Window);
-
-//重要文件窗口
-Fos.SecurityAttachWin = function(p) {
-	var panel = new Fos.SecurityAttachTab(p);
-	Fos.SecurityAttachWin.superclass.constructor.call(this, {title:p.get('consNo')+C_SECURITY_ATTACH,modal:true,width:900,
-        height:565,layout:'fit',plain:false,bodyStyle:'padding:0px;',buttonAlign:'right',items:panel});
-};
-Ext.extend(Fos.SecurityAttachWin,Ext.Window);

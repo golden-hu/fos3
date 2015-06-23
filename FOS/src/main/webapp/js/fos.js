@@ -263,7 +263,7 @@ function getContPanel(){
 		);
 		
 	if(!CCN)
-		items[items.length]=NaviMenu('港区进箱计划','VOYA',function(){return new Fos.VoyagePanel();});
+		items[items.length]=NaviMenu(C_VOYAGE_INFO,'VOYA',function(){return new Fos.VoyagePanel();});
 
 	
 	return new Ext.Panel({title:C_CONT,collapsible:true,layout:'fit',
@@ -297,13 +297,6 @@ function getBulkPanel(){
 		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
 };
 
-function getOverseasPanel(){
-	var items=[];
-	items[items.length]=NaviMenu(C_OVERSEAS+C_EXP,'CONS_E_O',function(){return new Fos.ConsignGrid('E','O','');});
-	items[items.length]=NaviMenu(C_OVERSEAS+C_IMP,'CONS_I_O',function(){return new Fos.ConsignGrid('I','O','');});
-	return new Ext.Panel({title:C_OVERSEAS,collapsible:true,layout:'fit',
-		items:new Ext.menu.Menu({floating:false, style: {border:'0px',background:'transparent'},items:items})});
-};
 
 function getAirPanel(){
 	var items=[];
@@ -411,7 +404,7 @@ function getStaPanel(){
 
 function getCusPanel(){
 	var items=[];
-	if(!NR(M1_V+V_PRSH+F_V)) 
+	/*if(!NR(M1_V+V_PRSH+F_V)) 
 		items[items.length]=NaviMenu(C_PRICE_MANAGEMENT,'G_PRSH',function(){return new Fos.PriceSheetGrid();});
 	
 	if(!NR(M1_V+V_SAQU+F_V)) 
@@ -421,7 +414,7 @@ function getCusPanel(){
 		items[items.length]=NaviMenu(C_SALES_COMMISSION,'G_SACO',function(){return new Fos.SalesCommissionGrid();});
 	
 	if(!NR(M1_T+T_SALES)) 
-		items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});
+		items[items.length]=NaviMenu(C_STAT_SALES_COMMISSION,'T_SALES',function(){return new Fos.SalesCommissionTab();});*/
 	
 	if(!NR(M1_V+V_CUST+F_V)) 
 		items[items.length]=NaviMenu(C_CUST,'G_CUST',function(){return new Fos.CustomerGrid();});

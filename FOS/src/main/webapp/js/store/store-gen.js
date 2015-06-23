@@ -108,7 +108,7 @@ getTRANS_S = function(v){
 };
 
 var SHTY_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
-	data:[['FCL','整箱'],['LCL','拼箱'],['BULK','散货']]
+	data:[['FCL',C_FCL],['LCL',C_LCL],['BULK',C_BULK]]
 });
 getSHTY = function(v){
 	if(v) 
@@ -117,8 +117,8 @@ getSHTY = function(v){
 };
 
 var BT_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
-	data:[['C','集装箱'],['B','散货'],['A','空运'],['T','铁运'],
-                ['G','报关'],['I','报检'],['K','挂靠'],['M','加工贸易'],['F','减免税'],['R','企业注册'],['O','海外业务']]
+	data:[['C',C_CONT],['B',C_BULK],['A',C_AIR],['T',C_RAILWAY],
+                ['G',C_CUSTOMS],['I',C_INSPECTION],['M',C_TRADE],['F',C_RELIEF_TAX],['R',C_ENT_REG]]
 });
 getBT = function(v){
 	if(v) 
@@ -137,7 +137,7 @@ getPLTY = function(v){
 };
 
 var BC_S=new Ext.data.SimpleStore({id:0,fields:['CODE','NAME'],
-	data:[['E','出口'],['I','进口'],['T','进境'],['D','内贸'],['R','管理'],['K','空箱返回']]
+	data:[['E',C_EXP],['I',C_IMP],['T',C_ENTRY],['D',C_INNER]]
 });
 
 getBC = function(v){
